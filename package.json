@@ -1,0 +1,39 @@
+{
+  "name": "linkedevents-ui",
+  "description": "UI for City of Helsinki event API",
+  "version": "0.0.1",
+  "author": "Juha Yrjölä <juha.yrjola@hel.fi>",
+  "repository": "github:City-of-Helsinki/linkedevents-ui",
+  "dependencies": {
+    "bootstrap": "^3.3.5",
+    "bootstrap-daterangepicker": "^2.0.9",
+    "jquery": "^2.1.4",
+    "moment": "^2.10.6",
+    "moment-timezone": "^0.4.0",
+    "react": "^0.13.3",
+    "react-bootstrap": "^0.25.2",
+    "react-loader": "^1.4.0",
+    "react-router": "^0.13.3",
+    "react-router-bootstrap": "^0.18.1",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "cjsx-loader": "^2.0.1",
+    "coffee-loader": "^0.7.2",
+    "coffee-script": "^1.9.3",
+    "config": "^1.15.0",
+    "css-loader": "^0.18.0",
+    "file-loader": "^0.8.4",
+    "html-webpack-plugin": "^1.6.1",
+    "jade": "^1.11.0",
+    "jade-loader": "^0.7.1",
+    "js-yaml": "^3.3.1",
+    "json-loader": "^0.5.2",
+    "morgan": "^1.6.1",
+    "style-loader": "^0.12.3",
+    "url-loader": "^0.5.6",
+    "webpack": "^1.12.1",
+    "webpack-dev-server": "^1.10.1"
+  },
+  "license": "MIT"
+}
