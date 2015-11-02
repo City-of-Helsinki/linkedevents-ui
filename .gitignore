@@ -1,5 +1,4 @@
 *~
-node_modules/
-bower_components/
-dist/
-config/local.yml
+/node_modules/
+/dist/
+/config/local.yml
