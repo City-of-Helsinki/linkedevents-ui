@@ -332,37 +332,6 @@ AddEventForm = React.createClass
                             placeholder=""
                         />
                     </span>
-                    <Input
-                        {...sharedProps}
-                        name="secondary_headline_fi"
-                        id="secondary_headline_fi"
-                        value=""
-                        label="Toissijainen otsikko"
-                        type="text"
-                        placeholder=""
-                    />
-                    <span style={@state.enStyle}>
-                        <Input
-                            {...sharedProps}
-                            name="secondary_headline_en"
-                            id="secondary_headline_en"
-                            value=""
-                            label="Toissijainen otsikko [en]"
-                            type="text"
-                            placeholder=""
-                        />
-                    </span>
-                    <span style={@state.svStyle}>
-                        <Input
-                            {...sharedProps}
-                            name="secondary_headline_sv"
-                            id="secondary_headline_sv"
-                            value=""
-                            label="Toissijainen otsikko [sv]"
-                            type="text"
-                            placeholder=""
-                        />
-                    </span>
                     <Textarea
                         {...sharedProps}
                         rows={3}
@@ -525,7 +494,7 @@ AddEventForm = React.createClass
                     Aloita kirjoittamaan kenttään tapahtumapaikan nimen alkua
                     ja valitse oikea paikka alle ilmestyvästä listasta. Jos
                     et löydä paikkaa tällä tavoin, kirjoita tapahtumapaikka
-                    lisätietokenttään.
+                    tai osoite lisätietokenttään.
                     <div className="form-group row">
                         <label className="control-label col-sm-3">
                             Paikka
@@ -678,7 +647,7 @@ AddEventForm = React.createClass
                         id="offers_info_url_fi"
                         value=""
                         label="Linkki lipunmyyntiin"
-                        type="text"
+                        type="url"
                         placeholder=""
                     />
                     <span style={@state.enStyle}>
