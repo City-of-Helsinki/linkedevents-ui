@@ -43,6 +43,7 @@ AddEvent = React.createClass
     getInitialState: ->
         data: {}
         isPreview: false
+        isDone: false
         layout: 'horizontal'
         apiErrorMsg: ''
 
@@ -53,13 +54,89 @@ AddEvent = React.createClass
     switchToPreview: ->
         @setState
             isPreview: true 
+            isDone: false
 
     switchToEdit: (event) ->
         event.preventDefault()
         @setState
             isPreview: false
+            isDone: false
             apiErrorMsg: ''
 
+    switchToDone: ->
+        @setState
+            isPreview: false
+            isDone: true
+
+    convertDataToLEFormat: (d) ->
+        # === offers ===
+        d['offers'] = [{}]
+        d['offers'][0]['info_url'] = {}
+        d['offers'][0]['price'] = {}
+        d['offers'][0]['description'] = {}
+
+        d['offers'][0]['is_free'] = d['offers_is_free']
+        d['offers'][0]['info_url']['fi'] = d['offers_info_url_fi']
+        d['offers'][0]['info_url']['en'] = d['offers_info_url_en']
+        d['offers'][0]['info_url']['sv'] = d['offers_info_url_sv']
+        d['offers'][0]['price']['fi'] = d['offers_price_fi']
+        d['offers'][0]['price']['en'] = d['offers_price_en']
+        d['offers'][0]['price']['sv'] = d['offers_price_sv']
+        d['offers'][0]['description']['fi'] = d['offers_description_fi']
+        d['offers'][0]['description']['en'] = d['offers_description_en']
+        d['offers'][0]['description']['sv'] = d['offers_description_sv']
+
+        delete d['offers_is_free']
+        delete d['offers_info_url_fi']
+        delete d['offers_info_url_en']
+        delete d['offers_info_url_sv']
+        delete d['offers_price_fi']
+        delete d['offers_price_en']
+        delete d['offers_price_sv']
+        delete d['offers_description_fi']
+        delete d['offers_description_en']
+        delete d['offers_description_sv']
+
+        # === external links ===
+        # the backup doesn't support non-language links, so we use hardcoded
+        # 'fi' instead for the link language
+        NO_LANGUAGE = 'fi'
+
+        d['external_links'] = []
+        for key in ['extlink_twitter', 'extlink_facebook', 'extlink_instagram']
+            if key in d
+                val = {}
+                val['name'] = key
+                val['link'] = d['extlink_twitter']
+                val['language'] = NO_LANGUAGE
+                d['external_links'].push val
+            delete d[key]
+
+        # === pack hel_main, hel_target, and hel_event_lang into keywords ===
+        d['keywords'] = []
+
+        # === hel_main ===
+        if d.hel_main
+            for val in d.hel_main
+                # TODO: implement
+                undefined
+            delete d.hel_main
+
+        # === hel_target ===
+        if d.hel_target
+            for val in d.hel_target
+                # TODO: implement
+                undefined
+            delete d.hel_target
+
+        # === hel_event_lang ===
+        if d.hel_event_lang
+            for val in d.hel_event_lang
+                # TODO: implement
+                undefined
+            delete d.hel_event_lang
+
+        return d
 
     postEventData: (event) ->
         @setState
@@ -71,17 +148,29 @@ AddEvent = React.createClass
         d.end_time = API.getEndTime(d)
 
         # prune out the tmp fields
-        for key in d
-            if key.startsWith('__')
-                delete d[key]
+        for k, v of d
+            if k.startsWith('__')
+                delete d[k]
 
-        $.post("#{appSettings.api_base}/event/", d, ((result) ->
-            console.log 'success'
-        ).bind(this))
+        d = @convertDataToLEFormat(d)
+
+        console.log d
+
+        URL = "#{appSettings.api_base}/event/"
+        handler = ((result) -> console.log 'success').bind(this)
+
+        $.ajax({
+            contentType: 'application/json',
+            type: 'POST',
+            url: URL,
+            crossDomain: true,
+            data: JSON.stringify(d),
+            dataType: 'json',
+        })
         .done (() ->
             console.log 'done'
-            @history.pushState(null, 'search')
-        )
+            @switchToDone()
+        ).bind(this)
         .fail ((data) ->
             console.log 'fail'
             @setState
@@ -156,13 +245,18 @@ AddEvent = React.createClass
                     </Formsy.Form>
                 </div>
             )
-        <div>
-            <AddEventForm
-                switchToPreview={@switchToPreview} 
-                updateData={@updateData}
-                ref="formContainer"
-            />
-        </div>
+        else if @state.isDone
+            <div>
+                Tapahtuma lisätty.
+            </div>
+        else
+            <div>
+                <AddEventForm
+                    switchToPreview={@switchToPreview}
+                    updateData={@updateData}
+                    ref="formContainer"
+                />
+            </div>
 
 
 AddEventForm = React.createClass
@@ -332,37 +426,6 @@ AddEventForm = React.createClass
                             placeholder=""
                         />
                     </span>
-                    <Input
-                        {...sharedProps}
-                        name="secondary_headline_fi"
-                        id="secondary_headline_fi"
-                        value=""
-                        label="Toissijainen otsikko"
-                        type="text"
-                        placeholder=""
-                    />
-                    <span style={@state.enStyle}>
-                        <Input
-                            {...sharedProps}
-                            name="secondary_headline_en"
-                            id="secondary_headline_en"
-                            value=""
-                            label="Toissijainen otsikko [en]"
-                            type="text"
-                            placeholder=""
-                        />
-                    </span>
-                    <span style={@state.svStyle}>
-                        <Input
-                            {...sharedProps}
-                            name="secondary_headline_sv"
-                            id="secondary_headline_sv"
-                            value=""
-                            label="Toissijainen otsikko [sv]"
-                            type="text"
-                            placeholder=""
-                        />
-                    </span>
                     <Textarea
                         {...sharedProps}
                         rows={3}
@@ -525,7 +588,7 @@ AddEventForm = React.createClass
                     Aloita kirjoittamaan kenttään tapahtumapaikan nimen alkua
                     ja valitse oikea paikka alle ilmestyvästä listasta. Jos
                     et löydä paikkaa tällä tavoin, kirjoita tapahtumapaikka
-                    lisätietokenttään.
+                    tai osoite lisätietokenttään.
                     <div className="form-group row">
                         <label className="control-label col-sm-3">
                             Paikka
@@ -611,7 +674,7 @@ AddEventForm = React.createClass
                     />
                     <Input
                         {...sharedProps}
-                        name="offers_price"
+                        name="offers_price_fi"
                         id="offers_price_fi"
                         value=""
                         label="Hinta"
@@ -621,7 +684,7 @@ AddEventForm = React.createClass
                     <span style={@state.enStyle}>
                         <Input
                             {...sharedProps}
-                            name="offers_price"
+                            name="offers_price_en"
                             id="offers_price_en"
                             value=""
                             label="Hinta [en]"
@@ -632,7 +695,7 @@ AddEventForm = React.createClass
                     <span style={@state.svStyle}>
                         <Input
                             {...sharedProps}
-                            name="offers_price"
+                            name="offers_price_sv"
                             id="offers_price_sv"
                             value=""
                             label="Hinta [sv]"
@@ -678,7 +741,7 @@ AddEventForm = React.createClass
                         id="offers_info_url_fi"
                         value=""
                         label="Linkki lipunmyyntiin"
-                        type="text"
+                        type="url"
                         placeholder=""
                     />
                     <span style={@state.enStyle}>

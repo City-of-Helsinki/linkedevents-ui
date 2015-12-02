@@ -25,13 +25,18 @@ dateFormat = (timeStr) ->
 EventRow = React.createClass
     render: ->
         e = @props.event
-        name = e.name.fi or e.name.en or e.name.sv
+        name = (
+            e.name.fi or e.name.en or e.name.sv or
+            e.headline.fi or e.headline.en or e.headline.sv
+        )
+
+        console.log e
         url = e['@id'] + '?format=json'
         <tr key={e['@id']}>
             <td><a target="_new" href={url}>{name}</a></td>
             <td>{dateFormat(e.start_time)}</td>
             <td>{dateFormat(e.end_time)}</td>
-            <td>{e.data_source}</td>
+            <td>{e.publisher}</td>
         </tr>
 
 
@@ -47,7 +52,7 @@ EventTable = React.createClass
                     <th>Name</th>
                     <th>Start date</th>
                     <th>End date</th>
-                    <th>Data source</th>
+                    <th>Publisher</th>
                 </tr>
             </thead>
             <tbody>{rows}</tbody>

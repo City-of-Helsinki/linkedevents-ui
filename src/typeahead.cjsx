@@ -12,8 +12,6 @@ engine = new Bloodhound(
                 tokens.push v.substr(i, v.length)
                 i++
         tokens 
-    sorter: (a, b) ->
-        a.value.toLocaleLowerCase().localeCompare(b.value.toLocaleLowerCase())
     prefetch:
         url: "#{appSettings.api_base}/place/?page_size=10000" 
         filter: (places) ->
