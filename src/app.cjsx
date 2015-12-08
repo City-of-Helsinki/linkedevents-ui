@@ -40,7 +40,7 @@ define (require) ->
                         <RB.NavItem eventKey={1} href="/#/search">
                             Hae tapahtumia
                         </RB.NavItem>
-                        <RB.NavItem eventKey={2} href="/#/editor">
+                        <RB.NavItem eventKey={2} href="/#/event/create/new">
                             Lisää uusi tapahtuma
                         </RB.NavItem>
                     </RB.Nav>
@@ -56,7 +56,10 @@ define (require) ->
         <Router.Router>
             <Router.Route path="/" component={App}>
                 <Router.Route path="search" component={Search.SearchPage} />
-                <Router.Route path="editor" component={Editor.AddEvent} />
+                <Router.Route
+                    path="event/:action/:eventId"
+                    component={Editor.Editor}
+                />
             </Router.Route>
         </Router.Router>,
         document.getElementById 'content'

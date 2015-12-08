@@ -30,10 +30,9 @@ EventRow = React.createClass
             e.headline.fi or e.headline.en or e.headline.sv
         )
 
-        console.log e
-        url = e['@id'] + '?format=json'
+        url = "/#/event/update/" + encodeURIComponent(e['@id'])
         <tr key={e['@id']}>
-            <td><a target="_new" href={url}>{name}</a></td>
+            <td><a href={url}>{name}</a></td>
             <td>{dateFormat(e.start_time)}</td>
             <td>{dateFormat(e.end_time)}</td>
             <td>{e.publisher}</td>
