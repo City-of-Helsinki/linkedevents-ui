@@ -32,11 +32,19 @@ Row = FRC.Row
 TU = require './typeahead.cjsx'
 API = require './api.cjsx'
 Editor = require './editor.cjsx'
+FF = require './formfields.cjsx'
+
+
+# === constants ===
+
+# the backup doesn't support non-language links, so we use hardcoded
+# 'fi' instead for the link language
+EXT_LINK_NO_LANGUAGE = 'fi'
 
 
 # === code ===
 
-AddEvent = React.createClass
+Editor = React.createClass
 
     mixins: [Router.History]
 
@@ -57,7 +65,8 @@ AddEvent = React.createClass
             isDone: false
 
     switchToEdit: (event) ->
-        event.preventDefault()
+        if event
+            event.preventDefault()
         @setState
             isPreview: false
             isDone: false
@@ -69,6 +78,13 @@ AddEvent = React.createClass
             isDone: true
 
     convertDataToLEFormat: (d) ->
+
+        # === offers ===
+        if 'location_id' of d
+            if d.location_id.length > 0
+                d['location'] = {'@id': d['location_id']}
+            delete d['location_id']
+
         # === offers ===
         d['offers'] = [{}]
         d['offers'][0]['info_url'] = {}
@@ -98,17 +114,13 @@ AddEvent = React.createClass
         delete d['offers_description_sv']
 
         # === external links ===
-        # the backup doesn't support non-language links, so we use hardcoded
-        # 'fi' instead for the link language
-        NO_LANGUAGE = 'fi'
-
         d['external_links'] = []
         for key in ['extlink_twitter', 'extlink_facebook', 'extlink_instagram']
             if key in d
                 val = {}
                 val['name'] = key
                 val['link'] = d['extlink_twitter']
-                val['language'] = NO_LANGUAGE
+                val['language'] = EXT_LINK_NO_LANGUAGE
                 d['external_links'].push val
             delete d[key]
 
@@ -138,6 +150,91 @@ AddEvent = React.createClass
 
         return d
 
+    getLocation: (d) ->
+        ret = null
+        if 'location' of d and d['location']
+            if '@id' of d['location'] and d['location']['@id']
+                $.ajax({
+                    type: 'GET'
+                    url: d['location']['@id']
+                    dataType: 'json'
+                    complete: (response) ->
+                        ret = $.parseJSON(response.responseText)
+                    async: false
+                })
+        return ret
+
+    convertDataToGUIFormat: (d) ->
+
+        ret = {
+            'event_status': d.event_status
+            'data_source': d.data_source
+            'publisher': d.publisher
+            'id': d.id
+        }
+
+        # simple fields
+        for key in [
+            'image'
+        ]
+            if key of d
+                ret[key] = d[key]
+
+        # translateble fields
+        for field in [
+            'description',
+            'headline',
+            'info_url',
+            'location_extra_info',
+            'name',
+            'short_description',
+        ]
+            if field of d and d[field]
+                for lang in ['fi', 'sv', 'en']
+                    if lang of d[field]
+                        ret[field + '_' + lang] = d[field][lang]
+
+        # location
+        loc = @getLocation(d)
+        if loc
+            ret.location_id = loc.id
+            ret.__location_search_field = loc.name.fi
+
+        # time fields / initial fields
+        if d.start_time
+            ret.__start_time_date = API.formatDate(d.start_time)
+            ret.__start_time_time = API.formatTime(d.start_time)
+        if d.end_time
+            ret.__end_time_date = API.formatDate(d.end_time)
+            ret.__end_time_time = API.formatTime(d.end_time)
+
+        # offers
+        # TODO: rewrite this to add support for multiple offers
+        if d.offers and d.offers.length > 0
+            if d.offers.length > 1
+                err = new Error('Multiple offers not supported')
+                alert Error(err)
+                throw err
+            else
+                offer = d.offers[0]
+                ret.offers_is_free = offer.is_free
+                for field in [
+                    'price',
+                    'description',
+                    'info_url',
+                ]
+                    if field of offer and offer[field]
+                        for lang in ['fi', 'sv', 'en']
+                            if lang of offer[field]
+                                key = 'offers_' + field + '_' + lang 
+                                ret[key] = offer[field][lang]
+
+        # external links
+        if d.external_links
+            ret['external_links'] = d.external_links
+
+        return ret
+
     postEventData: (event) ->
         @setState
             apiErrorMsg: ''
@@ -154,15 +251,21 @@ AddEvent = React.createClass
 
         d = @convertDataToLEFormat(d)
 
-        console.log d
+        # are we updating or creating a new event?
+        if @props.params.action == 'update'
+            url = @props.params.eventId
+            method = 'PUT'
+            d['id'] = @state.data.id
+        else
+            url = "#{appSettings.api_base}/event/"
+            method = 'POST'
 
-        URL = "#{appSettings.api_base}/event/"
         handler = ((result) -> console.log 'success').bind(this)
 
         $.ajax({
             contentType: 'application/json',
-            type: 'POST',
-            url: URL,
+            type: method,
+            url: url,
             crossDomain: true,
             data: JSON.stringify(d),
             dataType: 'json',
@@ -177,9 +280,25 @@ AddEvent = React.createClass
                 apiErrorMsg: JSON.stringify(data)
         ).bind(this)
 
+    componentDidMount: () ->
+
+        if @props.params.action is 'update'
+            url = @props.params.eventId + '?format=json'
+            $.getJSON(url)
+            .done(((data) ->
+                @updateData(@convertDataToGUIFormat(data))
+                @switchToPreview()
+                @switchToEdit()
+            ).bind(this))
+            .fail((data) ->
+                @setState
+                    apiErrorMsg: JSON.stringify(data)
+            )
+
     componentDidUpdate: (prevProps, prevState) ->
+
         # populate form data if we're returning form preview to edit mode
-        if (!@state.isPreview && prevState.isPreview)
+        if @refs.formContainer and (!@state.isPreview && prevState.isPreview)
             @refs.formContainer.resetData(@state.data)
 
     render: ->
@@ -247,33 +366,35 @@ AddEvent = React.createClass
             )
         else if @state.isDone
             <div>
-                Tapahtuma lisätty.
+                Tapahtuman tiedot tallennettu.
             </div>
         else
             <div>
-                <AddEventForm
+                <EditEventForm
+                    eventId={@props.params.eventId}
                     switchToPreview={@switchToPreview}
                     updateData={@updateData}
                     ref="formContainer"
+                    __eventData={@state.data}
+                    action={@props.params.action}
                 />
             </div>
 
 
-AddEventForm = React.createClass
+EditEventForm = React.createClass
 
     getInitialState: ->
         canSubmit: false
         layout: 'horizontal'
         validatePristine: false
         disabled: false
-        helMainOptions: API.loadHelMainOptions()
-        helTargetOptions: API.loadHelTargetOptions()
-        helEventLangOptions: API.loadHelEventLangOptions()
         location_id: ''
         enStyle: {display: 'none', color: 'green !important'}
         svStyle: {display: 'none', color: 'blue !important'}
 
     componentDidUpdate: ->
+        # @trackActionChanges()
+
         # set up typeahead
 
         taOptions = 
@@ -352,12 +473,25 @@ AddEventForm = React.createClass
 
         cbGroup.setValue(newValues)
 
+    checkAndUncheckAllV2: (cbGroup, noneKey, newValues, getEveryItemFunc) ->
+        oldValues = cbGroup.getValue()
+
+        # uncheck every item, if 'none' is checked
+        if (noneKey in newValues) and (noneKey not in oldValues)
+            newValues = [noneKey]
+
+        # uncheck 'none', if any other items are checked
+        else if (noneKey in oldValues) and (newValues.length > oldValues.length)
+            newValues = newValues.filter (item) -> item isnt noneKey
+
+        cbGroup.setValue(newValues)
+
     catchHelTargetAll: (emName, newValues) ->
-        @checkAndUncheckAll(
+        @checkAndUncheckAllV2(
             @refs.helTarget,
             'all',
             newValues,
-            (() -> (obj.value for obj in @state.helTargetOptions)).bind(this)
+            (() -> (obj.value for obj in FF.helTargetOptions)).bind(this)
         )
 
     catchHelEventLangAll: (emName, newValues) ->
@@ -365,16 +499,31 @@ AddEventForm = React.createClass
             @refs.helEventLang,
             'all',
             newValues,
-            (() -> (obj.value for obj in @state.helEventLangOptions)).bind(this)
+            (() -> (obj.value for obj in FF.helEventLangOptions)).bind(this)
         )
+
+    getFormFields: () ->
+        if @props.action is 'update'
+            return (
+                <div>
+                    {FF.updateEventHidden(@props.__eventData)}
+                    {FF.editEventFields(@state.location_id, @catchHelTargetAll, @catchHelEventLangAll)}
+                </div>
+            )
+        else
+            return FF.editEventFields(@state.location_id, @catchHelTargetAll, @catchHelEventLangAll)
 
     render: ->
         sharedProps = 
             layout: @state.layout
             validatePristine: @state.validatePristine
             disabled: @state.disabled
+
+
         <div className="row">
             <h2>Lisää uusi tapahtuma</h2>
+            {@props.action}
+            {@props.eventId}
             <div style={paddingBottom: "1em"}>
                 Kielet 
                 <a
@@ -390,469 +539,8 @@ AddEventForm = React.createClass
                          onInvalid={@disableButton}
                          ref="editForm"
                          >
-                <fieldset>
-                    <legend>Tapahtuman kuvaus</legend>
-                    <Input
-                        {...sharedProps}
-                        name="headline_fi"
-                        id="headline_fi"
-                        ref="headlineFi"
-                        value=""
-                        label="Otsikko"
-                        type="text"
-                        placeholder=""
-                        autoFocus
-                        required
-                    />
-                    <span style={@state.enStyle}>
-                        <Input
-                            {...sharedProps}
-                            name="headline_en"
-                            id="headline_en"
-                            value=""
-                            label="Otsikko [en]"
-                            type="text"
-                            placeholder=""
-                        />
-                    </span>
-                    <span style={@state.svStyle}>
-                        <Input
-                            {...sharedProps}
-                            name="headline_sv"
-                            id="headline_sv"
-                            value=""
-                            label="Otsikko [sv]"
-                            type="text"
-                            placeholder=""
-                        />
-                    </span>
-                    <Textarea
-                        {...sharedProps}
-                        rows={3}
-                        cols={40}
-                        name="short_description_fi"
-                        label="Lyhyt kuvaus"
-                        placeholder="Tähän kenttään voit syöttää korkeintaan
-                            140 merkkiä."
-                        help="Tapahtuman lyhyt kuvaus."
-                        validations="maxLength:140"
-                        validationErrors={{
-                            maxLength: 'Syötäthän tähän kenttään korkeintaan
-                                140 merkkiä.'
-                        }}
-                    />
-                    <span style={@state.enStyle}>
-                        <Textarea
-                            {...sharedProps}
-                            rows={3}
-                            cols={40}
-                            name="short_description_en"
-                            label="Lyhyt kuvaus [en]"
-                            placeholder="Tähän kenttään voit syöttää korkeintaan
-                                140 merkkiä."
-                            help="Tapahtuman lyhyt kuvaus."
-                            validations="maxLength:140"
-                            validationErrors={{
-                                maxLength: 'Syötäthän tähän kenttään korkeintaan
-                                    140 merkkiä.'
-                            }}
-                        />
-                    </span>
-                    <span style={@state.svStyle}>
-                        <Textarea
-                            {...sharedProps}
-                            rows={3}
-                            cols={40}
-                            name="short_description_sv"
-                            label="Lyhyt kuvaus [sv]"
-                            placeholder="Tähän kenttään voit syöttää korkeintaan
-                                140 merkkiä."
-                            help="Tapahtuman lyhyt kuvaus."
-                            validations="maxLength:140"
-                            validationErrors={{
-                                maxLength: 'Syötäthän tähän kenttään korkeintaan
-                                    140 merkkiä.'
-                            }}
-                        />
-                    </span>
-                    <Textarea
-                        {...sharedProps}
-                        rows={3}
-                        cols={40}
-                        name="description_fi"
-                        label="Kuvaus"
-                        placeholder=""
-                        help="Tapahtuman pitkä kuvaus, kerro tapahtumastasi
-                            yksityiskohtaisemmin."
-                    />
-                    <span style={@state.enStyle}>
-                        <Textarea
-                            {...sharedProps}
-                            rows={3}
-                            cols={40}
-                            name="description_en"
-                            label="Kuvaus [en]"
-                            placeholder=""
-                            help="Tapahtuman pitkä kuvaus, kerro tapahtumastasi
-                                yksityiskohtaisemmin."
-                        />
-                    </span>
-                    <span style={@state.svStyle}>
-                        <Textarea
-                            {...sharedProps}
-                            rows={3}
-                            cols={40}
-                            name="description_sv"
-                            label="Kuvaus [sv]"
-                            placeholder=""
-                            help="Tapahtuman pitkä kuvaus, kerro tapahtumastasi
-                                yksityiskohtaisemmin."
-                        />
-                    </span>
-                    <Input
-                        {...sharedProps}
-                        name="info_url_fi"
-                        id="info_url_fi"
-                        value=""
-                        label="Tapahtuman kotisivu"
-                        type="url"
-                        placeholder=""
-                        help="Linkki tapahtuman kotisivulle, lisää alkuun
-                            http://"
-                    />
-                    <span style={@state.enStyle}>
-                        <Input
-                            {...sharedProps}
-                            name="info_url_en"
-                            id="info_url_en"
-                            value=""
-                            label="Tapahtuman kotisivu [en]"
-                            type="url"
-                            placeholder=""
-                            help="Linkki tapahtuman kotisivulle, lisää alkuun
-                                http://"
-                        />
-                    </span>
-                    <span style={@state.svStyle}>
-                        <Input
-                            {...sharedProps}
-                            name="info_url_sv"
-                            id="info_url_sv"
-                            value=""
-                            label="Tapahtuman kotisivu [sv]"
-                            type="url"
-                            placeholder=""
-                            help="Linkki tapahtuman kotisivulle, lisää alkuun
-                                http://"
-                        />
-                    </span>
-                </fieldset>
-                <fieldset>
-                    <legend>Tapahtuman ajankohta</legend>
-                    <Input
-                        {...sharedProps}
-                        name="__start_time_date"
-                        value=""
-                        label="Alkamispäivämäärä"
-                        type="date"
-                        placeholder=""
-                        required
-                    />
-                    <Input
-                        {...sharedProps}
-                        name="__start_time_time"
-                        value=""
-                        label="Alkamisajankohta"
-                        type="time"
-                        placeholder=""
-                    />
-                    <Input
-                        {...sharedProps}
-                        name="__end_time_date"
-                        value=""
-                        label="Päättymispäivämäärä"
-                        type="date"
-                        placeholder=""
-                    />
-                    <Input
-                        {...sharedProps}
-                        name="__end_time_time"
-                        value=""
-                        label="Päättymisajankohta"
-                        type="time"
-                        placeholder=""
-                    />
-                </fieldset>
-                <fieldset>
-                    <legend>Tapahtumapaikka</legend>
-                    Aloita kirjoittamaan kenttään tapahtumapaikan nimen alkua
-                    ja valitse oikea paikka alle ilmestyvästä listasta. Jos
-                    et löydä paikkaa tällä tavoin, kirjoita tapahtumapaikka
-                    tai osoite lisätietokenttään.
-                    <div className="form-group row">
-                        <label className="control-label col-sm-3">
-                            Paikka
-                        </label>
-                        <div className="col-sm-9" id="scrollable-dropdown-menu">
-                            <input
-                                type="text"
-                                placeholder="Hae paikkaa..."
-                                name="__location_search_field"
-                                data-trigger="hover"
-                                data-placement="top"
-                                data-toggle="popover"
-                                id="__location_search_field"
-                                ref="__location_search_field"
-                                className="typeahead form-control tt-input"
-                                data-original-title=""
-                                title=""
-                                autoComplete="off"
-                                spellCheck="false"
-                                dir="auto"
-                                style={
-                                    position: 'relative';
-                                    verticalAlign: 'top';
-                                    backgroundColor: 'transparent';
-                                }
-                            />
-                        </div>
-                    </div>
-                    <Input
-                        {...sharedProps}
-                        name="location_id"
-                        id="location_id"
-                        value={@state.location_id}
-                        label="Paikan ID"
-                        type="text"
-                        placeholder=""
-                        disabled
-                    />
-                    <Textarea
-                        {...sharedProps}
-                        rows={3}
-                        cols={40}
-                        name="location_extra_info_fi"
-                        label="Paikan lisätiedot"
-                        placeholder=""
-                        help=""
-                    />
-                    <span style={@state.enStyle}>
-                        <Textarea
-                            {...sharedProps}
-                            rows={3}
-                            cols={40}
-                            name="location_extra_info_en"
-                            label="Paikan lisätiedot [en]"
-                            placeholder=""
-                            help=""
-                        />
-                    </span>
-                    <span style={@state.svStyle}>
-                        <Textarea
-                            {...sharedProps}
-                            rows={3}
-                            cols={40}
-                            name="location_extra_info_sv"
-                            label="Paikan lisätiedot [sv]"
-                            placeholder=""
-                            help=""
-                        />
-                    </span>
-                </fieldset>
-                <fieldset>
-                    <legend>Hintatiedot</legend>
-                    Valitse onko tapahtumaan vapaa pääsy tai lisää tapahtuman
-                    hinta tekstimuodossa (esim. 5€/7€). Voit lisätä
-                    lisätietoja tapahtuman lipunmyynnistä, paikkavarauksista
-                    jne. Lisää myös mahdollinen linkki lipunmyyntiin.
-                    <Checkbox
-                        {...sharedProps}
-                        name="offers_is_free"
-                        value={false}
-                        label=""
-                        rowLabel="Maksuton"
-                    />
-                    <Input
-                        {...sharedProps}
-                        name="offers_price_fi"
-                        id="offers_price_fi"
-                        value=""
-                        label="Hinta"
-                        type="text"
-                        placeholder=""
-                    />
-                    <span style={@state.enStyle}>
-                        <Input
-                            {...sharedProps}
-                            name="offers_price_en"
-                            id="offers_price_en"
-                            value=""
-                            label="Hinta [en]"
-                            type="text"
-                            placeholder=""
-                        />
-                    </span>
-                    <span style={@state.svStyle}>
-                        <Input
-                            {...sharedProps}
-                            name="offers_price_sv"
-                            id="offers_price_sv"
-                            value=""
-                            label="Hinta [sv]"
-                            type="text"
-                            placeholder=""
-                        />
-                    </span>
-                    <Textarea
-                        {...sharedProps}
-                        rows={3}
-                        cols={40}
-                        name="offers_description_fi"
-                        label="Hintatietojen kuvaus"
-                        placeholder=""
-                        help="Kerro tässä, jos tapahtumaan on
-                              ennakkoilmoittautuminen."
-                    />
-                    <span style={@state.enStyle}>
-                        <Textarea
-                            {...sharedProps}
-                            rows={3}
-                            cols={40}
-                            name="offers_description_en"
-                            label="Hintatietojen kuvaus [en]"
-                            placeholder=""
-                            help=""
-                        />
-                    </span>
-                    <span style={@state.svStyle}>
-                        <Textarea
-                            {...sharedProps}
-                            rows={3}
-                            cols={40}
-                            name="offers_description_sv"
-                            label="Hintatietojen kuvaus [sv]"
-                            placeholder=""
-                            help=""
-                        />
-                    </span>
-                    <Input
-                        {...sharedProps}
-                        name="offers_info_url_fi"
-                        id="offers_info_url_fi"
-                        value=""
-                        label="Linkki lipunmyyntiin"
-                        type="url"
-                        placeholder=""
-                    />
-                    <span style={@state.enStyle}>
-                        <Input
-                            {...sharedProps}
-                            name="offers_info_url_en"
-                            id="offers_info_url_en"
-                            value=""
-                            label="Linkki lipunmyyntiin [en]"
-                            type="text"
-                            placeholder=""
-                        />
-                    </span>
-                    <span style={@state.svStyle}>
-                        <Input
-                            {...sharedProps}
-                            name="offers_info_url_sv"
-                            id="offers_info_url_sv"
-                            value=""
-                            label="Linkki lipunmyyntiin [sv]"
-                            type="text"
-                            placeholder=""
-                        />
-                    </span>
-                </fieldset>
-                <fieldset>
-                    <legend>Muut lisätiedot</legend>
-                    <Input
-                        {...sharedProps}
-                        name="image"
-                        id="image"
-                        value=""
-                        label="Tapahtuman kuva"
-                        type="url"
-                        placeholder=""
-                        help="Kuvan osoite eli URL, lisää alkuun http://. 
-                            Kuvan enimmäismitoiksi suositellaan 1080x720 px ja
-                            enimmäiskooksi 500 Kt. Varmistathan myös
-                            tekijänoikeudet!"
-                    />
-                    <Input
-                        {...sharedProps}
-                        name="extlink_facebook"
-                        id="extlink_facebook"
-                        value=""
-                        label="Facebook"
-                        type="url"
-                        placeholder=""
-                        help=""
-                    />
-                    <Input
-                        {...sharedProps}
-                        name="extlink_instagram"
-                        id="extlink_instagram"
-                        value=""
-                        label="Instagram"
-                        type="url"
-                        placeholder=""
-                        help=""
-                    />
-                    <Input
-                        {...sharedProps}
-                        name="extlink_twitter"
-                        id="extlink_twitter"
-                        value=""
-                        label="Twitter"
-                        type="url"
-                        placeholder=""
-                        help=""
-                    />
-                </fieldset>
-                <fieldset>
-                    <legend>Helsingin kaupungin luokittelutiedot</legend>
-                    <CheckboxGroup
-                        {...sharedProps}
-                        name="hel_main"
-                        value={[]}
-                        label="Pääkategoria"
-                        help="Määrittele, mihin kategoriaan tapahtuna kuuluu
-                            hel.fi-sivustolla."
-                        options={@state.helMainOptions}
-                        multiple
-                    />
-                    <CheckboxGroup
-                        {...sharedProps}
-                        name="hel_target"
-                        ref="helTarget"
-                        value={[]}
-                        label="Kohderyhmät"
-                        help="Määrittele, mille erityiskohderyhmille tapahtuma
-                            on suunnattu hel.fi-sivustolla. Voit valita
-                            useampia."
-                        options={@state.helTargetOptions}
-                        onChange={@catchHelTargetAll}
-                        multiple
-                    />
-                    <CheckboxGroup
-                        {...sharedProps}
-                        name="hel_event_lang"
-                        ref="helEventLang"
-                        value={[]}
-                        label="Tapahtuman kielet"
-                        help="Valitse tapahtuman kielet. Esimerkiksi
-                            suomenkielisen teatteriesityksen kohdalla
-                            valitaan vain Suomi, valokuvanäyttelyn kohdalla
-                            voidaan valita kaikki kielet."
-                        options={@state.helEventLangOptions}
-                        onChange={@catchHelEventLangAll}
-                        multiple
-                    />
-                </fieldset>
+                <legend>Tapahtuman kuvaus</legend>
+                {@getFormFields()}
                 <Row layout={@state.layout}>
                     <input
                         className="btn btn-primary"
@@ -864,4 +552,4 @@ AddEventForm = React.createClass
 
 
 module.exports =
-    AddEvent: AddEvent
+    Editor: Editor
