@@ -28,6 +28,7 @@ define (require) ->
     ToolbarSeparator = require 'material-ui/lib/toolbar/toolbar-separator'
     ToolbarTitle = require 'material-ui/lib/toolbar/toolbar-title'
     FlatButton = require 'material-ui/lib/flat-button'
+    FontIcon = require 'material-ui/lib/font-icon'
 
     # pages
     Editor = require './editor.cjsx'
@@ -36,6 +37,10 @@ define (require) ->
     # Initialize tap event plugin (used by material-ui components)
     injectTapEventPlugin = require 'react-tap-event-plugin'
     injectTapEventPlugin()
+
+    # Todo: remove this when style issues are fixed (sass, whatever added to the project)
+    buttonIconStyle =
+        verticalAlign: 'middle'
 
     App = React.createClass
         render: ->
@@ -46,7 +51,11 @@ define (require) ->
                     </ToolbarGroup>
                     <ToolbarGroup key={1} float="left">
                         <FlatButton linkButton={true} label="Hae tapahtumia" primary={true} href="/#/search" />
-                        <FlatButton linkButton={true} label="Lisää uusi tapahtuma" secondary={true} href="/#/event/create/new" />
+                    </ToolbarGroup>
+                    <ToolbarGroup key={2} float="right">
+                        <FlatButton linkButton={true} label="Lisää uusi tapahtuma" href="/#/event/create/new">
+                            <FontIcon className="material-icons"  style={buttonIconStyle}>add</FontIcon>
+                        </FlatButton>
                     </ToolbarGroup>
                 </Toolbar>
                 <div
