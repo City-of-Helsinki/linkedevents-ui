@@ -8,16 +8,18 @@ window.jQuery = $
 # js
 moment = require 'moment'
 
-# react-specific 
+# react-specific
 DateRangePicker = require 'react-bootstrap-daterangepicker'
 React = require 'react'
 RB = require 'react-bootstrap'
 
+# Material-UI components
+RaisedButton = require 'material-ui/lib/raised-button'
 
 # === code ===
 
 dateFormat = (timeStr) ->
-    if not timeStr 
+    if not timeStr
         return ''
     return moment(timeStr).format('YYYY-MM-DD')
 
@@ -138,11 +140,11 @@ SearchBar = React.createClass
                     </div>
                 </RB.Button>
             </DateRangePicker>
-                <input
+                <RaisedButton
+                    primary={true}
                     type="submit"
-                    value="Hae tapahtumia"
+                    label="Hae tapahtumia"
                     onClick={@handleSubmit}
-                    className="applyBtn btn btn-sm btn-primary"
                 />
             <p>
             </p>
@@ -155,7 +157,7 @@ FilterableEventTable = React.createClass
         filterText: ''
         startDate: moment().startOf('month')
         endDate: moment().endOf('month')
-        events: [] 
+        events: []
         apiErrorMsg: ''
 
     handleUserInput: (filterText) ->
@@ -226,7 +228,7 @@ FilterableEventTable = React.createClass
 SearchPage = React.createClass
     render: ->
         <div>
-            <FilterableEventTable events={[]} /> 
+            <FilterableEventTable events={[]} />
         </div>
 
 

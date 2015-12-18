@@ -1,6 +1,6 @@
 require 'bootstrap/dist/css/bootstrap.css'
 
-conf = 
+conf =
     baseUrl: appSettings.static_url
     bundles:
         # Work around a problem with module names ending with ".js"
