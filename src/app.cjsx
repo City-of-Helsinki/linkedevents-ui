@@ -20,31 +20,35 @@ define (require) ->
     # imports
     React = require 'react'
     ReactDOM = require 'react-dom'
-    RB = require 'react-bootstrap'
     Router = require 'react-router'
+
+    # Material-ui components
+    Toolbar = require 'material-ui/lib/toolbar/toolbar'
+    ToolbarGroup = require 'material-ui/lib/toolbar/toolbar-group'
+    ToolbarSeparator = require 'material-ui/lib/toolbar/toolbar-separator'
+    ToolbarTitle = require 'material-ui/lib/toolbar/toolbar-title'
+    FlatButton = require 'material-ui/lib/flat-button'
 
     # pages
     Editor = require './editor.cjsx'
     Search = require './search.cjsx'
 
+    # Initialize tap event plugin (used by material-ui components)
+    injectTapEventPlugin = require 'react-tap-event-plugin'
+    injectTapEventPlugin()
+
     App = React.createClass
         render: ->
             <div>
-                <RB.Navbar>
-                    <RB.Navbar.Header>
-                        <RB.Navbar.Brand>
-                            Linked Events
-                        </RB.Navbar.Brand>
-                    </RB.Navbar.Header>
-                    <RB.Nav>
-                        <RB.NavItem eventKey={1} href="/#/search">
-                            Hae tapahtumia
-                        </RB.NavItem>
-                        <RB.NavItem eventKey={2} href="/#/event/create/new">
-                            Lisää uusi tapahtuma
-                        </RB.NavItem>
-                    </RB.Nav>
-                </RB.Navbar>
+                <Toolbar>
+                    <ToolbarGroup key={0} float="left">
+                        <ToolbarTitle text="Linked Events" />
+                    </ToolbarGroup>
+                    <ToolbarGroup key={1} float="left">
+                        <FlatButton linkButton={true} label="Hae tapahtumia" primary={true} href="/#/search" />
+                        <FlatButton linkButton={true} label="Lisää uusi tapahtuma" secondary={true} href="/#/event/create/new" />
+                    </ToolbarGroup>
+                </Toolbar>
                 <div
                     className="container"
                 >
