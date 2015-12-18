@@ -48,7 +48,7 @@ define (require) ->
                             <ToolbarTitle text="Linked Events" />
                         </ToolbarGroup>
                         <ToolbarGroup key={1} float="left">
-                            <FlatButton linkButton={true} label="Hae tapahtumia" primary={true} href="/#/search" />
+                            <FlatButton linkButton={true} label="Hae tapahtumia" primary={true} href="/#/" />
                         </ToolbarGroup>
                         <ToolbarGroup key={2} float="right">
                             <FlatButton linkButton={true} label="Lisää uusi tapahtuma" href="/#/event/create/new">
@@ -65,7 +65,7 @@ define (require) ->
     ReactDOM.render(
         <Router.Router>
             <Router.Route path="/" component={App}>
-                <Router.Route path="search" component={Search.SearchPage} />
+                <Router.IndexRoute component={Search.SearchPage}/>
                 <Router.Route
                     path="event/:action/:eventId"
                     component={Editor.Editor}
