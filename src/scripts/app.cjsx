@@ -39,10 +39,6 @@ define (require) ->
     injectTapEventPlugin = require 'react-tap-event-plugin'
     injectTapEventPlugin()
 
-    # Todo: remove this when style issues are fixed (sass, whatever added to the project)
-    buttonIconStyle =
-        verticalAlign: 'middle'
-
     App = React.createClass
         render: ->
             <div className="test-class">
@@ -55,7 +51,7 @@ define (require) ->
                     </ToolbarGroup>
                     <ToolbarGroup key={2} float="right">
                         <FlatButton linkButton={true} label="Lisää uusi tapahtuma" href="/#/event/create/new">
-                            <FontIcon className="material-icons"  style={buttonIconStyle}>add</FontIcon>
+                            <FontIcon className="material-icons">add</FontIcon>
                         </FlatButton>
                     </ToolbarGroup>
                 </Toolbar>
