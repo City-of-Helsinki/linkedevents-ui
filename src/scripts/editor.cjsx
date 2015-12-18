@@ -1,5 +1,5 @@
 # styles
-require 'style!../vendor/stylesheets/typeahead.css'
+require 'style!../../vendor/stylesheets/typeahead.css'
 
 # jquery
 $ = require 'jquery'
@@ -58,10 +58,10 @@ Editor = React.createClass
     updateData: (data) ->
         @setState
             data: data
-    
+
     switchToPreview: ->
         @setState
-            isPreview: true 
+            isPreview: true
             isDone: false
 
     switchToEdit: (event) ->
@@ -226,7 +226,7 @@ Editor = React.createClass
                     if field of offer and offer[field]
                         for lang in ['fi', 'sv', 'en']
                             if lang of offer[field]
-                                key = 'offers_' + field + '_' + lang 
+                                key = 'offers_' + field + '_' + lang
                                 ret[key] = offer[field][lang]
 
         # external links
@@ -321,21 +321,21 @@ Editor = React.createClass
                             value={@state.data.headline_fi}
                             label="Otsikko"
                             type="text"
-                            disabled 
+                            disabled
                         />
                         <Input
                             name="ignore2"
                             value={@state.data.__location_search_field}
                             label="Paikka"
                             type="text"
-                            disabled 
+                            disabled
                         />
                         <Input
                             name="ignore3"
                             value={API.getStartTime(@state.data)}
                             label="Alkuaika"
                             type="text"
-                            disabled 
+                            disabled
                         />
                         <Textarea
                             name="ignore4"
@@ -397,22 +397,22 @@ EditEventForm = React.createClass
 
         # set up typeahead
 
-        taOptions = 
+        taOptions =
             hint: true
             highlight: true
             minLength: 1
 
-        taDatasets= 
+        taDatasets=
             limit: 25
             display: 'value'
             templates:
-                suggestion: (model) -> 
+                suggestion: (model) ->
                    '<div><class="place_name">' +
                    model.value +
                    '</span><br><span class="place_address">' +
                    model.street_address +
                    '</span></div>'
-                empty: (d) -> 
+                empty: (d) ->
                     '<p class="repo-name">No Matches</p>'
             source: TU.bloodhoundInstance.ttAdapter()
 
@@ -514,7 +514,7 @@ EditEventForm = React.createClass
             return FF.editEventFields(@state.location_id, @catchHelTargetAll, @catchHelEventLangAll)
 
     render: ->
-        sharedProps = 
+        sharedProps =
             layout: @state.layout
             validatePristine: @state.validatePristine
             disabled: @state.disabled
@@ -525,7 +525,7 @@ EditEventForm = React.createClass
             {@props.action}
             {@props.eventId}
             <div style={paddingBottom: "1em"}>
-                Kielet 
+                Kielet
                 <a
                     style={color: 'green'}
                     onClick={@toggleEn}
