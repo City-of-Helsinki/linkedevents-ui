@@ -1,5 +1,5 @@
 # styles
-require 'style!../../vendor/stylesheets/typeahead.css'
+require 'style!vendor/stylesheets/typeahead.css'
 
 # jquery
 $ = require 'jquery'
@@ -29,10 +29,9 @@ RadioGroup = FRC.RadioGroup
 Row = FRC.Row
 
 # our components
-TU = require './typeahead.cjsx'
-API = require './api.cjsx'
-Editor = require './editor.cjsx'
-FF = require './formfields.cjsx'
+TU = require 'src/scripts/typeahead.cjsx'
+API = require 'src/scripts/api.cjsx'
+FF = require 'src/scripts/formfields.cjsx'
 
 
 # === constants ===
@@ -44,7 +43,7 @@ EXT_LINK_NO_LANGUAGE = 'fi'
 
 # === code ===
 
-Editor = React.createClass
+EditorPage = React.createClass
 
     mixins: [Router.History]
 
@@ -552,4 +551,4 @@ EditEventForm = React.createClass
 
 
 module.exports =
-    Editor: Editor
+    EditorPage: EditorPage

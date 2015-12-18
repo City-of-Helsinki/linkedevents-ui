@@ -32,7 +32,7 @@ define (require) ->
     FontIcon = require 'material-ui/lib/font-icon'
 
     # pages
-    Editor = require './editor.cjsx'
+    Editor = require './components/editorpage/editorpage.cjsx'
     Search = require './components/searchpage/searchpage.cjsx'
 
     # Initialize tap event plugin (used by material-ui components)

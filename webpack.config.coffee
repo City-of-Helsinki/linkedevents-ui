@@ -15,6 +15,9 @@ module.exports =
         path: __dirname + '/dist'
         filename: '[name].js'
 
+    resolve:
+        root: __dirname
+
     module:
         loaders: [
             {test: /\.coffee$/, loader: 'coffee-loader'}
