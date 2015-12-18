@@ -4,6 +4,9 @@
   "version": "0.0.1",
   "author": "Juha Yrjölä <juha.yrjola@hel.fi>",
   "repository": "github:City-of-Helsinki/linkedevents-ui",
+  "scripts": {
+    "start": "node_modules/.bin/webpack-dev-server"
+  },
   "dependencies": {
     "bootstrap": "*",
     "formsy-react": "*",
