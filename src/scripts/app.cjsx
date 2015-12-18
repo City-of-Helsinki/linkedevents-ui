@@ -1,4 +1,5 @@
 require 'bootstrap/dist/css/bootstrap.css'
+require '!style!css!sass!../styles/main.scss';
 
 conf =
     baseUrl: appSettings.static_url
@@ -44,7 +45,7 @@ define (require) ->
 
     App = React.createClass
         render: ->
-            <div>
+            <div className="test-class">
                 <Toolbar>
                     <ToolbarGroup key={0} float="left">
                         <ToolbarTitle text="Linked Events" />

@@ -19,7 +19,7 @@ module.exports =
         loaders: [
             {test: /\.coffee$/, loader: 'coffee-loader'}
             {test: /\.cjsx$/, loaders: ['coffee', 'cjsx']}
-            {test: /\.less$/, loader: 'style!css!less'}
+            {test: /\.scss$/, loaders: ["style", "css", "sass"]}
             {test: /\.css$/, loader: 'style!css'}
             {test: /\.json$/, loader: 'json'}
             {test: /\.jade$/, loader: 'jade'}
