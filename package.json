@@ -5,12 +5,14 @@
   "author": "Juha Yrjölä <juha.yrjola@hel.fi>",
   "repository": "github:City-of-Helsinki/linkedevents-ui",
   "scripts": {
-    "start": "node_modules/.bin/webpack-dev-server"
+    "start": "node_modules/.bin/webpack-dev-server",
+    "build": "node_modules/.bin/webpack"
   },
   "dependencies": {
     "bootstrap": "*",
     "formsy-react": "*",
     "formsy-react-components": "*",
+    "history": "^1.13.1",
     "jquery": "1.11.3",
     "material-ui": "^0.14.0-rc2",
     "moment": "*",
@@ -39,9 +41,11 @@
     "js-yaml": "^3.3.1",
     "json-loader": "^0.5.2",
     "morgan": "^1.6.1",
+    "node-sass": "^3.4.2",
+    "sass-loader": "^3.1.2",
     "style-loader": "^0.12.3",
     "url-loader": "^0.5.6",
-    "webpack": "^1.12.1",
+    "webpack": "^1.12.9",
     "webpack-dev-server": "^1.10.1"
   },
   "license": "MIT"
