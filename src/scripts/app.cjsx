@@ -33,7 +33,7 @@ define (require) ->
 
     # pages
     Editor = require './editor.cjsx'
-    Search = require './search.cjsx'
+    Search = require './components/searchpage/searchpage.cjsx'
 
     # Initialize tap event plugin (used by material-ui components)
     injectTapEventPlugin = require 'react-tap-event-plugin'
@@ -41,23 +41,23 @@ define (require) ->
 
     App = React.createClass
         render: ->
-            <div className="test-class">
+            <div>
                 <Toolbar>
-                    <ToolbarGroup key={0} float="left">
-                        <ToolbarTitle text="Linked Events" />
-                    </ToolbarGroup>
-                    <ToolbarGroup key={1} float="left">
-                        <FlatButton linkButton={true} label="Hae tapahtumia" primary={true} href="/#/search" />
-                    </ToolbarGroup>
-                    <ToolbarGroup key={2} float="right">
-                        <FlatButton linkButton={true} label="Lisää uusi tapahtuma" href="/#/event/create/new">
-                            <FontIcon className="material-icons">add</FontIcon>
-                        </FlatButton>
-                    </ToolbarGroup>
+                    <div className="container">
+                        <ToolbarGroup key={0} float="left">
+                            <ToolbarTitle text="Linked Events" />
+                        </ToolbarGroup>
+                        <ToolbarGroup key={1} float="left">
+                            <FlatButton linkButton={true} label="Hae tapahtumia" primary={true} href="/#/search" />
+                        </ToolbarGroup>
+                        <ToolbarGroup key={2} float="right">
+                            <FlatButton linkButton={true} label="Lisää uusi tapahtuma" href="/#/event/create/new">
+                                <FontIcon className="material-icons">add</FontIcon>
+                            </FlatButton>
+                        </ToolbarGroup>
+                    </div>
                 </Toolbar>
-                <div
-                    className="container"
-                >
+                <div className="container">
                     {@props.children}
                 </div>
             </div>

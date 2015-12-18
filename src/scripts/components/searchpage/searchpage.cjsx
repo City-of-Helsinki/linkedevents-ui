@@ -1,5 +1,7 @@
 # styles
 require 'react-bootstrap-daterangepicker/css/daterangepicker.css'
+require '!style!css!sass!./searchpage.scss';
+
 
 # jquery
 $ = require 'jquery'
@@ -227,7 +229,7 @@ FilterableEventTable = React.createClass
 
 SearchPage = React.createClass
     render: ->
-        <div>
+        <div className="search-page">
             <FilterableEventTable events={[]} />
         </div>
 
