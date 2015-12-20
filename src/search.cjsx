@@ -1,5 +1,5 @@
 # styles
-require 'react-bootstrap-daterangepicker/css/daterangepicker.css'
+#require 'react-bootstrap-daterangepicker/css/daterangepicker.css'
 
 # jquery
 $ = require 'jquery'
@@ -9,7 +9,7 @@ window.jQuery = $
 moment = require 'moment'
 
 # react-specific 
-DateRangePicker = require 'react-bootstrap-daterangepicker'
+#DateRangePicker = require 'react-bootstrap-daterangepicker'
 React = require 'react'
 RB = require 'react-bootstrap'
 
@@ -118,7 +118,8 @@ SearchBar = React.createClass
                 onChange={@handleChange}
                 className="form-control"
             />
-            <DateRangePicker
+            {
+                ###<DateRangePicker
                 startDate={@props.startDate}
                 endDate={@props.endDate}
                 ranges={@getRanges()}
@@ -138,6 +139,8 @@ SearchBar = React.createClass
                     </div>
                 </RB.Button>
             </DateRangePicker>
+                ###
+            }
                 <input
                     type="submit"
                     value="Hae tapahtumia"

@@ -10,7 +10,6 @@ bootstrap = require 'bootstrap'
 typeahead = require 'typeahead.js'
 
 # react-specific
-DateRangePicker = require 'react-bootstrap-daterangepicker'
 Formsy = require 'formsy-react'
 FRC = require 'formsy-react-components'
 Loader = require 'react-loader'
