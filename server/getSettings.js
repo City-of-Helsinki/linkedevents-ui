@@ -7,8 +7,8 @@ const defaults = {
   publicUrl: null,
   helsinkiAuthId: null,
   helsinkiAuthSecret: null,
-  helsinkiTargetApp: 'kerrokantasi',
-  jwtAudience: 'kerrokantasi',
+  helsinkiTargetApp: 'linkedevents-ui',
+  jwtAudience: 'linkedevents-ui',
   jwtKey: null,
   sessionSecret: null,
   dev: false,
@@ -35,7 +35,7 @@ export default function getOptions() {
       settings.sessionSecret = 'Don\'t Panic.';
     }
     if (!settings.jwtKey) {
-      settings.jwtKey = 'kerrokantasi';
+      settings.jwtKey = 'linkedevents-ui';
     }
   }
   const missingKeys = requiredKeys.filter((key) => !settings[key]);

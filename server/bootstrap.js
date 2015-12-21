@@ -1,17 +1,36 @@
 /* eslint-disable no-console */
+
+// import {getCompiler, applyCompilerMiddleware} from './bundler';
+import {getPassport, addAuth} from './auth';
+// import {inspect} from 'util';
+// import morgan from 'morgan';
+// import renderMiddleware from "./render-middleware";
+
+import path from 'path';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cookieSession from 'cookie-session';
-import express from 'express';
 import getSettings from './getSettings';
-import {getCompiler, applyCompilerMiddleware} from './bundler';
-import {getPassport, addAuth} from './auth';
-import {inspect} from 'util';
-import morgan from 'morgan';
-import renderMiddleware from "./render-middleware";
+import express from 'express';
+import webpack from 'webpack';
+import webpackMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
+import config from '../config/webpack/dev.js';
 
-const args = require('minimist')(process.argv.slice(2));
+const app = express();
+const compiler = webpack(config);
 
+app.use(express.static(__dirname + '/dist'));
+app.use(webpackMiddleware(compiler));
+app.use(webpackHotMiddleware(compiler));
+app.get('*', function response(req, res) {
+  res.sendFile(path.join(__dirname, 'dist/index.html'));
+});
+
+app.listen(8080);
+
+// const args = require('minimist')(process.argv.slice(2));
+/*
 const settings = getSettings();
 if (settings.dev || args.dump) {
   console.log("Settings:\n", inspect(settings, {colors: true}));
@@ -55,3 +74,4 @@ compiler.run((err, stats) => {
   console.log(stats.toString({assets: true, chunkModules: false, chunks: true, colors: true}));
 });
 run();
+*/
