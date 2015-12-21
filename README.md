@@ -2,7 +2,7 @@
 
 ```
 $ npm install
-$ node_modules/.bin/webpack-dev-server
+$ npm start
 ```
 
 Then point your browser to the webpack dev server at http://localhost:8080/.
