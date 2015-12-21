@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 
 // import {getCompiler, applyCompilerMiddleware} from './bundler';
-import {getPassport, addAuth} from './auth';
 // import {inspect} from 'util';
 // import morgan from 'morgan';
 // import renderMiddleware from "./render-middleware";
@@ -17,33 +16,47 @@ import webpackMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import config from '../config/webpack/dev.js';
 
+import { getPassport, addAuth } from './auth';
+
+const settings = getSettings();
+
 const app = express();
 const compiler = webpack(config);
+const passport = getPassport(settings);
 
 app.use(express.static(__dirname + '/dist'));
 app.use(webpackMiddleware(compiler));
 app.use(webpackHotMiddleware(compiler));
+
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(cookieSession({name: 's', secret: settings.sessionSecret, maxAge: 86400 * 1000}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+addAuth(app, passport, settings);
+
 app.get('*', function response(req, res) {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 
+const args = require('minimist')(process.argv.slice(2));
+
+if (settings.dev || args.dump) {
+  //console.log("Settings:\n", inspect(settings, {colors: true}));
+}
+
 app.listen(8080);
 
-// const args = require('minimist')(process.argv.slice(2));
+//
 /*
-const settings = getSettings();
-if (settings.dev || args.dump) {
-  console.log("Settings:\n", inspect(settings, {colors: true}));
-}
+
 const server = express();
 const compiler = getCompiler(settings, true);
-const passport = getPassport(settings);
 
 server.use('/', express.static(compiler.options.paths.OUTPUT));
 server.use('/assets', express.static(compiler.options.paths.ASSETS));
 server.use(morgan(settings.dev ? 'dev' : 'combined'));
-server.use(cookieParser());
-server.use(bodyParser.urlencoded({extended: true}));
 server.use((req, res, next) => {
   if (/127\.0\.0\.1/.test(req.hostname)) {
     res.status(400).send("Please use localhost, not 127.0.0.1.");
@@ -51,10 +64,6 @@ server.use((req, res, next) => {
     next();
   }
 });
-server.use(cookieSession({name: 's', secret: settings.sessionSecret, maxAge: 86400 * 1000}));
-server.use(passport.initialize());
-server.use(passport.session());
-addAuth(server, passport, settings);
 
 if (settings.dev) {
   applyCompilerMiddleware(server, compiler, settings);
