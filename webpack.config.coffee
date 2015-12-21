@@ -10,16 +10,19 @@ indexHtml = indexTemplate
 module.exports =
     context: __dirname + '/src'
     entry:
-        app: './app.cjsx'
+        app: './scripts/app.cjsx'
     output:
         path: __dirname + '/dist'
         filename: '[name].js'
+
+    resolve:
+        root: __dirname
 
     module:
         loaders: [
             {test: /\.coffee$/, loader: 'coffee-loader'}
             {test: /\.cjsx$/, loaders: ['coffee', 'cjsx']}
-            {test: /\.less$/, loader: 'style!css!less'}
+            {test: /\.scss$/, loaders: ["style", "css", "sass"]}
             {test: /\.css$/, loader: 'style!css'}
             {test: /\.json$/, loader: 'json'}
             {test: /\.jade$/, loader: 'jade'}
