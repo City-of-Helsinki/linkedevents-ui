@@ -12,10 +12,7 @@ import FlatButton from 'material-ui/lib/flat-button';
 import FontIcon from 'material-ui/lib/font-icon';
 
 // Material-ui theming
-import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import HelTheme from '../themes/hel.js';
-
-//injectTapEventPlugin();
 
 class App extends React.Component {
 
@@ -30,8 +27,8 @@ class App extends React.Component {
 
     getChildContext() {
         return {
-            muiTheme: ThemeManager.getMuiTheme(HelTheme)
-        };
+            muiTheme: HelTheme
+        }
     }
 
     render() {

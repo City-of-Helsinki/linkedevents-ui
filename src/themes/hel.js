@@ -1,10 +1,10 @@
-'use strict';
+import ThemeManager from 'material-ui/lib/styles/theme-manager';
 
 let Colors = require('material-ui/lib/styles/colors');
 let ColorManipulator = require('material-ui/lib/utils/color-manipulator');
 let Spacing = require('material-ui/lib/styles/spacing');
 
-module.exports = {
+let helRawStyle = {
     spacing: Spacing,
     fontFamily: 'Karbid Comp, Roboto, sans-serif',
     palette: {
@@ -21,3 +21,15 @@ module.exports = {
         disabledColor: ColorManipulator.fade(Colors.darkBlack, 0.3),
     },
 };
+
+let helTheme = ThemeManager.getMuiTheme(helRawStyle);
+
+// Override specific component styles
+helTheme.toolbar.backgroundColor = '#0072c6';
+helTheme.toolbar.height = 56;
+helTheme.toolbar.titleFontSize = 20;
+helTheme.toolbar.iconColor = '#ffffff';
+helTheme.toolbar.separatorColor = '#ffffff';
+helTheme.toolbar.menuHoverColor = '#ffffff';
+
+export default helTheme;
