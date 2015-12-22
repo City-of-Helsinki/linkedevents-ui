@@ -1,13 +1,13 @@
 require('bootstrap/dist/css/bootstrap.css');
-require('!style!css!sass!../assets/main.scss');
+require('!style!css!sass!src/assets/main.scss');
 
 import React from 'react';
 
 // Material-ui components
-import Headerbar from './components/header';
+import Headerbar from 'src/scripts/components/header';
 
 // Material-ui theming
-import { HelTheme } from '../themes/hel';
+import { HelTheme } from 'src/themes/hel';
 
 class App extends React.Component {
 

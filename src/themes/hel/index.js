@@ -53,7 +53,6 @@ headerTheme.toolbar.menuHoverColor = '#ffffff';
 headerTheme.flatButton.textColor = '#ffffff';
 headerTheme.flatButton.textTransform = 'none';
 headerTheme.flatButton.fontWeight = 200;
-//headerTheme.iconFont.textColor = '#ffffff';
 
 export {
     helTheme as HelTheme,

@@ -1,8 +1,5 @@
 import moment from 'moment';
-
-// react-specific
 import React from 'react';
-import RB from 'react-bootstrap';
 
 let dateFormat = function(timeStr) {
     if (!timeStr) {
