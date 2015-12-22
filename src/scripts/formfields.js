@@ -10,15 +10,6 @@ import  {
     Row
 } from 'formsy-react-components';
 
-// // aliases
-// var Input = FRC.Input;
-// var Textarea = FRC.Textarea;
-// var Select = FRC.Select;
-// var Checkbox = FRC.Checkbox;
-// var CheckboxGroup = FRC.CheckboxGroup;
-// var RadioGroup = FRC.RadioGroup;
-// var Row = FRC.Row;
-
 // our components
 import API from './api.js';
 
