@@ -4,7 +4,7 @@ import { Router, Route, IndexRoute } from 'react-router';
 
 // Pages
 import App from './app.js';
-import EditorPage from './components/editorpage/editorpage.js';
+import EditorPage from './components/editorpage';
 import SearchPage from './components/searchpage/searchpage.js';
 
 // Initialize tap event plugin (used by material-ui components)

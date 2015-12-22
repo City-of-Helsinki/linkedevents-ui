@@ -2,26 +2,18 @@
 import 'style!vendor/stylesheets/typeahead.css';
 
 // js
-import bootstrap from 'bootstrap';
 import typeahead from 'typeahead.js';
 
 // react-specific
 import Formsy from 'formsy-react';
-import FRC from 'formsy-react-components';
-import Loader from 'react-loader';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import Router from 'react-router';
-import RB from 'react-bootstrap';
+import {History} from 'react-router';
 
-// aliases
-let Input = FRC.Input;
-let Textarea = FRC.Textarea;
-let Select = FRC.Select;
-let Checkbox = FRC.Checkbox;
-let CheckboxGroup = FRC.CheckboxGroup;
-let RadioGroup = FRC.RadioGroup;
-let Row = FRC.Row;
+import {
+    Input,
+    Textarea,
+    Row
+} from 'formsy-react-components';
 
 // our components
 import TU from 'src/scripts/typeahead.js';
@@ -39,7 +31,7 @@ var EXT_LINK_NO_LANGUAGE = 'fi';
 
 var EditorPage = React.createClass({
 
-    mixins: [Router.History],
+    mixins: [History],
 
     getInitialState() {
         return {data: {},
