@@ -14,17 +14,20 @@ module.exports = {
     context: path.join(common.paths.ROOT, '/src'),
     entry: [
         'webpack-hot-middleware/client',
-        path.join(common.paths.SRC, '/scripts/app.cjsx')
+        path.join(common.paths.SRC, '/scripts/index.js')
     ],
     output: {
         path: common.paths.ROOT + '/dist',
         filename: '[name].js'
     },
+    debug: true,
+    devtool: 'cheap-module-eval-source-map',
     resolve: {
         root: common.paths.ROOT
     },
     module: {
         loaders: [
+            {test: /\.js?$/, exclude: /node_modules/, loader: 'babel' },
             {test: /\.coffee$/, loader: 'coffee-loader'},
             {test: /\.cjsx$/, loaders: ['coffee', 'cjsx']},
             {test: /\.scss$/, loaders: ["style", "css", "sass"]},
@@ -39,6 +42,11 @@ module.exports = {
         ]
     },
     plugins: [
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery",
+            "window.jQuery": "jquery"
+        }),
         new HtmlWebpackPlugin({
             inject: true,
             templateContent: indexHtml

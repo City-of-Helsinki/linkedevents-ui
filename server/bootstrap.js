@@ -37,7 +37,7 @@ app.use(passport.session());
 addAuth(app, passport, settings);
 
 app.get('*', function response(req, res) {
-  res.sendFile(path.join(__dirname, 'dist/index.html'));
+  res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
 const args = require('minimist')(process.argv.slice(2));
