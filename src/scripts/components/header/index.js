@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {FormattedMessage} from 'react-intl';
+
 // Material-ui components
 import Toolbar from 'material-ui/lib/toolbar/toolbar';
 import ToolbarGroup from 'material-ui/lib/toolbar/toolbar-group';
@@ -33,11 +35,11 @@ class HeaderBar extends React.Component {
                     <ToolbarTitle text="Linked Events" />
                 </ToolbarGroup>
                 <ToolbarGroup key={1} float="left">
-                    <FlatButton linkButton={true} label="Search events" href="/#/" style={{ fontWeight: 300 }} />
+                    <FlatButton linkButton={true} label={<FormattedMessage id="search-events"/>} href="/#/" style={{ fontWeight: 300 }} />
                 </ToolbarGroup>
                 <ToolbarGroup key={2} float="right">
-                    <FlatButton linkButton={true} label="Log in" href="/#/signin" style={{ fontWeight: 300, minWidth: '30px' }} />
-                    <FlatButton linkButton={true} label="Create event" href="/#/event/create/new" style={{ fontWeight: 300, minWidth: '30px' }}>
+                    <FlatButton linkButton={true} label={<FormattedMessage id="login"/>} href="/#/signin" style={{ fontWeight: 300, minWidth: '30px' }} />
+                    <FlatButton linkButton={true} label={<FormattedMessage id="create-event"/>} href="/#/event/create/new" style={{ fontWeight: 300, minWidth: '30px' }}>
                         <FontIcon className="material-icons">add</FontIcon>
                     </FlatButton>
                 </ToolbarGroup>
