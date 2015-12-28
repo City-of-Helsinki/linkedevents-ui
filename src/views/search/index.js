@@ -1,22 +1,10 @@
-import moment from 'moment'
 import React from 'react'
 
 import { connect } from 'react-redux'
 
-import { fetchEvents } from 'src/actions/events.js'
-
 import FilterableEventTable from 'src/components/FilterableEventTable'
 
-var SearchPage = React.createClass({
-
-    render() {
-        return (
-            <div>
-                <FilterableEventTable events={this.props.events} />
-            </div>
-        );
-    }
-});
+let SearchPage = (props) => <FilterableEventTable events={props.events} />
 
 export default connect((state) => ({
     events: state.events.items
