@@ -2,11 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Route, IndexRoute } from 'react-router'
 
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 
 import { createHistory } from 'history'
 import { syncReduxAndRouter, routeReducer } from 'redux-simple-router'
+
+import thunk from 'redux-thunk'
 
 import reducers from './reducers'
 
@@ -24,7 +26,11 @@ const reducer = combineReducers(Object.assign({}, reducers, {
   routing: routeReducer
 }))
 
-const store = createStore(reducer)
+const createStoreWithMiddleware = applyMiddleware(
+  thunk
+)(createStore)
+
+const store = createStoreWithMiddleware(reducer)
 const history = createHistory()
 
 syncReduxAndRouter(history, store)

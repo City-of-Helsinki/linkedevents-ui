@@ -1,23 +1,20 @@
-// const constants = require('../constants');
-
-// Mockup constants
-const constants = {
-    INCREASE: 'increase',
-    DECREASE: 'decrease'
-}
+import constants from '../constants'
 
 const initialState = {
-  number: 1
+    isFetching: false,
+    items: []
 }
 
 function update(state = initialState, action) {
-  if(action.type === constants.INCREASE) {
-    return { number: state.number + action.amount };
-  }
-  else if(action.type === constants.DECREASE) {
-    return { number: state.number - action.amount };
-  }
-  return state;
+    if(action.type === constants.RECEIVE_EVENTS) {
+        var object = Object.assign({}, state, {
+            isFetching: false,
+            items: action.items
+        });
+        console.log('test', object);
+        return object;
+    }
+    return state
 }
 
-export default update;
+export default update

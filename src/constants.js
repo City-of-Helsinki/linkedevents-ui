@@ -1,5 +1,5 @@
 const constants = {
-    GET_EVENTS: 'GET_EVENTS'
+    RECEIVE_EVENTS: 'RECEIVE_EVENTS'
 }
 
 export default constants
