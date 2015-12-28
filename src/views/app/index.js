@@ -2,6 +2,7 @@ require('bootstrap/dist/css/bootstrap.css');
 require('!style!css!sass!src/assets/main.scss');
 
 import React from 'react';
+import {connect} from 'react-redux';
 
 // Translations
 import {IntlProvider} from 'react-intl';
@@ -49,4 +50,4 @@ class App extends React.Component {
     }
 }
 
-export default App;
+export default connect()(App)

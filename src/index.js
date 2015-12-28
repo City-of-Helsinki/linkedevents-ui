@@ -1,23 +1,42 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Router, Route, IndexRoute } from 'react-router';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Router, Route, IndexRoute } from 'react-router'
+
+import { createStore, combineReducers } from 'redux'
+import { Provider } from 'react-redux'
+
+import { createHistory } from 'history'
+import { syncReduxAndRouter, routeReducer } from 'redux-simple-router'
+
+import reducers from './reducers'
 
 // Views
-import App from './views/app';
-import Editor from './views/editor';
-import Search from './views/search';
+import App from './views/app'
+import Editor from './views/editor'
+import Search from './views/search'
 
 // Initialize tap event plugin (used by material-ui components)
-import injectTapEventPlugin from 'react-tap-event-plugin';
+import injectTapEventPlugin from 'react-tap-event-plugin'
 
-injectTapEventPlugin();
+injectTapEventPlugin()
+
+const reducer = combineReducers(Object.assign({}, reducers, {
+  routing: routeReducer
+}))
+
+const store = createStore(reducer)
+const history = createHistory()
+
+syncReduxAndRouter(history, store)
 
 ReactDOM.render(
-    <Router>
-        <Route path="/" component={App}>
-            <IndexRoute component={Search}/>
-            <Route path="event/:action/:eventId" component={Editor}/>
-        </Route>
-    </Router>,
+    <Provider store={store}>
+        <Router history={history}>
+            <Route path="/" component={App}>
+                <IndexRoute component={Search}/>
+                <Route path="/event/create/new" component={Editor}/>
+            </Route>
+        </Router>
+    </Provider>,
     document.getElementById('content')
 )

@@ -9,6 +9,8 @@ import Formsy from 'formsy-react';
 import React from 'react';
 import {History} from 'react-router';
 
+import {connect} from 'react-redux';
+
 import {
     Input,
     Textarea,
@@ -658,5 +660,4 @@ var EditEventForm = React.createClass({
     }
 });
 
-
-export default EditorPage;
+export default connect()(EditorPage)

@@ -5,7 +5,7 @@
   "author": "Juha Yrjölä <juha.yrjola@hel.fi>",
   "repository": "github:City-of-Helsinki/linkedevents-ui",
   "scripts": {
-    "start": "node server --server-rendering",
+    "start": "node server",
     "dev": "node server --dev"
   },
   "dependencies": {
@@ -20,7 +20,7 @@
     "express": "^4.13.3",
     "formsy-react": "^0.17.0",
     "formsy-react-components": "^0.6.3",
-    "history": "^1.17.0",
+    "history": "^1.13.1",
     "isomorphic-fetch": "^2.2.0",
     "jquery": "^2.1.4",
     "jsonwebtoken": "^5.4.1",
@@ -38,11 +38,12 @@
     "react-helmet": "^2.2.0",
     "react-intl": "^2.0.0-pr-3",
     "react-loader": "^2.0.0",
+    "react-redux": "^4.0.5",
     "react-router": "^1.0.2",
     "react-router-bootstrap": "^0.19.3",
     "react-tap-event-plugin": "^0.2.1",
     "redux": "^3.0.5",
-    "redux-router": "^1.0.0-beta5",
+    "redux-simple-router": "^1.0.2",
     "typeahead.js": "^0.11.1",
     "underscore": "^1.8.3"
   },
