@@ -13,9 +13,9 @@ import thunk from 'redux-thunk'
 import reducers from './reducers'
 
 // Views
-import App from './views/app'
-import Editor from './views/editor'
-import Search from './views/search'
+import App from './views/App'
+import Editor from './views/Editor'
+import Search from './views/Search'
 
 // Initialize tap event plugin (used by material-ui components)
 import injectTapEventPlugin from 'react-tap-event-plugin'

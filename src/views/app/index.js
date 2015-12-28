@@ -8,7 +8,7 @@ import {connect} from 'react-redux';
 import {IntlProvider} from 'react-intl';
 import translations from 'src/i18n';
 
-import Headerbar from 'src/components/header';
+import Headerbar from 'src/components/Header';
 
 // Material-ui theming
 import { HelTheme } from 'src/themes/hel';
