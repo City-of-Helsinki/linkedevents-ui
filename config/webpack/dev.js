@@ -14,7 +14,7 @@ module.exports = {
     context: path.join(common.paths.ROOT, '/src'),
     entry: [
         'webpack-hot-middleware/client',
-        path.join(common.paths.SRC, '/scripts/index.js')
+        path.join(common.paths.SRC, '/index.js')
     ],
     output: {
         path: common.paths.ROOT + '/dist',

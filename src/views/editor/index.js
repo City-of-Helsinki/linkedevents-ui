@@ -16,9 +16,9 @@ import {
 } from 'formsy-react-components';
 
 // our components
-import TU from 'src/scripts/typeahead.js';
-import API from 'src/scripts/api.js';
-import FF from 'src/scripts/formfields.js';
+import TU from 'src/typeahead.js';
+import API from 'src/api.js';
+import FF from 'src/formfields.js';
 
 // === constants ===
 

@@ -5,9 +5,9 @@ import React from 'react';
 
 // Translations
 import {IntlProvider} from 'react-intl';
-import translations from 'src/scripts/i18n';
+import translations from 'src/i18n';
 
-import Headerbar from 'src/scripts/components/header';
+import Headerbar from 'src/components/header';
 
 // Material-ui theming
 import { HelTheme } from 'src/themes/hel';
