@@ -96,32 +96,6 @@ class FilterableEventTable extends React.Component {
             this.props.dispatch(fetchEvents(this.state.filterText, this.state.startDate, this.state.endDate));
             return;
         }
-
-        /*
-        var url = `${appSettings.api_base}/event/?text=${this.state.filterText}`;
-        if (this.state.startDate) {
-            url += `&start=${this.state.startDate.format('YYYY-MM-DD')}`;
-        }
-        if (this.state.endDate) {
-            url += `&end=${this.state.endDate.format('YYYY-MM-DD')}`;
-        }
-        return $.getJSON(url, (function(result) {
-            console.log(result.data);
-            return this.setState({
-                events: result.data,
-                apiErrorMsg: ''
-            });
-        }
-        ).bind(this))
-        .error( (function() {
-            return this.setState({
-                apiErrorMsg: 'Error connecting to server.',
-                events: []
-            });
-        }
-        ).bind(this)
-        );*/
-
     }
 
     render() {
@@ -142,7 +116,7 @@ class FilterableEventTable extends React.Component {
         let errorStyle = {
             color: 'red !important'
         }
-        if (this.state.apiErrorMsg.length > 0) {
+        if (this.props.apiErrorMsg.length > 0) {
             err = (
                 <span style={errorStyle}>
                     Error connecting to server.
