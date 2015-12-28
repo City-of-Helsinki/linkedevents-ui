@@ -2,6 +2,7 @@ import React from 'react';
 
 import {connect} from 'react-redux';
 import {pushPath} from 'redux-simple-router';
+import {login, logout} from 'src/actions/user.js';
 
 import {FormattedMessage} from 'react-intl';
 
@@ -33,6 +34,13 @@ class HeaderBar extends React.Component {
     }
 
     render() {
+
+        // NOTE: mockup for login button functionality
+        let loginButton = <FlatButton linkButton={true} label={<FormattedMessage id="login"/>} onClick={() => this.props.dispatch(login())} style={{ fontWeight: 300, minWidth: '30px' }} />
+        if(this.props.user) {
+            loginButton = <FlatButton linkButton={true} label={this.props.user.displayName} onClick={() => this.props.dispatch(logout())} style={{ fontWeight: 300, minWidth: '30px' }} />
+        }
+
         return (
             <Toolbar>
                 <ToolbarGroup key={0} float="left">
@@ -42,7 +50,7 @@ class HeaderBar extends React.Component {
                     <FlatButton linkButton={true} label={<FormattedMessage id="search-events"/>} onClick={() => this.props.dispatch(pushPath('/'))} style={{ fontWeight: 300 }} />
                 </ToolbarGroup>
                 <ToolbarGroup key={2} float="right">
-                    <FlatButton linkButton={true} label={<FormattedMessage id="login"/>} onClick={() => this.props.dispatch(pushPath('/signin'))} style={{ fontWeight: 300, minWidth: '30px' }} />
+                    {loginButton}
                     <FlatButton linkButton={true} label={<FormattedMessage id="create-event"/>} onClick={() => this.props.dispatch(pushPath('/event/create/new'))} style={{ fontWeight: 300, minWidth: '30px' }}>
                         <FontIcon className="material-icons">add</FontIcon>
                     </FlatButton>
@@ -53,4 +61,6 @@ class HeaderBar extends React.Component {
 }
 
 // Adds dispatch to this.props to call actions
-export default connect()(HeaderBar);
+export default connect((state) => ({
+    user: state.user
+}))(HeaderBar);

@@ -43,6 +43,7 @@ app.get('*', function response(req, res) {
 const args = require('minimist')(process.argv.slice(2));
 
 if (settings.dev || args.dump) {
+    console.log('Using dev settings!');
   //console.log("Settings:\n", inspect(settings, {colors: true}));
 }
 

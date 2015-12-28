@@ -21,14 +21,14 @@ class App extends React.Component {
     }
 
     static childContextTypes = {
-        muiTheme: React.PropTypes.object,
+        muiTheme: React.PropTypes.object
         // language: React.PropTypes.object,
         // user: React.PropTypes.object
     }
 
     getChildContext() {
         return {
-            muiTheme: HelTheme,
+            muiTheme: HelTheme
             // language: this.props.language,
             // user: this.props.user
         }
