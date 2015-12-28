@@ -93,7 +93,7 @@ class FilterableEventTable extends React.Component {
             return;
         }
         else {
-            this.props.dispatch(fetchEvents(this.state.filterText));
+            this.props.dispatch(fetchEvents(this.state.filterText, this.state.startDate, this.state.endDate));
             return;
         }
 
