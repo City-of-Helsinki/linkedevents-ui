@@ -18,7 +18,7 @@ export function clearUserData() {
 
 export function retrieveUserFromSession() {
   return (dispatch) => {
-    return fetch('/me?' + (+new Date()), {method: 'GET', credentials: 'same-origin'}).then((response) => {
+    return fetch('/auth/me?' + (+new Date()), {method: 'GET', credentials: 'same-origin'}).then((response) => {
       return response.json();
     }).then((data) => {
       return dispatch(receiveUserData(data));
@@ -33,7 +33,7 @@ export function login() {
         return resolve(true);
       }
       const loginPopup = window.open(
-        '/login/mock',
+        '/auth/login/mock',
         'kkLoginWindow',
         'location,scrollbars=on,width=720,height=600'
       );
@@ -52,7 +52,7 @@ export function login() {
 
 export function logout() {
   return (dispatch) => {
-      fetch('/logout', {method: 'POST', credentials: 'same-origin'}) // Fire-and-forget
+      fetch('/auth/logout', {method: 'POST', credentials: 'same-origin'}) // Fire-and-forget
       dispatch(clearUserData())
-  }
+  };
 }

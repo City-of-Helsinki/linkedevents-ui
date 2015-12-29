@@ -5,12 +5,13 @@ import config from 'config';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import jade from 'jade';
 
-const indexTemplate = jade.compileFile(path.join(common.paths.SRC, 'index.jade'), {pretty: true});
+const indexTemplate = jade.compileFile(path.join(common.paths.SRC, 'index.jade'), { pretty: true })
+
 const indexHtml = indexTemplate({
     configJson: JSON.stringify(config)
-});
+})
 
-module.exports = {
+export default {
     context: path.join(common.paths.ROOT, '/src'),
     entry: [
         'webpack-hot-middleware/client',
@@ -20,6 +21,7 @@ module.exports = {
         path: common.paths.ROOT + '/dist',
         filename: '[name].js'
     },
+
     debug: true,
     devtool: 'cheap-module-eval-source-map',
     resolve: {
@@ -28,8 +30,6 @@ module.exports = {
     module: {
         loaders: [
             {test: /\.js?$/, exclude: /node_modules/, loader: 'babel' },
-            {test: /\.coffee$/, loader: 'coffee-loader'},
-            {test: /\.cjsx$/, loaders: ['coffee', 'cjsx']},
             {test: /\.scss$/, loaders: ["style", "css", "sass"]},
             {test: /\.css$/, loader: 'style!css'},
             {test: /\.json$/, loader: 'json'},
