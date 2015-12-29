@@ -1,65 +1,55 @@
 import React from 'react'
+import { Link } from 'react-router'
 import { connect } from 'react-redux'
-
 import moment from 'moment'
 
 import SearchBar from 'src/components/SearchBar'
-
 import { fetchEvents } from 'src/actions/events.js'
 
-import { Link } from 'react-router';
-
 let dateFormat = function(timeStr) {
-    if (!timeStr) {
-        return '';
-    }
-    return moment(timeStr).format('YYYY-MM-DD');
-};
+    return timeStr ? moment(timeStr).format('YYYY-MM-DD') : ''
+}
 
-let EventRow = React.createClass({
-    render() {
-        let e = this.props.event;
-        let name = (
-            e.name.fi || e.name.en || e.name.sv ||
-            e.headline.fi || e.headline.en || e.headline.sv
-        );
+let EventRow = (props) => {
+    let e = props.event
 
-        let url = "/event/update/" + encodeURIComponent(e['@id']);
+    let name = (
+        e.name.fi || e.name.en || e.name.sv ||
+        e.headline.fi || e.headline.en || e.headline.sv
+    )
 
-        return (
-            <tr key={e['@id']}>
-                <td><Link to={url}>{name}</Link></td>
-                <td>{dateFormat(e.start_time)}</td>
-                <td>{dateFormat(e.end_time)}</td>
-                <td>{e.publisher}</td>
-            </tr>
-        )
-    }
-});
+    let url = "/event/update/" + encodeURIComponent(e['@id'])
 
-var EventTable = React.createClass({
-    render() {
-        var rows = [];
-        this.props.events.forEach((function(event) {
-            return rows.push(<EventRow event={event} key={event.id} />);
-        }
-        ).bind(this));
+    return (
+        <tr key={e['@id']}>
+            <td><Link to={url}>{name}</Link></td>
+            <td>{dateFormat(e.start_time)}</td>
+            <td>{dateFormat(e.end_time)}</td>
+            <td>{e.publisher}</td>
+        </tr>
+    )
+}
 
-        return (
-            <table className="table-striped" width="100%">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Start date</th>
-                        <th>End date</th>
-                        <th>Publisher</th>
-                    </tr>
-                </thead>
-                <tbody>{rows}</tbody>
-            </table>
-        )
-    }
-});
+let EventTable = (props) => {
+
+    let rows = props.events.map(function(event) {
+        return (<EventRow event={event} key={event.id} />)
+    });
+
+    return (
+        <table className="table-striped" width="100%">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Start date</th>
+                    <th>End date</th>
+                    <th>Publisher</th>
+                </tr>
+            </thead>
+            <tbody>{rows}</tbody>
+        </table>
+    )
+}
 
 class FilterableEventTable extends React.Component {
 
@@ -76,7 +66,7 @@ class FilterableEventTable extends React.Component {
     handleUserInput(filterText) {
         return this.setState({
             filterText: filterText
-        });
+        })
     }
 
     handleDateRangePickerEvent(event, picker) {
@@ -84,18 +74,18 @@ class FilterableEventTable extends React.Component {
             this.setState({
                 startDate: picker.startDate,
                 endDate: picker.endDate
-            });
-            return this.updateTable();
+            })
+            return this.updateTable()
         }
     }
 
     updateTable() {
         if (!this.state.filterText) {
-            return;
+            return
         }
         else {
-            this.props.dispatch(fetchEvents(this.state.filterText, this.state.startDate, this.state.endDate));
-            return;
+            this.props.dispatch(fetchEvents(this.state.filterText, this.state.startDate, this.state.endDate))
+            return
         }
     }
 
@@ -110,7 +100,7 @@ class FilterableEventTable extends React.Component {
                         filterText={this.state.filterText}
                     />
                 </div>
-            );
+            )
         }
 
         let err = '';
@@ -122,7 +112,7 @@ class FilterableEventTable extends React.Component {
                 <span style={errorStyle}>
                     Error connecting to server.
                 </span>
-            );
+            )
         }
 
         let paddingStyle = {
@@ -142,8 +132,8 @@ class FilterableEventTable extends React.Component {
                 {err}
                 {results}
             </div>
-        );
+        )
     }
 }
 
-export default connect()(FilterableEventTable);
+export default connect()(FilterableEventTable)
