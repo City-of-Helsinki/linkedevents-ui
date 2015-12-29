@@ -40,7 +40,7 @@ ReactDOM.render(
         <Router history={history}>
             <Route path="/" component={App}>
                 <IndexRoute component={Search}/>
-                <Route path="/event/create/new" component={Editor}/>
+                <Route path="/event/:action/:eventId" component={Editor}/>
             </Route>
         </Router>
     </Provider>,

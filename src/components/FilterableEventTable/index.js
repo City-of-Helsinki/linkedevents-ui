@@ -7,6 +7,7 @@ import SearchBar from 'src/components/SearchBar'
 
 import { fetchEvents } from 'src/actions/events.js'
 
+import { Link } from 'react-router';
 
 let dateFormat = function(timeStr) {
     if (!timeStr) {
@@ -23,11 +24,11 @@ let EventRow = React.createClass({
             e.headline.fi || e.headline.en || e.headline.sv
         );
 
-        let url = "/#/event/update/" + encodeURIComponent(e['@id']);
+        let url = "/event/update/" + encodeURIComponent(e['@id']);
 
         return (
             <tr key={e['@id']}>
-                <td><a href={url}>{name}</a></td>
+                <td><Link to={url}>{name}</Link></td>
                 <td>{dateFormat(e.start_time)}</td>
                 <td>{dateFormat(e.end_time)}</td>
                 <td>{e.publisher}</td>
