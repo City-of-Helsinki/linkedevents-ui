@@ -1,4 +1,17 @@
 @import "fonts";
+@import "node_modules/bootstrap/scss/bootstrap-reboot.scss";
+@import "node_modules/bootstrap/scss/bootstrap-grid.scss";
+
+html, body {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+
+    background-color: #f7f7f7;
+
+    //font-family: "KarbidComp", Roboto, "Segoe UI";
+    font: normal normal normal 18px/1.2 "KarbidComp", Roboto, "Segoe UI", Calibri, sans-serif;
+}
 
 .material-icons {
     position: relative;
@@ -7,6 +20,21 @@
     padding-right: 10px;
 }
 
-#content {
+.content {
 
+}
+
+h1,h2,h3 {
+    color: #757575;
+}
+
+h1,h2 {
+    margin-top: 110px;
+    margin-bottom: 40px;
+    
+    font-weight: 300;
+}
+
+h1,h2 {
+    font-size: 31px;
 }

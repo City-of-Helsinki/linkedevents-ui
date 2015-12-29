@@ -1,4 +1,3 @@
-require('bootstrap/dist/css/bootstrap.css');
 require('!style!css!sass!src/assets/main.scss');
 
 import React from 'react';
@@ -41,7 +40,7 @@ class App extends React.Component {
             <IntlProvider locale={locale} messages={translations[locale] || {}}>
                 <div>
                     <Headerbar />
-                    <div className="container">
+                    <div className="content">
                         {this.props.children}
                     </div>
                 </div>

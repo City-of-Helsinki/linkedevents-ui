@@ -56,36 +56,7 @@ class FilterableEventTable extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            filterText: '',
-            startDate: moment().startOf('month'),
-            endDate: moment().endOf('month'),
             apiErrorMsg: ''
-        }
-    }
-
-    handleUserInput(filterText) {
-        return this.setState({
-            filterText: filterText
-        })
-    }
-
-    handleDateRangePickerEvent(event, picker) {
-        if (event.type === 'apply') {
-            this.setState({
-                startDate: picker.startDate,
-                endDate: picker.endDate
-            })
-            return this.updateTable()
-        }
-    }
-
-    updateTable() {
-        if (!this.state.filterText) {
-            return
-        }
-        else {
-            this.props.dispatch(fetchEvents(this.state.filterText, this.state.startDate, this.state.endDate))
-            return
         }
     }
 
@@ -95,7 +66,7 @@ class FilterableEventTable extends React.Component {
             results = (
                 <div>
                     <hr />
-                    <EventTable events={this.props.events} filterText={this.state.filterText} />
+                    <EventTable events={this.props.events} filterText={''} />
                 </div>
             )
         }
@@ -104,6 +75,7 @@ class FilterableEventTable extends React.Component {
         let errorStyle = {
             color: 'red !important'
         }
+
         if (this.props.apiErrorMsg.length > 0) {
             err = (
                 <span style={errorStyle}>
@@ -114,14 +86,6 @@ class FilterableEventTable extends React.Component {
 
         return (
             <div style={{ padding: '0em 2em 0.5em 0em'}} >
-                <SearchBar
-                    filterText={this.state.filterText}
-                    startDate={this.state.startDate}
-                    endDate={this.state.endDate}
-                    onUserInput={ (text) => this.handleUserInput(text) }
-                    onDateRangePickerEvent={ this.handleDateRangePickerEvent }
-                    onFormSubmit={ () => this.updateTable() }
-                />
                 {err}
                 {results}
             </div>

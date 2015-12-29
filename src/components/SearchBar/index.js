@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 import React from 'react'
 import { connect } from 'react-redux'
 
@@ -5,24 +7,41 @@ class SearchBar extends React.Component {
 
     constructor(props) {
         super(props)
+
+        this.state = {
+            searchQuery: '',
+            startDate: moment().startOf('month'),
+            endDate: moment()
+        }
     }
 
     handleChange(event) {
-        return this.props.onUserInput(event.target.value)
+        this.setState({
+            searchQuery: event.target.value
+        })
+    }
+
+    handleDateRangePickerEvent(event, picker) {
+        if (event.type === 'apply') {
+            this.setState({
+                startDate: picker.startDate,
+                endDate: picker.endDate
+            })
+        }
     }
 
     handleSubmit(event) {
         event.preventDefault()
-        return this.props.onFormSubmit()
+        return this.props.onFormSubmit(this.state.searchQuery, this.state.startDate, this.state.endDate)
     }
 
     componentDidMount() {
-        return this.refs.filterTextInput.focus()
+        return this.refs.searchQueryInput.focus()
     }
 
     formatLabel() {
-        var start = this.props.startDate.format('YYYY-MM-DD')
-        var end = this.props.endDate.format('YYYY-MM-DD')
+        var start = this.state.startDate.format('YYYY-MM-DD')
+        var end = this.state.endDate.format('YYYY-MM-DD')
         if (start === end) {
             return start
         } else {
@@ -66,7 +85,7 @@ class SearchBar extends React.Component {
                 <input
                     type="text"
                     placeholder="Search..."
-                    ref="filterTextInput"
+                    ref="searchQueryInput"
                     onChange={ (e) => this.handleChange(e) }
                     className="form-control"
                 />
