@@ -8,25 +8,25 @@ class SearchBar extends React.Component {
     }
 
     handleChange(event) {
-        return this.props.onUserInput(event.target.value);
+        return this.props.onUserInput(event.target.value)
     }
 
     handleSubmit(event) {
-        event.preventDefault();
-        return this.props.onFormSubmit();
+        event.preventDefault()
+        return this.props.onFormSubmit()
     }
 
     componentDidMount() {
-        return this.refs.filterTextInput.focus();
+        return this.refs.filterTextInput.focus()
     }
 
     formatLabel() {
-        var start = this.props.startDate.format('YYYY-MM-DD');
-        var end = this.props.endDate.format('YYYY-MM-DD');
+        var start = this.props.startDate.format('YYYY-MM-DD')
+        var end = this.props.endDate.format('YYYY-MM-DD')
         if (start === end) {
-            return start;
+            return start
         } else {
-            return start + ' - ' + end;
+            return start + ' - ' + end
         }
     }
 
@@ -56,7 +56,7 @@ class SearchBar extends React.Component {
               moment().subtract(1, 'month').startOf('month'),
               moment().subtract(1, 'month').endOf('month')
             ]
-        };
+        }
     }
 
     render() {
@@ -82,4 +82,4 @@ class SearchBar extends React.Component {
     }
 }
 
-export default connect()(SearchBar);
+export default connect()(SearchBar)

@@ -34,7 +34,7 @@ let EventTable = (props) => {
 
     let rows = props.events.map(function(event) {
         return (<EventRow event={event} key={event.id} />)
-    });
+    })
 
     return (
         <table className="table-striped" width="100%">
@@ -54,7 +54,7 @@ let EventTable = (props) => {
 class FilterableEventTable extends React.Component {
 
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             filterText: '',
             startDate: moment().startOf('month'),
@@ -90,20 +90,17 @@ class FilterableEventTable extends React.Component {
     }
 
     render() {
-        let results = null;
+        let results = null
         if (this.props.events.length > 0) {
             results = (
                 <div>
                     <hr />
-                    <EventTable
-                        events={this.props.events}
-                        filterText={this.state.filterText}
-                    />
+                    <EventTable events={this.props.events} filterText={this.state.filterText} />
                 </div>
             )
         }
 
-        let err = '';
+        let err = ''
         let errorStyle = {
             color: 'red !important'
         }
@@ -115,12 +112,8 @@ class FilterableEventTable extends React.Component {
             )
         }
 
-        let paddingStyle = {
-            padding: '0em 2em 0.5em 0em'
-        }
-
         return (
-            <div style={paddingStyle} >
+            <div style={{ padding: '0em 2em 0.5em 0em'}} >
                 <SearchBar
                     filterText={this.state.filterText}
                     startDate={this.state.startDate}

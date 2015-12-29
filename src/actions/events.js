@@ -5,10 +5,10 @@ function makeRequest(query, startDate, endDate) {
     var url = `${appSettings.api_base}/event/?text=${query}`
 
     if (startDate) {
-        url += `&start=${startDate.format('YYYY-MM-DD')}`;
+        url += `&start=${startDate.format('YYYY-MM-DD')}`
     }
     if (endDate) {
-        url += `&end=${endDate.format('YYYY-MM-DD')}`;
+        url += `&end=${endDate.format('YYYY-MM-DD')}`
     }
 
     return fetch(url).then(function(response) {
@@ -17,8 +17,8 @@ function makeRequest(query, startDate, endDate) {
                 apiErrorMsg: 'API error from server'
             }
         }
-        return response.json();
-    });
+        return response.json()
+    })
 }
 
 export function receiveEvents(json) {

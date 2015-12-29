@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from 'moment'
 
 class API {
     static loadHelMainOptions() {
@@ -28,7 +28,7 @@ class API {
             value: 'kaupunki-ja-hallinto',
             label: 'Kaupunki ja hallinto'
           }
-        ];
+        ]
     }
     static loadHelTargetOptions() {
         // console.log '@TODO: get the hel_target options dynamically?'
@@ -65,7 +65,7 @@ class API {
             value: 'lapset-ja-lapsiperheet',
             label: 'Lapset ja lapsiperheet'
           }
-        ];
+        ]
     }
     static loadHelEventLangOptions() {
         // console.log '@TODO: get the hel_event_lang options dynamically?'
@@ -98,37 +98,37 @@ class API {
             value: 'suomi',
             label: 'Suomi'
           }
-        ];
+        ]
     }
 
     static getStartTime(d) {
-        return this.formatDatetimeString(d.__start_time_date, d.__start_time_time);
+        return this.formatDatetimeString(d.__start_time_date, d.__start_time_time)
     }
 
     static getEndTime(d) {
-        return this.formatDatetimeString(d.__end_time_date, d.__end_time_time);
+        return this.formatDatetimeString(d.__end_time_date, d.__end_time_time)
     }
 
     static formatDatetimeString(dateString, timeString) {
         if (!dateString) {
-            return null;
+            return null
         }
         if (!timeString) {
-            timeString = '00:00';
+            timeString = '00:00'
         }
-        var obj = moment(dateString + ' ' + timeString, 'YYYY-MM-DD HH:mm');
-        return obj.format();
+        var obj = moment(dateString + ' ' + timeString, 'YYYY-MM-DD HH:mm')
+        return obj.format()
     }
 
     static formatDate(datetimeString) {
-        var obj = moment(datetimeString);
-        return obj.format('YYYY-MM-DD');
+        var obj = moment(datetimeString)
+        return obj.format('YYYY-MM-DD')
     }
 
     static formatTime(datetimeString) {
-        var obj = moment(datetimeString);
-        return obj.format('HH:mm');
+        var obj = moment(datetimeString)
+        return obj.format('HH:mm')
     }
 }
 
-export default API;
+export default API
