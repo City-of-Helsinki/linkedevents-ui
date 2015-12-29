@@ -1,0 +1,12 @@
+{
+  "login": "Login",
+  "logout": "Logout",
+  "create-event": "Create event",
+  "search-events": "Search events",
+  "lang-fi": "Finnish",
+  "lang-en": "English",
+  "lang-sv": "Swedish",
+  "welcome": "Tervetuloa",
+  "submit": "Submit",
+  "cancel": "Cancel"
+}

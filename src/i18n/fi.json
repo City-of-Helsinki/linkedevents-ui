@@ -1,0 +1,12 @@
+{
+  "login": "Kirjaudu sisään",
+  "logout": "Kirjaudu ulos",
+  "create-event": "Luo uusi tapahtuma",
+  "search-events": "Etsi tapahtumia",
+  "lang-fi": "Suomi",
+  "lang-en": "Englanti",
+  "lang-sv": "Ruotsi",
+  "welcome": "Tervetuloa",
+  "submit": "Lähetä",
+  "cancel": "Peru"
+}
