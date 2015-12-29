@@ -2,6 +2,16 @@
 @import "node_modules/bootstrap/scss/bootstrap-reboot.scss";
 @import "node_modules/bootstrap/scss/bootstrap-grid.scss";
 
+// Mui sass styles
+@import "node_modules/material-ui-with-sass/src/sass/scaffolding";
+
+// Define a custom sass file to override any variables defined in scaffolding.scss
+// @import "my-custom-overrides.scss";
+
+@import "./helsinki-mui";
+
+@import "node_modules/material-ui-with-sass/src/sass/components";
+
 html, body {
     width: 100%;
     padding: 0;
@@ -31,10 +41,45 @@ h1,h2,h3 {
 h1,h2 {
     margin-top: 110px;
     margin-bottom: 40px;
-    
+
     font-weight: 300;
 }
 
 h1,h2 {
     font-size: 31px;
+}
+
+.mui-text-field {
+    width: 50% !important;
+    font-weight: 300;
+    background: #ffffff;
+
+    border-bottom-width: 100px !important;
+    border-color: rgba(0,0,255,1) !important;
+
+    margin-left: 18px;
+    padding-left: 20px;
+
+    .mui-text-field-floating-label {
+        top: 20px !important;
+    }
+
+    .mui-text-field-input {
+        width: 100% !important;
+        padding-top: 20px !important;
+        font-size: 20px;
+    }
+
+    hr {
+        display: none;
+        visibility: hidden;
+    }
+
+    &.mui-is-focused {
+        border-color: rgba(0,0,255,1) !important;
+    }
+
+    .mui-text-field-floating-label {
+        color: #757575;
+    }
 }

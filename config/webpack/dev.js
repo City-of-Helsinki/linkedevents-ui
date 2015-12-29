@@ -25,11 +25,13 @@ export default {
     debug: true,
     devtool: 'cheap-module-eval-source-map',
     resolve: {
-        root: common.paths.ROOT
+        root: common.paths.ROOT,
+        extensions: ['.', '', '.webpack.js', '.web.js', '.jsx', '.js']
     },
     module: {
         loaders: [
             {test: /\.js?$/, exclude: /node_modules/, loader: 'babel' },
+            {test: /\.jsx?$/, include: /material-ui-with-sass/, loader: 'babel' },
             {test: /\.scss$/, loaders: ["style", "css", "sass"]},
             {test: /\.css$/, loader: 'style!css'},
             {test: /\.json$/, loader: 'json'},

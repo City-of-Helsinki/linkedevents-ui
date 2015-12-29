@@ -1,8 +1,8 @@
-import ThemeManager from 'material-ui/lib/styles/theme-manager';
+import ThemeManager from 'material-ui/lib/styles/theme-manager'
 
-let Colors = require('material-ui/lib/styles/colors');
-let ColorManipulator = require('material-ui/lib/utils/color-manipulator');
-let Spacing = require('material-ui/lib/styles/spacing');
+let Colors = require('material-ui/lib/styles/colors')
+let ColorManipulator = require('material-ui/lib/utils/color-manipulator')
+let Spacing = require('material-ui/lib/styles/spacing')
 
 let helRawStyle = {
     spacing: Spacing,
@@ -20,7 +20,7 @@ let helRawStyle = {
         borderColor: Colors.grey300,
         disabledColor: ColorManipulator.fade(Colors.darkBlack, 0.3),
     },
-};
+}
 
 let helHeaderRawStyle = {
     spacing: Spacing,
@@ -38,23 +38,33 @@ let helHeaderRawStyle = {
         borderColor: Colors.grey300,
         disabledColor: ColorManipulator.fade(Colors.darkBlack, 0.3),
     },
-};
+}
 
-let helTheme = ThemeManager.getMuiTheme(helRawStyle);
-let headerTheme = ThemeManager.getMuiTheme(helHeaderRawStyle);
+let helTheme = ThemeManager.getMuiTheme(helRawStyle)
+let headerTheme = ThemeManager.getMuiTheme(helHeaderRawStyle)
+
+helTheme.textField.textColor = helRawStyle.palette.textColor
+helTheme.textField.hintColor = helRawStyle.palette.disabledColor
+helTheme.textField.floatingLabelColor = helRawStyle.palette.textColor
+helTheme.textField.disabledTextColor = helRawStyle.palette.disabledColor
+helTheme.textField.errorColor = Colors.red500
+helTheme.textField.focusColor = helRawStyle.palette.primary1Color
+helTheme.textField.backgroundColor = '#ffffff'
+helTheme.textField.borderColor = 'rgba(0,0,0,0)'
+
 
 // Override specific component styles
-headerTheme.toolbar.backgroundColor = '#0072c6';
-headerTheme.toolbar.height = 56;
-headerTheme.toolbar.titleFontSize = 20;
-headerTheme.toolbar.iconColor = '#ffffff';
-headerTheme.toolbar.separatorColor = '#ffffff';
-headerTheme.toolbar.menuHoverColor = '#ffffff';
-headerTheme.flatButton.textColor = '#ffffff';
-headerTheme.flatButton.textTransform = 'none';
-headerTheme.flatButton.fontWeight = 200;
+headerTheme.toolbar.backgroundColor = '#0072c6'
+headerTheme.toolbar.height = 56
+headerTheme.toolbar.titleFontSize = 20
+headerTheme.toolbar.iconColor = '#ffffff'
+headerTheme.toolbar.separatorColor = '#ffffff'
+headerTheme.toolbar.menuHoverColor = '#ffffff'
+headerTheme.flatButton.textColor = '#ffffff'
+headerTheme.flatButton.textTransform = 'none'
+headerTheme.flatButton.fontWeight = 200
 
 export {
     helTheme as HelTheme,
     headerTheme as HeaderTheme
-};
+}

@@ -1,3 +1,5 @@
+require('!style!css!sass!./index.scss')
+
 import React from 'react'
 
 import {connect} from 'react-redux'
@@ -6,32 +8,15 @@ import {login, logout} from 'src/actions/user.js'
 
 import {FormattedMessage} from 'react-intl'
 
-// Material-ui components
-import Toolbar from 'material-ui/lib/toolbar/toolbar'
-import ToolbarGroup from 'material-ui/lib/toolbar/toolbar-group'
-import ToolbarSeparator from 'material-ui/lib/toolbar/toolbar-separator'
-import ToolbarTitle from 'material-ui/lib/toolbar/toolbar-title'
-import FlatButton from 'material-ui/lib/flat-button'
-import FontIcon from 'material-ui/lib/font-icon'
+// Material-ui-with-sass components
+import Toolbar from 'node_modules/material-ui-with-sass/src/js/toolbar.jsx'
+import ToolbarGroup from 'node_modules/material-ui-with-sass/src/js/toolbar-group.jsx'
+import FlatButton from 'node_modules/material-ui-with-sass/src/js/flat-button.jsx'
+import FontIcon from 'node_modules/material-ui-with-sass/src/js/font-icon.jsx'
+
 import Link from 'react-router'
 
-import { HeaderTheme } from 'src/themes/hel'
-
 class HeaderBar extends React.Component {
-
-    static contextTypes = {
-        muiTheme: React.PropTypes.object
-    }
-
-    static childContextTypes = {
-        muiTheme: React.PropTypes.object
-    }
-
-    getChildContext () {
-        return {
-            muiTheme: HeaderTheme
-        }
-    }
 
     render() {
         // NOTE: mockup for login button functionality
@@ -43,7 +28,7 @@ class HeaderBar extends React.Component {
         return (
             <Toolbar>
                 <ToolbarGroup key={0} float="left">
-                    <ToolbarTitle text="Linked Events" />
+                    <div className="title-text">Linked Events</div>
                 </ToolbarGroup>
                 <ToolbarGroup key={1} float="left">
                     <FlatButton linkButton={true} label={<FormattedMessage id="search-events"/>} onClick={() => this.props.dispatch(pushPath('/'))} style={{ fontWeight: 300 }} />

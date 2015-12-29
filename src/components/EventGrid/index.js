@@ -3,9 +3,9 @@ import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import moment from 'moment'
 
-import defaultThumbnail from 'src/assets/event_default_thumbnail.jpg'
+import defaultThumbnail from 'src/assets/images/helsinki-coat-of-arms-white.png'
 
-require('!style!css!sass!./index.scss');
+require('!style!css!sass!./index.scss')
 
 let dateFormat = function(timeStr) {
     return timeStr ? moment(timeStr).format('YYYY-MM-DD') : ''

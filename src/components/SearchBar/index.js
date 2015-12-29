@@ -1,7 +1,12 @@
+require('!style!css!sass!./index.scss');
+
 import moment from 'moment'
 
 import React from 'react'
 import { connect } from 'react-redux'
+
+import RaisedButton from 'node_modules/material-ui-with-sass/src/js/raised-button.jsx'
+import TextField from 'node_modules/material-ui-with-sass/src/js/text-field.jsx'
 
 class SearchBar extends React.Component {
 
@@ -81,19 +86,20 @@ class SearchBar extends React.Component {
     render() {
         var label = this.formatLabel() + ' ';
         return (
-            <form onSubmit={ (e) => this.handleSubmit(e) } className="MyForm">
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    ref="searchQueryInput"
-                    onChange={ (e) => this.handleChange(e) }
-                    className="form-control"
+            <form onSubmit={ (e) => this.handleSubmit(e) } className="row">
+                <TextField
+                  floatingLabelText="Tapahtuman nimi tai paikka"
+                  onChange={ (e) => this.handleChange(e) }
+                  ref="searchQueryInput"
+                  className="text-field col-xs-6"
+                  style={{width: 'auto'}}
                 />
-                <input
+
+                <RaisedButton
                     type="submit"
-                    value="Hae tapahtumia"
+                    label="Hae tapahtumia"
+                    primary={true}
                     onClick={ (e) => this.handleSubmit(e) }
-                    className="applyBtn btn btn-sm btn-primary"
                 />
                 <p/>
             </form>
