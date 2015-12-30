@@ -25,9 +25,9 @@ html, body {
 
 .material-icons {
     position: relative;
-    top: -1px;
+    top: -1.5px;
     vertical-align: middle;
-    padding-right: 10px;
+    padding-left: 10px;
 }
 
 .content {
@@ -50,14 +50,13 @@ h1,h2 {
 }
 
 .mui-text-field {
-    width: 50% !important;
+    width: 100% !important;
     font-weight: 300;
     background: #ffffff;
 
     border-bottom-width: 100px !important;
     border-color: rgba(0,0,255,1) !important;
 
-    margin-left: 18px;
     padding-left: 20px;
 
     .mui-text-field-floating-label {

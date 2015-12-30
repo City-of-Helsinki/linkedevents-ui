@@ -86,21 +86,29 @@ class SearchBar extends React.Component {
     render() {
         var label = this.formatLabel() + ' ';
         return (
-            <form onSubmit={ (e) => this.handleSubmit(e) } className="row">
-                <TextField
-                  floatingLabelText="Tapahtuman nimi tai paikka"
-                  onChange={ (e) => this.handleChange(e) }
-                  ref="searchQueryInput"
-                  className="text-field col-xs-6"
-                  style={{width: 'auto'}}
-                />
+            <form onSubmit={ (e) => this.handleSubmit(e) } className="row search-bar">
+                <div className="col-xs-6">
+                    <TextField
+                      floatingLabelText="Tapahtuman nimi tai paikka"
+                      onChange={ (e) => this.handleChange(e) }
+                      ref="searchQueryInput"
+                      className="text-field col-xs-6"
+                      style={{width: 'auto'}}
+                    />
+                </div>
 
-                <RaisedButton
-                    type="submit"
-                    label="Hae tapahtumia"
-                    primary={true}
-                    onClick={ (e) => this.handleSubmit(e) }
-                />
+                <div className="col-xs-3" style={{background: 'white'}}>
+                    <div className='time-input'>Time</div>
+                </div>
+
+                <div className="col-xs-3">
+                    <RaisedButton
+                        type="submit"
+                        label="Hae tapahtumia"
+                        primary={true}
+                        onClick={ (e) => this.handleSubmit(e) }
+                    />
+                </div>
                 <p/>
             </form>
         )

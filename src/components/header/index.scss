@@ -1,8 +1,35 @@
+$header-bar-height: 56px;
+
 .mui-toolbar {
     color: #ffffff;
 
-    .title-text {
-        line-height: 56px;
+    a {
+        color: inherit;
+
+        &:hover,
+        &:active,
+        &:focus {
+            color: inherit;
+        }
+    }
+
+    .title {
+        display: inline-block;
+        height: $header-bar-height;
+
+        padding-left: 30px;
+
+        .title-text {
+            display: inline-block;
+            line-height: $header-bar-height;
+            padding-left: 16px;
+        }
+
+        .title-image {
+            display: inline-block;
+            height: 48px;
+            width: auto;
+        }
     }
 
     .mui-flat-button {
@@ -11,6 +38,16 @@
 
         &:hover {
             background-color: rgba(255,255,255,0.1);
+        }
+    }
+
+    .toolbar-actions {
+        display: inline-block;
+        margin: 0px 24px;
+
+        .mui-flat-button {
+            margin-left: 8px !important;
+            margin-right: 8px !important;
         }
     }
 }

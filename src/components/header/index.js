@@ -14,7 +14,9 @@ import ToolbarGroup from 'node_modules/material-ui-with-sass/src/js/toolbar-grou
 import FlatButton from 'node_modules/material-ui-with-sass/src/js/flat-button.jsx'
 import FontIcon from 'node_modules/material-ui-with-sass/src/js/font-icon.jsx'
 
-import Link from 'react-router'
+import { IndexLink } from 'react-router'
+
+import cityOfHelsinkiLogo from 'src/assets/images/helsinki-coat-of-arms-white.png'
 
 class HeaderBar extends React.Component {
 
@@ -28,16 +30,19 @@ class HeaderBar extends React.Component {
         return (
             <Toolbar>
                 <ToolbarGroup key={0} float="left">
-                    <div className="title-text">Linked Events</div>
+                    <IndexLink to="/" className="title">
+                        <img className="title-image" src={cityOfHelsinkiLogo} alt="City Of Helsinki" />
+                        <div className="title-text">Linked Events</div>
+                    </IndexLink>
                 </ToolbarGroup>
                 <ToolbarGroup key={1} float="left">
-                    <FlatButton linkButton={true} label={<FormattedMessage id="search-events"/>} onClick={() => this.props.dispatch(pushPath('/'))} style={{ fontWeight: 300 }} />
+                    <div className="toolbar-actions">
+                        <FlatButton linkButton={true} label={<span><FormattedMessage id="search-events"/><i className="material-icons">&#xE8B6;</i></span>} onClick={() => this.props.dispatch(pushPath('/'))} />
+                        <FlatButton linkButton={true} label={<span><FormattedMessage id="create-event"/><i className="material-icons">&#xE145;</i></span>} onClick={() => this.props.dispatch(pushPath('/event/create/new'))} />
+                    </div>
                 </ToolbarGroup>
                 <ToolbarGroup key={2} float="right">
                     {loginButton}
-                    <FlatButton linkButton={true} label={<FormattedMessage id="create-event"/>} onClick={() => this.props.dispatch(pushPath('/event/create/new'))} style={{ fontWeight: 300, minWidth: '30px' }}>
-                        <FontIcon className="material-icons">add</FontIcon>
-                    </FlatButton>
                 </ToolbarGroup>
             </Toolbar>
         )
