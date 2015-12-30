@@ -34,13 +34,17 @@ html, body {
 
 }
 
-h1,h2,h3 {
+h1 {
+    color: #000000;
+}
+
+h2,h3,legend {
     color: #757575;
 }
 
 h1,h2 {
-    margin-top: 110px;
-    margin-bottom: 40px;
+    padding-top: 110px;
+    padding-bottom: 40px;
 
     font-weight: 300;
 }
@@ -49,36 +53,16 @@ h1,h2 {
     font-size: 31px;
 }
 
-.mui-text-field {
+.mui-text-field,
+.mui-text-field-input,
+.mui-text-field-input {
     width: 100% !important;
-    font-weight: 300;
-    background: #ffffff;
+}
 
-    border-bottom-width: 100px !important;
-    border-color: rgba(0,0,255,1) !important;
+.pull-left {
+    float: left;
+}
 
-    padding-left: 20px;
-
-    .mui-text-field-floating-label {
-        top: 20px !important;
-    }
-
-    .mui-text-field-input {
-        width: 100% !important;
-        padding-top: 20px !important;
-        font-size: 20px;
-    }
-
-    hr {
-        display: none;
-        visibility: hidden;
-    }
-
-    &.mui-is-focused {
-        border-color: rgba(0,0,255,1) !important;
-    }
-
-    .mui-text-field-floating-label {
-        color: #757575;
-    }
+.pull-right {
+    float: right;
 }

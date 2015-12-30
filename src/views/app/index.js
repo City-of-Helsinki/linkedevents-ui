@@ -10,10 +10,10 @@ import translations from 'src/i18n';
 import Headerbar from 'src/components/Header';
 
 class App extends React.Component {
-    
+
     render() {
         //const locale = this.props.language;
-        let locale = 'en';
+        let locale = 'fi';
         return (
             <IntlProvider locale={locale} messages={translations[locale] || {}}>
                 <div>

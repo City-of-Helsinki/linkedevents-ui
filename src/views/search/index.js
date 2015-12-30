@@ -1,12 +1,13 @@
 import React from 'react'
-
 import { connect } from 'react-redux'
+import {FormattedMessage} from 'react-intl'
 
 import FilterableEventTable from 'src/components/FilterableEventTable'
 import EventGrid from 'src/components/EventGrid'
 import SearchBar from 'src/components/SearchBar'
 
 import { fetchEvents } from 'src/actions/events'
+
 
 class SearchPage extends React.Component {
     constructor(props) {
@@ -27,13 +28,9 @@ class SearchPage extends React.Component {
     render() {
         return (
             <div className="container">
-
-                <h2>Search for an event</h2>
+                <h2><FormattedMessage id="search-events"/></h2>
                 <SearchBar onFormSubmit={ (query, start, end) => this.searchEvents(query, start, end) }/>
-
-                <h2>Recently added events</h2>
                 <EventGrid events={this.props.events} apiErrorMsg={''} />
-
             </div>
         )
     }
