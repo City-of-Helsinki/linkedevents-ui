@@ -29,5 +29,24 @@
     "event-starting-date": "Starting date",
     "event-starting-time": "Starting time",
     "event-ending-date": "Ending date",
-    "event-ending-time": "Ending time"
+    "event-ending-time": "Ending time",
+
+    "event-location-fields-header": "Location",
+    "event-location": "Location",
+    "event-location-id": "Location ID",
+    "event-location-additional-info": "Additional information",
+
+    "event-price-fields-header": "Event price",
+    "is-free": "No price",
+    "event-price": "Event price",
+    "event-price-info": "Price information",
+    "event-purchase-link": "Ticket purchase link",
+
+    "event-social-media-fields-header": "Event in social media",
+    "facebook-url": "Facebook (url)",
+    "twitter-url": "Twitter (url)",
+    "instagram-url": "Instagram (url)",
+
+    "event-categorization": "Categorization",
+    "hel-fi-main-categories": "Hel.fi main categories"
 }

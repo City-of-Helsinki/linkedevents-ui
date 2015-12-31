@@ -26,16 +26,13 @@
         }
 
         .mui-checkbox {
+            display: inline-block;
+            width: auto !important;
             padding-top: 6px;
             label {
                 font-size: 20px;
             }
         }
-    }
-
-    .mui-checkbox {
-        width: auto !important;
-        display: inline-block;
     }
 
     .mui-text-field-floating-label, label {
@@ -53,6 +50,16 @@
     }
 
     .side-field {
+        padding-top: 36px;
+
+        p {
+            font-size: 18px;
+            font-weight: 300;
+            color: #373a3c;
+        }
+    }
+
+    .mui-checkbox {
         padding-top: 36px;
     }
 }
