@@ -23,10 +23,30 @@
     "event-home-page": "Kotisivu",
 
     "event-picture": "Tapahtuman kuva",
+    "upload-picture": "Lisää tapahtumalle kuva",
 
     "event-datetime-fields-header": "Tapahtuman ajankohta",
     "event-starting-date": "Alkamispäivämäärä",
     "event-starting-time": "Alkamisaika",
     "event-ending-date": "Päättymispäivämäärä",
-    "event-ending-time": "Päättymisaika"
+    "event-ending-time": "Päättymisaika",
+
+    "event-location-fields-header": "Tapahtumapaikka",
+    "event-location": "Paikka",
+    "event-location-id": "Paikan ID",
+    "event-location-additional-info": "Paikan lisätiedot",
+
+    "event-price-fields-header": "Hintatiedot",
+    "is-free": "Maksuton",
+    "event-price": "Hinta",
+    "event-price-info": "Hintatietojen kuvaus",
+    "event-purchase-link": "Linkki lipunmyyntiin",
+
+    "event-social-media-fields-header": "Tapahtuma sosiaalisessa mediassa",
+    "facebook-url": "Facebook (url)",
+    "twitter-url": "Twitter (url)",
+    "instagram-url": "Instagram (url)",
+
+    "event-categorization": "Tapahtuman luokittelu",
+    "hel-fi-main-categories": "Hel.fi pääkategoriat"
 }

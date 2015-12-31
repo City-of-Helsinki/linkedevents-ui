@@ -35,8 +35,12 @@ MockStrategy.prototype.authenticate = function mockAuthenticate() {
 
 export function getPassport(settings) {
     const getTokenFromAPI = false;  // TODO: Do this if necessary
-    const jwtOptions = {key: settings.jwtKey, audience: 'kerrokantasi'}
+    const jwtOptions = {key: settings.jwtKey, audience: 'linkedevents-ui'}
     const passport = new Passport()
+
+    console.log('authid', settings.helsinkiAuthId);
+    console.log('secret', settings.helsinkiAuthSecret);
+    console.log('targetapp', settings.helsinkiTargetApp);
 
     const helsinkiStrategy = new HelsinkiStrategy({
         clientID: settings.helsinkiAuthId,
@@ -63,7 +67,7 @@ export function getPassport(settings) {
 
     passport.use(helsinkiStrategy)
 
-    if (settings.dev) {
+    if (settings.dev && settings.mockauth) {
         passport.use(new MockStrategy(jwtOptions))
     }
 
@@ -95,7 +99,7 @@ export function addAuth(server, passport, settings) {
     server.use(passport.initialize());
     server.use(passport.session());
     server.get('/auth/login/helsinki', passport.authenticate('helsinki'));
-    if (settings.dev) {
+    if (settings.dev && settings.mockauth) {
         server.get('/auth/login/mock', passport.authenticate('mock'), successfulLoginHandler);
     }
     server.get('/auth/login/helsinki/return', passport.authenticate('helsinki'), successfulLoginHandler);

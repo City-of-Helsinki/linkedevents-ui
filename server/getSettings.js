@@ -2,12 +2,12 @@ import {Provider} from 'nconf'
 import _ from 'lodash'
 
 const defaults = {
-    serverUrl: 'http://localhost:8086',
+    serverUrl: 'http://localhost:8080',
     apiBaseUrl: 'http://localhost:8000',
-    publicUrl: null,
-    helsinkiAuthId: 'this-is-mock' || null,
-    helsinkiAuthSecret: 'this-is-mock' || null,
-    helsinkiTargetApp: 'linkedevents-ui',
+    publicUrl: 'http://localhost:8080',
+    helsinkiAuthId: process.env.CLIENT_ID || 'this-is-mock',
+    helsinkiAuthSecret: process.env.CLIENT_SECRET || 'this-is-mock',
+    helsinkiTargetApp: process.env.TARGET_APP || 'linkedevents-ui',
     jwtAudience: 'linkedevents-ui',
     jwtKey: null,
     sessionSecret: null,

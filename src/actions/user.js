@@ -33,7 +33,7 @@ export function login() {
         return resolve(true);
       }
       const loginPopup = window.open(
-        '/auth/login/mock',
+        '/auth/login/helsinki',
         'kkLoginWindow',
         'location,scrollbars=on,width=720,height=600'
       );
