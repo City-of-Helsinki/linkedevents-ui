@@ -20,11 +20,8 @@ let HelTextField = (props) => {
         }
     }
 
-    return (
-    <div className={ props.half ? "col-xs-6" : "col-xs-12" } >
-        <TextField {...props} floatingLabelText={floatingLabelText} />
-    </div>
-)}
+    return (<TextField {...props} floatingLabelText={floatingLabelText} />)
+}
 
 let FormHeader = (props) => (
     <div className="row">
