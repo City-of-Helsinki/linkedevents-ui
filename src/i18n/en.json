@@ -22,6 +22,8 @@
     "event-description": "Description",
     "event-home-page": "Homepage",
 
+    "event-picture": "Event picture",
+
     "event-datetime-fields-header": "Event time",
     "event-starting-date": "Starting date",
     "event-starting-time": "Starting time",

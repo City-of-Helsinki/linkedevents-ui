@@ -19,8 +19,7 @@ html, body {
 
     background-color: #f7f7f7;
 
-    //font-family: "KarbidComp", Roboto, "Segoe UI";
-    font: normal normal normal 18px/1.2 "KarbidComp", Roboto, "Segoe UI", Calibri, sans-serif;
+    font: normal normal normal 18px/1.2 "Roboto", "Helvetica Neue", "Segoe UI", Calibri, sans-serif;
 }
 
 .material-icons {
@@ -34,11 +33,17 @@ html, body {
 
 }
 
+h1,h2,h3 {
+    font-family: "KarbidComp", "Roboto", "Helvetica Neue", "Segoe UI", Calibri, sans-serif;
+}
+
 h1 {
-    color: #000000;
+    color: #464646;
+    font-size: 51px;
 }
 
 h2,h3,legend {
+    font-size: 31px;
     color: #757575;
 }
 
@@ -47,10 +52,6 @@ h1,h2 {
     padding-bottom: 40px;
 
     font-weight: 300;
-}
-
-h1,h2 {
-    font-size: 31px;
 }
 
 .mui-text-field,
@@ -65,4 +66,13 @@ h1,h2 {
 
 .pull-right {
     float: right;
+}
+
+.spread-evenly {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-around;
 }

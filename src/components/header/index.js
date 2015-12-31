@@ -22,9 +22,9 @@ class HeaderBar extends React.Component {
 
     render() {
         // NOTE: mockup for login button functionality
-        let loginButton = <FlatButton linkButton={true} label={<FormattedMessage id="login"/>} onClick={() => this.props.dispatch(login())} style={{ fontWeight: 300, minWidth: '30px' }} />
+        let loginButton = <FlatButton linkButton={true} label={<FormattedMessage id="login"/>} onClick={() => this.props.dispatch(login())} />
         if(this.props.user) {
-            loginButton = <FlatButton linkButton={true} label={this.props.user.displayName} onClick={() => this.props.dispatch(logout())} style={{ fontWeight: 300, minWidth: '30px' }} />
+            loginButton = <FlatButton linkButton={true} label={this.props.user.displayName} onClick={() => this.props.dispatch(logout())} />
         }
 
         return (

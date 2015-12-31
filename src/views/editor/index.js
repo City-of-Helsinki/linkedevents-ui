@@ -646,13 +646,6 @@ var EditEventForm = React.createClass({
         return (
             <div className="container">
                 <h1><FormattedMessage id="create-event"/></h1>
-                {this.props.action}
-                {this.props.eventId}
-                <div style={paddingStyle}>
-                    Kielet
-                    <a style={greenStyle} onClick={this.toggleEn}>EN</a> |
-                    <a style={blueStyle} onClick={this.toggleSv}>SV</a>
-                </div>
                 <Formsy.Form className="form-horizontal"
                              onSubmit={this.preview}
                              onValid={this.enableButton}
