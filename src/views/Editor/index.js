@@ -1,33 +1,38 @@
+
 // styles
-import 'style!vendor/stylesheets/typeahead.css';
+import '!style!css!sass!./index.scss'
+import 'style!vendor/stylesheets/typeahead.css'
 
 // js
-import typeahead from 'typeahead.js';
+import typeahead from 'typeahead.js'
 
 // react-specific
-import Formsy from 'formsy-react';
-import React from 'react';
-import {History} from 'react-router';
+import Formsy from 'formsy-react'
+import React from 'react'
+import {History} from 'react-router'
+import {connect} from 'react-redux'
 
-import {connect} from 'react-redux';
+import {FormattedMessage} from 'react-intl'
 
 import {
     Input,
     Textarea,
     Row
-} from 'formsy-react-components';
+} from 'formsy-react-components'
 
 // our components
-import TU from 'src/typeahead.js';
-import API from 'src/api.js';
-import FF from 'src/formfields.js';
+import FF from 'src/formfields.js'
+import Typeahead from 'src/typeahead.js'
+import API from 'src/api.js'
 
 // === constants ===
 
 // the backup doesn't support non-language links, so we use hardcoded
 // 'fi' instead for the link language
-var EXT_LINK_NO_LANGUAGE = 'fi';
+var EXT_LINK_NO_LANGUAGE = 'fi'
 
+
+import FormFields from 'src/components/FormFields'
 
 // === code ===
 
@@ -365,6 +370,8 @@ var EditorPage = React.createClass({
     },
 
     render() {
+        let content = <div />
+
         if (this.state.isPreview) {
             if (this.state.apiErrorMsg && this.state.apiErrorMsg.length > 0) {
                 let errorStyle = { color: 'red !important' };
@@ -374,7 +381,8 @@ var EditorPage = React.createClass({
                     </span>
                 );
             }
-            return (
+
+            content = (
                 <div>
                     <h2>Vahvista tapahtuman tallennus</h2>
                     <Formsy.Form
@@ -430,13 +438,13 @@ var EditorPage = React.createClass({
                 </div>
             )
         } else if (this.state.isDone) {
-            return (
+            content = (
                 <div>
                     Tapahtuman tiedot tallennettu.
                 </div>
             )
         } else {
-            return (
+            content = (
                 <div>
                     <EditEventForm
                         eventId={this.props.params.eventId}
@@ -449,6 +457,11 @@ var EditorPage = React.createClass({
                 </div>
             )
         }
+        return (
+            <div className="editor-page">
+                {content}
+            </div>
+        )
     }
 });
 
@@ -492,7 +505,7 @@ var EditEventForm = React.createClass({
                     return '<p class="repo-name">No Matches</p>';
                 }
             },
-            source: TU.bloodhoundInstance.ttAdapter()
+            source: Typeahead.bloodhoundInstance.ttAdapter()
         };
 
         var taSelectHandler = (function(evt, item) {
@@ -631,29 +644,23 @@ var EditEventForm = React.createClass({
 
 
         return (
-            <div className="row">
-                <h2>Lisää uusi tapahtuma</h2>
-                {this.props.action}
-                {this.props.eventId}
-                <div style={paddingStyle}>
-                    Kielet
-                    <a style={greenStyle} onClick={this.toggleEn}>EN</a> |
-                    <a style={blueStyle} onClick={this.toggleSv}>SV</a>
-                </div>
+            <div className="container">
+                <h1><FormattedMessage id="create-event"/></h1>
                 <Formsy.Form className="form-horizontal"
                              onSubmit={this.preview}
                              onValid={this.enableButton}
                              onInvalid={this.disableButton}
                              ref="editForm"
                              >
-                    <legend>Tapahtuman kuvaus</legend>
-                    {this.getFormFields()}
-                    <Row layout={this.state.layout}>
-                        <input
-                            className="btn btn-primary"
-                            type="submit" defaultValue="Siirry esikatseluun"
-                        />
-                    </Row>
+                    <FormFields />
+                    <div className="container">
+                        <div className="row">
+                            <input
+                                className="btn btn-primary"
+                                type="submit" defaultValue="Siirry esikatseluun"
+                            />
+                        </div>
+                    </div>
                 </Formsy.Form>
             </div>
         )

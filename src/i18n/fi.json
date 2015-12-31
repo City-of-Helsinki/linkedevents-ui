@@ -1,12 +1,32 @@
 {
-  "login": "Kirjaudu sisään",
-  "logout": "Kirjaudu ulos",
-  "create-event": "Luo uusi tapahtuma",
-  "search-events": "Etsi tapahtumia",
-  "lang-fi": "Suomi",
-  "lang-en": "Englanti",
-  "lang-sv": "Ruotsi",
-  "welcome": "Tervetuloa",
-  "submit": "Lähetä",
-  "cancel": "Peru"
+    "login": "Kirjaudu sisään",
+    "logout": "Kirjaudu ulos",
+    "create-event": "Lisää uusi tapahtuma",
+    "search-events": "Etsi tapahtumia",
+    "lang-fi": "Suomi",
+    "lang-en": "Englanti",
+    "lang-sv": "Ruotsi",
+    "welcome": "Tervetuloa",
+    "submit": "Lähetä",
+    "cancel": "Peru",
+
+    "event-presented-in-languages": "Tämä tapahtuma esitetään seuraavilla kielillä.",
+
+    "in-fi": "Suomeksi",
+    "in-en": "Englanniksi",
+    "in-sv": "Ruotsiksi",
+
+    "event-description-fields-header": "Tapahtuman kuvaus",
+    "event-name": "Otsikko",
+    "event-short-description": "Lyhyt kuvaus",
+    "event-description": "Kuvaus",
+    "event-home-page": "Kotisivu",
+
+    "event-picture": "Tapahtuman kuva",
+
+    "event-datetime-fields-header": "Tapahtuman ajankohta",
+    "event-starting-date": "Alkamispäivämäärä",
+    "event-starting-time": "Alkamisaika",
+    "event-ending-date": "Päättymispäivämäärä",
+    "event-ending-time": "Päättymisaika"
 }

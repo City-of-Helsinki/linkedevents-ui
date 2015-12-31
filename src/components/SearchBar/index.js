@@ -1,28 +1,52 @@
+require('!style!css!sass!./index.scss');
+
+import moment from 'moment'
+
 import React from 'react'
 import { connect } from 'react-redux'
+
+import RaisedButton from 'node_modules/material-ui-with-sass/src/js/raised-button.jsx'
+import TextField from 'node_modules/material-ui-with-sass/src/js/text-field.jsx'
 
 class SearchBar extends React.Component {
 
     constructor(props) {
         super(props)
+
+        this.state = {
+            searchQuery: '',
+            startDate: moment().startOf('month'),
+            endDate: moment()
+        }
     }
 
     handleChange(event) {
-        return this.props.onUserInput(event.target.value)
+        this.setState({
+            searchQuery: event.target.value
+        })
+    }
+
+    handleDateRangePickerEvent(event, picker) {
+        if (event.type === 'apply') {
+            this.setState({
+                startDate: picker.startDate,
+                endDate: picker.endDate
+            })
+        }
     }
 
     handleSubmit(event) {
         event.preventDefault()
-        return this.props.onFormSubmit()
+        return this.props.onFormSubmit(this.state.searchQuery, this.state.startDate, this.state.endDate)
     }
 
     componentDidMount() {
-        return this.refs.filterTextInput.focus()
+        return this.refs.searchQueryInput.focus()
     }
 
     formatLabel() {
-        var start = this.props.startDate.format('YYYY-MM-DD')
-        var end = this.props.endDate.format('YYYY-MM-DD')
+        var start = this.state.startDate.format('YYYY-MM-DD')
+        var end = this.state.endDate.format('YYYY-MM-DD')
         if (start === end) {
             return start
         } else {
@@ -62,20 +86,29 @@ class SearchBar extends React.Component {
     render() {
         var label = this.formatLabel() + ' ';
         return (
-            <form onSubmit={ (e) => this.handleSubmit(e) } className="MyForm">
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    ref="filterTextInput"
-                    onChange={ (e) => this.handleChange(e) }
-                    className="form-control"
-                />
-                <input
-                    type="submit"
-                    value="Hae tapahtumia"
-                    onClick={ (e) => this.handleSubmit(e) }
-                    className="applyBtn btn btn-sm btn-primary"
-                />
+            <form onSubmit={ (e) => this.handleSubmit(e) } className="row search-bar">
+                <div className="col-xs-6">
+                    <TextField
+                      floatingLabelText="Tapahtuman nimi tai paikka"
+                      onChange={ (e) => this.handleChange(e) }
+                      ref="searchQueryInput"
+                      className="text-field col-xs-6"
+                      style={{width: 'auto'}}
+                    />
+                </div>
+
+                <div className="col-xs-3" style={{background: 'white'}}>
+                    <div className='time-input'>Time</div>
+                </div>
+
+                <div className="col-xs-3">
+                    <RaisedButton
+                        type="submit"
+                        label="Hae tapahtumia"
+                        primary={true}
+                        onClick={ (e) => this.handleSubmit(e) }
+                    />
+                </div>
                 <p/>
             </form>
         )

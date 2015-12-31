@@ -1,12 +1,78 @@
 @import "fonts";
+@import "node_modules/bootstrap/scss/bootstrap-reboot.scss";
+@import "node_modules/bootstrap/scss/bootstrap-grid.scss";
+
+// Mui sass styles
+@import "node_modules/material-ui-with-sass/src/sass/scaffolding";
+
+// Define a custom sass file to override any variables defined in scaffolding.scss
+// @import "my-custom-overrides.scss";
+
+@import "./helsinki-mui";
+
+@import "node_modules/material-ui-with-sass/src/sass/components";
+
+html, body {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+
+    background-color: #f7f7f7;
+
+    font: normal normal normal 18px/1.2 "Roboto", "Helvetica Neue", "Segoe UI", Calibri, sans-serif;
+}
 
 .material-icons {
     position: relative;
-    top: -1px;
+    top: -1.5px;
     vertical-align: middle;
-    padding-right: 10px;
+    padding-left: 10px;
 }
 
-#content {
+.content {
 
+}
+
+h1,h2,h3 {
+    font-family: "KarbidComp", "Roboto", "Helvetica Neue", "Segoe UI", Calibri, sans-serif;
+}
+
+h1 {
+    color: #464646;
+    font-size: 51px;
+}
+
+h2,h3,legend {
+    font-size: 31px;
+    color: #757575;
+}
+
+h1,h2 {
+    padding-top: 110px;
+    padding-bottom: 40px;
+
+    font-weight: 300;
+}
+
+.mui-text-field,
+.mui-text-field-input,
+.mui-text-field-input {
+    width: 100% !important;
+}
+
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
+
+.spread-evenly {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-around;
 }

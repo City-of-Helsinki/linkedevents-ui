@@ -1,12 +1,32 @@
 {
-  "login": "Login",
-  "logout": "Logout",
-  "create-event": "Create event",
-  "search-events": "Search events",
-  "lang-fi": "Finnish",
-  "lang-en": "English",
-  "lang-sv": "Swedish",
-  "welcome": "Tervetuloa",
-  "submit": "Submit",
-  "cancel": "Cancel"
+    "login": "Login",
+    "logout": "Logout",
+    "create-event": "Create event",
+    "search-events": "Search events",
+    "lang-fi": "Finnish",
+    "lang-en": "English",
+    "lang-sv": "Swedish",
+    "welcome": "Welcome",
+    "submit": "Submit",
+    "cancel": "Cancel",
+
+    "event-presented-in-languages": "This event will be presented in following languages.",
+
+    "in-fi": "In Finnish",
+    "in-en": "In English",
+    "in-sv": "In Swedish",
+
+    "event-description-fields-header": "Event description",
+    "event-name": "Event name",
+    "event-short-description": "Short description",
+    "event-description": "Description",
+    "event-home-page": "Homepage",
+
+    "event-picture": "Event picture",
+
+    "event-datetime-fields-header": "Event time",
+    "event-starting-date": "Starting date",
+    "event-starting-time": "Starting time",
+    "event-ending-date": "Ending date",
+    "event-ending-time": "Ending time"
 }
