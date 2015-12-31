@@ -38,10 +38,6 @@ export function getPassport(settings) {
     const jwtOptions = {key: settings.jwtKey, audience: 'linkedevents-ui'}
     const passport = new Passport()
 
-    console.log('authid', settings.helsinkiAuthId);
-    console.log('secret', settings.helsinkiAuthSecret);
-    console.log('targetapp', settings.helsinkiTargetApp);
-
     const helsinkiStrategy = new HelsinkiStrategy({
         clientID: settings.helsinkiAuthId,
         clientSecret: settings.helsinkiAuthSecret,
