@@ -30,15 +30,9 @@ let FormHeader = (props) => (
 )
 
 let SideField = (props) => (
-    <div className="col-xs-5 col-sm-push-1">
+    <div className="side-field col-xs-5 col-sm-push-1">
         { props.children }
     </div>
-)
-
-let LabelHeader = (props) => (
-    <label className="label-header">
-        { props.children }
-    </label>
 )
 
 let FormFields = (props) => (
@@ -70,9 +64,7 @@ let FormFields = (props) => (
                 <HelTextField floatingLabelText={<FormattedMessage id="event-home-page"/>} />
             </div>
             <SideField>
-                <LabelHeader>
-                    <FormattedMessage id="event-picture"/>
-                </LabelHeader>
+                <label><FormattedMessage id="event-picture"/></label>
                 <ImageUpload />
             </SideField>
         </div>
