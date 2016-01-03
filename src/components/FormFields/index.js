@@ -108,9 +108,7 @@ let FormFields = (props) => (
         </FormHeader>
         <div className="row">
             <div className="col-xs-6">
-                <HelAutoComplete />
-
-                <HelTextField required={true} floatingLabelText={<FormattedMessage id="event-location-id"/>} />
+                <HelAutoComplete onSelection={(chosenRequest, index, dataSource) => { console.log('helo',chosenRequest, index, dataSource) }} />
                 <HelTextField floatingLabelText={<FormattedMessage id="event-location-additional-info"/>} />
             </div>
         </div>
