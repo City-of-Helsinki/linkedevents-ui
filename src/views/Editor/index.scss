@@ -69,9 +69,60 @@
         padding-top: 36px;
     }
 
+    legend {
+        margin-top: 6rem;
+    }
+
     .checkbox-group {
         legend {
+            margin-top: 4rem;
             font-size: 24px;
+        }
+    }
+
+    .editor-action-buttons {
+        margin-top: 6rem;
+
+        background-color: #f7f7f7;
+        height: 176px;
+
+        .row,
+        .container {
+            height: 100%;
+        }
+
+        .mui-flat-button,
+        .mui-raised-button {
+            margin-left: 1.8rem;
+        }
+
+        .mui-flat-button,
+        .mui-raised-button,
+        .mui-raised-button-container {
+            height: 64px;
+        }
+
+        .mui-flat-button,
+        .mui-raised-button-label {
+            font-size: 20px;
+            text-transform: none;
+            font-weight: 400;
+            color: #48a3e7;
+        }
+
+        .mui-is-primary {
+            .mui-raised-button-label {
+                color: #ffffff;
+            }
+        }
+
+        .mui-raised-button-label {
+            padding-left: 35px;
+            padding-right: 35px;
+        }
+
+        .mui-flat-button {
+            background-color: transparent;
         }
     }
 }

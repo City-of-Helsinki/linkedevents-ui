@@ -20,6 +20,9 @@ import {
     Row
 } from 'formsy-react-components'
 
+import RaisedButton from 'node_modules/material-ui-with-sass/src/js/raised-button.jsx'
+import FlatButton from 'node_modules/material-ui-with-sass/src/js/flat-button.jsx'
+
 // our components
 import FF from 'src/formfields.js'
 import Typeahead from 'src/typeahead.js'
@@ -644,21 +647,39 @@ var EditEventForm = React.createClass({
 
 
         return (
-            <div className="container">
-                <h1><FormattedMessage id="create-event"/></h1>
+            <div>
+                <div className="container">
+                    <h1><FormattedMessage id="create-event"/></h1>
+                </div>
                 <Formsy.Form className="form-horizontal"
                              onSubmit={this.preview}
                              onValid={this.enableButton}
                              onInvalid={this.disableButton}
                              ref="editForm"
                              >
-                    <FormFields />
                     <div className="container">
-                        <div className="row">
-                            <input
-                                className="btn btn-primary"
-                                type="submit" defaultValue="Siirry esikatseluun"
-                            />
+                        <FormFields />
+                    </div>
+
+                    <div className="editor-action-buttons">
+                        <div className="container">
+                            <div className="row">
+                                <div className="spread-right">
+                                    <RaisedButton
+                                        label="Tallenna vedokseksi"
+                                        onClick={ (e) => this.goToPreview(e) }
+                                    />
+                                    <RaisedButton
+                                        label="Siirry esikatseluun"
+                                        primary={true}
+                                        onClick={ (e) => this.goToPreview(e) }
+                                    />
+                                    <FlatButton
+                                        label="Julkaise tapahtuma"
+                                        onClick={ (e) => this.handleSubmit(e) }
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </Formsy.Form>
