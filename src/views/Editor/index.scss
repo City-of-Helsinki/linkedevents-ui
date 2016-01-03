@@ -12,7 +12,6 @@
         display: block;
         background-color: #f6f6f6;
 
-        height: 72px;
         line-height: 72px;
 
         color: #5a5959;
@@ -22,13 +21,20 @@
         }
 
         .spread-evenly {
-            height: 72px;
+            flex-wrap: wrap;
+            height: 100%;
+
+            .mui-checkbox {
+                padding-top: 24px;
+                padding-bottom: 8px;
+            }
         }
 
         .mui-checkbox {
             display: inline-block;
             width: auto !important;
             padding-top: 6px;
+
             label {
                 font-size: 20px;
             }
