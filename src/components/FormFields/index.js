@@ -7,6 +7,12 @@ import Checkbox from 'node_modules/material-ui-with-sass/src/js/checkbox.jsx'
 
 import ImageUpload from 'src/components/ImageUpload'
 
+import API from 'src/api.js';
+
+let helMainOptions = API.loadHelMainOptions();
+let helTargetOptions = API.loadHelTargetOptions();
+let helEventLangOptions = API.loadHelEventLangOptions();
+
 let HelTextField = (props) => {
     let { required, floatingLabelText } = props
 
@@ -33,6 +39,22 @@ let SideField = (props) => (
         { props.children }
     </div>
 )
+
+// NOTE: Not found in formsy-material-ui, use this for now
+let CheckboxGroup = (props) => {
+    let checkboxes = props.options.map((item) => (
+        <span className={(props.itemClassName || '')}>
+            <Checkbox name={props.group} value={item.value} label={<FormattedMessage id={item.value}/>} />
+        </span>
+    ))
+
+    return (
+        <fieldset className="checkbox-group">
+            <legend className="col-xs-12">{props.groupLabel}</legend>
+            {checkboxes}
+        </fieldset>
+    )
+}
 
 let FormFields = (props) => (
     <div>
@@ -117,6 +139,24 @@ let FormFields = (props) => (
                 <HelTextField floatingLabelText={<FormattedMessage id="twitter-url"/>} />
                 <HelTextField floatingLabelText={<FormattedMessage id="instagram-url"/>} />
             </div>
+        </div>
+
+        <FormHeader>
+            <FormattedMessage id="event-categorization" />
+        </FormHeader>
+        <div className="row">
+            <CheckboxGroup groupLabel={<FormattedMessage id="hel-main-categories"/>}
+                            group="hel-main-categories"
+                            itemClassName="col-xs-6"
+                            options={helMainOptions} />
+            <CheckboxGroup groupLabel={<FormattedMessage id="target-groups"/>}
+                            group="target-groups"
+                            itemClassName="col-xs-6"
+                            options={helTargetOptions} />
+            <CheckboxGroup groupLabel={<FormattedMessage id="event-languages"/>}
+                            group="event-languages"
+                            itemClassName="col-xs-6"
+                            options={helEventLangOptions} />
         </div>
     </div>
 )

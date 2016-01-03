@@ -21,7 +21,7 @@ class API {
             label: 'Liikenne ja kartat'
           },
           {
-            value: '-sosiaali-ja-terveyspalvelut',
+            value: 'sosiaali-ja-terveyspalvelut',
             label: 'Sosiaali- ja terveyspalvelut'
           },
           {

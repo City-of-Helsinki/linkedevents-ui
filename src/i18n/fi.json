@@ -48,5 +48,30 @@
     "instagram-url": "Instagram (url)",
 
     "event-categorization": "Tapahtuman luokittelu",
-    "hel-fi-main-categories": "Hel.fi pääkategoriat"
+
+    "hel-main-categories": "Hel.fi pääkategoriat",
+    "asuminen-ja-ymparisto": "Asuminen ja ympäristö",
+    "kulttuuri-ja-vapaa-aika": "Kulttuuri ja vapaa-aika",
+    "paivahoito-ja-koulutus": "Päivähoito ja koulutus",
+    "liikenne-ja-kartat": "Liikenne ja kartat",
+    "sosiaali-ja-terveyspalvelut": "Sosiaali- ja terveyspalvelut",
+    "kaupunki-ja-hallinto": "Kaupunki ja hallinto",
+
+    "target-groups": "Kohderyhmät",
+    "all": "Kaikki",
+    "yhdistykset": "Yhdistykset",
+    "yrittajat": "Yrittäjät",
+    "maahanmuuttajat": "Maahanmuuttajat",
+    "vanhukset": "Vanhukset",
+    "vammaiset": "Vammaiset",
+    "nuoret": "Nuoret",
+    "lapset-ja-lapsiperheet": "Lapset ja lapsiperheet",
+
+    "event-languages": "Tapahtuman kielet",
+    "venaja": "venäjä",
+    "ranska": "ranska",
+    "saksa": "saksa",
+    "englanti": "englanti",
+    "ruotsi": "ruotsi",
+    "suomi": "suomi"
 }
