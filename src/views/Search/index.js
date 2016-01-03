@@ -28,7 +28,7 @@ class SearchPage extends React.Component {
     render() {
         return (
             <div className="container">
-                <h2><FormattedMessage id="search-events"/></h2>
+                <h1><FormattedMessage id="search-events"/></h1>
                 <SearchBar onFormSubmit={ (query, start, end) => this.searchEvents(query, start, end) }/>
                 <EventGrid events={this.props.events} apiErrorMsg={''} />
             </div>
