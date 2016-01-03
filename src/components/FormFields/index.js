@@ -80,14 +80,14 @@ let FormFields = (props) => (
 
         <div className="row">
             <div className="col-xs-6">
-                <HelTextField required={true} floatingLabelText={<FormattedMessage id="event-name"/>} />
-                <HelTextField required={true} floatingLabelText={<FormattedMessage id="event-short-description"/>} />
-                <HelTextField required={true} floatingLabelText={<FormattedMessage id="event-description"/>} />
-                <HelTextField floatingLabelText={<FormattedMessage id="event-home-page"/>} />
+                <HelTextField name="event-name" required={true} floatingLabelText={<FormattedMessage id="event-name"/>} />
+                <HelTextField name="event-short-description" required={true} floatingLabelText={<FormattedMessage id="event-short-description"/>} />
+                <HelTextField name="event-description" required={true} floatingLabelText={<FormattedMessage id="event-description"/>} />
+                <HelTextField name="event-home-page" floatingLabelText={<FormattedMessage id="event-home-page"/>} />
             </div>
             <SideField>
                 <label><FormattedMessage id="event-picture"/></label>
-                <ImageUpload />
+                <ImageUpload name="event-image" />
             </SideField>
         </div>
 
@@ -96,10 +96,10 @@ let FormFields = (props) => (
         </FormHeader>
         <div className="row">
             <div className="col-xs-6">
-                <HelTextField required={true} floatingLabelText={<FormattedMessage id="event-starting-date"/>} />
-                <HelTextField floatingLabelText={<FormattedMessage id="event-starting-time"/>} />
-                <HelTextField floatingLabelText={<FormattedMessage id="event-ending-date"/>} />
-                <HelTextField floatingLabelText={<FormattedMessage id="event-ending-time"/>} />
+                <HelTextField name="event-starting-date" required={true} floatingLabelText={<FormattedMessage id="event-starting-date"/>} />
+                <HelTextField name="event-starting-time" floatingLabelText={<FormattedMessage id="event-starting-time"/>} />
+                <HelTextField name="event-ending-date" floatingLabelText={<FormattedMessage id="event-ending-date"/>} />
+                <HelTextField name="event-ending-time" floatingLabelText={<FormattedMessage id="event-ending-time"/>} />
             </div>
         </div>
 
@@ -109,7 +109,7 @@ let FormFields = (props) => (
         <div className="row">
             <div className="col-xs-6">
                 <HelAutoComplete onSelection={(chosenRequest, index, dataSource) => { console.log('helo',chosenRequest, index, dataSource) }} />
-                <HelTextField floatingLabelText={<FormattedMessage id="event-location-additional-info"/>} />
+                <HelTextField name="event-location-id" floatingLabelText={<FormattedMessage id="event-location-additional-info"/>} />
             </div>
         </div>
 
@@ -119,9 +119,9 @@ let FormFields = (props) => (
         <div className="row">
             <div className="col-xs-6">
                 <Checkbox name="is-free" value="true" label={<FormattedMessage id="is-free"/>} />
-                <HelTextField required={true} floatingLabelText={<FormattedMessage id="event-price"/>} />
-                <HelTextField floatingLabelText={<FormattedMessage id="event-price-info"/>} />
-                <HelTextField floatingLabelText={<FormattedMessage id="event-purchase-link"/>} />
+                <HelTextField name="event-price" required={true} floatingLabelText={<FormattedMessage id="event-price"/>} />
+                <HelTextField name="event-price-info" floatingLabelText={<FormattedMessage id="event-price-info"/>} />
+                <HelTextField name="event-purchase-link" floatingLabelText={<FormattedMessage id="event-purchase-link"/>} />
             </div>
             <SideField>
                 <p>Valitse onko tapahtumaan vapaa pääsy tai lisää tapahtuman hinta tekstimuodossa (esim. 5€/7€).</p>
@@ -135,9 +135,9 @@ let FormFields = (props) => (
         </FormHeader>
         <div className="row">
             <div className="col-xs-6">
-                <HelTextField floatingLabelText={<FormattedMessage id="facebook-url"/>} />
-                <HelTextField floatingLabelText={<FormattedMessage id="twitter-url"/>} />
-                <HelTextField floatingLabelText={<FormattedMessage id="instagram-url"/>} />
+                <HelTextField name="facebook-url" floatingLabelText={<FormattedMessage id="facebook-url"/>} />
+                <HelTextField name="twitter-url" floatingLabelText={<FormattedMessage id="twitter-url"/>} />
+                <HelTextField name="instagram-url" floatingLabelText={<FormattedMessage id="instagram-url"/>} />
             </div>
         </div>
 

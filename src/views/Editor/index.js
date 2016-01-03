@@ -633,6 +633,14 @@ var EditEventForm = React.createClass({
         }
     },
 
+    goToPreview(event) {
+        console.log(event)
+    },
+
+    handleSubmit(event) {
+        console.log(event)
+    },
+
     render() {
         var sharedProps = {
             layout: this.state.layout,
@@ -652,7 +660,7 @@ var EditEventForm = React.createClass({
                     <h1><FormattedMessage id="create-event"/></h1>
                 </div>
                 <Formsy.Form className="form-horizontal"
-                             onSubmit={this.preview}
+                             onSubmit={this.handleSubmit}
                              onValid={this.enableButton}
                              onInvalid={this.disableButton}
                              ref="editForm"
