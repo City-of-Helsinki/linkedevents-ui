@@ -15,7 +15,7 @@ let engine = new Bloodhound({
         return tokens;
     },
     prefetch: {
-        url: "#{appSettings.api_base}/place/?page_size=10000",
+        url: appSettings.api_base + "/place/?page_size=10000",
         filter: (places) => {
             // Map the remote source JSON array to a JavaScript object array
             return $.map(places.data, (place) => {
@@ -28,6 +28,19 @@ let engine = new Bloodhound({
         },
         ttl: 10000
     }
+    // NOTE: remote is not used
+    // remote: {
+    //     url: appSettings.api_base + "/place/?q=%QUERY",
+    //     wildcard: '%QUERY',
+    //     filter: (places) => {
+    //         // Map the remote source JSON array to a JavaScript object array
+    //         return $.map(places.data, (place) => ({
+    //             value: place.name.fi,
+    //             id: place.id,
+    //             street_address: place.street_address ? place.street_address.fi : ''
+    //         }));
+    //     }
+    // }
 });
 
 engine.initialize();

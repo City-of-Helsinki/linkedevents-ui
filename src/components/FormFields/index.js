@@ -6,8 +6,9 @@ import TextField from 'node_modules/material-ui-with-sass/src/js/text-field.jsx'
 import Checkbox from 'node_modules/material-ui-with-sass/src/js/checkbox.jsx'
 
 import ImageUpload from 'src/components/ImageUpload'
+import HelAutoComplete from 'src/components/HelAutoComplete'
 
-import API from 'src/api.js';
+import API from 'src/api.js'
 
 let helMainOptions = API.loadHelMainOptions();
 let helTargetOptions = API.loadHelTargetOptions();
@@ -107,8 +108,9 @@ let FormFields = (props) => (
         </FormHeader>
         <div className="row">
             <div className="col-xs-6">
-                <HelTextField required={true} floatingLabelText={<FormattedMessage id="event-location"/>} />
-                <HelTextField floatingLabelText={<FormattedMessage id="event-location-id"/>} />
+                <HelAutoComplete />
+
+                <HelTextField required={true} floatingLabelText={<FormattedMessage id="event-location-id"/>} />
                 <HelTextField floatingLabelText={<FormattedMessage id="event-location-additional-info"/>} />
             </div>
         </div>

@@ -25,6 +25,7 @@
     "jquery": "^2.1.4",
     "jsonwebtoken": "^5.4.1",
     "lodash": "^3.10.1",
+    "material-ui": "^0.14.0",
     "material-ui-with-sass": "^0.1.17",
     "moment": "^2.10.6",
     "moment-timezone": "^0.4.1",
