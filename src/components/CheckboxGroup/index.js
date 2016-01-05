@@ -34,11 +34,11 @@ class CheckboxGroup extends React.Component {
         let checkboxes = this.props.options.map((item, index) => {
             let checked = (this.props.defaultSelected.indexOf(item.value) > -1)
 
-            return (<Checkbox labelPosition="left" className="padded" ref={index} key={index} name={item.value} defaultSwitched={checked} label={<FormattedMessage id={item.label}/>} onCheck={(e) => this.onChange(e)} />)
+            return (<Checkbox labelPosition="left" ref={index} key={index} name={item.value} defaultSwitched={checked} label={<FormattedMessage id={item.label} />} onCheck={(e) => this.onChange(e)} />)
         })
 
         return (
-            <span>
+            <span className="spread-right">
                 {checkboxes}
             </span>
         )

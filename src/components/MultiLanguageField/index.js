@@ -5,15 +5,23 @@ import TextField from 'node_modules/material-ui-with-sass/src/js/text-field.jsx'
 
 let MultiLanguageField = (props) => {
 
+    // Set default language to fi if no languages are selected
     let langs = props.languages
 
     if(langs.length === 0) {
         langs = ['fi']
     }
 
-    let textInputs = langs.map((lang) => (
-        <TextField {...props} floatingLabelText={<FormattedMessage id={`in-${lang}`}/>} name={`${props.namePrefix}_${lang}`}/>
-    ))
+    let textInputs = []
+
+    if(langs.length === 1) {
+        let label = (<span><FormattedMessage id={`${props.label}`} /> (<FormattedMessage id={`in-${langs[0]}`}/>)</span>)
+        return (<TextField {...props} floatingLabelText={label} name={`${props.namePrefix}_${langs[0]}`}/>)
+    } else {
+        textInputs = langs.map((lang) => (
+            <TextField {...props} floatingLabelText={<FormattedMessage id={`in-${lang}`}/>} name={`${props.namePrefix}_${lang}`}/>
+        ))
+    }
 
     return (
         <div className="multi-language-field">

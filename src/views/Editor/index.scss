@@ -18,15 +18,18 @@
 
         label {
             font-size: 24px;
+            margin-bottom: 0;
         }
 
-        .spread-evenly {
+        .spread-evenly,
+        .spread-right {
             flex-wrap: wrap;
             height: 100%;
 
             .mui-checkbox {
-                padding-top: 24px;
+                padding-top: 22px;
                 padding-bottom: 8px;
+                text-transform: capitalize;
             }
         }
 
@@ -42,7 +45,9 @@
 
             .mui-switch-label {
                 width: auto !important;
-                padding-right: 1rem;
+                padding-right: 5px;
+                padding-left: 5px;
+
             }
         }
 

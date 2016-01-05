@@ -12,9 +12,9 @@
 
     "event-presented-in-languages": "Tämä tapahtuma esitetään seuraavilla kielillä.",
 
-    "in-fi": "Suomeksi",
-    "in-en": "Englanniksi",
-    "in-sv": "Ruotsiksi",
+    "in-fi": "suomeksi",
+    "in-en": "englanniksi",
+    "in-sv": "ruotsiksi",
 
     "event-description-fields-header": "Tapahtuman kuvaus",
     "event-name": "Otsikko",

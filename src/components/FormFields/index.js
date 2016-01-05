@@ -90,7 +90,7 @@ class FormFields extends React.Component {
 
                 <div className="row">
                     <div className="col-xs-6">
-                        <HelTextField name="event-name" required={true} floatingLabelText={<FormattedMessage id="event-name"/>} />
+                        <MultiLanguageField required={true} multiLine={false} label="event-name" name="event-name" languages={this.state.languages} />
                         <MultiLanguageField required={true} multiLine={true} label="event-short-description" name="event-short-description" languages={this.state.languages} />
                         <MultiLanguageField required={true} multiLine={true} label="event-description" name="event-description" languages={this.state.languages} />
                         <MultiLanguageField required={true} multiLine={true} label="event-home-page" name="event-home-page" languages={this.state.languages} />
