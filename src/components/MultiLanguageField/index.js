@@ -4,7 +4,14 @@ import {FormattedMessage} from 'react-intl'
 import TextField from 'node_modules/material-ui-with-sass/src/js/text-field.jsx'
 
 let MultiLanguageField = (props) => {
-    let textInputs = props.languages.map((lang) => (
+
+    let langs = props.languages
+
+    if(langs.length === 0) {
+        langs = ['fi']
+    }
+
+    let textInputs = langs.map((lang) => (
         <TextField {...props} floatingLabelText={<FormattedMessage id={`in-${lang}`}/>} name={`${props.namePrefix}_${lang}`}/>
     ))
 

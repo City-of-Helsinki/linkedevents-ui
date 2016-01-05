@@ -129,6 +129,23 @@ class API {
         var obj = moment(datetimeString)
         return obj.format('HH:mm')
     }
+
+    static eventInfoLanguages() {
+        return [
+            {
+              value: 'fi',
+              label: 'in-fi'
+            },
+            {
+              value: 'sv',
+              label: 'in-sv'
+            },
+            {
+              value: 'en',
+              label: 'in-en'
+            }
+        ]
+    }
 }
 
 export default API
