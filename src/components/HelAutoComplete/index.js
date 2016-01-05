@@ -32,7 +32,6 @@ class HelAutoComplete extends React.Component {
     }
 
     onNewRequest(chosenRequest, index, dataSource) {
-        console.log(dataSource[index].key);
         this.setState({selectedKey: dataSource[index].key })
         this.props.onSelection(chosenRequest, index, dataSource)
     }

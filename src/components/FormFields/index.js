@@ -7,6 +7,7 @@ import Checkbox from 'node_modules/material-ui-with-sass/src/js/checkbox.jsx'
 
 import ImageUpload from 'src/components/ImageUpload'
 import HelAutoComplete from 'src/components/HelAutoComplete'
+import MultiLanguageField from 'src/components/MultiLanguageField'
 
 import API from 'src/api.js'
 
@@ -81,9 +82,9 @@ let FormFields = (props) => (
         <div className="row">
             <div className="col-xs-6">
                 <HelTextField name="event-name" required={true} floatingLabelText={<FormattedMessage id="event-name"/>} />
-                <HelTextField name="event-short-description" required={true} floatingLabelText={<FormattedMessage id="event-short-description"/>} />
-                <HelTextField name="event-description" required={true} floatingLabelText={<FormattedMessage id="event-description"/>} />
-                <HelTextField name="event-home-page" floatingLabelText={<FormattedMessage id="event-home-page"/>} />
+                <MultiLanguageField required={true} multiLine={true} label="event-short-description" name="event-short-description" languages={['fi','sv']} />
+                <MultiLanguageField required={true} multiLine={true} label="event-description" name="event-description" languages={['fi','sv']} />
+                <MultiLanguageField required={true} multiLine={true} label="event-home-page" name="event-home-page" languages={['fi','sv']} />
             </div>
             <SideField>
                 <label><FormattedMessage id="event-picture"/></label>
