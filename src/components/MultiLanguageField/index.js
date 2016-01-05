@@ -18,8 +18,8 @@ let MultiLanguageField = (props) => {
         let label = (<span><FormattedMessage id={`${props.label}`} /> (<FormattedMessage id={`in-${langs[0]}`}/>)</span>)
         return (<TextField {...props} floatingLabelText={label} name={`${props.namePrefix}_${langs[0]}`}/>)
     } else {
-        textInputs = langs.map((lang) => (
-            <TextField {...props} floatingLabelText={<FormattedMessage id={`in-${lang}`}/>} name={`${props.namePrefix}_${lang}`}/>
+        textInputs = langs.map((lang, index) => (
+            <TextField {...props} key={index} floatingLabelText={<FormattedMessage id={`in-${lang}`}/>} name={`${props.namePrefix}_${lang}`}/>
         ))
     }
 
