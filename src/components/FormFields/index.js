@@ -4,6 +4,8 @@ import { FormattedMessage } from 'react-intl'
 
 import TextField from 'node_modules/material-ui-with-sass/src/js/text-field.jsx'
 import Checkbox from 'node_modules/material-ui-with-sass/src/js/checkbox.jsx'
+import DatePicker from 'material-ui/lib/date-picker/date-picker'
+import TimePicker from 'material-ui/lib/time-picker/time-picker'
 
 import ImageUpload from 'src/components/ImageUpload'
 import HelAutoComplete from 'src/components/HelAutoComplete'
@@ -106,10 +108,10 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-xs-6">
-                        <HelTextField name="event-starting-date" required={true} floatingLabelText={<FormattedMessage id="event-starting-date"/>} />
-                        <HelTextField name="event-starting-time" floatingLabelText={<FormattedMessage id="event-starting-time"/>} />
-                        <HelTextField name="event-ending-date" floatingLabelText={<FormattedMessage id="event-ending-date"/>} />
-                        <HelTextField name="event-ending-time" floatingLabelText={<FormattedMessage id="event-ending-time"/>} />
+                        <DatePicker fullWidth={true} DateTimeFormat={Intl.DateTimeFormat} locale="fi" name="event-starting-date" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-starting-date"/>} />
+                        <TimePicker fullWidth={true} DateTimeFormat={Intl.DateTimeFormat} format="24hr" locale="fi" name="event-starting-time" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-starting-time"/>} />
+                        <DatePicker fullWidth={true} DateTimeFormat={Intl.DateTimeFormat} locale="fi" name="event-ending-date" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-ending-date"/>} />
+                        <TimePicker fullWidth={true} DateTimeFormat={Intl.DateTimeFormat} format="24hr" locale="fi" name="event-ending-time" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-ending-time"/>} />
                     </div>
                 </div>
 
@@ -119,7 +121,7 @@ class FormFields extends React.Component {
                 <div className="row">
                     <div className="col-xs-6">
                         <HelAutoComplete onSelection={(chosenRequest, index, dataSource) => { console.log('helo',chosenRequest, index, dataSource) }} />
-                        <HelTextField name="event-location-id" floatingLabelText={<FormattedMessage id="event-location-additional-info"/>} />
+                        <MultiLanguageField multiLine={true} label="event-location-additional-info" name="event-location-additional-info" languages={this.state.languages} />
                     </div>
                 </div>
 
@@ -130,7 +132,7 @@ class FormFields extends React.Component {
                     <div className="col-xs-6">
                         <Checkbox name="is-free" value="true" label={<FormattedMessage id="is-free"/>} />
                         <HelTextField name="event-price" required={true} floatingLabelText={<FormattedMessage id="event-price"/>} />
-                        <HelTextField name="event-price-info" floatingLabelText={<FormattedMessage id="event-price-info"/>} />
+                        <MultiLanguageField multiLine={true} label="event-price-info" name="event-price-info" languages={this.state.languages} />
                         <HelTextField name="event-purchase-link" floatingLabelText={<FormattedMessage id="event-purchase-link"/>} />
                     </div>
                     <SideField>
