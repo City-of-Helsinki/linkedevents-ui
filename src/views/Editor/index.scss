@@ -51,6 +51,15 @@
             }
         }
 
+        .language-selection {
+            height: 72px;
+            width: 100%;
+
+            label {
+                font-size: 20px;
+                padding-right: 10px;
+            }
+        }
     }
 
     .mui-text-field-floating-label, label {

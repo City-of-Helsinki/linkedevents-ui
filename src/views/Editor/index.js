@@ -20,8 +20,7 @@ import {
     Row
 } from 'formsy-react-components'
 
-import RaisedButton from 'node_modules/material-ui-with-sass/src/js/raised-button.jsx'
-import FlatButton from 'node_modules/material-ui-with-sass/src/js/flat-button.jsx'
+import { RaisedButton, FlatButton } from 'material-ui'
 
 // our components
 import FF from 'src/formfields.js'

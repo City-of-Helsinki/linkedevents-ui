@@ -1,7 +1,7 @@
 import React from 'react'
 
-import {FormattedMessage} from 'react-intl'
-import TextField from 'node_modules/material-ui-with-sass/src/js/text-field.jsx'
+import { FormattedMessage } from 'react-intl'
+import { TextField } from 'material-ui'
 
 let MultiLanguageField = (props) => {
 
@@ -15,11 +15,13 @@ let MultiLanguageField = (props) => {
     let textInputs = []
 
     if(langs.length === 1) {
-        let label = (<span><FormattedMessage id={`${props.label}`} /> (<FormattedMessage id={`in-${langs[0]}`}/>)</span>)
+        // NOTE: import {injectIntl} from 'react-intl' to use the next line
+        // let label = props.intl.formatMessage({id: props.label}) + ' (' + props.intl.formatMessage({id: `in-${langs[0]}`}) + ')'
+        let label = (<span><FormattedMessage id={props.label} /> (<FormattedMessage id={`in-${langs[0]}`}/>)</span>)
         return (<TextField {...props} floatingLabelText={label} name={`${props.namePrefix}_${langs[0]}`}/>)
     } else {
         textInputs = langs.map((lang, index) => (
-            <TextField {...props} key={index} floatingLabelText={<FormattedMessage id={`in-${lang}`}/>} name={`${props.namePrefix}_${lang}`}/>
+            <div><TextField {...props} key={index} floatingLabelText={<FormattedMessage id={`in-${lang}`}/>} name={`${props.namePrefix}_${lang}`}/></div>
         ))
     }
 

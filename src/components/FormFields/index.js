@@ -2,10 +2,7 @@ import React from 'react'
 
 import { FormattedMessage } from 'react-intl'
 
-import TextField from 'node_modules/material-ui-with-sass/src/js/text-field.jsx'
-import Checkbox from 'node_modules/material-ui-with-sass/src/js/checkbox.jsx'
-import DatePicker from 'material-ui/lib/date-picker/date-picker'
-import TimePicker from 'material-ui/lib/time-picker/time-picker'
+import { TextField, Checkbox, DatePicker, TimePicker } from 'material-ui'
 
 import ImageUpload from 'src/components/ImageUpload'
 import HelAutoComplete from 'src/components/HelAutoComplete'
@@ -92,10 +89,10 @@ class FormFields extends React.Component {
 
                 <div className="row">
                     <div className="col-xs-6">
-                        <MultiLanguageField required={true} multiLine={false} label="event-name" name="event-name" languages={this.state.languages} />
-                        <MultiLanguageField required={true} multiLine={true} label="event-short-description" name="event-short-description" languages={this.state.languages} />
-                        <MultiLanguageField required={true} multiLine={true} label="event-description" name="event-description" languages={this.state.languages} />
-                        <MultiLanguageField required={true} multiLine={true} label="event-home-page" name="event-home-page" languages={this.state.languages} />
+                        <MultiLanguageField fullWidth={true} required={true} multiLine={false} label="event-name" name="event-name" languages={this.state.languages} />
+                        <MultiLanguageField fullWidth={true} required={true} multiLine={true} label="event-short-description" name="event-short-description" languages={this.state.languages} />
+                        <MultiLanguageField fullWidth={true} required={true} multiLine={true} label="event-description" name="event-description" languages={this.state.languages} />
+                        <MultiLanguageField fullWidth={true} required={true} multiLine={true} label="event-home-page" name="event-home-page" languages={this.state.languages} />
                     </div>
                     <SideField>
                         <label><FormattedMessage id="event-picture"/></label>
@@ -120,8 +117,8 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-xs-6">
-                        <HelAutoComplete onSelection={(chosenRequest, index, dataSource) => { console.log('helo',chosenRequest, index, dataSource) }} />
-                        <MultiLanguageField multiLine={true} label="event-location-additional-info" name="event-location-additional-info" languages={this.state.languages} />
+                        <HelAutoComplete fullWidth={true} onSelection={(chosenRequest, index, dataSource) => { console.log('helo',chosenRequest, index, dataSource) }} />
+                        <MultiLanguageField fullWidth={true} multiLine={true} label="event-location-additional-info" name="event-location-additional-info" languages={this.state.languages} />
                     </div>
                 </div>
 
@@ -130,10 +127,10 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-xs-6">
-                        <Checkbox name="is-free" value="true" label={<FormattedMessage id="is-free"/>} />
-                        <HelTextField name="event-price" required={true} floatingLabelText={<FormattedMessage id="event-price"/>} />
-                        <MultiLanguageField multiLine={true} label="event-price-info" name="event-price-info" languages={this.state.languages} />
-                        <HelTextField name="event-purchase-link" floatingLabelText={<FormattedMessage id="event-purchase-link"/>} />
+                        <Checkbox fullWidth={true} name="is-free" value="true" label={<FormattedMessage id="is-free"/>} />
+                        <HelTextField fullWidth={true}  name="event-price" required={true} floatingLabelText={<FormattedMessage id="event-price"/>} />
+                        <MultiLanguageField fullWidth={true}  multiLine={true} label="event-price-info" name="event-price-info" languages={this.state.languages} />
+                        <HelTextField fullWidth={true}  name="event-purchase-link" floatingLabelText={<FormattedMessage id="event-purchase-link"/>} />
                     </div>
                     <SideField>
                         <p>Valitse onko tapahtumaan vapaa pääsy tai lisää tapahtuman hinta tekstimuodossa (esim. 5€/7€).</p>
@@ -147,9 +144,9 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-xs-6">
-                        <HelTextField name="facebook-url" floatingLabelText={<FormattedMessage id="facebook-url"/>} />
-                        <HelTextField name="twitter-url" floatingLabelText={<FormattedMessage id="twitter-url"/>} />
-                        <HelTextField name="instagram-url" floatingLabelText={<FormattedMessage id="instagram-url"/>} />
+                        <HelTextField fullWidth={true} name="facebook-url" floatingLabelText={<FormattedMessage id="facebook-url"/>} />
+                        <HelTextField fullWidth={true} name="twitter-url" floatingLabelText={<FormattedMessage id="twitter-url"/>} />
+                        <HelTextField fullWidth={true} name="instagram-url" floatingLabelText={<FormattedMessage id="instagram-url"/>} />
                     </div>
                 </div>
 

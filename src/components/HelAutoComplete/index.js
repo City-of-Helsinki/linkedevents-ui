@@ -3,7 +3,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { AutoComplete } from 'material-ui'
-import TextField from 'node_modules/material-ui-with-sass/src/js/text-field.jsx'
+import { TextField } from 'material-ui'
 
 import Typeahead from 'src/typeahead.js'
 
@@ -59,7 +59,7 @@ class HelAutoComplete extends React.Component {
                     floatingLabelText={<FormattedMessage id="event-location"/>}
                     onUpdateInput={(t) => { this.onInput(t) }}
                     onNewRequest={(t,i,d) => { this.onNewRequest(t,i,d) }} />
-                <TextField value={this.state.selectedKey} disabled={true} required={true} floatingLabelText={<FormattedMessage id="event-location-id"/>} />
+                <TextField fullWidth={true} value={this.state.selectedKey} disabled={true} required={true} floatingLabelText={<FormattedMessage id="event-location-id"/>} />
             </span>
         )
     }

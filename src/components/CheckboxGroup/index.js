@@ -4,7 +4,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
 //import {Checkbox} from 'material-ui'
-import Checkbox from 'node_modules/material-ui-with-sass/src/js/checkbox.jsx'
+import { Checkbox } from 'material-ui'
 
 import _ from 'lodash'
 
@@ -34,13 +34,13 @@ class CheckboxGroup extends React.Component {
         let checkboxes = this.props.options.map((item, index) => {
             let checked = (this.props.defaultSelected.indexOf(item.value) > -1)
 
-            return (<Checkbox labelPosition="left" ref={index} key={index} name={item.value} defaultSwitched={checked} label={<FormattedMessage id={item.label} />} onCheck={(e) => this.onChange(e)} />)
+            return (<Checkbox style={{width: 'auto'}} labelPosition="left" ref={index} key={index} name={item.value} defaultSwitched={checked} label={<FormattedMessage id={item.label} />} onCheck={(e) => this.onChange(e)} />)
         })
 
         return (
-            <span className="spread-right">
+            <div className="language-selection spread-evenly">
                 {checkboxes}
-            </span>
+            </div>
         )
     }
 }

@@ -9,7 +9,29 @@ import translations from 'src/i18n';
 
 import Headerbar from 'src/components/Header';
 
+// Material-ui theming
+import { HelTheme } from 'src/themes/hel';
+
 class App extends React.Component {
+
+    static propTypes = {
+        children: React.PropTypes.node,
+        muiTheme: React.PropTypes.object
+    }
+
+    static childContextTypes = {
+        muiTheme: React.PropTypes.object
+        // language: React.PropTypes.object,
+        // user: React.PropTypes.object
+    }
+
+    getChildContext() {
+        return {
+            muiTheme: HelTheme
+            // language: this.props.language,
+            // user: this.props.user
+        }
+    }
 
     render() {
         //const locale = this.props.language;

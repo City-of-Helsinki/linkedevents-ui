@@ -6,12 +6,12 @@ let Spacing = require('material-ui/lib/styles/spacing')
 
 let helRawStyle = {
     spacing: Spacing,
-    fontFamily: 'KarbidComp, Roboto, sans-serif',
+    fontFamily: 'Roboto, sans-serif',
     palette: {
         primary1Color: Colors.cyan500,
         primary2Color: Colors.cyan700,
         primary3Color: Colors.lightBlack,
-        accent1Color: Colors.pinkA200,
+        accent1Color: '#48a3e7',
         accent2Color: '#0072c6', // Toolbar color
         accent3Color: Colors.grey500,
         textColor: Colors.darkBlack,
@@ -29,10 +29,10 @@ let helHeaderRawStyle = {
         primary1Color: Colors.cyan500,
         primary2Color: Colors.cyan700,
         primary3Color: Colors.lightBlack,
-        accent1Color: Colors.pinkA200,
+        accent1Color: '#48a3e7',
         accent2Color: '#0072c6', // Toolbar color
         accent3Color: Colors.grey500,
-        textColor: Colors.white,
+        textColor: Colors.darkBlack,
         alternateTextColor: Colors.white,
         canvasColor: Colors.white,
         borderColor: Colors.grey300,
@@ -50,8 +50,6 @@ helTheme.textField.disabledTextColor = helRawStyle.palette.disabledColor
 helTheme.textField.errorColor = Colors.red500
 helTheme.textField.focusColor = helRawStyle.palette.primary1Color
 helTheme.textField.backgroundColor = '#ffffff'
-helTheme.textField.borderColor = 'rgba(0,0,0,0)'
-
 
 // Override specific component styles
 headerTheme.toolbar.backgroundColor = '#0072c6'
