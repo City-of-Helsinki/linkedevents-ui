@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { FormattedMessage } from 'react-intl'
-import { TextField } from 'material-ui'
+import { FormattedMessage, injectIntl } from 'react-intl'
+import FormsyText from 'formsy-material-ui/lib/FormsyText'
 
 let MultiLanguageField = (props) => {
 
@@ -16,12 +16,12 @@ let MultiLanguageField = (props) => {
 
     if(langs.length === 1) {
         // NOTE: import {injectIntl} from 'react-intl' to use the next line
-        // let label = props.intl.formatMessage({id: props.label}) + ' (' + props.intl.formatMessage({id: `in-${langs[0]}`}) + ')'
-        let label = (<span><FormattedMessage id={props.label} /> (<FormattedMessage id={`in-${langs[0]}`}/>)</span>)
-        return (<TextField {...props} floatingLabelText={label} name={`${props.namePrefix}_${langs[0]}`}/>)
+        let label = props.intl.formatMessage({id: props.label}) + ' (' + props.intl.formatMessage({id: `in-${langs[0]}`}) + ')'
+        //let label = (<span><FormattedMessage id={props.label} /> (<FormattedMessage id={`in-${langs[0]}`}/>)</span>)
+        return (<FormsyText {...props} floatingLabelText={label} name={`${props.namePrefix}_${langs[0]}`}/>)
     } else {
         textInputs = langs.map((lang, index) => (
-            <div><TextField {...props} key={index} floatingLabelText={<FormattedMessage id={`in-${lang}`}/>} name={`${props.namePrefix}_${lang}`}/></div>
+            <div><FormsyText {...props} key={index} floatingLabelText={props.intl.formatMessage({id: `in-${lang}`})} name={`${props.namePrefix}_${lang}`}/></div>
         ))
     }
 
@@ -35,4 +35,4 @@ let MultiLanguageField = (props) => {
     )
 }
 
-export default MultiLanguageField
+export default injectIntl(MultiLanguageField)

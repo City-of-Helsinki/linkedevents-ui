@@ -3,7 +3,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-//import {Checkbox} from 'material-ui'
 import { Checkbox } from 'material-ui'
 
 import _ from 'lodash'
@@ -30,11 +29,14 @@ class CheckboxGroup extends React.Component {
         }
     }
 
+    shouldComponentUpdate() {
+        return false
+    }
+
     render() {
         let checkboxes = this.props.options.map((item, index) => {
             let checked = (this.props.defaultSelected.indexOf(item.value) > -1)
-
-            return (<Checkbox style={{width: 'auto'}} labelPosition="left" ref={index} key={index} name={item.value} defaultSwitched={checked} label={<FormattedMessage id={item.label} />} onCheck={(e) => this.onChange(e)} />)
+            return (<Checkbox style={{width: 'auto'}} labelPosition="left" ref={index} key={index} name={item.value} defaultChecked={checked} label={<FormattedMessage id={item.label} />} onCheck={(e) => this.onChange(e)} />)
         })
 
         return (

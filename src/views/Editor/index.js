@@ -652,6 +652,11 @@ var EditEventForm = React.createClass({
         let greenStyle = {color: 'green'};
         let blueStyle = {color: 'blue'};
 
+        let buttonStyle = {
+            height: '72px',
+            margin: '0 10px'
+        }
+
 
         return (
             <div>
@@ -673,15 +678,18 @@ var EditEventForm = React.createClass({
                             <div className="row">
                                 <div className="spread-right">
                                     <RaisedButton
+                                        style={buttonStyle}
                                         label="Tallenna vedokseksi"
                                         onClick={ (e) => this.goToPreview(e) }
                                     />
                                     <RaisedButton
+                                        style={buttonStyle}
                                         label="Siirry esikatseluun"
                                         primary={true}
                                         onClick={ (e) => this.goToPreview(e) }
                                     />
                                     <FlatButton
+                                        style={buttonStyle}
                                         label="Julkaise tapahtuma"
                                         onClick={ (e) => this.handleSubmit(e) }
                                     />

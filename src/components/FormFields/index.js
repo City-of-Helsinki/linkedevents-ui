@@ -2,7 +2,10 @@ import React from 'react'
 
 import { FormattedMessage } from 'react-intl'
 
-import { TextField, Checkbox, DatePicker, TimePicker } from 'material-ui'
+import { DatePicker, TimePicker } from 'material-ui'
+
+import TextField from 'formsy-material-ui/lib/FormsyText'
+import Checkbox from 'formsy-material-ui/lib/FormsyCheckbox'
 
 import ImageUpload from 'src/components/ImageUpload'
 import HelAutoComplete from 'src/components/HelAutoComplete'
