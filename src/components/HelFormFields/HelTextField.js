@@ -1,5 +1,4 @@
 import React from 'react'
-import PureRenderMixin from 'react-addons-pure-render-mixin'
 import Formsy from 'formsy-react'
 import TextField from 'material-ui/lib/text-field'
 
@@ -7,35 +6,23 @@ import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
 
 let HelTextField = React.createClass({
-    mixins: [ Formsy.Mixin, PureRenderMixin ],
+    mixins: [ Formsy.Mixin ],
 
     propTypes: {
-        name: React.PropTypes.string.isRequired,
+        name: React.PropTypes.string.isRequired
     },
 
-    handleChange: function handleChange(event) { /*
-        if(this.getErrorMessage() != null ){
-            this.setValue(event.currentTarget.value)
-        }
-        else {
-            if (this.isValidValue(event.target.value)) {
-                this.setValue(event.target.value)
-            }
+    handleChange: function (event) {
+        this.setValue(event.currentTarget.value)
 
-            else {
-                this.setState({
-                    _value: event.currentTarget.value,
-                    _isPristine: false
-                })
-            }
-        }*/
+        console.log(this.getErrorMessage())
 
         if(typeof this.props.onChange === 'function') {
             this.props.onChange()
         }
     },
 
-    handleBlur: function handleBlur(event) {
+    handleBlur: function (event) {
         //this.setValue(event.currentTarget.value)
 
         let obj = {}
@@ -48,8 +35,19 @@ let HelTextField = React.createClass({
         }
     },
 
-    handleEnterKeyDown: function handleEnterKeyDown(event) {
+    handleEnterKeyDown: function (event) {
         //this.setValue(event.currentTarget.value)
+    },
+
+    componentWillMount: function() {
+        let defaultValue = this.props.editor.values[this.props.name] || ''
+        if(defaultValue && defaultValue.length > 0) {
+            this.setValue(defaultValue)
+        }
+    },
+
+    shouldComponentUpdate: function(newState, newProps) {
+        return true
     },
 
     render: function () {
@@ -64,18 +62,23 @@ let HelTextField = React.createClass({
             }
         }
 
+        // Check if this text field should be prefilled from local storage
+        let defaultValue = this.props.editor.values[this.props.name] || ''
+
         return (
           <TextField
             {...this.props}
             floatingLabelText={floatingLabelText}
-            defaultValue={this.props.value}
             onChange={this.handleChange}
             onBlur={this.handleBlur}
             onEnterKeyDown={this.handleEnterKeyDown}
             errorText={this.getErrorMessage()}
-            value={this.getValue()} />
+            defaultValue={defaultValue}
+            />
         )
     }
 });
 
-export default connect()(HelTextField);
+export default connect((state) => ({
+    editor: state.editor
+}))(HelTextField)

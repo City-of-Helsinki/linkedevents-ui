@@ -9,6 +9,7 @@ import _ from 'lodash'
 import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
 
+// NOTE: Not using ES6 classes because of the needed mixins
 let HelCheckboxGroup = React.createClass({
     mixins: [ Formsy.Mixin, PureRenderMixin ],
 

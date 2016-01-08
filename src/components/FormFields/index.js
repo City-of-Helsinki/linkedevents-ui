@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 
 import { DatePicker, TimePicker } from 'material-ui'
 
@@ -41,6 +41,10 @@ class FormFields extends React.Component {
     }
 
     render() {
+        let defaultValidationErrors = {
+            'isUrl': this.props.intl.formatMessage({id: 'validation-url-error'})
+        }
+
         return (
             <div>
                 <div className="col-xs-12 highlighted-block">
@@ -117,9 +121,9 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-xs-6">
-                        <HelTextField fullWidth={true} name="facebook-url" floatingLabelText={<FormattedMessage id="facebook-url"/>} />
-                        <HelTextField fullWidth={true} name="twitter-url" floatingLabelText={<FormattedMessage id="twitter-url"/>} />
-                        <HelTextField fullWidth={true} name="instagram-url" floatingLabelText={<FormattedMessage id="instagram-url"/>} />
+                        <HelTextField validations="isUrl" validationErrors={defaultValidationErrors} fullWidth={true} name="facebook-url" floatingLabelText={<FormattedMessage id="facebook-url"/>} />
+                        <HelTextField validations="isUrl" validationErrors={defaultValidationErrors} fullWidth={true} name="twitter-url" floatingLabelText={<FormattedMessage id="twitter-url"/>} />
+                        <HelTextField validations="isUrl" validationErrors={defaultValidationErrors} fullWidth={true} name="instagram-url" floatingLabelText={<FormattedMessage id="instagram-url"/>} />
                     </div>
                 </div>
 
@@ -145,4 +149,5 @@ class FormFields extends React.Component {
     }
 }
 
-export default connect()(FormFields)
+// Inject dispatch and intl into props
+export default connect()(injectIntl(FormFields))

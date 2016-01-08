@@ -73,5 +73,7 @@
     "saksa": "saksa",
     "englanti": "englanti",
     "ruotsi": "ruotsi",
-    "suomi": "suomi"
+    "suomi": "suomi",
+
+    "validation-url-error": "Kirjoita URL osoite kokonaisena ja oikeassa muodossa (http://...)"
 }
