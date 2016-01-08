@@ -2,13 +2,13 @@ import React from 'react'
 
 import { FormattedMessage, injectIntl } from 'react-intl'
 
-import { DatePicker, TimePicker } from 'material-ui'
+import { TimePicker } from 'material-ui'
 
 import TextField from 'formsy-material-ui/lib/FormsyText'
 import Checkbox from 'formsy-material-ui/lib/FormsyCheckbox'
 
 import ImageUpload from 'src/components/ImageUpload'
-import { HelAutoComplete, MultiLanguageField, HelTextField, HelLabeledCheckboxGroup, HelLanguageSelect } from 'src/components/HelFormFields'
+import { HelAutoComplete, MultiLanguageField, HelTextField, HelLabeledCheckboxGroup, HelLanguageSelect, HelDatePicker } from 'src/components/HelFormFields'
 
 import API from 'src/api.js'
 
@@ -84,9 +84,9 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-xs-6">
-                        <DatePicker fullWidth={true} DateTimeFormat={(Intl.DateTimeFormat || null)} locale="fi" name="event-starting-date" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-starting-date"/>} />
+                        <HelDatePicker fullWidth={true} DateTimeFormat={(Intl.DateTimeFormat || null)} locale="fi" name="event-starting-date" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-starting-date"/>} />
                         <TimePicker fullWidth={true} DateTimeFormat={(Intl.DateTimeFormat || null)} format="24hr" locale="fi" name="event-starting-time" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-starting-time"/>} />
-                        <DatePicker fullWidth={true} DateTimeFormat={(Intl.DateTimeFormat || null)} locale="fi" name="event-ending-date" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-ending-date"/>} />
+                        <HelDatePicker fullWidth={true} DateTimeFormat={(Intl.DateTimeFormat || null)} locale="fi" name="event-ending-date" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-ending-date"/>} />
                         <TimePicker fullWidth={true} DateTimeFormat={(Intl.DateTimeFormat || null)} format="24hr" locale="fi" name="event-ending-time" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-ending-time"/>} />
                     </div>
                 </div>
