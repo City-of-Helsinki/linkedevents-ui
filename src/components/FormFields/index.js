@@ -8,8 +8,7 @@ import TextField from 'formsy-material-ui/lib/FormsyText'
 import Checkbox from 'formsy-material-ui/lib/FormsyCheckbox'
 
 import ImageUpload from 'src/components/ImageUpload'
-import HelAutoComplete from 'src/components/HelAutoComplete'
-import MultiLanguageField from 'src/components/MultiLanguageField'
+import { HelAutoComplete, MultiLanguageField } from 'src/components/HelFormFields'
 import CheckboxGroup from 'src/components/CheckboxGroup'
 
 import API from 'src/api.js'
@@ -36,8 +35,8 @@ let SideField = (props) => (
 // NOTE: Not found in formsy-material-ui, use this for now
 let LabeledCheckboxGroup = (props) => {
     let checkboxes = props.options.map((item, index) => (
-        <span className={(props.itemClassName || '')}>
-            <Checkbox key={index} name={props.group} value={item.value} label={<FormattedMessage id={item.value}/>} />
+        <span key={index} className={(props.itemClassName || '')}>
+            <Checkbox name={props.group} value={item.value} label={<FormattedMessage id={item.value}/>} />
         </span>
     ))
 

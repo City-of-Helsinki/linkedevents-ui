@@ -18,7 +18,7 @@ let MultiLanguageField = (props) => {
         // NOTE: import {injectIntl} from 'react-intl' to use the next line
         let label = props.intl.formatMessage({id: props.label}) + ' (' + props.intl.formatMessage({id: `in-${langs[0]}`}) + ')'
         //let label = (<span><FormattedMessage id={props.label} /> (<FormattedMessage id={`in-${langs[0]}`}/>)</span>)
-        return (<FormsyText {...props} floatingLabelText={label} name={`${props.namePrefix}_${langs[0]}`}/>)
+        return (<FormsyText {...props} key={0} floatingLabelText={label} name={`${props.namePrefix}_${langs[0]}`}/>)
     } else {
         textInputs = langs.map((lang, index) => (
             <div><FormsyText {...props} key={index} floatingLabelText={props.intl.formatMessage({id: `in-${lang}`})} name={`${props.namePrefix}_${lang}`}/></div>
