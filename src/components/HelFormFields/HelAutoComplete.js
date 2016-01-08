@@ -35,8 +35,11 @@ class HelAutoComplete extends React.Component {
     }
 
     onNewRequest(chosenRequest, index, dataSource) {
-        this.setState({selectedKey: dataSource[index].key })
 
+        // Set state to update the text field
+        this.setState({selectedKey: dataSource[index].key})
+
+        // Do action to save form state to storage
         let obj = { 'event-location-name': chosenRequest, 'event-location-id': dataSource[index].key }
         this.props.dispatch(setData(obj))
 

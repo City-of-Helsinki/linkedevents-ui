@@ -8,13 +8,12 @@ import TextField from 'formsy-material-ui/lib/FormsyText'
 import Checkbox from 'formsy-material-ui/lib/FormsyCheckbox'
 
 import ImageUpload from 'src/components/ImageUpload'
-import { HelAutoComplete, MultiLanguageField } from 'src/components/HelFormFields'
 import CheckboxGroup from 'src/components/CheckboxGroup'
+import { HelAutoComplete, MultiLanguageField, HelTextField, HelCheckboxGroup } from 'src/components/HelFormFields'
 
 import API from 'src/api.js'
 
 import {connect} from 'react-redux'
-import {HelTextField} from 'src/components/HelFormFields'
 
 let helMainOptions = API.loadHelMainOptions();
 let helTargetOptions = API.loadHelTargetOptions();
@@ -31,22 +30,6 @@ let SideField = (props) => (
         { props.children }
     </div>
 )
-
-// NOTE: Not found in formsy-material-ui, use this for now
-let LabeledCheckboxGroup = (props) => {
-    let checkboxes = props.options.map((item, index) => (
-        <span key={index} className={(props.itemClassName || '')}>
-            <Checkbox name={props.group} value={item.value} label={<FormattedMessage id={item.value}/>} />
-        </span>
-    ))
-
-    return (
-        <fieldset className="checkbox-group">
-            <legend className="col-xs-12">{props.groupLabel}</legend>
-            {checkboxes}
-        </fieldset>
-    )
-}
 
 class FormFields extends React.Component {
 
@@ -144,16 +127,16 @@ class FormFields extends React.Component {
                     <FormattedMessage id="event-categorization" />
                 </FormHeader>
                 <div className="row">
-                    <LabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-main-categories"/>}
-                                    group="hel-main-categories"
+                    <HelCheckboxGroup groupLabel={<FormattedMessage id="hel-main-categories"/>}
+                                    name="hel-main-categories"
                                     itemClassName="col-xs-6"
                                     options={helMainOptions} />
-                    <LabeledCheckboxGroup groupLabel={<FormattedMessage id="target-groups"/>}
-                                    group="target-groups"
+                    <HelCheckboxGroup groupLabel={<FormattedMessage id="target-groups"/>}
+                                    name="hel-target-groups"
                                     itemClassName="col-xs-6"
                                     options={helTargetOptions} />
-                    <LabeledCheckboxGroup groupLabel={<FormattedMessage id="event-languages"/>}
-                                    group="event-languages"
+                    <HelCheckboxGroup groupLabel={<FormattedMessage id="event-languages"/>}
+                                    name="event-languages"
                                     itemClassName="col-xs-6"
                                     options={helEventLangOptions} />
                 </div>
