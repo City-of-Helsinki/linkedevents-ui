@@ -10,7 +10,7 @@ import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
 
 // NOTE: Not using ES6 classes because of the needed mixins
-let HelCheckboxGroup = React.createClass({
+let HelLabeledCheckboxGroup = React.createClass({
     mixins: [ Formsy.Mixin, PureRenderMixin ],
 
     propTypes: {
@@ -25,7 +25,7 @@ let HelCheckboxGroup = React.createClass({
         obj[this.props.name] = checkedNames
 
         this.props.dispatch(setData(obj))
-        console.log('handle change')
+
         if(typeof this.props.onChange === 'function') {
             this.props.onChange(checkedNames)
         }
@@ -48,4 +48,4 @@ let HelCheckboxGroup = React.createClass({
     }
 });
 
-export default connect()(HelCheckboxGroup);
+export default connect()(HelLabeledCheckboxGroup);

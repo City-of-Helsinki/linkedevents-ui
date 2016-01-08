@@ -8,8 +8,7 @@ import TextField from 'formsy-material-ui/lib/FormsyText'
 import Checkbox from 'formsy-material-ui/lib/FormsyCheckbox'
 
 import ImageUpload from 'src/components/ImageUpload'
-import CheckboxGroup from 'src/components/CheckboxGroup'
-import { HelAutoComplete, MultiLanguageField, HelTextField, HelCheckboxGroup } from 'src/components/HelFormFields'
+import { HelAutoComplete, MultiLanguageField, HelTextField, HelLabeledCheckboxGroup, HelLanguageSelect } from 'src/components/HelFormFields'
 
 import API from 'src/api.js'
 
@@ -35,8 +34,11 @@ class FormFields extends React.Component {
 
     constructor(props) {
         super(props)
+
+        let languages = this.props.editor.values['presentation-languages'] || ['fi']
+
         this.state = {
-            languages: ['fi']
+            languages: languages
         }
     }
 
@@ -55,7 +57,7 @@ class FormFields extends React.Component {
                     </div>
                     <div className="col-xs-6">
                         <div className="spread-evenly">
-                            <CheckboxGroup options={API.eventInfoLanguages()} defaultSelected={['fi']} onChange={(array) => {this.setState({languages: array})}}/>
+                            <HelLanguageSelect name="presentation-languages" options={API.eventInfoLanguages()} defaultSelected={this.state.languages} onChange={(array) => {this.setState({languages: array})}}/>
                         </div>
                     </div>
                 </div>
@@ -131,15 +133,15 @@ class FormFields extends React.Component {
                     <FormattedMessage id="event-categorization" />
                 </FormHeader>
                 <div className="row">
-                    <HelCheckboxGroup groupLabel={<FormattedMessage id="hel-main-categories"/>}
+                    <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-main-categories"/>}
                                     name="hel-main-categories"
                                     itemClassName="col-xs-6"
                                     options={helMainOptions} />
-                    <HelCheckboxGroup groupLabel={<FormattedMessage id="target-groups"/>}
+                    <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="target-groups"/>}
                                     name="hel-target-groups"
                                     itemClassName="col-xs-6"
                                     options={helTargetOptions} />
-                    <HelCheckboxGroup groupLabel={<FormattedMessage id="event-languages"/>}
+                    <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="event-languages"/>}
                                     name="event-languages"
                                     itemClassName="col-xs-6"
                                     options={helEventLangOptions} />
@@ -150,4 +152,6 @@ class FormFields extends React.Component {
 }
 
 // Inject dispatch and intl into props
-export default connect()(injectIntl(FormFields))
+export default connect((state) => ({
+    editor: state.editor
+}))(injectIntl(FormFields))

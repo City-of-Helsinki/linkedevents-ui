@@ -3,26 +3,27 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Checkbox } from 'material-ui'
+import Checkbox from 'material-ui/lib/checkbox'
+
+import {connect} from 'react-redux'
+import {setData} from 'src/actions/editor.js'
 
 import _ from 'lodash'
 
-class CheckboxGroup extends React.Component {
+class HelLanguageSelect extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = {
-            checked: []
-        }
     }
 
     onChange() {
         let checked = _.filter(this.refs, (ref) => (ref.isChecked()))
         let checkedNames = _.map(checked, (checkbox) => (checkbox.props.name) )
 
-        this.setState({
-            checked: checkedNames
-        })
+        let obj = {}
+        obj[this.props.name] = checkedNames
+
+        this.props.dispatch(setData(obj))
 
         if(typeof this.props.onChange === 'function') {
             this.props.onChange(checkedNames)
@@ -35,7 +36,7 @@ class CheckboxGroup extends React.Component {
 
     render() {
         let checkboxes = this.props.options.map((item, index) => {
-            let checked = (this.props.defaultSelected.indexOf(item.value) > -1)
+            let checked = this.props.defaultSelected && (this.props.defaultSelected.indexOf(item.value) > -1)
             return (<Checkbox style={{width: 'auto'}} labelPosition="left" ref={index} key={index} name={item.value} defaultChecked={checked} label={<FormattedMessage id={item.label} />} onCheck={(e) => this.onChange(e)} />)
         })
 
@@ -47,4 +48,4 @@ class CheckboxGroup extends React.Component {
     }
 }
 
-export default CheckboxGroup
+export default connect()(HelLanguageSelect)
