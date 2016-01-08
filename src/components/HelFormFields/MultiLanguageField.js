@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { FormattedMessage, injectIntl } from 'react-intl'
-import FormsyText from 'formsy-material-ui/lib/FormsyText'
+import HelTextField from './HelTextField'
 
 let MultiLanguageField = (props) => {
 
@@ -18,10 +18,10 @@ let MultiLanguageField = (props) => {
         // NOTE: import {injectIntl} from 'react-intl' to use the next line
         let label = props.intl.formatMessage({id: props.label}) + ' (' + props.intl.formatMessage({id: `in-${langs[0]}`}) + ')'
         //let label = (<span><FormattedMessage id={props.label} /> (<FormattedMessage id={`in-${langs[0]}`}/>)</span>)
-        return (<FormsyText {...props} key={0} floatingLabelText={label} name={`${props.namePrefix}_${langs[0]}`}/>)
+        return (<HelTextField {...props} floatingLabelText={label} name={`${props.name}_${langs[0]}`}/>)
     } else {
         textInputs = langs.map((lang, index) => (
-            <div><FormsyText {...props} key={index} floatingLabelText={props.intl.formatMessage({id: `in-${lang}`})} name={`${props.namePrefix}_${lang}`}/></div>
+            <div key={index}><HelTextField {...props} floatingLabelText={props.intl.formatMessage({id: `in-${lang}`})} name={`${props.name}_${lang}`}/></div>
         ))
     }
 
