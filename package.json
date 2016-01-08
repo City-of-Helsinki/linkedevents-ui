@@ -34,6 +34,7 @@
     "passport-helsinki": "https://github.com/City-of-Helsinki/passport-helsinki.git",
     "progress": "^1.1.8",
     "react": "^0.14.3",
+    "react-addons-pure-render-mixin": "^0.14.6",
     "react-dom": "^0.14.3",
     "react-helmet": "^2.2.0",
     "react-intl": "^2.0.0-pr-3",

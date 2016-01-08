@@ -14,24 +14,12 @@ import CheckboxGroup from 'src/components/CheckboxGroup'
 
 import API from 'src/api.js'
 
+import {connect} from 'react-redux'
+import {HelTextField} from 'src/components/HelFormFields'
+
 let helMainOptions = API.loadHelMainOptions();
 let helTargetOptions = API.loadHelTargetOptions();
 let helEventLangOptions = API.loadHelEventLangOptions();
-
-let HelTextField = (props) => {
-    let { required, floatingLabelText } = props
-
-    if(required) {
-        if(typeof floatingLabelText === 'string') {
-            floatingLabelText += ' *'
-        }
-        if(typeof floatingLabelText === 'object') {
-            floatingLabelText = (<span>{floatingLabelText} *</span>)
-        }
-    }
-
-    return (<TextField {...props} floatingLabelText={floatingLabelText} />)
-}
 
 let FormHeader = (props) => (
     <div className="row">
@@ -175,4 +163,4 @@ class FormFields extends React.Component {
     }
 }
 
-export default FormFields
+export default connect()(FormFields)
