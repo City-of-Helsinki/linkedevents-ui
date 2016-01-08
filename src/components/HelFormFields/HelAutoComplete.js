@@ -15,7 +15,7 @@ class HelAutoComplete extends React.Component {
         super(props)
         this.state = {
             dataSource: [],
-            selectedKey: ''
+            selectedKey: this.props.editor.values['event-location-id'] || ''
         }
     }
 
@@ -63,12 +63,11 @@ class HelAutoComplete extends React.Component {
             <span>
                 <AutoComplete
                     fullWidth={true}
-                    required={true}
                     showAllItems={true}
                     anchorOrigin={anchorOrigin}
                     targetOrigin={targetOrigin}
                     dataSource={this.state.dataSource}
-                    floatingLabelText={<FormattedMessage id="event-location"/>}
+                    floatingLabelText={<span><FormattedMessage id="event-location"/> ({this.props.editor.values['event-location-name']})</span>}
                     onUpdateInput={(t) => { this.onInput(t) }}
                     onNewRequest={(t,i,d) => { this.onNewRequest(t,i,d) }} />
                 <TextField fullWidth={true} value={this.state.selectedKey} disabled={true} required={true} floatingLabelText={<FormattedMessage id="event-location-id"/>} />
@@ -79,4 +78,6 @@ class HelAutoComplete extends React.Component {
 
 
 
-export default connect()(HelAutoComplete)
+export default connect((state) =>({
+    editor: state.editor
+}))(HelAutoComplete)
