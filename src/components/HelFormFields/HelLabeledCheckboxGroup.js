@@ -33,11 +33,15 @@ let HelLabeledCheckboxGroup = React.createClass({
 
     render: function() {
         let self = this
-        let checkboxes = this.props.options.map((item, index) => (
-            <span key={index} className={(this.props.itemClassName || '')}>
-                <Checkbox ref={index} onCheck={self.handleChange} name={this.props.name+'.'+item.value} value={item.value} label={<FormattedMessage id={item.value}/>} />
-            </span>
-        ))
+        let checkboxes = this.props.options.map((item, index) => {
+            let checked = this.props.editor.values[this.props.name] && (this.props.editor.values[this.props.name].indexOf(item.value) > -1)
+
+            return (
+                <span key={index} className={(this.props.itemClassName || '')}>
+                    <Checkbox ref={index} onCheck={self.handleChange} defaultChecked={checked} name={this.props.name+'.'+item.value} value={item.value} label={<FormattedMessage id={item.value}/>} />
+                </span>
+            )
+        })
 
         return (
             <fieldset className="checkbox-group">
@@ -48,4 +52,6 @@ let HelLabeledCheckboxGroup = React.createClass({
     }
 });
 
-export default connect()(HelLabeledCheckboxGroup);
+export default connect((state) => ({
+    editor: state.editor
+}))(HelLabeledCheckboxGroup);

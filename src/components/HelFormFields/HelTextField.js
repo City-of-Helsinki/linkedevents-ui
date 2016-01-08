@@ -15,8 +15,6 @@ let HelTextField = React.createClass({
     handleChange: function (event) {
         this.setValue(event.currentTarget.value)
 
-        console.log(this.getErrorMessage())
-
         if(typeof this.props.onChange === 'function') {
             this.props.onChange()
         }

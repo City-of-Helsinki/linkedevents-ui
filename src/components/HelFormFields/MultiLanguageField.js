@@ -15,13 +15,11 @@ let MultiLanguageField = (props) => {
     let textInputs = []
 
     if(langs.length === 1) {
-        // NOTE: import {injectIntl} from 'react-intl' to use the next line
         let label = props.intl.formatMessage({id: props.label}) + ' (' + props.intl.formatMessage({id: `in-${langs[0]}`}) + ')'
-        //let label = (<span><FormattedMessage id={props.label} /> (<FormattedMessage id={`in-${langs[0]}`}/>)</span>)
-        return (<HelTextField {...props} floatingLabelText={label} name={`${props.name}_${langs[0]}`}/>)
+        return (<div key={`${props.name}_${langs[0]}`}><HelTextField {...props} floatingLabelText={label} name={`${props.name}_${langs[0]}`}/></div>)
     } else {
         textInputs = langs.map((lang, index) => (
-            <div key={index}><HelTextField {...props} floatingLabelText={props.intl.formatMessage({id: `in-${lang}`})} name={`${props.name}_${lang}`}/></div>
+            <div key={`${props.name}_${lang}`}><HelTextField {...props} floatingLabelText={props.intl.formatMessage({id: `in-${lang}`})} name={`${props.name}_${lang}`}/></div>
         ))
     }
 
