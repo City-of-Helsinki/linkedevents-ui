@@ -7,6 +7,9 @@ import { TextField } from 'material-ui'
 
 import Typeahead from 'src/typeahead.js'
 
+import {connect} from 'react-redux'
+import {setData} from 'src/actions/editor.js'
+
 class HelAutoComplete extends React.Component {
     constructor (props) {
         super(props)
@@ -33,7 +36,13 @@ class HelAutoComplete extends React.Component {
 
     onNewRequest(chosenRequest, index, dataSource) {
         this.setState({selectedKey: dataSource[index].key })
-        this.props.onSelection(chosenRequest, index, dataSource)
+
+        let obj = { 'event-location-name': chosenRequest, 'event-location-id': dataSource[index].key }
+        this.props.dispatch(setData(obj))
+
+        if(typeof this.props.onSelection === 'function') {
+            this.props.onSelection(chosenRequest, index, dataSource)
+        }
     }
 
     render() {
@@ -67,4 +76,4 @@ class HelAutoComplete extends React.Component {
 
 
 
-export default HelAutoComplete
+export default connect()(HelAutoComplete)
