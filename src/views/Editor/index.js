@@ -11,6 +11,7 @@ import Formsy from 'formsy-react'
 import React from 'react'
 import {History} from 'react-router'
 import {connect} from 'react-redux'
+import {sendData, clearData} from 'src/actions/editor.js'
 
 import {FormattedMessage} from 'react-intl'
 
@@ -37,6 +38,168 @@ var EXT_LINK_NO_LANGUAGE = 'fi'
 import FormFields from 'src/components/FormFields'
 
 // === code ===
+//
+
+var EditEventForm = React.createClass({
+
+    getInitialState() {
+        return {
+            canSubmit: false,
+            layout: 'horizontal',
+            validatePristine: false,
+            disabled: false,
+            location_id: '',
+        }
+    },
+
+    componentDidUpdate() {
+        // @trackActionChanges()
+
+        // set up typeahead
+
+        var taOptions = {
+            hint: true,
+            highlight: true,
+            minLength: 1
+        };
+
+        var taDatasets = {
+            limit: 25,
+            display: 'value',
+            templates: {
+                suggestion(model) {
+                   return '<div><class="place_name">' +
+                   model.value +
+                   '</span><br><span class="place_address">' +
+                   model.street_address +
+                   '</span></div>';
+                },
+                empty(d) {
+                    return '<p class="repo-name">No Matches</p>';
+                }
+            },
+            source: Typeahead.bloodhoundInstance.ttAdapter()
+        };
+
+        var taSelectHandler = (function(evt, item) {
+            this.setState({
+                location_id: item.id
+            });
+            return this.refs.__location_search_field.value = item.value;
+        }
+        ).bind(this);
+
+        var taEm = $('#__location_search_field');
+        taEm.typeahead(taOptions, taDatasets);
+        return taEm.on('typeahead:selected', taSelectHandler);
+    },
+
+    enableButton() {
+        return this.setState({
+            canSubmit: true
+        });
+    },
+
+    disableButton() {
+        return this.setState({
+            canSubmit: false
+        });
+    },
+
+    clearForm() {
+        this.props.dispatch(clearData())
+    },
+
+    willReceiveProps() {
+        this.forceUpdate()
+    },
+
+    // TODO: checking 'all' checks all other buttons
+
+    // NOTE: how to handle all hel.fi categories seletion? Add all categories to array or add 'all' string?
+    // NOTE: same question for target groups
+
+    goToPreview(event) {
+        console.log(event)
+    },
+
+    handleSubmit(event, user) {
+        this.props.dispatch(sendData(this.props.editor.values, user))
+        console.log('Submitting', this.props.editor.values)
+    },
+
+    render() {
+        var sharedProps = {
+            layout: this.state.layout,
+            validatePristine: this.state.validatePristine,
+            disabled: this.state.disabled
+        };
+
+        // TODO: move to scss
+        let paddingStyle = { paddingBottom: "1em" };
+        let greenStyle = {color: 'green'};
+        let blueStyle = {color: 'blue'};
+
+        let buttonStyle = {
+            height: '72px',
+            margin: '0 10px'
+        }
+
+
+        return (
+            <div>
+                <div className="container header">
+                    <h1>
+                        <FormattedMessage id="create-event"/>
+                    </h1>
+                    <span className="controls">
+                        <RaisedButton onClick={this.clearForm} primary={true} className="pull-right" label={<span><FormattedMessage id="clear-form"/><i className="material-icons">&#xE14C;</i></span>}/>
+                    </span>
+                </div>
+                <Formsy.Form className="form-horizontal"
+                             onSubmit={this.handleSubmit}
+                             onValid={this.enableButton}
+                             onInvalid={this.disableButton}
+                             ref="editForm"
+                             >
+                    <div className="container">
+                        <FormFields />
+                    </div>
+
+                    <div className="editor-action-buttons">
+                        <div className="container">
+                            <div className="row">
+                                <div className="spread-right">
+                                    <RaisedButton
+                                        style={buttonStyle}
+                                        label="Tallenna vedokseksi"
+                                        onClick={ (e) => this.goToPreview(e) }
+                                    />
+                                    <RaisedButton
+                                        style={buttonStyle}
+                                        label="Siirry esikatseluun"
+                                        primary={true}
+                                        onClick={ (e) => this.goToPreview(e) }
+                                    />
+                                    <FlatButton
+                                        style={buttonStyle}
+                                        label="Julkaise tapahtuma"
+                                        onClick={ (e) => this.handleSubmit(e) }
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Formsy.Form>
+            </div>
+        )
+    }
+});
+
+EditEventForm = connect((state) => ({
+    editor: state.editor,
+    user: state.user
+}))(EditEventForm)
 
 var EditorPage = React.createClass({
 
@@ -372,335 +535,21 @@ var EditorPage = React.createClass({
     },
 
     render() {
-        let content = <div />
-
-        if (this.state.isPreview) {
-            if (this.state.apiErrorMsg && this.state.apiErrorMsg.length > 0) {
-                let errorStyle = { color: 'red !important' };
-                var err = (
-                    <span style={errorStyle}>
-                        {this.state.apiErrorMsg}
-                    </span>
-                );
-            }
-
-            content = (
-                <div>
-                    <h2>Vahvista tapahtuman tallennus</h2>
-                    <Formsy.Form
-                        className="form-horizontal"
-                        ref="previewForm"
-                    >
-                        <Input
-                            name="ignore"
-                            value={this.state.data.headline_fi}
-                            label="Otsikko"
-                            type="text"
-                            disabled
-                        />
-                        <Input
-                            name="ignore2"
-                            value={this.state.data.__location_search_field}
-                            label="Paikka"
-                            type="text"
-                            disabled
-                        />
-                        <Input
-                            name="ignore3"
-                            value={API.getStartTime(this.state.data)}
-                            label="Alkuaika"
-                            type="text"
-                            disabled
-                        />
-                        <Textarea
-                            name="ignore4"
-                            rows={8}
-                            cols={40}
-                            label="Kaikki tapahtuman tiedot JSON-muodossa"
-                            value={JSON.stringify(this.state.data)}
-                            disabled
-                        />
-                        {err}
-                        <Row layout={this.state.layout}>
-                            <input
-                                className="btn btn-default"
-                                type="submit"
-                                defaultValue="Muokkaa tietoja"
-                                onClick={this.switchToEdit}
-                            />
-                            &nbsp;
-                            <input
-                                className="btn btn-primary"
-                                type="submit"
-                                onClick={this.postEventData}
-                                defaultValue="Lähetä tiedot LinkedEvents-tietokantaan"
-                            />
-                        </Row>
-                    </Formsy.Form>
-                </div>
-            )
-        } else if (this.state.isDone) {
-            content = (
-                <div>
-                    Tapahtuman tiedot tallennettu.
-                </div>
-            )
-        } else {
-            content = (
-                <div>
-                    <EditEventForm
-                        eventId={this.props.params.eventId}
-                        switchToPreview={this.switchToPreview}
-                        updateData={this.updateData}
-                        ref="formContainer"
-                        __eventData={this.state.data}
-                        action={this.props.params.action}
-                    />
-                </div>
-            )
-        }
         return (
             <div className="editor-page">
-                {content}
+                <EditEventForm
+                    eventId={this.props.params.eventId}
+                    switchToPreview={this.switchToPreview}
+                    updateData={this.updateData}
+                    ref="formContainer"
+                    __eventData={this.state.data}
+                    action={this.props.params.action}
+                />
             </div>
         )
     }
 });
 
-
-var EditEventForm = React.createClass({
-
-    getInitialState() {
-        return {canSubmit: false,
-        layout: 'horizontal',
-        validatePristine: false,
-        disabled: false,
-        location_id: '',
-        enStyle: {display: 'none', color: 'green !important'},
-        svStyle: {display: 'none', color: 'blue !important'}
-        };
-    },
-
-    componentDidUpdate() {
-        // @trackActionChanges()
-
-        // set up typeahead
-
-        var taOptions = {
-            hint: true,
-            highlight: true,
-            minLength: 1
-        };
-
-        var taDatasets = {
-            limit: 25,
-            display: 'value',
-            templates: {
-                suggestion(model) {
-                   return '<div><class="place_name">' +
-                   model.value +
-                   '</span><br><span class="place_address">' +
-                   model.street_address +
-                   '</span></div>';
-                },
-                empty(d) {
-                    return '<p class="repo-name">No Matches</p>';
-                }
-            },
-            source: Typeahead.bloodhoundInstance.ttAdapter()
-        };
-
-        var taSelectHandler = (function(evt, item) {
-            this.setState({
-                location_id: item.id
-            });
-            return this.refs.__location_search_field.value = item.value;
-        }
-        ).bind(this);
-
-        var taEm = $('#__location_search_field');
-        taEm.typeahead(taOptions, taDatasets);
-        return taEm.on('typeahead:selected', taSelectHandler);
-    },
-
-    enableButton() {
-        return this.setState({
-            canSubmit: true
-        });
-    },
-
-    disableButton() {
-        return this.setState({
-            canSubmit: false
-        });
-    },
-
-    preview(data) {
-        data.__location_search_field = this.refs.__location_search_field.value;
-        this.props.updateData(data);
-        return this.props.switchToPreview();
-    },
-
-    resetData(data) {
-        // called eg. after we return from preview back to editing the event
-        this.refs.editForm.reset(data);
-        return this.refs.__location_search_field.value = data.__location_search_field;
-    },
-
-    toggleEn() {
-        var style = $.extend({}, this.state.enStyle);
-        style.display  = style.display === 'none' ? 'inline' : 'none';
-        return this.setState({
-            enStyle: style
-        });
-    },
-
-    toggleSv() {
-        var style = $.extend({}, this.state.svStyle);
-        style.display  = style.display === 'none' ? 'inline' : 'none';
-        return this.setState({
-            svStyle: style
-        });
-    },
-
-    checkAndUncheckAll(cbGroup, allKey, newValues, getEveryItemFunc) {
-        var oldValues = cbGroup.getValue();
-
-        // uncheck every item, if 'all' is unchecked
-        if ((oldValues.indexOf(allKey) >= 0) && (newValues.indexOf(allKey) < 0)) {
-            newValues = [];
-
-        // uncheck 'all', if any other items are unchecked
-        } else if ((oldValues.indexOf(allKey) >= 0) && (newValues.length < oldValues.length)) {
-            newValues = newValues.filter(function(item) { return item !== allKey; });
-
-        // check every item, if 'all' is checked
-        } else if ((newValues.indexOf(allKey) >= 0) && (oldValues.indexOf(allKey) < 0)) {
-            newValues = getEveryItemFunc();
-        }
-
-        return cbGroup.setValue(newValues);
-    },
-
-    checkAndUncheckAllV2(cbGroup, noneKey, newValues, getEveryItemFunc) {
-        var oldValues = cbGroup.getValue();
-
-        // uncheck every item, if 'none' is checked
-        if ((newValues.indexOf(noneKey) >= 0) && (oldValues.indexOf(noneKey) < 0)) {
-            newValues = [noneKey];
-
-        // uncheck 'none', if any other items are checked
-        } else if ((oldValues.indexOf(noneKey) >= 0) && (newValues.length > oldValues.length)) {
-            newValues = newValues.filter(function(item) { return item !== noneKey; });
-        }
-
-        return cbGroup.setValue(newValues);
-    },
-
-    catchHelTargetAll(emName, newValues) {
-        return this.checkAndUncheckAllV2(this.refs.helTarget, 'all', newValues, function() {
-            var result = [];
-            for (var i = 0, obj; i < FF.helTargetOptions.length; i++) {
-                obj = FF.helTargetOptions[i];
-                result.push(obj.value);
-            }
-            return result;
-        }).bind(this);
-    },
-
-    catchHelEventLangAll(emName, newValues) {
-        return this.checkAndUncheckAll(this.refs.helEventLang,'all',newValues, function() {
-            var result = [];
-            for (var i = 0, obj; i < FF.helEventLangOptions.length; i++) {
-                obj = FF.helEventLangOptions[i];
-                result.push(obj.value);
-            }
-            return result;
-        }).bind(this);
-    },
-
-    getFormFields() {
-        if (this.props.action === 'update') {
-            return (
-                <div>
-                    {FF.updateEventHidden(this.props.__eventData)}
-                    {FF.editEventFields(this.state.location_id, this.catchHelTargetAll, this.catchHelEventLangAll)}
-                </div>
-            );
-        } else {
-            return FF.editEventFields(this.state.location_id, this.catchHelTargetAll, this.catchHelEventLangAll);
-        }
-    },
-
-    goToPreview(event) {
-        console.log(event)
-    },
-
-    handleSubmit(event) {
-        console.log(event)
-    },
-
-    render() {
-        var sharedProps = {
-            layout: this.state.layout,
-            validatePristine: this.state.validatePristine,
-            disabled: this.state.disabled
-        };
-
-        // TODO: move to scss
-        let paddingStyle = { paddingBottom: "1em" };
-        let greenStyle = {color: 'green'};
-        let blueStyle = {color: 'blue'};
-
-        let buttonStyle = {
-            height: '72px',
-            margin: '0 10px'
-        }
-
-
-        return (
-            <div>
-                <div className="container">
-                    <h1><FormattedMessage id="create-event"/></h1>
-                </div>
-                <Formsy.Form className="form-horizontal"
-                             onSubmit={this.handleSubmit}
-                             onValid={this.enableButton}
-                             onInvalid={this.disableButton}
-                             ref="editForm"
-                             >
-                    <div className="container">
-                        <FormFields />
-                    </div>
-
-                    <div className="editor-action-buttons">
-                        <div className="container">
-                            <div className="row">
-                                <div className="spread-right">
-                                    <RaisedButton
-                                        style={buttonStyle}
-                                        label="Tallenna vedokseksi"
-                                        onClick={ (e) => this.goToPreview(e) }
-                                    />
-                                    <RaisedButton
-                                        style={buttonStyle}
-                                        label="Siirry esikatseluun"
-                                        primary={true}
-                                        onClick={ (e) => this.goToPreview(e) }
-                                    />
-                                    <FlatButton
-                                        style={buttonStyle}
-                                        label="Julkaise tapahtuma"
-                                        onClick={ (e) => this.handleSubmit(e) }
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </Formsy.Form>
-            </div>
-        )
-    }
-});
-
-export default connect()(EditorPage)
+export default connect((state) => ({
+    editor: state.editor
+}))(EditorPage)

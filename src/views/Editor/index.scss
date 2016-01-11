@@ -3,6 +3,21 @@
     font-weight: 300;
     background-color: #ffffff;
 
+    .header {
+        position: relative;
+
+        h1 {
+            display: inline-block;
+        }
+
+        .controls {
+            position: absolute;
+            right: 10px;
+            bottom: 54px;
+            display: inline-block;
+        }
+    }
+
     h2,h3,legend {
         font-family: "Roboto", "Helvetica Neue", "Segoe UI", Calibri, sans-serif;
         margin-top: 55px;

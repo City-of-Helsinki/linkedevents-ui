@@ -16,10 +16,21 @@ export function clearData() {
 }
 
 // Send data and create sendDataComplete event afterwards
-export function sendData() {
-    // Call ajax, then sendDataComplete
-    return {
-        type: constants.EDITOR_SENDDATA
+// NOTE: values are passed from the editor view. There's no apparent way to access state from here
+export function sendData(formValues, user) {
+    return (dispatch) => {
+        console.log(formValues, user)
+        let url = `${appSettings.api_base}/event/`
+
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            user: user,
+            body: JSON.stringify(formValues)
+        }).then(json => dispatch(sendDataComplete(json)))
     }
 }
 

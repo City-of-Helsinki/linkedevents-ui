@@ -28,11 +28,11 @@ function update(state = initialState, action) {
     }
 
     if(action.type === constants.EDITOR_CLEARDATA) {
+        localStorage.setItem('EDITOR_VALUES', JSON.stringify({}))
+
         return Object.assign({}, state, {
             values: {}
         })
-
-        localStorage.setItem('EDITOR_VALUES', JSON.stringify({}))
     }
 
     if(action.type === constants.EDITOR_SENDDATA_SUCCESS) {
