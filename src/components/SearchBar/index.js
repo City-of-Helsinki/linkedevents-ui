@@ -23,11 +23,11 @@ class SearchBar extends React.Component {
 
     static contextTypes = {
         muiTheme: React.PropTypes.object
-    }
+    };
 
     static childContextTypes = {
         muiTheme: React.PropTypes.object
-    }
+    };
 
     getChildContext () {
         return {

@@ -17,13 +17,13 @@ class App extends React.Component {
     static propTypes = {
         children: React.PropTypes.node,
         muiTheme: React.PropTypes.object
-    }
+    };
 
     static childContextTypes = {
         muiTheme: React.PropTypes.object
         // language: React.PropTypes.object,
         // user: React.PropTypes.object
-    }
+    };
 
     getChildContext() {
         return {
