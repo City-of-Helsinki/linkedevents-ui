@@ -1,4 +1,4 @@
 base_url: /
 static_url: /static
 express_port: 9001
-api_base: http://api.hel.fi/linkedevents/v0.1
+api_base: http://api.hel.fi/linkedevents-test/v0.1
