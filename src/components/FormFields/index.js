@@ -2,8 +2,6 @@ import React from 'react'
 
 import { FormattedMessage, injectIntl } from 'react-intl'
 
-import TextField from 'formsy-material-ui/lib/FormsyText'
-
 import ImageUpload from 'src/components/ImageUpload'
 import {
     HelAutoComplete,

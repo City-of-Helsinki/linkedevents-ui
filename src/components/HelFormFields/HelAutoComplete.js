@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { FormattedMessage } from 'react-intl'
+import { injectIntl } from 'react-intl'
 
 import { AutoComplete } from 'material-ui'
 import { TextField } from 'material-ui'
@@ -59,6 +59,11 @@ class HelAutoComplete extends React.Component {
           horizontal: 'left'
         }
 
+        let labelText = this.props.intl.formatMessage({id:'event-location'})
+        if (this.props.editor.values['event-location-name']) {
+            labelText += ` (${this.props.editor.values['event-location-name']})`
+        }
+
         return (
             <span>
                 <AutoComplete
@@ -67,10 +72,10 @@ class HelAutoComplete extends React.Component {
                     anchorOrigin={anchorOrigin}
                     targetOrigin={targetOrigin}
                     dataSource={this.state.dataSource}
-                    floatingLabelText={<span><FormattedMessage id="event-location"/> ({this.props.editor.values['event-location-name']})</span>}
+                    floatingLabelText={labelText}
                     onUpdateInput={(t) => { this.onInput(t) }}
                     onNewRequest={(t,i,d) => { this.onNewRequest(t,i,d) }} />
-                <TextField fullWidth={true} value={this.state.selectedKey} disabled={true} required={true} floatingLabelText={<FormattedMessage id="event-location-id"/>} />
+                <TextField fullWidth={true} value={this.state.selectedKey} disabled={true} required={true} floatingLabelText={this.props.intl.formatMessage({ id: "event-location-id" })} />
             </span>
         )
     }
@@ -80,4 +85,4 @@ class HelAutoComplete extends React.Component {
 
 export default connect((state) =>({
     editor: state.editor
-}))(HelAutoComplete)
+}))(injectIntl(HelAutoComplete))
