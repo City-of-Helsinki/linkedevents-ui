@@ -2,15 +2,8 @@
 @import "node_modules/bootstrap/scss/bootstrap-reboot.scss";
 @import "node_modules/bootstrap/scss/bootstrap-grid.scss";
 
-// Mui sass styles
-@import "node_modules/material-ui-with-sass/src/sass/scaffolding";
-
 // Define a custom sass file to override any variables defined in scaffolding.scss
 // @import "my-custom-overrides.scss";
-
-@import "./helsinki-mui";
-
-@import "node_modules/material-ui-with-sass/src/sass/components";
 
 html, body {
     width: 100%;
@@ -75,4 +68,17 @@ h1,h2 {
     align-items: center;
     align-content: center;
     justify-content: space-around;
+}
+
+.spread-right {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: flex-end;
+}
+
+.padded {
+    padding: 0.5rem 0.5rem;
 }

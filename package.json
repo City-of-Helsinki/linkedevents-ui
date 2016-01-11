@@ -18,6 +18,7 @@
     "cookie-session": "^2.0.0-alpha.1",
     "debug": "^2.2.0",
     "express": "^4.13.3",
+    "formsy-material-ui": "^0.3.4",
     "formsy-react": "^0.17.0",
     "formsy-react-components": "^0.6.3",
     "history": "^1.13.1",
@@ -25,7 +26,7 @@
     "jquery": "^2.1.4",
     "jsonwebtoken": "^5.4.1",
     "lodash": "^3.10.1",
-    "material-ui-with-sass": "^0.1.17",
+    "material-ui": "^0.14.0",
     "moment": "^2.10.6",
     "moment-timezone": "^0.4.1",
     "nconf": "^0.8.2",
@@ -33,6 +34,7 @@
     "passport-helsinki": "https://github.com/City-of-Helsinki/passport-helsinki.git",
     "progress": "^1.1.8",
     "react": "^0.14.3",
+    "react-addons-pure-render-mixin": "^0.14.6",
     "react-dom": "^0.14.3",
     "react-helmet": "^2.2.0",
     "react-intl": "^2.0.0-pr-3",
@@ -71,7 +73,8 @@
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.9",
-    "webpack-dev-server": "^1.14.0"
+    "webpack-dev-server": "^1.14.0",
+    "webpack-hot-middleware": "^2.6.0"
   },
   "license": "MIT"
 }

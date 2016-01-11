@@ -21,6 +21,14 @@ $search-bar-height: 72px;
         height: $search-bar-height;
     }
 
+    .text-field {
+        font-weight: 300;
+        background: #ffffff !important;
+
+        hr {
+            display: none !important;
+        }
+    }
 
     .mui-text-field {
         width: 100% !important;

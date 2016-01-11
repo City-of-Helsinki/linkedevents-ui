@@ -5,8 +5,9 @@ import moment from 'moment'
 import React from 'react'
 import { connect } from 'react-redux'
 
-import RaisedButton from 'node_modules/material-ui-with-sass/src/js/raised-button.jsx'
-import TextField from 'node_modules/material-ui-with-sass/src/js/text-field.jsx'
+import { RaisedButton, TextField } from 'material-ui'
+
+import { HeaderTheme } from 'src/themes/hel'
 
 class SearchBar extends React.Component {
 
@@ -17,6 +18,20 @@ class SearchBar extends React.Component {
             searchQuery: '',
             startDate: moment().startOf('month'),
             endDate: moment()
+        }
+    }
+
+    static contextTypes = {
+        muiTheme: React.PropTypes.object
+    };
+
+    static childContextTypes = {
+        muiTheme: React.PropTypes.object
+    };
+
+    getChildContext () {
+        return {
+            muiTheme: HeaderTheme
         }
     }
 
@@ -89,11 +104,11 @@ class SearchBar extends React.Component {
             <form onSubmit={ (e) => this.handleSubmit(e) } className="row search-bar">
                 <div className="col-xs-6">
                     <TextField
+                      fullWidth={true}
                       floatingLabelText="Tapahtuman nimi tai paikka"
                       onChange={ (e) => this.handleChange(e) }
                       ref="searchQueryInput"
-                      className="text-field col-xs-6"
-                      style={{width: 'auto'}}
+                      className="text-field"
                     />
                 </div>
 
@@ -102,7 +117,9 @@ class SearchBar extends React.Component {
                 </div>
 
                 <div className="col-xs-3">
-                    <RaisedButton
+                    <RaisedButton style={{height: '72px'}}
+                        fullWidth={true}
+                        className="mui-raised-button"
                         type="submit"
                         label="Hae tapahtumia"
                         primary={true}

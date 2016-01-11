@@ -20,6 +20,8 @@ import {
     Row
 } from 'formsy-react-components'
 
+import { RaisedButton, FlatButton } from 'material-ui'
+
 // our components
 import FF from 'src/formfields.js'
 import Typeahead from 'src/typeahead.js'
@@ -630,6 +632,14 @@ var EditEventForm = React.createClass({
         }
     },
 
+    goToPreview(event) {
+        console.log(event)
+    },
+
+    handleSubmit(event) {
+        console.log(event)
+    },
+
     render() {
         var sharedProps = {
             layout: this.state.layout,
@@ -642,23 +652,49 @@ var EditEventForm = React.createClass({
         let greenStyle = {color: 'green'};
         let blueStyle = {color: 'blue'};
 
+        let buttonStyle = {
+            height: '72px',
+            margin: '0 10px'
+        }
+
 
         return (
-            <div className="container">
-                <h1><FormattedMessage id="create-event"/></h1>
+            <div>
+                <div className="container">
+                    <h1><FormattedMessage id="create-event"/></h1>
+                </div>
                 <Formsy.Form className="form-horizontal"
-                             onSubmit={this.preview}
+                             onSubmit={this.handleSubmit}
                              onValid={this.enableButton}
                              onInvalid={this.disableButton}
                              ref="editForm"
                              >
-                    <FormFields />
                     <div className="container">
-                        <div className="row">
-                            <input
-                                className="btn btn-primary"
-                                type="submit" defaultValue="Siirry esikatseluun"
-                            />
+                        <FormFields />
+                    </div>
+
+                    <div className="editor-action-buttons">
+                        <div className="container">
+                            <div className="row">
+                                <div className="spread-right">
+                                    <RaisedButton
+                                        style={buttonStyle}
+                                        label="Tallenna vedokseksi"
+                                        onClick={ (e) => this.goToPreview(e) }
+                                    />
+                                    <RaisedButton
+                                        style={buttonStyle}
+                                        label="Siirry esikatseluun"
+                                        primary={true}
+                                        onClick={ (e) => this.goToPreview(e) }
+                                    />
+                                    <FlatButton
+                                        style={buttonStyle}
+                                        label="Julkaise tapahtuma"
+                                        onClick={ (e) => this.handleSubmit(e) }
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </Formsy.Form>
