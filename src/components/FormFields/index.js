@@ -3,10 +3,18 @@ import React from 'react'
 import { FormattedMessage, injectIntl } from 'react-intl'
 
 import TextField from 'formsy-material-ui/lib/FormsyText'
-import Checkbox from 'formsy-material-ui/lib/FormsyCheckbox'
 
 import ImageUpload from 'src/components/ImageUpload'
-import { HelAutoComplete, MultiLanguageField, HelTextField, HelLabeledCheckboxGroup, HelLanguageSelect, HelDatePicker, HelTimePicker } from 'src/components/HelFormFields'
+import {
+    HelAutoComplete,
+    MultiLanguageField,
+    HelTextField,
+    HelLabeledCheckboxGroup,
+    HelLanguageSelect,
+    HelDatePicker,
+    HelTimePicker,
+    HelCheckbox
+} from 'src/components/HelFormFields'
 
 import API from 'src/api.js'
 
@@ -104,7 +112,7 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-xs-6">
-                        <Checkbox fullWidth={true} name="is-free" value="true" label={<FormattedMessage id="is-free"/>} />
+                        <HelCheckbox fullWidth={true} name="is-free" label={<FormattedMessage id="is-free"/>} />
                         <HelTextField fullWidth={true}  name="event-price" required={true} floatingLabelText={<FormattedMessage id="event-price"/>} />
                         <MultiLanguageField fullWidth={true}  multiLine={true} label="event-price-info" name="event-price-info" languages={this.state.languages} />
                         <HelTextField fullWidth={true}  name="event-purchase-link" floatingLabelText={<FormattedMessage id="event-purchase-link"/>} />
