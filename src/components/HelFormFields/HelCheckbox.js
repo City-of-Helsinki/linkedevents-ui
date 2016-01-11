@@ -39,8 +39,7 @@ let HelCheckbox = React.createClass({
             }
         }
 
-        // Check if this text field should be prefilled from local storage
-        console.log('checked ',this.props.editor.values[this.props.name])
+        // Check if this checkbox should be prefilled from local storage
         let defaultChecked = this.props.editor.values[this.props.name]
 
         return (

@@ -75,7 +75,7 @@ class HelAutoComplete extends React.Component {
                     floatingLabelText={labelText}
                     onUpdateInput={(t) => { this.onInput(t) }}
                     onNewRequest={(t,i,d) => { this.onNewRequest(t,i,d) }} />
-                <TextField fullWidth={true} value={this.state.selectedKey} disabled={true} required={true} floatingLabelText={this.props.intl.formatMessage({ id: "event-location-id" })} />
+                <TextField fullWidth={true} value={this.state.selectedKey} disabled={true} required={this.props.required} floatingLabelText={this.props.intl.formatMessage({ id: "event-location-id" })} />
             </span>
         )
     }
