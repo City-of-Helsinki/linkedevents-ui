@@ -17,7 +17,7 @@ import App from './views/App'
 import Editor from './views/Editor'
 import Search from './views/Search'
 
-// Initialize tap event plugin (used by material-ui-with-sass components)
+// Initialize tap event plugin (used by material-ui components)
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
 injectTapEventPlugin()

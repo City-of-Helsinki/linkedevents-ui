@@ -12,25 +12,52 @@
         display: block;
         background-color: #f6f6f6;
 
-        height: 72px;
         line-height: 72px;
 
         color: #5a5959;
 
         label {
             font-size: 24px;
+            margin-bottom: 0;
         }
 
-        .spread-evenly {
-            height: 72px;
+        .spread-evenly,
+        .spread-right {
+            flex-wrap: wrap;
+            height: 100%;
+
+            .mui-checkbox {
+                padding-top: 22px;
+                padding-bottom: 8px;
+                text-transform: capitalize;
+            }
         }
 
         .mui-checkbox {
             display: inline-block;
             width: auto !important;
             padding-top: 6px;
+            height: 40px;
+
             label {
                 font-size: 20px;
+            }
+
+            .mui-switch-label {
+                width: auto !important;
+                padding-right: 5px;
+                padding-left: 5px;
+
+            }
+        }
+
+        .language-selection {
+            height: 72px;
+            width: 100%;
+
+            label {
+                font-size: 20px;
+                padding-right: 10px;
             }
         }
     }
@@ -61,5 +88,84 @@
 
     .mui-checkbox {
         padding-top: 36px;
+    }
+
+    legend {
+        margin-top: 6rem;
+    }
+
+    .checkbox-group {
+        legend {
+            margin-top: 4rem;
+            font-size: 24px;
+        }
+    }
+
+    .multi-language-field {
+        margin-top: 2rem;
+
+        > label {
+            color: #48a3e7;
+        }
+    }
+
+    .indented {
+        padding: 3px 23px 11.5px 23px;
+        border-left: 5px solid #f7f7f7;
+
+        > label {
+            margin-top: -1.5rem;
+            color: #48a3e7;
+        }
+
+        .mui-text-field:nth-of-type(1) {
+            margin-top: -1.0rem;
+        }
+    }
+
+    .editor-action-buttons {
+        margin-top: 6rem;
+
+        background-color: #f7f7f7;
+        height: 176px;
+
+        .row,
+        .container {
+            height: 100%;
+        }
+
+        .mui-flat-button,
+        .mui-raised-button {
+            margin-left: 1.8rem;
+        }
+
+        .mui-flat-button,
+        .mui-raised-button,
+        .mui-raised-button-container {
+            height: 64px;
+        }
+
+        .mui-flat-button,
+        .mui-raised-button-label {
+            font-size: 20px;
+            text-transform: none;
+            font-weight: 400;
+            color: #48a3e7;
+        }
+
+        .mui-is-primary {
+            .mui-raised-button-label {
+                color: #ffffff;
+            }
+        }
+
+        .mui-raised-button-label {
+            padding-left: 35px;
+            padding-right: 35px;
+        }
+
+        .mui-flat-button {
+            background-color: transparent;
+        }
     }
 }

@@ -21,7 +21,7 @@ class API {
             label: 'Liikenne ja kartat'
           },
           {
-            value: '-sosiaali-ja-terveyspalvelut',
+            value: 'sosiaali-ja-terveyspalvelut',
             label: 'Sosiaali- ja terveyspalvelut'
           },
           {
@@ -128,6 +128,23 @@ class API {
     static formatTime(datetimeString) {
         var obj = moment(datetimeString)
         return obj.format('HH:mm')
+    }
+
+    static eventInfoLanguages() {
+        return [
+            {
+              value: 'fi',
+              label: 'in-fi'
+            },
+            {
+              value: 'sv',
+              label: 'in-sv'
+            },
+            {
+              value: 'en',
+              label: 'in-en'
+            }
+        ]
     }
 }
 
