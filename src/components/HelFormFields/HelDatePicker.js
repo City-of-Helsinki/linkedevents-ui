@@ -5,7 +5,7 @@ import {DatePicker} from 'material-ui/lib/date-picker'
 import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
 
-let HelDateField = React.createClass({
+let HelDatePicker = React.createClass({
     mixins: [ Formsy.Mixin ],
 
     propTypes: {
@@ -69,4 +69,4 @@ let HelDateField = React.createClass({
 
 export default connect((state) => ({
     editor: state.editor
-}))(HelDateField)
+}))(HelDatePicker)
