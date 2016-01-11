@@ -45,6 +45,8 @@ $header-bar-height: 56px;
         display: inline-block;
         margin: 0px 24px;
 
+        height: $header-bar-height;
+
         .mui-flat-button {
             margin-left: 8px !important;
             margin-right: 8px !important;
