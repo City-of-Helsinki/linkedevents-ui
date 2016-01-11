@@ -40,7 +40,7 @@ class HelAutoComplete extends React.Component {
         this.setState({selectedKey: dataSource[index].key})
 
         // Do action to save form state to storage
-        let obj = { 'event-location-name': chosenRequest, 'event-location-id': dataSource[index].key }
+        let obj = { 'event-location-name': chosenRequest, 'location_id': dataSource[index].key }
         this.props.dispatch(setData(obj))
 
         if(typeof this.props.onSelection === 'function') {

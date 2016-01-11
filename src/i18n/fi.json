@@ -19,10 +19,10 @@
     "in-sv": "ruotsiksi",
 
     "event-description-fields-header": "Tapahtuman kuvaus",
-    "event-name": "Otsikko",
+    "event-headline": "Otsikko",
     "event-short-description": "Lyhyt kuvaus",
     "event-description": "Kuvaus",
-    "event-home-page": "Kotisivu",
+    "event-info-url": "Kotisivu",
 
     "event-picture": "Tapahtuman kuva",
     "upload-picture": "Lisää tapahtumalle kuva",
@@ -59,7 +59,7 @@
     "sosiaali-ja-terveyspalvelut": "Sosiaali- ja terveyspalvelut",
     "kaupunki-ja-hallinto": "Kaupunki ja hallinto",
 
-    "target-groups": "Kohderyhmät",
+    "hel-target-groups": "Kohderyhmät",
     "all": "Kaikki",
     "yhdistykset": "Yhdistykset",
     "yrittajat": "Yrittäjät",
@@ -69,7 +69,7 @@
     "nuoret": "Nuoret",
     "lapset-ja-lapsiperheet": "Lapset ja lapsiperheet",
 
-    "event-languages": "Tapahtuman kielet",
+    "hel-event-languages": "Tapahtuman kielet",
     "venaja": "venäjä",
     "ranska": "ranska",
     "saksa": "saksa",
