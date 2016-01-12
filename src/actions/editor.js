@@ -21,12 +21,12 @@ export function sendData(formValues, user) {
     return (dispatch) => {
         console.log(formValues, user)
         let url = `${appSettings.api_base}/event/`
-
         return fetch(url, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'JWT ' + user.token,
             },
             user: user,
             body: JSON.stringify(formValues)

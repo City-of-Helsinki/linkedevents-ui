@@ -123,8 +123,8 @@ var EditEventForm = React.createClass({
         console.log(event)
     },
 
-    handleSubmit(event, user) {
-        this.props.dispatch(sendData(this.props.editor.values, user))
+    handleSubmit(event) {
+        this.props.dispatch(sendData(this.props.editor.values, this.props.user))
         console.log('Submitting', this.props.editor.values)
     },
 
@@ -551,5 +551,6 @@ var EditorPage = React.createClass({
 });
 
 export default connect((state) => ({
-    editor: state.editor
+    editor: state.editor,
+    user: state.user
 }))(EditorPage)
