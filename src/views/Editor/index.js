@@ -125,7 +125,6 @@ var EditEventForm = React.createClass({
 
     handleSubmit(event) {
         this.props.dispatch(sendData(this.props.editor.values, this.props.user))
-        console.log('Submitting', this.props.editor.values)
     },
 
     render() {

@@ -88,10 +88,10 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-xs-6">
-                        <HelDatePicker fullWidth={true} DateTimeFormat={(Intl.DateTimeFormat || null)} locale="fi" name="starting_date" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-starting-date"/>} />
-                        <HelTimePicker fullWidth={true} DateTimeFormat={(Intl.DateTimeFormat || null)} format="24hr" locale="fi" name="starting_time" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-starting-time"/>} />
-                        <HelDatePicker fullWidth={true} DateTimeFormat={(Intl.DateTimeFormat || null)} locale="fi" name="ending_date" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-ending-date"/>} />
-                        <HelTimePicker fullWidth={true} DateTimeFormat={(Intl.DateTimeFormat || null)} format="24hr" locale="fi" name="ending_time" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-ending-time"/>} />
+                        <HelDatePicker fullWidth={true} name="starting_date" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-starting-date"/>} />
+                        <HelTimePicker fullWidth={true} format="24hr" name="starting_time" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-starting-time"/>} />
+                        <HelDatePicker fullWidth={true} name="ending_date" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-ending-date"/>} />
+                        <HelTimePicker fullWidth={true} format="24hr" name="ending_time" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-ending-time"/>} />
                     </div>
                 </div>
 

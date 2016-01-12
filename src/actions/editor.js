@@ -1,5 +1,7 @@
 import constants from '../constants'
 
+import {mapUIDataToAPIFormat} from 'src/utils/formDataMapping.js'
+
 // Set data and save it to localStorage
 export function setData(formValues) {
     return {
@@ -20,6 +22,8 @@ export function clearData() {
 export function sendData(formValues, user) {
     return (dispatch) => {
         console.log(formValues, user)
+        console.log('Sending: ', mapUIDataToAPIFormat(formValues))
+
         let url = `${appSettings.api_base}/event/`
         return fetch(url, {
             method: 'POST',
@@ -28,8 +32,7 @@ export function sendData(formValues, user) {
                 'Content-Type': 'application/json',
                 'Authorization': 'JWT ' + user.token,
             },
-            user: user,
-            body: JSON.stringify(formValues)
+            body: JSON.stringify(mapUIDataToAPIFormat(formValues))
         }).then(json => dispatch(sendDataComplete(json)))
     }
 }

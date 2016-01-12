@@ -14,7 +14,7 @@ let HelTimePicker = React.createClass({
 
     handleChange: function (event, time) {
         let obj = {}
-        obj[this.props.name] = time.toISOString()
+        obj[this.props.name] = time.setSeconds(0).toISOString()
 
         this.props.dispatch(setData(obj))
 
@@ -56,8 +56,13 @@ let HelTimePicker = React.createClass({
 
         // Check if this text field should be prefilled from local storage
         let defaultValue = this.props.editor.values[this.props.name] || new Date()
+
+        let DateTimeFormat = function(settings) {
+            return new Intl.DateTimeFormat(Object.assign({}, settings, {timeZone:'Europe/Helsinki'}))
+        }
+
         return (
-            <TimePicker defaultTime={new Date(defaultValue)} onChange={this.handleChange} onBlur={this.handleBlur} {...this.props}  />
+            <TimePicker DateTimeFormat={DateTimeFormat} locale="fi" defaultTime={new Date(defaultValue)} onChange={this.handleChange} onBlur={this.handleBlur} {...this.props}  />
         )
     }
 });

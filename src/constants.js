@@ -16,11 +16,11 @@ const constants = {
     EDITOR_VALUES: 'EDITOR_VALUES',
 
     // Event schedule values
-    STATUSES: {
-        EVENT_SCHEDULED: 'EventScheduled',
-        EVENT_CANCELLED: 'EventCancelled',
-        EVENT_POSTPONED: 'EventPostponed',
-        EVENT_RESCHEDULED: 'EventRescheduled'
+    EVENT_STATUS: {
+        SCHEDULED: 'EventScheduled',
+        CANCELLED: 'EventCancelled',
+        POSTPONED: 'EventPostponed',
+        RESCHEDULED: 'EventRescheduled'
     }
 }
 
