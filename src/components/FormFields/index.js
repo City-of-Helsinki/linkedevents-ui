@@ -100,7 +100,7 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-xs-6">
-                        <HelAutoComplete required={true} fullWidth={true} />
+                        <HelAutoComplete required={true} fullWidth={true} name="location_id" />
                         <MultiLanguageField fullWidth={true} multiLine={true} label="event-location-additional-info" name="location_extra_info" languages={this.state.languages} />
                     </div>
                     <SideField>

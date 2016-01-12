@@ -13,7 +13,15 @@ const constants = {
     EDITOR_SENDDATA_SUCCESS: 'EDITOR_SENDDATA_SUCCESS',
 
     // Local storage keys
-    EDITOR_VALUES: 'EDITOR_VALUES'
+    EDITOR_VALUES: 'EDITOR_VALUES',
+
+    // Event schedule values
+    STATUSES: {
+        EVENT_SCHEDULED: 'EventScheduled',
+        EVENT_CANCELLED: 'EventCancelled',
+        EVENT_POSTPONED: 'EventPostponed',
+        EVENT_RESCHEDULED: 'EventRescheduled'
+    }
 }
 
 export default constants
