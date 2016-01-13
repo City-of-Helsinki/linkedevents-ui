@@ -31,6 +31,9 @@
 
     "event-picture": "Tapahtuman kuva",
     "upload-picture": "Lisää tapahtumalle kuva",
+    "choose-picture": "Valitse kuvapankista",
+    "or": "tai",
+    "organization-pictures": "Organisaation kuvat",
 
     "event-datetime-fields-header": "Tapahtuman ajankohta",
     "event-starting-datetime": "Tapahtuma alkaa",

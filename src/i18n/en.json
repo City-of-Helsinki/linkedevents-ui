@@ -24,6 +24,7 @@
 
     "event-picture": "Event picture",
     "upload-picture": "Upload a picture for this event",
+    "choose-picture": "Choose a picture for this event",
 
     "event-datetime-fields-header": "Event time",
     "event-starting-date": "Starting date",
