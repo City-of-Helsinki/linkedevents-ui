@@ -1,41 +1,11 @@
 import {Passport} from 'passport'
 import HelsinkiStrategy from 'passport-helsinki'
-import jwt from 'jsonwebtoken'
 import merge from 'lodash/object/merge'
 import _debug from 'debug'
 
 const debug = _debug('auth')
 
-function generateToken(profile, options) {
-  return jwt.sign(merge({}, profile), options.key, {
-    subject: profile.id,
-    audience: options.audience
-  })
-}
-
-function MockStrategy(options) {
-  this.name = 'mock'
-  this.options = options
-}
-
-MockStrategy.prototype.authenticate = function mockAuthenticate() {
-    const profile = {
-        id: '5ca1ab1e-cafe-babe-beef-deadbea70000',
-        displayName: 'Mock von User',
-        firstName: 'Mock',
-        lastName: 'von User',
-        username: 'mock.von.user',
-        provider: 'helsinki'
-    }
-
-    profile.token = generateToken(profile, this.options)
-    debug('mock strategy success:', profile)
-    this.success(profile)
-}
-
 export function getPassport(settings) {
-    const getTokenFromAPI = false;  // TODO: Do this if necessary
-    const jwtOptions = {key: settings.jwtKey, audience: 'linkedevents-ui'}
     const passport = new Passport()
 
     const helsinkiStrategy = new HelsinkiStrategy({
@@ -45,37 +15,18 @@ export function getPassport(settings) {
     }, (accessToken, refreshToken, profile, done) => {
         debug('access token:', accessToken)
         debug('refresh token:', refreshToken)
-        if (getTokenFromAPI) {
-            debug('acquiring token from api...')
-            helsinkiStrategy.getAPIToken(accessToken, settings.helsinkiTargetApp, (token) => {
-                profile.token = token
-                return done(null, profile)
-            })
-        } else {
-            if (profile._json) delete profile._json
-            if (profile._raw) delete profile._raw
-            profile.token = generateToken(profile, jwtOptions)
-            debug('token generated with options:', jwtOptions)
-            debug('profile:', profile)
+        debug('acquiring token from api...')
+
+        helsinkiStrategy.getAPIToken(accessToken, settings.helsinkiTargetApp, (token) => {
+            profile.token = token
             return done(null, profile)
-        }
+        })
     })
 
     passport.use(helsinkiStrategy)
 
-    if (settings.dev && settings.mockauth) {
-        passport.use(new MockStrategy(jwtOptions))
-    }
-
-    passport.serializeUser((user, done) => {
-        debug('serializing user:', user);
-        done(null, user);
-    })
-
-    passport.deserializeUser((user, done) => {
-        debug('deserializing user:', user);
-        done(null, user);
-    })
+    passport.serializeUser((user, done) => done(null, user))
+    passport.deserializeUser((user, done) => done(null, user))
 
     return passport;
 }
@@ -95,9 +46,6 @@ export function addAuth(server, passport, settings) {
     server.use(passport.initialize());
     server.use(passport.session());
     server.get('/auth/login/helsinki', passport.authenticate('helsinki'));
-    if (settings.dev && settings.mockauth) {
-        server.get('/auth/login/mock', passport.authenticate('mock'), successfulLoginHandler);
-    }
     server.get('/auth/login/helsinki/return', passport.authenticate('helsinki'), successfulLoginHandler);
     server.get('/auth/logout', (req, res) => {
         res.send('<html><body><form method="post"></form><script>document.forms[0].submit()</script>');

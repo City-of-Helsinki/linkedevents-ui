@@ -71,10 +71,6 @@ class API {
         // console.log '@TODO: get the hel_event_lang options dynamically?'
         return [
           {
-            value: 'all',
-            label: 'Sopii kaikenkielisille'
-          },
-          {
             value: 'venaja',
             label: 'Venäjä'
           },

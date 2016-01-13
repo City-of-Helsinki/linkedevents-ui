@@ -61,8 +61,12 @@ let HelDatePicker = React.createClass({
         // Check if this text field should be prefilled from local storage
         let defaultValue = this.props.editor.values[this.props.name] || new Date()
 
+        let DateTimeFormat = function(settings) {
+            return new Intl.DateTimeFormat(Object.assign({}, settings, {timeZone:'Europe/Helsinki'}))
+        }
+
         return (
-            <DatePicker defaultDate={new Date(defaultValue)} {...this.props} onChange={this.handleChange} onBlur={this.handleBlur} onEnterKeyDown={this.handleEnterKeyDown} />
+            <DatePicker DateTimeFormat={DateTimeFormat} locale="fi" defaultDate={new Date(defaultValue)} {...this.props} onChange={this.handleChange} onBlur={this.handleBlur} onEnterKeyDown={this.handleEnterKeyDown} />
         )
     }
 });

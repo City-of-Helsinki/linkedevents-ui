@@ -11,8 +11,10 @@ import {
     HelLanguageSelect,
     HelDatePicker,
     HelTimePicker,
-    HelCheckbox
+    HelCheckbox,
+    HelSelect
 } from 'src/components/HelFormFields'
+
 
 import API from 'src/api.js'
 
@@ -72,14 +74,14 @@ class FormFields extends React.Component {
 
                 <div className="row">
                     <div className="col-xs-6">
-                        <MultiLanguageField fullWidth={true} required={true} multiLine={false} label="event-name" name="event-name" languages={this.state.languages} />
-                        <MultiLanguageField fullWidth={true} required={true} multiLine={true} label="event-short-description" name="event-short-description" languages={this.state.languages} />
-                        <MultiLanguageField fullWidth={true} required={true} multiLine={true} label="event-description" name="event-description" languages={this.state.languages} />
-                        <MultiLanguageField fullWidth={true} required={true} multiLine={true} label="event-home-page" name="event-home-page" languages={this.state.languages} />
+                        <MultiLanguageField fullWidth={true} required={true} multiLine={false} label="event-headline" name="headline" languages={this.state.languages} />
+                        <MultiLanguageField fullWidth={true} required={true} multiLine={true} label="event-short-description" name="short_description" languages={this.state.languages} />
+                        <MultiLanguageField fullWidth={true} required={true} multiLine={true} label="event-description" name="description" languages={this.state.languages} />
+                        <MultiLanguageField fullWidth={true} required={true} multiLine={true} label="event-info-url" name="info_url" languages={this.state.languages} />
                     </div>
                     <SideField>
                         <label><FormattedMessage id="event-picture"/></label>
-                        <ImageUpload name="event-image" />
+                        <ImageUpload name="image" />
                     </SideField>
                 </div>
 
@@ -88,10 +90,10 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-xs-6">
-                        <HelDatePicker fullWidth={true} DateTimeFormat={(Intl.DateTimeFormat || null)} locale="fi" name="event-starting-date" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-starting-date"/>} />
-                        <HelTimePicker fullWidth={true} DateTimeFormat={(Intl.DateTimeFormat || null)} format="24hr" locale="fi" name="event-starting-time" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-starting-time"/>} />
-                        <HelDatePicker fullWidth={true} DateTimeFormat={(Intl.DateTimeFormat || null)} locale="fi" name="event-ending-date" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-ending-date"/>} />
-                        <HelTimePicker fullWidth={true} DateTimeFormat={(Intl.DateTimeFormat || null)} format="24hr" locale="fi" name="event-ending-time" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-ending-time"/>} />
+                        <HelDatePicker fullWidth={true} name="starting_date" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-starting-date"/>} />
+                        <HelTimePicker fullWidth={true} format="24hr" name="starting_time" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-starting-time"/>} />
+                        <HelDatePicker fullWidth={true} name="ending_date" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-ending-date"/>} />
+                        <HelTimePicker fullWidth={true} format="24hr" name="ending_time" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-ending-time"/>} />
                     </div>
                 </div>
 
@@ -100,9 +102,12 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-xs-6">
-                        <HelAutoComplete required={true} fullWidth={true} />
-                        <MultiLanguageField fullWidth={true} multiLine={true} label="event-location-additional-info" name="event-location-additional-info" languages={this.state.languages} />
+                        <HelAutoComplete required={true} fullWidth={true} name="location_id" />
+                        <MultiLanguageField fullWidth={true} multiLine={true} label="event-location-additional-info" name="location_extra_info" languages={this.state.languages} />
                     </div>
+                    <SideField>
+                        <p>Aloita kirjoittamaan kenttään tapahtumapaikan nimen alkua ja valitse oikea paikka alle ilmestyvästä listasta. Jos et löydä paikkaa tällä tavoin, kirjoita tapahtumapaikka tai osoite lisätietokenttään.</p>
+                    </SideField>
                 </div>
 
                 <FormHeader>
@@ -110,10 +115,10 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-xs-6">
-                        <HelCheckbox fullWidth={true} name="is-free" label={<FormattedMessage id="is-free"/>} />
-                        <HelTextField fullWidth={true}  name="event-price" required={true} floatingLabelText={<FormattedMessage id="event-price"/>} />
-                        <MultiLanguageField fullWidth={true}  multiLine={true} label="event-price-info" name="event-price-info" languages={this.state.languages} />
-                        <HelTextField fullWidth={true}  name="event-purchase-link" floatingLabelText={<FormattedMessage id="event-purchase-link"/>} />
+                        <HelCheckbox fullWidth={true} name="offers_is_free" label={<FormattedMessage id="is-free"/>} />
+                        <MultiLanguageField fullWidth={true} name="offers_price" required={true} label="event-price" languages={this.state.languages} />
+                        <MultiLanguageField fullWidth={true} multiLine={true} label="event-price-info" name="offers_description" languages={this.state.languages} />
+                        <MultiLanguageField fullWidth={true}  name="offers_info_url" label="event-purchase-link" languages={this.state.languages} />
                     </div>
                     <SideField>
                         <p>Valitse onko tapahtumaan vapaa pääsy tai lisää tapahtuman hinta tekstimuodossa (esim. 5€/7€).</p>
@@ -127,9 +132,9 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-xs-6">
-                        <HelTextField validations="isUrl" validationErrors={defaultValidationErrors} fullWidth={true} name="facebook-url" floatingLabelText={<FormattedMessage id="facebook-url"/>} />
-                        <HelTextField validations="isUrl" validationErrors={defaultValidationErrors} fullWidth={true} name="twitter-url" floatingLabelText={<FormattedMessage id="twitter-url"/>} />
-                        <HelTextField validations="isUrl" validationErrors={defaultValidationErrors} fullWidth={true} name="instagram-url" floatingLabelText={<FormattedMessage id="instagram-url"/>} />
+                        <HelTextField validations="isUrl" validationErrors={defaultValidationErrors} fullWidth={true} name="extlink_facebook" floatingLabelText={<FormattedMessage id="facebook-url"/>} />
+                        <HelTextField validations="isUrl" validationErrors={defaultValidationErrors} fullWidth={true} name="extlink_twitter" floatingLabelText={<FormattedMessage id="twitter-url"/>} />
+                        <HelTextField validations="isUrl" validationErrors={defaultValidationErrors} fullWidth={true} name="extlink_instagram" floatingLabelText={<FormattedMessage id="instagram-url"/>} />
                     </div>
                 </div>
 
@@ -138,22 +143,25 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-main-categories"/>}
-                                    name="hel-main-categories"
-                                    itemClassName="col-xs-6"
+                                    name="hel_main"
+                                    itemClassName="col-sm-6"
                                     options={helMainOptions} />
-                    <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="target-groups"/>}
-                                    name="hel-target-groups"
-                                    itemClassName="col-xs-6"
+                    <HelSelect legend={"Kategoriat"} name="keywords" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?data_source=yso&filter=`} />
+                    <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-target-groups"/>}
+                                    name="hel_target"
+                                    itemClassName="col-sm-6"
                                     options={helTargetOptions} />
-                    <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="event-languages"/>}
-                                    name="event-languages"
-                                    itemClassName="col-xs-6"
+                    <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-event-languages"/>}
+                                    name="hel_event_lang"
+                                    itemClassName="col-sm-6"
                                     options={helEventLangOptions} />
                 </div>
             </div>
         )
     }
 }
+
+// <HelSelect legend={"Kohderyhmät"} name="audience" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?data_source=yso&filter=`} />
 
 // Inject dispatch and intl into props
 export default connect((state) => ({

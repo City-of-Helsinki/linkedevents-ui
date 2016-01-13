@@ -1,5 +1,7 @@
 import constants from '../constants'
 
+import {mapUIDataToAPIFormat} from 'src/utils/formDataMapping.js'
+
 // Set data and save it to localStorage
 export function setData(formValues) {
     return {
@@ -16,10 +18,22 @@ export function clearData() {
 }
 
 // Send data and create sendDataComplete event afterwards
-export function sendData() {
-    // Call ajax, then sendDataComplete
-    return {
-        type: constants.EDITOR_SENDDATA
+// NOTE: values are passed from the editor view. There's no apparent way to access state from here
+export function sendData(formValues, user) {
+    return (dispatch) => {
+        console.log(formValues, user)
+        console.log('Sending: ', mapUIDataToAPIFormat(formValues))
+
+        let url = `${appSettings.api_base}/event/`
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'JWT ' + user.token,
+            },
+            body: JSON.stringify(mapUIDataToAPIFormat(formValues))
+        }).then(json => dispatch(sendDataComplete(json)))
     }
 }
 

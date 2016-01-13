@@ -3,8 +3,26 @@
     font-weight: 300;
     background-color: #ffffff;
 
+    .header {
+        position: relative;
+
+        h1 {
+            display: inline-block;
+        }
+
+        .controls {
+            position: absolute;
+            right: 10px;
+            bottom: 54px;
+            display: inline-block;
+        }
+    }
+
     h2,h3,legend {
         font-family: "Roboto", "Helvetica Neue", "Segoe UI", Calibri, sans-serif;
+    }
+
+    h2,h3 {
         margin-top: 55px;
     }
 
@@ -94,9 +112,11 @@
         margin-top: 6rem;
     }
 
-    .checkbox-group {
+    .checkbox-group,
+    .hel-select {
+        display: block;
+        clear:both;
         legend {
-            margin-top: 4rem;
             font-size: 24px;
         }
     }
