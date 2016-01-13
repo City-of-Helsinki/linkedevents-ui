@@ -1,5 +1,6 @@
 import '!style!css!sass!./HelSelect.scss'
 
+import fetch from 'isomorphic-fetch'
 import React from 'react'
 import Select from 'react-select'
 
@@ -15,24 +16,31 @@ class HelSelect extends React.Component {
         this.setState({ value });
     }
 
+    getOptions(input) {
+        console.log('Fetching')
+        return fetch(`${appSettings.api_base}/keyword/?data_source=yso&filter=${input}`)
+            .then((response) => {
+                return response.json();
+            }).then((json) => {
+                return _.map(json.data, (item) => ({
+                    label: item.name.fi, // TODO: use locale
+                    value: item.id
+                }));
+            }).then((json) => {
+                return { options: json };
+            })
+    }
+
     render() {
-
-        let options = [
-            { value: 'one', label: 'One' },
-            { value: 'two', label: 'Two' },
-            { value: 'three', label: 'Three' }
-        ]
-
         return (
             <div className="hel-select col-lg-6">
                 <legend>{this.props.legend}</legend>
-                <Select
+                <Select.Async
                     {...this.props}
-                    ref="select"
                     multi
                     value={this.state.value}
-                    options={options}
-                    onChange={(val) => this.onChange(val)}
+                    loadOptions={ (val) => this.getOptions(val)  }
+                    onChange={ (val) => this.onChange(val) }
                 />
             </div>
         )
