@@ -39,9 +39,13 @@ function mapUIDataToAPIFormat(values) {
         obj.keywords = _.map(values.keywords, (item) => ({ '@id': item.value }))
     }
 
-    if(values.audience && values.audience.length > 0) {
-        obj.audience = _.map(values.audience, (item) => ({ '@id': item.value }))
-        console.log(obj.audience)
+    if(values.hel_main && values.hel_main.length > 0) {
+        obj.keywords = obj.keywords || []
+        obj.keywords.concat(_.map(values.hel_main, (item) => ({ '@id': item.value })))
+    }
+
+    if(values.hel_target && values.hel_target.length > 0) {
+        obj.audience = _.map(values.hel_target, (item) => ({ '@id': item }))
     }
 
     obj.external_links = []

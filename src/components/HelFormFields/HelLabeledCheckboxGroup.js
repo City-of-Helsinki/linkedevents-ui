@@ -2,7 +2,6 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import Formsy from 'formsy-react'
 import Checkbox from 'material-ui/lib/checkbox'
-import { FormattedMessage } from 'react-intl'
 
 import _ from 'lodash'
 
@@ -38,7 +37,7 @@ let HelLabeledCheckboxGroup = React.createClass({
 
             return (
                 <span key={index} className={(this.props.itemClassName || '')}>
-                    <Checkbox ref={index} onCheck={self.handleChange} defaultChecked={checked} name={this.props.name+'.'+item.value} value={item.value} label={<FormattedMessage id={item.value}/>} />
+                    <Checkbox ref={index} onCheck={self.handleChange} defaultChecked={checked} name={this.props.name+'.'+item.value} value={item.value} label={item.label} />
                 </span>
             )
         })

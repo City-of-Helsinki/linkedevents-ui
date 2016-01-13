@@ -97,35 +97,6 @@ class API {
         ]
     }
 
-    static getStartTime(d) {
-        return this.formatDatetimeString(d.__start_time_date, d.__start_time_time)
-    }
-
-    static getEndTime(d) {
-        return this.formatDatetimeString(d.__end_time_date, d.__end_time_time)
-    }
-
-    static formatDatetimeString(dateString, timeString) {
-        if (!dateString) {
-            return null
-        }
-        if (!timeString) {
-            timeString = '00:00'
-        }
-        var obj = moment(dateString + ' ' + timeString, 'YYYY-MM-DD HH:mm')
-        return obj.format()
-    }
-
-    static formatDate(datetimeString) {
-        var obj = moment(datetimeString)
-        return obj.format('YYYY-MM-DD')
-    }
-
-    static formatTime(datetimeString) {
-        var obj = moment(datetimeString)
-        return obj.format('HH:mm')
-    }
-
     static eventInfoLanguages() {
         return [
             {

@@ -62,6 +62,13 @@ function update(state = initialState, action) {
         })
     }
 
+    if(action.type === constants.EDITOR_RECEIVE_KEYWORDSETS) {
+        console.log('Reduced keywordsets', action.keywordSets)
+        return Object.assign({}, state, {
+            keywordSets: action.keywordSets
+        })
+    }
+
     return state
 }
 

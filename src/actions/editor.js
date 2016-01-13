@@ -1,5 +1,6 @@
-import constants from '../constants'
+import fetch from 'isomorphic-fetch'
 
+import constants from '../constants'
 import {mapUIDataToAPIFormat} from 'src/utils/formDataMapping.js'
 
 // Clear editor data. Called explicitly by the user or
@@ -86,5 +87,33 @@ export function sendDataComplete(json) {
             createdAt: Date.now(),
             data: json
         }
+    }
+}
+
+// Fetch Hel.fi main category and audience keywords
+export function fetchKeywordSets() {
+    return (dispatch) => {
+        let url = `${appSettings.api_base}/keywordset/?include=keywords`
+
+        return fetch(url).then((response) => {
+            if (response.status >= 400) {
+                return {
+                    apiErrorMsg: 'server-error'
+                }
+            }
+            return response.json()
+        })
+        .then(json => {
+            console.log('Received', json)
+            return dispatch(receiveKeywordSets(json))
+        })
+    }
+}
+
+// Receive Hel.fi main category and audience keywords
+export function receiveKeywordSets(json) {
+    return {
+        type: constants.EDITOR_RECEIVE_KEYWORDSETS,
+        keywordSets: json.data
     }
 }

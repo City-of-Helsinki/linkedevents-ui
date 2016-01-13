@@ -10,7 +10,7 @@ import typeahead from 'typeahead.js'
 import Formsy from 'formsy-react'
 import React from 'react'
 import {connect} from 'react-redux'
-import {sendData, clearData, clearFlashMsg} from 'src/actions/editor.js'
+import {sendData, clearData, clearFlashMsg, fetchKeywordSets} from 'src/actions/editor.js'
 
 import {FormattedMessage} from 'react-intl'
 
@@ -34,7 +34,6 @@ import API from 'src/api.js'
 // the backup doesn't support non-language links, so we use hardcoded
 // 'fi' instead for the link language
 var EXT_LINK_NO_LANGUAGE = 'fi'
-
 
 import FormFields from 'src/components/FormFields'
 
@@ -115,10 +114,9 @@ var EditEventForm = React.createClass({
         this.forceUpdate()
     },
 
-    // TODO: checking 'all' checks all other buttons
-
-    // NOTE: how to handle all hel.fi categories seletion? Add all categories to array or add 'all' string?
-    // NOTE: same question for target groups
+    componentWillMount() {
+        this.props.dispatch(fetchKeywordSets())
+    },
 
     goToPreview(event) {
         console.log(event)

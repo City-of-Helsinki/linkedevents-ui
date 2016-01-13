@@ -14,7 +14,7 @@ let HelTimePicker = React.createClass({
 
     handleChange: function (event, time) {
         let obj = {}
-        obj[this.props.name] = time.setSeconds(0).toISOString()
+        obj[this.props.name] = time.toISOString()
 
         this.props.dispatch(setData(obj))
 

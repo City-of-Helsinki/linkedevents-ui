@@ -16,13 +16,11 @@ import {
 } from 'src/components/HelFormFields'
 
 
+import {mapKeywordSetToForm} from 'src/utils/apiDataMapping.js'
+
 import API from 'src/api.js'
 
 import {connect} from 'react-redux'
-
-let helMainOptions = API.loadHelMainOptions();
-let helTargetOptions = API.loadHelTargetOptions();
-let helEventLangOptions = API.loadHelEventLangOptions();
 
 let FormHeader = (props) => (
     <div className="row">
@@ -52,6 +50,10 @@ class FormFields extends React.Component {
         let defaultValidationErrors = {
             'isUrl': this.props.intl.formatMessage({id: 'validation-url-error'})
         }
+
+        let helMainOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helfi:topics')
+        let helTargetOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helfi:audiences')
+        let helEventLangOptions = API.loadHelEventLangOptions();
 
         return (
             <div>
