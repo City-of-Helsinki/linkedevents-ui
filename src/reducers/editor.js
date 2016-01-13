@@ -14,6 +14,10 @@ const initialState = {
 
 console.log('Editor values: ', initialState)
 
+function clearEventDataFromLocalStorage() {
+    localStorage.setItem('EDITOR_VALUES', JSON.stringify({}))
+}
+
 function update(state = initialState, action) {
     if(action.type === constants.EDITOR_SETDATA) {
 
@@ -28,18 +32,33 @@ function update(state = initialState, action) {
     }
 
     if(action.type === constants.EDITOR_CLEARDATA) {
-        localStorage.setItem('EDITOR_VALUES', JSON.stringify({}))
+        clearEventDataFromLocalStorage()
 
         return Object.assign({}, state, {
             values: {}
         })
     }
 
-    if(action.type === constants.EDITOR_SENDDATA_SUCCESS) {
+    if(action.type === constants.EDITOR_CLEAR_FLASHMSG) {
         return Object.assign({}, state, {
+            flashMsg: null
+        })
+    }
+
+    if(action.type === constants.EDITOR_SENDDATA_SUCCESS) {
+        clearEventDataFromLocalStorage()
+
+        return Object.assign({}, {
             createdEvent: action.data.event,
             createdAt: action.data.createdAt,
+            flashMsg: { msg: 'event-posted', type: 'success' },
             values: {}
+        })
+    }
+
+    if(action.type === constants.EDITOR_SENDDATA_ERROR) {
+        return Object.assign({}, state, {
+            flashMsg: { msg: action.apiErrorMsg, type: 'error', data: action.data }
         })
     }
 
