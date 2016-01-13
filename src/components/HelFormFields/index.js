@@ -6,6 +6,7 @@ import HelCheckbox from './HelCheckbox.js'
 import HelLabeledCheckboxGroup from './HelLabeledCheckboxGroup.js'
 import HelDatePicker from './HelDatePicker.js'
 import HelTimePicker from './HelTimePicker.js'
+import HelSelect from './HelSelect.js'
 
 export {
     HelTextField,
@@ -15,5 +16,6 @@ export {
     HelLabeledCheckboxGroup,
     HelDatePicker,
     HelTimePicker,
-    HelCheckbox
+    HelCheckbox,
+    HelSelect
 }

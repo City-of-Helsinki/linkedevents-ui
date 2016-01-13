@@ -45,7 +45,7 @@ let HelLabeledCheckboxGroup = React.createClass({
 
         return (
             <fieldset className="checkbox-group">
-                <legend className="col-xs-12">{this.props.groupLabel}</legend>
+                <legend className="col-sm-12">{this.props.groupLabel}</legend>
                 {checkboxes}
             </fieldset>
         )

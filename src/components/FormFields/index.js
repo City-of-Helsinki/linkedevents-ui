@@ -11,8 +11,10 @@ import {
     HelLanguageSelect,
     HelDatePicker,
     HelTimePicker,
-    HelCheckbox
+    HelCheckbox,
+    HelSelect
 } from 'src/components/HelFormFields'
+
 
 import API from 'src/api.js'
 
@@ -142,15 +144,17 @@ class FormFields extends React.Component {
                 <div className="row">
                     <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-main-categories"/>}
                                     name="hel_main"
-                                    itemClassName="col-xs-6"
+                                    itemClassName="col-sm-6"
                                     options={helMainOptions} />
+                    <HelSelect legend={"Kategoriat"} name="keywords" />
                     <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-target-groups"/>}
                                     name="hel_target"
-                                    itemClassName="col-xs-6"
+                                    itemClassName="col-sm-6"
                                     options={helTargetOptions} />
+                    <HelSelect legend={"Kohderyhmät"} name="audience" />
                     <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-event-languages"/>}
                                     name="hel_event_lang"
-                                    itemClassName="col-xs-6"
+                                    itemClassName="col-sm-6"
                                     options={helEventLangOptions} />
                 </div>
             </div>
