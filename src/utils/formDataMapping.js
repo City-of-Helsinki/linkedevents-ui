@@ -41,7 +41,7 @@ function mapUIDataToAPIFormat(values) {
 
     if(values.hel_main && values.hel_main.length > 0) {
         obj.keywords = obj.keywords || []
-        obj.keywords.concat(_.map(values.hel_main, (item) => ({ '@id': item.value })))
+        obj.keywords = obj.keywords.concat(_.map(values.hel_main, (item) => ({ '@id': item })))
     }
 
     if(values.hel_target && values.hel_target.length > 0) {
