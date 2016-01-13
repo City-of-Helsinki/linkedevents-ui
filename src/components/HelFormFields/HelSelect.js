@@ -1,30 +1,40 @@
 import '!style!css!sass!./HelSelect.scss'
 
-import fetch from 'isomorphic-fetch'
 import React from 'react'
+
+import fetch from 'isomorphic-fetch'
 import Select from 'react-select'
+
+import {connect} from 'react-redux'
+import {setData} from 'src/actions/editor.js'
 
 class HelSelect extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = {}
+        let defaultValue = props.editor.values[this.props.name] || null
+        this.state = {
+            value: defaultValue
+        }
     }
 
-    onChange(value) {
+    onChange(value, list) {
         // TODO: hook up to editor store
+        let obj = {}
+        obj[this.props.name] = value
+        this.props.dispatch(setData(obj))
+
         this.setState({ value });
     }
 
     getOptions(input) {
-        console.log('Fetching')
         return fetch(`${appSettings.api_base}/keyword/?data_source=yso&filter=${input}`)
             .then((response) => {
                 return response.json();
             }).then((json) => {
                 return _.map(json.data, (item) => ({
                     label: item.name.fi, // TODO: use locale
-                    value: item.id
+                    value: `/v0.1/keyword/${item.id}`
                 }));
             }).then((json) => {
                 return { options: json };
@@ -47,4 +57,6 @@ class HelSelect extends React.Component {
     }
 }
 
-export default HelSelect
+export default connect((state) => ({
+    editor: state.editor
+}))(HelSelect)
