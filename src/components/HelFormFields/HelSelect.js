@@ -28,13 +28,13 @@ class HelSelect extends React.Component {
     }
 
     getOptions(input) {
-        return fetch(`${appSettings.api_base}/keyword/?data_source=yso&filter=${input}`)
+        return fetch(this.props.dataSource + input)
             .then((response) => {
                 return response.json();
             }).then((json) => {
                 return _.map(json.data, (item) => ({
                     label: item.name.fi, // TODO: use locale
-                    value: `/v0.1/keyword/${item.id}`
+                    value: `/v0.1/${this.props.resource}/${item.id}/`
                 }));
             }).then((json) => {
                 return { options: json };

@@ -146,12 +146,11 @@ class FormFields extends React.Component {
                                     name="hel_main"
                                     itemClassName="col-sm-6"
                                     options={helMainOptions} />
-                    <HelSelect legend={"Kategoriat"} name="keywords" />
+                    <HelSelect legend={"Kategoriat"} name="keywords" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?data_source=yso&filter=`} />
                     <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-target-groups"/>}
                                     name="hel_target"
                                     itemClassName="col-sm-6"
                                     options={helTargetOptions} />
-                    <HelSelect legend={"Kohderyhmät"} name="in_audience" />
                     <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-event-languages"/>}
                                     name="hel_event_lang"
                                     itemClassName="col-sm-6"
@@ -161,6 +160,8 @@ class FormFields extends React.Component {
         )
     }
 }
+
+// <HelSelect legend={"Kohderyhmät"} name="audience" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?data_source=yso&filter=`} />
 
 // Inject dispatch and intl into props
 export default connect((state) => ({

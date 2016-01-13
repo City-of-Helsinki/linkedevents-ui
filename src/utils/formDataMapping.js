@@ -35,10 +35,14 @@ function mapUIDataToAPIFormat(values) {
         info_url: _pickLangFieldValuesIntoObject(values, 'offers_info_url')
     }]
 
-    //obj.in_language = values.hel_event_lang
-    //obj.audience = values.hel_target
+    if(values.keywords && values.keywords.length > 0) {
+        obj.keywords = _.map(values.keywords, (item) => ({ '@id': item.value }))
+    }
 
-    obj.keywords = [{ '@id': `/v0.1/keyword/helmet:10822/`}]
+    if(values.audience && values.audience.length > 0) {
+        obj.audience = _.map(values.audience, (item) => ({ '@id': item.value }))
+        console.log(obj.audience)
+    }
 
     obj.external_links = []
 
@@ -116,5 +120,4 @@ function _pickLangFieldValuesIntoObject(values, fieldprefix) {
     return _.mapKeys(fields, function(value, key) {
         return key.replace(fieldprefix + '_', '')
     })
-
 }
