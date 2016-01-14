@@ -28,6 +28,19 @@ $search-bar-height: 72px;
         hr {
             display: none !important;
         }
+
+        input,label {
+            margin-left: 1.2rem;
+        }
+
+        input {
+            position: relative;
+            top: -2px;
+        }
+
+        label {
+            margin-top: -2px;
+        }
     }
 
     .mui-text-field {
