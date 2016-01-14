@@ -10,10 +10,28 @@ import {RaisedButton, FlatButton} from 'material-ui'
 
 import {fetchEventDetails} from 'src/actions/events.js'
 
+import {routerActions} from 'redux-simple-router'
+
+import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
+import {setData} from 'src/actions/editor.js'
+
 class EventPage extends React.Component {
 
     componentWillMount() {
         this.props.dispatch(fetchEventDetails(this.props.params.eventId))
+    }
+
+    copyAsTemplate() {
+
+    }
+
+    editEvent() {
+        if(this.props.events.event) {
+            let formData = mapAPIDataToUIFormat(this.props.events.event)
+            console.log(formData)
+            //this.props.dispatch(setData(formData))
+            //this.props.dispatch(routerActions.push(`/event/update/${this.props.events.event.id}`))
+        }
     }
 
     render() {
@@ -21,8 +39,16 @@ class EventPage extends React.Component {
             height: '72px',
             margin: '0 10px'
         }
-
         let event = this.props.events.event
+
+        // User can edit event
+        let userCanEdit = false
+
+        console.log(this.props.user, event)
+
+        if(event && this.props.user) {
+            userCanEdit = true
+        }
 
         if(event) {
             return (
@@ -31,6 +57,10 @@ class EventPage extends React.Component {
                         <h1>
                             {event.name.fi || event.name.se || event.name.en}
                         </h1>
+                        <div className="actions">
+                            <RaisedButton onClick={e => this.editEvent(e)} disabled={!userCanEdit} style={buttonStyle} primary={true} label="Muokkaa tapahtumaa" />
+                            <RaisedButton style={buttonStyle} secondary={true} label="Kopioi uuden tapahtuman pohjaksi" />
+                        </div>
                         <pre>
                             {JSON.stringify(event)}
                         </pre>
@@ -47,5 +77,6 @@ class EventPage extends React.Component {
 
 export default connect(state => ({
     events: state.events,
-    routing: state.routing
+    routing: state.routing,
+    user: state.user
 }))(EventPage)

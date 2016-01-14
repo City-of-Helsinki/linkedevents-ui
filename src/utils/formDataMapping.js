@@ -8,16 +8,19 @@ export {
     mapAPIDataToUIFormat
 }
 
+// TODO: Refactoring form components to output and accept the correct format (like <MultiLanguageField>)
+
 function mapUIDataToAPIFormat(values) {
 
     let obj = {}
 
     // General data
-    obj.name = _pickLangFieldValuesIntoObject(values, 'headline')
+    obj.name = _pickLangFieldValuesIntoObject(values, 'name')
     obj.short_description = _pickLangFieldValuesIntoObject(values, 'short_description')
     obj.description = _pickLangFieldValuesIntoObject(values, 'description')
     obj.info_url = _pickLangFieldValuesIntoObject(values, 'info_url')
     obj.provider = _pickLangFieldValuesIntoObject(values, 'provider')
+    obj.event_status = constants.EVENT_STATUS.SCHEDULED
 
     // Location data
     if(values.location_id) {
@@ -25,7 +28,6 @@ function mapUIDataToAPIFormat(values) {
     }
 
     obj.location_extra_info = _pickLangFieldValuesIntoObject(values, 'location_extra_info')
-    obj.event_status = constants.EVENT_STATUS.SCHEDULED
 
     // Price data
     obj.offers = [{
@@ -35,6 +37,7 @@ function mapUIDataToAPIFormat(values) {
         info_url: _pickLangFieldValuesIntoObject(values, 'offers_info_url')
     }]
 
+    // Keywords, audience, languages
     if(values.keywords && values.keywords.length > 0) {
         obj.keywords = _.map(values.keywords, (item) => ({ '@id': item.value }))
     }
@@ -48,6 +51,7 @@ function mapUIDataToAPIFormat(values) {
         obj.audience = _.map(values.hel_target, (item) => ({ '@id': item }))
     }
 
+    // External links
     obj.external_links = []
 
     let externalLinkFields = ['extlink_facebook', 'extlink_twitter', 'extlink_instagram']
@@ -61,6 +65,7 @@ function mapUIDataToAPIFormat(values) {
         }
     })
 
+    // Time formatting
     if(values.starting_date) {
         let start_datetime = moment(values.starting_date).second(0).tz('Europe/Helsinki').format()
 
@@ -107,8 +112,71 @@ function mapUIDataToAPIFormat(values) {
     */
 }
 
-export function mapAPIDataToUIFormat() {
+export function mapAPIDataToUIFormat(values) {
+    let obj = {}
 
+    // General data
+    Object.assign(obj, _createLangFieldsFromObject(values, 'name'))
+    Object.assign(obj, _createLangFieldsFromObject(values, 'short_description'))
+    Object.assign(obj, _createLangFieldsFromObject(values, 'description'))
+    Object.assign(obj, _createLangFieldsFromObject(values, 'info_url'))
+    Object.assign(obj, _createLangFieldsFromObject(values, 'provider'))
+    obj.event_status = values.event_status
+
+    // Location data
+    if(values.location) {
+        obj.location_id = values.location['@id']
+    }
+
+    Object.assign(obj, _createLangFieldsFromObject(values, 'location_extra_info'))
+
+    // Price information
+    if(values.offers) {
+        let offers = {}
+        offers.offers_is_free = values.offers.is_free
+        Object.assign(offers, _createLangFieldsFromObject(values.offers, 'price', 'offers_price'))
+        Object.assign(offers, _createLangFieldsFromObject(values.offers, 'description', 'offers_description'))
+        Object.assign(offers, _createLangFieldsFromObject(values.offers, 'info_url', 'offers_info_url'))
+
+        // Assign offer values to return object
+        Object.assign(obj, offers)
+    }
+
+    // Keywords, audience, languages
+    obj.keywords = _.map(values.keywords, (item) => ({ value: item['@id'], label: (item['name'] || item['@id']) }))
+
+    // TODO: Filter hel_main categories from keywords, non-hel_main categories from hel_main
+    obj.hel_main = _.map(obj.keywords, item => item.value)
+
+    if(values.audience) {
+        obj.hel_target = _.map(values.audience, item => item['@id'])
+    }
+
+    // External links
+    if(values.external_links) {
+        let externalLinkFields = ['extlink_facebook', 'extlink_twitter', 'extlink_instagram']
+        externalLinkFields.forEach(item => {
+            let extlink = _.findWhere(obj.external_links, {name: item})
+            if(extlink) {
+                obj[item] = extlink.link
+            }
+        })
+    }
+
+    // obj.external_links = []
+    //
+    // let externalLinkFields = ['extlink_facebook', 'extlink_twitter', 'extlink_instagram']
+    // externalLinkFields.forEach((field) => {
+    //     if(values[field]) {
+    //         obj.external_links.push({
+    //             name: field,
+    //             link: values[field],
+    //             language: 'fi' // TODO: Which languages here?
+    //         })
+    //     }
+    // })
+
+    return obj
 }
 
 // Picks fields starting with fieldprefix and clumps them into an obj
@@ -124,4 +192,18 @@ function _pickLangFieldValuesIntoObject(values, fieldprefix) {
     return _.mapKeys(fields, function(value, key) {
         return key.replace(fieldprefix + '_', '')
     })
+}
+
+// Picks fields starting with fieldprefix and clumps them into an obj
+function _createLangFieldsFromObject(values, field, toField) {
+    if(!field) { return {} }
+    toField = toField || field
+
+    let obj = {}
+    if(typeof values[field] === 'object') {
+        _.forEach(values[field], (value,lang) => {
+            obj[`${toField}_${lang}`] = value
+        })
+    }
+    return obj
 }

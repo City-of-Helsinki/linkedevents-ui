@@ -76,7 +76,7 @@ class FormFields extends React.Component {
 
                 <div className="row">
                     <div className="col-sm-6">
-                        <MultiLanguageField fullWidth={true} required={true} multiLine={false} label="event-headline" name="headline" languages={this.state.languages} />
+                        <MultiLanguageField fullWidth={true} required={true} multiLine={false} label="event-headline" name="name" languages={this.state.languages} />
                         <MultiLanguageField fullWidth={true} required={true} multiLine={true} label="event-short-description" name="short_description" languages={this.state.languages} />
                         <MultiLanguageField fullWidth={true} required={true} multiLine={true} label="event-description" name="description" languages={this.state.languages} />
                         <MultiLanguageField fullWidth={true} required={true} multiLine={true} label="event-info-url" name="info_url" languages={this.state.languages} />
