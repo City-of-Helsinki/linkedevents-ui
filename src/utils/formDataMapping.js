@@ -21,6 +21,7 @@ function mapUIDataToAPIFormat(values) {
     obj.info_url = _pickLangFieldValuesIntoObject(values, 'info_url')
     obj.provider = _pickLangFieldValuesIntoObject(values, 'provider')
     obj.event_status = constants.EVENT_STATUS.SCHEDULED
+    obj.publication_status = constants.PUBLICATION_STATUS.DRAFT
 
     // Location data
     if(values.location_id) {
@@ -91,29 +92,14 @@ function mapUIDataToAPIFormat(values) {
     return obj
 
     /*
-    'keywords': [
-        {'@id': keyword_id(data_source, 'simple')},
-        {'@id': keyword_id(data_source, 'test')},
-        {'@id': keyword_id(data_source, 'keyword')},
-    ],
-
     'date_published': DATETIME, // Not required at the moment...
-
-    // === hel_main ===
-    if (d.hel_main) {
-        for (var j = 0, val; j < d.hel_main.length; j++) {
-            // TODO: implement
-            val = d.hel_main[j];
-            undefined;
-        }
-        delete d.hel_main;
-    }
-
     */
 }
 
 export function mapAPIDataToUIFormat(values) {
     let obj = {}
+
+    obj.id = values.id
 
     // General data
     Object.assign(obj, _createLangFieldsFromObject(values, 'name'))
@@ -121,11 +107,14 @@ export function mapAPIDataToUIFormat(values) {
     Object.assign(obj, _createLangFieldsFromObject(values, 'description'))
     Object.assign(obj, _createLangFieldsFromObject(values, 'info_url'))
     Object.assign(obj, _createLangFieldsFromObject(values, 'provider'))
+
+    //
     obj.event_status = values.event_status
+    obj.publication_status = values.publication_status
 
     // Location data
     if(values.location) {
-        obj.location_id = values.location['@id']
+        obj.location_id = values.location['id']
     }
 
     Object.assign(obj, _createLangFieldsFromObject(values, 'location_extra_info'))
@@ -143,13 +132,13 @@ export function mapAPIDataToUIFormat(values) {
     }
 
     // Keywords, audience, languages
-    obj.keywords = _.map(values.keywords, (item) => ({ value: item['@id'], label: (item['name'] || item['@id']) }))
+    obj.keywords = _.map(values.keywords, (item) => ({ value: item['id'], label: (item['name'].fi || item['name'].se || item['name'].en || item['id']) }))
 
     // TODO: Filter hel_main categories from keywords, non-hel_main categories from hel_main
     obj.hel_main = _.map(obj.keywords, item => item.value)
 
     if(values.audience) {
-        obj.hel_target = _.map(values.audience, item => item['@id'])
+        obj.hel_target = _.map(values.audience, item => item['id'])
     }
 
     // External links
@@ -162,19 +151,6 @@ export function mapAPIDataToUIFormat(values) {
             }
         })
     }
-
-    // obj.external_links = []
-    //
-    // let externalLinkFields = ['extlink_facebook', 'extlink_twitter', 'extlink_instagram']
-    // externalLinkFields.forEach((field) => {
-    //     if(values[field]) {
-    //         obj.external_links.push({
-    //             name: field,
-    //             link: values[field],
-    //             language: 'fi' // TODO: Which languages here?
-    //         })
-    //     }
-    // })
 
     return obj
 }

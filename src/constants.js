@@ -24,6 +24,11 @@ const constants = {
         CANCELLED: 'EventCancelled',
         POSTPONED: 'EventPostponed',
         RESCHEDULED: 'EventRescheduled'
+    },
+
+    PUBLICATION_STATUS: {
+        DRAFT: 'draft',
+        PUBLIC: 'public'
     }
 }
 

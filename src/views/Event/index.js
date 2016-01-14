@@ -10,7 +10,7 @@ import {RaisedButton, FlatButton} from 'material-ui'
 
 import {fetchEventDetails} from 'src/actions/events.js'
 
-import {routerActions} from 'redux-simple-router'
+import {pushPath} from 'redux-simple-router'
 
 import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
 import {setData} from 'src/actions/editor.js'
@@ -22,15 +22,23 @@ class EventPage extends React.Component {
     }
 
     copyAsTemplate() {
-
+        if(this.props.events.event) {
+            console.log("Copy as template")
+            let formData = mapAPIDataToUIFormat(this.props.events.event)
+            delete formData.id
+            console.log(formData)
+            this.props.dispatch(setData(formData))
+            this.props.dispatch(pushPath(`/event/create/new`))
+        }
     }
 
     editEvent() {
         if(this.props.events.event) {
+            console.log("Edit existing event")
             let formData = mapAPIDataToUIFormat(this.props.events.event)
             console.log(formData)
-            //this.props.dispatch(setData(formData))
-            //this.props.dispatch(routerActions.push(`/event/update/${this.props.events.event.id}`))
+            this.props.dispatch(setData(formData))
+            this.props.dispatch(pushPath(`/event/update/${this.props.events.event.id}`))
         }
     }
 
@@ -59,7 +67,7 @@ class EventPage extends React.Component {
                         </h1>
                         <div className="actions">
                             <RaisedButton onClick={e => this.editEvent(e)} disabled={!userCanEdit} style={buttonStyle} primary={true} label="Muokkaa tapahtumaa" />
-                            <RaisedButton style={buttonStyle} secondary={true} label="Kopioi uuden tapahtuman pohjaksi" />
+                            <RaisedButton onClick={e => this.copyAsTemplate(e)} style={buttonStyle} secondary={true} label="Kopioi uuden tapahtuman pohjaksi" />
                         </div>
                         <pre>
                             {JSON.stringify(event)}

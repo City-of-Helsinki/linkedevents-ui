@@ -27,7 +27,7 @@ export function clearData() {
 
 // Send data and create sendDataComplete event afterwards
 // NOTE: values are passed from the editor view. There's no apparent way to access state from here
-export function sendData(formValues, user) {
+export function sendData(formValues, user, updateExisting = false) {
     return (dispatch) => {
         console.log('Sending: ', mapUIDataToAPIFormat(formValues))
 
@@ -39,7 +39,7 @@ export function sendData(formValues, user) {
         }
 
         return fetch(url, {
-            method: 'POST',
+            method: updateExisting ? 'PUT' : 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',

@@ -3,7 +3,8 @@ import constants from '../constants'
 let editorValues = {}
 
 try {
-    editorValues = JSON.parse(localStorage.getItem('EDITOR_VALUES'))
+    // Local storage loading and saving disabled for now
+    // editorValues = JSON.parse(localStorage.getItem('EDITOR_VALUES'))
 } catch(e) {
     editorValues = {}
 }
@@ -24,7 +25,8 @@ function update(state = initialState, action) {
         // Merge new values to existing values
         let newValues = Object.assign({}, state.values, action.values)
 
-        localStorage.setItem('EDITOR_VALUES', JSON.stringify(newValues))
+        // Local storage saving disabled for now
+        // localStorage.setItem('EDITOR_VALUES', JSON.stringify(newValues))
 
         return Object.assign({}, state, {
             values: newValues

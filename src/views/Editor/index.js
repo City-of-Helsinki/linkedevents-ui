@@ -123,7 +123,8 @@ var EditEventForm = React.createClass({
     },
 
     handleSubmit(event) {
-        this.props.dispatch(sendData(this.props.editor.values, this.props.user))
+        let doUpdate = this.props.action === 'update'
+        this.props.dispatch(sendData(this.props.editor.values, this.props.user, doUpdate))
     },
 
     render() {
@@ -148,11 +149,13 @@ var EditEventForm = React.createClass({
             flashMsg = (<FormattedMessage id={this.props.editor.flashMsg.msg} />)
         }
 
+        let headerTextId = (this.props.action === 'update') ? 'edit-event' : 'create-event'
+
         return (
             <div>
                 <div className="container header">
                     <h1>
-                        <FormattedMessage id="create-event"/>
+                        <FormattedMessage id={headerTextId}/>
                     </h1>
                     <span className="controls">
                         <RaisedButton onClick={this.clearForm} primary={true} className="pull-right" label={<span><FormattedMessage id="clear-form"/><i className="material-icons">&#xE14C;</i></span>}/>
@@ -165,7 +168,7 @@ var EditEventForm = React.createClass({
                              ref="editForm"
                              >
                     <div className="container">
-                        <FormFields />
+                        <FormFields action={this.props.action} editor={this.props.editor} />
                     </div>
 
                     <div className="editor-action-buttons">
@@ -247,6 +250,7 @@ var EditorPage = React.createClass({
                     updateData={this.updateData}
                     ref="formContainer"
                     action={this.props.params.action}
+                    editor={this.props.editor}
                 />
             </div>
         )

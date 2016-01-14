@@ -2,6 +2,7 @@
     "login": "Kirjaudu sisään",
     "logout": "Kirjaudu ulos",
     "create-event": "Lisää uusi tapahtuma",
+    "edit-event": "Muokkaa tapahtumaa",
     "search-events": "Etsi tapahtumia",
     "lang-fi": "Suomi",
     "lang-en": "Englanti",

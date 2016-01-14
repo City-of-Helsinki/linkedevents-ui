@@ -54,7 +54,7 @@ export function receiveEventDetails(json) {
 }
 
 export function fetchEventDetails(eventID) {
-    let url = `${appSettings.api_base}/event/${eventID}/`
+    let url = `${appSettings.api_base}/event/${eventID}/?include=keywords,location,audience`
     return (dispatch) => {
         return fetch(url)
             .then(response => response.json())

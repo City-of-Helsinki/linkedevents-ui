@@ -166,6 +166,4 @@ class FormFields extends React.Component {
 // <HelSelect legend={"Kohderyhmät"} name="audience" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?data_source=yso&filter=`} />
 
 // Inject dispatch and intl into props
-export default connect((state) => ({
-    editor: state.editor
-}))(injectIntl(FormFields))
+export default connect()(injectIntl(FormFields))
