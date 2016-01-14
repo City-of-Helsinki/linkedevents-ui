@@ -5,7 +5,7 @@ import moment from 'moment'
 
 import defaultThumbnail from 'src/assets/images/helsinki-coat-of-arms-white.png'
 
-require('!style!css!sass!./index.scss')
+import '!style!css!sass!./index.scss'
 
 let dateFormat = function(timeStr) {
     return timeStr ? moment(timeStr).format('YYYY-MM-DD') : ''
@@ -18,7 +18,7 @@ let EventItem = (props) => {
         props.event.headline.fi || props.event.headline.en || props.event.headline.sv
     )
 
-    let url = "/event/update/" + encodeURIComponent(props.event['@id'])
+    let url = "/" + encodeURIComponent(props.event['id']) + '/'
 
     let thumbnailStyle = {
         backgroundImage: 'url(' + (props.event.image || defaultThumbnail) + ')'

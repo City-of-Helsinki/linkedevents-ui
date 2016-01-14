@@ -45,3 +45,20 @@ export function fetchEvents(query, startDate, endDate) {
             .then(json => dispatch(receiveEvents(json)))
     }
 }
+
+export function receiveEventDetails(json) {
+    console.log(json)
+    return {
+        type: constants.RECEIVE_EVENT_DETAILS,
+        event: json
+    }
+}
+
+export function fetchEventDetails(eventID) {
+    let url = `${appSettings.api_base}/event/${eventID}/`
+    return (dispatch) => {
+        return fetch(url)
+            .then(response => response.json())
+            .then(json => dispatch(receiveEventDetails(json)))
+    }
+}
