@@ -26,7 +26,7 @@ let EventItem = (props) => {
 
     return (
         <Link to={url}>
-            <div className="col-xs-4" key={ props.event['@id'] }>
+            <div className="col-xs-4" key={ props.event['id'] }>
                 <div className="event-item">
                     <div className="thumbnail" style={thumbnailStyle} />
                     <div className="name">{name}</div>

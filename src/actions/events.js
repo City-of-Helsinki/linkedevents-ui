@@ -47,7 +47,6 @@ export function fetchEvents(query, startDate, endDate) {
 }
 
 export function receiveEventDetails(json) {
-    console.log(json)
     return {
         type: constants.RECEIVE_EVENT_DETAILS,
         event: json
