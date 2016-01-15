@@ -9,7 +9,9 @@ function update(state = initialState, action) {
         case constants.RECEIVE_USERDATA:
 
             if(action.payload && action.payload.id) {
-                return Object.assign({}, action.payload)
+                // TODO: get from payload
+                action.payload.organization = 'ahjo:021600';
+                return Object.assign({}, action.payload);
             }
 
             else {

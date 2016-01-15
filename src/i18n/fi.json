@@ -25,6 +25,9 @@
     "event-description": "Kuvaus",
     "event-info-url": "Kotisivu",
 
+    "organization-events": "Tapahtumien hallinta",
+    "organization-events-prompt": "muokataksesi tapahtumia.",
+
     "event-picture": "Tapahtuman kuva",
     "upload-picture": "Lisää tapahtumalle kuva",
 
