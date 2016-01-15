@@ -3,3 +3,4 @@
 /dist/
 /config/local.yml
 npm-debug.log
+.idea
