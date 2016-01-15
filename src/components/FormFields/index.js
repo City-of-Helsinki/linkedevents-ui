@@ -71,9 +71,6 @@ class FormFields extends React.Component {
     }
 
     render() {
-        let defaultValidationErrors = {
-            'isUrl': this.props.intl.formatMessage({id: 'validation-url-error'})
-        }
 
         let helMainOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helfi:topics')
         let helTargetOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helfi:audiences')
@@ -158,9 +155,9 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6">
-                        <HelTextField validations="isUrl" validationErrors={defaultValidationErrors} fullWidth={true} name="extlink_facebook" floatingLabelText={<FormattedMessage id="facebook-url"/>} />
-                        <HelTextField validations="isUrl" validationErrors={defaultValidationErrors} fullWidth={true} name="extlink_twitter" floatingLabelText={<FormattedMessage id="twitter-url"/>} />
-                        <HelTextField validations="isUrl" validationErrors={defaultValidationErrors} fullWidth={true} name="extlink_instagram" floatingLabelText={<FormattedMessage id="instagram-url"/>} />
+                        <HelTextField validations={['isUrl']} fullWidth={true} name="extlink_facebook" floatingLabelText={<FormattedMessage id="facebook-url"/>} />
+                        <HelTextField validations={['isUrl']} fullWidth={true} name="extlink_twitter" floatingLabelText={<FormattedMessage id="twitter-url"/>} />
+                        <HelTextField validations={['isUrl']} fullWidth={true} name="extlink_instagram" floatingLabelText={<FormattedMessage id="instagram-url"/>} />
                     </div>
                 </div>
 

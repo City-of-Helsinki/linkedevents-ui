@@ -1,5 +1,4 @@
 import React from 'react'
-import Formsy from 'formsy-react'
 import Checkbox from 'material-ui/lib/checkbox'
 
 import {connect} from 'react-redux'
