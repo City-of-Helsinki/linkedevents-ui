@@ -16,6 +16,10 @@ function mapUIDataToAPIFormat(values) {
 
     let obj = {}
 
+    if(values.id) {
+        obj.id = values.id
+    }
+
     // General data
     obj.name = _pickLangFieldValuesIntoObject(values, 'name')
     obj.short_description = _pickLangFieldValuesIntoObject(values, 'short_description')

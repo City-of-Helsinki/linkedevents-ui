@@ -33,6 +33,10 @@ export function sendData(formValues, user, updateExisting = false) {
 
         let url = `${appSettings.api_base}/event/`
 
+        if(updateExisting) {
+            url += `${formValues.id}/`
+        }
+
         let token = ''
         if(user) {
              token = user.token
