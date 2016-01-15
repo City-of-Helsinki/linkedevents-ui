@@ -11,7 +11,7 @@ import {FormattedMessage} from 'react-intl'
 import Snackbar from 'material-ui/lib/snackbar';
 import { RaisedButton, FlatButton } from 'material-ui'
 
-import {sendData, clearData, clearFlashMsg, fetchKeywordSets} from 'src/actions/editor.js'
+import {sendData, clearData, clearFlashMsg, fetchKeywordSets, fetchLanguages} from 'src/actions/editor.js'
 
 import constants from 'src/constants.js'
 
@@ -52,6 +52,7 @@ var EditorPage = React.createClass({
 
     componentWillMount() {
         this.props.dispatch(fetchKeywordSets())
+        this.props.dispatch(fetchLanguages())
     },
 
     clearForm() {
@@ -91,6 +92,11 @@ var EditorPage = React.createClass({
 
         let headerTextId = (this.props.params.action === 'update') ? 'edit-event' : 'create-event'
 
+        let clearButton = null
+        if(_.keys(this.props.editor.values).length) {
+            clearButton = (<RaisedButton onClick={this.clearForm} primary={true} className="pull-right" label={<span><FormattedMessage id="clear-form"/><i className="material-icons">&#xE14C;</i></span>}/>)
+        }
+
         return (
             <div className="editor-page">
                 <div className="container header">
@@ -98,7 +104,7 @@ var EditorPage = React.createClass({
                         <FormattedMessage id={headerTextId}/>
                     </h1>
                     <span className="controls">
-                        <RaisedButton onClick={this.clearForm} primary={true} className="pull-right" label={<span><FormattedMessage id="clear-form"/><i className="material-icons">&#xE14C;</i></span>}/>
+                        {clearButton}
                     </span>
                 </div>
 

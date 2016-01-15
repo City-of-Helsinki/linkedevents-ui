@@ -117,3 +117,31 @@ export function receiveKeywordSets(json) {
         keywordSets: json.data
     }
 }
+
+// Fetch Hel.fi languages
+export function fetchLanguages() {
+    return (dispatch) => {
+        let url = `${appSettings.api_base}/language/`
+
+        return fetch(url).then((response) => {
+            if (response.status >= 400) {
+                return {
+                    apiErrorMsg: 'server-error'
+                }
+            }
+            return response.json()
+        })
+        .then(json => {
+            console.log('Received', json)
+            return dispatch(receiveLanguages(json))
+        })
+    }
+}
+
+// Receive Hel.fi main category and audience keywords
+export function receiveLanguages(json) {
+    return {
+        type: constants.EDITOR_RECEIVE_LANGUAGES,
+        languages: json.data
+    }
+}

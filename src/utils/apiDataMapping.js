@@ -11,3 +11,16 @@ export function mapKeywordSetToForm(keywordSets, id, locale = 'fi') {
         return []
     }
 }
+
+export function mapLanguagesSetToForm(set, locale = 'fi') {
+    if(set && set.length) {
+        return set.map((item) => ({
+            value: `/v0.1/language/${item.id}/`,
+            label: item.name[locale] || item.id
+        }))
+    }
+
+    else {
+        return []
+    }
+}

@@ -71,6 +71,13 @@ function update(state = initialState, action) {
         })
     }
 
+    if(action.type === constants.EDITOR_RECEIVE_LANGUAGES) {
+        console.log('languages', action.languages)
+        return Object.assign({}, state, {
+            languages: action.languages
+        })
+    }
+
     return state
 }
 

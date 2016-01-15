@@ -16,7 +16,7 @@ import {
 } from 'src/components/HelFormFields'
 
 
-import {mapKeywordSetToForm} from 'src/utils/apiDataMapping.js'
+import {mapKeywordSetToForm, mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
 
 import API from 'src/api.js'
 
@@ -74,17 +74,17 @@ class FormFields extends React.Component {
 
         let helMainOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helfi:topics')
         let helTargetOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helfi:audiences')
-        let helEventLangOptions = API.loadHelEventLangOptions();
+        let helEventLangOptions = mapLanguagesSetToForm(this.props.editor.languages)
 
         return (
             <div>
                 <div className="col-sm-12 highlighted-block">
-                    <div className="col-sm-6">
+                    <div className="col-lg-6">
                         <label>
                             <FormattedMessage id="event-presented-in-languages"/>
                         </label>
                     </div>
-                    <div className="col-sm-6">
+                    <div className="col-lg-6">
                         <div className="spread-evenly">
                             <HelLanguageSelect name="presentation-languages" options={API.eventInfoLanguages()} defaultSelected={this.state.languages} onChange={(array) => {this.setState({languages: array})}}/>
                         </div>
