@@ -3,27 +3,17 @@
 import '!style!css!sass!./index.scss'
 import 'style!vendor/stylesheets/typeahead.css'
 
-// js
-import typeahead from 'typeahead.js'
-import constants from 'src/constants.js'
 
-// react-specific
-//
 import React from 'react'
 import {connect} from 'react-redux'
-import {sendData, clearData, clearFlashMsg, fetchKeywordSets} from 'src/actions/editor.js'
-
 import {FormattedMessage} from 'react-intl'
 
 import Snackbar from 'material-ui/lib/snackbar';
-
 import { RaisedButton, FlatButton } from 'material-ui'
 
-// our components
-import Typeahead from 'src/typeahead.js'
-import API from 'src/api.js'
+import {sendData, clearData, clearFlashMsg, fetchKeywordSets} from 'src/actions/editor.js'
 
-// === constants ===
+import constants from 'src/constants.js'
 
 // the backup doesn't support non-language links, so we use hardcoded
 // 'fi' instead for the link language
