@@ -3,6 +3,8 @@ import constants from 'src/constants.js'
 import moment from 'moment'
 import 'moment-timezone'
 
+import {mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
+
 export {
     mapUIDataToAPIFormat,
     mapAPIDataToUIFormat
@@ -21,7 +23,7 @@ function mapUIDataToAPIFormat(values) {
     obj.info_url = _pickLangFieldValuesIntoObject(values, 'info_url')
     obj.provider = _pickLangFieldValuesIntoObject(values, 'provider')
     obj.event_status = constants.EVENT_STATUS.SCHEDULED
-    obj.publication_status = constants.PUBLICATION_STATUS.DRAFT
+    obj.publication_status = values.publication_status || values.PUBLICATION_STATUS.DRAFT
 
     // Location data
     if(values.location_id) {
@@ -89,6 +91,10 @@ function mapUIDataToAPIFormat(values) {
         obj.end_time = end_datetime
     }
 
+    if(values.in_language) {
+        obj.in_language = values.in_language.map(lang => ({'@id': lang}))
+    }
+
     return obj
 
     /*
@@ -131,16 +137,6 @@ export function mapAPIDataToUIFormat(values) {
         Object.assign(obj, offers)
     }
 
-    // Keywords, audience, languages
-    obj.keywords = _.map(values.keywords, (item) => ({ value: item['id'], label: (item['name'].fi || item['name'].se || item['name'].en || item['id']) }))
-
-    // TODO: Filter hel_main categories from keywords, non-hel_main categories from hel_main
-    obj.hel_main = _.map(obj.keywords, item => item.value)
-
-    if(values.audience) {
-        obj.hel_target = _.map(values.audience, item => item['id'])
-    }
-
     // External links
     if(values.external_links) {
         let externalLinkFields = ['extlink_facebook', 'extlink_twitter', 'extlink_instagram']
@@ -162,6 +158,22 @@ export function mapAPIDataToUIFormat(values) {
         obj.ending_date = moment(values.end_time).toDate()
         obj.ending_time = moment(values.end_time).toDate()
     }
+
+    // TODO: Filter hel_main categories from keywords, non-hel_main categories from hel_main
+    obj.hel_main = _.map(obj.keywords, item => `/v0.1/keyword/${item.id}/`)
+
+    // Keywords, audience, languages
+    obj.keywords = _.map(values.keywords, (item) => ({ value: `/v0.1/keyword/${item.id}/`, label: (item['name'].fi || item['name'].se || item['name'].en || item['id']) }))
+
+    if(values.audience) {
+        obj.hel_target = _.map(values.audience, item => `/v0.1/keyword/${item.id}/`)
+    }
+
+    if(values.in_language) {
+        obj.in_language = _.map(values.in_language, lang => `/v0.1/language/${lang.id}/`)
+    }
+
+    console.log('Konvertoitu objekti', obj)
 
     return obj
 }
