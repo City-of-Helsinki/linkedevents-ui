@@ -4,6 +4,8 @@ import {DatePicker} from 'material-ui/lib/date-picker'
 import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
 
+import moment from 'moment'
+
 let HelDatePicker = React.createClass({
 
     propTypes: {
@@ -36,7 +38,7 @@ let HelDatePicker = React.createClass({
     componentWillMount: function() {
         let defaultValue = this.props.editor.values[this.props.name] || ''
         if(defaultValue && defaultValue.length > 0) {
-            this.setValue(defaultValue)
+            //this.setValue(defaultValue)
         }
     },
 
@@ -57,14 +59,18 @@ let HelDatePicker = React.createClass({
         }
 
         // Check if this text field should be prefilled from local storage
-        let defaultValue = this.props.editor.values[this.props.name] || new Date()
+        let defaultValue = this.props.editor.values[this.props.name] || undefined
+
+        if(defaultValue) {
+            defaultValue = moment(defaultValue).tz('Europe/Helsinki').toDate();
+        }
 
         let DateTimeFormat = function(settings) {
             return new Intl.DateTimeFormat(Object.assign({}, settings, {timeZone:'Europe/Helsinki'}))
         }
 
         return (
-            <DatePicker DateTimeFormat={DateTimeFormat} locale="fi" defaultDate={new Date(defaultValue)} {...this.props} onChange={this.handleChange} onBlur={this.handleBlur} onEnterKeyDown={this.handleEnterKeyDown} />
+            <DatePicker DateTimeFormat={DateTimeFormat} locale="fi" defaultDate={defaultValue} {...this.props} onChange={this.handleChange} onBlur={this.handleBlur} onEnterKeyDown={this.handleEnterKeyDown} />
         )
     }
 });

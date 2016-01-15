@@ -152,6 +152,17 @@ export function mapAPIDataToUIFormat(values) {
         })
     }
 
+    // Time formatting
+    if(values.start_time) {
+        obj.starting_date = moment(values.start_time).toDate()
+        obj.starting_time = moment(values.start_time).toDate()
+    }
+
+    if(values.end_time) {
+        obj.ending_date = moment(values.end_time).toDate()
+        obj.ending_time = moment(values.end_time).toDate()
+    }
+
     return obj
 }
 

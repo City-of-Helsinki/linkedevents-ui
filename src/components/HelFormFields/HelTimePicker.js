@@ -4,6 +4,8 @@ import TimePicker from 'material-ui/lib/time-picker'
 import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
 
+import moment from 'moment'
+
 let HelTimePicker = React.createClass({
 
     propTypes: {
@@ -22,7 +24,7 @@ let HelTimePicker = React.createClass({
     },
 
     handleBlur: function (event) {
-        //this.setValue(event.currentTarget.value)
+        // this.setValue(event.currentTarget.value)
 
         if(typeof this.props.onBlur === 'function') {
             this.props.onBlur()
@@ -32,7 +34,7 @@ let HelTimePicker = React.createClass({
     componentWillMount: function() {
         let defaultValue = this.props.editor.values[this.props.name] || ''
         if(defaultValue && defaultValue.length > 0) {
-            this.setValue(defaultValue)
+            // this.setValue(defaultValue)
         }
     },
 
@@ -53,14 +55,18 @@ let HelTimePicker = React.createClass({
         }
 
         // Check if this text field should be prefilled from local storage
-        let defaultValue = this.props.editor.values[this.props.name] || new Date()
+        let defaultValue = this.props.editor.values[this.props.name] || null
+
+        if(defaultValue) {
+            defaultValue = moment(defaultValue).tz('Europe/Helsinki').toDate();
+        }
 
         let DateTimeFormat = function(settings) {
             return new Intl.DateTimeFormat(Object.assign({}, settings, {timeZone:'Europe/Helsinki'}))
         }
 
         return (
-            <TimePicker DateTimeFormat={DateTimeFormat} locale="fi" defaultTime={new Date(defaultValue)} onChange={this.handleChange} onBlur={this.handleBlur} {...this.props}  />
+            <TimePicker DateTimeFormat={DateTimeFormat} locale="fi" defaultTime={defaultValue} onChange={this.handleChange} onBlur={this.handleBlur} {...this.props}  />
         )
     }
 });
