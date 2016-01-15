@@ -60,7 +60,7 @@ var EditorPage = React.createClass({
     },
 
     goToPreview(event) {
-        console.log(event)
+        // console.log(event)
     },
 
     saveAsDraft(event) {

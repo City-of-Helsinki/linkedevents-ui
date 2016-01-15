@@ -121,6 +121,18 @@
         }
     }
 
+    .checkbox-group {
+        legend {
+            margin-top: 4rem;
+        }
+
+        &:nth-of-type(1) {
+            legend {
+                margin-top: 2rem;
+            }
+        }
+    }
+
     .multi-language-field {
         margin-top: 2rem;
 

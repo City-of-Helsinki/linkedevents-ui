@@ -79,12 +79,12 @@ class FormFields extends React.Component {
         return (
             <div>
                 <div className="col-sm-12 highlighted-block">
-                    <div className="col-lg-6">
+                    <div className="col-xl-6">
                         <label>
                             <FormattedMessage id="event-presented-in-languages"/>
                         </label>
                     </div>
-                    <div className="col-lg-6">
+                    <div className="col-xl-6">
                         <div className="spread-evenly">
                             <HelLanguageSelect name="presentation-languages" options={API.eventInfoLanguages()} defaultSelected={this.state.languages} onChange={(array) => {this.setState({languages: array})}}/>
                         </div>
@@ -99,8 +99,8 @@ class FormFields extends React.Component {
                     <div className="col-sm-6">
                         <MultiLanguageField fullWidth={true} required={true} multiLine={false} label="event-headline" name="name" languages={this.state.languages} />
                         <MultiLanguageField fullWidth={true} required={true} multiLine={true} label="event-short-description" name="short_description" languages={this.state.languages} />
-                        <MultiLanguageField fullWidth={true} required={true} multiLine={true} label="event-description" name="description" languages={this.state.languages} />
-                        <MultiLanguageField fullWidth={true} required={true} multiLine={true} label="event-info-url" name="info_url" languages={this.state.languages} />
+                        <MultiLanguageField fullWidth={true} required={false} multiLine={true} label="event-description" name="description" languages={this.state.languages} />
+                        <MultiLanguageField fullWidth={true} required={false} multiLine={true} label="event-info-url" name="info_url" languages={this.state.languages} validations={['isUrl']} />
                     </div>
                     <SideField>
                         <label><FormattedMessage id="event-picture"/></label>

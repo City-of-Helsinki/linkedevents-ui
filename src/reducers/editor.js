@@ -13,8 +13,6 @@ const initialState = {
     values: editorValues || {}
 }
 
-console.log('Editor values: ', initialState)
-
 function clearEventDataFromLocalStorage() {
     localStorage.setItem('EDITOR_VALUES', JSON.stringify({}))
 }
@@ -65,14 +63,12 @@ function update(state = initialState, action) {
     }
 
     if(action.type === constants.EDITOR_RECEIVE_KEYWORDSETS) {
-        console.log('Reduced keywordsets', action.keywordSets)
         return Object.assign({}, state, {
             keywordSets: action.keywordSets
         })
     }
 
     if(action.type === constants.EDITOR_RECEIVE_LANGUAGES) {
-        console.log('languages', action.languages)
         return Object.assign({}, state, {
             languages: action.languages
         })

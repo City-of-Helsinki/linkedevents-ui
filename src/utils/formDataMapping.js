@@ -10,7 +10,7 @@ export {
     mapAPIDataToUIFormat
 }
 
-// TODO: Refactoring form components to output and accept the correct format (like <MultiLanguageField>)
+// TODO: Refactoring form components to output and accept the correct format (like <MultiLanguageField> to output {fi: name, se: namn})
 
 function mapUIDataToAPIFormat(values) {
 
@@ -160,10 +160,16 @@ export function mapAPIDataToUIFormat(values) {
     }
 
     // TODO: Filter hel_main categories from keywords, non-hel_main categories from hel_main
-    obj.hel_main = _.map(obj.keywords, item => `/v0.1/keyword/${item.id}/`)
+    obj.hel_main = _.map(values.keywords, (item) => (`/v0.1/keyword/${item.id}/`))
 
     // Keywords, audience, languages
     obj.keywords = _.map(values.keywords, (item) => ({ value: `/v0.1/keyword/${item.id}/`, label: (item['name'].fi || item['name'].se || item['name'].en || item['id']) }))
+
+    // Filter somehow the hel_main keyword values from keywords
+    // obj.keywords = _.filter(obj.keywords, (item) => {
+    //     console.log(obj.hel_main.indexOf(item.value) === -1)
+    //     return (obj.hel_main.indexOf(item.value) === -1)
+    // });
 
     if(values.audience) {
         obj.hel_target = _.map(values.audience, item => `/v0.1/keyword/${item.id}/`)
@@ -172,8 +178,6 @@ export function mapAPIDataToUIFormat(values) {
     if(values.in_language) {
         obj.in_language = _.map(values.in_language, lang => `/v0.1/language/${lang.id}/`)
     }
-
-    console.log('Konvertoitu objekti', obj)
 
     return obj
 }
