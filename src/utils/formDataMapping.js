@@ -132,10 +132,10 @@ export function mapAPIDataToUIFormat(values) {
     // Price information
     if(values.offers) {
         let offers = {}
-        offers.offers_is_free = values.offers.is_free
-        Object.assign(offers, _createLangFieldsFromObject(values.offers, 'price', 'offers_price'))
-        Object.assign(offers, _createLangFieldsFromObject(values.offers, 'description', 'offers_description'))
-        Object.assign(offers, _createLangFieldsFromObject(values.offers, 'info_url', 'offers_info_url'))
+        obj.offers_is_free = values.offers[0].is_free
+        Object.assign(offers, _createLangFieldsFromObject(values.offers[0], 'price', 'offers_price'))
+        Object.assign(offers, _createLangFieldsFromObject(values.offers[0], 'description', 'offers_description'))
+        Object.assign(offers, _createLangFieldsFromObject(values.offers[0], 'info_url', 'offers_info_url'))
 
         // Assign offer values to return object
         Object.assign(obj, offers)
