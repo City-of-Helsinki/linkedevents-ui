@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 // Translations
 import {IntlProvider} from 'react-intl';
 import translations from 'src/i18n';
+import moment from 'moment'
 
 import Headerbar from 'src/components/Header';
 
@@ -36,6 +37,7 @@ class App extends React.Component {
     render() {
         //const locale = this.props.language;
         let locale = 'fi';
+        moment.locale(locale);
         return (
             <IntlProvider locale={locale} messages={translations[locale] || {}}>
                 <div>

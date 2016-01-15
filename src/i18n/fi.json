@@ -27,6 +27,7 @@
 
     "organization-events": "Tapahtumien hallinta",
     "organization-events-prompt": "muokataksesi tapahtumia.",
+    "organization-events-description": "Organisaation {org} tapahtumat.",
 
     "event-picture": "Tapahtuman kuva",
     "upload-picture": "Lisää tapahtumalle kuva",

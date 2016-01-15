@@ -24,9 +24,13 @@ class EventListing extends React.Component {
         this.fetchEvents();
     }
 
+    getInitialState() {
+        return {nextEventsPage: 1}
+    }
+
     fetchEvents() {
         if (this.props.user) {
-            this.props.dispatch(fetchUserEvents(this.props.user));
+            this.props.dispatch(fetchUserEvents(this.props.user, 1));
         }
     }
 
@@ -41,24 +45,31 @@ class EventListing extends React.Component {
             return (
                 <div className="container">
                     {header}
-                    <p><a style={{cursor: 'pointer'}} onClick={() => this.props.dispatch(login())}><FormattedMessage id="login" /></a>
+                    <p>
+                    <a style={{cursor: 'pointer'}} onClick={() => this.props.dispatch(login())}>
+                      <FormattedMessage id="login" />
+                    </a>
                     {" "}<FormattedMessage id="organization-events-prompt" /></p>
                     </div>);
         }
         if (events.isFetching && user) {
             return <h1>{`Fetching events for user ${user.id}`}</h1>
         }
-        return (
-            <div className="container">
-                <h1><FormattedMessage id="organization-events"/></h1>
-                <FilterableEventTable events={events.items} apiErrorMsg={''} />
-            </div>
-        )
+        if (events.fetchComplete) {
+            return (
+                    <div className="container">
+                    <h1><FormattedMessage id="organization-events"/></h1>
+                    <FilterableEventTable events={events.items} apiErrorMsg={''} />
+                    </div>
+            )
+        }
+        return null;
     }
 }
 
 export default connect((state) => ({
     events: state.events,
     user: state.user,
+    organization: state.organization,
     apiErrorMsg: state.events.apiErrorMsg
 }))(EventListing);
