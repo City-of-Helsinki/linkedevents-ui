@@ -175,7 +175,7 @@ class FormFields extends React.Component {
                                     itemClassName="col-sm-6"
                                     options={helTargetOptions} />
                     <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-event-languages"/>}
-                                    name="hel_event_lang"
+                                    name="in_language"
                                     itemClassName="col-sm-6"
                                     options={helEventLangOptions} />
                 </div>
