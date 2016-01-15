@@ -29,9 +29,13 @@ export function clearData() {
 // NOTE: values are passed from the editor view. There's no apparent way to access state from here
 export function sendData(formValues, user, updateExisting = false) {
     return (dispatch) => {
-        console.log('Sending: ', mapUIDataToAPIFormat(formValues))
+        //console.log('Sending: ', mapUIDataToAPIFormat(formValues))
 
         let url = `${appSettings.api_base}/event/`
+
+        if(updateExisting) {
+            url += `${formValues.id}/`
+        }
 
         let token = ''
         if(user) {
@@ -47,7 +51,7 @@ export function sendData(formValues, user, updateExisting = false) {
             },
             body: JSON.stringify(mapUIDataToAPIFormat(formValues))
         }).then(response => {
-            console.log('Received', response)
+            //console.log('Received', response)
 
             let json = response.json()
             if(response.status === 200 || response.status === 201) {
@@ -104,7 +108,7 @@ export function fetchKeywordSets() {
             return response.json()
         })
         .then(json => {
-            console.log('Received', json)
+            // console.log('Received', json)
             return dispatch(receiveKeywordSets(json))
         })
     }
@@ -132,7 +136,7 @@ export function fetchLanguages() {
             return response.json()
         })
         .then(json => {
-            console.log('Received', json)
+            // console.log('Received', json)
             return dispatch(receiveLanguages(json))
         })
     }

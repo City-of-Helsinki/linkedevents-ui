@@ -23,10 +23,9 @@ class EventPage extends React.Component {
 
     copyAsTemplate() {
         if(this.props.events.event) {
-            console.log("Copy as template")
             let formData = mapAPIDataToUIFormat(this.props.events.event)
             delete formData.id
-            console.log(formData)
+
             this.props.dispatch(setData(formData))
             this.props.dispatch(pushPath(`/event/create/new`))
         }
@@ -34,9 +33,8 @@ class EventPage extends React.Component {
 
     editEvent() {
         if(this.props.events.event) {
-            console.log("Edit existing event")
             let formData = mapAPIDataToUIFormat(this.props.events.event)
-            console.log(formData)
+
             this.props.dispatch(setData(formData))
             this.props.dispatch(pushPath(`/event/update/${this.props.events.event.id}`))
         }
@@ -51,8 +49,6 @@ class EventPage extends React.Component {
 
         // User can edit event
         let userCanEdit = false
-
-        console.log(this.props.user, event)
 
         if(event && this.props.user) {
             userCanEdit = true

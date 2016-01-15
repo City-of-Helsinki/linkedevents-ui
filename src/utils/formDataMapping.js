@@ -3,16 +3,22 @@ import constants from 'src/constants.js'
 import moment from 'moment'
 import 'moment-timezone'
 
+import {mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
+
 export {
     mapUIDataToAPIFormat,
     mapAPIDataToUIFormat
 }
 
-// TODO: Refactoring form components to output and accept the correct format (like <MultiLanguageField>)
+// TODO: Refactoring form components to output and accept the correct format (like <MultiLanguageField> to output {fi: name, se: namn})
 
 function mapUIDataToAPIFormat(values) {
 
     let obj = {}
+
+    if(values.id) {
+        obj.id = values.id
+    }
 
     // General data
     obj.name = _pickLangFieldValuesIntoObject(values, 'name')
@@ -21,7 +27,7 @@ function mapUIDataToAPIFormat(values) {
     obj.info_url = _pickLangFieldValuesIntoObject(values, 'info_url')
     obj.provider = _pickLangFieldValuesIntoObject(values, 'provider')
     obj.event_status = constants.EVENT_STATUS.SCHEDULED
-    obj.publication_status = constants.PUBLICATION_STATUS.DRAFT
+    obj.publication_status = values.publication_status || values.PUBLICATION_STATUS.DRAFT
 
     // Location data
     if(values.location_id) {
@@ -89,6 +95,10 @@ function mapUIDataToAPIFormat(values) {
         obj.end_time = end_datetime
     }
 
+    if(values.in_language) {
+        obj.in_language = values.in_language.map(lang => ({'@id': lang}))
+    }
+
     return obj
 
     /*
@@ -122,23 +132,13 @@ export function mapAPIDataToUIFormat(values) {
     // Price information
     if(values.offers) {
         let offers = {}
-        offers.offers_is_free = values.offers.is_free
-        Object.assign(offers, _createLangFieldsFromObject(values.offers, 'price', 'offers_price'))
-        Object.assign(offers, _createLangFieldsFromObject(values.offers, 'description', 'offers_description'))
-        Object.assign(offers, _createLangFieldsFromObject(values.offers, 'info_url', 'offers_info_url'))
+        obj.offers_is_free = values.offers[0].is_free
+        Object.assign(offers, _createLangFieldsFromObject(values.offers[0], 'price', 'offers_price'))
+        Object.assign(offers, _createLangFieldsFromObject(values.offers[0], 'description', 'offers_description'))
+        Object.assign(offers, _createLangFieldsFromObject(values.offers[0], 'info_url', 'offers_info_url'))
 
         // Assign offer values to return object
         Object.assign(obj, offers)
-    }
-
-    // Keywords, audience, languages
-    obj.keywords = _.map(values.keywords, (item) => ({ value: item['id'], label: (item['name'].fi || item['name'].se || item['name'].en || item['id']) }))
-
-    // TODO: Filter hel_main categories from keywords, non-hel_main categories from hel_main
-    obj.hel_main = _.map(obj.keywords, item => item.value)
-
-    if(values.audience) {
-        obj.hel_target = _.map(values.audience, item => item['id'])
     }
 
     // External links
@@ -161,6 +161,26 @@ export function mapAPIDataToUIFormat(values) {
     if(values.end_time) {
         obj.ending_date = moment(values.end_time).toDate()
         obj.ending_time = moment(values.end_time).toDate()
+    }
+
+    // TODO: Filter hel_main categories from keywords, non-hel_main categories from hel_main
+    obj.hel_main = _.map(values.keywords, (item) => (`/v0.1/keyword/${item.id}/`))
+
+    // Keywords, audience, languages
+    obj.keywords = _.map(values.keywords, (item) => ({ value: `/v0.1/keyword/${item.id}/`, label: (item['name'].fi || item['name'].se || item['name'].en || item['id']) }))
+
+    // Filter somehow the hel_main keyword values from keywords
+    // obj.keywords = _.filter(obj.keywords, (item) => {
+    //     console.log(obj.hel_main.indexOf(item.value) === -1)
+    //     return (obj.hel_main.indexOf(item.value) === -1)
+    // });
+
+    if(values.audience) {
+        obj.hel_target = _.map(values.audience, item => `/v0.1/keyword/${item.id}/`)
+    }
+
+    if(values.in_language) {
+        obj.in_language = _.map(values.in_language, lang => `/v0.1/language/${lang.id}/`)
     }
 
     return obj
