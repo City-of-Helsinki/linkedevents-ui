@@ -16,8 +16,6 @@ class SearchBar extends React.Component {
 
         this.state = {
             searchQuery: '',
-            startDate: moment().startOf('month'),
-            endDate: moment()
         }
     }
 
@@ -99,7 +97,7 @@ class SearchBar extends React.Component {
     }
 
     render() {
-        var label = this.formatLabel() + ' ';
+        //var label = this.formatLabel() + ' ';
         return (
             <form onSubmit={ (e) => this.handleSubmit(e) } className="row search-bar">
                 <div className="col-xs-6">
@@ -113,7 +111,7 @@ class SearchBar extends React.Component {
                 </div>
 
                 <div className="col-xs-3" style={{background: 'white'}}>
-                    <div className='time-input'>Time</div>
+                    <div className='time-input'></div>
                 </div>
 
                 <div className="col-xs-3">

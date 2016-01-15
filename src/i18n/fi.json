@@ -2,6 +2,7 @@
     "login": "Kirjaudu sisään",
     "logout": "Kirjaudu ulos",
     "create-event": "Lisää uusi tapahtuma",
+    "edit-event": "Muokkaa tapahtumaa",
     "search-events": "Etsi tapahtumia",
     "lang-fi": "Suomi",
     "lang-en": "Englanti",
@@ -77,5 +78,12 @@
     "ruotsi": "ruotsi",
     "suomi": "suomi",
 
-    "validation-url-error": "Kirjoita URL osoite kokonaisena ja oikeassa muodossa (http://...)"
+    "validation-isUrl": "Kirjoita URL osoite kokonaisena ja oikeassa muodossa (http://...)",
+
+    "server-error": "Virhe palvelimella.",
+    "validation-error": "Validointi virhe.",
+    "authorization-required": "Kirjaudu sisään tapahtuman lähettämiseksi.",
+    "event-posted": "Tapahtuma lähetettiin onnistuneesti!"
+
+
 }
