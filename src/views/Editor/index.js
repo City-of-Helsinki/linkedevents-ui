@@ -5,6 +5,7 @@ import 'style!vendor/stylesheets/typeahead.css'
 
 // js
 import typeahead from 'typeahead.js'
+import constants from 'src/constants.js'
 
 // react-specific
 import Formsy from 'formsy-react'
@@ -40,58 +41,13 @@ import FormFields from 'src/components/FormFields'
 // === code ===
 //
 
-var EditEventForm = React.createClass({
+var EditorPage = React.createClass({
 
     getInitialState() {
         return {
             canSubmit: false,
-            layout: 'horizontal',
-            validatePristine: false,
-            disabled: false,
-            location_id: '',
+            disabled: false
         }
-    },
-
-    componentDidUpdate() {
-        // @trackActionChanges()
-
-        // set up typeahead
-
-        var taOptions = {
-            hint: true,
-            highlight: true,
-            minLength: 1
-        };
-
-        var taDatasets = {
-            limit: 25,
-            display: 'value',
-            templates: {
-                suggestion(model) {
-                   return '<div><class="place_name">' +
-                   model.value +
-                   '</span><br><span class="place_address">' +
-                   model.street_address +
-                   '</span></div>';
-                },
-                empty(d) {
-                    return '<p class="repo-name">No Matches</p>';
-                }
-            },
-            source: Typeahead.bloodhoundInstance.ttAdapter()
-        };
-
-        var taSelectHandler = (function(evt, item) {
-            this.setState({
-                location_id: item.id
-            });
-            return this.refs.__location_search_field.value = item.value;
-        }
-        ).bind(this);
-
-        var taEm = $('#__location_search_field');
-        taEm.typeahead(taOptions, taDatasets);
-        return taEm.on('typeahead:selected', taSelectHandler);
     },
 
     enableButton() {
@@ -106,10 +62,6 @@ var EditEventForm = React.createClass({
         });
     },
 
-    clearForm() {
-        this.props.dispatch(clearData())
-    },
-
     willReceiveProps() {
         this.forceUpdate()
     },
@@ -118,41 +70,45 @@ var EditEventForm = React.createClass({
         this.props.dispatch(fetchKeywordSets())
     },
 
+    clearForm() {
+        this.props.dispatch(clearData())
+    },
+
     goToPreview(event) {
         console.log(event)
     },
 
-    handleSubmit(event) {
-        let doUpdate = this.props.action === 'update'
-        this.props.dispatch(sendData(this.props.editor.values, this.props.user, doUpdate))
+    saveAsDraft(event) {
+        let doUpdate = this.props.params.action === 'update'
+        let data = Object.assign({}, this.props.editor.values, { publication_status: constants.PUBLICATION_STATUS.DRAFT })
+        this.props.dispatch(sendData(data, this.props.user, doUpdate))
+    },
+
+    saveAsPublished(event) {
+        let doUpdate = this.props.params.action === 'update'
+        let data = Object.assign({}, this.props.editor.values, { publication_status: constants.PUBLICATION_STATUS.PUBLIC })
+        this.props.dispatch(sendData(data, this.props.user, doUpdate))
     },
 
     render() {
         var sharedProps = {
-            layout: this.state.layout,
-            validatePristine: this.state.validatePristine,
             disabled: this.state.disabled
-        };
-
-        // TODO: move to scss
-        let paddingStyle = { paddingBottom: "1em" };
-        let greenStyle = {color: 'green'};
-        let blueStyle = {color: 'blue'};
+        }
 
         let buttonStyle = {
             height: '72px',
             margin: '0 10px'
         }
 
-        let flashMsg = 'No message'
+        let flashMsg = (<span/>)
         if(this.props.editor.flashMsg) {
             flashMsg = (<FormattedMessage id={this.props.editor.flashMsg.msg} />)
         }
 
-        let headerTextId = (this.props.action === 'update') ? 'edit-event' : 'create-event'
+        let headerTextId = (this.props.params.action === 'update') ? 'edit-event' : 'create-event'
 
         return (
-            <div>
+            <div className="editor-page">
                 <div className="container header">
                     <h1>
                         <FormattedMessage id={headerTextId}/>
@@ -162,13 +118,12 @@ var EditEventForm = React.createClass({
                     </span>
                 </div>
                 <Formsy.Form className="form-horizontal"
-                             onSubmit={this.handleSubmit}
                              onValid={this.enableButton}
                              onInvalid={this.disableButton}
                              ref="editForm"
                              >
                     <div className="container">
-                        <FormFields action={this.props.action} editor={this.props.editor} />
+                        <FormFields action={this.props.params.action} editor={this.props.editor} />
                     </div>
 
                     <div className="editor-action-buttons">
@@ -178,7 +133,7 @@ var EditEventForm = React.createClass({
                                     <RaisedButton
                                         style={buttonStyle}
                                         label="Tallenna vedokseksi"
-                                        onClick={ (e) => this.goToPreview(e) }
+                                        onClick={ (e) => this.saveAsDraft(e) }
                                     />
                                     <RaisedButton
                                         style={buttonStyle}
@@ -189,7 +144,7 @@ var EditEventForm = React.createClass({
                                     <FlatButton
                                         style={buttonStyle}
                                         label="Julkaise tapahtuma"
-                                        onClick={ (e) => this.handleSubmit(e) }
+                                        onClick={ (e) => this.saveAsPublished(e) }
                                     />
                                 </div>
                             </div>
@@ -202,55 +157,6 @@ var EditEventForm = React.createClass({
                   bodyStyle={{'backgroundColor': 'rgb(0,108,188)'}}
                   autoHideDuration={6000}
                   onRequestClose={(e) => this.props.dispatch(clearFlashMsg())}
-                />
-            </div>
-        )
-    }
-});
-
-EditEventForm = connect((state) => ({
-    editor: state.editor,
-    user: state.user
-}))(EditEventForm)
-
-var EditorPage = React.createClass({
-
-    getInitialState() {
-        return {
-            data: {},
-            layout: 'horizontal',
-            apiErrorMsg: ''
-        }
-    },
-
-    getLocation(d) {
-        var ret = null;
-        if ('location' in d && d['location']) {
-            if ('@id' in d['location'] && d['location']['@id']) {
-                $.ajax({
-                    type: 'GET',
-                    url: d['location']['@id'],
-                    dataType: 'json',
-                    complete(response) {
-                        return ret = $.parseJSON(response.responseText);
-                    },
-                    async: false
-                });
-            }
-        }
-        return ret;
-    },
-
-    render() {
-        return (
-            <div className="editor-page">
-                <EditEventForm
-                    eventId={this.props.params.eventId}
-                    switchToPreview={this.switchToPreview}
-                    updateData={this.updateData}
-                    ref="formContainer"
-                    action={this.props.params.action}
-                    editor={this.props.editor}
                 />
             </div>
         )
