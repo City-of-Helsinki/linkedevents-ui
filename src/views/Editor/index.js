@@ -8,7 +8,7 @@ import typeahead from 'typeahead.js'
 import constants from 'src/constants.js'
 
 // react-specific
-import Formsy from 'formsy-react'
+//
 import React from 'react'
 import {connect} from 'react-redux'
 import {sendData, clearData, clearFlashMsg, fetchKeywordSets} from 'src/actions/editor.js'
@@ -17,16 +17,9 @@ import {FormattedMessage} from 'react-intl'
 
 import Snackbar from 'material-ui/lib/snackbar';
 
-import {
-    Input,
-    Textarea,
-    Row
-} from 'formsy-react-components'
-
 import { RaisedButton, FlatButton } from 'material-ui'
 
 // our components
-import FF from 'src/formfields.js'
 import Typeahead from 'src/typeahead.js'
 import API from 'src/api.js'
 
@@ -39,6 +32,7 @@ var EXT_LINK_NO_LANGUAGE = 'fi'
 import FormFields from 'src/components/FormFields'
 
 // === code ===
+//
 //
 
 var EditorPage = React.createClass({
@@ -117,40 +111,36 @@ var EditorPage = React.createClass({
                         <RaisedButton onClick={this.clearForm} primary={true} className="pull-right" label={<span><FormattedMessage id="clear-form"/><i className="material-icons">&#xE14C;</i></span>}/>
                     </span>
                 </div>
-                <Formsy.Form className="form-horizontal"
-                             onValid={this.enableButton}
-                             onInvalid={this.disableButton}
-                             ref="editForm"
-                             >
-                    <div className="container">
-                        <FormFields action={this.props.params.action} editor={this.props.editor} />
-                    </div>
 
-                    <div className="editor-action-buttons">
-                        <div className="container">
-                            <div className="row">
-                                <div className="spread-right">
-                                    <RaisedButton
-                                        style={buttonStyle}
-                                        label="Tallenna vedokseksi"
-                                        onClick={ (e) => this.saveAsDraft(e) }
-                                    />
-                                    <RaisedButton
-                                        style={buttonStyle}
-                                        label="Siirry esikatseluun"
-                                        primary={true}
-                                        onClick={ (e) => this.goToPreview(e) }
-                                    />
-                                    <FlatButton
-                                        style={buttonStyle}
-                                        label="Julkaise tapahtuma"
-                                        onClick={ (e) => this.saveAsPublished(e) }
-                                    />
-                                </div>
+                <div className="container">
+                    <FormFields action={this.props.params.action} editor={this.props.editor} />
+                </div>
+
+                <div className="editor-action-buttons">
+                    <div className="container">
+                        <div className="row">
+                            <div className="spread-right">
+                                <RaisedButton
+                                    style={buttonStyle}
+                                    label="Tallenna vedokseksi"
+                                    onClick={ (e) => this.saveAsDraft(e) }
+                                />
+                                <RaisedButton
+                                    style={buttonStyle}
+                                    label="Siirry esikatseluun"
+                                    primary={true}
+                                    onClick={ (e) => this.goToPreview(e) }
+                                />
+                                <FlatButton
+                                    style={buttonStyle}
+                                    label="Julkaise tapahtuma"
+                                    onClick={ (e) => this.saveAsPublished(e) }
+                                />
                             </div>
                         </div>
                     </div>
-                </Formsy.Form>
+                </div>
+
                 <Snackbar
                   open={(!!this.props.editor.flashMsg)}
                   message={flashMsg}

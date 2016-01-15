@@ -34,6 +34,30 @@ let SideField = (props) => (
     </div>
 )
 
+/*
+let updateEventHidden = function(eventData) {
+    return (
+        <div>
+            <Input
+                type="hidden"
+                name="data_source"
+                value={eventData.data_source}
+            />
+            <Input
+                type="hidden"
+                name="publisher"
+                value={eventData.publisher}
+            />
+            <Input
+                type="hidden"
+                name="id"
+                value={eventData.id}
+                />
+        </div>
+    )
+};
+ */
+
 class FormFields extends React.Component {
 
     constructor(props) {

@@ -5,18 +5,17 @@ import TextField from 'material-ui/lib/text-field'
 import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
 
+import validationRules from 'formsy-react/src/validationRules.js';
+
 let HelTextField = React.createClass({
-    mixins: [ Formsy.Mixin ],
 
     propTypes: {
         name: React.PropTypes.string.isRequired
     },
 
-    handleChange: function (event) {
-        this.setValue(event.currentTarget.value)
-
+    handleChange: function (event,value) {
         if(typeof this.props.onChange === 'function') {
-            this.props.onChange()
+            this.props.onChange(event,value)
         }
     },
 
@@ -40,12 +39,12 @@ let HelTextField = React.createClass({
     componentWillMount: function() {
         let defaultValue = this.props.editor.values[this.props.name] || ''
         if(defaultValue && defaultValue.length > 0) {
-            this.setValue(defaultValue)
+            //this.setValue(defaultValue)
         }
     },
 
-    shouldComponentUpdate: function(newState, newProps) {
-        return true
+    getValidationErrors: function() {
+        return null
     },
 
     render: function () {
@@ -70,7 +69,7 @@ let HelTextField = React.createClass({
             onChange={this.handleChange}
             onBlur={this.handleBlur}
             onEnterKeyDown={this.handleEnterKeyDown}
-            errorText={this.getErrorMessage()}
+            errorText={this.getValidationErrors()}
             defaultValue={defaultValue}
             />
         )

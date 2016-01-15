@@ -1,6 +1,5 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
-import Formsy from 'formsy-react'
 import Checkbox from 'material-ui/lib/checkbox'
 
 import _ from 'lodash'
@@ -10,7 +9,7 @@ import {setData} from 'src/actions/editor.js'
 
 // NOTE: Not using ES6 classes because of the needed mixins
 let HelLabeledCheckboxGroup = React.createClass({
-    mixins: [ Formsy.Mixin, PureRenderMixin ],
+    mixins: [ PureRenderMixin ],
 
     propTypes: {
         name: React.PropTypes.string.isRequired,

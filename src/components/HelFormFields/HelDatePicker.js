@@ -1,12 +1,10 @@
 import React from 'react'
-import Formsy from 'formsy-react'
 import {DatePicker} from 'material-ui/lib/date-picker'
 
 import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
 
 let HelDatePicker = React.createClass({
-    mixins: [ Formsy.Mixin ],
 
     propTypes: {
         name: React.PropTypes.string.isRequired

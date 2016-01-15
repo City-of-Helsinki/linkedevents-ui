@@ -6,7 +6,6 @@ import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
 
 let HelCheckbox = React.createClass({
-    mixins: [ Formsy.Mixin ],
 
     propTypes: {
         name: React.PropTypes.string.isRequired
@@ -25,6 +24,10 @@ let HelCheckbox = React.createClass({
 
     shouldComponentUpdate: function(newState, newProps) {
         return false
+    },
+
+    getValidationErrors: function() {
+        return null;
     },
 
     render: function () {
@@ -46,7 +49,7 @@ let HelCheckbox = React.createClass({
           <Checkbox
             defaultChecked={defaultChecked}
             onCheck={this.handleCheck}
-            errorText={this.getErrorMessage()}
+            errorText={this.getValidationErrors()}
             label={label}
             {...this.props}
             />
