@@ -1,9 +1,28 @@
-import path from 'path';
-import common from './common.js';
-import webpack from 'webpack';
-import config from 'config';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import jade from 'jade';
+//import path from 'path';
+var path = require('path');
+
+//import common from './common.js';
+const ROOT = path.resolve(__dirname, '../..');
+const SRC = path.resolve(ROOT, 'src');
+
+var common = {
+    paths: {
+        ROOT,
+        SRC
+    }
+};
+
+//import webpack from 'webpack';
+var webpack = require('webpack');
+
+//import config from 'config';
+var config = require('config');
+
+//import HtmlWebpackPlugin from 'html-webpack-plugin';
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
+//import jade from 'jade';
+var jade = require('jade');
 
 const indexTemplate = jade.compileFile(path.join(common.paths.SRC, 'index.jade'), { pretty: true })
 
@@ -11,15 +30,16 @@ const indexHtml = indexTemplate({
     configJson: JSON.stringify(config)
 })
 
-export default {
+var config = {
     context: path.join(common.paths.ROOT, '/src'),
-    //entry: [
-    //    'webpack-hot-middleware/client',
-    //    path.join(common.paths.SRC, '/index.js')
-    //],
+    entry: [
+        //'webpack-hot-middleware/client',
+        path.join(common.paths.SRC, '/index.js')
+    ],
     output: {
         path: common.paths.ROOT + '/dist',
-        filename: '[name].js'
+        //filename: '[name].js'
+        filename: 'bundle.js'
     },
 
     debug: false,
@@ -51,9 +71,11 @@ export default {
             jQuery: "jquery",
             "window.jQuery": "jquery"
         }),
-        new HtmlWebpackPlugin({
-            inject: true,
-            templateContent: indexHtml
-        })
+        //new HtmlWebpackPlugin({
+        //    inject: true,
+        //    templateContent: indexHtml
+        //})
     ]
 };
+
+module.exports = config;
