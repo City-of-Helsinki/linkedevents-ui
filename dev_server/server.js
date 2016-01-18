@@ -6,20 +6,20 @@ import cookieParser from 'cookie-parser'
 import cookieSession from 'cookie-session'
 import getSettings from './getSettings'
 import express from 'express'
-//import webpack from 'webpack'
-//import webpackMiddleware from 'webpack-dev-middleware'
-//import webpackHotMiddleware from 'webpack-hot-middleware'
-//import config from '../config/webpack/dev.js'
+import webpack from 'webpack'
+import webpackMiddleware from 'webpack-dev-middleware'
+import webpackHotMiddleware from 'webpack-hot-middleware'
+import config from '../config/webpack/dev.js'
 
 import { getPassport, addAuth } from './auth'
 
 const settings = getSettings()
 
 const app = express()
-//const compiler = webpack(config)
+const compiler = webpack(config)
 const passport = getPassport(settings)
 
-//app.use(webpackMiddleware(compiler));
+app.use(webpackMiddleware(compiler));
 app.use(webpackHotMiddleware(compiler));
 
 app.use(cookieParser());
