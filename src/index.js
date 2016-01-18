@@ -12,6 +12,8 @@ import thunk from 'redux-thunk'
 
 import reducers from './reducers'
 
+import Intl from 'intl'
+
 // Views
 import App from './views/App'
 import Editor from './views/Editor'
