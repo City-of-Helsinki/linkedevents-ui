@@ -34,6 +34,7 @@ var config = {
     context: path.join(common.paths.ROOT, '/src'),
     entry: [
         //'webpack-hot-middleware/client',
+        'babel-polyfill',
         path.join(common.paths.SRC, '/index.js')
     ],
     output: {
