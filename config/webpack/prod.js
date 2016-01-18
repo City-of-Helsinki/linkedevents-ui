@@ -71,10 +71,10 @@ var config = {
             jQuery: "jquery",
             "window.jQuery": "jquery"
         }),
-        //new HtmlWebpackPlugin({
-        //    inject: true,
-        //    templateContent: indexHtml
-        //})
+        new HtmlWebpackPlugin({
+            inject: true,
+            templateContent: indexHtml
+        })
     ]
 };
 

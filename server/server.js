@@ -20,7 +20,7 @@ const app = express()
 const passport = getPassport(settings)
 
 //app.use(webpackMiddleware(compiler));
-app.use(webpackHotMiddleware(compiler));
+//app.use(webpackHotMiddleware(compiler));
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
