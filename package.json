@@ -6,7 +6,6 @@
   "repository": "github:City-of-Helsinki/linkedevents-ui",
   "scripts": {
     "start": "node dev_server",
-    "dev": "NODE_ENV=development node server --dev",
     "production": "node server",
     "deploy": "webpack -p --config config/webpack/prod.js"
   },

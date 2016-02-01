@@ -12,20 +12,6 @@ const settings = getSettings()
 const app = express()
 const passport = getPassport(settings)
 
-// Dev server
-if(process.env.NODE_ENV === 'development') {
-    console.log('Using dev settings!');
-
-    let devConfig = require('../config/webpack/dev.js');
-    const devCompiler = require('webpack')(devConfig);
-
-    app.use(require("webpack-dev-middleware")(devCompiler, {
-        hot: true,
-        inline: true
-    }));
-    app.use(require('webpack-hot-middleware')(devCompiler));
-}
-
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieSession({name: 's', secret: settings.sessionSecret, maxAge: 86400 * 1000}));
