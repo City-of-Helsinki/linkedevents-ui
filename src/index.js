@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Route, IndexRoute } from 'react-router'
 
-import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 
 import { createHashHistory } from 'history'
@@ -30,8 +30,9 @@ const reducer = combineReducers(Object.assign({}, reducers, {
   routing: routeReducer
 }))
 
-const createStoreWithMiddleware = applyMiddleware(
-  thunk
+const createStoreWithMiddleware = compose(
+    applyMiddleware(thunk),
+    typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f
 )(createStore)
 
 const store = createStoreWithMiddleware(reducer)
