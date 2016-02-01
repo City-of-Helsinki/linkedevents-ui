@@ -13,7 +13,7 @@ const app = express()
 const passport = getPassport(settings)
 
 // Dev server
-if(process.env.NODE_ENV === 'DEV') {
+if(process.env.NODE_ENV === 'development') {
     console.log('Using dev settings!');
 
     let devConfig = require('../config/webpack/dev.js');
