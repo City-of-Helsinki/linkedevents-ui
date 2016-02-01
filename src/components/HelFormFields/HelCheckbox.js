@@ -1,23 +1,36 @@
+import './HelCheckbox.scss'
+
 import React from 'react'
-import Checkbox from 'material-ui/lib/checkbox'
+import Input from 'react-bootstrap/lib/Input.js'
 
 import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
 
 let HelCheckbox = React.createClass({
 
+    getInitialState: function() {
+        return {
+            value: this.props.editor.values[this.props.name] || false,
+            originalValue: this.props.editor.values[this.props.name] || false
+        }
+    },
+
     propTypes: {
         name: React.PropTypes.string.isRequired
     },
 
-    handleCheck: function (event, checked) {
+    handleCheck: function (event) {
         let obj = {}
-        obj[this.props.name] = checked
+        let newValue = event.target.checked
+
+        obj[this.props.name] = newValue
 
         this.props.dispatch(setData(obj))
 
+        this.setState({ value: newValue })
+
         if(typeof this.props.onCheck === 'function') {
-            this.props.onCheck(event, checked)
+            this.props.onCheck(event, newValue)
         }
     },
 
@@ -41,17 +54,16 @@ let HelCheckbox = React.createClass({
             }
         }
 
-        // Check if this checkbox should be prefilled from local storage
-        let defaultChecked = this.props.editor.values[this.props.name]
-
         return (
-          <Checkbox
-            defaultChecked={defaultChecked}
-            onCheck={this.handleCheck}
-            errorText={this.getValidationErrors()}
-            label={label}
-            {...this.props}
-            />
+            <Input
+                ref="checkbox"
+                type="checkbox"
+                label={label}
+                groupClassName="hel-checkbox"
+                onChange={this.handleCheck}
+                defaultChecked={this.state.originalValue}
+                {...this.props}
+                />
         )
     }
 });
