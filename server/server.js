@@ -6,21 +6,25 @@ import cookieParser from 'cookie-parser'
 import cookieSession from 'cookie-session'
 import getSettings from './getSettings'
 import express from 'express'
-//import webpack from 'webpack'
-//import webpackMiddleware from 'webpack-dev-middleware'
-//import webpackHotMiddleware from 'webpack-hot-middleware'
-//import config from '../config/webpack/dev.js'
-
 import { getPassport, addAuth } from './auth'
 
 const settings = getSettings()
-
 const app = express()
-//const compiler = webpack(config)
 const passport = getPassport(settings)
 
-//app.use(webpackMiddleware(compiler));
-//app.use(webpackHotMiddleware(compiler));
+// Dev server
+if(process.env.NODE_ENV === 'DEV') {
+    console.log('Using dev settings!');
+
+    let devConfig = require('../config/webpack/dev.js');
+    const devCompiler = require('webpack')(devConfig);
+
+    app.use(require("webpack-dev-middleware")(devCompiler, {
+        hot: true,
+        inline: true
+    }));
+    app.use(require('webpack-hot-middleware')(devCompiler));
+}
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -32,11 +36,6 @@ addAuth(app, passport, settings);
 
 const args = require('minimist')(process.argv.slice(2));
 const port = process.env.PORT || 8080
-
-if (settings.dev || args.dump) {
-    console.log('Using dev settings!');
-  //console.log("Settings:\n", inspect(settings, {colors: true}));
-}
 
 console.log('Starting server at port', port);
 app.listen(port);
