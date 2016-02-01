@@ -1,7 +1,8 @@
+import './HelTextField.scss'
+
 import React from 'react'
 import Formsy from 'formsy-react'
-import TextField from 'material-ui/lib/text-field'
-
+import Input from 'react-bootstrap/lib/Input.js'
 import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
 
@@ -12,8 +13,11 @@ import validationRules from 'formsy-react/src/validationRules.js';
 let HelTextField = React.createClass({
 
     getInitialState: function() {
+        let defaultValue = this.props.editor.values[this.props.name] || ''
+
         return {
-            error: null
+            error: null,
+            value: defaultValue || ''
         }
     },
 
@@ -22,18 +26,25 @@ let HelTextField = React.createClass({
     },
 
     handleChange: function (event) {
+
+        this.setState({
+            value: this.refs.text.getValue()
+        })
+
+        this.recalculateHeight()
+
         if (this.state.error) {
             this.getValidationErrors()
         }
 
         if(typeof this.props.onChange === 'function') {
-            this.props.onChange(event, event.currentTarget.value)
+            this.props.onChange(event, this.refs.text.getValue())
         }
     },
 
     handleBlur: function (event) {
         let obj = {}
-        obj[this.props.name] = event.currentTarget.value
+        obj[this.props.name] = this.refs.text.getValue()
 
         this.props.dispatch(setData(obj))
 
@@ -44,12 +55,16 @@ let HelTextField = React.createClass({
         }
     },
 
-    handleEnterKeyDown: function (event) {
-
-    },
-
     componentDidMount: function() {
         this.getValidationErrors()
+        this.recalculateHeight()
+    },
+
+    recalculateHeight: function() {
+        if(this.props.multiLine) {
+            this.refs.text.getInputDOMNode().style.height = 0;
+            this.refs.text.getInputDOMNode().style.height = this.refs.text.getInputDOMNode().scrollHeight + 2 + 'px';
+        }
     },
 
     // TODO: make into a mixin
@@ -80,31 +95,42 @@ let HelTextField = React.createClass({
         return this.setState({ error: null })
     },
 
+    validationState() {
+       return this.state.error ? 'warning' : 'success'
+    },
+
+
     render: function () {
-        let { required, floatingLabelText } = this.props
+        let { required, label } = this.props
 
         if(required) {
-            if(typeof floatingLabelText === 'string') {
-                floatingLabelText += ' *'
+            if(typeof label === 'string') {
+                label += ' *'
             }
-            if(typeof floatingLabelText === 'object') {
-                floatingLabelText = (<span>{floatingLabelText} *</span>)
+            if(typeof label === 'object') {
+                label = (<span>{label} *</span>)
             }
         }
 
-        // Check if this text field should be prefilled from local storage
-        let defaultValue = this.props.editor.values[this.props.name] || ''
+        let groupClassName = "hel-text-field"
 
         return (
-          <TextField
-            {...this.props}
-            ref="text"
-            floatingLabelText={floatingLabelText}
-            onChange={this.handleChange}
-            onBlur={this.handleBlur}
-            onEnterKeyDown={this.handleEnterKeyDown}
-            errorText={this.state.error}
-            defaultValue={defaultValue}
+            <Input
+                {...this.props}
+                type={ this.props.multiLine ? "textarea" : "text" }
+                value={this.state.value}
+                label={label}
+                // help="Validation is based on string length."
+                bsStyle={this.validationState()}
+                hasFeedback
+                ref="text"
+                groupClassName={groupClassName}
+                labelClassName="hel-label"
+                onChange={this.handleChange}
+                onBlur={this.handleBlur}
+                errorText={this.state.error}
+                name={this.props.name}
+                rows="1"
             />
         )
     }

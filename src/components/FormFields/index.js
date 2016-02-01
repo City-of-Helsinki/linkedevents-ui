@@ -97,10 +97,10 @@ class FormFields extends React.Component {
 
                 <div className="row">
                     <div className="col-sm-6">
-                        <MultiLanguageField fullWidth={true} required={true} multiLine={false} label="event-headline" name="name" languages={this.state.languages} />
-                        <MultiLanguageField fullWidth={true} required={true} multiLine={true} label="event-short-description" name="short_description" languages={this.state.languages} />
-                        <MultiLanguageField fullWidth={true} required={false} multiLine={true} label="event-description" name="description" languages={this.state.languages} />
-                        <MultiLanguageField fullWidth={true} required={false} multiLine={true} label="event-info-url" name="info_url" languages={this.state.languages} validations={['isUrl']} />
+                        <MultiLanguageField required={true} multiLine={false} label="event-headline" name="name" languages={this.state.languages} />
+                        <MultiLanguageField required={true} multiLine={true} label="event-short-description" name="short_description" languages={this.state.languages} />
+                        <MultiLanguageField required={false} multiLine={true} label="event-description" name="description" languages={this.state.languages} />
+                        <MultiLanguageField required={false} multiLine={false} label="event-info-url" name="info_url" languages={this.state.languages} validations={['isUrl']} />
                     </div>
                     <SideField>
                         <label><FormattedMessage id="event-picture"/></label>
@@ -113,10 +113,10 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6">
-                        <HelDatePicker fullWidth={true} name="starting_date" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-starting-date"/>} />
-                        <HelTimePicker fullWidth={true} format="24hr" name="starting_time" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-starting-time"/>} />
-                        <HelDatePicker fullWidth={true} name="ending_date" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-ending-date"/>} />
-                        <HelTimePicker fullWidth={true} format="24hr" name="ending_time" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-ending-time"/>} />
+                        <HelDatePicker name="starting_date" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-starting-date"/>} />
+                        <HelTimePicker format="24hr" name="starting_time" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-starting-time"/>} />
+                        <HelDatePicker name="ending_date" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-ending-date"/>} />
+                        <HelTimePicker format="24hr" name="ending_time" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-ending-time"/>} />
                     </div>
                 </div>
 
@@ -125,8 +125,8 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6">
-                        <HelAutoComplete required={true} fullWidth={true} name="location_id" />
-                        <MultiLanguageField fullWidth={true} multiLine={true} label="event-location-additional-info" name="location_extra_info" languages={this.state.languages} />
+                        <HelAutoComplete required={true} name="location_id" />
+                        <MultiLanguageField multiLine={true} label="event-location-additional-info" name="location_extra_info" languages={this.state.languages} />
                     </div>
                     <SideField>
                         <p>Aloita kirjoittamaan kenttään tapahtumapaikan nimen alkua ja valitse oikea paikka alle ilmestyvästä listasta. Jos et löydä paikkaa tällä tavoin, kirjoita tapahtumapaikka tai osoite lisätietokenttään.</p>
@@ -138,10 +138,10 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6">
-                        <HelCheckbox fullWidth={true} name="offers_is_free" label={<FormattedMessage id="is-free"/>} />
-                        <MultiLanguageField fullWidth={true} name="offers_price" label="event-price" languages={this.state.languages} />
-                        <MultiLanguageField fullWidth={true} multiLine={true} label="event-price-info" name="offers_description" languages={this.state.languages} />
-                        <MultiLanguageField fullWidth={true}  name="offers_info_url" label="event-purchase-link" languages={this.state.languages} />
+                        <HelCheckbox name="offers_is_free" label={<FormattedMessage id="is-free"/>} />
+                        <MultiLanguageField name="offers_price" label="event-price" languages={this.state.languages} />
+                        <MultiLanguageField multiLine={true} label="event-price-info" name="offers_description" languages={this.state.languages} />
+                        <MultiLanguageField  name="offers_info_url" label="event-purchase-link" languages={this.state.languages} />
                     </div>
                     <SideField>
                         <p>Valitse onko tapahtumaan vapaa pääsy tai lisää tapahtuman hinta tekstimuodossa (esim. 5€/7€).</p>
@@ -155,9 +155,9 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6">
-                        <HelTextField validations={['isUrl']} fullWidth={true} name="extlink_facebook" floatingLabelText={<FormattedMessage id="facebook-url"/>} />
-                        <HelTextField validations={['isUrl']} fullWidth={true} name="extlink_twitter" floatingLabelText={<FormattedMessage id="twitter-url"/>} />
-                        <HelTextField validations={['isUrl']} fullWidth={true} name="extlink_instagram" floatingLabelText={<FormattedMessage id="instagram-url"/>} />
+                        <HelTextField validations={['isUrl']} name="extlink_facebook" label={<FormattedMessage id="facebook-url"/>} />
+                        <HelTextField validations={['isUrl']} name="extlink_twitter" label={<FormattedMessage id="twitter-url"/>} />
+                        <HelTextField validations={['isUrl']} name="extlink_instagram" label={<FormattedMessage id="instagram-url"/>} />
                     </div>
                 </div>
 

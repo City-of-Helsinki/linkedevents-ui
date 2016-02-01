@@ -18,10 +18,10 @@ class MultiLanguageField extends React.Component {
 
         if(langs.length === 1) {
             let label = props.intl.formatMessage({id: props.label}) + ' (' + props.intl.formatMessage({id: `in-${langs[0]}`}) + ')'
-            return (<div key={`${props.name}_${langs[0]}`}><HelTextField {...props} floatingLabelText={label} name={`${props.name}_${langs[0]}`}/></div>)
+            return (<div key={`${props.name}_${langs[0]}`}><HelTextField {...props} label={label} name={`${props.name}_${langs[0]}`}/></div>)
         } else {
             textInputs = langs.map((lang, index) => (
-                <div key={`${props.name}_${lang}`}><HelTextField {...props} floatingLabelText={props.intl.formatMessage({id: `in-${lang}`})} name={`${props.name}_${lang}`}/></div>
+                <div key={`${props.name}_${lang}`}><HelTextField {...props} label={props.intl.formatMessage({id: `in-${lang}`})} name={`${props.name}_${lang}`}/></div>
             ))
         }
 
