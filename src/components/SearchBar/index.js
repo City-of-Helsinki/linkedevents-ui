@@ -3,11 +3,11 @@ require('!style!css!sass!./index.scss');
 import moment from 'moment'
 
 import React from 'react'
+import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 
-import { RaisedButton, TextField } from 'material-ui'
-
-import { HeaderTheme } from 'src/themes/hel'
+import Button from 'react-bootstrap/lib/Button.js'
+import Input from 'react-bootstrap/lib/Input.js'
 
 class SearchBar extends React.Component {
 
@@ -16,20 +16,6 @@ class SearchBar extends React.Component {
 
         this.state = {
             searchQuery: '',
-        }
-    }
-
-    static contextTypes = {
-        muiTheme: React.PropTypes.object
-    };
-
-    static childContextTypes = {
-        muiTheme: React.PropTypes.object
-    };
-
-    getChildContext () {
-        return {
-            muiTheme: HeaderTheme
         }
     }
 
@@ -54,7 +40,7 @@ class SearchBar extends React.Component {
     }
 
     componentDidMount() {
-        return this.refs.searchQueryInput.focus()
+        ReactDOM.findDOMNode(this.refs.searchQueryInput).getElementsByClassName("form-control")[0].focus()
     }
 
     formatLabel() {
@@ -101,13 +87,14 @@ class SearchBar extends React.Component {
         return (
             <form onSubmit={ (e) => this.handleSubmit(e) } className="row search-bar">
                 <div className="col-xs-6">
-                    <TextField
-                      fullWidth={true}
-                      floatingLabelText="Tapahtuman nimi tai paikka"
-                      onChange={ (e) => this.handleChange(e) }
-                      ref="searchQueryInput"
-                      className="text-field"
-                    />
+                    <Input
+                        type="text"
+                        placeholder="Tapahtuman nimi tai paikka"
+                        label="Tapahtuman nimi tai paikka"
+                        onChange={ (e) => this.handleChange(e) }
+                        ref="searchQueryInput"
+                        groupClassName="text-field"
+                        />
                 </div>
 
                 <div className="col-xs-3" style={{background: 'white'}}>
@@ -115,14 +102,13 @@ class SearchBar extends React.Component {
                 </div>
 
                 <div className="col-xs-3">
-                    <RaisedButton style={{height: '72px'}}
-                        fullWidth={true}
+                    <Button style={{height: '72px'}}
                         className="mui-raised-button"
                         type="submit"
-                        label="Hae tapahtumia"
                         primary={true}
-                        onClick={ (e) => this.handleSubmit(e) }
-                    />
+                        onClick={ (e) => this.handleSubmit(e) }>
+                        Hae tapahtumia
+                    </Button>
                 </div>
                 <p/>
             </form>
