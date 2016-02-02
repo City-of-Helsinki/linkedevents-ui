@@ -21,7 +21,7 @@ import Search from './views/Search'
 import Event from './views/Event'
 import EventListing from './views/EventListing'
 
-// Initialize tap event plugin (used by material-ui components)
+// Initialize tap event plugin
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
 injectTapEventPlugin()

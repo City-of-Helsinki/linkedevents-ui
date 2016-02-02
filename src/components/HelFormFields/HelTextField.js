@@ -1,7 +1,6 @@
 import './HelTextField.scss'
 
 import React from 'react'
-import Formsy from 'formsy-react'
 import Input from 'react-bootstrap/lib/Input.js'
 import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'

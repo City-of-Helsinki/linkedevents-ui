@@ -31,7 +31,6 @@ export default {
     module: {
         loaders: [
             {test: /\.(js|jsx)?$/, exclude: /node_modules/, loader: 'babel' },
-            {test: /\.jsx?$/, include: [/material-ui-with-sass/], loader: 'babel' },
             {test: /\.scss$/, loaders: ["style", "css", "sass"]},
             {test: /\.css$/, loader: 'style!css'},
             {test: /\.json$/, loader: 'json'},
