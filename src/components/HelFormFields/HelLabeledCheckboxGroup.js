@@ -1,6 +1,6 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
-import Checkbox from 'material-ui/lib/checkbox'
+import Input from 'react-bootstrap/lib/Input'
 
 import _ from 'lodash'
 
@@ -16,11 +16,13 @@ let HelLabeledCheckboxGroup = React.createClass({
     },
 
     handleChange: function() {
-        let checked = _.filter(this.refs, (ref) => (ref.isChecked()))
+        let checked = _.filter(this.refs, (ref) => (ref.getChecked()))
         let checkedNames = _.map(checked, (checkbox) => (checkbox.props.value) )
 
         let obj = {}
         obj[this.props.name] = checkedNames
+
+        console.log(checkedNames)
 
         this.props.dispatch(setData(obj))
 
@@ -36,7 +38,7 @@ let HelLabeledCheckboxGroup = React.createClass({
 
             return (
                 <span key={index} className={(this.props.itemClassName || '')}>
-                    <Checkbox ref={index} onCheck={self.handleChange} defaultChecked={checked} name={this.props.name+'.'+item.value} value={item.value} label={item.label} />
+                    <Input type="checkbox" groupClassName="hel-checkbox" defaultChecked={checked} ref={index} onChange={self.handleChange} name={this.props.name+'.'+item.value} value={item.value} label={item.label} />
                 </span>
             )
         })
