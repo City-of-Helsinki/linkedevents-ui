@@ -128,9 +128,9 @@ let HelTextField = React.createClass({
                 labelClassName="hel-label"
                 onChange={this.handleChange}
                 onBlur={this.handleBlur}
-                errorText={this.state.error}
                 name={this.props.name}
                 rows="1"
+                help={this.state.error}
             />
         )
     }

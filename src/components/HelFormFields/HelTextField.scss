@@ -1,4 +1,5 @@
 .hel-text-field {
+    position: relative;
     width: 100%;
 
     margin-top: 18px;
@@ -11,12 +12,19 @@
         color: #777;
     }
 
+    .help-block {
+        font-size: 12px;
+    }
+
     input, textarea {
-        height: auto;
-        transition: 200ms border;
         width: 100%;
+        height: auto;
+
+        transition: 200ms border;
+
         border: none;
         border-bottom: 2px solid #e0e0e0;
+
         line-height: 22px;
         font-size: 20px;
 
@@ -35,6 +43,16 @@
         &:focus {
             outline: 0;
             border-color: rgba(0, 188, 212, 1);
+        }
+    }
+
+    &.has-warning {
+        input, textarea {
+            border-color: red;
+        }
+
+        .help-block {
+            color: red;
         }
     }
 }
