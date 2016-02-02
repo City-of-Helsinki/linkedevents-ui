@@ -63,6 +63,7 @@ class HelAutoComplete extends React.Component {
                 <div className="hel-select">
                     <legend>{this.props.legend}</legend>
                     <Select.Async
+                        placeholder={this.props.placeholder}
                         value={this.state.value}
                         loadOptions={ val => this.getOptions(val)  }
                         onChange={ (val,list) => this.onChange(val,list) }
