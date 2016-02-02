@@ -38,7 +38,16 @@ let HelLabeledCheckboxGroup = React.createClass({
 
             return (
                 <span key={index} className={(this.props.itemClassName || '')}>
-                    <Input type="checkbox" groupClassName="hel-checkbox" defaultChecked={checked} ref={index} onChange={self.handleChange} name={this.props.name+'.'+item.value} value={item.value} label={item.label} />
+                    <Input
+                        type="checkbox"
+                        groupClassName="hel-checkbox"
+                        label={item.label}
+                        name={this.props.name+'.'+item.value}
+                        value={item.value}
+                        ref={index}
+                        defaultChecked={checked}
+                        onChange={self.handleChange}
+                        />
                 </span>
             )
         })

@@ -69,7 +69,7 @@ class HelAutoComplete extends React.Component {
             <span>
                 <AutoComplete
                     fullWidth={true}
-                    showAllItems={true}
+                    noFilter={true}
                     anchorOrigin={anchorOrigin}
                     targetOrigin={targetOrigin}
                     dataSource={this.state.dataSource}
