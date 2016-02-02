@@ -26,6 +26,12 @@
 
         resize: none;
 
+        &[disabled] {
+            color: #888;
+            border: none;
+            border-bottom: 2px dashed #e0e0e0;
+        }
+
         &:focus {
             outline: 0;
             border-color: rgba(0, 188, 212, 1);
