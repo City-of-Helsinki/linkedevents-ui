@@ -12,7 +12,11 @@ import validationRules from 'src/utils/validationRules.js';
 let HelTextField = React.createClass({
 
     getInitialState: function() {
-        let defaultValue = this.props.editor.values[this.props.name] || ''
+        let defaultValue = undefined;
+
+        if(this.props.name) {
+            defaultValue = this.props.editor.values[this.props.name] || ''
+        }
 
         return {
             error: null,
@@ -46,7 +50,7 @@ let HelTextField = React.createClass({
     },
 
     handleBlur: function (event) {
-        if(this.props.name) {
+        if(this.props.name && this.getValidationErrors().length === 0) {
             let obj = {}
             obj[this.props.name] = this.refs.text.getValue()
             this.props.dispatch(setData(obj))

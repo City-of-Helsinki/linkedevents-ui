@@ -21,11 +21,11 @@ function mapUIDataToAPIFormat(values) {
     }
 
     // General data
-    obj.name = _pickLangFieldValuesIntoObject(values, 'name')
-    obj.short_description = _pickLangFieldValuesIntoObject(values, 'short_description')
-    obj.description = _pickLangFieldValuesIntoObject(values, 'description')
-    obj.info_url = _pickLangFieldValuesIntoObject(values, 'info_url')
-    obj.provider = _pickLangFieldValuesIntoObject(values, 'provider')
+    obj.name = values.name
+    obj.short_description = values.short_description
+    obj.description = values.description
+    obj.info_url = values.info_url
+    obj.provider = values.provider
     obj.event_status = constants.EVENT_STATUS.SCHEDULED
     obj.publication_status = values.publication_status || values.PUBLICATION_STATUS.DRAFT
 
@@ -34,14 +34,14 @@ function mapUIDataToAPIFormat(values) {
         obj.location = { '@id': `/v0.1/place/${values.location_id}/`}
     }
 
-    obj.location_extra_info = _pickLangFieldValuesIntoObject(values, 'location_extra_info')
+    obj.location_extra_info = values.location_extra_info
 
     // Price data
     obj.offers = [{
         is_free: values.offers_is_free,
-        price: _pickLangFieldValuesIntoObject(values, 'offers_price'),
-        description: _pickLangFieldValuesIntoObject(values, 'offers_description'),
-        info_url: _pickLangFieldValuesIntoObject(values, 'offers_info_url')
+        price: values.offers_price,
+        description: values.offers_description,
+        info_url: values.offers_info_url
     }]
 
     // Keywords, audience, languages
@@ -94,14 +94,13 @@ function mapUIDataToAPIFormat(values) {
 export function mapAPIDataToUIFormat(values) {
     let obj = {}
 
-    obj.id = values.id
-
     // General data
-    Object.assign(obj, _createLangFieldsFromObject(values, 'name'))
-    Object.assign(obj, _createLangFieldsFromObject(values, 'short_description'))
-    Object.assign(obj, _createLangFieldsFromObject(values, 'description'))
-    Object.assign(obj, _createLangFieldsFromObject(values, 'info_url'))
-    Object.assign(obj, _createLangFieldsFromObject(values, 'provider'))
+    obj.id = values.id
+    obj.name = values.name
+    obj.short_description = values.short_description
+    obj.description = values.description
+    obj.info_url = values.info_url
+    obj.provider = values.provider
 
     //
     obj.event_status = values.event_status
@@ -112,15 +111,15 @@ export function mapAPIDataToUIFormat(values) {
         obj.location_id = values.location['id']
     }
 
-    Object.assign(obj, _createLangFieldsFromObject(values, 'location_extra_info'))
+    obj.location_extra_info = values.location_extra_info
 
     // Price information
-    if(values.offers) {
+    if(values.offers && values.offers[0]) {
         let offers = {}
         obj.offers_is_free = values.offers[0].is_free
-        Object.assign(offers, _createLangFieldsFromObject(values.offers[0], 'price', 'offers_price'))
-        Object.assign(offers, _createLangFieldsFromObject(values.offers[0], 'description', 'offers_description'))
-        Object.assign(offers, _createLangFieldsFromObject(values.offers[0], 'info_url', 'offers_info_url'))
+        offers.offers_price = values.values.offers[0].offers_price
+        offers.offers_description = values.offers[0].description
+        offers.offers_info_url = values.offers[0].info_url
 
         // Assign offer values to return object
         Object.assign(obj, offers)
@@ -165,34 +164,5 @@ export function mapAPIDataToUIFormat(values) {
         obj.in_language = _.map(values.in_language, lang => `/v0.1/language/${lang.id}/`)
     }
 
-    return obj
-}
-
-// Picks fields starting with fieldprefix and clumps them into an obj
-function _pickLangFieldValuesIntoObject(values, fieldprefix) {
-    let fields = _.pick(values, function(item, key) {
-        return (key.indexOf(fieldprefix) === 0)
-    })
-
-    if(_.keys(fields).length === 0) {
-        return {}
-    }
-
-    return _.mapKeys(fields, function(value, key) {
-        return key.replace(fieldprefix + '_', '')
-    })
-}
-
-// Picks fields starting with fieldprefix and clumps them into an obj
-function _createLangFieldsFromObject(values, field, toField) {
-    if(!field) { return {} }
-    toField = toField || field
-
-    let obj = {}
-    if(typeof values[field] === 'object') {
-        _.forEach(values[field], (value,lang) => {
-            obj[`${toField}_${lang}`] = value
-        })
-    }
     return obj
 }
