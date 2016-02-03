@@ -7,7 +7,7 @@ import {setData} from 'src/actions/editor.js'
 
 import {injectIntl} from 'react-intl'
 
-import validationRules from 'formsy-react/src/validationRules.js';
+import validationRules from 'src/utils/validationRules.js';
 
 let HelTextField = React.createClass({
 
@@ -16,12 +16,16 @@ let HelTextField = React.createClass({
 
         return {
             error: null,
-            value: defaultValue || ''
+            value: defaultValue || this.props.defaultValue || ''
         }
     },
 
     propTypes: {
-        name: React.PropTypes.string.isRequired
+        name: React.PropTypes.string
+    },
+
+    getValue: function() {
+        return this.refs.text.getValue()
     },
 
     handleChange: function (event) {
@@ -42,10 +46,11 @@ let HelTextField = React.createClass({
     },
 
     handleBlur: function (event) {
-        let obj = {}
-        obj[this.props.name] = this.refs.text.getValue()
-
-        this.props.dispatch(setData(obj))
+        if(this.props.name) {
+            let obj = {}
+            obj[this.props.name] = this.refs.text.getValue()
+            this.props.dispatch(setData(obj))
+        }
 
         this.getValidationErrors()
 
@@ -66,7 +71,6 @@ let HelTextField = React.createClass({
         }
     },
 
-    // TODO: make into a mixin
     getValidationErrors: function() {
         if(this.refs.text && this.refs.text.getValue() && this.props.validations && this.props.validations.length) {
             let validations = this.props.validations.map(item => {
@@ -86,18 +90,19 @@ let HelTextField = React.createClass({
             validations = validations.filter(i => (i.passed === false))
 
             if(validations.length) {
-                return this.setState({ error: this.props.intl.formatMessage({id: `validation-${validations[0].rule}` }) })
+                this.setState({ error: this.props.intl.formatMessage({id: `validation-${validations[0].rule}` }) })
+                return validations;
             }
         }
 
         // Else
-        return this.setState({ error: null })
+        this.setState({ error: null })
+        return [];
     },
 
     validationState() {
        return this.state.error ? 'warning' : 'success'
     },
-
 
     render: function () {
         let { required, label } = this.props
@@ -113,10 +118,18 @@ let HelTextField = React.createClass({
 
         let groupClassName = "hel-text-field"
 
+
+        let type = ''
+        if(this.props.type) {
+            type = this.props.type
+        } else {
+            type = this.props.multiLine ? 'textarea' : 'text'
+        }
+
         return (
             <Input
                 {...this.props}
-                type={ this.props.multiLine ? "textarea" : "text" }
+                type={type}
                 value={this.state.value}
                 label={label}
                 // help="Validation is based on string length."
@@ -137,4 +150,4 @@ let HelTextField = React.createClass({
 
 export default connect((state) => ({
     editor: state.editor
-}))(injectIntl(HelTextField))
+}), null, null, {withRef: true})(injectIntl(HelTextField))

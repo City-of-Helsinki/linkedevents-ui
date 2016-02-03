@@ -33,10 +33,10 @@
     "upload-picture": "Lisää tapahtumalle kuva",
 
     "event-datetime-fields-header": "Tapahtuman ajankohta",
-    "event-starting-date": "Alkamispäivämäärä",
-    "event-starting-time": "Alkamisaika",
-    "event-ending-date": "Päättymispäivämäärä",
-    "event-ending-time": "Päättymisaika",
+    "event-starting-datetime": "Tapahtuma alkaa",
+    "event-ending-datetime": "Tapahtuma päättyy",
+    "date": "Päivämäärä",
+    "time": "Aika",
 
     "event-location-fields-header": "Tapahtumapaikka",
     "event-location": "Paikka",
@@ -83,6 +83,8 @@
     "suomi": "suomi",
 
     "validation-isUrl": "Kirjoita URL osoite kokonaisena ja oikeassa muodossa (http://...)",
+    "validation-isTime": "Kirjoita aika muodossa HH:mm tai HH",
+    "validation-isDate": "Kirjoita päivämäärä muodossa pp.kk.vvvv tai p.k.vvvv",
 
     "server-error": "Virhe palvelimella.",
     "validation-error": "Validointi virhe.",
