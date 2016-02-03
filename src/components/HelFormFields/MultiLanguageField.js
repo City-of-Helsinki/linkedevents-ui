@@ -26,7 +26,7 @@ class MultiLanguageField extends React.Component {
         }
 
         return (
-            <div className="multi-language-field">
+            <div className="multi-field">
                 <div className="indented">
                 <label><FormattedMessage id={`${props.label}`} /></label>
                     {textInputs}
