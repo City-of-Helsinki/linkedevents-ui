@@ -9,8 +9,7 @@ import {
     HelTextField,
     HelLabeledCheckboxGroup,
     HelLanguageSelect,
-    HelDatePicker,
-    HelTimePicker,
+    HelDateTimeField,
     HelCheckbox,
     HelSelect
 } from 'src/components/HelFormFields'
@@ -113,10 +112,8 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6">
-                        <HelDatePicker name="starting_date" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-starting-date"/>} />
-                        <HelTimePicker format="24hr" name="starting_time" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-starting-time"/>} />
-                        <HelDatePicker name="ending_date" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-ending-date"/>} />
-                        <HelTimePicker format="24hr" name="ending_time" textFieldStyle={{ fontSize: '20px' }} floatingLabelText={<FormattedMessage id="event-ending-time"/>} />
+                        <HelDateTimeField name="start_time" label="event-starting-datetime" />
+                        <HelDateTimeField name="end_time" label="event-ending-datetime" />
                     </div>
                 </div>
 

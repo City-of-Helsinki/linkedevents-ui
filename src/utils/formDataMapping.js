@@ -72,27 +72,12 @@ function mapUIDataToAPIFormat(values) {
         }
     })
 
-    // Time formatting
-    if(values.starting_date) {
-        let start_datetime = moment(values.starting_date).second(0).tz('Europe/Helsinki').format()
-
-        if (values.starting_time) {
-            let starting_time = moment(values.starting_time).second(0).tz('Europe/Helsinki').format()
-            start_datetime = start_datetime.split('T')[0] + 'T' + starting_time.split('T')[1]
-        }
-
-        obj.start_time = start_datetime
+    if(values.start_time) {
+        obj.start_time = values.start_time
     }
 
-    if(values.ending_date) {
-        let end_datetime = moment(values.starting_date).second(0).tz('Europe/Helsinki').format()
-
-        if (values.ending_time) {
-            let starting_time = moment(values.starting_time).second(0).tz('Europe/Helsinki').format()
-            end_datetime = end_datetime.split('T')[0] + 'T' + starting_time.split('T')[1]
-        }
-
-        obj.end_time = end_datetime
+    if(values.end_time) {
+        obj.end_time = values.end_time
     }
 
     if(values.in_language) {
@@ -152,15 +137,12 @@ export function mapAPIDataToUIFormat(values) {
         })
     }
 
-    // Time formatting
     if(values.start_time) {
-        obj.starting_date = moment(values.start_time).toDate()
-        obj.starting_time = moment(values.start_time).toDate()
+        obj.start_time = values.start_time
     }
 
     if(values.end_time) {
-        obj.ending_date = moment(values.end_time).toDate()
-        obj.ending_time = moment(values.end_time).toDate()
+        obj.end_time = values.end_time
     }
 
     // TODO: Filter hel_main categories from keywords, non-hel_main categories from hel_main

@@ -4,8 +4,7 @@ import MultiLanguageField from './MultiLanguageField.js'
 import HelLanguageSelect from './HelLanguageSelect.js'
 import HelCheckbox from './HelCheckbox.js'
 import HelLabeledCheckboxGroup from './HelLabeledCheckboxGroup.js'
-import HelDatePicker from './HelDatePicker.js'
-import HelTimePicker from './HelTimePicker.js'
+import HelDateTimeField from './HelDateTimeField.js'
 import HelSelect from './HelSelect.js'
 
 export {
@@ -14,8 +13,7 @@ export {
     MultiLanguageField,
     HelLanguageSelect,
     HelLabeledCheckboxGroup,
-    HelDatePicker,
-    HelTimePicker,
     HelCheckbox,
-    HelSelect
+    HelSelect,
+    HelDateTimeField
 }
