@@ -117,7 +117,7 @@ export function mapAPIDataToUIFormat(values) {
     if(values.offers && values.offers[0]) {
         let offers = {}
         obj.offers_is_free = values.offers[0].is_free
-        offers.offers_price = values.values.offers[0].offers_price
+        offers.offers_price = values.offers[0].offers_price
         offers.offers_description = values.offers[0].description
         offers.offers_info_url = values.offers[0].info_url
 
