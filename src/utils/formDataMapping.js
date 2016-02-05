@@ -37,12 +37,9 @@ function mapUIDataToAPIFormat(values) {
     obj.location_extra_info = values.location_extra_info
 
     // Price data
-    obj.offers = [{
-        is_free: values.offers_is_free,
-        price: values.offers_price,
-        description: values.offers_description,
-        info_url: values.offers_info_url
-    }]
+    if(values.offers) {
+        obj.offers = values.offers
+    }
 
     // Keywords, audience, languages
     if(values.keywords && values.keywords.length > 0) {
@@ -113,16 +110,8 @@ export function mapAPIDataToUIFormat(values) {
 
     obj.location_extra_info = values.location_extra_info
 
-    // Price information
-    if(values.offers && values.offers[0]) {
-        let offers = {}
-        obj.offers_is_free = values.offers[0].is_free
-        offers.offers_price = values.offers[0].offers_price
-        offers.offers_description = values.offers[0].description
-        offers.offers_info_url = values.offers[0].info_url
-
-        // Assign offer values to return object
-        Object.assign(obj, offers)
+    if(values.offers) {
+        obj.offers = values.offers
     }
 
     // External links

@@ -18,7 +18,7 @@ class MultiLanguageField extends React.Component {
     constructor(props) {
         super(props)
 
-        let defaultValue = props.editor.values[this.props.name] || {}
+        let defaultValue = props.defaultValue || props.editor.values[this.props.name]  || {}
         this.state = {
             value: defaultValue
         }
@@ -32,6 +32,16 @@ class MultiLanguageField extends React.Component {
                 this.setState({value: obj})
                 this.props.dispatch(setData(obj))
             }
+        }
+
+        if(typeof this.props.onChange === 'function') {
+            this.props.onChange(event, this.getValue())
+        }
+    }
+
+    onBlur(e,value) {
+        if(typeof this.props.onBlur === 'function') {
+            this.props.onBlur(event, this.getValue())
         }
     }
 
@@ -66,17 +76,17 @@ class MultiLanguageField extends React.Component {
 
         let textInputs = []
 
-        let defaultValue = props.editor.values[this.props.name] || {}
+        let defaultValue = props.defaultValue || props.editor.values[this.props.name] || {}
 
         if(langs.length === 1) {
             let label = props.intl.formatMessage({id: props.label}) + ' (' + props.intl.formatMessage({id: `in-${langs[0]}`}) + ')'
-            return (<div key={`${props.name}_${langs[0]}`}><HelTextField required={this.props.required} defaultValue={defaultValue[langs[0]]} label={label} ref={langs[0]} onChange={(e,v) => this.onChange(e,v,langs[0])}/></div>)
+            return (<div key={`${props.name}_${langs[0]}`}><HelTextField required={this.props.required} defaultValue={defaultValue[langs[0]]} label={label} ref={langs[0]} onChange={(e,v) => this.onChange(e,v,langs[0])} onBlur={(e,v) => this.onBlur(e,v)} disabled={this.props.disabled} validations={this.props.validations} /></div>)
         } else {
             textInputs = langs.map((lang, index) => {
                 let value = defaultValue[lang] || ''
                 return (
                     <div key={`${props.name}_${lang}`}>
-                        <HelTextField required={this.props.required} defaultValue={value} ref={lang} label={props.intl.formatMessage({id: `in-${lang}`})} onChange={(e,v) => this.onChange(e,v,lang)}/>
+                        <HelTextField required={this.props.required} defaultValue={value} ref={lang} label={props.intl.formatMessage({id: `in-${lang}`})} onChange={(e,v) => this.onChange(e,v,lang)} onBlur={(e,v) => this.onBlur(e,v)} disabled={this.props.disabled} />
                     </div>
                 )
             })
@@ -96,4 +106,4 @@ class MultiLanguageField extends React.Component {
 
 export default connect((state) => ({
     editor: state.editor
-}))(injectIntl(MultiLanguageField))
+}),null,null,{ withRef: true })(injectIntl(MultiLanguageField))

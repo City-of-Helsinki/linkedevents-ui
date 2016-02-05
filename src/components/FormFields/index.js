@@ -11,7 +11,8 @@ import {
     HelLanguageSelect,
     HelDateTimeField,
     HelCheckbox,
-    HelSelect
+    HelSelect,
+    HelOffersField
 } from 'src/components/HelFormFields'
 
 
@@ -141,10 +142,7 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6">
-                        <HelCheckbox name="offers_is_free" label={<FormattedMessage id="is-free"/>} />
-                        <MultiLanguageField name="offers_price" label="event-price" languages={this.state.languages} />
-                        <MultiLanguageField multiLine={true} label="event-price-info" name="offers_description" languages={this.state.languages} />
-                        <MultiLanguageField  name="offers_info_url" label="event-purchase-link" languages={this.state.languages} />
+                        <HelOffersField name="offers" languages={this.state.languages} />
                     </div>
                     <SideField>
                         <p>Valitse onko tapahtumaan vapaa pääsy tai lisää tapahtuman hinta tekstimuodossa (esim. 5€/7€).</p>

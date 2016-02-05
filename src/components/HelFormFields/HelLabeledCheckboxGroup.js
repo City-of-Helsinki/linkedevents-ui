@@ -22,8 +22,6 @@ let HelLabeledCheckboxGroup = React.createClass({
         let obj = {}
         obj[this.props.name] = checkedNames
 
-        console.log(checkedNames)
-
         this.props.dispatch(setData(obj))
 
         if(typeof this.props.onChange === 'function') {

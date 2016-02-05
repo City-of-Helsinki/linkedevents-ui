@@ -5,41 +5,54 @@ import Input from 'react-bootstrap/lib/Input.js'
 
 import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
+import {injectIntl} from 'react-intl'
 
 let HelCheckbox = React.createClass({
 
     getInitialState: function() {
+        let defaultValue = true
+        if(this.props.defaultValue === false || this.props.defaultValue === true) {
+            defaultValue = this.props.defaultValue
+        }
+        else if(this.props.name) {
+            if(this.props.editor.values[this.props.name] === true || this.props.editor.values[this.props.name] === false) {
+                defaultValue = this.props.editor.values[this.props.name]
+            }
+        }
         return {
-            value: this.props.editor.values[this.props.name] || false,
-            originalValue: this.props.editor.values[this.props.name] || false
+            value: defaultValue
         }
     },
 
     propTypes: {
-        name: React.PropTypes.string.isRequired
+        name: React.PropTypes.string
     },
 
     handleCheck: function (event) {
-        let obj = {}
         let newValue = event.target.checked
-
-        obj[this.props.name] = newValue
-
-        this.props.dispatch(setData(obj))
-
         this.setState({ value: newValue })
 
-        if(typeof this.props.onCheck === 'function') {
-            this.props.onCheck(event, newValue)
+        if(this.props.name) {
+            let obj = {}
+            obj[this.props.name] = newValue
+            this.props.dispatch(setData(obj))
+        }
+
+        if(typeof this.props.onChange === 'function') {
+            this.props.onChange(event, newValue)
         }
     },
 
-    shouldComponentUpdate: function(newState, newProps) {
-        return false
+    getValidationErrors: function() {
+        return []
     },
 
-    getValidationErrors: function() {
-        return null;
+    noValidationErrors: function() {
+        return true
+    },
+
+    getValue: function() {
+        return this.refs.checkbox.getChecked()
     },
 
     render: function () {
@@ -59,10 +72,10 @@ let HelCheckbox = React.createClass({
                 ref="checkbox"
                 type="checkbox"
                 label={label}
+                name={this.props.name}
                 groupClassName="hel-checkbox"
                 onChange={this.handleCheck}
-                defaultChecked={this.state.originalValue}
-                {...this.props}
+                checked={this.state.value}
                 />
         )
     }
@@ -70,4 +83,4 @@ let HelCheckbox = React.createClass({
 
 export default connect((state) => ({
     editor: state.editor
-}))(HelCheckbox)
+}),null,null,{ withRef: true })(injectIntl(HelCheckbox))

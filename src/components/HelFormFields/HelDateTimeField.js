@@ -57,7 +57,7 @@ let HelDateTimeField = React.createClass({
             }
         }
         else {
-          console.log("errors!");
+          // Errors were found
         }
     },
 

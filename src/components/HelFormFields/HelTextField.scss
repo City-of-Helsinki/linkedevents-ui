@@ -34,15 +34,33 @@
 
         resize: none;
 
-        &[disabled] {
-            color: #888;
-            border: none;
-            border-bottom: 2px dashed #e0e0e0;
-        }
-
         &:focus {
             outline: 0;
             border-color: rgba(0, 188, 212, 1);
+        }
+
+        &[disabled] {
+            color: #999;
+            border: none;
+            background-color: #f7f7f7;
+            border-bottom: 2px dashed #e0e0e0;
+        }
+    }
+
+    &.disabled {
+        cursor: not-allowed;
+
+        .hel-label {
+            cursor: not-allowed;
+            color: #bbb;
+        }
+
+        input, textarea {
+            cursor: not-allowed;
+            color: #999;
+            border: none;
+            background-color: #f7f7f7;
+            border-bottom: 2px dashed #e0e0e0;
         }
     }
 

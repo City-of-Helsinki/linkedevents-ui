@@ -20,7 +20,7 @@ let HelTextField = React.createClass({
 
         return {
             error: null,
-            value: defaultValue || this.props.defaultValue || ''
+            value: this.props.defaultValue || defaultValue || ''
         }
     },
 
@@ -40,6 +40,7 @@ let HelTextField = React.createClass({
 
         this.recalculateHeight()
 
+        // When errors exist, check validation on every change
         if (this.state.error) {
             this.getValidationErrors()
         }
@@ -59,7 +60,7 @@ let HelTextField = React.createClass({
         this.getValidationErrors()
 
         if(typeof this.props.onBlur === 'function') {
-            this.props.onBlur()
+            this.props.onBlur(event, this.refs.text.getValue())
         }
     },
 
@@ -104,6 +105,11 @@ let HelTextField = React.createClass({
         return [];
     },
 
+    noValidationErrors() {
+       let errors = this.getValidationErrors()
+       return (errors.length === 0)
+    },
+
     validationState() {
        return this.state.error ? 'warning' : 'success'
     },
@@ -120,9 +126,12 @@ let HelTextField = React.createClass({
             }
         }
 
-        let groupClassName = "hel-text-field"
+        let groupClassName = 'hel-text-field'
+        if(this.props.disabled) {
+            groupClassName += ' disabled'
+        }
 
-
+        // If no type is given it's either textarea or text
         let type = ''
         if(this.props.type) {
             type = this.props.type
@@ -132,7 +141,6 @@ let HelTextField = React.createClass({
 
         return (
             <Input
-                {...this.props}
                 type={type}
                 value={this.state.value}
                 label={label}
