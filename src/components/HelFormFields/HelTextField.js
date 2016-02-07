@@ -12,15 +12,9 @@ import validationRules from 'src/utils/validationRules.js';
 let HelTextField = React.createClass({
 
     getInitialState: function() {
-        let defaultValue = undefined;
-
-        if(this.props.name) {
-            defaultValue = this.props.editor.values[this.props.name] || ''
-        }
-
         return {
             error: null,
-            value: this.props.defaultValue || defaultValue || ''
+            value: this.props.defaultValue || ''
         }
     },
 
@@ -28,12 +22,23 @@ let HelTextField = React.createClass({
         name: React.PropTypes.string
     },
 
+    contextTypes: {
+        intl: React.PropTypes.object,
+        dispatch: React.PropTypes.func
+    },
+
     getValue: function() {
         return this.refs.text.getValue()
     },
 
-    handleChange: function (event) {
+    componentWillReceiveProps: function(nextProps) {
+        if(!(_.isEqual(nextProps.defaultValue, this.props.defaultValue))) {
+            this.setState({value: nextProps.defaultValue})
+        }
+        this.forceUpdate()
+    },
 
+    handleChange: function (event) {
         this.setState({
             value: this.refs.text.getValue()
         })
@@ -42,7 +47,7 @@ let HelTextField = React.createClass({
 
         // When errors exist, check validation on every change
         if (this.state.error) {
-            this.getValidationErrors()
+            this.setValidationErrorsToState()
         }
 
         if(typeof this.props.onChange === 'function') {
@@ -51,13 +56,17 @@ let HelTextField = React.createClass({
     },
 
     handleBlur: function (event) {
+        this.setState({
+            value: this.refs.text.getValue()
+        })
+
         if(this.props.name && this.getValidationErrors().length === 0) {
             let obj = {}
             obj[this.props.name] = this.refs.text.getValue()
-            this.props.dispatch(setData(obj))
+            this.context.dispatch(setData(obj))
         }
 
-        this.getValidationErrors()
+        this.setValidationErrorsToState()
 
         if(typeof this.props.onBlur === 'function') {
             this.props.onBlur(event, this.refs.text.getValue())
@@ -65,7 +74,7 @@ let HelTextField = React.createClass({
     },
 
     componentDidMount: function() {
-        this.getValidationErrors()
+        this.setValidationErrorsToState()
         this.recalculateHeight()
     },
 
@@ -95,14 +104,21 @@ let HelTextField = React.createClass({
             validations = validations.filter(i => (i.passed === false))
 
             if(validations.length) {
-                this.setState({ error: this.props.intl.formatMessage({id: `validation-${validations[0].rule}` }) })
                 return validations;
             }
         }
 
-        // Else
-        this.setState({ error: null })
-        return [];
+        return []
+    },
+
+    setValidationErrorsToState: function() {
+        let errors = this.getValidationErrors()
+        if(errors.length > 0) {
+            this.setState({ error: this.context.intl.formatMessage({id: `validation-${errors[0].rule}` }) })
+        }
+        else {
+            this.setState({ error: null })
+        }
     },
 
     noValidationErrors() {
@@ -115,6 +131,7 @@ let HelTextField = React.createClass({
     },
 
     render: function () {
+
         let { required, label } = this.props
 
         if(required) {
@@ -155,11 +172,10 @@ let HelTextField = React.createClass({
                 name={this.props.name}
                 rows="1"
                 help={this.state.error}
+                disabled={this.props.disabled}
             />
         )
     }
 });
 
-export default connect((state) => ({
-    editor: state.editor
-}), null, null, {withRef: true})(injectIntl(HelTextField))
+export default HelTextField

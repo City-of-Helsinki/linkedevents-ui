@@ -46,7 +46,7 @@ var EditorPage = React.createClass({
         });
     },
 
-    willReceiveProps() {
+    componentWillReceiveProps: function(nextProps) {
         this.forceUpdate()
     },
 
@@ -109,7 +109,7 @@ var EditorPage = React.createClass({
                 </div>
 
                 <div className="container">
-                    <FormFields action={this.props.params.action} editor={this.props.editor} />
+                    <FormFields action={this.props.params.action} editor={this.props.editor} values={this.props.values} />
                 </div>
 
                 <div className="editor-action-buttons">
@@ -151,5 +151,6 @@ var EditorPage = React.createClass({
 
 export default connect((state) => ({
     editor: state.editor,
+    values: state.editor.values,
     user: state.user
 }))(EditorPage)

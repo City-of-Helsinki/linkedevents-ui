@@ -21,6 +21,10 @@ class HelAutoComplete extends React.Component {
         this.state = defaultValue
     }
 
+    static contextTypes = {
+        intl: React.PropTypes.object
+    };
+
     getOptions(input) {
         let self = this
         this.setState({isLoading: true});
@@ -73,7 +77,7 @@ class HelAutoComplete extends React.Component {
                 <Input
                     type="text"
                     value={this.state.value}
-                    label={this.props.intl.formatMessage({ id: "event-location-id" })}
+                    label={this.context.intl.formatMessage({ id: "event-location-id" })}
                     ref="text"
                     groupClassName="hel-text-field"
                     labelClassName="hel-label"

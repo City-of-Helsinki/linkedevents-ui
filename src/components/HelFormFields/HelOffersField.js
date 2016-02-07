@@ -15,10 +15,12 @@ class HelOffersField extends React.Component {
         let defaultValue = {}
         let free = true
 
-        if(props.editor.values[props.name] && props.editor.values[props.name].length > 0) {
+        if(props.defaultValue && props.defaultValue.length > 0) {
             defaultValue = props.editor.values[props.name][0]
             free = defaultValue.is_free
         }
+
+        console.log(defaultValue)
 
         this.state = {
             free: free,
@@ -26,7 +28,7 @@ class HelOffersField extends React.Component {
         }
     }
 
-    onBlur(e,value,lang) {
+    onBlur(e) {
         if(this.props.name) {
             if(this.noValidationErrors()) {
                 let obj = {}
@@ -43,7 +45,7 @@ class HelOffersField extends React.Component {
         // Unwrap connect and injectIntl
         let pairs = _.map(this.refs, (ref, key) => ({
             key: key,
-            value: ref.getWrappedInstance().refs.wrappedElement.getValue()
+            value: ref.getValue()
         }))
 
         let obj = {}
@@ -51,12 +53,16 @@ class HelOffersField extends React.Component {
             obj[i.key] = i.value
         })
 
+        if(obj.is_free == true) {
+            obj = _.omit(obj, ['price', 'description']);
+        }
+
         return [obj]
     }
 
     noValidationErrors() {
         let noValidationErrors = _.map(this.refs, (ref, key) =>
-            (ref.getWrappedInstance().refs.wrappedElement.noValidationErrors())
+            (ref.noValidationErrors())
         )
 
         let actualErrors = _.filter(noValidationErrors, i => (i === false))
@@ -73,6 +79,21 @@ class HelOffersField extends React.Component {
         this.onBlur()
     }
 
+    shouldComponentUpdate() {
+        return true
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(!_.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
+            console.log("Komponentti sai defaultvaluet", nextProps.defaultValue)
+            if(nextProps.defaultValue && nextProps.defaultValue.length) {
+                this.setState({ free: nextProps.defaultValue[0].is_free || false, value: nextProps.defaultValue[0] })
+            }
+            else {
+                this.setState({ free: true, value: { is_free: true, info_url: {} } })
+            }
+        }
+    }
 
     render() {
         return (

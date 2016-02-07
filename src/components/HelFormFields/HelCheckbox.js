@@ -14,11 +14,6 @@ let HelCheckbox = React.createClass({
         if(this.props.defaultValue === false || this.props.defaultValue === true) {
             defaultValue = this.props.defaultValue
         }
-        else if(this.props.name) {
-            if(this.props.editor.values[this.props.name] === true || this.props.editor.values[this.props.name] === false) {
-                defaultValue = this.props.editor.values[this.props.name]
-            }
-        }
         return {
             value: defaultValue
         }
@@ -81,6 +76,4 @@ let HelCheckbox = React.createClass({
     }
 });
 
-export default connect((state) => ({
-    editor: state.editor
-}),null,null,{ withRef: true })(injectIntl(HelCheckbox))
+export default HelCheckbox

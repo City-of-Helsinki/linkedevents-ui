@@ -11,7 +11,7 @@ import moment from 'moment'
 let HelDateTimeField = React.createClass({
 
     getInitialState: function() {
-        let defaultValue = this.props.editor.values[this.props.name] || null
+        let defaultValue = this.props.defaultValue || null
 
         if(moment(defaultValue).isValid()) {
             defaultValue = moment(defaultValue).tz('Europe/Helsinki');
@@ -35,8 +35,8 @@ let HelDateTimeField = React.createClass({
     handleChange: function (event) {
         // Returns empty list if there are no validation errors
         let errors = [
-            this.refs.time.getWrappedInstance().refs.wrappedElement.getValidationErrors(),
-            this.refs.date.getWrappedInstance().refs.wrappedElement.getValidationErrors()
+            this.refs.time.getValidationErrors(),
+            this.refs.date.getValidationErrors()
         ]
 
         // Filter out empty lists
@@ -62,8 +62,8 @@ let HelDateTimeField = React.createClass({
     },
 
     getDateTimeFromFields: function() {
-        let rawDate = this.refs.date.getWrappedInstance().refs.wrappedElement.getValue();
-        let rawTime = this.refs.time.getWrappedInstance().refs.wrappedElement.getValue();
+        let rawDate = this.refs.date.getValue();
+        let rawTime = this.refs.time.getValue();
 
         if(!rawDate && !rawTime) {
             return undefined
@@ -86,6 +86,17 @@ let HelDateTimeField = React.createClass({
         if(typeof this.props.onBlur === 'function') {
             this.props.onBlur(event, value)
         }
+    },
+
+    componentWillReceiveProps: function(nextProps) {
+        if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
+            this.setState({ value: nextProps.defaultValue || { date: null, time: null } })
+        }
+    },
+
+    // Update only if the state has changed
+    shouldComponentUpdate: function(nextProps, nextState) {
+        return !(_.isEqual(nextProps.defaultValue, this.props.defaultValue))
     },
 
     render: function () {

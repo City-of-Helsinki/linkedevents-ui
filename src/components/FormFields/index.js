@@ -63,11 +63,23 @@ class FormFields extends React.Component {
     constructor(props) {
         super(props)
 
-        let languages = this.props.editor.values['presentation-languages'] || ['fi']
+        let languages = this.props.values['presentation-languages'] || ['fi']
 
         this.state = {
             languages: languages
         }
+    }
+
+    static contextTypes = {
+        intl: React.PropTypes.object
+    };
+
+    componentWillReceiveProps() {
+        this.forceUpdate()
+    }
+
+    shouldComponentUpdate() {
+        return true
     }
 
     render() {
@@ -97,10 +109,10 @@ class FormFields extends React.Component {
 
                 <div className="row">
                     <div className="col-sm-6">
-                        <MultiLanguageField required={true} multiLine={false} label="event-headline" name="name" languages={this.state.languages} />
-                        <MultiLanguageField required={true} multiLine={true} label="event-short-description" name="short_description" languages={this.state.languages} />
-                        <MultiLanguageField required={false} multiLine={true} label="event-description" name="description" languages={this.state.languages} />
-                        <MultiLanguageField required={false} multiLine={false} label="event-info-url" name="info_url" languages={this.state.languages} validations={['isUrl']} />
+                        <MultiLanguageField required={true} multiLine={false} label="event-headline" name="name" defaultValue={this.props.values["name"]} languages={this.state.languages} />
+                        <MultiLanguageField required={false} multiLine={true} label="event-short-description" name="short_description" defaultValue={this.props.values["short_description"]} languages={this.state.languages} />
+                        <MultiLanguageField required={false} multiLine={true} label="event-description" name="description" defaultValue={this.props.values["description"]} languages={this.state.languages} />
+                        <MultiLanguageField required={false} multiLine={false} label="event-info-url" name="info_url" defaultValue={this.props.values["info_url"]} languages={this.state.languages} validations={['isUrl']} />
                     </div>
                     <SideField>
                         <label><FormattedMessage id="event-picture"/></label>
@@ -113,8 +125,8 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6">
-                        <HelDateTimeField name="start_time" label="event-starting-datetime" />
-                        <HelDateTimeField name="end_time" label="event-ending-datetime" />
+                        <HelDateTimeField defaultValue={this.props.values['start_time']} name="start_time" label="event-starting-datetime" />
+                        <HelDateTimeField defaultValue={this.props.values['end_time']} name="end_time" label="event-ending-datetime" />
                     </div>
                 </div>
 
@@ -128,9 +140,9 @@ class FormFields extends React.Component {
                             dataSource={`${appSettings.api_base}/place/?page_size=10000&filter=`}
                             resource="place"
                             required={true}
-                            placeholder={this.props.intl.formatMessage({ id: "event-location" })}
+                            placeholder={this.context.intl.formatMessage({ id: "event-location" })}
                             />
-                        <MultiLanguageField multiLine={true} label="event-location-additional-info" name="location_extra_info" languages={this.state.languages} />
+                        <MultiLanguageField multiLine={true} label="event-location-additional-info" name="location_extra_info" defaultValue={this.props.values["location_extra_info"]} languages={this.state.languages} />
                     </div>
                     <SideField>
                         <p>Aloita kirjoittamaan kenttään tapahtumapaikan nimen alkua ja valitse oikea paikka alle ilmestyvästä listasta. Jos et löydä paikkaa tällä tavoin, kirjoita tapahtumapaikka tai osoite lisätietokenttään.</p>
@@ -142,7 +154,7 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6">
-                        <HelOffersField name="offers" languages={this.state.languages} />
+                        <HelOffersField name="offers" defaultValue={this.props.values["offers"]} languages={this.state.languages} />
                     </div>
                     <SideField>
                         <p>Valitse onko tapahtumaan vapaa pääsy tai lisää tapahtuman hinta tekstimuodossa (esim. 5€/7€).</p>
@@ -156,9 +168,9 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6">
-                        <HelTextField validations={['isUrl']} name="extlink_facebook" label={<FormattedMessage id="facebook-url"/>} />
-                        <HelTextField validations={['isUrl']} name="extlink_twitter" label={<FormattedMessage id="twitter-url"/>} />
-                        <HelTextField validations={['isUrl']} name="extlink_instagram" label={<FormattedMessage id="instagram-url"/>} />
+                        <HelTextField validations={['isUrl']} name="extlink_facebook" label={<FormattedMessage id="facebook-url"/>} defaultValue={this.props.values['extlink_facebook']} />
+                        <HelTextField validations={['isUrl']} name="extlink_twitter" label={<FormattedMessage id="twitter-url"/>} defaultValue={this.props.values['extlink_twitter']} />
+                        <HelTextField validations={['isUrl']} name="extlink_instagram" label={<FormattedMessage id="instagram-url"/>} defaultValue={this.props.values['extlink_instagram']} />
                     </div>
                 </div>
 
@@ -185,7 +197,4 @@ class FormFields extends React.Component {
     }
 }
 
-// <HelSelect legend={"Kohderyhmät"} name="audience" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?data_source=yso&filter=`} />
-
-// Inject dispatch and intl into props
-export default connect()(injectIntl(FormFields))
+export default FormFields

@@ -12,7 +12,10 @@ import thunk from 'redux-thunk'
 
 import reducers from './reducers'
 
-import Intl from 'intl'
+// Translations
+import {IntlProvider} from 'react-intl';
+import translations from 'src/i18n';
+import moment from 'moment'
 
 // Views
 import App from './views/App'
@@ -40,16 +43,21 @@ const history = createHashHistory()
 
 syncReduxAndRouter(history, store)
 
+let locale = 'fi';
+moment.locale(locale);
+
 ReactDOM.render(
     <Provider store={store}>
-        <Router history={history}>
-            <Route path="/" component={App}>
-                <IndexRoute component={Search}/>
-                <Route path="/:eventId" component={Event}/>
-                <Route path="/organization/events" component={EventListing}/>
-                <Route path="/event/:action/:eventId" component={Editor}/>
-            </Route>
-        </Router>
+        <IntlProvider locale={locale} messages={translations[locale] || {}}>
+            <Router history={history}>
+                <Route path="/" component={App}>
+                    <IndexRoute component={Search}/>
+                    <Route path="/:eventId" component={Event}/>
+                    <Route path="/organization/events" component={EventListing}/>
+                    <Route path="/event/:action/:eventId" component={Editor}/>
+                </Route>
+            </Router>
+        </IntlProvider>
     </Provider>,
     document.getElementById('content')
 )
