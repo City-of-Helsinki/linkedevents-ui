@@ -46,7 +46,7 @@ class HelAutoComplete extends React.Component {
         // Do action to save form state to storage
         let obj = {}
         obj[this.props.name] = {
-            name: val.label,
+            name: { fi: val.label },
             id: val.value,
             '@id': val['@id']
         }
@@ -62,7 +62,7 @@ class HelAutoComplete extends React.Component {
 
         let values = {
             id: null,
-            name: null
+            name: {}
         }
 
         if(typeof this.props.defaultValue === 'object') {
@@ -75,7 +75,7 @@ class HelAutoComplete extends React.Component {
                     <legend>{this.props.legend}</legend>
                     <Select.Async
                         placeholder={this.props.placeholder}
-                        value={ {label: values.name, value: values.id} }
+                        value={ {label: values.name.fi, value: values.id} }
                         loadOptions={ val => this.getOptions(val)  }
                         onChange={ (val,list) => this.onChange(val,list) }
                         isLoading={this.state.isLoading}
