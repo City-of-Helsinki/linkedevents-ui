@@ -29,11 +29,13 @@ class HelOffersField extends React.Component {
     }
 
     onBlur(e) {
+
+        this.setState({value: this.getValue()[0]})
+
         if(this.props.name) {
             if(this.noValidationErrors()) {
                 let obj = {}
                 obj[this.props.name] = this.getValue()
-                this.setState({value: obj})
 
                 this.props.dispatch(setData(obj))
             }
@@ -85,11 +87,12 @@ class HelOffersField extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if(!_.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
-            console.log("Komponentti sai defaultvaluet", nextProps.defaultValue)
             if(nextProps.defaultValue && nextProps.defaultValue.length) {
-                this.setState({ free: nextProps.defaultValue[0].is_free || false, value: nextProps.defaultValue[0] })
+                console.log("Komponentti sai defaultvaluet", nextProps.defaultValue)
+                this.setState({ free: nextProps.defaultValue[0].is_free ? true : false, value: nextProps.defaultValue[0] })
             }
             else {
+                console.log("Komponentti sai defaultvaluet", nextProps.defaultValue)
                 this.setState({ free: true, value: { is_free: true, info_url: {} } })
             }
         }
@@ -99,7 +102,7 @@ class HelOffersField extends React.Component {
         return (
             <div className="offers">
                 <MultiLanguageField defaultValue={this.state.value.info_url} ref="info_url" label="event-purchase-link" languages={this.props.languages} onBlur={e => this.onBlur(e)} validations={['isUrl']}  />
-                <HelCheckbox defaultValue={this.state.free} ref="is_free" label={<FormattedMessage id="is-free"/>} onChange={(e,v) => this.setIsFree(e,v)} />
+                <HelCheckbox defaultChecked={this.state.free} ref="is_free" label={<FormattedMessage id="is-free"/>} onChange={(e,v) => this.setIsFree(e,v)} />
                 <MultiLanguageField defaultValue={this.state.value.price} disabled={this.state.free} ref="price" label="event-price" languages={this.props.languages} onBlur={e => this.onBlur(e)} />
                 <MultiLanguageField defaultValue={this.state.value.description} disabled={this.state.free} ref="description" label="event-price-info" languages={this.props.languages} multiLine={true} onBlur={e => this.onBlur(e)} />
             </div>

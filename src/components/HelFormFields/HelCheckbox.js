@@ -11,7 +11,7 @@ let HelCheckbox = React.createClass({
 
     getInitialState: function() {
         let defaultValue = true
-        if(this.props.defaultValue === false || this.props.defaultValue === true) {
+        if(this.props.defaultChecked === false || this.props.defaultChecked === true) {
             defaultValue = this.props.defaultValue
         }
         return {
@@ -48,6 +48,13 @@ let HelCheckbox = React.createClass({
 
     getValue: function() {
         return this.refs.checkbox.getChecked()
+    },
+
+    componentWillReceiveProps(nextProps) {
+        if(!_.isEqual(nextProps.defaultChecked, this.props.defaultChecked)) {
+            console.log("will receive props")
+            this.setState({value: nextProps.defaultChecked ? true : false})
+        }
     },
 
     render: function () {

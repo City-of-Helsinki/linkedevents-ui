@@ -17,14 +17,18 @@ let HelDateTimeField = React.createClass({
             defaultValue = moment(defaultValue).tz('Europe/Helsinki');
 
             return {
-                date: defaultValue.format('M.D.YYYY'),
-                time: defaultValue.format('H.mm')
+                value: {
+                    date: defaultValue.format('D.M.YYYY'),
+                    time: defaultValue.format('H.mm')
+                }
             }
         }
 
         return {
-            date: null,
-            time: null
+            value: {
+                date: null,
+                time: null
+            }
         }
     },
 
@@ -33,6 +37,18 @@ let HelDateTimeField = React.createClass({
     },
 
     handleChange: function (event) {
+        this.setState({value: {
+            date: this.refs.date.getValue(),
+            time: this.refs.time.getValue()
+        }})
+    },
+
+    onBlur: function() {
+        this.setState({value: {
+            date: this.refs.date.getValue(),
+            time: this.refs.time.getValue()
+        }})
+
         // Returns empty list if there are no validation errors
         let errors = [
             this.refs.time.getValidationErrors(),
@@ -59,6 +75,10 @@ let HelDateTimeField = React.createClass({
         else {
           // Errors were found
         }
+
+        // if(typeof this.props.onBlur === 'function') {
+        //     this.props.onBlur(event, value)
+        // }
     },
 
     getDateTimeFromFields: function() {
@@ -82,21 +102,36 @@ let HelDateTimeField = React.createClass({
         return datetime;
     },
 
-    handleBlur: function (event, value) {
-        if(typeof this.props.onBlur === 'function') {
-            this.props.onBlur(event, value)
+    // Parses date time object from datetime string
+    parseValueFromString: function(string) {
+        let newValue = string || null
+
+        if(moment(newValue).isValid()) {
+            newValue = moment(newValue).tz('Europe/Helsinki');
+
+            return {
+                date: newValue.format('D.M.YYYY'),
+                time: newValue.format('H.mm')
+            }
+        } else {
+            return {
+                date: null,
+                time: null
+            }
         }
     },
 
     componentWillReceiveProps: function(nextProps) {
         if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
-            this.setState({ value: nextProps.defaultValue || { date: null, time: null } })
+            let value = this.parseValueFromString(nextProps.defaultValue)
+
+            this.setState({ value: value })
         }
     },
 
     // Update only if the state has changed
     shouldComponentUpdate: function(nextProps, nextState) {
-        return !(_.isEqual(nextProps.defaultValue, this.props.defaultValue))
+        return true
     },
 
     render: function () {
@@ -104,8 +139,8 @@ let HelDateTimeField = React.createClass({
             <div className="multi-field">
                 <div className="indented">
                     <label><FormattedMessage id={`${this.props.label}`} /></label>
-                    <HelTextField ref="date" defaultValue={this.state.date} validations={['isDate']} placeholder="pp.kk.vvvv" onChange={this.handleChange} label={<FormattedMessage id="date" />} />
-                    <HelTextField ref="time" defaultValue={this.state.time} validations={['isTime']} placeholder="hh.mm" onChange={this.handleChange} label={<FormattedMessage id="time" />} />
+                    <HelTextField ref="date" defaultValue={this.state.value.date} validations={['isDate']} placeholder="pp.kk.vvvv" onChange={this.handleChange} onBlur={this.onBlur} label={<FormattedMessage id="date" />} />
+                    <HelTextField ref="time" defaultValue={this.state.value.time} validations={['isTime']} placeholder="hh.mm" onChange={this.handleChange} onBlur={this.onBlur} label={<FormattedMessage id="time" />} />
                 </div>
             </div>
         )
