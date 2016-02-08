@@ -11,14 +11,11 @@ import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
 
 class HelAutoComplete extends React.Component {
-    constructor (props) {
+
+    constructor(props) {
         super(props)
 
-        let defaultValue = {}
-        defaultValue.label = props.editor.values[this.props.name + '.name']
-        defaultValue.value = props.editor.values[this.props.name]
-
-        this.state = defaultValue
+        this.state = { isLoading: false }
     }
 
     static contextTypes = {
@@ -45,16 +42,15 @@ class HelAutoComplete extends React.Component {
     }
 
     onChange(val) {
-        // Set state to update the text field
-        //this.setState({ value: val.id, name: val.label })
 
         // Do action to save form state to storage
         let obj = {}
-        obj[this.props.name + '.name'] = val.label
-        obj[this.props.name] = val.value
-        this.props.dispatch(setData(obj))
+        obj[this.props.name] = {
+            name: val.label,
+            id: val.value
+        }
 
-        this.setState(val)
+        this.props.dispatch(setData(obj))
 
         if(typeof this.props.onSelection === 'function') {
             this.props.onSelection(val)
@@ -62,13 +58,23 @@ class HelAutoComplete extends React.Component {
     }
 
     render() {
+
+        let values = {
+            id: null,
+            name: null
+        }
+
+        if(typeof this.props.defaultValue === 'object') {
+            values = this.props.defaultValue
+        }
+
         return (
             <span>
                 <div className="hel-select">
                     <legend>{this.props.legend}</legend>
                     <Select.Async
                         placeholder={this.props.placeholder}
-                        value={this.state.value}
+                        value={ {label: values.name, value: values.id} }
                         loadOptions={ val => this.getOptions(val)  }
                         onChange={ (val,list) => this.onChange(val,list) }
                         isLoading={this.state.isLoading}
@@ -76,7 +82,7 @@ class HelAutoComplete extends React.Component {
                 </div>
                 <Input
                     type="text"
-                    value={this.state.value}
+                    value={values.id}
                     label={this.context.intl.formatMessage({ id: "event-location-id" })}
                     ref="text"
                     groupClassName="hel-text-field"

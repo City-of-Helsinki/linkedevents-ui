@@ -135,10 +135,11 @@ class FormFields extends React.Component {
                 <div className="row">
                     <div className="col-sm-6">
                         <HelAutoComplete
-                            name="location_id"
+                            name="location"
                             dataSource={`${appSettings.api_base}/place/?page_size=10000&filter=`}
                             resource="place"
                             required={true}
+                            defaultValue={this.props.values['location']}
                             placeholder={this.context.intl.formatMessage({ id: "event-location" })}
                             />
                         <MultiLanguageField multiLine={true} label="event-location-additional-info" name="location_extra_info" defaultValue={this.props.values["location_extra_info"]} languages={this.state.languages} />
