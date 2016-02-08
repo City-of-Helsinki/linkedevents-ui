@@ -11,7 +11,7 @@ import {FormattedMessage} from 'react-intl'
 import Snackbar from 'material-ui/lib/snackbar';
 import { RaisedButton, FlatButton } from 'material-ui'
 
-import {sendData, clearData, clearFlashMsg, fetchKeywordSets, fetchLanguages} from 'src/actions/editor.js'
+import {fetchEventForEditing, sendData, clearData, clearFlashMsg, fetchKeywordSets, fetchLanguages} from 'src/actions/editor.js'
 
 import constants from 'src/constants.js'
 
@@ -53,6 +53,10 @@ var EditorPage = React.createClass({
     componentWillMount() {
         this.props.dispatch(fetchKeywordSets())
         this.props.dispatch(fetchLanguages())
+
+        if(this.props.params.action === 'update' && this.props.params.eventId) {
+            this.props.dispatch(fetchEventForEditing(this.props.params.eventId))
+        }
     },
 
     clearForm() {

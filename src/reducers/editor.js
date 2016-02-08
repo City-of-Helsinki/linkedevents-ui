@@ -1,5 +1,7 @@
 import constants from '../constants'
 
+import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
+
 let editorValues = {}
 
 try {
@@ -84,6 +86,14 @@ function update(state = initialState, action) {
     if(action.type === constants.EDITOR_RECEIVE_LANGUAGES) {
         return Object.assign({}, state, {
             languages: action.languages
+        })
+    }
+
+    if(action.type === constants.RECEIVE_EVENT_FOR_EDITING) {
+        let newValues = Object.assign({}, mapAPIDataToUIFormat(action.event))
+
+        return Object.assign({}, state, {
+            values: newValues
         })
     }
 

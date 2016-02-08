@@ -164,3 +164,21 @@ export function receiveLanguages(json) {
         languages: json.data
     }
 }
+
+// Fetch data for updating
+export function fetchEventForEditing(eventID) {
+    let url = `${appSettings.api_base}/event/${eventID}/?include=keywords,location,audience,in_language`
+    return (dispatch) => {
+        return fetch(url)
+            .then(response => response.json())
+            .then(json => dispatch(receiveEventForEditing(json)))
+    }
+}
+
+// Receive data for updating
+export function receiveEventForEditing(json) {
+    return {
+        type: constants.RECEIVE_EVENT_FOR_EDITING,
+        event: json
+    }
+}
