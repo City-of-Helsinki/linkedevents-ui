@@ -10,21 +10,10 @@ import {setData} from 'src/actions/editor.js'
 
 class HelSelect extends React.Component {
 
-    constructor(props) {
-        super(props)
-        let defaultValue = props.editor.values[this.props.name] || null
-        this.state = {
-            value: defaultValue
-        }
-    }
-
-    onChange(value, list) {
-        // TODO: hook up to editor store
+    onChange(value) {
         let obj = {}
         obj[this.props.name] = value
         this.props.dispatch(setData(obj))
-
-        this.setState({ value });
     }
 
     getOptions(input) {
@@ -46,9 +35,8 @@ class HelSelect extends React.Component {
             <div className="hel-select col-lg-6">
                 <legend>{this.props.legend}</legend>
                 <Select.Async
-                    {...this.props}
                     multi
-                    value={this.state.value}
+                    value={this.props.selectedValues}
                     loadOptions={ (val) => this.getOptions(val)  }
                     onChange={ (val) => this.onChange(val) }
                 />
