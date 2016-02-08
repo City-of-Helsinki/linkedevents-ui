@@ -111,7 +111,12 @@ export function mapAPIDataToUIFormat(values) {
     }
 
     // TODO: Filter hel_main categories from keywords, non-hel_main categories from hel_main
-    obj.hel_main = _.map(values.keywords, (item) => (`/v0.1/keyword/${item.id}/`))
+    //
+    let hel_main_items = _.remove(values.keywords, item => {
+        return (item.id.indexOf('helfi:') > -1)
+    })
+
+    obj.hel_main = _.map(hel_main_items, (item) => (`/v0.1/keyword/${item.id}/`))
 
     // Keywords, audience, languages
     obj.keywords = _.map(values.keywords, (item) => ({ value: `/v0.1/keyword/${item.id}/`, label: (item['name'].fi || item['name'].se || item['name'].en || item['id']) }))
