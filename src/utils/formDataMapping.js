@@ -132,7 +132,6 @@ export function mapAPIDataToUIFormat(values) {
 
     // External links
     if(values.external_links) {
-        debugger;
         let externalLinkFields = ['extlink_facebook', 'extlink_twitter', 'extlink_instagram']
         externalLinkFields.forEach(item => {
             let extlink = _.findWhere(values.external_links, {name: item})
