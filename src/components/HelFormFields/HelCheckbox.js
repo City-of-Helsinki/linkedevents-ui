@@ -52,7 +52,6 @@ let HelCheckbox = React.createClass({
 
     componentWillReceiveProps(nextProps) {
         if(!_.isEqual(nextProps.defaultChecked, this.props.defaultChecked)) {
-            console.log("will receive props")
             this.setState({value: nextProps.defaultChecked ? true : false})
         }
     },

@@ -88,11 +88,9 @@ class HelOffersField extends React.Component {
     componentWillReceiveProps(nextProps) {
         if(!_.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
             if(nextProps.defaultValue && nextProps.defaultValue.length) {
-                console.log("Komponentti sai defaultvaluet", nextProps.defaultValue)
                 this.setState({ free: nextProps.defaultValue[0].is_free ? true : false, value: nextProps.defaultValue[0] })
             }
             else {
-                console.log("Komponentti sai defaultvaluet", nextProps.defaultValue)
                 this.setState({ free: true, value: { is_free: true, info_url: {} } })
             }
         }

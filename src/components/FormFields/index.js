@@ -179,15 +179,18 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-main-categories"/>}
+                                    selectedValues={this.props.values['hel_main']}
                                     name="hel_main"
                                     itemClassName="col-sm-6"
                                     options={helMainOptions} />
                     <HelSelect legend={"Kategoriat"} name="keywords" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?data_source=yso&filter=`} />
                     <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-target-groups"/>}
+                                    selectedValues={this.props.values['hel_target']}
                                     name="hel_target"
                                     itemClassName="col-sm-6"
                                     options={helTargetOptions} />
                     <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-event-languages"/>}
+                                    selectedValues={this.props.values['in_language']}
                                     name="in_language"
                                     itemClassName="col-sm-6"
                                     options={helEventLangOptions} />
