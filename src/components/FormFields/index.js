@@ -10,7 +10,6 @@ import {
     HelLabeledCheckboxGroup,
     HelLanguageSelect,
     HelDateTimeField,
-    HelCheckbox,
     HelSelect,
     HelOffersField
 } from 'src/components/HelFormFields'

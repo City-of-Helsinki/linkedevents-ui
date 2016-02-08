@@ -9,23 +9,12 @@ import {injectIntl} from 'react-intl'
 
 let HelCheckbox = React.createClass({
 
-    getInitialState: function() {
-        let defaultValue = true
-        if(this.props.defaultChecked === false || this.props.defaultChecked === true) {
-            defaultValue = this.props.defaultValue
-        }
-        return {
-            value: defaultValue
-        }
-    },
-
     propTypes: {
         name: React.PropTypes.string
     },
 
     handleCheck: function (event) {
         let newValue = event.target.checked
-        this.setState({ value: newValue })
 
         if(this.props.name) {
             let obj = {}
@@ -49,13 +38,7 @@ let HelCheckbox = React.createClass({
     getValue: function() {
         return this.refs.checkbox.getChecked()
     },
-
-    componentWillReceiveProps(nextProps) {
-        if(!_.isEqual(nextProps.defaultChecked, this.props.defaultChecked)) {
-            this.setState({value: nextProps.defaultChecked ? true : false})
-        }
-    },
-
+    
     render: function () {
         let { required, label } = this.props
 
@@ -76,7 +59,7 @@ let HelCheckbox = React.createClass({
                 name={this.props.name}
                 groupClassName="hel-checkbox"
                 onChange={this.handleCheck}
-                checked={this.state.value}
+                checked={this.props.defaultChecked}
                 />
         )
     }
