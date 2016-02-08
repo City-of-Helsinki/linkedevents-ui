@@ -65,41 +65,44 @@ export function sendData(formValues, user, updateExisting = false) {
             let jsonPromise = response.json()
 
             jsonPromise.then(json => {
+                let actionName = updateExisting ? 'update' : 'create'
+
                 if(response.status === 200 || response.status === 201) {
-                    dispatch(sendDataComplete(json))
+                    dispatch(sendDataComplete(json, actionName))
                 }
                 // Validation errors
                 else if(response.status === 400) {
                     json.apiErrorMsg = 'validation-error'
-                    dispatch(sendDataComplete(json))
+                    dispatch(sendDataComplete(json, actionName))
                 }
 
                 // Auth errors
                 else if(response.status === 401 || response.status === 403) {
                     json.apiErrorMsg = 'authorization-required'
-                    dispatch(sendDataComplete(json))
+                    dispatch(sendDataComplete(json, actionName))
                 }
 
                 else {
                     json.apiErrorMsg = 'server-error'
-                    dispatch(sendDataComplete(json))
+                    dispatch(sendDataComplete(json, actionName))
                 }
             })
         })
     }
 }
 
-export function sendDataComplete(json) {
+export function sendDataComplete(json, action) {
     return (dispatch) => {
         if(json.apiErrorMsg) {
             dispatch({
                 type: constants.EDITOR_SENDDATA_ERROR,
                 apiErrorMsg: json.apiErrorMsg,
-                data: json
+                data: json,
+                action: action
             })
         }
         else {
-            dispatch(pushPath(`/event/created/${json.id}`))
+            dispatch(pushPath(`/event/done/${action}/${json.id}`))
             dispatch({
                 type: constants.EDITOR_SENDDATA_SUCCESS,
                 createdAt: Date.now(),

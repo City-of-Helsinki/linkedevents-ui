@@ -27,16 +27,6 @@ class EventCreated extends React.Component {
         }
     }
 
-    // editEvent() {
-    //     // TODO: fetch data in editing format.
-    //     if(this.props.events.event) {
-    //         let formData = mapAPIDataToUIFormat(this.props.events.event)
-    //
-    //         this.props.dispatch(setData(formData))
-    //         this.props.dispatch(pushPath(`/event/update/${this.props.events.event.id}`))
-    //     }
-    // }
-
     render() {
         let buttonStyle = {
             height: '72px',
@@ -51,16 +41,22 @@ class EventCreated extends React.Component {
             userCanEdit = true
         }
 
+        let headerText = "Tapahtuma luotiin onnistuneesti!"
+
+        if(this.props.params.action === 'update') {
+            headerText = "Tapahtuma päivitettiin onnistuneesti!"
+        }
+
         if(event) {
             return (
                 <div className="event-page">
                     <div className="container header">
                         <h1>
-                            Tapahtuma luotiin onnistuneesti!
+                            {headerText}
                         </h1>
-                        <h2>
+                        <h3>
                             {event.name.fi || event.name.se || event.name.en}
-                        </h2>
+                        </h3>
                         <div className="actions">
                             <RaisedButton onClick={e => this.goToEvent(e)} style={buttonStyle} secondary={true} label="Siirry tapahtumaan" />
                         </div>

@@ -66,7 +66,6 @@ function update(state = initialState, action) {
         return Object.assign({}, state, {
             createdEvent: action.data.event,
             createdAt: action.data.createdAt,
-            flashMsg: { msg: 'event-posted', type: 'success' },
             values: {}
         })
     }
