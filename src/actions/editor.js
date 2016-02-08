@@ -3,6 +3,8 @@ import fetch from 'isomorphic-fetch'
 import constants from '../constants'
 import {mapUIDataToAPIFormat} from 'src/utils/formDataMapping.js'
 
+import { pushPath } from 'redux-simple-router'
+
 // Clear editor data. Called explicitly by the user or
 export function clearFlashMsg() {
     return {
@@ -52,44 +54,49 @@ export function sendData(formValues, user, updateExisting = false) {
             body: JSON.stringify(mapUIDataToAPIFormat(formValues))
         }).then(response => {
             //console.log('Received', response)
+            let jsonPromise = response.json()
 
-            let json = response.json()
-            if(response.status === 200 || response.status === 201) {
-                dispatch(sendDataComplete(json))
-            }
-            // Validation errors
-            else if(response.status === 400) {
-                json.apiErrorMsg = 'validation-error'
-                dispatch(sendDataComplete(json))
-            }
+            jsonPromise.then(json => {
+                if(response.status === 200 || response.status === 201) {
+                    dispatch(sendDataComplete(json))
+                }
+                // Validation errors
+                else if(response.status === 400) {
+                    json.apiErrorMsg = 'validation-error'
+                    dispatch(sendDataComplete(json))
+                }
 
-            // Auth errors
-            else if(response.status === 401 || response.status === 403) {
-                json.apiErrorMsg = 'authorization-required'
-                dispatch(sendDataComplete(json))
-            }
+                // Auth errors
+                else if(response.status === 401 || response.status === 403) {
+                    json.apiErrorMsg = 'authorization-required'
+                    dispatch(sendDataComplete(json))
+                }
 
-            else {
-                json.apiErrorMsg = 'server-error'
-                dispatch(sendDataComplete(json))
-            }
+                else {
+                    json.apiErrorMsg = 'server-error'
+                    dispatch(sendDataComplete(json))
+                }
+            })
         })
     }
 }
 
 export function sendDataComplete(json) {
-    if(json.apiErrorMsg) {
-        return {
-            type: constants.EDITOR_SENDDATA_ERROR,
-            apiErrorMsg: json.apiErrorMsg,
-            data: json
+    return (dispatch) => {
+        if(json.apiErrorMsg) {
+            dispatch({
+                type: constants.EDITOR_SENDDATA_ERROR,
+                apiErrorMsg: json.apiErrorMsg,
+                data: json
+            })
         }
-    }
-    else {
-        return {
-            type: constants.EDITOR_SENDDATA_SUCCESS,
-            createdAt: Date.now(),
-            data: json
+        else {
+            dispatch(pushPath(`/event/created/${json.id}`))
+            dispatch({
+                type: constants.EDITOR_SENDDATA_SUCCESS,
+                createdAt: Date.now(),
+                data: json
+            })
         }
     }
 }

@@ -30,9 +30,7 @@ function mapUIDataToAPIFormat(values) {
     obj.publication_status = values.publication_status || values.PUBLICATION_STATUS.DRAFT
 
     // Location data
-    if(values.location_id) {
-        obj.location = { '@id': `/v0.1/place/${values.location_id}/`}
-    }
+    obj.location = values.location
 
     obj.location_extra_info = values.location_extra_info
 
@@ -99,14 +97,13 @@ export function mapAPIDataToUIFormat(values) {
     obj.info_url = values.info_url
     obj.provider = values.provider
 
-    //
+    // Statuses
     obj.event_status = values.event_status
     obj.publication_status = values.publication_status
 
     // Location data
-    if(values.location) {
-        obj.location_id = values.location['id']
-    }
+    obj.location = values.location
+
 
     obj.location_extra_info = values.location_extra_info
 

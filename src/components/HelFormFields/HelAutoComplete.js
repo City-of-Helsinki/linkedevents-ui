@@ -47,7 +47,8 @@ class HelAutoComplete extends React.Component {
         let obj = {}
         obj[this.props.name] = {
             name: val.label,
-            id: val.value
+            id: val.value,
+            '@id': val['@id']
         }
 
         this.props.dispatch(setData(obj))

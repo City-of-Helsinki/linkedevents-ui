@@ -48,7 +48,7 @@ function update(state = initialState, action) {
     if(action.type === constants.EDITOR_SENDDATA_SUCCESS) {
         clearEventDataFromLocalStorage()
 
-        return Object.assign({}, {
+        return Object.assign({}, state, {
             createdEvent: action.data.event,
             createdAt: action.data.createdAt,
             flashMsg: { msg: 'event-posted', type: 'success' },
