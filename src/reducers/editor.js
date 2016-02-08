@@ -31,6 +31,19 @@ function update(state = initialState, action) {
         })
     }
 
+    if(action.type === constants.EDITOR_REPLACEDATA) {
+
+        // Replace new values to existing values
+        let newValues = Object.assign({}, action.values)
+
+        // Local storage saving disabled for now
+        // localStorage.setItem('EDITOR_VALUES', JSON.stringify(newValues))
+
+        return Object.assign({}, state, {
+            values: newValues
+        })
+    }
+
     if(action.type === constants.EDITOR_CLEARDATA) {
         clearEventDataFromLocalStorage()
 

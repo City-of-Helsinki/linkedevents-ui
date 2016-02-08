@@ -13,7 +13,7 @@ import {fetchEventDetails} from 'src/actions/events.js'
 import {pushPath} from 'redux-simple-router'
 
 import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
-import {setData} from 'src/actions/editor.js'
+import {replaceData} from 'src/actions/editor.js'
 
 class EventPage extends React.Component {
 
@@ -24,9 +24,10 @@ class EventPage extends React.Component {
     copyAsTemplate() {
         if(this.props.events.event) {
             let formData = mapAPIDataToUIFormat(this.props.events.event)
+            formData.id = undefined
             delete formData.id
 
-            this.props.dispatch(setData(formData))
+            this.props.dispatch(replaceData(formData))
             this.props.dispatch(pushPath(`/event/create/new`))
         }
     }
@@ -35,7 +36,7 @@ class EventPage extends React.Component {
         if(this.props.events.event) {
             let formData = mapAPIDataToUIFormat(this.props.events.event)
 
-            this.props.dispatch(setData(formData))
+            this.props.dispatch(replaceData(formData))
             this.props.dispatch(pushPath(`/event/update/${this.props.events.event.id}`))
         }
     }

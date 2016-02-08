@@ -20,6 +20,14 @@ export function setData(formValues) {
     }
 }
 
+// Set data and save it to localStorage
+export function replaceData(formValues) {
+    return {
+        type: constants.EDITOR_REPLACEDATA,
+        values: formValues
+    }
+}
+
 // Clear editor data. Called explicitly by the user or
 export function clearData() {
     return {

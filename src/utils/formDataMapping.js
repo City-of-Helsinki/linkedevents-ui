@@ -53,6 +53,10 @@ function mapUIDataToAPIFormat(values) {
         obj.audience = _.map(values.hel_target, (item) => ({ '@id': item }))
     }
 
+    if(values.in_language) {
+        obj.in_language = values.in_language.map(lang => ({'@id': lang}))
+    }
+
     // External links
     obj.external_links = []
 
@@ -73,10 +77,6 @@ function mapUIDataToAPIFormat(values) {
 
     if(values.end_time) {
         obj.end_time = values.end_time
-    }
-
-    if(values.in_language) {
-        obj.in_language = values.in_language.map(lang => ({'@id': lang}))
     }
 
     return obj
@@ -104,30 +104,10 @@ export function mapAPIDataToUIFormat(values) {
     // Location data
     obj.location = values.location
 
-
     obj.location_extra_info = values.location_extra_info
 
     if(values.offers) {
         obj.offers = values.offers
-    }
-
-    // External links
-    if(values.external_links) {
-        let externalLinkFields = ['extlink_facebook', 'extlink_twitter', 'extlink_instagram']
-        externalLinkFields.forEach(item => {
-            let extlink = _.findWhere(obj.external_links, {name: item})
-            if(extlink) {
-                obj[item] = extlink.link
-            }
-        })
-    }
-
-    if(values.start_time) {
-        obj.start_time = values.start_time
-    }
-
-    if(values.end_time) {
-        obj.end_time = values.end_time
     }
 
     // TODO: Filter hel_main categories from keywords, non-hel_main categories from hel_main
@@ -148,6 +128,25 @@ export function mapAPIDataToUIFormat(values) {
 
     if(values.in_language) {
         obj.in_language = _.map(values.in_language, lang => `/v0.1/language/${lang.id}/`)
+    }
+
+    // External links
+    if(values.external_links) {
+        let externalLinkFields = ['extlink_facebook', 'extlink_twitter', 'extlink_instagram']
+        externalLinkFields.forEach(item => {
+            let extlink = _.findWhere(obj.external_links, {name: item})
+            if(extlink) {
+                obj[item] = extlink.link
+            }
+        })
+    }
+
+    if(values.start_time) {
+        obj.start_time = values.start_time
+    }
+
+    if(values.end_time) {
+        obj.end_time = values.end_time
     }
 
     return obj
