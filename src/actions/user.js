@@ -16,14 +16,39 @@ export function clearUserData() {
     }
 }
 
+// Returns userdata if available, else return null
+function tryFetchingUserFromLocalStorage() {
+    let user = ''
+
+    try {
+        user = localStorage.getItem('user')
+        user = JSON.parse(user)
+    } catch(e) {
+        // No dice
+    }
+
+    if(user && typeof user === 'object' && user.id && user.token && user.displayName) {
+        return user
+    }
+    else {
+        return null
+    }
+}
+
 export function retrieveUserFromSession() {
-  return (dispatch) => {
-    return fetch('/auth/me?' + (+new Date()), {method: 'GET', credentials: 'same-origin'}).then((response) => {
-      return response.json();
-    }).then((data) => {
-      return dispatch(receiveUserData(data));
-    });
-  };
+    return (dispatch) => {
+        let user = tryFetchingUserFromLocalStorage()
+        if(user) {
+            return dispatch(receiveUserData(user))
+        } else {
+            return fetch('/auth/me?' + (+new Date()), {method: 'GET', credentials: 'same-origin'}).then((response) => {
+                return response.json()
+            }).then((data) => {
+                localStorage.setItem('user', JSON.stringify(data))
+                return dispatch(receiveUserData(data))
+            })
+        }
+    }
 }
 
 export function login() {
@@ -53,6 +78,7 @@ export function login() {
 export function logout() {
   return (dispatch) => {
       fetch('/auth/logout', {method: 'POST', credentials: 'same-origin'}) // Fire-and-forget
+      localStorage.removeItem('user')
       dispatch(clearUserData())
   };
 }
