@@ -14,6 +14,10 @@ export {
 
 function mapUIDataToAPIFormat(values) {
 
+    if(!values) {
+        return {}
+    }
+
     let obj = {}
 
     if(values.id) {
@@ -87,6 +91,10 @@ function mapUIDataToAPIFormat(values) {
 }
 
 export function mapAPIDataToUIFormat(values) {
+    if(!values) {
+        return {}
+    }
+
     let obj = {}
 
     // General data
