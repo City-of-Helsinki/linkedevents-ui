@@ -5,7 +5,9 @@ import {connect} from 'react-redux'
 
 import Headerbar from 'src/components/Header'
 
-import {injectIntl} from 'react-intl';
+import {injectIntl} from 'react-intl'
+
+import {retrieveUserFromSession} from 'src/actions/user'
 
 // Material-ui theming
 import { HelTheme } from 'src/themes/hel'
@@ -32,6 +34,10 @@ class App extends React.Component {
             dispatch: this.props.dispatch,
             intl: this.props.intl
         }
+    }
+
+    componentWillMount() {
+        return this.props.dispatch(retrieveUserFromSession())
     }
 
     render() {
