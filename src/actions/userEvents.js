@@ -5,6 +5,9 @@ import constants from '../constants'
 
 function makeRequest(organization, page) {
     var url = `${appSettings.api_base}/event/?organization=${organization}&show_all=1&sort=-last_modified_time&page_size=100`
+    if(appSettings.nocache) {
+        url += `&nocache=${Date.now()}`
+    }
     //var url = `${appSettings.api_base}/event/?show_all=1&sort=-last_modified_time&page_size=100`
     return fetch(url);
 }

@@ -171,6 +171,11 @@ export function receiveLanguages(json) {
 // Fetch data for updating
 export function fetchEventForEditing(eventID) {
     let url = `${appSettings.api_base}/event/${eventID}/?include=keywords,location,audience,in_language,external_links`
+
+    if(appSettings.nocache) {
+        url += `&nocache=${Date.now()}`
+    }
+
     return (dispatch) => {
         return fetch(url)
             .then(response => response.json())
