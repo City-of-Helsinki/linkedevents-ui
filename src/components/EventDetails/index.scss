@@ -1,0 +1,50 @@
+$en-color: darken(#28e7b3, 18%);
+$fi-color: #48a3e7;
+$sv-color: darken(#ffe843, 22%);
+
+.multi-value-field {
+    margin-top: 2rem;
+
+    .indented {
+        margin-bottom: 16px;
+        border-left: 2px solid $fi-color;
+        padding-left: 1rem;
+
+        &.in-fi {
+            border-color: $fi-color;
+
+            .language {
+                color: $fi-color;
+            }
+        }
+
+        &.in-sv {
+            border-color: $sv-color;
+
+            .language {
+                color: $sv-color;
+            }
+        }
+
+        &.in-en {
+            border-color: $en-color;
+
+            .language {
+                color: $en-color;
+            }
+        }
+    }
+
+    > label {
+        font-size: 24px;
+    }
+
+    .language {
+        margin-top: -1.5rem;
+        color: $fi-color;
+    }
+}
+
+legend {
+    margin-top: 2rem;
+}

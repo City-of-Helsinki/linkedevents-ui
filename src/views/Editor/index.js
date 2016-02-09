@@ -47,12 +47,14 @@ var EditorPage = React.createClass({
     },
 
     componentWillReceiveProps: function(nextProps) {
+        // Check if we are changing the editing mode on fly
+        // (happens when jumping from update event page to create event page)
+        // Clear page or fetch new eventdata accordingly
         if(nextProps.params && this.props.params.action !== nextProps.params.action) {
             if(nextProps.params.action === 'update') {
                 this.props.dispatch(fetchEventForEditing(this.props.params.eventId))
             } else {
                 this.props.dispatch(clearData())
-
             }
         }
 
@@ -65,8 +67,6 @@ var EditorPage = React.createClass({
 
         if(this.props.params.action === 'update' && this.props.params.eventId) {
             this.props.dispatch(fetchEventForEditing(this.props.params.eventId))
-        } else {
-            this.props.dispatch(clearData())
         }
     },
 
