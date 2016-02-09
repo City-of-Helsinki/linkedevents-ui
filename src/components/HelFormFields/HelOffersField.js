@@ -41,11 +41,11 @@ class HelOffersField extends React.Component {
     }
 
     noValidationErrors() {
-        let noValidationErrors = _.map(this.refs, (ref, key) =>
+        let noErrors = _.map(this.refs, (ref, key) =>
             (ref.noValidationErrors())
         )
 
-        let actualErrors = _.filter(noValidationErrors, i => (i === false))
+        let actualErrors = _.filter(noErrors, i => (i === false))
 
         if(actualErrors.length > 0) {
             return false
