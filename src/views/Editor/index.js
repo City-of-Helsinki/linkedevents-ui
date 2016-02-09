@@ -47,6 +47,15 @@ var EditorPage = React.createClass({
     },
 
     componentWillReceiveProps: function(nextProps) {
+        if(nextProps.params && this.props.params.action !== nextProps.params.action) {
+            if(nextProps.params.action === 'update') {
+                this.props.dispatch(fetchEventForEditing(this.props.params.eventId))
+            } else {
+                this.props.dispatch(clearData())
+
+            }
+        }
+
         this.forceUpdate()
     },
 
@@ -56,6 +65,8 @@ var EditorPage = React.createClass({
 
         if(this.props.params.action === 'update' && this.props.params.eventId) {
             this.props.dispatch(fetchEventForEditing(this.props.params.eventId))
+        } else {
+            this.props.dispatch(clearData())
         }
     },
 
