@@ -11,7 +11,7 @@ import {FormattedMessage} from 'react-intl'
 import Snackbar from 'material-ui/lib/snackbar';
 import { RaisedButton, FlatButton } from 'material-ui'
 
-import {sendData, clearData, clearFlashMsg, fetchKeywordSets, fetchLanguages} from 'src/actions/editor.js'
+import {fetchEventForEditing, sendData, clearData, clearFlashMsg, fetchKeywordSets, fetchLanguages} from 'src/actions/editor.js'
 
 import constants from 'src/constants.js'
 
@@ -46,13 +46,17 @@ var EditorPage = React.createClass({
         });
     },
 
-    willReceiveProps() {
+    componentWillReceiveProps: function(nextProps) {
         this.forceUpdate()
     },
 
     componentWillMount() {
         this.props.dispatch(fetchKeywordSets())
         this.props.dispatch(fetchLanguages())
+
+        if(this.props.params.action === 'update' && this.props.params.eventId) {
+            this.props.dispatch(fetchEventForEditing(this.props.params.eventId))
+        }
     },
 
     clearForm() {
@@ -109,7 +113,7 @@ var EditorPage = React.createClass({
                 </div>
 
                 <div className="container">
-                    <FormFields action={this.props.params.action} editor={this.props.editor} />
+                    <FormFields action={this.props.params.action} editor={this.props.editor} values={this.props.values} />
                 </div>
 
                 <div className="editor-action-buttons">
@@ -151,5 +155,6 @@ var EditorPage = React.createClass({
 
 export default connect((state) => ({
     editor: state.editor,
+    values: state.editor.values,
     user: state.user
 }))(EditorPage)

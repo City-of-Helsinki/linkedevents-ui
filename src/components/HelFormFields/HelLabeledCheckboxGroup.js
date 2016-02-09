@@ -1,6 +1,6 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
-import Checkbox from 'material-ui/lib/checkbox'
+import Input from 'react-bootstrap/lib/Input'
 
 import _ from 'lodash'
 
@@ -9,37 +9,56 @@ import {setData} from 'src/actions/editor.js'
 
 // NOTE: Not using ES6 classes because of the needed mixins
 let HelLabeledCheckboxGroup = React.createClass({
-    mixins: [ PureRenderMixin ],
 
     propTypes: {
-        name: React.PropTypes.string.isRequired,
+        name: React.PropTypes.string,
     },
 
     handleChange: function() {
-        let checked = _.filter(this.refs, (ref) => (ref.isChecked()))
+        let checked = _.filter(this.refs, (ref) => (ref.getChecked()))
         let checkedNames = _.map(checked, (checkbox) => (checkbox.props.value) )
 
-        let obj = {}
-        obj[this.props.name] = checkedNames
-
-        this.props.dispatch(setData(obj))
+        if(this.props.name) {
+            let obj = {}
+            obj[this.props.name] = checkedNames
+            this.props.dispatch(setData(obj))
+        }
 
         if(typeof this.props.onChange === 'function') {
             this.props.onChange(checkedNames)
         }
     },
 
+    shouldComponentUpdate: function(nextProps) {
+        if(_.isEqual(nextProps.selectedValues, this.props.selectedValues)) {
+            return false;
+        }
+
+        return true;
+    },
+
     render: function() {
         let self = this
         let checkboxes = this.props.options.map((item, index) => {
-            let checked = this.props.editor.values[this.props.name] && (this.props.editor.values[this.props.name].indexOf(item.value) > -1)
+            let selectedValues = this.props.selectedValues || []
+            let checked = (selectedValues.indexOf(item.value) > -1)
 
             return (
                 <span key={index} className={(this.props.itemClassName || '')}>
-                    <Checkbox ref={index} onCheck={self.handleChange} defaultChecked={checked} name={this.props.name+'.'+item.value} value={item.value} label={item.label} />
+                    <Input
+                        type="checkbox"
+                        groupClassName="hel-checkbox"
+                        label={item.label}
+                        value={item.value}
+                        name={this.props.name+'.'+item.value}
+                        ref={index}
+                        checked={checked}
+                        defaultChecked={checked}
+                        onChange={self.handleChange}
+                        />
                 </span>
             )
-        })
+        },this)
 
         return (
             <fieldset className="checkbox-group">

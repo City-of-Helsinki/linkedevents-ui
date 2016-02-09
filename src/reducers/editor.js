@@ -1,5 +1,7 @@
 import constants from '../constants'
 
+import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
+
 let editorValues = {}
 
 try {
@@ -31,6 +33,19 @@ function update(state = initialState, action) {
         })
     }
 
+    if(action.type === constants.EDITOR_REPLACEDATA) {
+
+        // Replace new values to existing values
+        let newValues = Object.assign({}, action.values)
+
+        // Local storage saving disabled for now
+        // localStorage.setItem('EDITOR_VALUES', JSON.stringify(newValues))
+
+        return Object.assign({}, state, {
+            values: newValues
+        })
+    }
+
     if(action.type === constants.EDITOR_CLEARDATA) {
         clearEventDataFromLocalStorage()
 
@@ -48,10 +63,9 @@ function update(state = initialState, action) {
     if(action.type === constants.EDITOR_SENDDATA_SUCCESS) {
         clearEventDataFromLocalStorage()
 
-        return Object.assign({}, {
+        return Object.assign({}, state, {
             createdEvent: action.data.event,
             createdAt: action.data.createdAt,
-            flashMsg: { msg: 'event-posted', type: 'success' },
             values: {}
         })
     }
@@ -71,6 +85,14 @@ function update(state = initialState, action) {
     if(action.type === constants.EDITOR_RECEIVE_LANGUAGES) {
         return Object.assign({}, state, {
             languages: action.languages
+        })
+    }
+
+    if(action.type === constants.RECEIVE_EVENT_FOR_EDITING) {
+        let newValues = Object.assign({}, mapAPIDataToUIFormat(action.event))
+
+        return Object.assign({}, state, {
+            values: newValues
         })
     }
 

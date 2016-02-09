@@ -4,6 +4,10 @@ import fetch from 'isomorphic-fetch'
 function makeRequest(query, startDate, endDate) {
     var url = `${appSettings.api_base}/event/?text=${query}`
 
+    if(appSettings.nocache) {
+        url += `&nocache=${Date.now()}`
+    }
+
     if (startDate) {
         url += `&start=${startDate.format('YYYY-MM-DD')}`
     }
@@ -54,9 +58,19 @@ export function receiveEventDetails(json) {
 }
 
 export function fetchEventDetails(eventID) {
-    let url = `${appSettings.api_base}/event/${eventID}/?include=keywords,location,audience,in_language`
+    let url = `${appSettings.api_base}/event/${eventID}/?include=keywords,location,audience,in_language,external_links`
+
+    if(appSettings.nocache) {
+        url += `&nocache=${Date.now()}`
+    }
+
     return (dispatch) => {
-        return fetch(url)
+        return fetch(url, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
             .then(response => response.json())
             .then(json => dispatch(receiveEventDetails(json)))
     }

@@ -14,7 +14,7 @@ const indexHtml = indexTemplate({
 export default {
     context: path.join(common.paths.ROOT, '/src'),
     entry: [
-        'webpack-hot-middleware/client',
+        "webpack-hot-middleware/client?reload=true",
         'babel-polyfill',
         path.join(common.paths.SRC, '/index.js')
     ],
@@ -22,7 +22,6 @@ export default {
         path: common.paths.ROOT + '/dist',
         filename: '[name].js'
     },
-
     debug: true,
     devtool: 'cheap-module-eval-source-map',
     resolve: {
@@ -32,7 +31,6 @@ export default {
     module: {
         loaders: [
             {test: /\.(js|jsx)?$/, exclude: /node_modules/, loader: 'babel' },
-            {test: /\.jsx?$/, include: [/material-ui-with-sass/], loader: 'babel' },
             {test: /\.scss$/, loaders: ["style", "css", "sass"]},
             {test: /\.css$/, loader: 'style!css'},
             {test: /\.json$/, loader: 'json'},
@@ -46,7 +44,9 @@ export default {
         ]
     },
     plugins: [
+        new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin(),
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery",

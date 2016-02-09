@@ -2,8 +2,8 @@ import React from 'react'
 
 import { injectIntl } from 'react-intl'
 
-import { AutoComplete } from 'material-ui'
-import { TextField } from 'material-ui'
+import Input from 'react-bootstrap/lib/Input.js'
+import Select from 'react-select'
 
 import Typeahead from 'src/typeahead.js'
 
@@ -11,72 +11,85 @@ import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
 
 class HelAutoComplete extends React.Component {
-    constructor (props) {
+
+    constructor(props) {
         super(props)
-        this.state = {
-            dataSource: [],
-            selectedKey: this.props.editor.values['event-location-id'] || ''
-        }
+
+        this.state = { isLoading: false }
     }
 
-    // NOTE: uses a crude hack to include the id with the name
-    onInput(input) {
-        Typeahead.bloodhoundInstance.search(input,
-            (datums) => {
-                let items = datums.splice(0,10).map((item) => ({
-                    text: item.value,
-                    key: item.id,
-                    value: (<AutoComplete.Item primaryText={item.value} secondaryText={item.street_address}/>)
+    static contextTypes = {
+        intl: React.PropTypes.object
+    };
+
+    getOptions(input) {
+        let self = this
+        this.setState({isLoading: true});
+        return fetch(this.props.dataSource + input)
+            .then((response) => {
+                return response.json();
+            }).then((json) => {
+                return _.map(json.data, (item) => ({
+                    value: item.id,
+                    label: item.name.fi, // TODO: use locale
+                    '@id': `/v0.1/${this.props.resource}/${item.id}/`,
+                    id: item.id
                 }))
-
-                this.setState({dataSource: items})
-            }
-        )
+            }).then((json) => {
+                self.setState({isLoading: false})
+                return { options: json }
+            })
     }
 
-    onNewRequest(chosenRequest, index, dataSource) {
-
-        // Set state to update the text field
-        this.setState({selectedKey: dataSource[index].key})
+    onChange(val) {
 
         // Do action to save form state to storage
-        let obj = { 'event-location-name': chosenRequest }
-        obj[this.props.name] = dataSource[index].key
+        let obj = {}
+        obj[this.props.name] = {
+            name: { fi: val.label },
+            id: val.value,
+            '@id': val['@id']
+        }
+
         this.props.dispatch(setData(obj))
 
         if(typeof this.props.onSelection === 'function') {
-            this.props.onSelection(chosenRequest, index, dataSource)
+            this.props.onSelection(val)
         }
     }
 
     render() {
-        let anchorOrigin = {
-          vertical: 'bottom',
-          horizontal: 'left'
+
+        let values = {
+            id: null,
+            name: {}
         }
 
-        let targetOrigin = {
-          vertical: 'top',
-          horizontal: 'left'
-        }
-
-        let labelText = this.props.intl.formatMessage({id:'event-location'})
-        if (this.props.editor.values['event-location-name']) {
-            labelText += ` (${this.props.editor.values['event-location-name']})`
+        if(typeof this.props.defaultValue === 'object') {
+            values = this.props.defaultValue
         }
 
         return (
             <span>
-                <AutoComplete
-                    fullWidth={true}
-                    showAllItems={true}
-                    anchorOrigin={anchorOrigin}
-                    targetOrigin={targetOrigin}
-                    dataSource={this.state.dataSource}
-                    floatingLabelText={labelText}
-                    onUpdateInput={(t) => { this.onInput(t) }}
-                    onNewRequest={(t,i,d) => { this.onNewRequest(t,i,d) }} />
-                <TextField fullWidth={true} value={this.state.selectedKey} disabled={true} required={this.props.required} floatingLabelText={this.props.intl.formatMessage({ id: "event-location-id" })} />
+                <div className="hel-select">
+                    <legend>{this.props.legend}</legend>
+                    <Select.Async
+                        placeholder={this.props.placeholder}
+                        value={ {label: values.name.fi, value: values.id} }
+                        loadOptions={ val => this.getOptions(val)  }
+                        onChange={ (val,list) => this.onChange(val,list) }
+                        isLoading={this.state.isLoading}
+                    />
+                </div>
+                <Input
+                    type="text"
+                    value={values.id}
+                    label={this.context.intl.formatMessage({ id: "event-location-id" })}
+                    ref="text"
+                    groupClassName="hel-text-field"
+                    labelClassName="hel-label"
+                    disabled
+                />
             </span>
         )
     }

@@ -1,0 +1,20 @@
+.hel-checkbox {
+
+    margin-top: 14px;
+    line-height: 32px;
+
+    label {
+        input {
+            position: relative;
+            top: -2px;
+        }
+
+        span {
+            padding-left: 14px;
+        }
+    }
+
+    &.inline {
+        margin-top: 0;
+    }
+}

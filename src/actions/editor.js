@@ -3,6 +3,8 @@ import fetch from 'isomorphic-fetch'
 import constants from '../constants'
 import {mapUIDataToAPIFormat} from 'src/utils/formDataMapping.js'
 
+import { pushPath } from 'redux-simple-router'
+
 // Clear editor data. Called explicitly by the user or
 export function clearFlashMsg() {
     return {
@@ -14,6 +16,14 @@ export function clearFlashMsg() {
 export function setData(formValues) {
     return {
         type: constants.EDITOR_SETDATA,
+        values: formValues
+    }
+}
+
+// Set data and save it to localStorage
+export function replaceData(formValues) {
+    return {
+        type: constants.EDITOR_REPLACEDATA,
         values: formValues
     }
 }
@@ -52,44 +62,52 @@ export function sendData(formValues, user, updateExisting = false) {
             body: JSON.stringify(mapUIDataToAPIFormat(formValues))
         }).then(response => {
             //console.log('Received', response)
+            let jsonPromise = response.json()
 
-            let json = response.json()
-            if(response.status === 200 || response.status === 201) {
-                dispatch(sendDataComplete(json))
-            }
-            // Validation errors
-            else if(response.status === 400) {
-                json.apiErrorMsg = 'validation-error'
-                dispatch(sendDataComplete(json))
-            }
+            jsonPromise.then(json => {
+                let actionName = updateExisting ? 'update' : 'create'
 
-            // Auth errors
-            else if(response.status === 401 || response.status === 403) {
-                json.apiErrorMsg = 'authorization-required'
-                dispatch(sendDataComplete(json))
-            }
+                if(response.status === 200 || response.status === 201) {
+                    dispatch(sendDataComplete(json, actionName))
+                }
+                // Validation errors
+                else if(response.status === 400) {
+                    json.apiErrorMsg = 'validation-error'
+                    dispatch(sendDataComplete(json, actionName))
+                }
 
-            else {
-                json.apiErrorMsg = 'server-error'
-                dispatch(sendDataComplete(json))
-            }
+                // Auth errors
+                else if(response.status === 401 || response.status === 403) {
+                    json.apiErrorMsg = 'authorization-required'
+                    dispatch(sendDataComplete(json, actionName))
+                }
+
+                else {
+                    json.apiErrorMsg = 'server-error'
+                    dispatch(sendDataComplete(json, actionName))
+                }
+            })
         })
     }
 }
 
-export function sendDataComplete(json) {
-    if(json.apiErrorMsg) {
-        return {
-            type: constants.EDITOR_SENDDATA_ERROR,
-            apiErrorMsg: json.apiErrorMsg,
-            data: json
+export function sendDataComplete(json, action) {
+    return (dispatch) => {
+        if(json.apiErrorMsg) {
+            dispatch({
+                type: constants.EDITOR_SENDDATA_ERROR,
+                apiErrorMsg: json.apiErrorMsg,
+                data: json,
+                action: action
+            })
         }
-    }
-    else {
-        return {
-            type: constants.EDITOR_SENDDATA_SUCCESS,
-            createdAt: Date.now(),
-            data: json
+        else {
+            dispatch(pushPath(`/event/done/${action}/${json.id}`))
+            dispatch({
+                type: constants.EDITOR_SENDDATA_SUCCESS,
+                createdAt: Date.now(),
+                data: json
+            })
         }
     }
 }
@@ -147,5 +165,28 @@ export function receiveLanguages(json) {
     return {
         type: constants.EDITOR_RECEIVE_LANGUAGES,
         languages: json.data
+    }
+}
+
+// Fetch data for updating
+export function fetchEventForEditing(eventID) {
+    let url = `${appSettings.api_base}/event/${eventID}/?include=keywords,location,audience,in_language,external_links`
+
+    if(appSettings.nocache) {
+        url += `&nocache=${Date.now()}`
+    }
+
+    return (dispatch) => {
+        return fetch(url)
+            .then(response => response.json())
+            .then(json => dispatch(receiveEventForEditing(json)))
+    }
+}
+
+// Receive data for updating
+export function receiveEventForEditing(json) {
+    return {
+        type: constants.RECEIVE_EVENT_FOR_EDITING,
+        event: json
     }
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import TimePicker from 'material-ui/lib/time-picker'
+import HelTextField from './HelTextField.js'
 
 import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
@@ -8,65 +8,44 @@ import moment from 'moment'
 
 let HelTimePicker = React.createClass({
 
+    getInitialState: function() {
+        let defaultValue = this.props.editor.values[this.props.name] || null
+
+        if(defaultValue) {
+            defaultValue = moment(defaultValue).tz('Europe/Helsinki').format('HH.mm');
+        }
+
+        return {
+            value: defaultValue || null
+        }
+    },
+
     propTypes: {
         name: React.PropTypes.string.isRequired
     },
 
-    handleChange: function (event, time) {
+    handleChange: function (event, value) {
+        let time = moment.tz(value, 'Europe/Helsinki').utc().format();
+
         let obj = {}
-        obj[this.props.name] = time.toISOString()
+        obj[this.props.name] = time;
 
         this.props.dispatch(setData(obj))
 
         if(typeof this.props.onChange === 'function') {
-            this.props.onChange()
+            this.props.onChange(event, value)
         }
     },
 
-    handleBlur: function (event) {
-        // this.setValue(event.currentTarget.value)
-
+    handleBlur: function (event, value) {
         if(typeof this.props.onBlur === 'function') {
-            this.props.onBlur()
+            this.props.onBlur(event, value)
         }
-    },
-
-    componentWillMount: function() {
-        let defaultValue = this.props.editor.values[this.props.name] || ''
-        if(defaultValue && defaultValue.length > 0) {
-            // this.setValue(defaultValue)
-        }
-    },
-
-    shouldComponentUpdate: function(newState, newProps) {
-        return true
     },
 
     render: function () {
-        let { required, floatingLabelText } = this.props
-
-        if(required) {
-            if(typeof floatingLabelText === 'string') {
-                floatingLabelText += ' *'
-            }
-            if(typeof floatingLabelText === 'object') {
-                floatingLabelText = (<span>{floatingLabelText} *</span>)
-            }
-        }
-
-        // Check if this text field should be prefilled from local storage
-        let defaultValue = this.props.editor.values[this.props.name] || null
-
-        if(defaultValue) {
-            defaultValue = moment(defaultValue).tz('Europe/Helsinki').toDate();
-        }
-
-        let DateTimeFormat = function(settings) {
-            return new Intl.DateTimeFormat(Object.assign({}, settings, {timeZone:'Europe/Helsinki'}))
-        }
-
         return (
-            <TimePicker DateTimeFormat={DateTimeFormat} locale="fi" defaultTime={defaultValue} onChange={this.handleChange} onBlur={this.handleBlur} {...this.props}  />
+            <HelTextField validations={['isTime']} name={this.props.name} onChange={this.handleChange} />
         )
     }
 });

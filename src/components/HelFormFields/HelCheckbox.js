@@ -1,34 +1,44 @@
+import './HelCheckbox.scss'
+
 import React from 'react'
-import Checkbox from 'material-ui/lib/checkbox'
+import Input from 'react-bootstrap/lib/Input.js'
 
 import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
+import {injectIntl} from 'react-intl'
 
 let HelCheckbox = React.createClass({
 
     propTypes: {
-        name: React.PropTypes.string.isRequired
+        name: React.PropTypes.string
     },
 
-    handleCheck: function (event, checked) {
-        let obj = {}
-        obj[this.props.name] = checked
+    handleCheck: function (event) {
+        let newValue = event.target.checked
 
-        this.props.dispatch(setData(obj))
+        if(this.props.name) {
+            let obj = {}
+            obj[this.props.name] = newValue
+            this.props.dispatch(setData(obj))
+        }
 
-        if(typeof this.props.onCheck === 'function') {
-            this.props.onCheck(event, checked)
+        if(typeof this.props.onChange === 'function') {
+            this.props.onChange(event, newValue)
         }
     },
 
-    shouldComponentUpdate: function(newState, newProps) {
-        return false
-    },
-
     getValidationErrors: function() {
-        return null;
+        return []
     },
 
+    noValidationErrors: function() {
+        return true
+    },
+
+    getValue: function() {
+        return this.refs.checkbox.getChecked()
+    },
+    
     render: function () {
         let { required, label } = this.props
 
@@ -41,21 +51,18 @@ let HelCheckbox = React.createClass({
             }
         }
 
-        // Check if this checkbox should be prefilled from local storage
-        let defaultChecked = this.props.editor.values[this.props.name]
-
         return (
-          <Checkbox
-            defaultChecked={defaultChecked}
-            onCheck={this.handleCheck}
-            errorText={this.getValidationErrors()}
-            label={label}
-            {...this.props}
-            />
+            <Input
+                ref="checkbox"
+                type="checkbox"
+                label={label}
+                name={this.props.name}
+                groupClassName="hel-checkbox"
+                onChange={this.handleCheck}
+                checked={this.props.defaultChecked}
+                />
         )
     }
 });
 
-export default connect((state) => ({
-    editor: state.editor
-}))(HelCheckbox)
+export default HelCheckbox

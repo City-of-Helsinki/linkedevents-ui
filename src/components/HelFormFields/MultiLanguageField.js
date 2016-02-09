@@ -3,7 +3,83 @@ import React from 'react'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import HelTextField from './HelTextField'
 
+import {setData} from 'src/actions/editor.js'
+
+// A text component for multiple language inputs. Outputs linked events language field format
+// field = {
+//     fi: 'nimi',
+//     sv: 'namn',
+//     en: 'name'
+// }
+
 class MultiLanguageField extends React.Component {
+
+    constructor(props) {
+        super(props)
+
+        let defaultValue = props.defaultValue || {}
+        this.state = {
+            value: defaultValue
+        }
+    }
+
+    static contextTypes = {
+        intl: React.PropTypes.object,
+        dispatch: React.PropTypes.func
+    };
+
+    onChange(e,value,lang) {
+        this.setState({value: this.getValue()})
+
+        if(typeof this.props.onChange === 'function') {
+            this.props.onChange(event, this.getValue())
+        }
+    }
+
+    onBlur(e,value) {
+        this.setState({value: this.getValue()})
+
+        if(this.props.name) {
+            let obj = {}
+            obj[this.props.name] = this.getValue()
+            if(this.noValidationErrors()) {
+                this.context.dispatch(setData(obj))
+            }
+        }
+
+        if(typeof this.props.onBlur === 'function') {
+            this.props.onBlur(event, this.getValue())
+        }
+    }
+
+    getValue() {
+        let langs = _.map(this.refs, (ref, key) => key)
+        let values = _.map(this.refs, ref => ref.getValue())
+
+        let valueObj = _.zipObject(langs, values);
+
+        return valueObj
+    }
+
+    noValidationErrors() {
+        let errors = _.map(this.refs, elem => elem.getValidationErrors().length)
+        errors = errors.filter(errorCount => (errorCount > 0))
+
+        return (errors.length === 0)
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
+            this.setState({ value: nextProps.defaultValue || {} })
+        }
+        this.forceUpdate()
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return !(_.isEqual(nextState, this.state)) ||
+                !(_.isEqual(nextProps.languages, this.props.languages)) ||
+                !(_.isEqual(nextProps.disabled, this.props.disabled))
+    }
 
     render() {
         let props = this.props
@@ -17,16 +93,21 @@ class MultiLanguageField extends React.Component {
         let textInputs = []
 
         if(langs.length === 1) {
-            let label = props.intl.formatMessage({id: props.label}) + ' (' + props.intl.formatMessage({id: `in-${langs[0]}`}) + ')'
-            return (<div key={`${props.name}_${langs[0]}`}><HelTextField {...props} floatingLabelText={label} name={`${props.name}_${langs[0]}`}/></div>)
+            let label = this.context.intl.formatMessage({id: props.label}) + ' (' + this.context.intl.formatMessage({id: `in-${langs[0]}`}) + ')'
+            return (<div key={`${props.name}_${langs[0]}`}><HelTextField required={this.props.required} defaultValue={this.state.value[langs[0]]} label={label} ref={langs[0]} onChange={(e,v) => this.onChange(e,v,langs[0])} onBlur={(e,v) => this.onBlur(e,v)} disabled={this.props.disabled} validations={this.props.validations} /></div>)
         } else {
-            textInputs = langs.map((lang, index) => (
-                <div key={`${props.name}_${lang}`}><HelTextField {...props} floatingLabelText={props.intl.formatMessage({id: `in-${lang}`})} name={`${props.name}_${lang}`}/></div>
-            ))
+            textInputs = langs.map((lang, index) => {
+                let value = this.state.value[lang]
+                return (
+                    <div key={`${props.name}_${lang}`}>
+                        <HelTextField required={this.props.required} defaultValue={value} ref={lang} label={this.context.intl.formatMessage({id: `in-${lang}`})} onChange={(e,v) => this.onChange(e,v,lang)} onBlur={(e,v) => this.onBlur(e,v)} disabled={this.props.disabled} validations={this.props.validations} />
+                    </div>
+                )
+            },this)
         }
 
         return (
-            <div className="multi-language-field">
+            <div className="multi-field">
                 <div className="indented">
                 <label><FormattedMessage id={`${props.label}`} /></label>
                     {textInputs}
@@ -37,4 +118,4 @@ class MultiLanguageField extends React.Component {
 
 }
 
-export default injectIntl(MultiLanguageField)
+export default MultiLanguageField

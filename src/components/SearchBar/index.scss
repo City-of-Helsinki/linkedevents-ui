@@ -10,71 +10,42 @@ $search-bar-height: 72px;
         }
     }
 
-    .mui-text-field-input {
-        width: 100% !important;
-        padding-top: 20px !important;
-        font-size: 20px;
-    }
-
     .time-input {
         width: 100%;
         height: $search-bar-height;
     }
 
     .text-field {
-        font-weight: 300;
-        background: #ffffff !important;
+        width: 100%;
 
-        hr {
-            display: none !important;
-        }
-
-        input,label {
-            margin-left: 1.2rem;
-        }
-
-        input {
-            position: relative;
-            top: -2px;
-        }
-
-        label {
-            margin-top: -2px;
-        }
-    }
-
-    .mui-text-field {
-        width: 100% !important;
+        font-size: 20px;
         font-weight: 300;
         background: #ffffff;
 
-        border-bottom-width: 100px !important;
-        border-color: rgba(0,0,255,1) !important;
+        height: $search-bar-height;
 
-        padding-left: 20px;
+        input {
+            transition: 100ms border;
 
-        .mui-text-field-floating-label {
-            top: 20px !important;
-        }
+            width: 100%;
+            height: 100%;
 
-        .mui-text-field-input {
-            width: 100% !important;
-            padding-top: 20px !important;
+            font-weight: 300;
             font-size: 20px;
+
+            padding-left: 20px;
+
+            border: none;
+            border-bottom: 2px solid white;
+
+            &:focus {
+                outline: 0;
+                border-color: rgba(0, 188, 212, 1);
+            }
         }
 
-        hr {
+        label {
             display: none;
-            visibility: hidden;
-        }
-
-        &.mui-is-focused {
-            border-color: rgba(0,0,255,1) !important;
-        }
-
-        .mui-text-field-floating-label {
-            color: #757575;
         }
     }
-
 }
