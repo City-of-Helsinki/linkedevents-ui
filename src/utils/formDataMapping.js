@@ -40,16 +40,16 @@ function mapUIDataToAPIFormat(values) {
     }
 
     // Keywords, audience, languages
-    if(values.keywords && values.keywords.length > 0) {
+    if(values.keywords && values.keywords.length !== undefined) {
         obj.keywords = _.map(values.keywords, (item) => ({ '@id': item.value }))
     }
 
-    if(values.hel_main && values.hel_main.length > 0) {
+    if(values.hel_main && values.hel_main.length !== undefined) {
         obj.keywords = obj.keywords || []
         obj.keywords = obj.keywords.concat(_.map(values.hel_main, (item) => ({ '@id': item })))
     }
 
-    if(values.hel_target && values.hel_target.length > 0) {
+    if(values.hel_target && values.hel_target.length !== undefined) {
         obj.audience = _.map(values.hel_target, (item) => ({ '@id': item }))
     }
 
