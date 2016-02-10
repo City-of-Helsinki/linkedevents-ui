@@ -19,7 +19,7 @@
     "in-en": "englanniksi",
     "in-sv": "ruotsiksi",
 
-    "no-value": "Kentää ei ole täytetty",
+    "no-value": "kenttää ei ole täytetty",
 
     "event-description-fields-header": "Tapahtuman kuvaus",
     "event-headline": "Otsikko",
@@ -47,6 +47,7 @@
 
     "event-price-fields-header": "Hintatiedot",
     "is-free": "Maksuton",
+    "event-is-free": "Tapahtuma on maksuton",
     "event-price": "Hinta",
     "event-price-info": "Hintatietojen kuvaus",
     "event-purchase-link": "Linkki lipunmyyntiin",

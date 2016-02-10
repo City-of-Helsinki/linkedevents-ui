@@ -8,7 +8,7 @@ import {injectIntl, FormattedMessage} from 'react-intl'
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
 
 let NoValue = (props) => {
-    let header = props.label ? (<label><FormattedMessage id={`${props.label}`} /></label>) : null
+    let header = props.label ? (<label>'<FormattedMessage id={`${props.label}`} />'&nbsp;</label>) : null
     return (
         <div className="no-value">
             {header}
@@ -17,7 +17,18 @@ let NoValue = (props) => {
     )
 }
 
+let CheckedValue = (props) => {
+    let checkIcon = props.checked ? (<i className="green material-icons">&#xE834;</i>) : (<i className="material-icons">&#xE835;</i>)
+    return (
+        <span className="checked-value">{checkIcon}<label><FormattedMessage id={`${props.label}`} /></label></span>
+    )
+}
+
 let MultiLanguageValue = (props) => {
+
+    if(props.hidden) {
+        return (<div/>)
+    }
 
     let value = props.value || []
 
@@ -109,11 +120,22 @@ let FormHeader = (props) => (
     </div>
 )
 
-let SideField = (props) => (
-    <div className="side-field col-sm-5 col-sm-push-1">
-        { props.children }
-    </div>
-)
+
+let OffersValue = (props) => {
+    if(props.values.offers && props.values.offers[0] && typeof props.values.offers[0] === 'object') {
+        let offer = props.values.offers[0]
+        return (
+            <div>
+                <CheckedValue checked={offer.is_free} label="is-free"/>
+                <MultiLanguageValue label="event-purchase-link" value={offer.info_url} />
+                <MultiLanguageValue label="event-price" hidden={offer.is_free} value={offer.price} />
+                <MultiLanguageValue label="event-price-info" hidden={offer.is_free} value={offer.description} />
+            </div>
+        )
+    } else {
+        return (<NoValue label={props.label}/>)
+    }
+}
 
 class EventDetails extends React.Component {
 
@@ -155,6 +177,8 @@ class EventDetails extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-12">
+                        <MultiLanguageValue label="event-location" value={props.values.location.name} />
+                        <TextValue label="event-location-id" value={props.values.location.id} />
                         <MultiLanguageValue label="event-location-additional-info" value={props.values["location_extra_info"]} />
                     </div>
                 </div>
@@ -164,7 +188,7 @@ class EventDetails extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-12">
-
+                        <OffersValue values={props.values} />
                     </div>
                 </div>
 

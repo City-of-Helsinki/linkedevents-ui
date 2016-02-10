@@ -2,8 +2,10 @@ $en-color: darken(#28e7b3, 18%);
 $fi-color: #48a3e7;
 $sv-color: darken(#ffe843, 22%);
 
+$default-margin-top: 1.5rem;
+
 .multi-value-field {
-    margin-top: 2rem;
+    margin-top: $default-margin-top;
 
     .indented {
         margin-bottom: 16px;
@@ -37,6 +39,7 @@ $sv-color: darken(#ffe843, 22%);
 
     > label {
         font-size: 24px;
+        font-weight: 300;
     }
 
     .language {
@@ -46,16 +49,20 @@ $sv-color: darken(#ffe843, 22%);
 }
 
 legend {
-    margin-top: 2rem;
+    font-weight: 300;
+    font-size: 31px;
+    margin-top: 4rem;
 }
 
 .single-value-field {
+    margin-top: $default-margin-top;
     line-height: 32px;
 
-    margin-bottom: 1rem;
+    margin-bottom: 16px;
 
     label {
-
+        font-size: 24px;
+        font-weight: 300;
     }
 
     .value {
@@ -70,4 +77,19 @@ legend {
 .no-value {
     color: #777;
     font-style: italic;
+}
+
+.checked-value {
+    display: inline-block;
+    margin-top: $default-margin-top;
+    font-size: 22px;
+    font-weight: 300;
+
+    label {
+        margin-left: 1rem;
+    }
+}
+
+.green {
+    color: darken(#28e7b3, 24%);
 }
