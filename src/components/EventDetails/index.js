@@ -41,8 +41,15 @@ let MultiLanguageValue = (props) => {
         colClass = (count === 2) ? "col-md-6" : "col-md-4"
     }
 
-    let elements = _.map(value, (val, key) => {
-        return (<div className={colClass} key={key}><div className={`in-${key} indented`}><label className="language"><FormattedMessage id={`in-${key}`} /></label><div>{val}</div></div></div>)
+    // Use a separate array to ensure correct field order
+    let langOptions = ['fi', 'sv', 'en']
+    let elements = []
+
+    _.each(langOptions, (key) => {
+        let val = value[key]
+        if(val) {
+            elements.push(<div className={colClass} key={key}><div className={`in-${key} indented`}><label className="language"><FormattedMessage id={`in-${key}`} /></label><div>{val}</div></div></div>)
+        }
     })
 
     if(elements.length > 0) {
