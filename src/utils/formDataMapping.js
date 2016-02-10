@@ -32,7 +32,10 @@ function mapUIDataToAPIFormat(values) {
     // Location data
     obj.location = values.location
 
-    obj.location_extra_info = values.location_extra_info
+    // Image data
+    if(values.image_id) {
+        obj.image = { '@id': `/v0.1/image/${values.image_id}/`}
+    }
 
     // Price data
     if(values.offers) {

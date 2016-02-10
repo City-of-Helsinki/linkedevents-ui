@@ -5,6 +5,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl'
 import Modal from 'react-bootstrap-modal'
 import { RaisedButton } from 'material-ui'
+import { uploadImage, setData } from 'src/actions/editor.js'
 
 class ImageGallery extends React.Component {
 
@@ -12,31 +13,47 @@ class ImageGallery extends React.Component {
         super(props)
 
         this.state = {
-            chosenImg: null,
             open: false
         }
     }
 
-    render() {
-        let closeGalleryModal = () => this.setState({ open: false })
-        let openGalleryModal = () => this.setState({ open: true })
+    handleClick(event) {
+        this.hiddenFileInput.click()
+    }
 
-        let saveAndClose = () => {
-            // api.saveData()
-            //     .then(() => this.setState({ open: false }))
-            this.setState({ open: false })
+    handleUpload(event) {
+        let self = this
+        let file = event.target.files[0]
+        let data = new FormData()
+        data.append('image', file)
+        if(file && (file.type === 'image/jpeg' || file.type === 'image/png' )) {
+            this.props.dispatch(uploadImage(data, this.props.user, this.closeGalleryModal));
         }
+    }
 
-        // let buttonStyle = {
-        //     height: '22px',
-        //     margin: '0 10px'
-        // }
+    closeGalleryModal() {
+        this.setState({ open: false })
+    }
+    openGalleryModal() {
+        this.setState({ open: true })
+    }
 
+    saveAndClose() {
+        // api.saveData()
+        //     .then(() => this.setState({ open: false }))
+        this.setState({ open: false })
+    }
+
+    render() {
+
+        let chosenImg = this.props.editor.previewImg || ''
         return (
-            <div className="image-gallery" onClick={openGalleryModal}>
+            <div className="image-upload" onClick={() => this.openGalleryModal()}>
+                <img src={chosenImg} ref={(ref) => this.imagePreview = ref} />
                 <div>
-                    <img src={this.state.previewImg} ref={(ref) => this.imagePreview = ref} />
-                    <i className="material-icons">&#xE3B6;</i>
+                    <div>
+                        <i className="material-icons">&#xE2C6;</i>
+                    </div>
                     <label>
                         <FormattedMessage id="choose-picture"/>
                     </label>
@@ -44,7 +61,7 @@ class ImageGallery extends React.Component {
 
                 <Modal
                     show={this.state.open}
-                    onHide={closeGalleryModal}
+                    onHide={() => this.closeGalleryModal()}
                     aria-labelledby="ModalHeader"
                  >
                     <Modal.Header closeButton>
@@ -54,9 +71,15 @@ class ImageGallery extends React.Component {
                         <p>Kuvat näkyvät tässä</p>
                     </Modal.Body>
                     <Modal.Footer>
+                        <input onChange={(e) => this.handleUpload(e)} style={{ display: 'none' }} type="file" ref={(ref) => this.hiddenFileInput = ref} />
+                        <RaisedButton
+                            label= "Upload"
+                            primary= {true}
+                            onClick={(e) => this.handleClick(e)}
+                        />
                         <RaisedButton
                             label={<FormattedMessage id="cancel"/>}
-                            onClick={saveAndClose}
+                            onClick={() => this.saveAndClose()}
                         />
                     </Modal.Footer>
                 </Modal>
