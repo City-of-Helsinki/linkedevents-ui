@@ -1,10 +1,21 @@
 import './index.scss'
 
+import moment from 'moment'
 import React from 'react'
 
 import {injectIntl, FormattedMessage} from 'react-intl'
 
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
+
+let NoValue = (props) => {
+    let header = props.label ? (<label><FormattedMessage id={`${props.label}`} /></label>) : null
+    return (
+        <div className="no-value">
+            {header}
+            <FormattedMessage id="no-value" />
+        </div>
+    )
+}
 
 let MultiLanguageValue = (props) => {
 
@@ -12,6 +23,7 @@ let MultiLanguageValue = (props) => {
 
     let count = (_.keys(value)).length
 
+    // Determine column size depending on the amount of language options
     let colClass = "col-md-12"
     if(count > 1) {
         colClass = (count === 2) ? "col-md-6" : "col-md-4"
@@ -21,19 +33,37 @@ let MultiLanguageValue = (props) => {
         return (<div className={colClass} key={key}><div className={`in-${key} indented`}><label className="language"><FormattedMessage id={`in-${key}`} /></label><div>{val}</div></div></div>)
     })
 
-    return (
-        <div className="multi-value-field">
-            <label><FormattedMessage id={`${props.label}`} /></label>
-            <div className="row">
-                {elements}
+    if(elements.length > 0) {
+        return (
+            <div className="multi-value-field">
+                <label><FormattedMessage id={`${props.label}`} /></label>
+                <div className="row">
+                    {elements}
+                </div>
             </div>
-        </div>
-    )
+        )
+    } else {
+        return (
+            <NoValue label={props.label}/>
+        )
+    }
+
 }
 
-let TextValue = (props) => (
-    <div/>
-)
+let TextValue = (props) => {
+    if(props.value.length !== undefined && props.value.length > 0) {
+        return (
+            <div className="single-value-field">
+                <div><label><FormattedMessage id={`${props.label}`} /></label></div>
+                <div>
+                    <span className="value">{props.value}</span>
+                </div>
+            </div>
+        )
+    } else {
+        return (<NoValue label={props.label}/>)
+    }
+}
 
 let OptionGroup = (props) => {
 
@@ -50,9 +80,28 @@ let OptionGroup = (props) => {
     )
 }
 
-let DateTime = (props) => (
-    <div />
-)
+let DateTime = (props) => {
+
+    // TODO: if all day event show it on this field. Add a props for it
+    if(props.value.length !== undefined && props.value.length > 0) {
+
+        let time = moment(props.value).tz('Europe/Helsinki');
+        let value = ''
+        if(time.isValid()) {
+            value = time.format('dddd D.M.YYYY H.mm')
+        }
+        return (
+            <div className="single-value-field">
+                <label><FormattedMessage id={`${props.label}`} /></label>
+                <span className="value">
+                    {value}
+                </span>
+            </div>
+        )
+    } else {
+        return (<NoValue label={props.label}/>)
+    }
+}
 
 let FormHeader = (props) => (
     <div className="row">

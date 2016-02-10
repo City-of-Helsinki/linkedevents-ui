@@ -48,3 +48,26 @@ $sv-color: darken(#ffe843, 22%);
 legend {
     margin-top: 2rem;
 }
+
+.single-value-field {
+    line-height: 32px;
+
+    margin-bottom: 1rem;
+
+    label {
+
+    }
+
+    .value {
+        display: inline-block;
+        background: #ffffff;
+        border-bottom: 1px solid #999;
+        padding: 0 1rem;
+        width: 100%;
+    }
+}
+
+.no-value {
+    color: #777;
+    font-style: italic;
+}
