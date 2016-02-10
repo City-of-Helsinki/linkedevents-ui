@@ -8,7 +8,7 @@ import {injectIntl, FormattedMessage} from 'react-intl'
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
 
 let NoValue = (props) => {
-    let header = props.label ? (<label>'<FormattedMessage id={`${props.label}`} />'&nbsp;</label>) : null
+    let header = props.labelKey ? (<label>'<FormattedMessage id={`${props.labelKey}`} />'&nbsp;</label>) : null
     return (
         <div className="no-value">
             {header}
@@ -19,8 +19,9 @@ let NoValue = (props) => {
 
 let CheckedValue = (props) => {
     let checkIcon = props.checked ? (<i className="green material-icons">&#xE834;</i>) : (<i className="material-icons">&#xE835;</i>)
+    let label = props.labelKey ? <FormattedMessage id={`${props.labelKey}`} /> : props.label
     return (
-        <span className="checked-value">{checkIcon}<label><FormattedMessage id={`${props.label}`} /></label></span>
+        <div className="checked-value">{checkIcon}<label>{label}</label></div>
     )
 }
 
@@ -47,7 +48,7 @@ let MultiLanguageValue = (props) => {
     if(elements.length > 0) {
         return (
             <div className="multi-value-field">
-                <label><FormattedMessage id={`${props.label}`} /></label>
+                <label><FormattedMessage id={`${props.labelKey}`} /></label>
                 <div className="row">
                     {elements}
                 </div>
@@ -55,7 +56,7 @@ let MultiLanguageValue = (props) => {
         )
     } else {
         return (
-            <NoValue label={props.label}/>
+            <NoValue labelKey={props.labelKey}/>
         )
     }
 
@@ -65,14 +66,14 @@ let TextValue = (props) => {
     if(props.value.length !== undefined && props.value.length > 0) {
         return (
             <div className="single-value-field">
-                <div><label><FormattedMessage id={`${props.label}`} /></label></div>
+                <div><label><FormattedMessage id={`${props.labelKey}`} /></label></div>
                 <div>
                     <span className="value">{props.value}</span>
                 </div>
             </div>
         )
     } else {
-        return (<NoValue label={props.label}/>)
+        return (<NoValue labelKey={props.labelKey}/>)
     }
 }
 
@@ -81,13 +82,15 @@ let OptionGroup = (props) => {
     let values = props.values || []
 
     let elements = _.map(values, (val, key) => {
-        return (<span key={key}>{ val.label || val  }</span>)
+        let name = (val.name && (val.name.fi || val.name.se || val.name.en)) || val.label || val.id || val || ''
+        return (<CheckedValue checked={true} label={name} key={key}/>)
     })
 
     return (
-        <span>
+        <div className="option-group col-xl-6">
+            <div><label><FormattedMessage id={`${props.labelKey}`} /></label></div>
             {elements}
-        </span>
+        </div>
     )
 }
 
@@ -103,14 +106,14 @@ let DateTime = (props) => {
         }
         return (
             <div className="single-value-field">
-                <label><FormattedMessage id={`${props.label}`} /></label>
+                <label><FormattedMessage id={`${props.labelKey}`} /></label>
                 <span className="value">
                     {value}
                 </span>
             </div>
         )
     } else {
-        return (<NoValue label={props.label}/>)
+        return (<NoValue labelKey={props.labelKey}/>)
     }
 }
 
@@ -126,14 +129,14 @@ let OffersValue = (props) => {
         let offer = props.values.offers[0]
         return (
             <div>
-                <CheckedValue checked={offer.is_free} label="is-free"/>
-                <MultiLanguageValue label="event-purchase-link" value={offer.info_url} />
-                <MultiLanguageValue label="event-price" hidden={offer.is_free} value={offer.price} />
-                <MultiLanguageValue label="event-price-info" hidden={offer.is_free} value={offer.description} />
+                <CheckedValue checked={offer.is_free} labelKey="is-free"/>
+                <MultiLanguageValue labelKey="event-purchase-link" value={offer.info_url} />
+                <MultiLanguageValue labelKey="event-price" hidden={offer.is_free} value={offer.price} />
+                <MultiLanguageValue labelKey="event-price-info" hidden={offer.is_free} value={offer.description} />
             </div>
         )
     } else {
-        return (<NoValue label={props.label}/>)
+        return (<NoValue labelKey={props.labelKey}/>)
     }
 }
 
@@ -147,6 +150,10 @@ class EventDetails extends React.Component {
         // let helMainOptions = mapKeywordSetToForm(props.keywordSets, 'helfi:topics')
         // let helTargetOptions = mapKeywordSetToForm(props.keywordSets, 'helfi:audiences')
         // let helEventLangOptions = mapLanguagesSetToForm(props.languages)
+        console.log(props.rawData)
+        let helfiCategories = _.map(props.values.hel_main, (id) => (
+            _.find(props.rawData.keywords, (item) => (id.indexOf(item['id']) > -1))
+        ))
 
         return (
             <div>
@@ -155,10 +162,10 @@ class EventDetails extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-12">
-                        <MultiLanguageValue label="event-headline" value={props.values["name"]} />
-                        <MultiLanguageValue label="event-short-description" value={props.values["short_description"]} />
-                        <MultiLanguageValue label="event-description" value={props.values["description"]} />
-                        <MultiLanguageValue label="event-info-url" value={props.values["info_url"]} />
+                        <MultiLanguageValue labelKey="event-headline" value={props.values["name"]} />
+                        <MultiLanguageValue labelKey="event-short-description" value={props.values["short_description"]} />
+                        <MultiLanguageValue labelKey="event-description" value={props.values["description"]} />
+                        <MultiLanguageValue labelKey="event-info-url" value={props.values["info_url"]} />
                     </div>
                 </div>
 
@@ -167,8 +174,8 @@ class EventDetails extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-12">
-                        <DateTime value={props.values['start_time']} label="event-starting-datetime" />
-                        <DateTime value={props.values['end_time']} label="event-ending-datetime" />
+                        <DateTime value={props.values['start_time']} labelKey="event-starting-datetime" />
+                        <DateTime value={props.values['end_time']} labelKey="event-ending-datetime" />
                     </div>
                 </div>
 
@@ -177,9 +184,9 @@ class EventDetails extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-12">
-                        <MultiLanguageValue label="event-location" value={props.values.location.name} />
-                        <TextValue label="event-location-id" value={props.values.location.id} />
-                        <MultiLanguageValue label="event-location-additional-info" value={props.values["location_extra_info"]} />
+                        <MultiLanguageValue labelKey="event-location" value={props.values.location.name} />
+                        <TextValue labelKey="event-location-id" value={props.values.location.id} />
+                        <MultiLanguageValue labelKey="event-location-additional-info" value={props.values["location_extra_info"]} />
                     </div>
                 </div>
 
@@ -197,9 +204,9 @@ class EventDetails extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-12">
-                        <TextValue label="facebook-url" value={props.values['extlink_facebook']} />
-                        <TextValue label="twitter-url" value={props.values['extlink_twitter']} />
-                        <TextValue label="instagram-url" value={props.values['extlink_instagram']} />
+                        <TextValue labelKey="facebook-url" value={props.values['extlink_facebook']} />
+                        <TextValue labelKey="twitter-url" value={props.values['extlink_twitter']} />
+                        <TextValue labelKey="instagram-url" value={props.values['extlink_instagram']} />
                     </div>
                 </div>
 
@@ -208,10 +215,11 @@ class EventDetails extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-12">
-                        <OptionGroup values={props.values['hel_main']} label={"hel-main-categories"} />
-                        <OptionGroup values={props.values['keywords']} label={"hel-keywords"} />
-                        <OptionGroup values={props.values['hel_target']} label={"hel-target-groups"} />
-                        <OptionGroup values={props.values['in_language']} label={"hel-event-languages"} />
+                        <OptionGroup values={helfiCategories} labelKey="hel-main-categories" />
+                        <OptionGroup values={props.values['keywords']} labelKey="hel-keywords" />
+                        <div className="row"/>
+                        <OptionGroup values={props.rawData['audience']} labelKey="hel-target-groups" />
+                        <OptionGroup values={props.rawData['in_language']} labelKey="hel-event-languages" />
                     </div>
                 </div>
             </div>

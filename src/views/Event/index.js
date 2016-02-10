@@ -70,7 +70,7 @@ class EventPage extends React.Component {
                                 <RaisedButton onClick={e => this.copyAsTemplate(e)} style={buttonStyle} secondary={true} label="Kopioi uuden tapahtuman pohjaksi" />
                             </div>
                         </header>
-                        <EventDetails values={event}/>
+                        <EventDetails values={event} rawData={this.props.events.event}/>
                     </div>
                 </div>
             )
@@ -78,7 +78,6 @@ class EventPage extends React.Component {
         else {
             return (<div>Loading</div>)
         }
-
     }
 }
 

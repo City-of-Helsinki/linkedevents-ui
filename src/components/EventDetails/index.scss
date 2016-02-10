@@ -80,8 +80,6 @@ legend {
 }
 
 .checked-value {
-    display: inline-block;
-    margin-top: $default-margin-top;
     font-size: 22px;
     font-weight: 300;
 
@@ -92,4 +90,24 @@ legend {
 
 .green {
     color: darken(#28e7b3, 24%);
+}
+
+.option-group {
+    padding: $default-margin-top $default-margin-top;
+
+    label {
+        font-size: 24px;
+        font-weight: 300;
+    }
+
+    .checked-value {
+        label {
+            font-size: 20px;
+            margin-left: 1rem;
+        }
+    }
+}
+
+.white {
+    background: #ffffff;
 }
