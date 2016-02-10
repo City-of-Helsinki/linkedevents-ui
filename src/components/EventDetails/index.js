@@ -70,7 +70,7 @@ let MultiLanguageValue = (props) => {
 }
 
 let TextValue = (props) => {
-    if(props.value.length !== undefined && props.value.length > 0) {
+    if(props.value && props.value.length !== undefined && props.value.length > 0) {
         return (
             <div className="single-value-field">
                 <div><label><FormattedMessage id={`${props.labelKey}`} /></label></div>
@@ -104,7 +104,7 @@ let OptionGroup = (props) => {
 let DateTime = (props) => {
 
     // TODO: if all day event show it on this field. Add a props for it
-    if(props.value.length !== undefined && props.value.length > 0) {
+    if(props.value && props.value.length !== undefined && props.value.length > 0) {
 
         let time = moment(props.value).tz('Europe/Helsinki');
         let value = ''
@@ -157,7 +157,6 @@ class EventDetails extends React.Component {
         // let helMainOptions = mapKeywordSetToForm(props.keywordSets, 'helfi:topics')
         // let helTargetOptions = mapKeywordSetToForm(props.keywordSets, 'helfi:audiences')
         // let helEventLangOptions = mapLanguagesSetToForm(props.languages)
-        console.log(props.rawData)
         let helfiCategories = _.map(props.values.hel_main, (id) => (
             _.find(props.rawData.keywords, (item) => (id.indexOf(item['id']) > -1))
         ))

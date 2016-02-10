@@ -62,10 +62,10 @@ class EventPage extends React.Component {
                 <div className="event-page">
                     <div className="container">
                         <header className="row">
-                            <h1 className="col-xl-6">
+                            <h1 className="col-sm-12">
                                 {event.name.fi || event.name.se || event.name.en}
                             </h1>
-                            <div className="col-xl-6 actions">
+                            <div className="col-sm-12 actions">
                                 <RaisedButton onClick={e => this.editEvent(e)} disabled={!userCanEdit} style={buttonStyle} primary={true} label="Muokkaa tapahtumaa" />
                                 <RaisedButton onClick={e => this.copyAsTemplate(e)} style={buttonStyle} secondary={true} label="Kopioi uuden tapahtuman pohjaksi" />
                             </div>
