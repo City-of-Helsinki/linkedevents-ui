@@ -190,3 +190,58 @@ export function receiveEventForEditing(json) {
         event: json
     }
 }
+
+// Fetch data for updating
+export function deleteEvent(eventID, user, values) {
+    let url = `${appSettings.api_base}/event/${eventID}/`
+
+    let token = ''
+    if(user) {
+         token = user.token
+    }
+
+    return (dispatch) => {
+        return fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'JWT ' + token,
+            }
+        }).then(response => {
+
+            if(response.status === 200 || response.status === 201 || response.status === 203 || response.status === 204) {
+                dispatch(clearData())
+                dispatch(pushPath(`/event/done/delete/${eventID}`))
+                dispatch(eventDeleted(values))
+            }
+
+            // Auth errors
+            else if(response.status === 401 || response.status === 403) {
+                let apiErrorMsg = 'authorization-required'
+                dispatch(eventDeleted(values, apiErrorMsg))
+            }
+
+            // No resource
+            else if(response.status === 404) {
+                let apiErrorMsg = 'not-found'
+                dispatch(eventDeleted(values, apiErrorMsg))
+            }
+
+            else {
+                let apiErrorMsg = 'server-error'
+                dispatch(eventDeleted(values, apiErrorMsg))
+            }
+
+        })
+    }
+}
+
+// Receive data for updating
+export function eventDeleted(values, error) {
+    return {
+        type: constants.EVENT_DELETED,
+        values: values,
+        error: error
+    }
+}
