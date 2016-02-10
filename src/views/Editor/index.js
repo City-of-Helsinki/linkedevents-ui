@@ -7,10 +7,9 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {FormattedMessage} from 'react-intl'
 
-import Snackbar from 'material-ui/lib/snackbar';
 import { RaisedButton, FlatButton } from 'material-ui'
 
-import {fetchEventForEditing, deleteEvent as deleteEventAction, sendData, clearData, clearFlashMsg, fetchKeywordSets, fetchLanguages} from 'src/actions/editor.js'
+import {fetchEventForEditing, deleteEvent as deleteEventAction, sendData, clearData, fetchKeywordSets, fetchLanguages} from 'src/actions/editor.js'
 
 import constants from 'src/constants.js'
 
@@ -160,11 +159,6 @@ var EditorPage = React.createClass({
             margin: '0 5px'
         }
 
-        let flashMsg = (<span/>)
-        if(this.props.editor.flashMsg) {
-            flashMsg = (<FormattedMessage id={this.props.editor.flashMsg.msg} />)
-        }
-
         let headerTextId = (this.props.params.action === 'update') ? 'edit-event' : 'create-event'
 
         let clearButton = null
@@ -196,14 +190,6 @@ var EditorPage = React.createClass({
                         </div>
                     </div>
                 </div>
-
-                <Snackbar
-                  open={(!!this.props.editor.flashMsg)}
-                  message={flashMsg}
-                  bodyStyle={{'backgroundColor': 'rgb(0,108,188)'}}
-                  autoHideDuration={6000}
-                  onRequestClose={(e) => this.props.dispatch(clearFlashMsg())}
-                />
             </div>
         )
     }
