@@ -19,7 +19,7 @@ export default function getOptions() {
     const nconf = new Provider()
     nconf.argv()
     nconf.env()
-    nconf.file({file: './kk.config'})
+    nconf.file({file: './server.config'})
     nconf.defaults(_.clone(defaults))
 
     const settings = _.pick(nconf.get(), Object.keys(defaults))
