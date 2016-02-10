@@ -32,6 +32,8 @@ export default function getOptions() {
     settings.hostname = hostname
     settings.port = port
     settings.publicUrl = settings.publicUrl || settings.serverUrl
+    settings.sessionSecret = process.env.SESSIONSECRET
+    settings.jwtKey = process.env.JWTKEY
 
     if (settings.dev) {
         if (!settings.sessionSecret) {
