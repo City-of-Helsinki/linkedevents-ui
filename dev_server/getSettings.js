@@ -8,7 +8,7 @@ const defaults = {
     helsinkiAuthId: process.env.CLIENT_ID || 'this-is-mock',
     helsinkiAuthSecret: process.env.CLIENT_SECRET || 'this-is-mock',
     helsinkiTargetApp: process.env.TARGET_APP || 'linkedevents-ui',
-    sessionSecret: process.env.SESSION_SECRET || (Math.random()).toString(),
+    sessionSecret: process.env.SESSION_SECRET || Date.now(),
     dev: true
 }
 

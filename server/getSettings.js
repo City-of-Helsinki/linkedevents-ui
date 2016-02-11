@@ -8,11 +8,11 @@ const defaults = {
     helsinkiAuthId: process.env.CLIENT_ID || 'this-is-mock',
     helsinkiAuthSecret: process.env.CLIENT_SECRET || 'this-is-mock',
     helsinkiTargetApp: process.env.TARGET_APP || 'linkedevents-ui',
-    sessionSecret: process.env.SESSION_SECRET || (Math.random()).toString(),
+    sessionSecret: process.env.SESSIONSECRET || process.env.SESSION_SECRET,
     dev: false
 }
 
-const requiredKeys = ["helsinkiAuthId", "helsinkiAuthSecret", "helsinkiTargetApp"]
+const requiredKeys = ["helsinkiAuthId", "helsinkiAuthSecret", "helsinkiTargetApp", 'sessionSecret']
 
 export default function getOptions() {
     // Check configs
@@ -27,8 +27,6 @@ export default function getOptions() {
     settings.hostname = hostname
     settings.port = port
     settings.publicUrl = settings.publicUrl || settings.serverUrl
-    settings.sessionSecret = process.env.SESSIONSECRET
-    settings.jwtKey = process.env.JWTKEY
 
     const missingKeys = requiredKeys.filter((key) => !settings[key])
     if (missingKeys.length) {
