@@ -4,7 +4,7 @@ import constants from '../constants'
 import {mapUIDataToAPIFormat} from 'src/utils/formDataMapping.js'
 
 import { pushPath } from 'redux-simple-router'
-import { setFlashMsg } from './app'
+import { setFlashMsg, confirmAction } from './app'
 
 // Set data and save it to localStorage
 export function setData(formValues) {

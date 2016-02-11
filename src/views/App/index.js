@@ -6,12 +6,13 @@ import {connect} from 'react-redux'
 import Headerbar from 'src/components/Header'
 import Snackbar from 'material-ui/lib/snackbar';
 import Modal from 'react-bootstrap/lib/Modal';
+import Button from 'react-bootstrap/lib/Button';
 
 
 import {injectIntl} from 'react-intl'
 
 import {retrieveUserFromSession} from 'src/actions/user'
-import {clearFlashMsg} from 'src/actions/app.js'
+import {clearFlashMsg, cancelAction, doAction} from 'src/actions/app.js'
 import {FormattedMessage} from 'react-intl'
 
 // Material-ui theming
@@ -51,6 +52,11 @@ class App extends React.Component {
             flashMsg = (<FormattedMessage id={this.props.app.flashMsg.msg} />)
         }
 
+        let confirmMsg = (<span/>)
+        if(this.props.app.confirmAction && this.props.app.confirmAction.msg && this.props.app.confirmAction.msg.length) {
+            confirmMsg = (<FormattedMessage id={this.props.app.confirmAction.msg} />)
+        }
+
         return (
             <div>
                 <Headerbar />
@@ -64,6 +70,15 @@ class App extends React.Component {
                   autoHideDuration={6000}
                   onRequestClose={(e) => this.props.dispatch(clearFlashMsg())}
                 />
+                <Modal show={(!!this.props.app.confirmAction)} dialogClassName="custom-modal" onHide={e => this.props.dispatch(cancelAction())}>
+                   <Modal.Header closeButton>
+                     <p>{confirmMsg}</p>
+                   </Modal.Header>
+                   <Modal.Footer>
+                     <Button onClick={e => this.props.dispatch(cancelAction())}>Cancel</Button>
+                     <Button onClick={e => this.props.dispatch(doAction(this.props.app.confirmAction.data))}>Confirm</Button>
+                   </Modal.Footer>
+                 </Modal>
             </div>
         )
     }

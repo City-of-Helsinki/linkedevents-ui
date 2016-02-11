@@ -10,6 +10,8 @@
     "welcome": "Tervetuloa",
     "submit": "Lähetä",
     "cancel": "Peru",
+    "confirm-action-header": "Varmista toiminto",
+    "confirm-delete": "Varmista tapahtuman poistaminen.",
 
     "clear-form": "Tyhjennä kentät",
 

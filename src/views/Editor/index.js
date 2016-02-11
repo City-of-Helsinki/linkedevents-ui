@@ -10,6 +10,8 @@ import {FormattedMessage} from 'react-intl'
 import { RaisedButton, FlatButton } from 'material-ui'
 
 import {fetchEventForEditing, deleteEvent as deleteEventAction, sendData, clearData, fetchKeywordSets, fetchLanguages} from 'src/actions/editor.js'
+import {confirmAction} from 'src/actions/app.js'
+
 
 import constants from 'src/constants.js'
 
@@ -146,7 +148,16 @@ var EditorPage = React.createClass({
     },
 
     deleteEvent() {
-        this.props.dispatch(deleteEventAction(this.props.params.eventId, this.props.user))
+        // TODO: maybe do a decorator for confirmable actions etc...?
+        this.props.dispatch(
+            confirmAction(
+                'confirm-delete',
+                'warning',
+                {
+                    action: e => this.props.dispatch(deleteEventAction(this.props.params.eventId, this.props.user))
+                }
+            )
+        )
     },
 
     render() {
