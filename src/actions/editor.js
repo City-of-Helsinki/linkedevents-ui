@@ -4,13 +4,7 @@ import constants from '../constants'
 import {mapUIDataToAPIFormat} from 'src/utils/formDataMapping.js'
 
 import { pushPath } from 'redux-simple-router'
-
-// Clear editor data. Called explicitly by the user or
-export function clearFlashMsg() {
-    return {
-        type: constants.EDITOR_CLEAR_FLASHMSG
-    }
-}
+import { setFlashMsg } from './app'
 
 // Set data and save it to localStorage
 export function setData(formValues) {
@@ -94,9 +88,9 @@ export function sendData(formValues, user, updateExisting = false) {
 export function sendDataComplete(json, action) {
     return (dispatch) => {
         if(json.apiErrorMsg) {
+            dispatch(setFlashMsg(json.apiErrorMsg, 'error', json))
             dispatch({
                 type: constants.EDITOR_SENDDATA_ERROR,
-                apiErrorMsg: json.apiErrorMsg,
                 data: json,
                 action: action
             })

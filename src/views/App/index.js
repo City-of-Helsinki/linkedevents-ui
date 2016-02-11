@@ -5,11 +5,13 @@ import {connect} from 'react-redux'
 
 import Headerbar from 'src/components/Header'
 import Snackbar from 'material-ui/lib/snackbar';
+import Modal from 'react-bootstrap/lib/Modal';
+
 
 import {injectIntl} from 'react-intl'
 
 import {retrieveUserFromSession} from 'src/actions/user'
-import {clearFlashMsg} from 'src/actions/editor.js'
+import {clearFlashMsg} from 'src/actions/app.js'
 import {FormattedMessage} from 'react-intl'
 
 // Material-ui theming
@@ -45,8 +47,8 @@ class App extends React.Component {
 
     render() {
         let flashMsg = (<span/>)
-        if(this.props.editor.flashMsg) {
-            flashMsg = (<FormattedMessage id={this.props.editor.flashMsg.msg} />)
+        if(this.props.app.flashMsg && this.props.app.flashMsg.msg && this.props.app.flashMsg.msg.length) {
+            flashMsg = (<FormattedMessage id={this.props.app.flashMsg.msg} />)
         }
 
         return (
@@ -56,7 +58,7 @@ class App extends React.Component {
                     {this.props.children}
                 </div>
                 <Snackbar
-                  open={(!!this.props.editor.flashMsg)}
+                  open={(!!this.props.app.flashMsg)}
                   message={flashMsg}
                   bodyStyle={{'backgroundColor': 'rgb(0,108,188)'}}
                   autoHideDuration={6000}
@@ -69,5 +71,6 @@ class App extends React.Component {
 
 export default connect((state) => ({
     editor: state.editor,
-    user: state.user
+    user: state.user,
+    app: state.app
 }))(injectIntl(App))
