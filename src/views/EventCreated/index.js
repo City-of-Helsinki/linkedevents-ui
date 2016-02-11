@@ -18,7 +18,9 @@ import {setData} from 'src/actions/editor.js'
 class EventCreated extends React.Component {
 
     componentWillMount() {
-        this.props.dispatch(fetchEventDetails(this.props.params.eventId))
+        if(this.props.params.action !== 'delete') {
+            this.props.dispatch(fetchEventDetails(this.props.params.eventId))
+        }
     }
 
     goToEvent() {
@@ -27,11 +29,33 @@ class EventCreated extends React.Component {
         }
     }
 
-    render() {
+    goToBrowsing() {
+        this.props.dispatch(pushPath(`/organization/events`))
+    }
+
+    getActionButtons() {
         let buttonStyle = {
             height: '72px',
             margin: '0 10px'
         }
+        if(this.props.params.action !== 'delete') {
+            return (
+                <div className="actions">
+                    <RaisedButton onClick={e => this.goToEvent(e)} style={buttonStyle} secondary={true} label="Siirry tapahtumaan" />
+                </div>
+            )
+        } else {
+            return (
+                <div className="actions">
+                    <RaisedButton onClick={e => this.goToBrowsing(e)} style={buttonStyle} secondary={true} label="Palaa takaisin tapahtumiin" />
+                </div>
+            )
+        }
+
+    }
+
+    render() {
+
         let event = this.props.events.event
 
         // User can edit event
@@ -42,12 +66,15 @@ class EventCreated extends React.Component {
         }
 
         let headerText = "Tapahtuma luotiin onnistuneesti!"
+        let eventName = event && event.name && (event.name.fi || event.name.se || event.name.en)
 
         if(this.props.params.action === 'update') {
             headerText = "Tapahtuma päivitettiin onnistuneesti!"
+        } else if(this.props.params.action === 'delete') {
+            headerText = "Tapahtuma poistettiin!"
         }
 
-        if(event) {
+        if(this.props.params.action === 'delete' || event) {
             return (
                 <div className="event-page">
                     <div className="container header">
@@ -55,11 +82,9 @@ class EventCreated extends React.Component {
                             {headerText}
                         </h1>
                         <h3>
-                            {event.name.fi || event.name.se || event.name.en}
+                            {eventName}
                         </h3>
-                        <div className="actions">
-                            <RaisedButton onClick={e => this.goToEvent(e)} style={buttonStyle} secondary={true} label="Siirry tapahtumaan" />
-                        </div>
+                        { this.getActionButtons() }
                         <pre>
                             {JSON.stringify(event)}
                         </pre>
