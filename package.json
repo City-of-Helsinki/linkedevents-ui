@@ -5,7 +5,7 @@
   "author": "Juha Yrjölä <juha.yrjola@hel.fi>",
   "repository": "github:City-of-Helsinki/linkedevents-ui",
   "scripts": {
-    "start": "node dev_server",
+    "start": "SESSIONSECRET=WHADAP node dev_server",
     "production": "NODE_ENV=production node server",
     "deploy": "NODE_ENV=production webpack -p --config config/webpack/prod.js"
   },
