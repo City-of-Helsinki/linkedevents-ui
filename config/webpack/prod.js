@@ -44,7 +44,7 @@ var config = {
     },
 
     debug: false,
-    //devtool: 'cheap-module-eval-source-map',
+
     resolve: {
         root: common.paths.ROOT,
         extensions: ['.', '', '.webpack.js', '.web.js', '.jsx', '.js']
@@ -66,6 +66,9 @@ var config = {
     },
     plugins: [
         //new webpack.HotModuleReplacementPlugin(),
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': '"production"'
+        }),
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery",
