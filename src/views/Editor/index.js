@@ -3,15 +3,15 @@
 import '!style!css!sass!./index.scss'
 import 'style!vendor/stylesheets/typeahead.css'
 
-
 import React from 'react'
 import {connect} from 'react-redux'
 import {FormattedMessage} from 'react-intl'
 
-import Snackbar from 'material-ui/lib/snackbar';
 import { RaisedButton, FlatButton } from 'material-ui'
 
-import {fetchEventForEditing, sendData, clearData, clearFlashMsg, fetchKeywordSets, fetchLanguages} from 'src/actions/editor.js'
+import {fetchEventForEditing, deleteEvent as deleteEventAction, sendData, clearData, fetchKeywordSets, fetchLanguages} from 'src/actions/editor.js'
+import {confirmAction} from 'src/actions/app.js'
+
 
 import constants from 'src/constants.js'
 
@@ -47,7 +47,75 @@ var EditorPage = React.createClass({
     },
 
     componentWillReceiveProps: function(nextProps) {
+        // Check if we are changing the editing mode on fly
+        // (happens when jumping from update event page to create event page)
+        // Clear page or fetch new eventdata accordingly
+        if(nextProps.params && this.props.params.action !== nextProps.params.action) {
+            if(nextProps.params.action === 'update') {
+                this.props.dispatch(fetchEventForEditing(this.props.params.eventId))
+            } else {
+                this.props.dispatch(clearData())
+            }
+        }
+
         this.forceUpdate()
+    },
+
+    getActionButtons: function() {
+        let buttonStyle = {
+            height: '72px',
+            margin: '0 10px'
+        }
+
+        if(this.props.params.action === 'update') {
+            return (
+                <div className="actions">
+                    <RaisedButton
+                        style={buttonStyle}
+                        label="Poista tapahtuma"
+                        onClick={ (e) => this.deleteEvent(e) }
+                    />
+                    <RaisedButton
+                        style={buttonStyle}
+                        label="Tallenna vedoksena"
+                        onClick={ (e) => this.saveAsDraft(e) }
+                    />
+                    <RaisedButton
+                        style={buttonStyle}
+                        label="Siirry esikatseluun"
+                        primary={true}
+                        onClick={ (e) => this.goToPreview(e) }
+                    />
+                    <FlatButton
+                        style={buttonStyle}
+                        label="Julkaise tapahtuma"
+                        onClick={ (e) => this.saveAsPublished(e) }
+                    />
+                </div>
+            )
+        } else {
+            return (
+                <div className="actions">
+                    <RaisedButton
+                        style={buttonStyle}
+                        label="Tallenna vedokseksi"
+                        onClick={ (e) => this.saveAsDraft(e) }
+                    />
+                    <RaisedButton
+                        style={buttonStyle}
+                        label="Siirry esikatseluun"
+                        primary={true}
+                        onClick={ (e) => this.goToPreview(e) }
+                    />
+                    <FlatButton
+                        style={buttonStyle}
+                        label="Julkaise tapahtuma"
+                        onClick={ (e) => this.saveAsPublished(e) }
+                    />
+                </div>
+            )
+        }
+
     },
 
     componentWillMount() {
@@ -79,19 +147,29 @@ var EditorPage = React.createClass({
         this.props.dispatch(sendData(data, this.props.user, doUpdate))
     },
 
+    deleteEvent() {
+        // TODO: maybe do a decorator for confirmable actions etc...?
+        this.props.dispatch(
+            confirmAction(
+                'confirm-delete',
+                'warning',
+                'delete',
+                {
+                    action: e => this.props.dispatch(deleteEventAction(this.props.params.eventId, this.props.user)),
+                    additionalMsg: (this.props.values && this.props.values.name) && (this.props.values.name.fi || this.props.values.name.se || this.props.values.name.en)
+                }
+            )
+        )
+    },
+
     render() {
         var sharedProps = {
             disabled: this.state.disabled
         }
 
         let buttonStyle = {
-            height: '72px',
-            margin: '0 10px'
-        }
-
-        let flashMsg = (<span/>)
-        if(this.props.editor.flashMsg) {
-            flashMsg = (<FormattedMessage id={this.props.editor.flashMsg.msg} />)
+            height: '64px',
+            margin: '0 5px'
         }
 
         let headerTextId = (this.props.params.action === 'update') ? 'edit-event' : 'create-event'
@@ -120,34 +198,11 @@ var EditorPage = React.createClass({
                     <div className="container">
                         <div className="row">
                             <div className="spread-right">
-                                <RaisedButton
-                                    style={buttonStyle}
-                                    label="Tallenna vedokseksi"
-                                    onClick={ (e) => this.saveAsDraft(e) }
-                                />
-                                <RaisedButton
-                                    style={buttonStyle}
-                                    label="Siirry esikatseluun"
-                                    primary={true}
-                                    onClick={ (e) => this.goToPreview(e) }
-                                />
-                                <FlatButton
-                                    style={buttonStyle}
-                                    label="Julkaise tapahtuma"
-                                    onClick={ (e) => this.saveAsPublished(e) }
-                                />
+                                {this.getActionButtons()}
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <Snackbar
-                  open={(!!this.props.editor.flashMsg)}
-                  message={flashMsg}
-                  bodyStyle={{'backgroundColor': 'rgb(0,108,188)'}}
-                  autoHideDuration={6000}
-                  onRequestClose={(e) => this.props.dispatch(clearFlashMsg())}
-                />
             </div>
         )
     }

@@ -4,6 +4,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {sendData} from 'src/actions/editor.js'
 
+import EventDetails from 'src/components/EventDetails'
+
 import {FormattedMessage} from 'react-intl'
 
 import {RaisedButton, FlatButton} from 'material-ui'
@@ -46,7 +48,7 @@ class EventPage extends React.Component {
             height: '72px',
             margin: '0 10px'
         }
-        let event = this.props.events.event
+        let event = mapAPIDataToUIFormat(this.props.events.event)
 
         // User can edit event
         let userCanEdit = false
@@ -55,20 +57,20 @@ class EventPage extends React.Component {
             userCanEdit = true
         }
 
-        if(event) {
+        if(event && event.name) {
             return (
                 <div className="event-page">
-                    <div className="container header">
-                        <h1>
-                            {event.name.fi || event.name.se || event.name.en}
-                        </h1>
-                        <div className="actions">
-                            <RaisedButton onClick={e => this.editEvent(e)} disabled={!userCanEdit} style={buttonStyle} primary={true} label="Muokkaa tapahtumaa" />
-                            <RaisedButton onClick={e => this.copyAsTemplate(e)} style={buttonStyle} secondary={true} label="Kopioi uuden tapahtuman pohjaksi" />
-                        </div>
-                        <pre>
-                            {JSON.stringify(event)}
-                        </pre>
+                    <div className="container">
+                        <header className="row">
+                            <h1 className="col-sm-12">
+                                {event.name.fi || event.name.se || event.name.en}
+                            </h1>
+                            <div className="col-sm-12 actions">
+                                <RaisedButton onClick={e => this.editEvent(e)} disabled={!userCanEdit} style={buttonStyle} primary={true} label="Muokkaa tapahtumaa" />
+                                <RaisedButton onClick={e => this.copyAsTemplate(e)} style={buttonStyle} secondary={true} label="Kopioi uuden tapahtuman pohjaksi" />
+                            </div>
+                        </header>
+                        <EventDetails values={event} rawData={this.props.events.event}/>
                     </div>
                 </div>
             )
@@ -76,7 +78,6 @@ class EventPage extends React.Component {
         else {
             return (<div>Loading</div>)
         }
-
     }
 }
 

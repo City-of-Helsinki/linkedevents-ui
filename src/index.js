@@ -1,3 +1,9 @@
+import Intl from 'intl'
+
+if(window && !window.Intl) {
+    window.Intl = Intl
+}
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Route, IndexRoute } from 'react-router'

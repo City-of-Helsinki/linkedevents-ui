@@ -1,0 +1,55 @@
+.modal-dialog {
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.modal-content {
+    box-shadow: 0px 0px 30px rgba(0,0,0,0.3);
+
+    padding: 12px 6px;
+    padding-bottom: 6px;
+
+    border-radius: 0;
+    border: 0;
+    min-width: 80%;
+
+    .modal-header, .modal-body, .modal-footer {
+        border: 0;
+    }
+
+    .modal-body {
+        padding: 12px 24px;
+    }
+
+    // Close button
+    .close {
+        font-size: 42px;
+        font-weight: 300;
+        position: absolute;
+        top: 0;
+        right: 10px;
+        border: 0;
+        background: transparent;
+    }
+}
+
+// Customize bootstraps default styles
+.modal {
+  // When fading in the modal, animate it to slide down
+  &.fade .modal-dialog {
+    opacity: 0;
+    transition: none;
+    transform: translate(0, 0);
+  }
+  &.in .modal-dialog { transform: translate(0, 0); opacity: 1; }
+}
+
+.modal-backdrop {
+    transition: opacity .3s ease-out;
+  // Fade for backdrop
+  &.fade { opacity: 0; }
+  &.in { opacity: $modal-backdrop-opacity; }
+}

@@ -12,6 +12,12 @@ const settings = getSettings()
 const app = express()
 const passport = getPassport(settings)
 
+app.use('/', express.static(path.resolve(__dirname, '..', 'dist')));
+
+app.get('/', function (req, res) {
+    res.sendfile(path.resolve(__dirname, '..', 'dist'));
+});
+
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieSession({name: 's', secret: settings.sessionSecret, maxAge: 86400 * 1000}));
