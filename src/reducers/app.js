@@ -28,7 +28,7 @@ function update(state = initialState, action) {
     if(action.type === constants.APP_CONFIRM_ACTION) {
         if(action.msg && action.msg.length) {
             return Object.assign({}, state, {
-                confirmAction: { msg: action.msg, style: action.style, data: action.data }
+                confirmAction: { msg: action.msg, style: action.style, actionButtonLabel: action.actionButtonLabel, data: action.data }
             })
         } else {
             return Object.assign({}, state, {

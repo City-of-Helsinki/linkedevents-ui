@@ -16,7 +16,7 @@ export function clearFlashMsg() {
     }
 }
 
-export function confirmAction(msg, style = 'warning', data = {}) {
+export function confirmAction(msg, style = 'warning', actionButtonLabel, data = {}) {
     // type can be 'message' or 'error'
     //
     // data is an obj {
@@ -26,6 +26,7 @@ export function confirmAction(msg, style = 'warning', data = {}) {
         type: constants.APP_CONFIRM_ACTION,
         msg: msg,
         style: style,
+        actionButtonLabel: actionButtonLabel,
         data: data
     }
 }

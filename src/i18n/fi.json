@@ -11,7 +11,9 @@
     "submit": "Lähetä",
     "cancel": "Peru",
     "confirm-action-header": "Varmista toiminto",
-    "confirm-delete": "Varmista tapahtuman poistaminen.",
+    "confirm-delete": "Varmista tapahtuman poistaminen",
+    "delete": "Poista",
+    "confirm": "Suorita",
 
     "clear-form": "Tyhjennä kentät",
 

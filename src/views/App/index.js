@@ -5,9 +5,9 @@ import {connect} from 'react-redux'
 
 import Headerbar from 'src/components/Header'
 import Snackbar from 'material-ui/lib/snackbar';
+import RaisedButton from 'material-ui/lib/raised-button';
 import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
-
 
 import {injectIntl} from 'react-intl'
 
@@ -57,6 +57,31 @@ class App extends React.Component {
             confirmMsg = (<FormattedMessage id={this.props.app.confirmAction.msg} />)
         }
 
+        let additionalMsg = ''
+        if(this.props.app.confirmAction && this.props.app.confirmAction.data && this.props.app.confirmAction.data.additionalMsg) {
+            additionalMsg = this.props.app.confirmAction.data.additionalMsg
+        }
+
+        let buttonStyle = {
+            marginLeft: '10px'
+        }
+
+        let warningButtonStyle = {
+            'marginLeft': '10px',
+            background: 'red',
+            backgroundColor: 'red'
+        }
+
+        let isWarningModal = false;
+        if(this.props.app.confirmAction && this.props.app.confirmAction.style === 'warning') {
+            isWarningModal = true;
+        }
+
+        let actionButtonLabel = 'confirm'
+        if(this.props.app.confirmAction && this.props.app.confirmAction.actionButtonLabel && this.props.app.confirmAction.actionButtonLabel.length > 0) {
+            actionButtonLabel = this.props.app.confirmAction.actionButtonLabel;
+        }
+
         return (
             <div>
                 <Headerbar />
@@ -72,11 +97,14 @@ class App extends React.Component {
                 />
                 <Modal show={(!!this.props.app.confirmAction)} dialogClassName="custom-modal" onHide={e => this.props.dispatch(cancelAction())}>
                    <Modal.Header closeButton>
-                     <p>{confirmMsg}</p>
                    </Modal.Header>
+                   <Modal.Body>
+                     <p>{confirmMsg}</p>
+                     <p>{additionalMsg}</p>
+                   </Modal.Body>
                    <Modal.Footer>
-                     <Button onClick={e => this.props.dispatch(cancelAction())}>Cancel</Button>
-                     <Button onClick={e => this.props.dispatch(doAction(this.props.app.confirmAction.data))}>Confirm</Button>
+                     <RaisedButton style={buttonStyle} label={<FormattedMessage id="cancel" />} onClick={e => this.props.dispatch(cancelAction())} />
+                     <RaisedButton style={buttonStyle} backgroundColor={isWarningModal ? 'rgba(255,160,160,1)' : null} label={<FormattedMessage id={actionButtonLabel} />} onClick={e => this.props.dispatch(doAction(this.props.app.confirmAction.data))} />
                    </Modal.Footer>
                  </Modal>
             </div>

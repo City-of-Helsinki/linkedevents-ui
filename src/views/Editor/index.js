@@ -153,8 +153,10 @@ var EditorPage = React.createClass({
             confirmAction(
                 'confirm-delete',
                 'warning',
+                'delete',
                 {
-                    action: e => this.props.dispatch(deleteEventAction(this.props.params.eventId, this.props.user))
+                    action: e => this.props.dispatch(deleteEventAction(this.props.params.eventId, this.props.user)),
+                    additionalMsg: (this.props.values && this.props.values.name) && (this.props.values.name.fi || this.props.values.name.se || this.props.values.name.en)
                 }
             )
         )
