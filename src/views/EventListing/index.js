@@ -14,14 +14,14 @@ class EventListing extends React.Component {
         super(props)
     }
     componentDidMount() {
-        this.fetchEvents();
+        this.fetchEvents()
     }
     componentDidUpdate() {
         const { fetchComplete, isFetching } = this.props.events;
         if (fetchComplete || isFetching) {
             return;
         }
-        this.fetchEvents();
+        this.fetchEvents()
     }
 
     getInitialState() {
@@ -30,7 +30,7 @@ class EventListing extends React.Component {
 
     fetchEvents() {
         if (this.props.user) {
-            this.props.dispatch(fetchUserEvents(this.props.user, 1));
+            this.props.dispatch(fetchUserEvents(this.props.user, 1))
         }
     }
 

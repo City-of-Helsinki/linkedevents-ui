@@ -30,7 +30,7 @@ let EventRow = (props) => {
         name = '<event>'
     }
 
-    let url = "/event/update/" + e.id;
+    let url = "/" + e.id;
 
     return (
         <TableRow key={e['id']}>
