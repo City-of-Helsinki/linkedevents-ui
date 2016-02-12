@@ -62,7 +62,10 @@ class FormFields extends React.Component {
     constructor(props) {
         super(props)
 
-        let languages = this.props.values['presentation-languages'] || ['fi']
+        let languages = ['fi']
+        if(props && props.values && props.values['presentation-languages'] && props.values['presentation-languages'].length) {
+            languages = props.values['presentation-languages']
+        }
 
         this.state = {
             languages: languages
