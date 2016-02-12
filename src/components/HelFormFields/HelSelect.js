@@ -10,10 +10,15 @@ import {setData} from 'src/actions/editor.js'
 
 class HelSelect extends React.Component {
 
+    static contextTypes = {
+        intl: React.PropTypes.object,
+        dispatch: React.PropTypes.func
+    };
+
     onChange(value) {
         let obj = {}
         obj[this.props.name] = value
-        this.props.dispatch(setData(obj))
+        this.context.dispatch(setData(obj))
     }
 
     getOptions(input) {
@@ -45,6 +50,4 @@ class HelSelect extends React.Component {
     }
 }
 
-export default connect((state) => ({
-    editor: state.editor
-}))(HelSelect)
+export default HelSelect

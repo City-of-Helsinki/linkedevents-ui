@@ -12,6 +12,10 @@ import {login, logout} from 'src/actions/user.js'
 class EventListing extends React.Component {
     constructor(props) {
         super(props)
+
+        this.state = {
+            nextEventsPage: 1
+        }
     }
     componentDidMount() {
         this.fetchEvents()
@@ -22,10 +26,6 @@ class EventListing extends React.Component {
             return;
         }
         this.fetchEvents()
-    }
-
-    getInitialState() {
-        return {nextEventsPage: 1}
     }
 
     fetchEvents() {
