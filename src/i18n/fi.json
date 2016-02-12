@@ -29,7 +29,7 @@
     "organization-events-prompt": "muokataksesi tapahtumia.",
     "organization-events-description": "Organisaation {org} tapahtumat.",
 
-    "event-picture": "Tapahtuman kuva",
+    "event-picture": "Tapahtuman kuva (klikkaa vaihtaaksesi)",
     "upload-picture": "Lisää tapahtumalle kuva",
     "choose-picture": "Lisää tapahtumalle kuva tai valitse kuvapankista",
     "or": "tai",
