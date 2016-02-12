@@ -116,6 +116,7 @@ class FormFields extends React.Component {
                     <SideField>
                         <label><FormattedMessage id="event-picture"/></label>
                         <ImagePicker label="image-preview" name="image" />
+
                     </SideField>
                 </div>
 
