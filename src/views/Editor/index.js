@@ -142,6 +142,14 @@ var EditorPage = React.createClass({
     },
 
     saveAsPublished(event) {
+
+        // TODO: in more redux way. Define validations in editor store and use the store to do validation. It's an app state
+
+        // let validations = this.refs.form.getValidationErrors()
+        // if(validations) {
+        //     return
+        // }
+
         let doUpdate = this.props.params.action === 'update'
         let data = Object.assign({}, this.props.editor.values, { publication_status: constants.PUBLICATION_STATUS.PUBLIC })
         this.props.dispatch(sendData(data, this.props.user, doUpdate))
@@ -191,7 +199,7 @@ var EditorPage = React.createClass({
                 </div>
 
                 <div className="container">
-                    <FormFields action={this.props.params.action} editor={this.props.editor} values={this.props.values} />
+                    <FormFields ref="form" action={this.props.params.action} editor={this.props.editor} values={this.props.values} />
                 </div>
 
                 <div className="editor-action-buttons">

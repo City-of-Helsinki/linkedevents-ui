@@ -5,9 +5,13 @@ import Input from 'react-bootstrap/lib/Input.js'
 
 import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
-import {injectIntl} from 'react-intl'
 
 let HelCheckbox = React.createClass({
+
+    contextTypes: {
+        intl: React.PropTypes.object,
+        dispatch: React.PropTypes.func
+    },
 
     propTypes: {
         name: React.PropTypes.string
@@ -19,7 +23,7 @@ let HelCheckbox = React.createClass({
         if(this.props.name) {
             let obj = {}
             obj[this.props.name] = newValue
-            this.props.dispatch(setData(obj))
+            this.context.dispatch(setData(obj))
         }
 
         if(typeof this.props.onChange === 'function') {
@@ -38,7 +42,7 @@ let HelCheckbox = React.createClass({
     getValue: function() {
         return this.refs.checkbox.getChecked()
     },
-    
+
     render: function () {
         let { required, label } = this.props
 

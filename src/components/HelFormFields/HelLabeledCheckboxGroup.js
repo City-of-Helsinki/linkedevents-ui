@@ -10,6 +10,11 @@ import {setData} from 'src/actions/editor.js'
 // NOTE: Not using ES6 classes because of the needed mixins
 let HelLabeledCheckboxGroup = React.createClass({
 
+    contextTypes: {
+        intl: React.PropTypes.object,
+        dispatch: React.PropTypes.func
+    },
+
     propTypes: {
         name: React.PropTypes.string,
     },
@@ -21,7 +26,7 @@ let HelLabeledCheckboxGroup = React.createClass({
         if(this.props.name) {
             let obj = {}
             obj[this.props.name] = checkedNames
-            this.props.dispatch(setData(obj))
+            this.context.dispatch(setData(obj))
         }
 
         if(typeof this.props.onChange === 'function') {
@@ -69,6 +74,4 @@ let HelLabeledCheckboxGroup = React.createClass({
     }
 });
 
-export default connect((state) => ({
-    editor: state.editor
-}))(HelLabeledCheckboxGroup);
+export default HelLabeledCheckboxGroup
