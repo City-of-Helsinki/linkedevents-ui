@@ -1,5 +1,4 @@
 import fetch from 'isomorphic-fetch'
-import $ from 'jquery'
 
 import constants from '../constants'
 import {mapUIDataToAPIFormat} from 'src/utils/formDataMapping.js'
@@ -33,56 +32,6 @@ export function replaceData(formValues) {
 export function clearData() {
     return {
         type: constants.EDITOR_CLEARDATA
-    }
-}
-
-export function uploadImage(formData, user, closeFn) {
-    return (dispatch) => {
-        let token = ''
-        if(user) { //might not exist
-            token = user.token
-        }
-
-        let settings = {
-            "async": true,
-            "crossDomain": true,
-            "url": `${appSettings.api_base}/image/`,
-            "method": "POST",
-            "headers": {
-                "authorization": 'JWT ' + token,
-                "accept": "application/json",
-            },
-            "processData": false,
-            "contentType": false,
-            "mimeType": "multipart/form-data",
-            "data": formData
-        }
-
-        return $.ajax(settings).done(response => {
-            let json = JSON.parse(response)
-            // set the id of the newly created picture as the val of the form
-            dispatch(setData({'image_id': json.id}))
-            // and also set the preview image
-            dispatch(imageUploadComplete(json))
-            console.log('ajax worked')
-        }).fail(response => {
-            console.log('ajax failed')
-            dispatch(imageUploadFailed(response))
-        })
-    }
-}
-
-export function imageUploadFailed(json) {
-    return {
-        type: constants.IMAGE_UPLOAD_ERROR,
-        data: json
-    }
-}
-
-export function imageUploadComplete(json) {
-    return {
-        type: constants.IMAGE_UPLOAD_SUCCESS,
-        data: json
     }
 }
 
