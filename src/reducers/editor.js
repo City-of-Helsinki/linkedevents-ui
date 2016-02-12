@@ -96,20 +96,6 @@ function update(state = initialState, action) {
         })
     }
 
-    if(action.type === constants.IMAGE_UPLOAD_SUCCESS) {
-        console.log('Image uploaded in reducer')
-        return Object.assign({}, state, {
-            previewImg: action.data.image,
-        })
-    }
-
-    if(action.type === constants.IMAGE_UPLOAD_ERROR) {
-        console.log('Image uploaded in reducer')
-        return Object.assign({}, state, {
-            flashMsg: {msg: 'upload failed', type: 'error', data: action.data}
-        })
-    }
-
     return state
 }
 

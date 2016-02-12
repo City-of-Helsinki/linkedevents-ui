@@ -2,8 +2,7 @@ import React from 'react'
 
 import { FormattedMessage, injectIntl } from 'react-intl'
 
-import ImageUpload from 'src/components/ImageUpload'
-import ImageGallery from 'src/components/ImageGallery'
+import ImagePicker from 'src/components/ImagePicker'
 import {
     HelAutoComplete,
     MultiLanguageField,
@@ -116,7 +115,7 @@ class FormFields extends React.Component {
                     </div>
                     <SideField>
                         <label><FormattedMessage id="event-picture"/></label>
-                        <ImageGallery {...this.props} label="image-preview" name="image" />
+                        <ImagePicker label="image-preview" name="image" />
                     </SideField>
                 </div>
 

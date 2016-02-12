@@ -2,12 +2,15 @@ import '!style!css!sass!./index.scss'
 import '!style!css!../../../node_modules/react-bootstrap-modal/lib/styles/rbm-complete.css'
 
 import React from 'react';
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import Modal from 'react-bootstrap-modal'
 import { RaisedButton } from 'material-ui'
-import { uploadImage, setData } from 'src/actions/editor.js'
+import { uploadImage} from 'src/actions/userImages.js'
+import { connect } from 'react-redux'
 
-class ImageGallery extends React.Component {
+import ImageGalleryGrid from '../ImageGalleryGrid'
+
+class ImagePicker extends React.Component {
 
     constructor(props) {
         super(props)
@@ -22,12 +25,11 @@ class ImageGallery extends React.Component {
     }
 
     handleUpload(event) {
-        let self = this
         let file = event.target.files[0]
         let data = new FormData()
         data.append('image', file)
         if(file && (file.type === 'image/jpeg' || file.type === 'image/png' )) {
-            this.props.dispatch(uploadImage(data, this.props.user, this.closeGalleryModal));
+            this.props.dispatch(uploadImage(data, this.props.user, () => this.closeGalleryModal()));
         }
     }
 
@@ -46,10 +48,10 @@ class ImageGallery extends React.Component {
 
     render() {
 
-        let chosenImg = this.props.editor.previewImg || ''
+        let chosenImg = this.props.images.chosenImg || ''
         return (
-            <div className="image-upload" onClick={() => this.openGalleryModal()}>
-                <img src={chosenImg} ref={(ref) => this.imagePreview = ref} />
+            <div className="image-picker" onClick={() => this.openGalleryModal()}>
+                <img src={chosenImg.url} ref={(ref) => this.imagePreview = ref} />
                 <div>
                     <div>
                         <i className="material-icons">&#xE2C6;</i>
@@ -68,7 +70,7 @@ class ImageGallery extends React.Component {
                         <Modal.Title id='ModalHeader'><FormattedMessage id="organization-pictures"/></Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <p>Kuvat näkyvät tässä</p>
+                        <ImageGalleryGrid user={this.props.user} images={this.props.images} />
                     </Modal.Body>
                     <Modal.Footer>
                         <input onChange={(e) => this.handleUpload(e)} style={{ display: 'none' }} type="file" ref={(ref) => this.hiddenFileInput = ref} />
@@ -89,4 +91,8 @@ class ImageGallery extends React.Component {
     }
 }
 
-export default ImageGallery;
+export default connect((state) =>({
+    user: state.user,
+    editor: state.editor,
+    images: state.images
+}))(injectIntl(ImagePicker))
