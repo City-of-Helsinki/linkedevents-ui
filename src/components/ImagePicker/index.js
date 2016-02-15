@@ -47,11 +47,13 @@ class ImagePicker extends React.Component {
     }
 
     render() {
-
-        let chosenImg = this.props.images.chosenImg || ''
+        let selectedImage = ''
+        if(('image' in this.props.editor.values) && ('url' in this.props.editor.values.image)) {
+            selectedImage = this.props.editor.values.image.url
+        }
         return (
             <div className="image-picker" onClick={() => this.openGalleryModal()}>
-                <img src={chosenImg.url} ref={(ref) => this.imagePreview = ref} />
+                <img src={selectedImage} ref={(ref) => this.imagePreview = ref} />
                 <div>
                     <div>
                         <i className="material-icons">&#xE2C6;</i>

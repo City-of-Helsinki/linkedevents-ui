@@ -96,6 +96,13 @@ function update(state = initialState, action) {
         })
     }
 
+    if (action.type === constants.SELECT_IMAGE_BY_ID) {
+        console.log("in editor actions, adding img")
+        return Object.assign({}, state, {
+            values: { image: action.img }
+        })
+    }
+
     return state
 }
 

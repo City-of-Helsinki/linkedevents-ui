@@ -5,7 +5,7 @@ const initialState = {
     isFetching: false,
     fetchComplete: false,
     items: [],
-    chosenImg: null
+    selected: {}
 }
 
 function update(state = initialState, action) {
@@ -26,7 +26,7 @@ function update(state = initialState, action) {
     if (action.type === constants.SELECT_IMAGE_BY_ID) {
         console.log(action)
         return Object.assign({}, state, {
-            chosenImg: action.img
+            selected: action.img
         })
     }
 
@@ -42,7 +42,7 @@ function update(state = initialState, action) {
         console.log('Image uploaded in reducer')
         console.log(action.data)
         return Object.assign({}, state, {
-            chosenImg: action.data,
+            selected: action.data,
         })
     }
 

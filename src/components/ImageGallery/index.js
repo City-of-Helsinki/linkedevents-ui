@@ -12,7 +12,7 @@ class ImageGallery extends React.Component {
         super(props)
 
         this.state = {
-            chosenImg: null,
+            selected: null,
             open: false
         }
     }

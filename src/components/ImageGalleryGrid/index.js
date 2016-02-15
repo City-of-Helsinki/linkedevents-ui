@@ -30,8 +30,8 @@ class ImageGalleryGrid extends React.Component {
 
         let imgs = this.props.images.items.map((img) => {
             let sel = false
-            if(this.props.images.chosenImg) {
-                sel = img.id == this.props.images.chosenImg.id
+            if(this.props.images.selected) {
+                sel = img.id == this.props.images.selected.id
             }
             return (
                 <ImageThumbnail selected={sel} key={img.id} url={img.url} data={img} />

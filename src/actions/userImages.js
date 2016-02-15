@@ -74,7 +74,7 @@ export function uploadImage(formData, user, closeModalFn) {
         return $.ajax(settings).done(response => {
             let json = JSON.parse(response)
             // set the id of the newly created picture as the val of the form
-            dispatch(setData({'image_id': json.id}))
+            dispatch(setData({'image': json}))
             // and also set the preview image
             dispatch(imageUploadComplete(json))
             closeModalFn()
