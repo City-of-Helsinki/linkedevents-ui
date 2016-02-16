@@ -4,3 +4,4 @@
 /config/local.yml
 npm-debug.log
 .idea
+server.config

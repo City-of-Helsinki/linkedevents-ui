@@ -133,28 +133,6 @@
         }
     }
 
-    .multi-field {
-        margin-top: 2rem;
-
-        > label {
-            color: #48a3e7;
-        }
-    }
-
-    .indented {
-        padding: 3px 23px 11.5px 23px;
-        border-left: 5px solid #f7f7f7;
-
-        > label {
-            margin-top: -1.5rem;
-            color: #48a3e7;
-        }
-
-        .mui-text-field:nth-of-type(1) {
-            margin-top: -1.0rem;
-        }
-    }
-
     .editor-action-buttons {
         margin-top: 6rem;
 

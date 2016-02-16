@@ -11,6 +11,10 @@
     "submit": "Lähetä",
     "cancel": "Peru",
     "save": "Tallenna",
+    "confirm-action-header": "Varmista toiminto",
+    "confirm-delete": "Varmista tapahtuman poistaminen",
+    "delete": "Poista",
+    "confirm": "Suorita",
 
     "ready": "Valmis",
     "clear-form": "Tyhjennä kentät",
@@ -20,6 +24,8 @@
     "in-fi": "suomeksi",
     "in-en": "englanniksi",
     "in-sv": "ruotsiksi",
+
+    "no-value": "kenttää ei ole täytetty",
 
     "event-description-fields-header": "Tapahtuman kuvaus",
     "event-headline": "Otsikko",
@@ -50,6 +56,7 @@
 
     "event-price-fields-header": "Hintatiedot",
     "is-free": "Maksuton",
+    "event-is-free": "Tapahtuma on maksuton",
     "event-price": "Hinta",
     "event-price-info": "Hintatietojen kuvaus",
     "event-purchase-link": "Linkki lipunmyyntiin",
@@ -68,7 +75,7 @@
     "liikenne-ja-kartat": "Liikenne ja kartat",
     "sosiaali-ja-terveyspalvelut": "Sosiaali- ja terveyspalvelut",
     "kaupunki-ja-hallinto": "Kaupunki ja hallinto",
-
+    "hel-keywords": "Avainsanat",
     "hel-target-groups": "Hel.fi kohderyhmät",
     "all": "Ei erityistä kohderyhmää",
     "yhdistykset": "Yhdistykset",

@@ -12,25 +12,25 @@ import {login, logout} from 'src/actions/user.js'
 class EventListing extends React.Component {
     constructor(props) {
         super(props)
+
+        this.state = {
+            nextEventsPage: 1
+        }
     }
     componentDidMount() {
-        this.fetchEvents();
+        this.fetchEvents()
     }
     componentDidUpdate() {
         const { fetchComplete, isFetching } = this.props.events;
         if (fetchComplete || isFetching) {
             return;
         }
-        this.fetchEvents();
-    }
-
-    getInitialState() {
-        return {nextEventsPage: 1}
+        this.fetchEvents()
     }
 
     fetchEvents() {
         if (this.props.user) {
-            this.props.dispatch(fetchUserEvents(this.props.user, 1));
+            this.props.dispatch(fetchUserEvents(this.props.user, 1))
         }
     }
 

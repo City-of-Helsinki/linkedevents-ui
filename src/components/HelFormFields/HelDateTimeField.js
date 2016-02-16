@@ -4,11 +4,11 @@ import HelTextField from './HelTextField.js'
 import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
 
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 import moment from 'moment'
 
-let HelDateTimeField = React.createClass({
+const HelDateTimeField = React.createClass({
 
     getInitialState: function() {
         let defaultValue = this.props.defaultValue || null
@@ -34,6 +34,11 @@ let HelDateTimeField = React.createClass({
 
     propTypes: {
         name: React.PropTypes.string.isRequired
+    },
+
+    contextTypes: {
+        intl: React.PropTypes.object,
+        dispatch: React.PropTypes.func
     },
 
     handleChange: function (event) {
@@ -66,7 +71,7 @@ let HelDateTimeField = React.createClass({
             let obj = {}
             obj[this.props.name] = datetime
 
-            this.props.dispatch(setData(obj))
+            this.context.dispatch(setData(obj))
 
             if(typeof this.props.onChange === 'function') {
                 this.props.onChange(event, value)
@@ -147,6 +152,4 @@ let HelDateTimeField = React.createClass({
     }
 });
 
-export default connect((state) => ({
-    editor: state.editor
-}))(HelDateTimeField)
+export default HelDateTimeField

@@ -1,7 +1,5 @@
 import React from 'react'
 
-import { injectIntl } from 'react-intl'
-
 import Input from 'react-bootstrap/lib/Input.js'
 import Select from 'react-select'
 
@@ -12,15 +10,16 @@ import {setData} from 'src/actions/editor.js'
 
 class HelAutoComplete extends React.Component {
 
+    static contextTypes = {
+        intl: React.PropTypes.object,
+        dispatch: React.PropTypes.func
+    };
+
     constructor(props) {
         super(props)
 
         this.state = { isLoading: false }
     }
-
-    static contextTypes = {
-        intl: React.PropTypes.object
-    };
 
     getOptions(input) {
         let self = this
@@ -51,7 +50,7 @@ class HelAutoComplete extends React.Component {
             '@id': val['@id']
         }
 
-        this.props.dispatch(setData(obj))
+        this.context.dispatch(setData(obj))
 
         if(typeof this.props.onSelection === 'function') {
             this.props.onSelection(val)
@@ -97,6 +96,4 @@ class HelAutoComplete extends React.Component {
 
 
 
-export default connect((state) =>({
-    editor: state.editor
-}))(injectIntl(HelAutoComplete))
+export default HelAutoComplete

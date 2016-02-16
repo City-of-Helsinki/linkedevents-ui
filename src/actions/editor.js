@@ -4,13 +4,7 @@ import constants from '../constants'
 import {mapUIDataToAPIFormat} from 'src/utils/formDataMapping.js'
 
 import { pushPath } from 'redux-simple-router'
-
-// Clear editor data. Called explicitly by the user or
-export function clearFlashMsg() {
-    return {
-        type: constants.EDITOR_CLEAR_FLASHMSG
-    }
-}
+import { setFlashMsg, confirmAction } from './app'
 
 // Set data and save it to localStorage
 export function setData(formValues) {
@@ -94,9 +88,9 @@ export function sendData(formValues, user, updateExisting = false) {
 export function sendDataComplete(json, action) {
     return (dispatch) => {
         if(json.apiErrorMsg) {
+            dispatch(setFlashMsg(json.apiErrorMsg, 'error', json))
             dispatch({
                 type: constants.EDITOR_SENDDATA_ERROR,
-                apiErrorMsg: json.apiErrorMsg,
                 data: json,
                 action: action
             })
@@ -188,5 +182,60 @@ export function receiveEventForEditing(json) {
     return {
         type: constants.RECEIVE_EVENT_FOR_EDITING,
         event: json
+    }
+}
+
+// Fetch data for updating
+export function deleteEvent(eventID, user, values) {
+    let url = `${appSettings.api_base}/event/${eventID}/`
+
+    let token = ''
+    if(user) {
+         token = user.token
+    }
+
+    return (dispatch) => {
+        return fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'JWT ' + token,
+            }
+        }).then(response => {
+
+            if(response.status === 200 || response.status === 201 || response.status === 203 || response.status === 204) {
+                dispatch(clearData())
+                dispatch(pushPath(`/event/done/delete/${eventID}`))
+                dispatch(eventDeleted(values))
+            }
+
+            // Auth errors
+            else if(response.status === 401 || response.status === 403) {
+                let apiErrorMsg = 'authorization-required'
+                dispatch(eventDeleted(values, apiErrorMsg))
+            }
+
+            // No resource
+            else if(response.status === 404) {
+                let apiErrorMsg = 'not-found'
+                dispatch(eventDeleted(values, apiErrorMsg))
+            }
+
+            else {
+                let apiErrorMsg = 'server-error'
+                dispatch(eventDeleted(values, apiErrorMsg))
+            }
+
+        })
+    }
+}
+
+// Receive data for updating
+export function eventDeleted(values, error) {
+    return {
+        type: constants.EVENT_DELETED,
+        values: values,
+        error: error
     }
 }

@@ -54,12 +54,6 @@ function update(state = initialState, action) {
         })
     }
 
-    if(action.type === constants.EDITOR_CLEAR_FLASHMSG) {
-        return Object.assign({}, state, {
-            flashMsg: null
-        })
-    }
-
     if(action.type === constants.EDITOR_SENDDATA_SUCCESS) {
         clearEventDataFromLocalStorage()
 
@@ -71,9 +65,9 @@ function update(state = initialState, action) {
     }
 
     if(action.type === constants.EDITOR_SENDDATA_ERROR) {
-        return Object.assign({}, state, {
-            flashMsg: { msg: action.apiErrorMsg, type: 'error', data: action.data }
-        })
+        // return Object.assign({}, state, {
+        //     flashMsg: { msg: action.apiErrorMsg, msgType: 'error', data: action.data }
+        // })
     }
 
     if(action.type === constants.EDITOR_RECEIVE_KEYWORDSETS) {

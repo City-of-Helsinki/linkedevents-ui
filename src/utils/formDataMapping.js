@@ -14,6 +14,10 @@ export {
 
 function mapUIDataToAPIFormat(values) {
 
+    if(!values) {
+        return {}
+    }
+
     let obj = {}
 
     if(values.id) {
@@ -90,6 +94,10 @@ function mapUIDataToAPIFormat(values) {
 }
 
 export function mapAPIDataToUIFormat(values) {
+    if(!values) {
+        return {}
+    }
+
     let obj = {}
 
     // General data
@@ -115,14 +123,16 @@ export function mapAPIDataToUIFormat(values) {
 
     // TODO: Filter hel_main categories from keywords, non-hel_main categories from hel_main
     //
-    let hel_main_items = _.remove(values.keywords, item => {
+    let keywords = _.cloneDeep(values.keywords)
+
+    let hel_main_items = _.remove(keywords, item => {
         return (item.id.indexOf('helfi:') > -1)
     })
 
     obj.hel_main = _.map(hel_main_items, (item) => (`/v0.1/keyword/${item.id}/`))
 
     // Keywords, audience, languages
-    obj.keywords = _.map(values.keywords, (item) => ({ value: `/v0.1/keyword/${item.id}/`, label: (item['name'].fi || item['name'].se || item['name'].en || item['id']) }))
+    obj.keywords = _.map(keywords, (item) => ({ value: `/v0.1/keyword/${item.id}/`, label: (item['name'].fi || item['name'].se || item['name'].en || item['id']) }))
 
     // Filter somehow the hel_main keyword values from keywords
     // obj.keywords = _.filter(obj.keywords, (item) => {

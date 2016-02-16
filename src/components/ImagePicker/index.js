@@ -1,5 +1,6 @@
 import '!style!css!sass!./index.scss'
 import '!style!css!../../../node_modules/react-bootstrap-modal/lib/styles/rbm-complete.css'
+// import '!style!css!sass!../../assets/_modal.scss'
 
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl'
