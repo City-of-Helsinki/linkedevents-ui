@@ -11,8 +11,8 @@ export function selectImage(image) {
     }
 }
 
-function makeRequest(organization, page) {
-    var url = `${appSettings.api_base}/image/`
+function makeRequest(organization, pg_size) {
+    var url = `${appSettings.api_base}/image/?page_size=${pg_size}`
     return fetch(url);
 }
 
@@ -49,14 +49,28 @@ export function receiveUserImages(json) {
     }
 }
 
-export function uploadImage(formData, user, closeModalFn) {
+export function postImage(formData = null, user, externalUrl = null) {
     return (dispatch) => {
         let token = ''
         if(user) { //might not exist
             token = user.token
         }
 
-        let settings = {
+        let requestContentSettings = {}
+        if(formData) {
+            requestContentSettings = {
+                "mimeType": "multipart/form-data",
+                "contentType": false,
+                "data": formData
+            }
+        } else {
+            requestContentSettings = {
+                "contentType": "application/json",
+                "data": JSON.stringify({'url':externalUrl})
+            }
+        }
+
+        let baseSettings = {
             "async": true,
             "crossDomain": true,
             "url": `${appSettings.api_base}/image/`,
@@ -65,19 +79,21 @@ export function uploadImage(formData, user, closeModalFn) {
                 "authorization": 'JWT ' + token,
                 "accept": "application/json",
             },
-            "processData": false,
-            "contentType": false,
-            "mimeType": "multipart/form-data",
-            "data": formData
+            "processData": false
         }
 
+        let settings = Object.assign({}, baseSettings, requestContentSettings)
         return $.ajax(settings).done(response => {
-            let json = JSON.parse(response)
-            // set the id of the newly created picture as the val of the form
-            dispatch(setData({'image': json}))
+            //if we POST form-data, jquery won't parse the response
+            let resp = response
+            if(typeof(response) == "string") {
+                resp = JSON.parse(response)
+            }
+
+            //creation success. set the newly created image as the val of the form
+            dispatch(setData({'image': resp}))
             // and also set the preview image
-            dispatch(imageUploadComplete(json))
-            closeModalFn()
+            dispatch(imageUploadComplete(resp))
         }).fail(response => {
             dispatch(imageUploadFailed(response))
         })

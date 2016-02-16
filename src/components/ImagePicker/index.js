@@ -5,7 +5,7 @@ import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl'
 import Modal from 'react-bootstrap-modal'
 import { RaisedButton } from 'material-ui'
-import { uploadImage} from 'src/actions/userImages.js'
+import { postImage, postImageWithURL } from 'src/actions/userImages.js'
 import { connect } from 'react-redux'
 
 import ImageGalleryGrid from '../ImageGalleryGrid'
@@ -20,16 +20,20 @@ class ImagePicker extends React.Component {
         }
     }
 
-    handleClick(event) {
+    clickHiddenUploadInput() {
         this.hiddenFileInput.click()
+    }
+
+    handleExternalImageSave() {
+        this.props.dispatch(postImage(null, this.props.user, this.externalImageURL.value))
     }
 
     handleUpload(event) {
         let file = event.target.files[0]
         let data = new FormData()
         data.append('image', file)
-        if(file && (file.type === 'image/jpeg' || file.type === 'image/png' )) {
-            this.props.dispatch(uploadImage(data, this.props.user, () => this.closeGalleryModal()));
+        if(file && (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' )) {
+            this.props.dispatch(postImage(data, this.props.user))
         }
     }
 
@@ -48,7 +52,9 @@ class ImagePicker extends React.Component {
 
     render() {
         let selectedImage = ''
-        if(('image' in this.props.editor.values) && ('url' in this.props.editor.values.image)) {
+        if(("image" in this.props.editor.values)
+            && (null !== this.props.editor.values.image)
+            && ("url" in this.props.editor.values.image)) {
             selectedImage = this.props.editor.values.image.url
         }
         return (
@@ -69,23 +75,39 @@ class ImagePicker extends React.Component {
                     aria-labelledby="ModalHeader"
                  >
                     <Modal.Header closeButton>
-                        <Modal.Title id='ModalHeader'><FormattedMessage id="organization-pictures"/></Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <ImageGalleryGrid user={this.props.user} images={this.props.images} />
-                    </Modal.Body>
-                    <Modal.Footer>
+                        <Modal.Title id='ModalHeader'>Uusi kuva</Modal.Title>
+                        <br />
                         <input onChange={(e) => this.handleUpload(e)} style={{ display: 'none' }} type="file" ref={(ref) => this.hiddenFileInput = ref} />
                         <RaisedButton
-                            label= "Upload"
+                            label= "Lataa kuva kovalevyltäsi"
                             primary= {true}
-                            onClick={(e) => this.handleClick(e)}
+                            onClick={() => this.clickHiddenUploadInput()}
+                            style={{margin:"0 0 15px 0"}}
                         />
+                        <br />
+                        tai käytä kuvaa ulkoisessa osoitteessa:
+                        <br />
+                        <input id="externalImageURL" onSubmit={this.handleExternalImageSave} placeholder={"ulkoinen URL"} ref={(ref) => this.externalImageURL = ref} />
                         <RaisedButton
-                            label={<FormattedMessage id="cancel"/>}
+                            label="OK"
+                            onClick={() => this.handleExternalImageSave()}
+                            style={{margin:"0 0 0 10px"}}
+                        />
+                    </Modal.Header>
+
+                    <Modal.Body>
+                        <Modal.Title id='ModalBodyTitle'>Käytä järjestelmässä olemassaolevaa kuvaa</Modal.Title>
+                        <ImageGalleryGrid user={this.props.user} images={this.props.images} />
+                        <div style={{clear:'both'}} />
+                    </Modal.Body>
+
+                    <Modal.Footer>
+                        <RaisedButton
+                            label={<FormattedMessage id="ready"/>}
                             onClick={() => this.saveAndClose()}
                         />
                     </Modal.Footer>
+
                 </Modal>
                 { this.props.children }
             </div>

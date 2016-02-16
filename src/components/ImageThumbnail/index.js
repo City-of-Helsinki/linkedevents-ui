@@ -11,7 +11,6 @@ class ImageThumbnail extends React.Component {
     }
 
     selectThis() {
-        console.log(this.props.data)
         this.props.dispatch(selectImage(this.props.data))
     }
 

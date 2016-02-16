@@ -12,8 +12,9 @@ class ImageGalleryGrid extends React.Component {
     componentDidMount() {
         this.fetchImages();
     }
+
     componentDidUpdate() {
-        const { fetchComplete, isFetching } = this.props.images;
+        const { fetchComplete, isFetching } = this.props.images
         if (fetchComplete || isFetching) {
             return;
         }
@@ -22,7 +23,7 @@ class ImageGalleryGrid extends React.Component {
 
     fetchImages() {
         if (this.props.user) {
-            this.props.dispatch(fetchUserImages(this.props.user, 1));
+            this.props.dispatch(fetchUserImages(this.props.user, 1000));
         }
     }
 
@@ -37,6 +38,8 @@ class ImageGalleryGrid extends React.Component {
                 <ImageThumbnail selected={sel} key={img.id} url={img.url} data={img} />
             )
         })
+        // unsift == prepend
+        imgs.unshift(<ImageThumbnail url="" data={{}}/>)
 
         return (
             <div className="image-grid">

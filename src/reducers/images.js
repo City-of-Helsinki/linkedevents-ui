@@ -16,12 +16,6 @@ function update(state = initialState, action) {
             items: action.items
         });
     }
-    //
-    // if(action.type === constants.RECEIVE_EVENT_DETAILS) {
-    //     return Object.assign({}, state, {
-    //         event: action.event
-    //     });
-    // }
 
     if (action.type === constants.SELECT_IMAGE_BY_ID) {
         console.log(action)
@@ -39,10 +33,9 @@ function update(state = initialState, action) {
     }
 
     if(action.type === constants.IMAGE_UPLOAD_SUCCESS) {
-        console.log('Image uploaded in reducer')
-        console.log(action.data)
         return Object.assign({}, state, {
             selected: action.data,
+            fetchComplete: false
         })
     }
 

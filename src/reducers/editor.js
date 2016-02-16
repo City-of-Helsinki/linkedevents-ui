@@ -97,9 +97,14 @@ function update(state = initialState, action) {
     }
 
     if (action.type === constants.SELECT_IMAGE_BY_ID) {
-        console.log("in editor actions, adding img")
+        let newVal = null
+        if('id' in action.img) {
+            newVal = action.img
+        }
+        // Merge new values to existing values
+        let newValues = Object.assign({}, state.values, {image: newVal})
         return Object.assign({}, state, {
-            values: { image: action.img }
+            values: newValues
         })
     }
 

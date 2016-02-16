@@ -10,7 +10,9 @@
     "welcome": "Tervetuloa",
     "submit": "Lähetä",
     "cancel": "Peru",
+    "save": "Tallenna",
 
+    "ready": "Valmis",
     "clear-form": "Tyhjennä kentät",
 
     "event-presented-in-languages": "Tämä tapahtuma esitetään seuraavilla kielillä.",
