@@ -1,6 +1,6 @@
 import { createAction } from 'redux-actions'
-import fetch from 'isomorphic-fetch'
-import $ from 'jquery' // can't set headers in fetch?!?
+// import fetch from 'isomorphic-fetch'
+import $ from 'jquery' // how do i the same thing in fetch?!? horrible docs
 import constants from '../constants'
 import { setData } from './editor'
 
@@ -13,7 +13,7 @@ export function selectImage(image) {
 
 function makeRequest(organization, pg_size) {
     var url = `${appSettings.api_base}/image/?page_size=${pg_size}`
-    return fetch(url);
+    return $.getJSON(url);
 }
 
 export const startFetching = createAction(constants.REQUEST_IMAGES);
@@ -23,10 +23,10 @@ export function fetchUserImages(user, page) {
         dispatch(startFetching);
         makeRequest(user.organization, page).then(function (response) {
             if (response.status >= 400) {
-                dispatch(receiveUserImages({
+                return dispatch(receiveUserImages({
                     error: 'API Error ' + response.status}));
             }
-            response.json().then(json => dispatch(receiveUserImages(json)));
+            return dispatch(receiveUserImages(response))
         });
     }
 }

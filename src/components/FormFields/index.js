@@ -117,7 +117,7 @@ class FormFields extends React.Component {
                         <MultiLanguageField required={false} multiLine={false} label="event-info-url" ref="info_url" name="info_url" defaultValue={this.props.values["info_url"]} languages={this.state.languages} validations={['isUrl']} />
                     </div>
                     <SideField>
-                        <label><FormattedMessage id="event-picture"/></label>
+                        <label><FormattedMessage id="event-image"/></label>
                         <ImagePicker label="image-preview" name="image" />
                     </SideField>
                 </div>
