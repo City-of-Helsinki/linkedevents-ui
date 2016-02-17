@@ -160,9 +160,9 @@ class FormFields extends React.Component {
                         <HelOffersField ref="offers" name="offers" defaultValue={this.props.values["offers"]} languages={this.state.languages} />
                     </div>
                     <SideField>
-                        <p>Valitse onko tapahtumaan vapaa pääsy tai lisää tapahtuman hinta tekstimuodossa (esim. 5€/7€).</p>
-                        <p>Voit lisätä lisätietoja tapahtuman lipunmyynnistä, paikkavarauksista jne.</p>
-                        <p>Lisää myös mahdollinen linkki lipunmyyntiin.</p>
+                        <p>Merkitse jos tapahtuma on maksuton tai lisää tapahtuman hinta tekstimuodossa (esim. 7€/5€).</p>
+                        <p>Kerro mahdollisesta ennakkoilmoittautumisesta tai anna lisätietoja esimerkiksi paikkavarauksista.</p>
+                        <p>Lisää mahdollinen linkki lipunmyyntiin.</p>
                     </SideField>
                 </div>
 
@@ -175,12 +175,14 @@ class FormFields extends React.Component {
                         <HelTextField validations={['isUrl']} ref="extlink_twitter" name="extlink_twitter" label={<FormattedMessage id="twitter-url"/>} defaultValue={this.props.values['extlink_twitter']} />
                         <HelTextField validations={['isUrl']} ref="extlink_instagram" name="extlink_instagram" label={<FormattedMessage id="instagram-url"/>} defaultValue={this.props.values['extlink_instagram']} />
                     </div>
+                    <SideField><p>Lisää linkki tapahtuman tai sen järjestäjän some-sivulle.</p></SideField>
                 </div>
 
                 <FormHeader>
                     <FormattedMessage id="event-categorization" />
                 </FormHeader>
                 <div className="row">
+                    <SideField><p>Valitse vähintään yksi pääkategoria.</p></SideField>
                     <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-main-categories"/>}
                                     selectedValues={this.props.values['hel_main']}
                                     ref="hel_main"
@@ -194,6 +196,7 @@ class FormFields extends React.Component {
                                     name="hel_target"
                                     itemClassName="col-sm-6"
                                     options={helTargetOptions} />
+                    <SideField><p>Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään.</p></SideField>
                     <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-event-languages"/>}
                                     selectedValues={this.props.values['in_language']}
                                     ref="in_language"
