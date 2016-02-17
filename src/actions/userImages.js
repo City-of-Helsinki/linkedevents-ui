@@ -18,10 +18,10 @@ function makeRequest(organization, pg_size) {
 
 export const startFetching = createAction(constants.REQUEST_IMAGES);
 
-export function fetchUserImages(user, page) {
+export function fetchUserImages(user, page_size) {
     return (dispatch) => {
         dispatch(startFetching);
-        makeRequest(user.organization, page).then(function (response) {
+        makeRequest(user.organization, page_size).then(function (response) {
             if (response.status >= 400) {
                 return dispatch(receiveUserImages({
                     error: 'API Error ' + response.status}));
