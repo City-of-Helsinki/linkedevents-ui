@@ -96,7 +96,8 @@
     "server-error": "Virhe palvelimella.",
     "validation-error": "Validointi virhe.",
     "authorization-required": "Kirjaudu sisään tapahtuman lähettämiseksi.",
-    "event-posted": "Tapahtuma lähetettiin onnistuneesti!"
+    "event-posted": "Tapahtuma lähetettiin onnistuneesti!",
+    "no-connection": "Ei yhteyttä palvelimelle!"
 
 
 }

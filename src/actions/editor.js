@@ -82,6 +82,9 @@ export function sendData(formValues, user, updateExisting = false) {
                 }
             })
         })
+        .catch(e => {
+            dispatch(setFlashMsg('no-connection', 'error'))
+        })
     }
 }
 
@@ -124,6 +127,9 @@ export function fetchKeywordSets() {
                 return dispatch(receiveKeywordSets(json))
             }
         })
+        .catch(e => {
+            dispatch(setFlashMsg('no-connection', 'error'))
+        })
     }
 }
 
@@ -156,6 +162,9 @@ export function fetchLanguages() {
                 return dispatch(receiveLanguages(json))
             }
         })
+        .catch(e => {
+            dispatch(setFlashMsg('no-connection', 'error'))
+        })
     }
 }
 
@@ -181,6 +190,9 @@ export function fetchEventForEditing(eventID) {
         return fetch(url)
             .then(response => response.json())
             .then(json => dispatch(receiveEventForEditing(json)))
+            .catch(e => {
+                dispatch(setFlashMsg('no-connection', 'error'))
+            })
     }
 }
 
@@ -234,6 +246,9 @@ export function deleteEvent(eventID, user, values) {
                 dispatch(eventDeleted(values, apiErrorMsg))
             }
 
+        })
+        .catch(e => {
+            dispatch(setFlashMsg('no-connection', 'error'))
         })
     }
 }

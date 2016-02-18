@@ -1,6 +1,8 @@
 import constants from '../constants'
 import fetch from 'isomorphic-fetch'
 
+import { setFlashMsg } from './app'
+
 function makeRequest(query, startDate, endDate) {
     var url = `${appSettings.api_base}/event/?text=${query}`
 
@@ -22,6 +24,9 @@ function makeRequest(query, startDate, endDate) {
             }
         }
         return response.json()
+    })
+    .catch(e => {
+        dispatch(setFlashMsg('no-connection', 'error'))
     })
 }
 
@@ -73,5 +78,8 @@ export function fetchEventDetails(eventID) {
             })
             .then(response => response.json())
             .then(json => dispatch(receiveEventDetails(json)))
+            .catch(e => {
+                dispatch(setFlashMsg('no-connection', 'error'))
+            })
     }
 }
