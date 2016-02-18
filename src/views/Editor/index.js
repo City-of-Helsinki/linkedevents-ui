@@ -119,9 +119,6 @@ var EditorPage = React.createClass({
     },
 
     componentWillMount() {
-        this.props.dispatch(fetchKeywordSets())
-        this.props.dispatch(fetchLanguages())
-
         if(this.props.params.action === 'update' && this.props.params.eventId) {
             this.props.dispatch(fetchEventForEditing(this.props.params.eventId))
         }

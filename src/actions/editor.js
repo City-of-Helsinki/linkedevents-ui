@@ -110,24 +110,27 @@ export function sendDataComplete(json, action) {
 export function fetchKeywordSets() {
     return (dispatch) => {
         let url = `${appSettings.api_base}/keywordset/?include=keywords`
-
         return fetch(url).then((response) => {
+
+            // Try again after a delay
             if (response.status >= 400) {
-                return {
-                    apiErrorMsg: 'server-error'
-                }
+                setTimeout(e => dispatch(fetchKeywordSets()), 5000);
+                return null
             }
             return response.json()
         })
         .then(json => {
-            // console.log('Received', json)
-            return dispatch(receiveKeywordSets(json))
+            if(json) {
+                return dispatch(receiveKeywordSets(json))
+            }
         })
     }
 }
 
 // Receive Hel.fi main category and audience keywords
 export function receiveKeywordSets(json) {
+    localStorage.setItem('KEYWORDSETS', JSON.stringify(json.data))
+
     return {
         type: constants.EDITOR_RECEIVE_KEYWORDSETS,
         keywordSets: json.data
@@ -139,23 +142,27 @@ export function fetchLanguages() {
     return (dispatch) => {
         let url = `${appSettings.api_base}/language/`
 
+        // Try again after a delay
         return fetch(url).then((response) => {
             if (response.status >= 400) {
-                return {
-                    apiErrorMsg: 'server-error'
-                }
+                setTimeout(e => dispatch(fetchLanguages()), 5000);
+                return null
+            } else {
+                return response.json()
             }
-            return response.json()
         })
         .then(json => {
-            // console.log('Received', json)
-            return dispatch(receiveLanguages(json))
+            if(json) {
+                return dispatch(receiveLanguages(json))
+            }
         })
     }
 }
 
 // Receive Hel.fi main category and audience keywords
 export function receiveLanguages(json) {
+    localStorage.setItem('LANGUAGES', JSON.stringify(json.data))
+
     return {
         type: constants.EDITOR_RECEIVE_LANGUAGES,
         languages: json.data

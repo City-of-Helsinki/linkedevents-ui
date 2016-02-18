@@ -12,6 +12,7 @@ import Button from 'react-bootstrap/lib/Button';
 import {injectIntl} from 'react-intl'
 
 import {retrieveUserFromSession} from 'src/actions/user'
+import {fetchKeywordSets, fetchLanguages} from 'src/actions/editor.js'
 import {clearFlashMsg, cancelAction, doAction} from 'src/actions/app.js'
 import {FormattedMessage} from 'react-intl'
 
@@ -43,6 +44,11 @@ class App extends React.Component {
     }
 
     componentWillMount() {
+        // Prefetch editor related hel.fi categories and event languages
+        this.props.dispatch(fetchKeywordSets())
+        this.props.dispatch(fetchLanguages())
+
+        // Fetch userdata
         return this.props.dispatch(retrieveUserFromSession())
     }
 

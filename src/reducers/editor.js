@@ -3,16 +3,23 @@ import constants from '../constants'
 import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
 
 let editorValues = {}
+let languages = {}
+let keywordSets = {}
 
 try {
-    // Local storage loading and saving disabled for now
+    // Local storage form value loading and saving disabled for now
     // editorValues = JSON.parse(localStorage.getItem('EDITOR_VALUES'))
+    keywordSets = JSON.parse(localStorage.getItem('KEYWORDSETS'))
+    languages = JSON.parse(localStorage.getItem('LANGUAGES'))
+    //
 } catch(e) {
     editorValues = {}
 }
 
 const initialState = {
-    values: editorValues || {}
+    values: editorValues || {},
+    languages: languages,
+    keywordSets: keywordSets
 }
 
 function clearEventDataFromLocalStorage() {
@@ -65,9 +72,7 @@ function update(state = initialState, action) {
     }
 
     if(action.type === constants.EDITOR_SENDDATA_ERROR) {
-        // return Object.assign({}, state, {
-        //     flashMsg: { msg: action.apiErrorMsg, msgType: 'error', data: action.data }
-        // })
+        return state;
     }
 
     if(action.type === constants.EDITOR_RECEIVE_KEYWORDSETS) {
