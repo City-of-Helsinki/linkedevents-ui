@@ -3,6 +3,8 @@ import fetch from 'isomorphic-fetch'
 import { receiveEvents } from './events'
 import constants from '../constants'
 
+import { setFlashMsg } from './app'
+
 function makeRequest(organization, page) {
     var url = `${appSettings.api_base}/event/?organization=${organization}&show_all=1&sort=-last_modified_time&page_size=100`
     if(appSettings.nocache) {
@@ -23,6 +25,9 @@ export function fetchUserEvents(user, page) {
                     error: 'API Error ' + response.status}));
             }
             response.json().then(json => dispatch(receiveEvents(json)));
+        })
+        .catch(e => {
+            dispatch(setFlashMsg('no-connection', 'error'))
         });
     }
 }
