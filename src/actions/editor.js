@@ -6,6 +6,8 @@ import {mapUIDataToAPIFormat} from 'src/utils/formDataMapping.js'
 import { pushPath } from 'redux-simple-router'
 import { setFlashMsg, confirmAction } from './app'
 
+import {doValidations} from 'src/validation/validator.js'
+
 // Set data and save it to localStorage
 export function setData(formValues) {
     return {
@@ -29,11 +31,26 @@ export function clearData() {
     }
 }
 
+// Receive data for updating
+export function setValidationErrors(errors) {
+    return {
+        type: constants.SET_VALIDATION_ERRORS,
+        errors: errors
+    }
+}
+
 // Send data and create sendDataComplete event afterwards
-// NOTE: values are passed from the editor view. There's no apparent way to access state from here
 export function sendData(formValues, user, updateExisting = false) {
     return (dispatch) => {
         //console.log('Sending: ', mapUIDataToAPIFormat(formValues))
+
+        // Run validations
+        let validationErrors = doValidations(formValues)
+
+        // There are validation errors, don't continue sending
+        if (_.keys(validationErrors).length > 0) {
+            return dispatch(setValidationErrors(validationErrors))
+        }
 
         let url = `${appSettings.api_base}/event/`
 
@@ -112,7 +129,7 @@ export function sendDataComplete(json, action) {
 // Fetch Hel.fi main category and audience keywords
 export function fetchKeywordSets() {
     return (dispatch) => {
-        let url = `${appSettings.api_base}/keywordset/?include=keywords`
+        let url = `${appSettings.api_base}/keyword_set/?include=keywords`
         return fetch(url).then((response) => {
 
             // Try again after a delay

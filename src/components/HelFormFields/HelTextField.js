@@ -7,7 +7,7 @@ import {setData} from 'src/actions/editor.js'
 
 import {injectIntl} from 'react-intl'
 
-import validationRules from 'src/utils/validationRules.js';
+import validationRules from 'src/validation/validationRules.js';
 
 let HelTextField = React.createClass({
 

@@ -19,7 +19,8 @@ try {
 const initialState = {
     values: editorValues || {},
     languages: languages,
-    keywordSets: keywordSets
+    keywordSets: keywordSets,
+    validationErrors: {}
 }
 
 function clearEventDataFromLocalStorage() {
@@ -57,7 +58,8 @@ function update(state = initialState, action) {
         clearEventDataFromLocalStorage()
 
         return Object.assign({}, state, {
-            values: {}
+            values: {},
+            validationErrors: {}
         })
     }
 
@@ -92,6 +94,12 @@ function update(state = initialState, action) {
 
         return Object.assign({}, state, {
             values: newValues
+        })
+    }
+
+    if(action.type === constants.SET_VALIDATION_ERRORS) {
+        return Object.assign({}, state, {
+            validationErrors: action.errors
         })
     }
 

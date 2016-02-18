@@ -90,6 +90,8 @@ class FormFields extends React.Component {
         let helTargetOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helfi:audiences')
         let helEventLangOptions = mapLanguagesSetToForm(this.props.editor.languages)
 
+        const { values, validationErrors } = this.props.editor
+
         return (
             <div>
                 <div className="col-sm-12 highlighted-block">
@@ -111,10 +113,10 @@ class FormFields extends React.Component {
 
                 <div className="row">
                     <div className="col-sm-6">
-                        <MultiLanguageField required={true} multiLine={false} label="event-headline" ref="name" name="name" defaultValue={this.props.values["name"]} languages={this.state.languages} />
-                        <MultiLanguageField required={false} multiLine={true} label="event-short-description" ref="short_description" name="short_description" defaultValue={this.props.values["short_description"]} languages={this.state.languages} />
-                        <MultiLanguageField required={false} multiLine={true} label="event-description" ref="description" name="description" defaultValue={this.props.values["description"]} languages={this.state.languages} />
-                        <MultiLanguageField required={false} multiLine={false} label="event-info-url" ref="info_url" name="info_url" defaultValue={this.props.values["info_url"]} languages={this.state.languages} validations={['isUrl']} />
+                        <MultiLanguageField required={true} multiLine={false} label="event-headline" ref="name" name="name" validationErrors={validationErrors["name"]} defaultValue={values["name"]} languages={this.state.languages} />
+                        <MultiLanguageField required={false} multiLine={true} label="event-short-description" ref="short_description" name="short_description" validationErrors={validationErrors["short_description"]} defaultValue={values["short_description"]} languages={this.state.languages} />
+                        <MultiLanguageField required={false} multiLine={true} label="event-description" ref="description" name="description" validationErrors={validationErrors["description"]} defaultValue={values["description"]} languages={this.state.languages} />
+                        <MultiLanguageField required={false} multiLine={false} label="event-info-url" ref="info_url" name="info_url" validationErrors={validationErrors["info_url"]} defaultValue={values["info_url"]} languages={this.state.languages} validations={['isUrl']} />
                     </div>
                     <SideField>
                         <label><FormattedMessage id="event-picture"/></label>
@@ -127,8 +129,8 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6">
-                        <HelDateTimeField defaultValue={this.props.values['start_time']} ref="start_time" name="start_time" label="event-starting-datetime" />
-                        <HelDateTimeField defaultValue={this.props.values['end_time']} ref="end_time" name="end_time" label="event-ending-datetime" />
+                        <HelDateTimeField validationErrors={validationErrors['start_time']} defaultValue={values['start_time']} ref="start_time" name="start_time" label="event-starting-datetime" />
+                        <HelDateTimeField validationErrors={validationErrors['end_time']} defaultValue={values['end_time']} ref="end_time" name="end_time" label="event-ending-datetime" />
                     </div>
                 </div>
 
@@ -142,10 +144,10 @@ class FormFields extends React.Component {
                             dataSource={`${appSettings.api_base}/place/?page_size=10000&filter=`}
                             resource="place"
                             required={true}
-                            defaultValue={this.props.values['location']}
+                            validationErrors={validationErrors['location']} defaultValue={values['location']}
                             placeholder={this.context.intl.formatMessage({ id: "event-location" })}
                             />
-                        <MultiLanguageField multiLine={true} label="event-location-additional-info" ref="location_extra_info" name="location_extra_info" defaultValue={this.props.values["location_extra_info"]} languages={this.state.languages} />
+                        <MultiLanguageField multiLine={true} label="event-location-additional-info" ref="location_extra_info" name="location_extra_info" validationErrors={validationErrors["location_extra_info"]} defaultValue={values["location_extra_info"]} languages={this.state.languages} />
                     </div>
                     <SideField>
                         <p>Aloita kirjoittamaan kenttään tapahtumapaikan nimen alkua ja valitse oikea paikka alle ilmestyvästä listasta. Jos et löydä paikkaa tällä tavoin, kirjoita tapahtumapaikka tai osoite lisätietokenttään.</p>
@@ -157,7 +159,7 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6">
-                        <HelOffersField ref="offers" name="offers" defaultValue={this.props.values["offers"]} languages={this.state.languages} />
+                        <HelOffersField ref="offers" name="offers" validationErrors={validationErrors["offers"]} defaultValue={values["offers"]} languages={this.state.languages} />
                     </div>
                     <SideField>
                         <p>Merkitse jos tapahtuma on maksuton tai lisää tapahtuman hinta tekstimuodossa (esim. 7€/5€).</p>
@@ -171,9 +173,9 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6">
-                        <HelTextField validations={['isUrl']} ref="extlink_facebook" name="extlink_facebook" label={<FormattedMessage id="facebook-url"/>} defaultValue={this.props.values['extlink_facebook']} />
-                        <HelTextField validations={['isUrl']} ref="extlink_twitter" name="extlink_twitter" label={<FormattedMessage id="twitter-url"/>} defaultValue={this.props.values['extlink_twitter']} />
-                        <HelTextField validations={['isUrl']} ref="extlink_instagram" name="extlink_instagram" label={<FormattedMessage id="instagram-url"/>} defaultValue={this.props.values['extlink_instagram']} />
+                        <HelTextField validations={['isUrl']} ref="extlink_facebook" name="extlink_facebook" label={<FormattedMessage id="facebook-url"/>} validationErrors={validationErrors['extlink_facebook']} defaultValue={values['extlink_facebook']} />
+                        <HelTextField validations={['isUrl']} ref="extlink_twitter" name="extlink_twitter" label={<FormattedMessage id="twitter-url"/>} validationErrors={validationErrors['extlink_twitter']} defaultValue={values['extlink_twitter']} />
+                        <HelTextField validations={['isUrl']} ref="extlink_instagram" name="extlink_instagram" label={<FormattedMessage id="instagram-url"/>} validationErrors={validationErrors['extlink_instagram']} defaultValue={values['extlink_instagram']} />
                     </div>
                     <SideField><p>Lisää linkki tapahtuman tai sen järjestäjän some-sivulle.</p></SideField>
                 </div>
@@ -184,23 +186,26 @@ class FormFields extends React.Component {
                 <div className="row">
                     <SideField><p>Valitse vähintään yksi pääkategoria.</p></SideField>
                     <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-main-categories"/>}
-                                    selectedValues={this.props.values['hel_main']}
+                                    selectedValues={values['hel_main']}
                                     ref="hel_main"
                                     name="hel_main"
+                                    validationErrors={validationErrors['hel_main']}
                                     itemClassName="col-sm-6"
                                     options={helMainOptions} />
-                    <HelSelect selectedValues={this.props.values['keywords']} legend={"Kategoriat"} ref="keywords" name="keywords" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?data_source=yso&filter=`} />
+                    <HelSelect selectedValues={values['keywords']} legend={"Kategoriat"} ref="keywords" name="keywords" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?data_source=yso&filter=`} validationErrors={validationErrors['keywords']} />
                     <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-target-groups"/>}
-                                    selectedValues={this.props.values['hel_target']}
+                                    selectedValues={values['hel_target']}
                                     ref="hel_target"
                                     name="hel_target"
+                                    validationErrors={validationErrors['hel_target']}
                                     itemClassName="col-sm-6"
                                     options={helTargetOptions} />
                     <SideField><p>Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään.</p></SideField>
                     <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-event-languages"/>}
-                                    selectedValues={this.props.values['in_language']}
+                                    selectedValues={values['in_language']}
                                     ref="in_language"
                                     name="in_language"
+                                    validationErrors={validationErrors['in_language']}
                                     itemClassName="col-sm-6"
                                     options={helEventLangOptions} />
                 </div>

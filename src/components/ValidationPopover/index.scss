@@ -1,0 +1,25 @@
+.validation-error-popover {
+    border: 0;
+    padding: 0;
+    color: #fff;
+    left: initial;
+    right: -24px;
+    top:50%;
+    transform: translateX(100%) translateY(-50%);
+    min-height: 42px;
+
+    background: #48a3e9;
+}
+
+.arrow {
+    position: absolute;
+    left: -11px;
+    top:50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 25px;
+
+    background-image: url('./arrowleft.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
