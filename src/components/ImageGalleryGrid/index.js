@@ -1,6 +1,6 @@
 import React from 'react';
+import { get as getIfExists } from 'lodash'
 import { connect } from 'react-redux'
-import { setData } from 'src/actions/editor.js'
 import { fetchUserImages } from 'src/actions/userImages'
 import ImageThumbnail from '../ImageThumbnail'
 
@@ -29,10 +29,7 @@ class ImageGalleryGrid extends React.Component {
 
     render() {
         // save the id of the selected image of this event (or editor values)
-        let selected_id = null
-        if(this.props.images.selected) {
-            selected_id = this.props.images.selected.id
-        }
+        let selected_id = getIfExists(this.props.editor.values, 'image.id', null)
 
         // build the classes for the thumbnails
         let imgs = this.props.images.items.map((img) => {

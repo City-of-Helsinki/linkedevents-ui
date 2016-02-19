@@ -1,12 +1,15 @@
 import '!style!css!sass!./index.scss'
-import '!style!css!../../../node_modules/react-bootstrap-modal/lib/styles/rbm-complete.css'
+// import '!style!css!../../../node_modules/react-bootstrap-modal/lib/styles/rbm-complete.css'
+import '!style!css!sass!../../../node_modules/bootstrap/scss/bootstrap.scss'
 
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl'
-import Modal from 'react-bootstrap-modal'
+// import Modal from 'react-bootstrap-modal'
+import Modal from 'react-bootstrap/lib/Modal';
 import { RaisedButton } from 'material-ui'
 import { postImage, postImageWithURL } from 'src/actions/userImages.js'
 import { connect } from 'react-redux'
+import { get as getIfExists } from 'lodash'
 
 import ImageGalleryGrid from '../ImageGalleryGrid'
 
@@ -50,12 +53,7 @@ class ImagePicker extends React.Component {
     }
 
     render() {
-        let selectedImage = ''
-        if(("image" in this.props.editor.values)
-            && (null !== this.props.editor.values.image)
-            && ("url" in this.props.editor.values.image)) {
-            selectedImage = this.props.editor.values.image.url
-        }
+        let selectedImage = getIfExists(this.props.editor.values, 'image.url', '')
         return (
             <div className="image-picker" onClick={() => this.openGalleryModal()}>
                 <img src={selectedImage} ref={(ref) => this.imagePreview = ref} />
