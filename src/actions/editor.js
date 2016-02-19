@@ -8,7 +8,10 @@ import { setFlashMsg, confirmAction } from './app'
 
 import {doValidations} from 'src/validation/validator.js'
 
-// Set data and save it to localStorage
+/**
+ * Set editor form data
+ * @param {obj} formValues      new form values
+ */
 export function setData(formValues) {
     return {
         type: constants.EDITOR_SETDATA,
@@ -16,7 +19,10 @@ export function setData(formValues) {
     }
 }
 
-// Set data and save it to localStorage
+/**
+ * Replace all editor values
+ * @param  {obj} formValues     new form values to replace all existing values
+ */
 export function replaceData(formValues) {
     return {
         type: constants.EDITOR_REPLACEDATA,
@@ -24,15 +30,21 @@ export function replaceData(formValues) {
     }
 }
 
-// Clear editor data. Called explicitly by the user or
+/**
+ * Clear all editor form data
+ */
 export function clearData() {
     return {
         type: constants.EDITOR_CLEARDATA
     }
 }
 
-// Receive data for updating
-export function setValidationErrors(errors) {
+/**
+ * Set validation errors for editor (shown with validation popovers)
+ * @param {obj} errors
+ * @param {string} validateFor    the publication status of the document
+ */
+export function setValidationErrors(errors, validateFor) {
     return {
         type: constants.SET_VALIDATION_ERRORS,
         errors: errors
@@ -42,7 +54,9 @@ export function setValidationErrors(errors) {
 // Send data and create sendDataComplete event afterwards
 export function sendData(formValues, user, updateExisting = false) {
     return (dispatch) => {
-        //console.log('Sending: ', mapUIDataToAPIFormat(formValues))
+        // Set publication status for editor values. This is used by the validation to determine
+        // which set of rules to use
+        dispatch(setData({publication_status: formValues.publication_status}))
 
         // Run validations
         let validationErrors = doValidations(formValues)

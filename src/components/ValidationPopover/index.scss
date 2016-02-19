@@ -6,9 +6,23 @@
     right: -24px;
     top:50%;
     transform: translateX(100%) translateY(-50%);
-    min-height: 42px;
+    min-height: 38px;
 
     background: #48a3e9;
+
+    .popover-content {
+        min-width: 190px;
+        white-space: nowrap;
+    }
+
+    &.small {
+        height: 28px;
+        min-height: 28px;
+
+        .popover-content {
+            padding: 1px 12px;
+        }
+    }
 }
 
 .arrow {
@@ -22,4 +36,20 @@
     background-image: url('./arrowleft.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
+}
+
+@media (max-width: 520px) {
+    .validation-error-popover {
+        .popover-content {
+            min-width: 100px;
+            white-space: normal;
+        }
+
+        &.small {
+            .popover-content {
+                padding: 1px 12px;
+                white-space: nowrap;
+            }
+        }
+    }
 }

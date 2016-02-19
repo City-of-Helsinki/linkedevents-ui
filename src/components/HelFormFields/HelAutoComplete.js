@@ -73,7 +73,7 @@ class HelAutoComplete extends React.Component {
         return (
             <span>
                 <div className="hel-select">
-                    <legend style={{ position: 'relative', width: 'auto' }}>Paikka <ValidationPopover validationErrors={this.props.validationErrors} placement="right"/></legend>
+                    <legend style={{ position: 'relative', width: 'auto' }}>Paikka <ValidationPopover small validationErrors={this.props.validationErrors} /></legend>
                     <Select.Async
                         placeholder={this.props.placeholder}
                         value={ {label: values.name.fi, value: values.id} }

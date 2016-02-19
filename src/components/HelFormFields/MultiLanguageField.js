@@ -97,7 +97,19 @@ class MultiLanguageField extends React.Component {
 
         if(langs.length === 1) {
             let label = this.context.intl.formatMessage({id: props.label}) + ' (' + this.context.intl.formatMessage({id: `in-${langs[0]}`}) + ')'
-            return (<div style={{position:'relative'}} key={`${props.name}_${langs[0]}`}><ValidationPopover validationErrors={this.props.validationErrors} /><HelTextField required={this.props.required} defaultValue={this.state.value[langs[0]]} label={label} ref={langs[0]} onChange={(e,v) => this.onChange(e,v,langs[0])} onBlur={(e,v) => this.onBlur(e,v)} disabled={this.props.disabled} validations={this.props.validations} /></div>)
+            return (
+                <div style={{position:'relative'}} key={`${props.name}_${langs[0]}`}>
+                    <HelTextField required={this.props.required}
+                        defaultValue={this.state.value[langs[0]]}
+                        label={label}
+                        ref={langs[0]}
+                        onChange={(e,v) => this.onChange(e,v,langs[0])}
+                        onBlur={(e,v) => this.onBlur(e,v)}
+                        disabled={this.props.disabled}
+                        validations={this.props.validations}
+                        validationErrors={this.props.validationErrors} />
+                </div>
+            )
         } else {
             textInputs = langs.map((lang, index) => {
                 let value = this.state.value[lang]

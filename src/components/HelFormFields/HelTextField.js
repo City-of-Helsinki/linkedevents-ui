@@ -8,6 +8,7 @@ import {setData} from 'src/actions/editor.js'
 import {injectIntl} from 'react-intl'
 
 import validationRules from 'src/validation/validationRules.js';
+import ValidationPopover from 'src/components/ValidationPopover'
 
 let HelTextField = React.createClass({
 
@@ -135,12 +136,7 @@ let HelTextField = React.createClass({
         let { required, label } = this.props
 
         if(required) {
-            if(typeof label === 'string') {
-                label += ' *'
-            }
-            if(typeof label === 'object') {
-                label = (<span>{label} *</span>)
-            }
+            label = (<span style={{position: 'relative'}}>{label} *<ValidationPopover small validationErrors={this.props.validationErrors} /></span>)
         }
 
         let groupClassName = 'hel-text-field'
@@ -157,6 +153,7 @@ let HelTextField = React.createClass({
         }
 
         return (
+            <span style={{position: 'relative'}}>
             <Input
                 type={type}
                 value={this.state.value}
@@ -166,7 +163,7 @@ let HelTextField = React.createClass({
                 hasFeedback
                 ref="text"
                 groupClassName={groupClassName}
-                labelClassName="hel-label"
+                labelClassName="hel-label relative"
                 onChange={this.handleChange}
                 onBlur={this.handleBlur}
                 name={this.props.name}
@@ -174,6 +171,7 @@ let HelTextField = React.createClass({
                 help={this.state.error}
                 disabled={this.props.disabled}
             />
+            </span>
         )
     }
 });
