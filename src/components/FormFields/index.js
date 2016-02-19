@@ -191,9 +191,9 @@ class FormFields extends React.Component {
                                     options={helMainOptions} />
                     <HelSelect selectedValues={this.props.values['keywords']} legend={"Kategoriat"} ref="keywords" name="keywords" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?data_source=yso&filter=`} />
                     <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-target-groups"/>}
-                                    selectedValues={this.props.values['hel_target']}
-                                    ref="hel_target"
-                                    name="hel_target"
+                                    selectedValues={this.props.values['audience']}
+                                    ref="audience"
+                                    name="audience"
                                     itemClassName="col-sm-6"
                                     options={helTargetOptions} />
                     <SideField><p>Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään.</p></SideField>

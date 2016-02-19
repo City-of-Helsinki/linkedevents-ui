@@ -2,7 +2,7 @@ export function mapKeywordSetToForm(keywordSets, id, locale = 'fi') {
     let keywordSet = _.findWhere(keywordSets, {'id': id})
     if(keywordSet && keywordSet.keywords) {
         return keywordSet.keywords.map((item) => ({
-            value: `/v0.1/keyword/${item.id}/`,
+            value: item['@id'],
             label: item.name[locale]
         }))
     }
@@ -15,7 +15,7 @@ export function mapKeywordSetToForm(keywordSets, id, locale = 'fi') {
 export function mapLanguagesSetToForm(set, locale = 'fi') {
     if(set && set.length) {
         return set.map((item) => ({
-            value: `/v0.1/language/${item.id}/`,
+            value: item['@id'],
             label: item.name[locale] || item.id
         }))
     }
