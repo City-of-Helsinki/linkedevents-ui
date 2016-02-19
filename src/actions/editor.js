@@ -109,7 +109,7 @@ export function sendDataComplete(json, action) {
 // Fetch Hel.fi main category and audience keywords
 export function fetchKeywordSets() {
     return (dispatch) => {
-        let url = `${appSettings.api_base}/keywordset/?include=keywords`
+        let url = `${appSettings.api_base}/keyword_set/?include=keywords`
 
         return fetch(url).then((response) => {
             if (response.status >= 400) {
@@ -164,7 +164,7 @@ export function receiveLanguages(json) {
 
 // Fetch data for updating
 export function fetchEventForEditing(eventID) {
-    let url = `${appSettings.api_base}/event/${eventID}/?include=keywords,location,audience,in_language,external_links`
+    let url = `${appSettings.api_base}/event/${eventID}/?include=keywords,location,audience,in_language,external_links,image`
 
     if(appSettings.nocache) {
         url += `&nocache=${Date.now()}`

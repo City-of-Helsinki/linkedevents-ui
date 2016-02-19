@@ -58,7 +58,7 @@ export function receiveEventDetails(json) {
 }
 
 export function fetchEventDetails(eventID) {
-    let url = `${appSettings.api_base}/event/${eventID}/?include=keywords,location,audience,in_language,external_links`
+    let url = `${appSettings.api_base}/event/${eventID}/?include=keywords,location,audience,in_language,external_links,image`
 
     if(appSettings.nocache) {
         url += `&nocache=${Date.now()}`
