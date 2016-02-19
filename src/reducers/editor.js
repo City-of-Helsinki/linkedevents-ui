@@ -2,6 +2,8 @@ import constants from '../constants'
 
 import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
 
+import {doValidations} from 'src/validation/validator.js'
+
 let editorValues = {}
 let languages = {}
 let keywordSets = {}
@@ -19,7 +21,8 @@ try {
 const initialState = {
     values: editorValues || {},
     languages: languages,
-    keywordSets: keywordSets
+    keywordSets: keywordSets,
+    validationErrors: {}
 }
 
 function clearEventDataFromLocalStorage() {
@@ -35,8 +38,15 @@ function update(state = initialState, action) {
         // Local storage saving disabled for now
         // localStorage.setItem('EDITOR_VALUES', JSON.stringify(newValues))
 
+        let validationErrors = Object.assign({}, state.validationErrors)
+        // If there are validation errors, check if they are fixed
+        if (_.keys(state.validationErrors).length > 0) {
+            validationErrors = doValidations(newValues)
+        }
+
         return Object.assign({}, state, {
-            values: newValues
+            values: newValues,
+            validationErrors: validationErrors
         })
     }
 
@@ -57,7 +67,8 @@ function update(state = initialState, action) {
         clearEventDataFromLocalStorage()
 
         return Object.assign({}, state, {
-            values: {}
+            values: {},
+            validationErrors: {}
         })
     }
 
@@ -92,6 +103,12 @@ function update(state = initialState, action) {
 
         return Object.assign({}, state, {
             values: newValues
+        })
+    }
+
+    if(action.type === constants.SET_VALIDATION_ERRORS) {
+        return Object.assign({}, state, {
+            validationErrors: action.errors
         })
     }
 

@@ -6,6 +6,8 @@ import {setData} from 'src/actions/editor.js'
 
 import { FormattedMessage } from 'react-intl'
 
+import ValidationPopover from 'src/components/ValidationPopover'
+
 import moment from 'moment'
 
 const HelDateTimeField = React.createClass({
@@ -143,7 +145,7 @@ const HelDateTimeField = React.createClass({
         return (
             <div className="multi-field">
                 <div className="indented">
-                    <label><FormattedMessage id={`${this.props.label}`} /></label>
+                    <label style={{position: 'relative'}}><FormattedMessage id={`${this.props.label}`} /> <ValidationPopover validationErrors={this.props.validationErrors} /></label>
                     <HelTextField ref="date" defaultValue={this.state.value.date} validations={['isDate']} placeholder="pp.kk.vvvv" onChange={this.handleChange} onBlur={this.onBlur} label={<FormattedMessage id="date" />} />
                     <HelTextField ref="time" defaultValue={this.state.value.time} validations={['isTime']} placeholder="hh.mm" onChange={this.handleChange} onBlur={this.onBlur} label={<FormattedMessage id="time" />} />
                 </div>
