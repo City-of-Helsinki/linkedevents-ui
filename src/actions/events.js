@@ -26,7 +26,7 @@ function makeRequest(query, startDate, endDate) {
         return response.json()
     })
     .catch(e => {
-        dispatch(setFlashMsg('no-connection', 'error'))
+        // Error happened while fetching ajax (connection or javascript)
     })
 }
 
@@ -79,7 +79,7 @@ export function fetchEventDetails(eventID) {
             .then(response => response.json())
             .then(json => dispatch(receiveEventDetails(json)))
             .catch(e => {
-                dispatch(setFlashMsg('no-connection', 'error'))
+                // Error happened while fetching ajax (connection or javascript)
             })
     }
 }

@@ -83,7 +83,7 @@ export function sendData(formValues, user, updateExisting = false) {
             })
         })
         .catch(e => {
-            dispatch(setFlashMsg('no-connection', 'error'))
+            // Error happened while fetching ajax (connection or javascript)
         })
     }
 }
@@ -128,7 +128,7 @@ export function fetchKeywordSets() {
             }
         })
         .catch(e => {
-            dispatch(setFlashMsg('no-connection', 'error'))
+            // Error happened while fetching ajax (connection or javascript)
         })
     }
 }
@@ -163,7 +163,7 @@ export function fetchLanguages() {
             }
         })
         .catch(e => {
-            dispatch(setFlashMsg('no-connection', 'error'))
+            // Error happened while fetching ajax (connection or javascript)
         })
     }
 }
@@ -191,7 +191,7 @@ export function fetchEventForEditing(eventID) {
             .then(response => response.json())
             .then(json => dispatch(receiveEventForEditing(json)))
             .catch(e => {
-                dispatch(setFlashMsg('no-connection', 'error'))
+                // Error happened while fetching ajax (connection or javascript)
             })
     }
 }
@@ -248,7 +248,7 @@ export function deleteEvent(eventID, user, values) {
 
         })
         .catch(e => {
-            dispatch(setFlashMsg('no-connection', 'error'))
+            // Error happened while fetching ajax (connection or javascript)
         })
     }
 }
