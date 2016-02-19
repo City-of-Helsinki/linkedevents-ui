@@ -10,7 +10,8 @@ const draftValidations = {
 const publicValidations = {
     name: ['requiredMulti'],
     location: ['requiredAtId'],
-    hel_main: ['atLeastOne']
+    hel_main: ['atLeastOne'],
+    start_time: ['requiredString'] // Datetime is saved as ISO string 
     //end_time: [after('start_time')]
 }
 

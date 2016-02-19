@@ -81,6 +81,15 @@ var validations = {
     isDate: function isDate(values, value) {
         return validations.matchRegexp(values, value, /^([1-9]|0[1-9]|[1-2][0-9]|3[0-1])\.([1-9]|0[1-9]|1[0-2])\.[0-9]{4}$/i);
     },
+    required: function required(values, value) {
+        return _isExisty(value)
+    },
+    requiredString: function requiredString(values, value) {
+        if(typeof value === 'string' && value.length > 0) {
+            return true
+        }
+        return false
+    },
     requiredMulti: function requiredMulti(values, value) {
         if(typeof value !== 'object') {
             return false

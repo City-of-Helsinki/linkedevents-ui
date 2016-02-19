@@ -95,6 +95,7 @@
     "validation-atLeastOne": "Valitse vähintään yksi kategoria",
     "validation-requiredMulti": "Tämä kenttä vaaditaan",
     "validation-requiredAtId": "Tämä kenttä vaaditaan",
+    "validation-requiredString": "Tämä kenttä vaaditaan",
 
     "server-error": "Virhe palvelimella.",
     "validation-error": "Validointi virhe.",
