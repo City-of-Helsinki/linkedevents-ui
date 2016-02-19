@@ -11,8 +11,8 @@ const publicValidations = {
     name: ['requiredMulti'],
     location: ['requiredAtId'],
     hel_main: ['atLeastOne'],
-    start_time: ['requiredString'] // Datetime is saved as ISO string 
-    //end_time: [after('start_time')]
+    start_time: ['requiredString'], // Datetime is saved as ISO string
+    end_time: ['afterStartTime']
 }
 
 /**
@@ -43,7 +43,7 @@ function runValidationWithSettings(values, settings) {
     _.each(settings, (validations, key) => {
         // Returns an array of validation errors (array of nulls if validation passed)
         let errors = validations.map(validation =>
-            (validationFn[validation](null, values[key]) ? null : validation)
+            (validationFn[validation](values, values[key]) ? null : validation)
         )
         // Remove nulls
         _.remove(errors, i => i === null)

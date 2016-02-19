@@ -1,5 +1,12 @@
 // Use Formsy React validation rules as a base https://github.com/christianalfoni/formsy-react
 
+import moment from 'moment'
+
+/**
+ * Notice that all the validation functions follow the Formsy's parameter setup (values, value)
+ * where values are all the form valus and value the tested field value
+ */
+
 let _isExisty = function _isExisty(value) {
   return value !== null && value !== undefined;
 }
@@ -80,6 +87,19 @@ var validations = {
     },
     isDate: function isDate(values, value) {
         return validations.matchRegexp(values, value, /^([1-9]|0[1-9]|[1-2][0-9]|3[0-1])\.([1-9]|0[1-9]|1[0-2])\.[0-9]{4}$/i);
+    },
+    afterStartTime: function afterStartTime(values, value) {
+
+        if(!values.start_time || !value) { return true }
+
+        let time = new Date(value)
+        let start_time = new Date(values.start_time)
+
+        if(time - start_time >= 0) {
+            return true;
+        }
+
+        return false;
     },
     required: function required(values, value) {
         return _isExisty(value)
