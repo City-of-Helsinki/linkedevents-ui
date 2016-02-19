@@ -24,9 +24,15 @@ export function setData(formValues) {
  * @param  {obj} formValues     new form values to replace all existing values
  */
 export function replaceData(formValues) {
-    return {
-        type: constants.EDITOR_REPLACEDATA,
-        values: formValues
+    return (dispatch) => {
+        // Run validations
+        let validationErrors = doValidations(formValues)
+        dispatch(setValidationErrors(validationErrors))
+
+        return {
+            type: constants.EDITOR_REPLACEDATA,
+            values: formValues
+        }
     }
 }
 
