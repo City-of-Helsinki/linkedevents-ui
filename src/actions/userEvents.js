@@ -27,7 +27,7 @@ export function fetchUserEvents(user, page) {
             response.json().then(json => dispatch(receiveEvents(json)));
         })
         .catch(e => {
-            dispatch(setFlashMsg('no-connection', 'error'))
+            // Error happened while fetching ajax (connection or javascript)
         });
     }
 }

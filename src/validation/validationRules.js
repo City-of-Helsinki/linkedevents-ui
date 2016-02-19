@@ -76,7 +76,7 @@ var validations = {
         return !_isExisty(value) || isEmpty(value) || value.length >= length;
     },
     isTime: function isTime(values, value) {
-        return validations.matchRegexp(values, value, /^(2[0-3]|1[0-9]|0[0-9]|[^0-9][0-9]|[0-9])((:|.)[0-5][0-9]|[0-9])?$/i);
+        return validations.matchRegexp(values, value, /^(2[0-3]|1[0-9]|0[0-9]|[0-9])((:|.)[0-5][0-9]|[0-9])?$/i);
     },
     isDate: function isDate(values, value) {
         return validations.matchRegexp(values, value, /^([1-9]|0[1-9]|[1-2][0-9]|3[0-1])\.([1-9]|0[1-9]|1[0-2])\.[0-9]{4}$/i);

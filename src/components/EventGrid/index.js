@@ -18,7 +18,7 @@ let EventItem = (props) => {
         props.event.headline.fi || props.event.headline.en || props.event.headline.sv
     )
 
-    let url = "/" + encodeURIComponent(props.event['id']) + '/'
+    let url = "/event/" + encodeURIComponent(props.event['id']) + '/'
 
     let thumbnailStyle = {
         backgroundImage: 'url(' + (props.event.image || defaultThumbnail) + ')'

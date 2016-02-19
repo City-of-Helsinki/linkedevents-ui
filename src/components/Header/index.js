@@ -35,8 +35,8 @@ class HeaderBar extends React.Component {
                     </IndexLink>
                 </ToolbarGroup>
                 <ToolbarGroup key={1} float="left">
-                    <FlatButton className="mui-flat-button" style={buttonStyle} linkButton={true} label={<span><FormattedMessage id="search-events"/><i className="material-icons">&#xE8B6;</i></span>} onClick={() => this.props.dispatch(pushPath('/'))} />
-                    <FlatButton className="mui-flat-button" style={buttonStyle} linkButton={true} label={<span><FormattedMessage id="organization-events"/></span>} onClick={() => this.props.dispatch(pushPath('/organization/events'))} />
+                    <FlatButton className="mui-flat-button" style={buttonStyle} linkButton={true} label={<span><FormattedMessage id="organization-events"/><i className="material-icons">&#xE896;</i></span>} onClick={() => this.props.dispatch(pushPath('/'))} />
+                    <FlatButton className="mui-flat-button" style={buttonStyle} linkButton={true} label={<span><FormattedMessage id="search-events"/><i className="material-icons">&#xE8B6;</i></span>} onClick={() => this.props.dispatch(pushPath('/search'))} />
                     <FlatButton className="mui-flat-button" style={buttonStyle} linkButton={true} label={<span><FormattedMessage id="create-event"/><i className="material-icons">&#xE145;</i></span>} onClick={() => this.props.dispatch(pushPath('/event/create/new'))} />
                 </ToolbarGroup>
                 <ToolbarGroup key={2} float="right">
