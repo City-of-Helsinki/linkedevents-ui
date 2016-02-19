@@ -112,7 +112,7 @@ export function sendDataComplete(json, action) {
 // Fetch Hel.fi main category and audience keywords
 export function fetchKeywordSets() {
     return (dispatch) => {
-        let url = `${appSettings.api_base}/keywordset/?include=keywords`
+        let url = `${appSettings.api_base}/keyword_set/?include=keywords`
         return fetch(url).then((response) => {
 
             // Try again after a delay
