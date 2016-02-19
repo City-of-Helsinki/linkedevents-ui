@@ -95,7 +95,7 @@ class ImagePicker extends React.Component {
 
                     <Modal.Body>
                         <Modal.Title id='ModalBodyTitle'><FormattedMessage id="use-existing-image"/></Modal.Title>
-                        <ImageGalleryGrid user={this.props.user} images={this.props.images} />
+                        <ImageGalleryGrid editor={this.props.editor} user={this.props.user} images={this.props.images} />
                         <div style={{clear:'both'}} />
                     </Modal.Body>
 

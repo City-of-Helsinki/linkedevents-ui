@@ -168,5 +168,9 @@ export function mapAPIDataToUIFormat(values) {
         obj.end_time = values.end_time
     }
 
+    if(values.images) {
+        obj.image = values.images[0]
+    }
+
     return obj
 }

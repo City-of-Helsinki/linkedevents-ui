@@ -16,24 +16,28 @@ class ImageThumbnail extends React.Component {
     }
 
     render() {
-        let classname = this.props.selected ? "col-md-4 col-xs-6 thumb selected" : "col-md-4 col-xs-6 thumb"
+        // let classname = this.props.selected ? "col-md-6 col-xs-6 selected" : "col-md-6 col-xs-6"
+        let classname = this.props.selected ? "image-thumb selected" : "image-thumb"
 
         if(this.props.empty) {
             classname += ' no-image'
             return (
-                <div className={classname} onClick={() => this.selectThis()} id={this.props.data.id}>
-                    <div className="thumbnail">
-                        <p className="no-image-text"><FormattedMessage id="no-image" /></p>
+                <div className="col-md-6" onClick={() => this.selectThis()} id={this.props.data.id}>
+                    <div className={classname}>
+                        <div className="thumbnail" style={{backgroundColor: "lightgray"}} />
+                        <div className="no-image-text"><FormattedMessage id="no-image" /></div>
                     </div>
                 </div>
             )
         }
 
+        let bgStyle = {backgroundImage: 'url(' + this.props.url + ')'}
+
         return (
-            <div className={classname} onClick={() => this.selectThis()} id={this.props.data.id}>
-                <div className="thumbnail">
-                    <img src={this.props.url} />
-                    <p>{this.props.data.name}</p>
+            <div className="col-md-6" onClick={() => this.selectThis()} id={this.props.data.id}>
+                <div className={classname}>
+                    <div className="thumbnail" style={bgStyle} />
+                    <div className="name">{this.props.data.name}</div>
                 </div>
             </div>
         )

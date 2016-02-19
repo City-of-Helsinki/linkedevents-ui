@@ -17,13 +17,6 @@ function update(state = initialState, action) {
         });
     }
 
-    if (action.type === constants.SELECT_IMAGE_BY_ID) {
-        console.log(action)
-        return Object.assign({}, state, {
-            selected: action.img
-        })
-    }
-
     if (action.type === constants.REQUEST_IMAGES) {
         return Object.assign({}, state, {
             isFetching: true,
