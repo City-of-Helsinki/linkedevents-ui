@@ -42,6 +42,13 @@ class HelAutoComplete extends React.Component {
 
     onChange(val) {
 
+        if(!val) {
+            let obj = {}
+            obj[this.props.name] = {}
+            this.context.dispatch(setData(obj))
+            return
+        }
+
         // Do action to save form state to storage
         let obj = {}
         obj[this.props.name] = {
@@ -64,8 +71,8 @@ class HelAutoComplete extends React.Component {
             name: {}
         }
 
-        if(typeof this.props.defaultValue === 'object') {
-            values = this.props.defaultValue
+        if(typeof this.props.defaultValue === 'object' && this.props.defaultValue !== null) {
+            values = Object.assign({}, values, this.props.defaultValue)
         }
 
         return (
