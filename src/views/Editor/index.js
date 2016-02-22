@@ -119,9 +119,6 @@ var EditorPage = React.createClass({
     },
 
     componentWillMount() {
-        this.props.dispatch(fetchKeywordSets())
-        this.props.dispatch(fetchLanguages())
-
         if(this.props.params.action === 'update' && this.props.params.eventId) {
             this.props.dispatch(fetchEventForEditing(this.props.params.eventId))
         }
@@ -164,7 +161,7 @@ var EditorPage = React.createClass({
                 'delete',
                 {
                     action: e => this.props.dispatch(deleteEventAction(this.props.params.eventId, this.props.user)),
-                    additionalMsg: (this.props.values && this.props.values.name) && (this.props.values.name.fi || this.props.values.name.se || this.props.values.name.en)
+                    additionalMsg: (this.props.editor.values && this.props.editor.values.name) && (this.props.editor.values.name.fi || this.props.editor.values.name.se || this.props.editor.values.name.en)
                 }
             )
         )
@@ -199,7 +196,7 @@ var EditorPage = React.createClass({
                 </div>
 
                 <div className="container">
-                    <FormFields ref="form" action={this.props.params.action} editor={this.props.editor} values={this.props.values} />
+                    <FormFields ref="form" action={this.props.params.action} editor={this.props.editor} />
                 </div>
 
                 <div className="editor-action-buttons">
@@ -218,6 +215,5 @@ var EditorPage = React.createClass({
 
 export default connect((state) => ({
     editor: state.editor,
-    values: state.editor.values,
     user: state.user
 }))(EditorPage)

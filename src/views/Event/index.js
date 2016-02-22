@@ -50,6 +50,9 @@ class EventPage extends React.Component {
         }
         let event = mapAPIDataToUIFormat(this.props.events.event)
 
+        // To prevent 'Can't access field of undefined errors'
+        event.location = event.location || {}
+
         // User can edit event
         let userCanEdit = false
 

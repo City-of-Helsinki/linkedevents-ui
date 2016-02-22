@@ -58,11 +58,11 @@ ReactDOM.render(
         <IntlProvider locale={locale} messages={translations[locale] || {}}>
             <Router history={history}>
                 <Route path="/" component={App}>
-                    <IndexRoute component={Search}/>
-                    <Route path="/:eventId" component={Event}/>
-                    <Route path="/organization/events" component={EventListing}/>
+                    <IndexRoute component={EventListing}/>
+                    <Route path="/event/:eventId" component={Event}/>
                     <Route path="/event/:action/:eventId" component={Editor}/>
                     <Route path="/event/done/:action/:eventId" component={EventCreated}/>
+                    <Route path="/search" component={Search}/>
                 </Route>
             </Router>
         </IntlProvider>

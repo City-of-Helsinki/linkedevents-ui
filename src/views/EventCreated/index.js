@@ -25,12 +25,12 @@ class EventCreated extends React.Component {
 
     goToEvent() {
         if(this.props.events.event) {
-            this.props.dispatch(pushPath(`/${this.props.events.event.id}`))
+            this.props.dispatch(pushPath(`/event/${this.props.events.event.id}`))
         }
     }
 
     goToBrowsing() {
-        this.props.dispatch(pushPath(`/organization/events`))
+        this.props.dispatch(pushPath(`/`))
     }
 
     getActionButtons() {
