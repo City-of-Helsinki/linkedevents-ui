@@ -51,9 +51,15 @@ export function clearData() {
  * @param {string} validateFor    the publication status of the document
  */
 export function setValidationErrors(errors, validateFor) {
-    return {
-        type: constants.SET_VALIDATION_ERRORS,
-        errors: errors
+    return (dispatch) =>
+    {
+        if(_.keys(errors).length > 0) {
+            dispatch(setFlashMsg('validation-error', 'error'))
+        }
+        dispatch({
+            type: constants.SET_VALIDATION_ERRORS,
+            errors: errors
+        })
     }
 }
 
