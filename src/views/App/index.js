@@ -19,6 +19,34 @@ import {FormattedMessage} from 'react-intl'
 // Material-ui theming
 import { HelTheme } from 'src/themes/hel'
 
+let Notifications = (props, context) => {
+
+    let flashMsg = (<span/>)
+    if(props.flashMsg && props.flashMsg.msg && props.flashMsg.msg.length) {
+        flashMsg = (<FormattedMessage id={props.flashMsg.msg} />)
+    }
+
+    let sticky =  props.flashMsg && props.flashMsg.sticky
+    let duration = sticky ? null : 7000
+    let closeFn = sticky ? function() {} : () => props.dispatch(clearFlashMsg())
+
+    let actionLabel = props.flashMsg && props.flashMsg.action && props.flashMsg.action.label
+    let actionFn = props.flashMsg && props.flashMsg.action && props.flashMsg.action.fn
+
+
+    return (
+        <Snackbar
+          open={(!!props.flashMsg)}
+          message={flashMsg}
+          bodyStyle={{'backgroundColor': 'rgb(0,108,188)'}}
+          autoHideDuration={duration}
+          onRequestClose={closeFn}
+          action={actionLabel}
+          onActionTouchTap={actionFn}
+        />
+    )
+}
+
 class App extends React.Component {
 
     static propTypes = {
@@ -53,10 +81,6 @@ class App extends React.Component {
     }
 
     render() {
-        let flashMsg = (<span/>)
-        if(this.props.app.flashMsg && this.props.app.flashMsg.msg && this.props.app.flashMsg.msg.length) {
-            flashMsg = (<FormattedMessage id={this.props.app.flashMsg.msg} />)
-        }
 
         let confirmMsg = (<span/>)
         if(this.props.app.confirmAction && this.props.app.confirmAction.msg && this.props.app.confirmAction.msg.length) {
@@ -94,13 +118,8 @@ class App extends React.Component {
                 <div className="content">
                     {this.props.children}
                 </div>
-                <Snackbar
-                  open={(!!this.props.app.flashMsg)}
-                  message={flashMsg}
-                  bodyStyle={{'backgroundColor': 'rgb(0,108,188)'}}
-                  autoHideDuration={6000}
-                  onRequestClose={(e) => this.props.dispatch(clearFlashMsg())}
-                />
+                <Notifications flashMsg={this.props.app.flashMsg} dispatch={this.props.dispatch} />
+
                 <Modal show={(!!this.props.app.confirmAction)} dialogClassName="custom-modal" onHide={e => this.props.dispatch(cancelAction())}>
                    <Modal.Header closeButton>
                    </Modal.Header>

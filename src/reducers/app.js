@@ -10,7 +10,7 @@ function update(state = initialState, action) {
     if(action.type === constants.APP_SET_FLASHMSG) {
         if(action.msg && action.msg.length) {
             return Object.assign({}, state, {
-                flashMsg: { msg: action.msg, style: action.style, data: action.data }
+                flashMsg: { msg: action.msg, style: action.style, data: action.data, sticky: action.sticky, action: action.data.action }
             })
         } else {
             return Object.assign({}, state, {

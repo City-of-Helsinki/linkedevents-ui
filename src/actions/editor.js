@@ -6,7 +6,7 @@ import {mapUIDataToAPIFormat} from 'src/utils/formDataMapping.js'
 import { pushPath } from 'redux-simple-router'
 import { setFlashMsg, confirmAction } from './app'
 
-import {doValidations} from 'src/validation/validator.js'
+import { doValidations } from 'src/validation/validator.js'
 
 /**
  * Set editor form data
@@ -48,14 +48,9 @@ export function clearData() {
 /**
  * Set validation errors for editor (shown with validation popovers)
  * @param {obj} errors
- * @param {string} validateFor    the publication status of the document
  */
-export function setValidationErrors(errors, validateFor) {
-    return (dispatch) =>
-    {
-        if(_.keys(errors).length > 0) {
-            dispatch(setFlashMsg('validation-error', 'error'))
-        }
+export function setValidationErrors(errors) {
+    return (dispatch) => {
         dispatch({
             type: constants.SET_VALIDATION_ERRORS,
             errors: errors

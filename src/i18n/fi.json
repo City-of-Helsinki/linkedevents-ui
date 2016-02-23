@@ -100,6 +100,7 @@
 
     "server-error": "Virhe palvelimella.",
     "validation-error": "Validointi virhe. Tarkasta lomake.",
+    "no-validation-errors": "Validointi onnistui!",
     "authorization-required": "Kirjaudu sisään tapahtuman lähettämiseksi.",
     "event-posted": "Tapahtuma lähetettiin onnistuneesti!",
     "no-connection": "Ei yhteyttä palvelimelle!"

@@ -31,6 +31,9 @@ import Event from './views/Event'
 import EventCreated from './views/EventCreated'
 import EventListing from './views/EventListing'
 
+// Actors
+import Validator from './actors/validator'
+
 // Initialize tap event plugin
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
@@ -50,8 +53,12 @@ const history = createHashHistory()
 
 syncReduxAndRouter(history, store)
 
-let locale = 'fi';
-moment.locale(locale);
+let locale = 'fi'
+moment.locale(locale)
+
+// Setup actor for validation. Actor is a viewless component which can listen to store changes
+// and send new actions accordingly. Bind the store as this for function
+store.subscribe(_.bind(Validator, null, store))
 
 ReactDOM.render(
     <Provider store={store}>
