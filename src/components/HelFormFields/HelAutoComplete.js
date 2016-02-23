@@ -8,6 +8,8 @@ import Typeahead from 'src/typeahead.js'
 import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
 
+import ValidationPopover from 'src/components/ValidationPopover'
+
 class HelAutoComplete extends React.Component {
 
     static contextTypes = {
@@ -42,6 +44,13 @@ class HelAutoComplete extends React.Component {
 
     onChange(val) {
 
+        if(!val) {
+            let obj = {}
+            obj[this.props.name] = {}
+            this.context.dispatch(setData(obj))
+            return
+        }
+
         // Do action to save form state to storage
         let obj = {}
         obj[this.props.name] = {
@@ -64,14 +73,14 @@ class HelAutoComplete extends React.Component {
             name: {}
         }
 
-        if(typeof this.props.defaultValue === 'object') {
-            values = this.props.defaultValue
+        if(typeof this.props.defaultValue === 'object' && this.props.defaultValue !== null) {
+            values = Object.assign({}, values, this.props.defaultValue)
         }
 
         return (
             <span>
                 <div className="hel-select">
-                    <legend>{this.props.legend}</legend>
+                    <legend style={{ position: 'relative', width: 'auto' }}>Paikka <ValidationPopover small validationErrors={this.props.validationErrors} /></legend>
                     <Select.Async
                         placeholder={this.props.placeholder}
                         value={ {label: values.name.fi, value: values.id} }
@@ -80,15 +89,17 @@ class HelAutoComplete extends React.Component {
                         isLoading={this.state.isLoading}
                     />
                 </div>
-                <Input
-                    type="text"
-                    value={values.id}
-                    label={this.context.intl.formatMessage({ id: "event-location-id" })}
-                    ref="text"
-                    groupClassName="hel-text-field"
-                    labelClassName="hel-label"
-                    disabled
-                />
+                <div >
+                    <Input
+                        type="text"
+                        value={values.id}
+                        label={this.context.intl.formatMessage({ id: "event-location-id" })}
+                        ref="text"
+                        groupClassName="hel-text-field"
+                        labelClassName="hel-label"
+                        disabled
+                    />
+                </div>
             </span>
         )
     }

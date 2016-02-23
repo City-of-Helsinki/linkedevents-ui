@@ -3,17 +3,27 @@ import { get as getIfExists } from 'lodash'
 
 import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
 
+import {doValidations} from 'src/validation/validator.js'
+
 let editorValues = {}
+let languages = {}
+let keywordSets = {}
 
 try {
-    // Local storage loading and saving disabled for now
+    // Local storage form value loading and saving disabled for now
     // editorValues = JSON.parse(localStorage.getItem('EDITOR_VALUES'))
+    keywordSets = JSON.parse(localStorage.getItem('KEYWORDSETS'))
+    languages = JSON.parse(localStorage.getItem('LANGUAGES'))
+    //
 } catch(e) {
     editorValues = {}
 }
 
 const initialState = {
-    values: editorValues || {}
+    values: editorValues || {},
+    languages: languages,
+    keywordSets: keywordSets,
+    validationErrors: {}
 }
 
 function clearEventDataFromLocalStorage() {
@@ -29,8 +39,15 @@ function update(state = initialState, action) {
         // Local storage saving disabled for now
         // localStorage.setItem('EDITOR_VALUES', JSON.stringify(newValues))
 
+        let validationErrors = Object.assign({}, state.validationErrors)
+        // If there are validation errors, check if they are fixed
+        if (_.keys(state.validationErrors).length > 0) {
+            validationErrors = doValidations(newValues)
+        }
+
         return Object.assign({}, state, {
-            values: newValues
+            values: newValues,
+            validationErrors: validationErrors
         })
     }
 
@@ -51,7 +68,8 @@ function update(state = initialState, action) {
         clearEventDataFromLocalStorage()
 
         return Object.assign({}, state, {
-            values: {}
+            values: {},
+            validationErrors: {}
         })
     }
 
@@ -66,9 +84,7 @@ function update(state = initialState, action) {
     }
 
     if(action.type === constants.EDITOR_SENDDATA_ERROR) {
-        // return Object.assign({}, state, {
-        //     flashMsg: { msg: action.apiErrorMsg, msgType: 'error', data: action.data }
-        // })
+        return state;
     }
 
     if(action.type === constants.EDITOR_RECEIVE_KEYWORDSETS) {
@@ -97,6 +113,12 @@ function update(state = initialState, action) {
         let newValues = Object.assign({}, state.values, {image: newVal})
         return Object.assign({}, state, {
             values: newValues
+        })
+    }
+
+    if(action.type === constants.SET_VALIDATION_ERRORS) {
+        return Object.assign({}, state, {
+            validationErrors: action.errors
         })
     }
 

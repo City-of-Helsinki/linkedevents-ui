@@ -7,6 +7,8 @@ import _ from 'lodash'
 import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
 
+import ValidationPopover from 'src/components/ValidationPopover'
+
 // NOTE: Not using ES6 classes because of the needed mixins
 let HelLabeledCheckboxGroup = React.createClass({
 
@@ -36,7 +38,7 @@ let HelLabeledCheckboxGroup = React.createClass({
 
     shouldComponentUpdate: function(nextProps) {
         if(_.isEqual(nextProps.selectedValues, this.props.selectedValues)) {
-            return false;
+            //return false;
         }
 
         return true;
@@ -67,7 +69,7 @@ let HelLabeledCheckboxGroup = React.createClass({
 
         return (
             <fieldset className="checkbox-group">
-                <legend className="col-sm-12">{this.props.groupLabel}</legend>
+                <div className="col-xs-12"><legend style={{position:'relative', width:'auto'}}>{this.props.groupLabel} <ValidationPopover validationErrors={this.props.validationErrors} /></legend></div>
                 {checkboxes}
             </fieldset>
         )

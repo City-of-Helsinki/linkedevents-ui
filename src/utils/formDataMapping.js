@@ -57,8 +57,8 @@ function mapUIDataToAPIFormat(values) {
         obj.keywords = obj.keywords.concat(_.map(values.hel_main, (item) => ({ '@id': item })))
     }
 
-    if(values.hel_target && values.hel_target.length !== undefined) {
-        obj.audience = _.map(values.hel_target, (item) => ({ '@id': item }))
+    if(values.audience && values.audience.length !== undefined) {
+        obj.audience = _.map(values.audience, (item) => ({ '@id': item }))
     }
 
     if(values.in_language) {
@@ -130,10 +130,10 @@ export function mapAPIDataToUIFormat(values) {
         return (item.id.indexOf('helfi:') > -1)
     })
 
-    obj.hel_main = _.map(hel_main_items, (item) => (`/v0.1/keyword/${item.id}/`))
+    obj.hel_main = _.map(hel_main_items, (item) => { return item['@id'] })
 
     // Keywords, audience, languages
-    obj.keywords = _.map(keywords, (item) => ({ value: `/v0.1/keyword/${item.id}/`, label: (item['name'].fi || item['name'].se || item['name'].en || item['id']) }))
+    obj.keywords = _.map(keywords, (item) => ({ value: item['@id'], label: (item['name'].fi || item['name'].se || item['name'].en || item['id']) }))
 
     // Filter somehow the hel_main keyword values from keywords
     // obj.keywords = _.filter(obj.keywords, (item) => {
@@ -142,11 +142,11 @@ export function mapAPIDataToUIFormat(values) {
     // });
 
     if(values.audience) {
-        obj.hel_target = _.map(values.audience, item => `/v0.1/keyword/${item.id}/`)
+        obj.audience = _.map(values.audience, item => item['@id'])
     }
 
     if(values.in_language) {
-        obj.in_language = _.map(values.in_language, lang => `/v0.1/language/${lang.id}/`)
+        obj.in_language = _.map(values.in_language, lang => lang['@id'])
     }
 
     // External links

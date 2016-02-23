@@ -10,6 +10,13 @@
 @import "node_modules/bootstrap/scss/bootstrap-reboot.scss";
 @import "node_modules/bootstrap/scss/bootstrap-grid.scss";
 
+// @import "node_modules/bootstrap/scss/_modal.scss";
+@import "node_modules/bootstrap/scss/mixins/_reset-text.scss";
+@import "node_modules/bootstrap/scss/mixins/_border-radius.scss";
+@import "node_modules/bootstrap/scss/_popover.scss";
+
+// @import "modal";
+
 // Define a custom sass file to override any variables defined in scaffolding.scss
 // @import "my-custom-overrides.scss";
 
@@ -99,4 +106,8 @@ header {
 
 .padded {
     padding: 0.5rem 0.5rem;
+}
+
+.relative {
+    position: relative;
 }

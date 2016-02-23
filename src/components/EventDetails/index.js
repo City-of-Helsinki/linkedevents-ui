@@ -158,7 +158,7 @@ class EventDetails extends React.Component {
         // let helTargetOptions = mapKeywordSetToForm(props.keywordSets, 'helfi:audiences')
         // let helEventLangOptions = mapLanguagesSetToForm(props.languages)
         let helfiCategories = _.map(props.values.hel_main, (id) => (
-            _.find(props.rawData.keywords, (item) => (id.indexOf(item['id']) > -1))
+            _.find(props.rawData.keywords, (item) => (id.indexOf(item['@id']) > -1))
         ))
 
         return (

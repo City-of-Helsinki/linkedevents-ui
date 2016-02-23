@@ -6,7 +6,12 @@ import {mapUIDataToAPIFormat} from 'src/utils/formDataMapping.js'
 import { pushPath } from 'redux-simple-router'
 import { setFlashMsg, confirmAction } from './app'
 
-// Set data and save it to localStorage
+import {doValidations} from 'src/validation/validator.js'
+
+/**
+ * Set editor form data
+ * @param {obj} formValues      new form values
+ */
 export function setData(formValues) {
     return {
         type: constants.EDITOR_SETDATA,
@@ -14,26 +19,64 @@ export function setData(formValues) {
     }
 }
 
-// Set data and save it to localStorage
+/**
+ * Replace all editor values
+ * @param  {obj} formValues     new form values to replace all existing values
+ */
 export function replaceData(formValues) {
-    return {
-        type: constants.EDITOR_REPLACEDATA,
-        values: formValues
+    return (dispatch) => {
+        // Run validations
+        let validationErrors = doValidations(formValues)
+        dispatch(setValidationErrors(validationErrors))
+
+        return {
+            type: constants.EDITOR_REPLACEDATA,
+            values: formValues
+        }
     }
 }
 
-// Clear editor data. Called explicitly by the user or
+/**
+ * Clear all editor form data
+ */
 export function clearData() {
     return {
         type: constants.EDITOR_CLEARDATA
     }
 }
 
+/**
+ * Set validation errors for editor (shown with validation popovers)
+ * @param {obj} errors
+ * @param {string} validateFor    the publication status of the document
+ */
+export function setValidationErrors(errors, validateFor) {
+    return (dispatch) =>
+    {
+        if(_.keys(errors).length > 0) {
+            dispatch(setFlashMsg('validation-error', 'error'))
+        }
+        dispatch({
+            type: constants.SET_VALIDATION_ERRORS,
+            errors: errors
+        })
+    }
+}
+
 // Send data and create sendDataComplete event afterwards
-// NOTE: values are passed from the editor view. There's no apparent way to access state from here
 export function sendData(formValues, user, updateExisting = false) {
     return (dispatch) => {
-        //console.log('Sending: ', mapUIDataToAPIFormat(formValues))
+        // Set publication status for editor values. This is used by the validation to determine
+        // which set of rules to use
+        dispatch(setData({publication_status: formValues.publication_status}))
+
+        // Run validations
+        let validationErrors = doValidations(formValues)
+
+        // There are validation errors, don't continue sending
+        if (_.keys(validationErrors).length > 0) {
+            return dispatch(setValidationErrors(validationErrors))
+        }
 
         let url = `${appSettings.api_base}/event/`
 
@@ -82,6 +125,9 @@ export function sendData(formValues, user, updateExisting = false) {
                 }
             })
         })
+        .catch(e => {
+            // Error happened while fetching ajax (connection or javascript)
+        })
     }
 }
 
@@ -112,22 +158,29 @@ export function fetchKeywordSets() {
         let url = `${appSettings.api_base}/keyword_set/?include=keywords`
 
         return fetch(url).then((response) => {
+
+            // Try again after a delay
             if (response.status >= 400) {
-                return {
-                    apiErrorMsg: 'server-error'
-                }
+                setTimeout(e => dispatch(fetchKeywordSets()), 5000);
+                return null
             }
             return response.json()
         })
         .then(json => {
-            // console.log('Received', json)
-            return dispatch(receiveKeywordSets(json))
+            if(json) {
+                return dispatch(receiveKeywordSets(json))
+            }
+        })
+        .catch(e => {
+            // Error happened while fetching ajax (connection or javascript)
         })
     }
 }
 
 // Receive Hel.fi main category and audience keywords
 export function receiveKeywordSets(json) {
+    localStorage.setItem('KEYWORDSETS', JSON.stringify(json.data))
+
     return {
         type: constants.EDITOR_RECEIVE_KEYWORDSETS,
         keywordSets: json.data
@@ -139,23 +192,30 @@ export function fetchLanguages() {
     return (dispatch) => {
         let url = `${appSettings.api_base}/language/`
 
+        // Try again after a delay
         return fetch(url).then((response) => {
             if (response.status >= 400) {
-                return {
-                    apiErrorMsg: 'server-error'
-                }
+                setTimeout(e => dispatch(fetchLanguages()), 5000);
+                return null
+            } else {
+                return response.json()
             }
-            return response.json()
         })
         .then(json => {
-            // console.log('Received', json)
-            return dispatch(receiveLanguages(json))
+            if(json) {
+                return dispatch(receiveLanguages(json))
+            }
+        })
+        .catch(e => {
+            // Error happened while fetching ajax (connection or javascript)
         })
     }
 }
 
 // Receive Hel.fi main category and audience keywords
 export function receiveLanguages(json) {
+    localStorage.setItem('LANGUAGES', JSON.stringify(json.data))
+
     return {
         type: constants.EDITOR_RECEIVE_LANGUAGES,
         languages: json.data
@@ -174,6 +234,9 @@ export function fetchEventForEditing(eventID) {
         return fetch(url)
             .then(response => response.json())
             .then(json => dispatch(receiveEventForEditing(json)))
+            .catch(e => {
+                // Error happened while fetching ajax (connection or javascript)
+            })
     }
 }
 
@@ -227,6 +290,9 @@ export function deleteEvent(eventID, user, values) {
                 dispatch(eventDeleted(values, apiErrorMsg))
             }
 
+        })
+        .catch(e => {
+            // Error happened while fetching ajax (connection or javascript)
         })
     }
 }
