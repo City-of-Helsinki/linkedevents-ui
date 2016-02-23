@@ -22,7 +22,7 @@ class ImageThumbnail extends React.Component {
         if(this.props.empty) {
             classname += ' no-image'
             return (
-                <div className="col-md-6" onClick={() => this.selectThis()} id={this.props.data.id}>
+                <div className="col-md-3 col-xs-12" onClick={() => this.selectThis()} id={this.props.data.id}>
                     <div className={classname}>
                         <div className="thumbnail" style={{backgroundColor: "lightgray"}} />
                         <div className="no-image-text"><FormattedMessage id="no-image" /></div>
@@ -34,7 +34,7 @@ class ImageThumbnail extends React.Component {
         let bgStyle = {backgroundImage: 'url(' + this.props.url + ')'}
 
         return (
-            <div className="col-md-6" onClick={() => this.selectThis()} id={this.props.data.id}>
+            <div className="col-md-3 col-xs-12" onClick={() => this.selectThis()} id={this.props.data.id}>
                 <div className={classname}>
                     <div className="thumbnail" style={bgStyle} />
                     <div className="name">{this.props.data.name}</div>

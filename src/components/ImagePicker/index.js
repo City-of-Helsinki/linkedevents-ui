@@ -1,10 +1,7 @@
 import '!style!css!sass!./index.scss'
-// import '!style!css!../../../node_modules/react-bootstrap-modal/lib/styles/rbm-complete.css'
-import '!style!css!sass!../../../node_modules/bootstrap/scss/bootstrap.scss'
 
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl'
-// import Modal from 'react-bootstrap-modal'
 import Modal from 'react-bootstrap/lib/Modal';
 import { RaisedButton } from 'material-ui'
 import { postImage, postImageWithURL } from 'src/actions/userImages.js'
@@ -67,6 +64,7 @@ class ImagePicker extends React.Component {
                 </div>
 
                 <Modal
+                    id="image-modal"
                     show={this.state.open}
                     onHide={() => this.closeGalleryModal()}
                     aria-labelledby="ModalHeader"
@@ -78,8 +76,8 @@ class ImagePicker extends React.Component {
                         <input onChange={(e) => this.handleUpload(e)} style={{ display: 'none' }} type="file" ref={(ref) => this.hiddenFileInput = ref} />
                         <RaisedButton
                             label= {<FormattedMessage id="upload-image" />}
-                            primary= {true}
                             onClick={() => this.clickHiddenUploadInput()}
+                            backgroundColor= "rgba(160, 255, 160, 1)"
                             style={{margin:"0 0 15px 0"}}
                         />
                         <br />
