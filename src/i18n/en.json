@@ -9,7 +9,9 @@
     "welcome": "Welcome",
     "submit": "Submit",
     "cancel": "Cancel",
+    "save": "Save",
 
+    "ready": "Ready",
     "event-presented-in-languages": "This event will be presented in following languages.",
 
     "in-fi": "In Finnish",
@@ -22,8 +24,16 @@
     "event-description": "Description",
     "event-home-page": "Homepage",
 
-    "event-picture": "Event picture",
-    "upload-picture": "Upload a picture for this event",
+    "event-image": "Event image (click to change)",
+    "new-image": "Add a new image",
+    "upload-image": "Upload image from your hard disk",
+    "choose-image": "Upload or choose a image for this event",
+    "use-external-image-url": "or use image in external URL:",
+    "external-url-here": "URL to image",
+    "or": "or",
+    "organization-images": "Images of your organization",
+    "use-existing-image": "Use an image in the system",
+    "no-image": "NO IMAGE",
 
     "event-datetime-fields-header": "Event time",
     "event-starting-date": "Starting date",

@@ -1,4 +1,5 @@
 import constants from '../constants'
+import { get as getIfExists } from 'lodash'
 
 import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
 
@@ -101,6 +102,15 @@ function update(state = initialState, action) {
     if(action.type === constants.RECEIVE_EVENT_FOR_EDITING) {
         let newValues = Object.assign({}, mapAPIDataToUIFormat(action.event))
 
+        return Object.assign({}, state, {
+            values: newValues
+        })
+    }
+
+    if (action.type === constants.SELECT_IMAGE_BY_ID) {
+        let newVal = getIfExists(action, 'img', null)
+        // Merge new values to existing values
+        let newValues = Object.assign({}, state.values, {image: newVal})
         return Object.assign({}, state, {
             values: newValues
         })

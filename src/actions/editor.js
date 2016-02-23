@@ -156,6 +156,7 @@ export function sendDataComplete(json, action) {
 export function fetchKeywordSets() {
     return (dispatch) => {
         let url = `${appSettings.api_base}/keyword_set/?include=keywords`
+
         return fetch(url).then((response) => {
 
             // Try again after a delay
@@ -223,7 +224,7 @@ export function receiveLanguages(json) {
 
 // Fetch data for updating
 export function fetchEventForEditing(eventID) {
-    let url = `${appSettings.api_base}/event/${eventID}/?include=keywords,location,audience,in_language,external_links`
+    let url = `${appSettings.api_base}/event/${eventID}/?include=keywords,location,audience,in_language,external_links,image`
 
     if(appSettings.nocache) {
         url += `&nocache=${Date.now()}`
