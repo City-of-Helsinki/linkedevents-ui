@@ -19,32 +19,38 @@ import {FormattedMessage} from 'react-intl'
 // Material-ui theming
 import { HelTheme } from 'src/themes/hel'
 
-let Notifications = (props, context) => {
+class Notifications extends React.Component {
 
-    let flashMsg = (<span/>)
-    if(props.flashMsg && props.flashMsg.msg && props.flashMsg.msg.length) {
-        flashMsg = (<FormattedMessage id={props.flashMsg.msg} />)
+    shouldComponentUpdate(nextProps) {
+        return !_.isEqual(nextProps, this.props)
     }
 
-    let sticky =  props.flashMsg && props.flashMsg.sticky
-    let duration = sticky ? null : 7000
-    let closeFn = sticky ? function() {} : () => props.dispatch(clearFlashMsg())
+    render() {
+        let flashMsg = (<span/>)
+        if(this.props.flashMsg && this.props.flashMsg.msg && this.props.flashMsg.msg.length) {
+            flashMsg = (<FormattedMessage id={this.props.flashMsg.msg} />)
+        }
 
-    let actionLabel = props.flashMsg && props.flashMsg.action && props.flashMsg.action.label
-    let actionFn = props.flashMsg && props.flashMsg.action && props.flashMsg.action.fn
+        let sticky =  this.props.flashMsg && this.props.flashMsg.sticky
+        let duration = sticky ? null : 7000
+        let closeFn = sticky ? function() {} : () => this.props.dispatch(clearFlashMsg())
+
+        let actionLabel = this.props.flashMsg && this.props.flashMsg.action && this.props.flashMsg.action.label
+        let actionFn = this.props.flashMsg && this.props.flashMsg.action && this.props.flashMsg.action.fn
 
 
-    return (
-        <Snackbar
-          open={(!!props.flashMsg)}
-          message={flashMsg}
-          bodyStyle={{'backgroundColor': 'rgb(0,108,188)'}}
-          autoHideDuration={duration}
-          onRequestClose={closeFn}
-          action={actionLabel}
-          onActionTouchTap={actionFn}
-        />
-    )
+        return (
+            <Snackbar
+              open={(!!this.props.flashMsg)}
+              message={flashMsg}
+              bodyStyle={{'backgroundColor': 'rgb(0,108,188)'}}
+              autoHideDuration={duration}
+              onRequestClose={closeFn}
+              action={actionLabel}
+              onActionTouchTap={actionFn}
+            />
+        )
+    }
 }
 
 class App extends React.Component {

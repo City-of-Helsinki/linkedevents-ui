@@ -9,9 +9,8 @@ import {FormattedMessage} from 'react-intl'
 
 import { RaisedButton, FlatButton } from 'material-ui'
 
-import {fetchEventForEditing, deleteEvent as deleteEventAction, sendData, clearData, fetchKeywordSets, fetchLanguages} from 'src/actions/editor.js'
-import {confirmAction} from 'src/actions/app.js'
-
+import {fetchEventForEditing, deleteEvent as deleteEventAction, sendData, clearData, fetchKeywordSets, fetchLanguages, setValidationErrors} from 'src/actions/editor.js'
+import {confirmAction, clearFlashMsg} from 'src/actions/app.js'
 
 import constants from 'src/constants.js'
 
@@ -122,6 +121,10 @@ var EditorPage = React.createClass({
         if(this.props.params.action === 'update' && this.props.params.eventId) {
             this.props.dispatch(fetchEventForEditing(this.props.params.eventId))
         }
+    },
+
+    componentWillUnmount() {
+        this.props.dispatch(setValidationErrors({}))
     },
 
     clearForm() {
