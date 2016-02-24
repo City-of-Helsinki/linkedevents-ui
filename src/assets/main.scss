@@ -77,12 +77,6 @@ header {
     }
 }
 
-.mui-text-field,
-.mui-text-field-input,
-.mui-text-field-input {
-    width: 100% !important;
-}
-
 .pull-left {
     float: left;
 }
@@ -115,4 +109,11 @@ header {
 
 .relative {
     position: relative;
+}
+
+.notification-bar {
+    button {
+        color: white !important;
+        background-color: rgba(0,0,0,0.16) !important;
+    }
 }
