@@ -21,7 +21,7 @@ import {replaceData} from 'src/actions/editor.js'
 class EventPage extends React.Component {
 
     componentWillMount() {
-        this.props.dispatch(fetchEventDetails(this.props.params.eventId))
+        this.props.dispatch(fetchEventDetails(this.props.params.eventId, this.props.user))
     }
 
     copyAsTemplate() {

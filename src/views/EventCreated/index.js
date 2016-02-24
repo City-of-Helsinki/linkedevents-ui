@@ -21,7 +21,7 @@ class EventCreated extends React.Component {
 
     componentWillMount() {
         if(this.props.params.action !== 'delete') {
-            this.props.dispatch(fetchEventDetails(this.props.params.eventId))
+            this.props.dispatch(fetchEventDetails(this.props.params.eventId, this.props.user))
         }
     }
 

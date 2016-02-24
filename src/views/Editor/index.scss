@@ -18,7 +18,7 @@
         }
     }
 
-    h2,h3,legend {
+    h2,h3,legend,.legend {
         font-family: "Roboto", "Helvetica Neue", "Segoe UI", Calibri, sans-serif;
     }
 
@@ -43,30 +43,11 @@
         .spread-right {
             flex-wrap: wrap;
             height: 100%;
-
-            .mui-checkbox {
-                padding-top: 22px;
-                padding-bottom: 8px;
-                text-transform: capitalize;
-            }
         }
 
-        .mui-checkbox {
+        .hel-checkbox {
             display: inline-block;
-            width: auto !important;
-            padding-top: 6px;
-            height: 40px;
-
-            label {
-                font-size: 20px;
-            }
-
-            .mui-switch-label {
-                width: auto !important;
-                padding-right: 5px;
-                padding-left: 5px;
-
-            }
+            margin-right: 16px;
         }
 
         .language-selection {
@@ -80,20 +61,6 @@
         }
     }
 
-    .mui-text-field-floating-label, label {
-        color: #484848;
-        font-size: 20px;
-    }
-
-    .mui-text-field-underline,
-    .mui-text-field-focus-underline {
-        bottom: 4px;
-    }
-
-    .mui-text-field-input {
-        font-size: 20px;
-    }
-
     .side-field {
         padding-top: 36px;
 
@@ -102,32 +69,41 @@
             font-weight: 300;
             color: #373a3c;
         }
+
+        &.padded {
+            padding-top: 66px;
+        }
     }
 
-    .mui-checkbox {
-        padding-top: 36px;
-    }
-
-    legend {
+    legend,
+    .legend  {
         margin-top: 6rem;
     }
 
     .checkbox-group,
     .hel-select {
         display: block;
-        clear:both;
-        legend {
+        clear: both;
+        legend,
+        .legend {
             font-size: 24px;
+        }
+
+        label {
+            margin-top: auto;
+            margin-bottom: auto;
         }
     }
 
     .checkbox-group {
-        legend {
+        legend,
+        .legend {
             margin-top: 4rem;
         }
 
         &:nth-of-type(1) {
-            legend {
+            legend,
+            .legend {
                 margin-top: 2rem;
             }
         }
@@ -135,47 +111,9 @@
 
     .editor-action-buttons {
         margin-top: 6rem;
+        padding-top: 3rem;
 
         background-color: #f7f7f7;
         height: 176px;
-
-        .row,
-        .container {
-            height: 100%;
-        }
-
-        .mui-flat-button,
-        .mui-raised-button {
-            margin-left: 1.8rem;
-        }
-
-        .mui-flat-button,
-        .mui-raised-button,
-        .mui-raised-button-container {
-            height: 64px;
-        }
-
-        .mui-flat-button,
-        .mui-raised-button-label {
-            font-size: 20px;
-            text-transform: none;
-            font-weight: 400;
-            color: #48a3e7;
-        }
-
-        .mui-is-primary {
-            .mui-raised-button-label {
-                color: #ffffff;
-            }
-        }
-
-        .mui-raised-button-label {
-            padding-left: 35px;
-            padding-right: 35px;
-        }
-
-        .mui-flat-button {
-            background-color: transparent;
-        }
     }
 }

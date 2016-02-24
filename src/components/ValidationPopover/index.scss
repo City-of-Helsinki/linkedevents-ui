@@ -1,18 +1,34 @@
-.validation-error-popover {
+.validation-error-popover.popover {
+    display: block;
+    z-index: 800;
     border: 0;
     padding: 0;
     color: #fff;
     left: initial;
-    right: -24px;
     top:50%;
-    transform: translateX(100%) translateY(-50%);
+    left:100%;
+    transform: translateX(26px) translateY(-50%);
     min-height: 38px;
+    min-width: 190px;
+    width: auto;
 
-    background: #48a3e9;
+    text-align: left;
+
+    background: transparent;
 
     .popover-content {
         min-width: 190px;
-        white-space: nowrap;
+        background: transparent;
+
+        span {
+            padding: 1px 20px;
+            margin-left: -14px;
+            display: inline-block;
+            border-radius: 6px;
+            line-height: 38px;
+            background: #48a3e9;
+            white-space: nowrap;
+        }
     }
 
     &.small {
@@ -20,12 +36,14 @@
         min-height: 28px;
 
         .popover-content {
-            padding: 1px 12px;
+            span {
+                position: relative;
+                padding: 1px 12px;
+                margin-left: -14px;
+                top: -10px;
+                line-height: 28px;
+            }
         }
-    }
-
-    &.popover {
-        max-width: none;
     }
 }
 

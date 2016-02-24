@@ -150,7 +150,9 @@ class FormFields extends React.Component {
                         <MultiLanguageField multiLine={true} label="event-location-additional-info" ref="location_extra_info" name="location_extra_info" validationErrors={validationErrors["location_extra_info"]} defaultValue={values["location_extra_info"]} languages={this.state.languages} />
                     </div>
                     <SideField>
-                        <p>Aloita kirjoittamaan kenttään tapahtumapaikan nimen alkua ja valitse oikea paikka alle ilmestyvästä listasta. Jos tapahtumapaikkaa ei löydy listasta, valitse tapahtumapaikaksi Helsinki ja kirjoita tarkempi paikka tai osoite lisätietokenttään.</p>
+                        <div className="tip">
+                            <p>Aloita kirjoittamaan kenttään tapahtumapaikan nimen alkua ja valitse oikea paikka alle ilmestyvästä listasta.</p><p>Jos tapahtumapaikkaa ei löydy listasta, valitse tapahtumapaikaksi Helsinki ja kirjoita tarkempi paikka tai osoite lisätietokenttään.</p>
+                        </div>
                     </SideField>
                 </div>
 
@@ -162,9 +164,11 @@ class FormFields extends React.Component {
                         <HelOffersField ref="offers" name="offers" validationErrors={validationErrors["offers"]} defaultValue={values["offers"]} languages={this.state.languages} />
                     </div>
                     <SideField>
-                        <p>Merkitse jos tapahtuma on maksuton tai lisää tapahtuman hinta tekstimuodossa (esim. 7€/5€).</p>
-                        <p>Kerro mahdollisesta ennakkoilmoittautumisesta tai anna lisätietoja esimerkiksi paikkavarauksista.</p>
-                        <p>Lisää mahdollinen linkki lipunmyyntiin.</p>
+                        <div className="tip">
+                            <p>Merkitse jos tapahtuma on maksuton tai lisää tapahtuman hinta tekstimuodossa (esim. 7€/5€).</p>
+                            <p>Kerro mahdollisesta ennakkoilmoittautumisesta tai anna lisätietoja esimerkiksi paikkavarauksista.</p>
+                            <p>Lisää mahdollinen linkki lipunmyyntiin.</p>
+                        </div>
                     </SideField>
                 </div>
 
@@ -177,36 +181,38 @@ class FormFields extends React.Component {
                         <HelTextField validations={['isUrl']} ref="extlink_twitter" name="extlink_twitter" label={<FormattedMessage id="twitter-url"/>} validationErrors={validationErrors['extlink_twitter']} defaultValue={values['extlink_twitter']} />
                         <HelTextField validations={['isUrl']} ref="extlink_instagram" name="extlink_instagram" label={<FormattedMessage id="instagram-url"/>} validationErrors={validationErrors['extlink_instagram']} defaultValue={values['extlink_instagram']} />
                     </div>
-                    <SideField><p>Lisää linkki tapahtuman tai sen järjestäjän some-sivulle.</p></SideField>
+                    <SideField><p className="tip">Lisää linkki tapahtuman tai sen järjestäjän some-sivulle.</p></SideField>
                 </div>
 
                 <FormHeader>
                     <FormattedMessage id="event-categorization" />
                 </FormHeader>
                 <div className="row">
-                    <SideField><p>Valitse vähintään yksi pääkategoria.</p></SideField>
                     <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-main-categories"/>}
                                     selectedValues={values['hel_main']}
                                     ref="hel_main"
                                     name="hel_main"
                                     validationErrors={validationErrors['hel_main']}
-                                    itemClassName="col-sm-6"
+                                    itemClassName="col-sm-12"
                                     options={helMainOptions} />
+                    <SideField><p className="tip">Valitse vähintään yksi pääkategoria.</p></SideField>
+                </div>
+                <div className="row">
                     <HelSelect selectedValues={values['keywords']} legend={"Kategoriat"} ref="keywords" name="keywords" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?data_source=yso&filter=`} validationErrors={validationErrors['keywords']} />
                     <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-target-groups"/>}
                                     selectedValues={values['audience']}
                                     ref="audience"
                                     name="audience"
                                     validationErrors={validationErrors['audience']}
-                                    itemClassName="col-sm-6"
+                                    itemClassName="col-sm-12"
                                     options={helTargetOptions} />
-                    <SideField><p>Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään.</p></SideField>
+                    <SideField><p className="tip">Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään.</p></SideField>
                     <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-event-languages"/>}
                                     selectedValues={values['in_language']}
                                     ref="in_language"
                                     name="in_language"
                                     validationErrors={validationErrors['in_language']}
-                                    itemClassName="col-sm-6"
+                                    itemClassName="col-sm-12"
                                     options={helEventLangOptions} />
                 </div>
             </div>

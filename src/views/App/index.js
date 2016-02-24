@@ -41,6 +41,7 @@ class Notifications extends React.Component {
 
         return (
             <Snackbar
+              className="notification-bar"
               open={(!!this.props.flashMsg)}
               message={flashMsg}
               bodyStyle={{'backgroundColor': 'rgb(0,108,188)'}}

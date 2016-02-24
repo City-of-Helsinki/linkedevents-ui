@@ -48,10 +48,17 @@ h1 {
     font-size: 51px;
 }
 
-h2,h3,legend {
+h2,h3,legend,.legend {
     font-size: 31px;
     color: #757575;
 }
+
+.legend {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
 
 h1,h2 {
     padding-top: 110px;
@@ -68,12 +75,6 @@ header {
         padding-top: 0px;
         padding-bottom: 0px;
     }
-}
-
-.mui-text-field,
-.mui-text-field-input,
-.mui-text-field-input {
-    width: 100% !important;
 }
 
 .pull-left {
@@ -108,4 +109,17 @@ header {
 
 .relative {
     position: relative;
+}
+
+.notification-bar {
+    button {
+        color: white !important;
+        background-color: rgba(0,0,0,0.16) !important;
+    }
+}
+
+.tip {
+    margin-top: 28px;
+    background-color: #f6f6f6;
+    padding: 20px;
 }

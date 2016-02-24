@@ -19,8 +19,9 @@ export default (store) => {
         let action = {
             label: 'Siirry virheeseen',
             fn: () => {
+                let top = (window.scrollY || window.pageYOffset)
                 let popovers = document.getElementsByClassName('validation-error-popover')
-                if(popovers[0]) { window.scrollTo(0, window.scrollY+popovers[0].getBoundingClientRect().top) }
+                if(popovers[0]) { window.scrollTo(0, top+popovers[0].getBoundingClientRect().top-16) }
             }
         }
 

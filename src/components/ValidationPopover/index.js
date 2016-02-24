@@ -9,7 +9,7 @@ export default (props) => {
 
     if(props.validationErrors && props.validationErrors[0]) {
         errorMsg = `validation-${props.validationErrors[0]}`
-        errorMsg = (<FormattedMessage id={errorMsg}/>)
+        errorMsg = (<FormattedMessage className="msg" id={errorMsg}/>)
     }
     else {
         return (<span></span>)
