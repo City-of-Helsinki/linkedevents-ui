@@ -69,6 +69,10 @@
             font-weight: 300;
             color: #373a3c;
         }
+
+        &.padded {
+            padding-top: 66px;
+        }
     }
 
     legend,
@@ -83,6 +87,11 @@
         legend,
         .legend {
             font-size: 24px;
+        }
+
+        label {
+            margin-top: auto;
+            margin-bottom: auto;
         }
     }
 

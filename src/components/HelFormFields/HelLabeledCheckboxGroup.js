@@ -68,8 +68,8 @@ let HelLabeledCheckboxGroup = React.createClass({
         },this)
 
         return (
-            <fieldset className="checkbox-group">
-                <div className="col-xs-12"><span className="legend" style={{position:'relative', width:'auto'}}>{this.props.groupLabel} <ValidationPopover validationErrors={this.props.validationErrors} /></span></div>
+            <fieldset className="checkbox-group col-sm-6">
+                <div><span className="legend" style={{position:'relative', width:'auto'}}>{this.props.groupLabel} <ValidationPopover validationErrors={this.props.validationErrors} /></span></div>
                 {checkboxes}
             </fieldset>
         )
