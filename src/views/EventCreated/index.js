@@ -12,6 +12,8 @@ import {fetchEventDetails} from 'src/actions/events.js'
 
 import {pushPath} from 'redux-simple-router'
 
+import { getStringWithLocale } from 'src/utils/locale'
+
 import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
 import {setData} from 'src/actions/editor.js'
 
@@ -66,7 +68,7 @@ class EventCreated extends React.Component {
         }
 
         let headerText = "Tapahtuma luotiin onnistuneesti!"
-        let eventName = event && event.name && (event.name.fi || event.name.se || event.name.en)
+        let eventName = getStringWithLocale(this.props, 'events.event.name')
 
         if(this.props.params.action === 'update') {
             headerText = "Tapahtuma päivitettiin onnistuneesti!"

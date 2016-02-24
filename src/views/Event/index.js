@@ -14,6 +14,7 @@ import {fetchEventDetails} from 'src/actions/events.js'
 
 import {pushPath} from 'redux-simple-router'
 
+import {getStringWithLocale} from 'src/utils/locale'
 import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
 import {replaceData} from 'src/actions/editor.js'
 
@@ -66,7 +67,7 @@ class EventPage extends React.Component {
                     <div className="container">
                         <header className="row">
                             <h1 className="col-sm-12">
-                                {event.name.fi || event.name.se || event.name.en}
+                                { getStringWithLocale(event, 'name') }
                             </h1>
                             <div className="col-sm-12 actions">
                                 <RaisedButton onClick={e => this.editEvent(e)} disabled={!userCanEdit} style={buttonStyle} primary={true} label="Muokkaa tapahtumaa" />
