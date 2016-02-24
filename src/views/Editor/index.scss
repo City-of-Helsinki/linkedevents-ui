@@ -18,7 +18,7 @@
         }
     }
 
-    h2,h3,legend {
+    h2,h3,legend,.legend {
         font-family: "Roboto", "Helvetica Neue", "Segoe UI", Calibri, sans-serif;
     }
 
@@ -89,26 +89,30 @@
         padding-top: 36px;
     }
 
-    legend {
+    legend,
+    .legend  {
         margin-top: 6rem;
     }
 
     .checkbox-group,
     .hel-select {
         display: block;
-        clear:both;
-        legend {
+        clear: both;
+        legend,
+        .legend {
             font-size: 24px;
         }
     }
 
     .checkbox-group {
-        legend {
+        legend,
+        .legend {
             margin-top: 4rem;
         }
 
         &:nth-of-type(1) {
-            legend {
+            legend,
+            .legend {
                 margin-top: 2rem;
             }
         }

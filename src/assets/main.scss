@@ -48,10 +48,16 @@ h1 {
     font-size: 51px;
 }
 
-h2,h3,legend {
+h2,h3,legend,.legend {
     font-size: 31px;
     color: #757575;
 }
+
+.legend {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
 
 h1,h2 {
     padding-top: 110px;

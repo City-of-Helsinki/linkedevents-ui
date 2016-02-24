@@ -3,7 +3,8 @@ $select-input-border-radius: 0px;
 @import "../../../node_modules/react-select/scss/default.scss";
 
 .hel-select {
-    legend {
+    legend,
+    .legend {
         margin-top: 1.5rem;
     }
 }
