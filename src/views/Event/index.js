@@ -47,7 +47,7 @@ class EventPage extends React.Component {
     render() {
         let buttonStyle = {
             height: '64px',
-            margin: '0 10px'
+            'marginRight': '10px'
         }
 
         let event = mapAPIDataToUIFormat(this.props.events.event)
