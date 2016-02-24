@@ -62,20 +62,28 @@ export function receiveEventDetails(json) {
     }
 }
 
-export function fetchEventDetails(eventID) {
+export function fetchEventDetails(eventID, user = {}) {
     let url = `${appSettings.api_base}/event/${eventID}/?include=keywords,location,audience,in_language,external_links,image`
 
     if(appSettings.nocache) {
         url += `&nocache=${Date.now()}`
     }
 
+    let options = {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    }
+
+    if(user && user.token) {
+        Object.assign(options.headers, {
+            'Authorization': 'JWT ' + user.token
+        })
+    }
+
     return (dispatch) => {
-        return fetch(url, {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            })
+        return fetch(url, options)
             .then(response => response.json())
             .then(json => dispatch(receiveEventDetails(json)))
             .catch(e => {
