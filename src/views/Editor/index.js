@@ -9,9 +9,10 @@ import {FormattedMessage} from 'react-intl'
 
 import { RaisedButton, FlatButton } from 'material-ui'
 
-import {fetchEventForEditing, deleteEvent as deleteEventAction, sendData, clearData, fetchKeywordSets, fetchLanguages} from 'src/actions/editor.js'
-import {confirmAction} from 'src/actions/app.js'
+import { getStringWithLocale } from 'src/utils/locale'
 
+import {fetchEventForEditing, deleteEvent as deleteEventAction, sendData, clearData, fetchKeywordSets, fetchLanguages, setValidationErrors} from 'src/actions/editor.js'
+import {confirmAction, clearFlashMsg} from 'src/actions/app.js'
 
 import constants from 'src/constants.js'
 
@@ -124,6 +125,10 @@ var EditorPage = React.createClass({
         }
     },
 
+    componentWillUnmount() {
+        this.props.dispatch(setValidationErrors({}))
+    },
+
     clearForm() {
         this.props.dispatch(clearData())
     },
@@ -161,7 +166,7 @@ var EditorPage = React.createClass({
                 'delete',
                 {
                     action: e => this.props.dispatch(deleteEventAction(this.props.params.eventId, this.props.user)),
-                    additionalMsg: (this.props.editor.values && this.props.editor.values.name) && (this.props.editor.values.name.fi || this.props.editor.values.name.se || this.props.editor.values.name.en)
+                    additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi')
                 }
             )
         )

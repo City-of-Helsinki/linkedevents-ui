@@ -1,9 +1,10 @@
 import constants from '../constants'
 import validationFn from './validationRules'
 
-// Validations for event draft
+// Validations for draft
 const draftValidations = {
-    name: ['requiredMulti']
+    name: ['requiredMulti'],
+    end_time: ['afterStartTime']
 }
 
 // Validations for published event
@@ -31,9 +32,7 @@ export function doValidations(values) {
     }
 
     else {
-        return {
-            publication_status: 'required'
-        }
+        return {}
     }
 }
 

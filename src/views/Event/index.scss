@@ -2,4 +2,14 @@
     pre {
         margin: 2rem 0rem
     }
+
+    .highlighted-block {
+        display: block;
+        background-color: #fff;
+
+        padding: 20px;
+        min-height: 72px;
+
+        color: #5a5959;
+    }
 }

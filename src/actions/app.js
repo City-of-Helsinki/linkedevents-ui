@@ -6,7 +6,8 @@ export function setFlashMsg(msg, style = 'message', data = {}) {
         type: constants.APP_SET_FLASHMSG,
         msg: msg,
         style: style,
-        data: data
+        data: data,
+        sticky: data.sticky
     }
 }
 

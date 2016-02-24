@@ -69,7 +69,8 @@ function update(state = initialState, action) {
 
         return Object.assign({}, state, {
             values: {},
-            validationErrors: {}
+            validationErrors: {},
+            validationStatus: constants.VALIDATION_STATUS.CLEARED
         })
     }
 
@@ -118,7 +119,8 @@ function update(state = initialState, action) {
 
     if(action.type === constants.SET_VALIDATION_ERRORS) {
         return Object.assign({}, state, {
-            validationErrors: action.errors
+            validationErrors: action.errors,
+            validationStatus: constants.VALIDATION_STATUS.RESOLVE
         })
     }
 

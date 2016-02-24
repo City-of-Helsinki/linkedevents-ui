@@ -48,6 +48,11 @@ const constants = {
     PUBLICATION_STATUS: {
         DRAFT: 'draft',
         PUBLIC: 'public'
+    },
+    
+    VALIDATION_STATUS: {
+        CLEARED: 'cleared', // When form is cleared we also clear validation errors and set this status
+        RESOLVE: 'resolve' // When form has validation errors and user is on editor page
     }
 }
 

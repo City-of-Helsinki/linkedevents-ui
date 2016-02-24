@@ -3,6 +3,7 @@ import constants from 'src/constants.js'
 import moment from 'moment'
 import 'moment-timezone'
 
+import { getStringWithLocale } from './locale'
 import {mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
 
 export {
@@ -133,7 +134,7 @@ export function mapAPIDataToUIFormat(values) {
     obj.hel_main = _.map(hel_main_items, (item) => { return item['@id'] })
 
     // Keywords, audience, languages
-    obj.keywords = _.map(keywords, (item) => ({ value: item['@id'], label: (item['name'].fi || item['name'].se || item['name'].en || item['id']) }))
+    obj.keywords = _.map(keywords, (item) => ({ value: item['@id'], label: (getStringWithLocale(item, 'name') || item['id']) }))
 
     // Filter somehow the hel_main keyword values from keywords
     // obj.keywords = _.filter(obj.keywords, (item) => {

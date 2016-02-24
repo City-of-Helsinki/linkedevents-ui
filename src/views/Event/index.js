@@ -14,6 +14,7 @@ import {fetchEventDetails} from 'src/actions/events.js'
 
 import {pushPath} from 'redux-simple-router'
 
+import {getStringWithLocale} from 'src/utils/locale'
 import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
 import {replaceData} from 'src/actions/editor.js'
 
@@ -45,9 +46,10 @@ class EventPage extends React.Component {
 
     render() {
         let buttonStyle = {
-            height: '72px',
-            margin: '0 10px'
+            height: '64px',
+            'marginRight': '10px'
         }
+
         let event = mapAPIDataToUIFormat(this.props.events.event)
 
         // To prevent 'Can't access field of undefined errors'
@@ -63,16 +65,20 @@ class EventPage extends React.Component {
         if(event && event.name) {
             return (
                 <div className="event-page">
+                    <header className="container header">
+                        <h1>
+                            { getStringWithLocale(event, 'name') }
+                        </h1>
+                    </header>
                     <div className="container">
-                        <header className="row">
-                            <h1 className="col-sm-12">
-                                {event.name.fi || event.name.se || event.name.en}
-                            </h1>
+                        <div className="col-sm-12 highlighted-block">
                             <div className="col-sm-12 actions">
                                 <RaisedButton onClick={e => this.editEvent(e)} disabled={!userCanEdit} style={buttonStyle} primary={true} label="Muokkaa tapahtumaa" />
                                 <RaisedButton onClick={e => this.copyAsTemplate(e)} style={buttonStyle} secondary={true} label="Kopioi uuden tapahtuman pohjaksi" />
                             </div>
-                        </header>
+                        </div>
+                    </div>
+                    <div className="container">
                         <EventDetails values={event} rawData={this.props.events.event}/>
                     </div>
                 </div>

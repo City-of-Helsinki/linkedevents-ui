@@ -109,7 +109,8 @@
     "validation-afterStartTime": "Päättymisajan pitää olla alkamisaikaa myöhemmin",
 
     "server-error": "Virhe palvelimella.",
-    "validation-error": "Validointi virhe. Tarkasta lomake.",
+    "validation-error": "Lomakkeessa on virheitä. Tarkasta lomake.",
+    "no-validation-errors": "Lomake täytetty oikein!",
     "authorization-required": "Kirjaudu sisään tapahtuman lähettämiseksi.",
     "event-posted": "Tapahtuma lähetettiin onnistuneesti!",
     "no-connection": "Ei yhteyttä palvelimelle!"

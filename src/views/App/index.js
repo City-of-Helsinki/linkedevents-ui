@@ -19,6 +19,40 @@ import {FormattedMessage} from 'react-intl'
 // Material-ui theming
 import { HelTheme } from 'src/themes/hel'
 
+class Notifications extends React.Component {
+
+    shouldComponentUpdate(nextProps) {
+        return !_.isEqual(nextProps, this.props)
+    }
+
+    render() {
+        let flashMsg = (<span/>)
+        if(this.props.flashMsg && this.props.flashMsg.msg && this.props.flashMsg.msg.length) {
+            flashMsg = (<FormattedMessage id={this.props.flashMsg.msg} />)
+        }
+
+        let sticky =  this.props.flashMsg && this.props.flashMsg.sticky
+        let duration = sticky ? null : 7000
+        let closeFn = sticky ? function() {} : () => this.props.dispatch(clearFlashMsg())
+
+        let actionLabel = this.props.flashMsg && this.props.flashMsg.action && this.props.flashMsg.action.label
+        let actionFn = this.props.flashMsg && this.props.flashMsg.action && this.props.flashMsg.action.fn
+
+
+        return (
+            <Snackbar
+              open={(!!this.props.flashMsg)}
+              message={flashMsg}
+              bodyStyle={{'backgroundColor': 'rgb(0,108,188)'}}
+              autoHideDuration={duration}
+              onRequestClose={closeFn}
+              action={actionLabel}
+              onActionTouchTap={actionFn}
+            />
+        )
+    }
+}
+
 class App extends React.Component {
 
     static propTypes = {
@@ -53,10 +87,6 @@ class App extends React.Component {
     }
 
     render() {
-        let flashMsg = (<span/>)
-        if(this.props.app.flashMsg && this.props.app.flashMsg.msg && this.props.app.flashMsg.msg.length) {
-            flashMsg = (<FormattedMessage id={this.props.app.flashMsg.msg} />)
-        }
 
         let confirmMsg = (<span/>)
         if(this.props.app.confirmAction && this.props.app.confirmAction.msg && this.props.app.confirmAction.msg.length) {
@@ -94,13 +124,8 @@ class App extends React.Component {
                 <div className="content">
                     {this.props.children}
                 </div>
-                <Snackbar
-                  open={(!!this.props.app.flashMsg)}
-                  message={flashMsg}
-                  bodyStyle={{'backgroundColor': 'rgb(0,108,188)'}}
-                  autoHideDuration={6000}
-                  onRequestClose={(e) => this.props.dispatch(clearFlashMsg())}
-                />
+                <Notifications flashMsg={this.props.app.flashMsg} dispatch={this.props.dispatch} />
+
                 <Modal show={(!!this.props.app.confirmAction)} dialogClassName="custom-modal" onHide={e => this.props.dispatch(cancelAction())}>
                    <Modal.Header closeButton>
                    </Modal.Header>
