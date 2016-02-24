@@ -64,7 +64,7 @@ var EditorPage = React.createClass({
 
     getActionButtons: function() {
         let buttonStyle = {
-            height: '72px',
+            height: '64px',
             margin: '0 10px'
         }
 
@@ -207,7 +207,7 @@ var EditorPage = React.createClass({
                 <div className="editor-action-buttons">
                     <div className="container">
                         <div className="row">
-                            <div className="spread-right">
+                            <div className="pull-right">
                                 {this.getActionButtons()}
                             </div>
                         </div>
