@@ -2,13 +2,21 @@ import _ from 'lodash'
 
 /**
  * A safe getter for multi language field
+ *
+ * Example usage:
+ * // let label = getStringWithLocale(this.props, 'editor.values.name', 'fi')
+ *
  * @param  {object} obj    multi language field
- * @param  {string} locale 'fi', 'se' or 'en'
+ * @param  {string} fieldpath  string path for the field
+ * @param  {string} locale 'fi', 'sv' or 'en'
  * @return {string}        language string
  */
-export function getStringWithLocale(obj, locale) {
-    if(typeof obj === 'object' && obj) {
-        return obj[locale] || obj.fi || obj.se || obj.en
+export function getStringWithLocale(obj, fieldpath = '', locale = 'fi') {
+    let field = _.get(obj, fieldpath, {})
+
+    if(typeof field === 'object' && field) {
+        return field[locale] || field.fi || field.sv || field.en || ''
     }
+
     return ''
 }
