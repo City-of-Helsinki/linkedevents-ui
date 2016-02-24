@@ -86,7 +86,7 @@ class SearchBar extends React.Component {
         //var label = this.formatLabel() + ' ';
         return (
             <form onSubmit={ (e) => this.handleSubmit(e) } className="row search-bar">
-                <div className="col-xs-6">
+                <div className="col-xs-9">
                     <Input
                         type="text"
                         placeholder="Tapahtuman nimi tai paikka"
@@ -95,10 +95,6 @@ class SearchBar extends React.Component {
                         ref="searchQueryInput"
                         groupClassName="text-field"
                         />
-                </div>
-
-                <div className="col-xs-3" style={{background: 'white'}}>
-                    <div className='time-input'></div>
                 </div>
 
                 <div className="col-xs-3">
