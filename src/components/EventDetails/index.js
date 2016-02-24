@@ -9,7 +9,7 @@ import { getStringWithLocale } from 'src/utils/locale'
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
 
 let NoValue = (props) => {
-    let header = props.labelKey ? (<label>'<FormattedMessage id={`${props.labelKey}`} />'&nbsp;</label>) : null
+    let header = props.labelKey ? (<span>'<FormattedMessage id={`${props.labelKey}`} />'&nbsp;</span>) : null
     return (
         <div className="no-value">
             {header}
@@ -64,7 +64,13 @@ let MultiLanguageValue = (props) => {
         )
     } else {
         return (
-            <NoValue labelKey={props.labelKey}/>
+            <div className="multi-value-field">
+                <label><FormattedMessage id={`${props.labelKey}`} /></label>
+                <div>
+                    <NoValue labelKey={props.labelKey}/>
+                </div>
+            </div>
+
         )
     }
 
@@ -81,7 +87,14 @@ let TextValue = (props) => {
             </div>
         )
     } else {
-        return (<NoValue labelKey={props.labelKey}/>)
+        return (
+            <div className="single-value-field">
+                <div><label><FormattedMessage id={`${props.labelKey}`} /></label></div>
+                <div>
+                    <NoValue labelKey={props.labelKey}/>
+                </div>
+            </div>
+        )
     }
 }
 
@@ -93,6 +106,10 @@ let OptionGroup = (props) => {
         let name = getStringWithLocale(val, 'name') || val.label || val.id || val || ''
         return (<CheckedValue checked={true} label={name} key={key}/>)
     })
+
+    if(elements.length === 0) {
+        elements = (<NoValue labelKey={props.labelKey}/>)
+    }
 
     return (
         <div className="option-group col-xl-6">
@@ -121,7 +138,14 @@ let DateTime = (props) => {
             </div>
         )
     } else {
-        return (<NoValue labelKey={props.labelKey}/>)
+        return (
+            <div className="single-value-field">
+                <label><FormattedMessage id={`${props.labelKey}`} /></label>
+                <span className="value">
+                    <NoValue labelKey={props.labelKey}/>
+                </span>
+            </div>
+        )
     }
 }
 
