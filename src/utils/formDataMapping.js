@@ -37,7 +37,11 @@ function mapUIDataToAPIFormat(values) {
     // Location data
     obj.location = values.location
 
-    obj.location_extra_info = values.location_extra_info
+    // Image data
+    if(values.image) {
+        // obj.image = { '@id': `/v0.1/image/${values.image_id}/`}
+        obj.image = values.image
+    }
 
     // Price data
     if(values.offers) {
@@ -163,6 +167,10 @@ export function mapAPIDataToUIFormat(values) {
 
     if(values.end_time) {
         obj.end_time = values.end_time
+    }
+
+    if(values.images) {
+        obj.image = values.images[0]
     }
 
     return obj

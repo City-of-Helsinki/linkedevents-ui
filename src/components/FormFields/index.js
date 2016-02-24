@@ -2,7 +2,7 @@ import React from 'react'
 
 import { FormattedMessage, injectIntl } from 'react-intl'
 
-import ImageUpload from 'src/components/ImageUpload'
+import ImagePicker from 'src/components/ImagePicker'
 import {
     HelAutoComplete,
     MultiLanguageField,
@@ -119,8 +119,8 @@ class FormFields extends React.Component {
                         <MultiLanguageField required={false} multiLine={false} label="event-info-url" ref="info_url" name="info_url" validationErrors={validationErrors["info_url"]} defaultValue={values["info_url"]} languages={this.state.languages} validations={['isUrl']} />
                     </div>
                     <SideField>
-                        <label><FormattedMessage id="event-picture"/></label>
-                        <ImageUpload ref="image" name="image" />
+                        <label><FormattedMessage id="event-image"/></label>
+                        <ImagePicker label="image-preview" name="image" />
                     </SideField>
                 </div>
 

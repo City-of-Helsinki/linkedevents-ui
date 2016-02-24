@@ -11,12 +11,12 @@ import _ from 'lodash'
  * @param  {string} locale 'fi', 'sv' or 'en'
  * @return {string}        language string
  */
-export function getStringWithLocale(obj, fieldpath = '', locale = 'fi') {
+export function getStringWithLocale(obj, fieldpath = '', locale = 'fi', defaultValue = '') {
     let field = _.get(obj, fieldpath, {})
 
     if(typeof field === 'object' && field) {
-        return field[locale] || field.fi || field.sv || field.en || ''
+        return field[locale] || field.fi || field.sv || field.en || defaultValue
     }
 
-    return ''
+    return defaultValue
 }

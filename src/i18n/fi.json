@@ -10,11 +10,13 @@
     "welcome": "Tervetuloa",
     "submit": "Lähetä",
     "cancel": "Peru",
+    "save": "Tallenna",
     "confirm-action-header": "Varmista toiminto",
     "confirm-delete": "Varmista tapahtuman poistaminen",
     "delete": "Poista",
     "confirm": "Suorita",
 
+    "ready": "Valmis",
     "clear-form": "Tyhjennä kentät",
 
     "event-presented-in-languages": "Tämä tapahtuma esitetään seuraavilla kielillä.",
@@ -35,8 +37,16 @@
     "organization-events-prompt": "muokataksesi tapahtumia.",
     "organization-events-description": "Organisaation {org} tapahtumat.",
 
-    "event-picture": "Tapahtuman kuva",
-    "upload-picture": "Lisää tapahtumalle kuva",
+    "event-image": "Tapahtuman kuva (klikkaa vaihtaaksesi)",
+    "new-image": "Lisää uusi kuva",
+    "upload-image": "Lataa kuva kovalevyltäsi",
+    "choose-image": "Lisää tapahtumalle kuva tai valitse kuvapankista",
+    "use-external-image-url": "tai syötä ulkoisen kuvan osoite:",
+    "external-url-here": "Kuvan URL",
+    "or": "tai",
+    "organization-images": "Organisaation kuvat",
+    "use-existing-image": "Käytä järjestelmässä olemassaolevaa kuvaa",
+    "no-image": "EI KUVAA",
 
     "event-datetime-fields-header": "Tapahtuman ajankohta",
     "event-starting-datetime": "Tapahtuma alkaa",
