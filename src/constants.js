@@ -30,6 +30,7 @@ const constants = {
     EDITOR_SENDDATA_ERROR: 'EDITOR_SENDDATA_ERROR',
     EDITOR_SENDDATA_SUCCESS: 'EDITOR_SENDDATA_SUCCESS',
     SET_VALIDATION_ERRORS: 'SET_VALIDATION_ERRORS',
+    VALIDATE_FOR: 'VALIDATE_FOR',
 
     IMAGE_UPLOAD_SUCCESS: 'IMAGE_UPLOAD_SUCCESS',
     IMAGE_UPLOAD_ERROR: 'IMAGE_UPLOAD_ERROR',
@@ -49,7 +50,7 @@ const constants = {
         DRAFT: 'draft',
         PUBLIC: 'public'
     },
-    
+
     VALIDATION_STATUS: {
         CLEARED: 'cleared', // When form is cleared we also clear validation errors and set this status
         RESOLVE: 'resolve' // When form has validation errors and user is on editor page

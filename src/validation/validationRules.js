@@ -111,7 +111,7 @@ var validations = {
         return false
     },
     requiredMulti: function requiredMulti(values, value) {
-        if(typeof value !== 'object') {
+        if(typeof value !== 'object' || !value) {
             return false
         }
         if(_.keys(value).length === 0) {
@@ -129,7 +129,7 @@ var validations = {
         return hasOneValue
     },
     requiredAtId: function requiredAtId(values, value) {
-        if(typeof value !== 'object') {
+        if(typeof value !== 'object' || !value) {
             return false
         }
         if(typeof value['@id'] !== 'string') {

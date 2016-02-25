@@ -26,8 +26,9 @@ export function setData(formValues) {
 export function replaceData(formValues) {
     return (dispatch) => {
         // Run validations
-        let validationErrors = doValidations(formValues)
-        dispatch(setValidationErrors(validationErrors))
+        // let validationErrors = doValidations(formValues)
+        dispatch(validateFor(null))
+        dispatch(setValidationErrors({}))
 
         return {
             type: constants.EDITOR_REPLACEDATA,
@@ -58,21 +59,43 @@ export function setValidationErrors(errors) {
     }
 }
 
+export function validateFor(publicationStatus) {
+    if(publicationStatus === constants.PUBLICATION_STATUS.PUBLIC || publicationStatus === constants.PUBLICATION_STATUS.DRAFT) {
+        return {
+            type: constants.VALIDATE_FOR,
+            validateFor: publicationStatus
+        }
+    } else {
+        return {
+            type: constants.VALIDATE_FOR,
+            validateFor: null
+        }
+    }
+}
+
 /**
  * Send form values data. A UI to API data mapping is done before sending the values
  * @param  {[type]} formValues              [description]
  * @param  {[type]} user                    [description]
  * @param  {[type]} updateExisting = false  [description]
+ * @param  {[type]} publicationStatus       [description]
  * @return {[type]}                         [description]
  */
-export function sendData(formValues, user, updateExisting = false) {
+export function sendData(formValues, user, updateExisting = false, publicationStatus) {
     return (dispatch) => {
+
+        publicationStatus = publicationStatus || formValues.publication_status
+
+        if(!publicationStatus) {
+            return
+        }
+
         // Set publication status for editor values. This is used by the validation to determine
         // which set of rules to use
-        dispatch(setData({publication_status: formValues.publication_status}))
+        dispatch(validateFor(publicationStatus))
 
         // Run validations
-        let validationErrors = doValidations(formValues)
+        let validationErrors = doValidations(formValues, publicationStatus)
 
         // There are validation errors, don't continue sending
         if (_.keys(validationErrors).length > 0) {
@@ -90,6 +113,8 @@ export function sendData(formValues, user, updateExisting = false) {
              token = user.token
         }
 
+        let data = Object.assign({}, formValues, { publication_status: publicationStatus })
+
         return fetch(url, {
             method: updateExisting ? 'PUT' : 'POST',
             headers: {
@@ -97,7 +122,7 @@ export function sendData(formValues, user, updateExisting = false) {
                 'Content-Type': 'application/json',
                 'Authorization': 'JWT ' + token,
             },
-            body: JSON.stringify(mapUIDataToAPIFormat(formValues))
+            body: JSON.stringify(mapUIDataToAPIFormat(data))
         }).then(response => {
             //console.log('Received', response)
             let jsonPromise = response.json()

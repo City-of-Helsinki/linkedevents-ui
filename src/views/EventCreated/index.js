@@ -2,7 +2,6 @@ import '!style!css!sass!./index.scss'
 
 import React from 'react'
 import {connect} from 'react-redux'
-import {sendData} from 'src/actions/editor.js'
 
 import {FormattedMessage} from 'react-intl'
 
