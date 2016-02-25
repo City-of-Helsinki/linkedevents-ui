@@ -31,6 +31,13 @@ class ImageGalleryGrid extends React.Component {
         // save the id of the selected image of this event (or editor values)
         let selected_id = getIfExists(this.props.editor.values, 'image.id', null)
 
+        // show latest modified at top
+        let sorted = this.props.images.items.sort((a,b) => {
+            let date_a = new Date(a.last_modified_time)
+            let date_b = new Date(b.last_modified_time)
+            return date_b - date_a
+        })
+
         // build the classes for the thumbnails
         let imgs = this.props.images.items.map((img) => {
             let selected = selected_id == img.id
