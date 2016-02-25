@@ -20,14 +20,14 @@ const publicValidations = {
  * Run draft/public validations depending which document
  * @return {object} Validation errors object
  */
-export function doValidations(values) {
+export function doValidations(values, validateFor) {
     // Public validations
-    if(values.publication_status === constants.PUBLICATION_STATUS.PUBLIC) {
-      return runValidationWithSettings(values, publicValidations)
+    if(validateFor === constants.PUBLICATION_STATUS.PUBLIC) {
+        return runValidationWithSettings(values, publicValidations)
     }
 
     // Do draft validations
-    else if (values.publication_status === constants.PUBLICATION_STATUS.DRAFT) {
+    else if (validateFor === constants.PUBLICATION_STATUS.DRAFT) {
         return runValidationWithSettings(values, draftValidations)
     }
 

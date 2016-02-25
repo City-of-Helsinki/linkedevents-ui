@@ -11,7 +11,7 @@ import { RaisedButton, FlatButton } from 'material-ui'
 
 import { getStringWithLocale } from 'src/utils/locale'
 
-import {fetchEventForEditing, deleteEvent as deleteEventAction, sendData, clearData, fetchKeywordSets, fetchLanguages, setValidationErrors} from 'src/actions/editor.js'
+import {fetchEventForEditing, deleteEvent as deleteEventAction, cancelEvent as cancelEventAction, sendData, clearData, fetchKeywordSets, fetchLanguages, setValidationErrors} from 'src/actions/editor.js'
 import {confirmAction, clearFlashMsg} from 'src/actions/app.js'
 
 import constants from 'src/constants.js'
@@ -53,7 +53,7 @@ var EditorPage = React.createClass({
         // Clear page or fetch new eventdata accordingly
         if(nextProps.params && this.props.params.action !== nextProps.params.action) {
             if(nextProps.params.action === 'update') {
-                this.props.dispatch(fetchEventForEditing(this.props.params.eventId))
+                this.props.dispatch(fetchEventForEditing(this.props.params.eventId), this.props.user)
             } else {
                 this.props.dispatch(clearData())
             }
@@ -62,66 +62,84 @@ var EditorPage = React.createClass({
         this.forceUpdate()
     },
 
-    getActionButtons: function() {
+    getDeleteOrCancelButton: function() {
         let buttonStyle = {
             height: '64px',
             margin: '0 10px'
         }
 
         if(this.props.params.action === 'update') {
-            return (
-                <div className="actions">
+            let publicationStatus = _.get(this.props, 'editor.values.publication_status')
+
+            if (publicationStatus === constants.PUBLICATION_STATUS.DRAFT) {
+                return (
                     <RaisedButton
                         style={buttonStyle}
                         label="Poista tapahtuma"
                         onClick={ (e) => this.deleteEvent(e) }
-                    />
+                        />
+                )
+            } else if (publicationStatus === constants.PUBLICATION_STATUS.PUBLIC) {
+                return (
                     <RaisedButton
                         style={buttonStyle}
-                        label="Tallenna vedoksena"
-                        onClick={ (e) => this.saveAsDraft(e) }
-                    />
-                    <RaisedButton
-                        style={buttonStyle}
-                        label="Siirry esikatseluun"
-                        primary={true}
-                        onClick={ (e) => this.goToPreview(e) }
-                    />
-                    <FlatButton
-                        style={buttonStyle}
-                        label="Julkaise tapahtuma"
-                        onClick={ (e) => this.saveAsPublished(e) }
-                    />
-                </div>
+                        label="Peruuta tapahtuma"
+                        onClick={ (e) => this.cancelEvent(e) }
+                        />
+                )
+            } else {
+                return null
+            }
+        }
+    },
+
+    getSaveButtons: function() {
+        let buttonStyle = {
+            height: '64px',
+            margin: '0 10px'
+        }
+        let publicationStatus = _.get(this.props, 'editor.values.publication_status')
+
+        if(this.props.params.action === 'update' && publicationStatus === constants.PUBLICATION_STATUS.PUBLIC) {
+            return (
+                <RaisedButton
+                    style={buttonStyle}
+                    label="Tallenna muutokset julkaistuun tapahtumaan"
+                    primary={true}
+                    onClick={ (e) => this.saveAsPublished(e) }
+                />
             )
         } else {
             return (
-                <div className="actions">
+                <span>
                     <RaisedButton
                         style={buttonStyle}
-                        label="Tallenna vedokseksi"
-                        onClick={ (e) => this.saveAsDraft(e) }
-                    />
-                    <RaisedButton
-                        style={buttonStyle}
-                        label="Siirry esikatseluun"
+                        label="Tallenna ja siirry esikatseluun"
                         primary={true}
-                        onClick={ (e) => this.goToPreview(e) }
+                        onClick={ (e) => this.saveAsDraft(e) }
                     />
                     <FlatButton
                         style={buttonStyle}
                         label="Julkaise tapahtuma"
                         onClick={ (e) => this.saveAsPublished(e) }
                     />
-                </div>
+                </span>
             )
         }
+    },
 
+    getActionButtons: function() {
+        return (
+            <div className="actions">
+                { this.getDeleteOrCancelButton() }
+                { this.getSaveButtons() }
+            </div>
+        )
     },
 
     componentWillMount() {
         if(this.props.params.action === 'update' && this.props.params.eventId) {
-            this.props.dispatch(fetchEventForEditing(this.props.params.eventId))
+            this.props.dispatch(fetchEventForEditing(this.props.params.eventId, this.props.user))
         }
     },
 
@@ -139,22 +157,12 @@ var EditorPage = React.createClass({
 
     saveAsDraft(event) {
         let doUpdate = this.props.params.action === 'update'
-        let data = Object.assign({}, this.props.editor.values, { publication_status: constants.PUBLICATION_STATUS.DRAFT })
-        this.props.dispatch(sendData(data, this.props.user, doUpdate))
+        this.props.dispatch(sendData(this.props.editor.values, this.props.user, doUpdate, constants.PUBLICATION_STATUS.DRAFT))
     },
 
     saveAsPublished(event) {
-
-        // TODO: in more redux way. Define validations in editor store and use the store to do validation. It's an app state
-
-        // let validations = this.refs.form.getValidationErrors()
-        // if(validations) {
-        //     return
-        // }
-
         let doUpdate = this.props.params.action === 'update'
-        let data = Object.assign({}, this.props.editor.values, { publication_status: constants.PUBLICATION_STATUS.PUBLIC })
-        this.props.dispatch(sendData(data, this.props.user, doUpdate))
+        this.props.dispatch(sendData(this.props.editor.values, this.props.user, doUpdate, constants.PUBLICATION_STATUS.PUBLIC))
     },
 
     deleteEvent() {
@@ -166,6 +174,21 @@ var EditorPage = React.createClass({
                 'delete',
                 {
                     action: e => this.props.dispatch(deleteEventAction(this.props.params.eventId, this.props.user)),
+                    additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi')
+                }
+            )
+        )
+    },
+
+    cancelEvent() {
+        // TODO: maybe do a decorator for confirmable actions etc...?
+        this.props.dispatch(
+            confirmAction(
+                'confirm-cancel',
+                'warning',
+                'cancel',
+                {
+                    action: e => this.props.dispatch(cancelEventAction(this.props.params.eventId, this.props.user, this.props.editor.values)),
                     additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi')
                 }
             )

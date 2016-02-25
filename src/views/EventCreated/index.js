@@ -2,7 +2,6 @@ import '!style!css!sass!./index.scss'
 
 import React from 'react'
 import {connect} from 'react-redux'
-import {sendData} from 'src/actions/editor.js'
 
 import {FormattedMessage} from 'react-intl'
 
@@ -72,8 +71,18 @@ class EventCreated extends React.Component {
 
         if(this.props.params.action === 'update') {
             headerText = "Tapahtuma päivitettiin onnistuneesti!"
+        } else if(this.props.params.action === 'savedraft') {
+            headerText = "Luonnoksen tallennus onnistui!"
+        }  else if(this.props.params.action === 'savepublic') {
+            headerText = "Julkaistun tapahtuman tallennus onnistui!"
+        } else if(this.props.params.action === 'create') {
+            headerText = "Tapahtuma tallennettiin!"
         } else if(this.props.params.action === 'delete') {
             headerText = "Tapahtuma poistettiin!"
+        } else if(this.props.params.action === 'cancel') {
+            headerText = "Tapahtuma peruttiin!"
+        } else if(this.props.params.action === 'publish') {
+            headerText = "Tapahtuma julkaistiin onnistuneesti!"
         }
 
         if(this.props.params.action === 'delete' || event) {
@@ -83,13 +92,7 @@ class EventCreated extends React.Component {
                         <h1>
                             {headerText}
                         </h1>
-                        <h3>
-                            {eventName}
-                        </h3>
                         { this.getActionButtons() }
-                        <pre>
-                            {JSON.stringify(event)}
-                        </pre>
                     </div>
                 </div>
             )

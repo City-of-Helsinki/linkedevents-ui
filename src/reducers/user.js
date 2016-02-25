@@ -10,7 +10,6 @@ function update(state = initialState, action) {
 
             if(action.payload && action.payload.id) {
                 // TODO: get from payload
-                action.payload.organization = 'ahjo:021600';
                 return Object.assign({}, action.payload);
             }
 

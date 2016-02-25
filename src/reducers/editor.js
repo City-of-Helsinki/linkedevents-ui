@@ -23,7 +23,8 @@ const initialState = {
     values: editorValues || {},
     languages: languages,
     keywordSets: keywordSets,
-    validationErrors: {}
+    validationErrors: {},
+    validateFor: null
 }
 
 function clearEventDataFromLocalStorage() {
@@ -42,12 +43,18 @@ function update(state = initialState, action) {
         let validationErrors = Object.assign({}, state.validationErrors)
         // If there are validation errors, check if they are fixed
         if (_.keys(state.validationErrors).length > 0) {
-            validationErrors = doValidations(newValues)
+            validationErrors = doValidations(newValues, state.validateFor)
         }
 
         return Object.assign({}, state, {
             values: newValues,
             validationErrors: validationErrors
+        })
+    }
+
+    if(action.type === constants.VALIDATE_FOR) {
+        return Object.assign({}, state, {
+            validateFor: action.validateFor
         })
     }
 
@@ -70,6 +77,7 @@ function update(state = initialState, action) {
         return Object.assign({}, state, {
             values: {},
             validationErrors: {},
+            validateFor: null,
             validationStatus: constants.VALIDATION_STATUS.CLEARED
         })
     }

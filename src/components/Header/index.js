@@ -42,6 +42,7 @@ class HeaderBar extends React.Component {
                 <ToolbarGroup key={2} float="right">
                     {loginButton}
                 </ToolbarGroup>
+                <div className="clearfix"/>
             </Toolbar>
         )
     }

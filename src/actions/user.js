@@ -1,5 +1,6 @@
 import constants from '../constants.js'
 import fetch from 'isomorphic-fetch'
+import _ from 'lodash'
 
 // Handled by the user reducer
 export function receiveUserData(data) {
@@ -61,8 +62,19 @@ export function retrieveUserFromSession() {
             return fetch('/auth/me?' + (+new Date()), {method: 'GET', credentials: 'same-origin'}).then((response) => {
                 return response.json()
             }).then((user) => {
-                saveUserToLocalStorage(user)
-                return dispatch(receiveUserData(user))
+                const settings = {
+                    headers: {
+                        'Authorization': 'JWT ' + user.token
+                    }
+                }
+                return fetch(`${appSettings.api_base}/user/${user.username}/`, settings).then((response) => {
+                    return response.json()
+                }).then((organizationJSON) => {
+                    let mergedUser = Object.assign({}, user, { organization: _.get(organizationJSON, 'organization', null) })
+
+                    saveUserToLocalStorage(mergedUser)
+                    return dispatch(receiveUserData(mergedUser))
+                })
             })
         }
     }

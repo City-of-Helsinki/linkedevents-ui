@@ -3,6 +3,9 @@ $header-bar-height: 56px;
 .mui-toolbar {
     color: #ffffff;
 
+    height: auto !important;
+    min-height: $header-bar-height;
+
     a {
         color: inherit;
 
@@ -15,12 +18,14 @@ $header-bar-height: 56px;
 
     .title {
         display: inline-block;
-        height: $header-bar-height;
+        min-height: $header-bar-height;
 
         padding-left: 30px;
+        white-space: nowrap;
 
         .title-text {
             display: inline-block;
+            white-space: nowrap;
             line-height: $header-bar-height;
             padding-left: 16px;
         }
@@ -59,20 +64,14 @@ $header-bar-height: 56px;
             margin-right: 2px !important;
         }
     }
+
+    .clearfix {
+        clear: both;
+    }
 }
 
-// @media (min-width: $screen-sm-min) {
-//     .mui-toolbar {
-//         .toolbar-actions {
-//             display: inline-block;
-//             margin: 0px 24px;
-//
-//             height: $header-bar-height;
-//
-//             .mui-flat-button {
-//                 margin-left: 8px !important;
-//                 margin-right: 8px !important;
-//             }
-//         }
-//     }
-// }
+@media (max-width: 800px) {
+    .mui-toolbar {
+        padding: 0 !important;
+    }
+}

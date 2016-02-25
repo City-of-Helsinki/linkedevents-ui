@@ -26,8 +26,9 @@ export function setData(formValues) {
 export function replaceData(formValues) {
     return (dispatch) => {
         // Run validations
-        let validationErrors = doValidations(formValues)
-        dispatch(setValidationErrors(validationErrors))
+        // let validationErrors = doValidations(formValues)
+        dispatch(validateFor(null))
+        dispatch(setValidationErrors({}))
 
         return {
             type: constants.EDITOR_REPLACEDATA,
@@ -58,15 +59,43 @@ export function setValidationErrors(errors) {
     }
 }
 
-// Send data and create sendDataComplete event afterwards
-export function sendData(formValues, user, updateExisting = false) {
+export function validateFor(publicationStatus) {
+    if(publicationStatus === constants.PUBLICATION_STATUS.PUBLIC || publicationStatus === constants.PUBLICATION_STATUS.DRAFT) {
+        return {
+            type: constants.VALIDATE_FOR,
+            validateFor: publicationStatus
+        }
+    } else {
+        return {
+            type: constants.VALIDATE_FOR,
+            validateFor: null
+        }
+    }
+}
+
+/**
+ * Send form values data. A UI to API data mapping is done before sending the values
+ * @param  {[type]} formValues              [description]
+ * @param  {[type]} user                    [description]
+ * @param  {[type]} updateExisting = false  [description]
+ * @param  {[type]} publicationStatus       [description]
+ * @return {[type]}                         [description]
+ */
+export function sendData(formValues, user, updateExisting = false, publicationStatus) {
     return (dispatch) => {
+
+        publicationStatus = publicationStatus || formValues.publication_status
+
+        if(!publicationStatus) {
+            return
+        }
+
         // Set publication status for editor values. This is used by the validation to determine
         // which set of rules to use
-        dispatch(setData({publication_status: formValues.publication_status}))
+        dispatch(validateFor(publicationStatus))
 
         // Run validations
-        let validationErrors = doValidations(formValues)
+        let validationErrors = doValidations(formValues, publicationStatus)
 
         // There are validation errors, don't continue sending
         if (_.keys(validationErrors).length > 0) {
@@ -84,6 +113,8 @@ export function sendData(formValues, user, updateExisting = false) {
              token = user.token
         }
 
+        let data = Object.assign({}, formValues, { publication_status: publicationStatus })
+
         return fetch(url, {
             method: updateExisting ? 'PUT' : 'POST',
             headers: {
@@ -91,13 +122,22 @@ export function sendData(formValues, user, updateExisting = false) {
                 'Content-Type': 'application/json',
                 'Authorization': 'JWT ' + token,
             },
-            body: JSON.stringify(mapUIDataToAPIFormat(formValues))
+            body: JSON.stringify(mapUIDataToAPIFormat(data))
         }).then(response => {
             //console.log('Received', response)
             let jsonPromise = response.json()
 
             jsonPromise.then(json => {
                 let actionName = updateExisting ? 'update' : 'create'
+
+                // The publication_status was changed to public. The event was published!
+                if(json.publication_status === constants.PUBLICATION_STATUS.PUBLIC && json.publication_status !== formValues.publication_status) {
+                    actionName = 'publish'
+                } else if ( json.publication_status === constants.PUBLICATION_STATUS.PUBLIC ) {
+                    actionName ='savepublic'
+                } else if ( json.publication_status === constants.PUBLICATION_STATUS.DRAFT ) {
+                    actionName ='savedraft'
+                }
 
                 if(response.status === 200 || response.status === 201) {
                     dispatch(sendDataComplete(json, actionName))
@@ -218,15 +258,28 @@ export function receiveLanguages(json) {
 }
 
 // Fetch data for updating
-export function fetchEventForEditing(eventID) {
+export function fetchEventForEditing(eventID, user = {}) {
     let url = `${appSettings.api_base}/event/${eventID}/?include=keywords,location,audience,in_language,external_links,image`
 
     if(appSettings.nocache) {
         url += `&nocache=${Date.now()}`
     }
 
+    let options = {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    }
+
+    if(user && user.token) {
+        Object.assign(options.headers, {
+            'Authorization': 'JWT ' + user.token
+        })
+    }
+
     return (dispatch) => {
-        return fetch(url)
+        return fetch(url, options)
             .then(response => response.json())
             .then(json => dispatch(receiveEventForEditing(json)))
             .catch(e => {
@@ -240,6 +293,60 @@ export function receiveEventForEditing(json) {
     return {
         type: constants.RECEIVE_EVENT_FOR_EDITING,
         event: json
+    }
+}
+
+export function cancelEvent(eventId, user, values) {
+    return (dispatch) => {
+
+        let url = `${appSettings.api_base}/event/${values.id}/`
+
+        let token = ''
+        if(user) {
+             token = user.token
+        }
+
+        let data = Object.assign({}, values, { event_status: constants.EVENT_STATUS.CANCELLED })
+
+        return fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'JWT ' + token,
+            },
+            body: JSON.stringify(mapUIDataToAPIFormat(data))
+        }).then(response => {
+            //console.log('Received', response)
+            let jsonPromise = response.json()
+
+            jsonPromise.then(json => {
+                let actionName = 'cancel'
+
+                if(response.status === 200 || response.status === 201) {
+                    dispatch(sendDataComplete(json, actionName))
+                }
+                // Validation errors
+                else if(response.status === 400) {
+                    json.apiErrorMsg = 'validation-error'
+                    dispatch(sendDataComplete(json, actionName))
+                }
+
+                // Auth errors
+                else if(response.status === 401 || response.status === 403) {
+                    json.apiErrorMsg = 'authorization-required'
+                    dispatch(sendDataComplete(json, actionName))
+                }
+
+                else {
+                    json.apiErrorMsg = 'server-error'
+                    dispatch(sendDataComplete(json, actionName))
+                }
+            })
+        })
+        .catch(e => {
+            // Error happened while fetching ajax (connection or javascript)
+        })
     }
 }
 
