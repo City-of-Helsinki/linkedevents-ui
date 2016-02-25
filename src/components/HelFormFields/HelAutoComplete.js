@@ -30,11 +30,11 @@ class HelAutoComplete extends React.Component {
             .then((response) => {
                 return response.json();
             }).then((json) => {
-                return _.map(json.data, (item) => ({
-                    value: item.id,
-                    label: item.name.fi, // TODO: use locale
-                    '@id': `/v0.1/${this.props.resource}/${item.id}/`,
-                    id: item.id
+                return _.map(json.results, (item) => ({
+                    value: 'tprek:' + item.id,
+                    label: "name" in item ? item.name.fi: null, // TODO: use locale
+                    '@id': `/v1/${this.props.resource}/tprek:${item.id}/`,
+                    id: 'tprek:' + item.id
                 }))
             }).then((json) => {
                 self.setState({isLoading: false})

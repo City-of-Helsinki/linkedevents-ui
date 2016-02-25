@@ -141,7 +141,7 @@ class FormFields extends React.Component {
                     <div className="col-sm-6">
                         <HelAutoComplete
                             ref="location" name="location"
-                            dataSource={`${appSettings.api_base}/place/?page_size=10000&filter=`}
+                            dataSource={`${appSettings.place_autocomplete_api_base}&input=`}
                             resource="place"
                             required={true}
                             validationErrors={validationErrors['location']} defaultValue={values['location']}
