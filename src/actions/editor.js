@@ -58,7 +58,13 @@ export function setValidationErrors(errors) {
     }
 }
 
-// Send data and create sendDataComplete event afterwards
+/**
+ * Send form values data. A UI to API data mapping is done before sending the values
+ * @param  {[type]} formValues              [description]
+ * @param  {[type]} user                    [description]
+ * @param  {[type]} updateExisting = false  [description]
+ * @return {[type]}                         [description]
+ */
 export function sendData(formValues, user, updateExisting = false) {
     return (dispatch) => {
         // Set publication status for editor values. This is used by the validation to determine
@@ -218,15 +224,28 @@ export function receiveLanguages(json) {
 }
 
 // Fetch data for updating
-export function fetchEventForEditing(eventID) {
+export function fetchEventForEditing(eventID, user = {}) {
     let url = `${appSettings.api_base}/event/${eventID}/?include=keywords,location,audience,in_language,external_links,image`
 
     if(appSettings.nocache) {
         url += `&nocache=${Date.now()}`
     }
 
+    let options = {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    }
+
+    if(user && user.token) {
+        Object.assign(options.headers, {
+            'Authorization': 'JWT ' + user.token
+        })
+    }
+
     return (dispatch) => {
-        return fetch(url)
+        return fetch(url, options)
             .then(response => response.json())
             .then(json => dispatch(receiveEventForEditing(json)))
             .catch(e => {
