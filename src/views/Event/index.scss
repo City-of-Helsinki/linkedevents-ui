@@ -1,4 +1,9 @@
 .event-page {
+
+    .container {
+        background: rgba(255,255,255,0.9);
+    }
+
     pre {
         margin: 2rem 0rem
     }
@@ -12,4 +17,14 @@
 
         color: #5a5959;
     }
+}
+
+.draft {
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(255, 208, 91, 0.60),
+        rgba(255, 208, 91, 0.60) 10px,
+        #fff 10px,
+        #fff 20px
+    );
 }

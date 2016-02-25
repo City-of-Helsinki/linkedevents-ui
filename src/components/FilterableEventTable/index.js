@@ -1,3 +1,5 @@
+require('!style!css!sass!./index.scss');
+
 import React from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
@@ -32,13 +34,22 @@ let EventRow = (props) => {
 
     let url = "/event/" + e.id;
 
+    let draft = props.event.publication_status == "draft"
+    let draftClass = draft ? 'draft-row' : ''
+    let nameColumn = null
+    if (draft) {
+        nameColumn = (<TableRowColumn className={draftClass}><span className="label label-warning">LUONNOS</span> <Link to={url}>{name}</Link></TableRowColumn>)
+    }
+    else {
+        nameColumn = (<TableRowColumn><Link to={url}>{name}</Link></TableRowColumn>)
+    }
+
     return (
         <TableRow key={e['id']}>
-            <TableRowColumn><Link to={url}>{name}</Link></TableRowColumn>
-
-            <TableRowColumn>{dateFormat(e.start_time)}</TableRowColumn>
-            <TableRowColumn>{dateFormat(e.end_time)}</TableRowColumn>
-            <TableRowColumn>{dateTimeFormat(e.last_modified_time)}</TableRowColumn>
+            {nameColumn}
+            <TableRowColumn className={draftClass}>{dateFormat(e.start_time)}</TableRowColumn>
+            <TableRowColumn className={draftClass}>{dateFormat(e.end_time)}</TableRowColumn>
+            <TableRowColumn className={draftClass}>{dateTimeFormat(e.last_modified_time)}</TableRowColumn>
         </TableRow>
     )
 }
