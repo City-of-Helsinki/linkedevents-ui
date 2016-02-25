@@ -73,6 +73,10 @@ class EventCreated extends React.Component {
             headerText = "Tapahtuma päivitettiin onnistuneesti!"
         } else if(this.props.params.action === 'delete') {
             headerText = "Tapahtuma poistettiin!"
+        } else if(this.props.params.action === 'cancel') {
+            headerText = "Tapahtuma peruttiin!"
+        } else if(this.props.params.action === 'publish') {
+            headerText = "Tapahtuma julkaistiin!"
         }
 
         if(this.props.params.action === 'delete' || event) {

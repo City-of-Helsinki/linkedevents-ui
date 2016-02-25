@@ -287,6 +287,60 @@ export function receiveEventForEditing(json) {
     }
 }
 
+export function cancelEvent(eventId, user, values) {
+    return (dispatch) => {
+
+        let url = `${appSettings.api_base}/event/${values.id}/`
+
+        let token = ''
+        if(user) {
+             token = user.token
+        }
+
+        let data = Object.assign({}, values, { event_status: constants.EVENT_STATUS.CANCELLED })
+
+        return fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'JWT ' + token,
+            },
+            body: JSON.stringify(mapUIDataToAPIFormat(data))
+        }).then(response => {
+            //console.log('Received', response)
+            let jsonPromise = response.json()
+
+            jsonPromise.then(json => {
+                let actionName = 'cancel'
+
+                if(response.status === 200 || response.status === 201) {
+                    dispatch(sendDataComplete(json, actionName))
+                }
+                // Validation errors
+                else if(response.status === 400) {
+                    json.apiErrorMsg = 'validation-error'
+                    dispatch(sendDataComplete(json, actionName))
+                }
+
+                // Auth errors
+                else if(response.status === 401 || response.status === 403) {
+                    json.apiErrorMsg = 'authorization-required'
+                    dispatch(sendDataComplete(json, actionName))
+                }
+
+                else {
+                    json.apiErrorMsg = 'server-error'
+                    dispatch(sendDataComplete(json, actionName))
+                }
+            })
+        })
+        .catch(e => {
+            // Error happened while fetching ajax (connection or javascript)
+        })
+    }
+}
+
 // Fetch data for updating
 export function deleteEvent(eventID, user, values) {
     let url = `${appSettings.api_base}/event/${eventID}/`

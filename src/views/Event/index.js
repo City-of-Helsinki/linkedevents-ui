@@ -18,6 +18,8 @@ import {getStringWithLocale} from 'src/utils/locale'
 import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
 import {replaceData} from 'src/actions/editor.js'
 
+import constants from 'src/constants'
+
 class EventPage extends React.Component {
 
     componentWillMount() {
@@ -58,7 +60,7 @@ class EventPage extends React.Component {
         // User can edit event
         let userCanEdit = false
 
-        if(event && this.props.user) {
+        if(event && this.props.user && event.event_status !== constants.EVENT_STATUS.CANCELLED) {
             userCanEdit = true
         }
 
