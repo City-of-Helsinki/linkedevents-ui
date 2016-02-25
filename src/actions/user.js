@@ -67,10 +67,10 @@ export function retrieveUserFromSession() {
                         'Authorization': 'JWT ' + user.token
                     }
                 }
-                return fetch(`${appSettings.api_base}/user/`, settings).then((response) => {
+                return fetch(`${appSettings.api_base}/user/${user.username}/`, settings).then((response) => {
                     return response.json()
                 }).then((organizationJSON) => {
-                    let mergedUser = Object.assign({}, user, { organization: _.get(organizationJSON, 'data[0].organization', null) })
+                    let mergedUser = Object.assign({}, user, { organization: _.get(organizationJSON, 'organization', null) })
 
                     saveUserToLocalStorage(mergedUser)
                     return dispatch(receiveUserData(mergedUser))
