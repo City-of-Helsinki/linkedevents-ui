@@ -130,6 +130,15 @@ export function sendData(formValues, user, updateExisting = false, publicationSt
             jsonPromise.then(json => {
                 let actionName = updateExisting ? 'update' : 'create'
 
+                // The publication_status was changed to public. The event was published!
+                if(json.publication_status === constants.PUBLICATION_STATUS.PUBLIC && json.publication_status !== formValues.publication_status) {
+                    actionName = 'publish'
+                } else if ( json.publication_status === constants.PUBLICATION_STATUS.PUBLIC ) {
+                    actionName ='savepublic'
+                } else if ( json.publication_status === constants.PUBLICATION_STATUS.DRAFT ) {
+                    actionName ='savedraft'
+                }
+
                 if(response.status === 200 || response.status === 201) {
                     dispatch(sendDataComplete(json, actionName))
                 }
