@@ -35,7 +35,7 @@ function update(state = initialState, action) {
     if(action.type === constants.IMAGE_UPLOAD_ERROR) {
         console.log('Image upload failed in reducer')
         return Object.assign({}, state, {
-            flashMsg: {msg: 'upload failed', type: 'error', data: action.data}
+            flashMsg: {msg: 'image creation failed!', type: 'error', data: action.data}
         })
     }
 

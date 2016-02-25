@@ -4,6 +4,7 @@
     "create-event": "Lisää uusi tapahtuma",
     "edit-event": "Muokkaa tapahtumaa",
     "search-events": "Etsi tapahtumia",
+    "search-events-description": "Katsele kaikkia Linked Eventsin tapahtumia.",
     "lang-fi": "Suomi",
     "lang-en": "Englanti",
     "lang-sv": "Ruotsi",
@@ -35,7 +36,7 @@
 
     "organization-events": "Tapahtumien hallinta",
     "organization-events-prompt": "muokataksesi tapahtumia.",
-    "organization-events-description": "Organisaation {org} tapahtumat.",
+    "organization-events-description": "Selaa ja muokkaa oman organisaatiosi julkisia tapahtumia sekä luonnoksia.",
 
     "event-image": "Tapahtuman kuva (klikkaa vaihtaaksesi)",
     "new-image": "Lisää uusi kuva",

@@ -2,5 +2,6 @@ base_url: /
 static_url: /static
 express_port: 9001
 api_base: https://api.hel.fi/linkedevents-test/v1
+place_autocomplete_api_base: http://api.hel.fi/servicemap/v1/search/?language=fi
 local_storage_user_expiry_time: 48 # in hours
 nocache: true # force no caching of results
