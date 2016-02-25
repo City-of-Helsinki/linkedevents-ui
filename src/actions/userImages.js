@@ -3,6 +3,8 @@ import { createAction } from 'redux-actions'
 import $ from 'jquery' // how do i the same thing in fetch?!? horrible docs
 import constants from '../constants'
 import { setData } from './editor'
+import { setFlashMsg } from './app'
+
 
 export function selectImage(image) {
     return {
@@ -13,6 +15,9 @@ export function selectImage(image) {
 
 function makeRequest(organization, pg_size) {
     var url = `${appSettings.api_base}/image/?page_size=${pg_size}`
+    if(appSettings.nocache) {
+        url += `&nocache=${Date.now()}`
+    }
     return $.getJSON(url);
 }
 
@@ -94,8 +99,12 @@ export function postImage(formData = null, user, externalUrl = null) {
             dispatch(setData({'image': resp}))
             // and also set the preview image
             dispatch(imageUploadComplete(resp))
+            // and flash a message
+            dispatch(setFlashMsg("image created succesfully", 'success', response))
+
         }).fail(response => {
-            dispatch(imageUploadFailed(response))
+            dispatch(setFlashMsg("image creation failed", 'error', response))
+            dispatch(imageUploadFailed(response)) //this doesn't do anything ATM
         })
     }
 }

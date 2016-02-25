@@ -70,7 +70,14 @@ class ImagePicker extends React.Component {
                     aria-labelledby="ModalHeader"
                     width="600px"
                  >
-                    <Modal.Header closeButton>
+                    <Modal.Header>
+                        <RaisedButton
+                            label={<FormattedMessage id="ready"/>}
+                            onClick={() => this.closeGalleryModal()}
+                            style={{float:"right"}}
+                            backgroundColor="lightgreen"
+                        />
+
                         <Modal.Title id='ModalHeader'><FormattedMessage id="new-image" /></Modal.Title>
                         <br />
                         <input onChange={(e) => this.handleUpload(e)} style={{ display: 'none' }} type="file" ref={(ref) => this.hiddenFileInput = ref} />
@@ -101,6 +108,8 @@ class ImagePicker extends React.Component {
                         <RaisedButton
                             label={<FormattedMessage id="ready"/>}
                             onClick={() => this.closeGalleryModal()}
+                            backgroundColor="lightgreen"
+
                         />
                     </Modal.Footer>
 
