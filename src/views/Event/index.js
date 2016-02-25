@@ -64,16 +64,22 @@ class EventPage extends React.Component {
             userCanEdit = true
         }
 
+        let draftClass = event.publication_status == "draft" ? "event-page draft" : "event-page"
+        let draftBadge = null
+        if (event.publication_status == "draft") {
+            draftBadge = (<span style={{marginRight:'0.5em'}} className="label label-warning">LUONNOS</span>)
+        }
         if(event && event.name) {
             return (
-                <div className="event-page">
+                <div className={draftClass}>
                     <header className="container header">
                         <h1>
+                            {draftBadge}
                             { getStringWithLocale(event, 'name') }
                         </h1>
                     </header>
                     <div className="container">
-                        <div className="col-sm-12 highlighted-block">
+                        <div className="col-sm-12">
                             <div className="col-sm-12 actions">
                                 <RaisedButton onClick={e => this.editEvent(e)} disabled={!userCanEdit} style={buttonStyle} primary={true} label="Muokkaa tapahtumaa" />
                                 <RaisedButton onClick={e => this.copyAsTemplate(e)} style={buttonStyle} secondary={true} label="Kopioi uuden tapahtuman pohjaksi" />
