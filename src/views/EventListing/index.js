@@ -59,6 +59,7 @@ class EventListing extends React.Component {
             return (
                     <div className="container">
                     <h1><FormattedMessage id="organization-events"/></h1>
+                    <p><FormattedMessage id="organization-events-description"/></p>
                     <FilterableEventTable events={events.items} apiErrorMsg={''} />
                     </div>
             )
