@@ -8,6 +8,7 @@ import Snackbar from 'material-ui/lib/snackbar';
 import RaisedButton from 'material-ui/lib/raised-button';
 import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
+import Well from 'react-bootstrap/lib/Well'
 
 import {injectIntl} from 'react-intl'
 
@@ -120,10 +121,10 @@ class App extends React.Component {
         }
         var organization_missing_msg;
         if (this.props.user && !this.props.user.organization) {
-            organization_missing_msg = <div><h1>Tervetuloa käyttämään Linked Eventsiä, {this.props.user.displayName}!</h1>
+            organization_missing_msg = <Well><h4>Tervetuloa käyttämään Linked Eventsiä, {this.props.user.displayName}!</h4>
                 <p>Sinulla ei ole vielä oikeutta hallinnoida yhdenkään viraston tapahtumia.
                     Ota yhteyttä <a href="mailto:aleksi.salonen@hel.fi">Aleksi Saloseen</a> saadaksesi oikeudet muokata virastosi tapahtumia.</p>
-            </div>
+            </Well>
         } else {
             organization_missing_msg = null;
         }
