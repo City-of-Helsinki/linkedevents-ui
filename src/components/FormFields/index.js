@@ -198,9 +198,7 @@ class FormFields extends React.Component {
                                     options={helMainOptions} />
                     <SideField><p className="tip">Valitse vähintään yksi pääkategoria.</p></SideField>
                 </div>
-                <div className="row">
-                    <HelSelect selectedValues={values['keywords']} legend={"Kategoriat"} ref="keywords" name="keywords" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?data_source=yso&filter=`} validationErrors={validationErrors['keywords']} />
-                    <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-target-groups"/>}
+                <div className="row"><HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-target-groups"/>}
                                     selectedValues={values['audience']}
                                     ref="audience"
                                     name="audience"
@@ -208,6 +206,8 @@ class FormFields extends React.Component {
                                     itemClassName="col-sm-12"
                                     options={helTargetOptions} />
                     <SideField><p className="tip">Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään.</p></SideField>
+                    <HelSelect selectedValues={values['keywords']} legend={"Asiasanat"} ref="keywords" name="keywords" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?show_all_keywords=1&data_source=yso&filter=`} validationErrors={validationErrors['keywords']} />
+                    <SideField><p className="tip">Voit liittää tapahtumaan haluamiasi asiasanoja, jotka kuvaavat tapahtuman teemaa tai kohdeyleisöä.</p></SideField>
                     <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-event-languages"/>}
                                     selectedValues={values['in_language']}
                                     ref="in_language"
