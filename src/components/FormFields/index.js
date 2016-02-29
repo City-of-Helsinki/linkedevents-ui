@@ -63,8 +63,9 @@ class FormFields extends React.Component {
         super(props)
 
         let languages = ['fi']
-        if(props && props.values && props.values['presentation-languages'] && props.values['presentation-languages'].length) {
-            languages = props.values['presentation-languages']
+        let savedLanguages = _.get(props, 'editor.values["presentation-languages"]', [])
+        if(savedLanguages.length > 0) {
+            languages = savedLanguages
         }
 
         this.state = {
@@ -114,7 +115,7 @@ class FormFields extends React.Component {
                 <div className="row">
                     <div className="col-sm-6">
                         <MultiLanguageField required={true} multiLine={false} label="event-headline" ref="name" name="name" validationErrors={validationErrors["name"]} defaultValue={values["name"]} languages={this.state.languages} />
-                        <MultiLanguageField required={false} multiLine={true} label="event-short-description" ref="short_description" name="short_description" validationErrors={validationErrors["short_description"]} defaultValue={values["short_description"]} languages={this.state.languages} />
+                        <MultiLanguageField required={false} multiLine={true} label="event-short-description" ref="short_description" name="short_description" validationErrors={validationErrors["short_description"]} defaultValue={values["short_description"]} languages={this.state.languages} validations={['shortString']} forceApplyToStore />
                         <MultiLanguageField required={false} multiLine={true} label="event-description" ref="description" name="description" validationErrors={validationErrors["description"]} defaultValue={values["description"]} languages={this.state.languages} />
                         <MultiLanguageField required={false} multiLine={false} label="event-info-url" ref="info_url" name="info_url" validationErrors={validationErrors["info_url"]} defaultValue={values["info_url"]} languages={this.state.languages} validations={['isUrl']} />
                     </div>

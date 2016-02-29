@@ -108,6 +108,7 @@
     "validation-requiredAtId": "Tämä kenttä vaaditaan",
     "validation-requiredString": "Tämä kenttä vaaditaan",
     "validation-afterStartTime": "Päättymisajan pitää olla alkamisaikaa myöhemmin",
+    "validation-shortString": "Tämä kenttä voi olla korkeintaan 255 merkkiä pitkä",
 
     "server-error": "Virhe palvelimella.",
     "validation-error": "Lomakkeessa on virheitä. Tarkasta lomake.",
