@@ -15,7 +15,7 @@ export function selectImage(image) {
 }
 
 function makeRequest(organization, pg_size) {
-    var url = `${appSettings.api_base}/image/?page_size=${pg_size}`
+    var url = `${appSettings.api_base}/image/?page_size=${pg_size}&publisher=${organization}`
     if(appSettings.nocache) {
         url += `&nocache=${Date.now()}`
     }
