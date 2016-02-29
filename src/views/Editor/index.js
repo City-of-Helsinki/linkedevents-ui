@@ -114,12 +114,7 @@ var EditorPage = React.createClass({
                 <span>
                     <RaisedButton
                         style={buttonStyle}
-                        label="Tallenna ja siirry esikatseluun"
                         primary={true}
-                        onClick={ (e) => this.saveAsDraft(e) }
-                    />
-                    <FlatButton
-                        style={buttonStyle}
                         label="Julkaise tapahtuma"
                         onClick={ (e) => this.saveAsPublished(e) }
                     />

@@ -65,7 +65,7 @@
     "event-is-free": "Tapahtuma on maksuton",
     "event-price": "Hinta",
     "event-price-info": "Hintatietojen kuvaus",
-    "event-purchase-link": "Linkki lipunmyyntiin",
+    "event-purchase-link": "Linkki lipunmyyntiin/ilmoittautumiseen",
 
     "event-social-media-fields-header": "Tapahtuma sosiaalisessa mediassa",
     "facebook-url": "Facebook (url)",
@@ -74,7 +74,7 @@
 
     "event-categorization": "Tapahtuman luokittelu",
 
-    "hel-main-categories": "Hel.fi pääkategoriat",
+    "hel-main-categories": "Hel.fi -pääkategoriat",
     "asuminen-ja-ymparisto": "Asuminen ja ympäristö",
     "kulttuuri-ja-vapaa-aika": "Kulttuuri ja vapaa-aika",
     "paivahoito-ja-koulutus": "Päivähoito ja koulutus",
@@ -82,7 +82,7 @@
     "sosiaali-ja-terveyspalvelut": "Sosiaali- ja terveyspalvelut",
     "kaupunki-ja-hallinto": "Kaupunki ja hallinto",
     "hel-keywords": "Avainsanat",
-    "hel-target-groups": "Hel.fi kohderyhmät",
+    "hel-target-groups": "Hel.fi -kohderyhmät",
     "all": "Ei erityistä kohderyhmää",
     "yhdistykset": "Yhdistykset",
     "yrittajat": "Yrittäjät",
@@ -108,6 +108,7 @@
     "validation-requiredAtId": "Tämä kenttä vaaditaan",
     "validation-requiredString": "Tämä kenttä vaaditaan",
     "validation-afterStartTime": "Päättymisajan pitää olla alkamisaikaa myöhemmin",
+    "validation-shortString": "Tämä kenttä voi olla korkeintaan 255 merkkiä pitkä",
 
     "server-error": "Virhe palvelimella.",
     "validation-error": "Lomakkeessa on virheitä. Tarkasta lomake.",

@@ -60,7 +60,9 @@ class EventPage extends React.Component {
         // User can edit event
         let userCanEdit = false
 
-        if(event && this.props.user && event.event_status !== constants.EVENT_STATUS.CANCELLED) {
+        // TODO: refactor to a utils function
+        if(event && this.props.user && event.event_status !== constants.EVENT_STATUS.CANCELLED &&
+        this.props.user.organization && event.organization && this.props.user.organization === event.organization) {
             userCanEdit = true
         }
 

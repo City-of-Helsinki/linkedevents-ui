@@ -63,8 +63,9 @@ class FormFields extends React.Component {
         super(props)
 
         let languages = ['fi']
-        if(props && props.values && props.values['presentation-languages'] && props.values['presentation-languages'].length) {
-            languages = props.values['presentation-languages']
+        let savedLanguages = _.get(props, 'editor.values["presentation-languages"]', [])
+        if(savedLanguages.length > 0) {
+            languages = savedLanguages
         }
 
         this.state = {
@@ -114,7 +115,7 @@ class FormFields extends React.Component {
                 <div className="row">
                     <div className="col-sm-6">
                         <MultiLanguageField required={true} multiLine={false} label="event-headline" ref="name" name="name" validationErrors={validationErrors["name"]} defaultValue={values["name"]} languages={this.state.languages} />
-                        <MultiLanguageField required={false} multiLine={true} label="event-short-description" ref="short_description" name="short_description" validationErrors={validationErrors["short_description"]} defaultValue={values["short_description"]} languages={this.state.languages} />
+                        <MultiLanguageField required={false} multiLine={true} label="event-short-description" ref="short_description" name="short_description" validationErrors={validationErrors["short_description"]} defaultValue={values["short_description"]} languages={this.state.languages} validations={['shortString']} forceApplyToStore />
                         <MultiLanguageField required={false} multiLine={true} label="event-description" ref="description" name="description" validationErrors={validationErrors["description"]} defaultValue={values["description"]} languages={this.state.languages} />
                         <MultiLanguageField required={false} multiLine={false} label="event-info-url" ref="info_url" name="info_url" validationErrors={validationErrors["info_url"]} defaultValue={values["info_url"]} languages={this.state.languages} validations={['isUrl']} />
                     </div>
@@ -132,6 +133,12 @@ class FormFields extends React.Component {
                         <HelDateTimeField validationErrors={validationErrors['start_time']} defaultValue={values['start_time']} ref="start_time" name="start_time" label="event-starting-datetime" />
                         <HelDateTimeField validationErrors={validationErrors['end_time']} defaultValue={values['end_time']} ref="end_time" name="end_time" label="event-ending-datetime" />
                     </div>
+                    <SideField>
+                        <div className="tip">
+                            <p>Kirjoita tapahtuman alkamispäivä ja myös alkamisaika, jos tapahtuma alkaa tiettyyn kellonaikaan.</p>
+                            <p>Kirjoita myös päättymispäivä sekä päättymisaika, jos tapahtuma päättyy tiettyyn kellonaikaan.</p>
+                        </div>
+                    </SideField>
                 </div>
 
                 <FormHeader>
@@ -167,7 +174,7 @@ class FormFields extends React.Component {
                         <div className="tip">
                             <p>Merkitse jos tapahtuma on maksuton tai lisää tapahtuman hinta tekstimuodossa (esim. 7€/5€).</p>
                             <p>Kerro mahdollisesta ennakkoilmoittautumisesta tai anna lisätietoja esimerkiksi paikkavarauksista.</p>
-                            <p>Lisää mahdollinen linkki lipunmyyntiin.</p>
+                            <p>Lisää mahdollinen linkki lipunmyyntiin tai ilmoittautumiseen.</p>
                         </div>
                     </SideField>
                 </div>
@@ -197,9 +204,7 @@ class FormFields extends React.Component {
                                     options={helMainOptions} />
                     <SideField><p className="tip">Valitse vähintään yksi pääkategoria.</p></SideField>
                 </div>
-                <div className="row">
-                    <HelSelect selectedValues={values['keywords']} legend={"Kategoriat"} ref="keywords" name="keywords" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?data_source=yso&filter=`} validationErrors={validationErrors['keywords']} />
-                    <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-target-groups"/>}
+                <div className="row"><HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-target-groups"/>}
                                     selectedValues={values['audience']}
                                     ref="audience"
                                     name="audience"
@@ -207,6 +212,8 @@ class FormFields extends React.Component {
                                     itemClassName="col-sm-12"
                                     options={helTargetOptions} />
                     <SideField><p className="tip">Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään.</p></SideField>
+                    <HelSelect selectedValues={values['keywords']} legend={"Asiasanat"} ref="keywords" name="keywords" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?show_all_keywords=1&data_source=yso&filter=`} validationErrors={validationErrors['keywords']} />
+                    <SideField><p className="tip">Voit liittää tapahtumaan haluamiasi asiasanoja, jotka kuvaavat tapahtuman teemaa tai kohdeyleisöä. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta.</p></SideField>
                     <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-event-languages"/>}
                                     selectedValues={values['in_language']}
                                     ref="in_language"
@@ -214,6 +221,7 @@ class FormFields extends React.Component {
                                     validationErrors={validationErrors['in_language']}
                                     itemClassName="col-sm-12"
                                     options={helEventLangOptions} />
+                    <SideField><p className="tip">Kielet, joita tapahtumassa käytetään.</p></SideField>
                 </div>
             </div>
         )

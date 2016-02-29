@@ -64,10 +64,10 @@ let EventTable = (props) => {
         <Table selectable={false} multiSelectable={false}>
             <TableHeader enableSelectAll={false} adjustForCheckbox={false} displaySelectAll={false}>
                 <TableRow>
-                    <TableHeaderColumn>Name</TableHeaderColumn>
-                    <TableHeaderColumn>Start date</TableHeaderColumn>
-                    <TableHeaderColumn>End date</TableHeaderColumn>
-                    <TableHeaderColumn>Last modified</TableHeaderColumn>
+                    <TableHeaderColumn>Otsikko</TableHeaderColumn>
+                    <TableHeaderColumn>Tapahtuma alkaa</TableHeaderColumn>
+                    <TableHeaderColumn>Tapahtuma päättyy</TableHeaderColumn>
+                    <TableHeaderColumn>Muokattu viimeksi</TableHeaderColumn>
                 </TableRow>
             </TableHeader>
             <TableBody>{rows}</TableBody>
@@ -92,6 +92,12 @@ class FilterableEventTable extends React.Component {
                 <div>
                     <EventTable events={this.props.events} getNextPage={getNextPage} filterText={''} />
                 </div>
+            )
+        } else {
+            results = (
+                <span>
+                Yhtäkään muokattavaa tapahtumaa ei löytynyt.
+            </span>
             )
         }
 

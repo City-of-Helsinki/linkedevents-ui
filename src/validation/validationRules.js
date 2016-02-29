@@ -146,6 +146,23 @@ var validations = {
             return true
         }
         return false
+    },
+    shortString: function shortString(values, value) {
+        if(typeof value === 'object') {
+            let hasOneOver255 = false
+            _.each(value, item => {
+                if(item.length > 255) {
+                    hasOneOver255 = true
+                }
+            })
+            return !hasOneOver255
+
+        } else if(typeof value === 'string') {
+            if(value.length > 255) {
+                return false
+            }
+        }
+        return true
     }
 };
 

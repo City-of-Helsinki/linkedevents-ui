@@ -69,7 +69,7 @@ class EventListing extends React.Component {
 }
 
 export default connect((state) => ({
-    events: state.events,
+    events: state.userEvents,
     user: state.user,
     organization: state.organization,
     apiErrorMsg: state.events.apiErrorMsg
