@@ -34,7 +34,9 @@ let HelTextField = React.createClass({
 
     componentWillReceiveProps: function(nextProps) {
         if(!(_.isEqual(nextProps.defaultValue, this.props.defaultValue))) {
-            this.setState({value: nextProps.defaultValue})
+            // Bootstrap or React textarea has a bug where null value gets interpreted
+            // as uncontrolled, so no updates are done
+            this.setState({value: nextProps.defaultValue ? nextProps.defaultValue : '' })
         }
         this.forceUpdate()
     },
@@ -111,6 +113,10 @@ let HelTextField = React.createClass({
         }
 
         return []
+    },
+
+    componentDidUpdate: function() {
+        this.recalculateHeight()
     },
 
     setValidationErrorsToState: function() {
