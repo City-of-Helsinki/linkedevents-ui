@@ -93,6 +93,12 @@ class FilterableEventTable extends React.Component {
                     <EventTable events={this.props.events} getNextPage={getNextPage} filterText={''} />
                 </div>
             )
+        } else {
+            results = (
+                <span>
+                Yhtäkään muokattavaa tapahtumaa ei löytynyt.
+            </span>
+            )
         }
 
         let err = ''
