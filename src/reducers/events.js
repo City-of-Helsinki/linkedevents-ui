@@ -4,7 +4,9 @@ import constants from '../constants'
 const initialState = {
     isFetching: false,
     fetchComplete: false,
-    items: []
+    items: [],
+    eventError: null,
+    eventsError: null
 }
 
 function update(state = initialState, action) {
@@ -18,16 +20,39 @@ function update(state = initialState, action) {
 
     if(action.type === constants.RECEIVE_EVENT_DETAILS) {
         return Object.assign({}, state, {
-            event: action.event
+            isFetching: false,
+            fetchComplete: true,
+            event: action.event,
+            eventError: null
         });
     }
+
+    if(action.type === constants.RECEIVE_EVENT_DETAILS_ERROR) {
+        return Object.assign({}, state, {
+            isFetching: false,
+            fetchComplete: false,
+            event: null,
+            eventError: action.error
+        });
+    }
+
     if (action.type === constants.REQUEST_EVENTS) {
         return Object.assign({}, state, {
             isFetching: true,
             fetchComplete: false,
-            items: [],
+            items: []
         });
     }
+
+    if (action.type === constants.REQUEST_EVENT) {
+        return Object.assign({}, state, {
+            isFetching: true,
+            fetchComplete: false,
+            eventError: null,
+            event: null
+        });
+    }
+
     return state
 }
 

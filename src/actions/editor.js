@@ -30,10 +30,10 @@ export function replaceData(formValues) {
         dispatch(validateFor(null))
         dispatch(setValidationErrors({}))
 
-        return {
+        dispatch({
             type: constants.EDITOR_REPLACEDATA,
             values: formValues
-        }
+        })
     }
 }
 

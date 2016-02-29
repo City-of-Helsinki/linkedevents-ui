@@ -8,6 +8,7 @@ import Snackbar from 'material-ui/lib/snackbar';
 import RaisedButton from 'material-ui/lib/raised-button';
 import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
+import Well from 'react-bootstrap/lib/Well'
 
 import {injectIntl} from 'react-intl'
 
@@ -118,15 +119,24 @@ class App extends React.Component {
         if(this.props.app.confirmAction && this.props.app.confirmAction.actionButtonLabel && this.props.app.confirmAction.actionButtonLabel.length > 0) {
             actionButtonLabel = this.props.app.confirmAction.actionButtonLabel;
         }
+        var organization_missing_msg;
+        if (this.props.user && !this.props.user.organization) {
+            organization_missing_msg = <Well><h4>Tervetuloa käyttämään Linked Eventsiä, {this.props.user.displayName}!</h4>
+                <p>Sinulla ei ole vielä oikeutta hallinnoida yhdenkään viraston tapahtumia.
+                    Ota yhteyttä <a href="mailto:aleksi.salonen@hel.fi">Aleksi Saloseen</a> saadaksesi oikeudet muokata virastosi tapahtumia.</p>
+            </Well>
+        } else {
+            organization_missing_msg = null;
+        }
 
         return (
             <div>
                 <Headerbar />
+                {organization_missing_msg}
                 <div className="content">
                     {this.props.children}
                 </div>
                 <Notifications flashMsg={this.props.app.flashMsg} dispatch={this.props.dispatch} />
-
                 <Modal show={(!!this.props.app.confirmAction)} dialogClassName="custom-modal" onHide={e => this.props.dispatch(cancelAction())}>
                    <Modal.Header closeButton>
                    </Modal.Header>

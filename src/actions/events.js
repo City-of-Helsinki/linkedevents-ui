@@ -1,5 +1,6 @@
 import constants from '../constants'
 import fetch from 'isomorphic-fetch'
+import authedFetch from 'src/utils/authedFetch'
 
 import { setFlashMsg } from './app'
 
@@ -62,6 +63,19 @@ export function receiveEventDetails(json) {
     }
 }
 
+export function receiveEventDetailsError(error) {
+    return {
+        type: constants.RECEIVE_EVENT_DETAILS_ERROR,
+        error: error
+    }
+}
+
+export function startFetching() {
+    return {
+        type: constants.REQUEST_EVENT
+    }
+}
+
 export function fetchEventDetails(eventID, user = {}) {
     let url = `${appSettings.api_base}/event/${eventID}/?include=keywords,location,audience,in_language,external_links,image`
 
@@ -76,17 +90,27 @@ export function fetchEventDetails(eventID, user = {}) {
         }
     }
 
-    if(user && user.token) {
-        Object.assign(options.headers, {
-            'Authorization': 'JWT ' + user.token
-        })
-    }
-
     return (dispatch) => {
-        return fetch(url, options)
-            .then(response => response.json())
-            .then(json => dispatch(receiveEventDetails(json)))
+        dispatch(startFetching())
+
+        return authedFetch(url, options, user, dispatch)
+            .then(response => {
+                if (response.status >= 400) {
+                    return {
+                        apiErrorMsg: 'API error from server'
+                    }
+                }
+                return response.json()
+            })
+            .then(json => {
+                if(!json.apiErrorMsg) {
+                    dispatch(receiveEventDetails(json))
+                } else {
+                    dispatch(receiveEventDetailsError(json.apiErrorMsg))
+                }
+            })
             .catch(e => {
+                dispatch(receiveEventDetailsError(e))
                 // Error happened while fetching ajax (connection or javascript)
             })
     }

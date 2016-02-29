@@ -17,31 +17,6 @@ export function clearUserData() {
     }
 }
 
-// Returns userdata if available, else return null
-function tryFetchingUserFromLocalStorage() {
-    let user = ''
-
-    try {
-        user = localStorage.getItem('user')
-        user = JSON.parse(user)
-    } catch(e) {
-        // No dice
-    }
-
-    if(user && typeof user === 'object' && user.id && user.token && user.displayName && user.localStorageExpires) {
-        // Check expire Date
-        let date = new Date(user.localStorageExpires)
-        if (Date.now() > date) {
-            localStorage.removeItem('user')
-            return null
-        }
-        return user
-    }
-    else {
-        return null
-    }
-}
-
 // Adds an expiration time for user and saves it to localStorage.
 function saveUserToLocalStorage(user) {
     let modifiedUser = Object.assign({}, user)
@@ -55,13 +30,10 @@ function saveUserToLocalStorage(user) {
 
 export function retrieveUserFromSession() {
     return (dispatch) => {
-        let user = tryFetchingUserFromLocalStorage()
-        if(user) {
-            return dispatch(receiveUserData(user))
-        } else {
-            return fetch('/auth/me?' + (+new Date()), {method: 'GET', credentials: 'same-origin'}).then((response) => {
-                return response.json()
-            }).then((user) => {
+        return fetch('/auth/me?' + (+new Date()), {method: 'GET', credentials: 'same-origin'}).then((response) => {
+            return response.json()
+        }).then((user) => {
+            if(user.token) {
                 const settings = {
                     headers: {
                         'Authorization': 'JWT ' + user.token
@@ -75,8 +47,10 @@ export function retrieveUserFromSession() {
                     saveUserToLocalStorage(mergedUser)
                     return dispatch(receiveUserData(mergedUser))
                 })
-            })
-        }
+            } else {
+                // dispatch(login())
+            }
+        })
     }
 }
 
