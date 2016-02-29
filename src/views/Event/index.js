@@ -69,6 +69,15 @@ class EventPage extends React.Component {
         if (event.publication_status == "draft") {
             draftBadge = (<span style={{marginRight:'0.5em'}} className="label label-warning">LUONNOS</span>)
         }
+        if(this.props.events.eventError) {
+            return (
+                <header className="container header">
+                    <h3>
+                        <div>Tapahtumaa ei löytynyt tai sinulla ei ole oikeuksia katsella sitä.</div>
+                    </h3>
+                </header>
+            )
+        }
         if(event && event.name) {
             return (
                 <div className={draftClass}>
@@ -93,7 +102,13 @@ class EventPage extends React.Component {
             )
         }
         else {
-            return (<div>Loading</div>)
+            return (
+                <header className="container header">
+                    <h3>
+                        <div>Ladataan tapahtumaa...</div>
+                    </h3>
+                </header>
+            )
         }
     }
 }
