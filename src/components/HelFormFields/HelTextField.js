@@ -61,7 +61,8 @@ let HelTextField = React.createClass({
             value: this.refs.text.getValue()
         })
 
-        if(this.props.name && this.getValidationErrors().length === 0) {
+        // Apply changes to store if no validation errors, or the props 'forceApplyToStore' is defined
+        if(this.props.name && this.getValidationErrors().length === 0 || this.props.name && this.props.forceApplyToStore) {
             let obj = {}
             obj[this.props.name] = this.refs.text.getValue()
             this.context.dispatch(setData(obj))
@@ -135,9 +136,12 @@ let HelTextField = React.createClass({
 
         let { required, label } = this.props
 
+        let requiredElem = null
         if(required) {
-            label = (<span style={{position: 'relative'}}>{label} *<ValidationPopover small validationErrors={this.props.validationErrors} /></span>)
+            requiredElem = (<span>*</span>)
         }
+
+        label = (<span style={{position: 'relative'}}>{label} {requiredElem} <ValidationPopover small validationErrors={this.props.validationErrors} /></span>)
 
         let groupClassName = 'hel-text-field'
         if(this.props.disabled) {

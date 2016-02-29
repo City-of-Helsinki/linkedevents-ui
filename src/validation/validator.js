@@ -4,7 +4,8 @@ import validationFn from './validationRules'
 // Validations for draft
 const draftValidations = {
     name: ['requiredMulti'],
-    end_time: ['afterStartTime']
+    end_time: ['afterStartTime'],
+    short_description: ['shortString']
 }
 
 // Validations for published event
@@ -13,7 +14,8 @@ const publicValidations = {
     location: ['requiredAtId'],
     hel_main: ['atLeastOne'],
     start_time: ['requiredString'], // Datetime is saved as ISO string
-    end_time: ['afterStartTime']
+    end_time: ['afterStartTime'],
+    short_description: ['shortString']
 }
 
 /**

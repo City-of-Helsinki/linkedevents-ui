@@ -45,7 +45,7 @@ class MultiLanguageField extends React.Component {
         if(this.props.name) {
             let obj = {}
             obj[this.props.name] = this.getValue()
-            if(this.noValidationErrors()) {
+            if(this.noValidationErrors() || this.props.forceApplyToStore) {
                 this.context.dispatch(setData(obj))
             }
         }
