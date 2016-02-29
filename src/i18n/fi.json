@@ -20,7 +20,7 @@
     "ready": "Valmis",
     "clear-form": "Tyhjennä kentät",
 
-    "event-presented-in-languages": "Tämä tapahtuma esitetään seuraavilla kielillä.",
+    "event-presented-in-languages": "Tapahtumatiedot kirjataan seuraavilla kielillä.",
 
     "in-fi": "suomeksi",
     "in-en": "englanniksi",
@@ -36,7 +36,7 @@
 
     "organization-events": "Tapahtumien hallinta",
     "organization-events-prompt": "muokataksesi tapahtumia.",
-    "organization-events-description": "Selaa ja muokkaa oman organisaatiosi julkisia tapahtumia sekä luonnoksia.",
+    "organization-events-description": "Selaa ja muokkaa oman organisaatiosi julkisia tapahtumia sekä luonnoksia. Voit lisätä uuden tapahtuman yläpalkista.",
 
     "event-image": "Tapahtuman kuva (klikkaa vaihtaaksesi)",
     "new-image": "Lisää uusi kuva",
