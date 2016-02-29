@@ -113,6 +113,7 @@ export function mapAPIDataToUIFormat(values) {
     // Statuses
     obj.event_status = values.event_status
     obj.publication_status = values.publication_status
+    obj.organization = values.publisher
 
     // Location data
     obj.location = values.location
