@@ -133,6 +133,12 @@ class FormFields extends React.Component {
                         <HelDateTimeField validationErrors={validationErrors['start_time']} defaultValue={values['start_time']} ref="start_time" name="start_time" label="event-starting-datetime" />
                         <HelDateTimeField validationErrors={validationErrors['end_time']} defaultValue={values['end_time']} ref="end_time" name="end_time" label="event-ending-datetime" />
                     </div>
+                    <SideField>
+                        <div className="tip">
+                            <p>Kirjoita tapahtuman alkamispäivä ja myös alkamisaika, jos tapahtuma alkaa tiettyyn kellonaikaan.</p>
+                            <p>Kirjoita myös päättymispäivä sekä päättymisaika, jos tapahtuma päättyy tiettyyn kellonaikaan.</p>
+                        </div>
+                    </SideField>
                 </div>
 
                 <FormHeader>
@@ -168,7 +174,7 @@ class FormFields extends React.Component {
                         <div className="tip">
                             <p>Merkitse jos tapahtuma on maksuton tai lisää tapahtuman hinta tekstimuodossa (esim. 7€/5€).</p>
                             <p>Kerro mahdollisesta ennakkoilmoittautumisesta tai anna lisätietoja esimerkiksi paikkavarauksista.</p>
-                            <p>Lisää mahdollinen linkki lipunmyyntiin.</p>
+                            <p>Lisää mahdollinen linkki lipunmyyntiin tai ilmoittautumiseen.</p>
                         </div>
                     </SideField>
                 </div>
@@ -207,7 +213,7 @@ class FormFields extends React.Component {
                                     options={helTargetOptions} />
                     <SideField><p className="tip">Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään.</p></SideField>
                     <HelSelect selectedValues={values['keywords']} legend={"Asiasanat"} ref="keywords" name="keywords" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?show_all_keywords=1&data_source=yso&filter=`} validationErrors={validationErrors['keywords']} />
-                    <SideField><p className="tip">Voit liittää tapahtumaan haluamiasi asiasanoja, jotka kuvaavat tapahtuman teemaa tai kohdeyleisöä.</p></SideField>
+                    <SideField><p className="tip">Voit liittää tapahtumaan haluamiasi asiasanoja, jotka kuvaavat tapahtuman teemaa tai kohdeyleisöä. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta.</p></SideField>
                     <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-event-languages"/>}
                                     selectedValues={values['in_language']}
                                     ref="in_language"
@@ -215,6 +221,7 @@ class FormFields extends React.Component {
                                     validationErrors={validationErrors['in_language']}
                                     itemClassName="col-sm-12"
                                     options={helEventLangOptions} />
+                    <SideField><p className="tip">Kielet, joita tapahtumassa käytetään.</p></SideField>
                 </div>
             </div>
         )
