@@ -50,11 +50,11 @@ class ImagePicker extends React.Component {
     }
 
     render() {
-        let selectedImage = getIfExists(this.props.editor.values, 'image.url', '')
+        let bgStyle = {backgroundImage: 'url(' + getIfExists(this.props.editor.values, 'image.url', '') + ')'}
         return (
             <div className="image-picker" onClick={() => this.openGalleryModal()}>
-                <img src={selectedImage} ref={(ref) => this.imagePreview = ref} />
                 <div>
+                    <div className="img-preview" style={bgStyle} />
                     <div>
                         <i className="material-icons">&#xE2C6;</i>
                     </div>

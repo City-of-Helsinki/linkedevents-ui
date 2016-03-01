@@ -13,25 +13,21 @@ $modal-backdrop-opacity: 0.7;
 }
 
 .image-picker {
-    position: relative;
 
-    width: 100%;
+    position: relative;
     height: 346px;
 
-    padding-top: 72px;
-    padding-bottom: 20px;
-
+    padding-top: 4em;
     text-align: center;
 
     background-color: $bg-color;
-
     cursor: pointer;
-
     color: #484848;
-
     transition: background 200ms;
-
+    margin-top: 15px;
+    margin-bottom: 15px;
     overflow: hidden;
+    border: 1px solid gray;
 
     &:hover {
         background-color: darken($bg-color, 4%);
@@ -49,15 +45,18 @@ $modal-backdrop-opacity: 0.7;
         max-width: 200px;
     }
 
-    img {
+    .img-preview {
         position: absolute;
         top: 0;
         left: 0;
+
         width: 100%;
         height: 100%;
-        overflow: hidden;
 
-        z-index: 500;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        z-index: 666;
     }
 }
 

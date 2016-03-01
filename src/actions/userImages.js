@@ -4,6 +4,7 @@ import $ from 'jquery' // how do i the same thing in fetch?!? horrible docs
 import constants from '../constants'
 import { setData } from './editor'
 import { setFlashMsg } from './app'
+import { get as getIfExists } from 'lodash'
 
 
 export function selectImage(image) {
@@ -14,7 +15,7 @@ export function selectImage(image) {
 }
 
 function makeRequest(organization, pg_size) {
-    var url = `${appSettings.api_base}/image/?page_size=${pg_size}`
+    var url = `${appSettings.api_base}/image/?page_size=${pg_size}&publisher=${organization}`
     if(appSettings.nocache) {
         url += `&nocache=${Date.now()}`
     }
@@ -25,32 +26,27 @@ export const startFetching = createAction(constants.REQUEST_IMAGES);
 
 export function fetchUserImages(user, page_size) {
     return (dispatch) => {
-        dispatch(startFetching);
-        makeRequest(user.organization, page_size).then(function (response) {
-            if (response.status >= 400) {
-                return dispatch(receiveUserImages({
-                    error: 'API Error ' + response.status}));
-            }
-            return dispatch(receiveUserImages(response))
+        dispatch(startFetching)
+        makeRequest(getIfExists(user, 'organization', null), page_size).done(response => {
+            dispatch(receiveUserImages(response))
+        }).fail(response => {
+            dispatch(setFlashMsg(getIfExists(response, 'detail', 'Error fetching images'), 'error', response))
+            dispatch(receiveUserImagesFail(response))
         });
     }
 }
 
-export function receiveUserImages(json) {
-    if(json.error) {
-        console.log("error fetching images")
-        return {
-            type: constants.RECEIVE_IMAGES_ERROR,
-            apiErrorMsg: json.error,
-            items: []
-        }
+export function receiveUserImages(response) {
+    return {
+        type: constants.RECEIVE_IMAGES,
+        items: response.data,
     }
-    else {
-        return {
-            type: constants.RECEIVE_IMAGES,
-            items: json.data,
-            receivedAt: Date.now()
-        }
+}
+
+export function receiveUserImagesFail(response) {
+    return {
+        type: constants.RECEIVE_IMAGES_ERROR,
+        items: []
     }
 }
 
@@ -100,10 +96,10 @@ export function postImage(formData = null, user, externalUrl = null) {
             // and also set the preview image
             dispatch(imageUploadComplete(resp))
             // and flash a message
-            dispatch(setFlashMsg("image created succesfully", 'success', response))
+            dispatch(setFlashMsg('image-creation-success', 'success', response))
 
         }).fail(response => {
-            dispatch(setFlashMsg("image creation failed", 'error', response))
+            dispatch(setFlashMsg('image-creation-error', 'error', response))
             dispatch(imageUploadFailed(response)) //this doesn't do anything ATM
         })
     }

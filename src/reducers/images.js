@@ -17,6 +17,14 @@ function update(state = initialState, action) {
         });
     }
 
+    if (action.type === constants.RECEIVE_IMAGES_ERROR) {
+        return Object.assign({}, state, {
+            isFetching: false,
+            fetchComplete: true,
+            items: action.items,
+        })
+    }
+
     if (action.type === constants.REQUEST_IMAGES) {
         return Object.assign({}, state, {
             isFetching: true,
@@ -29,13 +37,6 @@ function update(state = initialState, action) {
         return Object.assign({}, state, {
             selected: action.data,
             fetchComplete: false
-        })
-    }
-
-    if(action.type === constants.IMAGE_UPLOAD_ERROR) {
-        console.log('Image upload failed in reducer')
-        return Object.assign({}, state, {
-            flashMsg: {msg: 'image creation failed!', type: 'error', data: action.data}
         })
     }
 

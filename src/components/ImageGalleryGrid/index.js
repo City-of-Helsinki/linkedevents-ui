@@ -23,7 +23,7 @@ class ImageGalleryGrid extends React.Component {
 
     fetchImages() {
         if (this.props.user) {
-            this.props.dispatch(fetchUserImages(this.props.user, 30));
+            this.props.dispatch(fetchUserImages(this.props.user, 1000));
         }
     }
 

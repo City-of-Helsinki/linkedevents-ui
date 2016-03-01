@@ -115,7 +115,9 @@
     "no-validation-errors": "Lomake täytetty oikein!",
     "authorization-required": "Kirjaudu sisään tapahtuman lähettämiseksi.",
     "event-posted": "Tapahtuma lähetettiin onnistuneesti!",
-    "no-connection": "Ei yhteyttä palvelimelle!"
+    "no-connection": "Ei yhteyttä palvelimelle!",
 
+    "image-creation-success": "Kuva luotiin onnistuneesti!",
+    "image-creation-error": "Virhe kuvaa luodessa."
 
 }
