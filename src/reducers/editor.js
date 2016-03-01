@@ -2,6 +2,7 @@ import constants from '../constants'
 import { get as getIfExists } from 'lodash'
 
 import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
+import getContentLanguages from 'src/utils/language'
 
 import {doValidations} from 'src/validation/validator.js'
 
@@ -22,6 +23,7 @@ try {
 const initialState = {
     values: editorValues || {},
     languages: languages,
+    contentLanguages: ['fi'],
     keywordSets: keywordSets,
     validationErrors: {},
     validateFor: null
@@ -50,6 +52,12 @@ function update(state = initialState, action) {
             values: newValues,
             validationErrors: validationErrors
         })
+    }
+
+    if (action.type === constants.EDITOR_SETLANGUAGES) {
+        return Object.assign({}, state, {
+            contentLanguages: action.languages
+        });
     }
 
     if(action.type === constants.VALIDATE_FOR) {
@@ -112,7 +120,8 @@ function update(state = initialState, action) {
         let newValues = Object.assign({}, mapAPIDataToUIFormat(action.event))
 
         return Object.assign({}, state, {
-            values: newValues
+            values: newValues,
+            contentLanguages: getContentLanguages(action.event),
         })
     }
 

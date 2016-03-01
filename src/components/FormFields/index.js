@@ -59,20 +59,6 @@ let updateEventHidden = function(eventData) {
 
 class FormFields extends React.Component {
 
-    constructor(props) {
-        super(props)
-
-        let languages = ['fi']
-        let savedLanguages = _.get(props, 'editor.values["presentation-languages"]', [])
-        if(savedLanguages.length > 0) {
-            languages = savedLanguages
-        }
-
-        this.state = {
-            languages: languages
-        }
-    }
-
     static contextTypes = {
         intl: React.PropTypes.object
     };
@@ -86,12 +72,11 @@ class FormFields extends React.Component {
     }
 
     render() {
-
         let helMainOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helfi:topics')
         let helTargetOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helfi:audiences')
         let helEventLangOptions = mapLanguagesSetToForm(this.props.editor.languages)
 
-        const { values, validationErrors } = this.props.editor
+        const { values, validationErrors, contentLanguages } = this.props.editor
 
         return (
             <div>
@@ -103,7 +88,7 @@ class FormFields extends React.Component {
                     </div>
                     <div className="col-xl-6">
                         <div className="spread-evenly">
-                            <HelLanguageSelect name="presentation-languages" options={API.eventInfoLanguages()} defaultSelected={this.state.languages} onChange={(array) => {this.setState({languages: array})}}/>
+                            <HelLanguageSelect options={API.eventInfoLanguages()} checked={contentLanguages} />
                         </div>
                     </div>
                 </div>
@@ -114,10 +99,10 @@ class FormFields extends React.Component {
 
                 <div className="row">
                     <div className="col-sm-6">
-                        <MultiLanguageField required={true} multiLine={false} label="event-headline" ref="name" name="name" validationErrors={validationErrors["name"]} defaultValue={values["name"]} languages={this.state.languages} />
-                        <MultiLanguageField required={false} multiLine={true} label="event-short-description" ref="short_description" name="short_description" validationErrors={validationErrors["short_description"]} defaultValue={values["short_description"]} languages={this.state.languages} validations={['shortString']} forceApplyToStore />
-                        <MultiLanguageField required={false} multiLine={true} label="event-description" ref="description" name="description" validationErrors={validationErrors["description"]} defaultValue={values["description"]} languages={this.state.languages} />
-                        <MultiLanguageField required={false} multiLine={false} label="event-info-url" ref="info_url" name="info_url" validationErrors={validationErrors["info_url"]} defaultValue={values["info_url"]} languages={this.state.languages} validations={['isUrl']} />
+                        <MultiLanguageField required={true} multiLine={false} label="event-headline" ref="name" name="name" validationErrors={validationErrors["name"]} defaultValue={values["name"]} languages={this.props.editor.contentLanguages} />
+                        <MultiLanguageField required={false} multiLine={true} label="event-short-description" ref="short_description" name="short_description" validationErrors={validationErrors["short_description"]} defaultValue={values["short_description"]} languages={this.props.editor.contentLanguages} validations={['shortString']} forceApplyToStore />
+                        <MultiLanguageField required={false} multiLine={true} label="event-description" ref="description" name="description" validationErrors={validationErrors["description"]} defaultValue={values["description"]} languages={this.props.editor.contentLanguages} />
+                        <MultiLanguageField required={false} multiLine={false} label="event-info-url" ref="info_url" name="info_url" validationErrors={validationErrors["info_url"]} defaultValue={values["info_url"]} languages={this.props.editor.contentLanguages} validations={['isUrl']} />
                     </div>
                     <SideField>
                         <label><FormattedMessage id="event-image"/></label>
@@ -154,7 +139,7 @@ class FormFields extends React.Component {
                             validationErrors={validationErrors['location']} defaultValue={values['location']}
                             placeholder={this.context.intl.formatMessage({ id: "event-location" })}
                             />
-                        <MultiLanguageField multiLine={true} label="event-location-additional-info" ref="location_extra_info" name="location_extra_info" validationErrors={validationErrors["location_extra_info"]} defaultValue={values["location_extra_info"]} languages={this.state.languages} />
+                        <MultiLanguageField multiLine={true} label="event-location-additional-info" ref="location_extra_info" name="location_extra_info" validationErrors={validationErrors["location_extra_info"]} defaultValue={values["location_extra_info"]} languages={this.props.editor.contentLanguages} />
                     </div>
                     <SideField>
                         <div className="tip">
@@ -168,7 +153,7 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6">
-                        <HelOffersField ref="offers" name="offers" validationErrors={validationErrors["offers"]} defaultValue={values["offers"]} languages={this.state.languages} />
+                        <HelOffersField ref="offers" name="offers" validationErrors={validationErrors["offers"]} defaultValue={values["offers"]} languages={this.props.editor.contentLanguages} />
                     </div>
                     <SideField>
                         <div className="tip">

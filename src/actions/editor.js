@@ -19,6 +19,13 @@ export function setData(formValues) {
     }
 }
 
+export function setLanguages(languages) {
+    return {
+        type: constants.EDITOR_SETLANGUAGES,
+        languages: languages
+    }
+}
+
 /**
  * Replace all editor values
  * @param  {obj} formValues     new form values to replace all existing values

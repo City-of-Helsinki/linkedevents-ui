@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl'
 import Input from 'react-bootstrap/lib/Input'
 
 import {connect} from 'react-redux'
-import {setData} from 'src/actions/editor.js'
+import {setLanguages} from 'src/actions/editor.js'
 
 import _ from 'lodash'
 
@@ -16,38 +16,31 @@ class HelLanguageSelect extends React.Component {
         super(props)
     }
 
-    onChange() {
+    onChange(e) {
         let checked = _.filter(this.refs, (ref) => (ref.getChecked()))
         let checkedNames = _.map(checked, (checkbox) => (checkbox.props.name) )
 
-        let obj = {}
-        obj[this.props.name] = checkedNames
-
-        this.props.dispatch(setData(obj))
+        this.props.dispatch(setLanguages(checkedNames))
 
         if(typeof this.props.onChange === 'function') {
             this.props.onChange(checkedNames)
         }
     }
 
-    shouldComponentUpdate() {
-        return false
-    }
-
     render() {
         let checkboxes = this.props.options.map((item, index) => {
-            let checked = this.props.defaultSelected && (this.props.defaultSelected.indexOf(item.value) > -1)
+            let checked = this.props.checked && (this.props.checked.indexOf(item.value) > -1)
             return (<Input
-                type="checkbox"
-                style={{width: 'auto'}}
-                groupClassName="hel-checkbox inline"
-                ref={index}
-                key={index}
-                name={item.value}
-                defaultChecked={checked}
-                label={<FormattedMessage id={item.label} />}
-                onChange={e => this.onChange(e)}
-            />)
+                      type="checkbox"
+                      style={{width: 'auto'}}
+                      groupClassName="hel-checkbox inline"
+                      ref={index}
+                      key={index}
+                      label={<FormattedMessage id={item.label} />}
+                      name={item.value}
+                      checked={checked}
+                      onChange={e => this.onChange(e)}
+                    />)
         })
 
         return (

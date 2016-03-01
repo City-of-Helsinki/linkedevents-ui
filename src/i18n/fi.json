@@ -28,7 +28,7 @@
     "in-en": "englanniksi",
     "in-sv": "ruotsiksi",
 
-    "no-value": "kenttää ei ole täytetty",
+    "no-value": "-kenttää ei ole täytetty.",
 
     "event-description-fields-header": "Tapahtuman kuvaus",
     "event-headline": "Otsikko",
