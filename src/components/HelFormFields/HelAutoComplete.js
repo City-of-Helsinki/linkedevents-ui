@@ -89,6 +89,7 @@ class HelAutoComplete extends React.Component {
                         loadOptions={ val => this.getOptions(val)  }
                         onChange={ (val,list) => this.onChange(val,list) }
                         isLoading={this.state.isLoading}
+                        ignoreAccents={false}
                     />
                 </div>
                 <div >
