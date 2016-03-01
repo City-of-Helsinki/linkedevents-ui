@@ -24,7 +24,8 @@ export default function getContentLanguages(event) {
     if (!event) {
         return [];
     }
-    let languages = new Set(_.map(API.eventInfoLanguages(), l => l.value));
+    const orderedLanguages = _.map(API.eventInfoLanguages(), l => l.value);
+    const languages = new Set(orderedLanguages);
     let foundLanguages = new Set();
     for (let name of propertyNames(event)) {
         if (foundLanguages.size == languages.size) {
@@ -34,5 +35,5 @@ export default function getContentLanguages(event) {
             foundLanguages.add(name);
         }
     }
-    return Array.from(foundLanguages);
+    return _.filter(orderedLanguages, l => foundLanguages.has(l));
 }
