@@ -81,12 +81,12 @@ class FormFields extends React.Component {
         return (
             <div>
                 <div className="col-sm-12 highlighted-block">
-                    <div className="col-xl-6">
+                    <div className="col-xl-4">
                         <label>
                             <FormattedMessage id="event-presented-in-languages"/>
                         </label>
                     </div>
-                    <div className="col-xl-6">
+                    <div className="col-xl-8">
                         <div className="spread-evenly">
                             <HelLanguageSelect options={API.eventInfoLanguages()} checked={contentLanguages} />
                         </div>
