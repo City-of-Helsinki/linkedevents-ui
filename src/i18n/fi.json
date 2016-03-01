@@ -11,9 +11,11 @@
     "welcome": "Tervetuloa",
     "submit": "Lähetä",
     "cancel": "Peru",
+    "cancel-event": "Peruuta tapahtuma",
     "save": "Tallenna",
     "confirm-action-header": "Varmista toiminto",
     "confirm-delete": "Varmista tapahtuman poistaminen",
+    "confirm-cancel": "Varmista tapahtuman peruminen",
     "delete": "Poista",
     "confirm": "Suorita",
 

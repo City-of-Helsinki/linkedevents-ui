@@ -181,7 +181,7 @@ var EditorPage = React.createClass({
             confirmAction(
                 'confirm-cancel',
                 'warning',
-                'cancel',
+                'cancel-event',
                 {
                     action: e => this.props.dispatch(cancelEventAction(this.props.params.eventId, this.props.user, this.props.editor.values)),
                     additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi')
