@@ -75,7 +75,7 @@ class ImagePicker extends React.Component {
                             label={<FormattedMessage id="ready"/>}
                             onClick={() => this.closeGalleryModal()}
                             style={{float:"right"}}
-                            backgroundColor="lightgreen"
+                            primary={true}
                         />
 
                         <Modal.Title id='ModalHeader'><FormattedMessage id="new-image" /></Modal.Title>
@@ -84,7 +84,7 @@ class ImagePicker extends React.Component {
                         <RaisedButton
                             label= {<FormattedMessage id="upload-image" />}
                             onClick={() => this.clickHiddenUploadInput()}
-                            backgroundColor= "rgba(160, 255, 160, 1)"
+                            primary={true}
                             style={{margin:"0 0 15px 0"}}
                         />
                         <br />
@@ -108,8 +108,7 @@ class ImagePicker extends React.Component {
                         <RaisedButton
                             label={<FormattedMessage id="ready"/>}
                             onClick={() => this.closeGalleryModal()}
-                            backgroundColor="lightgreen"
-
+                            primary={true}
                         />
                     </Modal.Footer>
 
