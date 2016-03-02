@@ -204,7 +204,7 @@ class FormFields extends React.Component {
                                     ref="in_language"
                                     name="in_language"
                                     validationErrors={validationErrors['in_language']}
-                                    itemClassName="col-sm-12"
+                                    itemClassName="col-sm-6"
                                     options={helEventLangOptions} />
                     <SideField><p className="tip">Kielet, joita tapahtumassa käytetään.</p></SideField>
                 </div>
