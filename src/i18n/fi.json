@@ -32,7 +32,7 @@
 
     "event-description-fields-header": "Tapahtuman kuvaus",
     "event-headline": "Otsikko",
-    "event-short-description": "Lyhyt kuvaus",
+    "event-short-description": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
     "event-description": "Kuvaus",
     "event-info-url": "Kotisivu",
 
