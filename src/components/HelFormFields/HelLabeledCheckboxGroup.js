@@ -71,8 +71,8 @@ let HelLabeledCheckboxGroup = React.createClass({
         let left_column = checkboxes
         let right_column = []
         if(this.props.itemClassName == "col-sm-6") {
-            left_column = checkboxes.slice(0, Math.floor(checkboxes.length/2))
-            right_column = checkboxes.slice(Math.floor(checkboxes.length/2), checkboxes.length)
+            left_column = checkboxes.slice(0, Math.floor(checkboxes.length/2)+1)
+            right_column = checkboxes.slice(Math.floor(checkboxes.length/2)+1, checkboxes.length)
         }
         checkboxes = [<div className="left_column" key="1">{left_column}</div>, <div className="right_column" key="2">{right_column}</div>]
 
