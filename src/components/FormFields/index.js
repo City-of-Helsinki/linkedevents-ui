@@ -19,8 +19,6 @@ import {mapKeywordSetToForm, mapLanguagesSetToForm} from 'src/utils/apiDataMappi
 
 import API from 'src/api.js'
 
-import {connect} from 'react-redux'
-
 let FormHeader = (props) => (
     <div className="row">
         <legend className="col-sm-12">{ props.children }</legend>
@@ -100,7 +98,7 @@ class FormFields extends React.Component {
                 <div className="row">
                     <div className="col-sm-6">
                         <MultiLanguageField required={true} multiLine={false} label="event-headline" ref="name" name="name" validationErrors={validationErrors["name"]} defaultValue={values["name"]} languages={this.props.editor.contentLanguages} />
-                        <MultiLanguageField required={false} multiLine={true} label="event-short-description" ref="short_description" name="short_description" validationErrors={validationErrors["short_description"]} defaultValue={values["short_description"]} languages={this.props.editor.contentLanguages} validations={['shortString']} forceApplyToStore />
+                        <MultiLanguageField required={false} multiLine={true} label="event-short-description" ref="short_description" name="short_description" validationErrors={validationErrors["short_description"]} defaultValue={values["short_description"]} languages={this.props.editor.contentLanguages} validations={['shortestString']} maxCharacters={160} forceApplyToStore />
                         <MultiLanguageField required={false} multiLine={true} label="event-description" ref="description" name="description" validationErrors={validationErrors["description"]} defaultValue={values["description"]} languages={this.props.editor.contentLanguages} />
                         <MultiLanguageField required={false} multiLine={false} label="event-info-url" ref="info_url" name="info_url" validationErrors={validationErrors["info_url"]} defaultValue={values["info_url"]} languages={this.props.editor.contentLanguages} validations={['isUrl']} />
                     </div>

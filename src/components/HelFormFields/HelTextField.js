@@ -2,7 +2,6 @@ import './HelTextField.scss'
 
 import React from 'react'
 import Input from 'react-bootstrap/lib/Input.js'
-import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
 
 import {injectIntl} from 'react-intl'
@@ -20,7 +19,8 @@ let HelTextField = React.createClass({
     },
 
     propTypes: {
-        name: React.PropTypes.string
+        name: React.PropTypes.string,
+        maxCharacters: React.PropTypes.number
     },
 
     contextTypes: {
@@ -47,21 +47,21 @@ let HelTextField = React.createClass({
         })
 
         this.recalculateHeight()
-
-        // When errors exist, check validation on every change
-        if (this.state.error) {
-            this.setValidationErrorsToState()
-        }
+        this.setValidationErrorsToState()
 
         if(typeof this.props.onChange === 'function') {
             this.props.onChange(event, this.refs.text.getValue())
         }
     },
 
+    helpText() {
+        let msg = this.context.intl.formatMessage({id: 'validation-stringLengthCounter' })
+        return !this.state.error && this.props.maxCharacters
+            ? '' + (this.props.maxCharacters - this.state.value.length.toString()) + msg
+            : this.state.error
+    },
+
     handleBlur: function (event) {
-        this.setState({
-            value: this.refs.text.getValue()
-        })
 
         // Apply changes to store if no validation errors, or the props 'forceApplyToStore' is defined
         if(this.props.name && this.getValidationErrors().length === 0 || this.props.name && this.props.forceApplyToStore) {
@@ -69,8 +69,6 @@ let HelTextField = React.createClass({
             obj[this.props.name] = this.refs.text.getValue()
             this.context.dispatch(setData(obj))
         }
-
-        this.setValidationErrorsToState()
 
         if(typeof this.props.onBlur === 'function') {
             this.props.onBlur(event, this.refs.text.getValue())
@@ -139,7 +137,6 @@ let HelTextField = React.createClass({
     },
 
     render: function () {
-
         let { required, label } = this.props
 
         let requiredElem = null
@@ -175,10 +172,9 @@ let HelTextField = React.createClass({
                 groupClassName={groupClassName}
                 labelClassName="hel-label relative"
                 onChange={this.handleChange}
-                onBlur={this.handleBlur}
                 name={this.props.name}
                 rows="1"
-                help={this.state.error}
+                help={this.helpText()}
                 disabled={this.props.disabled}
             />
             </span>
