@@ -172,6 +172,7 @@ let HelTextField = React.createClass({
                 groupClassName={groupClassName}
                 labelClassName="hel-label relative"
                 onChange={this.handleChange}
+                onBlur={this.handleBlur}
                 name={this.props.name}
                 rows="1"
                 help={this.helpText()}
