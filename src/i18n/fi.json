@@ -111,6 +111,8 @@
     "validation-requiredString": "Tämä kenttä vaaditaan",
     "validation-afterStartTime": "Päättymisajan pitää olla alkamisaikaa myöhemmin",
     "validation-shortString": "Tämä kenttä voi olla korkeintaan 255 merkkiä pitkä",
+    "validation-shortestString": "Tämä kenttä voi olla korkeintaan 160 merkkiä pitkä",
+    "validation-stringLengthCounter": " merkkiä jäljellä",
 
     "server-error": "Virhe palvelimella.",
     "validation-error": "Lomakkeessa on virheitä. Tarkasta lomake.",

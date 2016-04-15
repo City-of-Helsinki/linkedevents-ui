@@ -147,18 +147,18 @@ var validations = {
         }
         return false
     },
-    shortString: function shortString(values, value) {
+    shortString: function shortString(values, value, maxChars = 255) {
         if(typeof value === 'object') {
-            let hasOneOver255 = false
+            let hasOneOverMax = false
             _.each(value, item => {
-                if(item.length > 255) {
-                    hasOneOver255 = true
+                if(item.length > maxChars) {
+                    hasOneOverMax = true
                 }
             })
-            return !hasOneOver255
+            return !hasOneOverMax
 
         } else if(typeof value === 'string') {
-            if(value.length > 255) {
+            if(value.length > maxChars) {
                 return false
             }
         }
