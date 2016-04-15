@@ -34,6 +34,9 @@ import EventListing from './views/EventListing'
 // Actors
 import Validator from './actors/validator'
 
+// JA addition
+import Serializer from './actors/serializer';
+
 // Initialize tap event plugin
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
@@ -60,6 +63,9 @@ moment.locale(locale)
 // and send new actions accordingly. Bind the store as this for function
 store.subscribe(_.bind(Validator, null, store))
 
+// JA: Serializing state for debugging
+store.subscribe(_.bind(Serializer, null, store));
+
 ReactDOM.render(
     <Provider store={store}>
         <IntlProvider locale={locale} messages={translations[locale] || {}}>
@@ -76,3 +82,28 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('content')
 )
+
+var DebugHelper = React.createClass({
+
+    getInitialState() {
+        return {serialize: false};
+    },
+
+    serialize_state() {
+        return this.setState({serialize: true});
+    },
+    
+    render() {
+        return <div>
+            <button onClick={this.serialize_state}>Debug</button>
+            <div>Klikkaa Debug-nappia, valitse ilmaantuvan tekstin kohdalla hiiren oikealla "valitse kaikki" ja kopioi teksti leikepöydän kautta
+            sähköpostiin ja lähetä osoitteeseen dev@hel.fi kiitoksia</div>
+            {this.state.serialize ? <textarea rows="20" cols="50" value={JSON.stringify(window.ARG)} /> : null}</div>
+    }
+});
+
+ReactDOM.render(
+    <div>
+        <DebugHelper />
+    </div>,
+    document.getElementById('debughelper'));
