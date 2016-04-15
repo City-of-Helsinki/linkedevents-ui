@@ -194,7 +194,7 @@ class EventDetails extends React.Component {
                 <div className="row">
                     <div className="col-sm-12">
                         <MultiLanguageValue labelKey="event-headline" value={props.values["name"]} />
-                        <MultiLanguageValue labelKey="event-short-description" value={props.values["short_description"]} maxCharacters={160}/>
+                        <MultiLanguageValue labelKey="event-short-description" value={props.values["short_description"]}/>
                         <MultiLanguageValue labelKey="event-description" value={props.values["description"]} />
                         <MultiLanguageValue labelKey="event-info-url" value={props.values["info_url"]} />
                     </div>
