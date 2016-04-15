@@ -93,7 +93,7 @@ let HelTextField = React.createClass({
                 if(typeof validationRules[item] === 'function') {
                     return {
                         rule: item,
-                        passed: validationRules[item](null, this.refs.text.getValue())
+                        passed: validationRules[item](null, this.refs.text.getValue(), this.props.maxCharacters)
                     }
                 } else {
                     return {
