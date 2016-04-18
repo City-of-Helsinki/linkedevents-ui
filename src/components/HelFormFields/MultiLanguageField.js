@@ -107,7 +107,6 @@ class MultiLanguageField extends React.Component {
                         disabled={this.props.disabled}
                         validations={this.props.validations}
                         validationErrors={this.props.validationErrors}
-                        maxCharacters={this.props.maxCharacters}
                         multiLine={this.props.multiLine} />
                 </div>
             )
@@ -116,7 +115,7 @@ class MultiLanguageField extends React.Component {
                 let value = this.state.value[lang]
                 return (
                     <div key={`${props.name}_${lang}`}>
-                        <HelTextField multiLine={this.props.multiLine} required={this.props.required} defaultValue={value} ref={lang} label={this.context.intl.formatMessage({id: `in-${lang}`})} onChange={(e,v) => this.onChange(e,v,lang)} onBlur={(e,v) => this.onBlur(e,v)} disabled={this.props.disabled} validations={this.props.validations} maxCharacters={this.props.maxCharacters}/>
+                        <HelTextField multiLine={this.props.multiLine} required={this.props.required} defaultValue={value} ref={lang} label={this.context.intl.formatMessage({id: `in-${lang}`})} onChange={(e,v) => this.onChange(e,v,lang)} onBlur={(e,v) => this.onBlur(e,v)} disabled={this.props.disabled} validations={this.props.validations}/>
                     </div>
                 )
             },this)

@@ -19,8 +19,7 @@ let HelTextField = React.createClass({
     },
 
     propTypes: {
-        name: React.PropTypes.string,
-        maxCharacters: React.PropTypes.number
+        name: React.PropTypes.string
     },
 
     contextTypes: {
@@ -56,9 +55,10 @@ let HelTextField = React.createClass({
 
     helpText() {
         let msg = this.context.intl.formatMessage({id: 'validation-stringLengthCounter' })
-        return !this.state.error && this.props.maxCharacters
-            ? '' + (this.props.maxCharacters - this.state.value.length.toString()) + msg
-            : this.state.error
+        let isShortString = _.findIndex(this.props.validations, i => i === "shortString") !== -1;
+        return !this.state.error && isShortString
+                ? '' + (160 - this.state.value.length.toString()) + msg
+                : this.state.error
     },
 
     handleBlur: function (event) {
@@ -93,7 +93,7 @@ let HelTextField = React.createClass({
                 if(typeof validationRules[item] === 'function') {
                     return {
                         rule: item,
-                        passed: validationRules[item](null, this.refs.text.getValue(), this.props.maxCharacters)
+                        passed: validationRules[item](null, this.refs.text.getValue())
                     }
                 } else {
                     return {
@@ -138,7 +138,6 @@ let HelTextField = React.createClass({
 
     render: function () {
         let { required, label } = this.props
-
         let requiredElem = null
         if(required) {
             requiredElem = (<span>*</span>)

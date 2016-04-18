@@ -147,18 +147,18 @@ var validations = {
         }
         return false
     },
-    shortString: function shortString(values, value, maxChars = 255) {
-        if(typeof value === 'object') {
-            let hasOneOverMax = false
+    shortString: function shortString(values, value) {
+         if(typeof value === 'object') {
+            let hasOneOver160 = false
             _.each(value, item => {
-                if(item.length > maxChars) {
-                    hasOneOverMax = true
+                if(item.length > 160) {
+                    hasOneOver160 = true
                 }
             })
-            return !hasOneOverMax
+            return !hasOneOver160
 
         } else if(typeof value === 'string') {
-            if(value.length > maxChars) {
+            if(value.length > 160) {
                 return false
             }
         }
