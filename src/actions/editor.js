@@ -152,17 +152,20 @@ export function sendData(formValues, user, updateExisting = false, publicationSt
                 // Validation errors
                 else if(response.status === 400) {
                     json.apiErrorMsg = 'validation-error'
+                    json.response = response
                     dispatch(sendDataComplete(json, actionName))
                 }
 
                 // Auth errors
                 else if(response.status === 401 || response.status === 403) {
                     json.apiErrorMsg = 'authorization-required'
+                    json.response = response
                     dispatch(sendDataComplete(json, actionName))
                 }
 
                 else {
                     json.apiErrorMsg = 'server-error'
+                    json.response = response
                     dispatch(sendDataComplete(json, actionName))
                 }
             })
@@ -176,6 +179,7 @@ export function sendData(formValues, user, updateExisting = false, publicationSt
 export function sendDataComplete(json, action) {
     return (dispatch) => {
         if(json.apiErrorMsg) {
+            console.log('The api returned json', json)
             dispatch(setFlashMsg(json.apiErrorMsg, 'error', json))
             dispatch({
                 type: constants.EDITOR_SENDDATA_ERROR,

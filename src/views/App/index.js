@@ -28,17 +28,22 @@ class Notifications extends React.Component {
 
     render() {
         let flashMsg = (<span/>)
-        if(this.props.flashMsg && this.props.flashMsg.msg && this.props.flashMsg.msg.length) {
+        let sticky =  this.props.flashMsg && this.props.flashMsg.sticky
+
+        if(this.props.flashMsg && this.props.flashMsg.data.response && this.props.flashMsg.data.response.status == 400) {
+            flashMsg = _.values(_.omit(this.props.flashMsg.data, ['apiErrorMsg', 'response'])).join(' ')
+            sticky = true
+        }
+        else if(this.props.flashMsg && this.props.flashMsg.msg && this.props.flashMsg.msg.length) {
             flashMsg = (<FormattedMessage id={this.props.flashMsg.msg} />)
         }
 
-        let sticky =  this.props.flashMsg && this.props.flashMsg.sticky
         let duration = sticky ? null : 7000
         let closeFn = sticky ? function() {} : () => this.props.dispatch(clearFlashMsg())
 
         let actionLabel = this.props.flashMsg && this.props.flashMsg.action && this.props.flashMsg.action.label
         let actionFn = this.props.flashMsg && this.props.flashMsg.action && this.props.flashMsg.action.fn
-
+        console.log('PROPSIT', this.props)
 
         return (
             <Snackbar
