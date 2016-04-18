@@ -20,6 +20,9 @@ import constants from 'src/constants.js'
 // 'fi' instead for the link language
 var EXT_LINK_NO_LANGUAGE = 'fi'
 
+// sentinel for authentication alert
+var sentinel = true;
+
 import FormFields from 'src/components/FormFields'
 
 // === code ===
@@ -115,6 +118,7 @@ var EditorPage = React.createClass({
                     <RaisedButton
                         style={buttonStyle}
                         primary={true}
+                        disabled={this.props.user && !this.props.user.organization}
                         label="Julkaise tapahtuma"
                         onClick={ (e) => this.saveAsPublished(e) }
                     />
@@ -206,6 +210,15 @@ var EditorPage = React.createClass({
         if(_.keys(this.props.editor.values).length) {
             clearButton = (<RaisedButton onClick={this.clearForm} primary={true} className="pull-right" label={<span><FormattedMessage id="clear-form"/><i className="material-icons">&#xE14C;</i></span>}/>)
         }
+
+        // TODO: fix flow for non-authorized users
+        setTimeout(
+            ()=>
+                {if (this.props.user && !this.props.user.organization && sentinel) {
+                    alert("Voit katsella lomaketta, mutta sinulla ei ole oikeuksia julkaista tai muokata tapahtumia. Et ole kirjautunut sisään tai kirjautumisesi on vanhentunut.")
+                    sentinel = false;
+                }
+            }, 1000);
 
         return (
             <div className="editor-page">
