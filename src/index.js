@@ -92,7 +92,7 @@ var DebugHelper = React.createClass({
     serialize_state() {
         return this.setState({serialize: true});
     },
-    
+
     render() {
         return <div>
             <button onClick={this.serialize_state}>Debug</button>

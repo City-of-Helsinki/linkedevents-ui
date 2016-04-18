@@ -148,17 +148,17 @@ var validations = {
         return false
     },
     shortString: function shortString(values, value) {
-        if(typeof value === 'object') {
-            let hasOneOver255 = false
+         if(typeof value === 'object') {
+            let hasOneOver160 = false
             _.each(value, item => {
-                if(item.length > 255) {
-                    hasOneOver255 = true
+                if(item.length > 160) {
+                    hasOneOver160 = true
                 }
             })
-            return !hasOneOver255
+            return !hasOneOver160
 
         } else if(typeof value === 'string') {
-            if(value.length > 255) {
+            if(value.length > 160) {
                 return false
             }
         }

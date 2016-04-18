@@ -19,8 +19,6 @@ import {mapKeywordSetToForm, mapLanguagesSetToForm} from 'src/utils/apiDataMappi
 
 import API from 'src/api.js'
 
-import {connect} from 'react-redux'
-
 let FormHeader = (props) => (
     <div className="row">
         <legend className="col-sm-12">{ props.children }</legend>
