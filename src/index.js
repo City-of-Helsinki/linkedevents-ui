@@ -96,8 +96,8 @@ var DebugHelper = React.createClass({
     render() {
         return <div>
             <button onClick={this.serialize_state}>Debug</button>
-            <div>Klikkaa Debug-nappia, valitse ilmaantuvan tekstin kohdalla hiiren oikealla "valitse kaikki" ja kopioi teksti leikepöydän kautta
-            sähköpostiin ja lähetä osoitteeseen dev@hel.fi kiitoksia</div>
+            <div>Jos tapahtumien hallinnassa tai syöttölomakkeen toiminnassa on virhe, klikkaa debug-nappia,
+                kopioi ilmestyvä teksti ja lähetä se sähköpostiosoitteeseen <a href="mailto:dev@hel.fi">dev@hel.fi</a>, kiitos.</div>
             {this.state.serialize ? <textarea rows="20" cols="50" value={JSON.stringify(window.ARG)} /> : null}</div>
     }
 });
