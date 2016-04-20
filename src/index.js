@@ -37,7 +37,7 @@ import Validator from './actors/validator'
 
 // JA addition
 import Serializer from './actors/serializer';
-import {compress} from './utils/compression';
+import {report} from './utils/raven_reporter';
 
 // Initialize tap event plugin
 import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -87,24 +87,18 @@ ReactDOM.render(
 
 var DebugHelper = React.createClass({
 
-    getInitialState() {
-        return {
-            serialize: false,
-            serialized: null
-        };
-    },
-
     serialize_state() {
-        compress(JSON.stringify(window.ARG), this);
+        report(JSON.stringify(window.ARG));
     },
 
     render() {
         return <div>
             <button onClick={this.serialize_state}>Debug</button>
             <div>Jos tapahtumien hallinnassa tai syöttölomakkeen toiminnassa on virhe, klikkaa debug-nappia,
-                tallenna raporttitiedosto ja lähetä sähköpostiosoitteeseen <a href="mailto:dev@hel.fi">dev@hel.fi</a>, kiitos.</div>
-            </div>
+                niin saamme virhetilanteesta tiedon ja voimme tutkia asiaa.</div>
+        </div>
     }
+
 });
 
 ReactDOM.render(
