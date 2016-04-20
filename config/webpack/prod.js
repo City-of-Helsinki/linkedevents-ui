@@ -31,6 +31,7 @@ const indexHtml = indexTemplate({
 })
 
 var config = {
+    raven_id: null,
     context: path.join(common.paths.ROOT, '/src'),
     entry: [
         //'webpack-hot-middleware/client',

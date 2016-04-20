@@ -12,6 +12,7 @@ const indexHtml = indexTemplate({
 })
 
 export default {
+    raven_id: null,
     context: path.join(common.paths.ROOT, '/src'),
     entry: [
         "webpack-hot-middleware/client?reload=true",
