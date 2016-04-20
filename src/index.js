@@ -1,5 +1,6 @@
 import Intl from 'intl'
 
+
 if(window && !window.Intl) {
     window.Intl = Intl
 }
@@ -36,6 +37,7 @@ import Validator from './actors/validator'
 
 // JA addition
 import Serializer from './actors/serializer';
+import {compress} from './utils/compression';
 
 // Initialize tap event plugin
 import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -86,19 +88,22 @@ ReactDOM.render(
 var DebugHelper = React.createClass({
 
     getInitialState() {
-        return {serialize: false};
+        return {
+            serialize: false,
+            serialized: null
+        };
     },
 
     serialize_state() {
-        return this.setState({serialize: true});
+        compress(JSON.stringify(window.ARG), this);
     },
 
     render() {
         return <div>
             <button onClick={this.serialize_state}>Debug</button>
             <div>Jos tapahtumien hallinnassa tai syöttölomakkeen toiminnassa on virhe, klikkaa debug-nappia,
-                kopioi ilmestyvä teksti ja lähetä se sähköpostiosoitteeseen <a href="mailto:dev@hel.fi">dev@hel.fi</a>, kiitos.</div>
-            {this.state.serialize ? <textarea rows="20" cols="50" value={JSON.stringify(window.ARG)} /> : null}</div>
+                tallenna raporttitiedosto ja lähetä sähköpostiosoitteeseen <a href="mailto:dev@hel.fi">dev@hel.fi</a>, kiitos.</div>
+            </div>
     }
 });
 
