@@ -20,7 +20,9 @@ import thunk from 'redux-thunk'
 import reducers from './reducers'
 
 // Translations
-import {IntlProvider} from 'react-intl';
+import {IntlProvider, addLocaleData} from 'react-intl';
+import fiLocaleData from 'react-intl/locale-data/fi';
+
 import translations from 'src/i18n';
 import moment from 'moment'
 
@@ -67,6 +69,8 @@ store.subscribe(_.bind(Validator, null, store))
 
 // JA: Serializing state for debugging
 store.subscribe(_.bind(Serializer, null, store));
+
+addLocaleData(fiLocaleData);
 
 ReactDOM.render(
     <Provider store={store}>

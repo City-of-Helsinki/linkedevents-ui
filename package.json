@@ -42,7 +42,7 @@
     "react-bootstrap": "^0.28.2",
     "react-dom": "^0.14.3",
     "react-helmet": "^2.2.0",
-    "react-intl": "2.0.0-pr-3",
+    "react-intl": "^2.0.1",
     "react-loader": "^2.0.0",
     "react-redux": "^4.0.5",
     "react-router": "^1.0.2",
