@@ -151,15 +151,31 @@ header {
 
 #debughelper {
     position: fixed;
-    bottom: 0;
+    bottom: 5em;
     left: 0;
-    right: 0;
-    background: white;
-    border-top: 1px solid black;
-    padding: 0.3em 0 0 0.2em;
+    height: 4em;
+    width: 8em;
+    background-color: white;
+    border: 1px solid black;
+    //padding: 1em 0 0 0.2em;
 }
 
 #debughelper button {
     margin: 0.3em 1em 1em 0.3em;
-    float: left;
+}
+
+#slide {
+    position: absolute;
+    left: -1000px;
+    width: 30em;
+    height: 4em;
+    transition: 1s;
+    background-color: white;
+    border: 1px solid black;
+    top: 0;
+}
+
+#debughelper:hover #slide {
+    transition: 1s;
+    left: 8em;
 }
