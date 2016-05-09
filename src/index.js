@@ -97,7 +97,7 @@ var DebugHelper = React.createClass({
 
     render() {
         return <div id="debughelper">
-            <button onClick={this.serialize_state}>Raportoi virhe</button>
+            <div id="debughelper_container"><button onClick={this.serialize_state}>Raportoi virhe</button></div>
             <div id="slide">Jos tapahtumien hallinnassa tai syöttölomakkeen toiminnassa on virhe, klikkaa "raportoi virhe"&#x2011;nappia,
                 niin saamme virhetilanteesta tiedon ja voimme tutkia asiaa.</div>
         </div>
