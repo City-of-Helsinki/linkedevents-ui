@@ -40,6 +40,8 @@ import Validator from './actors/validator'
 // JA addition
 import Serializer from './actors/serializer';
 import {report} from './utils/raven_reporter';
+import Modal from 'react-bootstrap/lib/Modal';
+import Button from 'react-bootstrap/lib/Button';
 
 // Initialize tap event plugin
 import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -89,17 +91,69 @@ ReactDOM.render(
     document.getElementById('content')
 )
 
+var DebugReporterModal = React.createClass({
+
+    getInitialState: function() {
+        return {value: ''};
+    },
+
+    handleChange: function(event) {
+        this.setState({value: event.target.value});
+    },
+
+    report: function () {
+        this.props.send_report(this.state.value);
+    },
+
+    render() {
+        return <div id="debugreporterform">
+            <Modal show={this.props.showModal} onHide={this.props.close}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Raportoi virhetilanne</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div>
+                        <div>Kuvaile ongelmaa halutessasi</div>
+                        <div><textarea onChange={this.handleChange} value={this.state.value} /></div>
+                        <div><button onClick={this.report}>Lähetä raportti</button></div>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button onClick={this.props.close}>Sulje</Button>
+                </Modal.Footer>
+            </Modal>
+        </div>
+    }
+
+});
+
 var DebugHelper = React.createClass({
 
-    serialize_state() {
+    getInitialState() {
+        return {reporting: false};
+    },
+
+    show_reportform() {
+        this.setState({reporting: true})
+    },
+
+    close_reportform() {
+        this.setState({reporting: false})
+    },
+
+    serialize_state(reportmsg) {
+        window.ARG.debug_message = reportmsg;
         report(JSON.stringify(window.ARG));
     },
 
     render() {
-        return <div id="debughelper">
-            <div id="debughelper_container"><button onClick={this.serialize_state}>Raportoi virhe</button></div>
-            <div id="slide">Jos tapahtumien hallinnassa tai syöttölomakkeen toiminnassa on virhe, klikkaa "raportoi virhe"&#x2011;nappia,
-                niin saamme virhetilanteesta tiedon ja voimme tutkia asiaa.</div>
+        return <div>
+            <DebugReporterModal showModal={this.state.reporting} close={this.close_reportform} send_report={this.serialize_state} />
+            <div id="debughelper">
+                <div id="debughelper_container"><button onClick={this.show_reportform}>Raportoi virhe</button></div>
+                <div id="slide">Jos tapahtumien hallinnassa tai syöttölomakkeen toiminnassa on virhe, klikkaa "raportoi virhe"&#x2011;nappia,
+                    niin saamme virhetilanteesta tiedon ja voimme tutkia asiaa.</div>
+            </div>
         </div>
     }
 
