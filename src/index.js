@@ -114,9 +114,9 @@ var DebugReporterModal = React.createClass({
                 </Modal.Header>
                 <Modal.Body>
                     <div>
-                        <div>Kuvaile ongelmaa halutessasi</div>
-                        <div><textarea onChange={this.handleChange} value={this.state.value} /></div>
-                        <div><button onClick={this.report}>Lähetä raportti</button></div>
+                        <p>Kuvaile ongelmaa halutessasi</p>
+                        <p><textarea cols="40" rows="10" onChange={this.handleChange} value={this.state.value} /></p>
+                        <p><button onClick={this.report}>Lähetä raportti</button></p>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
