@@ -43,7 +43,6 @@ class Notifications extends React.Component {
 
         let actionLabel = this.props.flashMsg && this.props.flashMsg.action && this.props.flashMsg.action.label
         let actionFn = this.props.flashMsg && this.props.flashMsg.action && this.props.flashMsg.action.fn
-        console.log('PROPSIT', this.props)
 
         return (
             <Snackbar
