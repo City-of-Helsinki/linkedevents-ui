@@ -165,7 +165,7 @@ let HelTextField = React.createClass({
                 value={this.state.value}
                 label={label}
                 // help="Validation is based on string length."
-                bsStyle={this.validationState()}
+                // bsStyle={this.validationState()} // TODO: Check glyph styling, now it shows success for empty values
                 hasFeedback
                 ref="text"
                 groupClassName={groupClassName}
