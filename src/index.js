@@ -42,6 +42,7 @@ import Serializer from './actors/serializer';
 import {report} from './utils/raven_reporter';
 import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
+import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 // Initialize tap event plugin
 import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -143,14 +144,24 @@ var DebugHelper = React.createClass({
 
     serialize_state(reportmsg) {
         window.ARG.debug_message = reportmsg;
+        this.close_reportform();
         report(JSON.stringify(window.ARG));
+
+        window.setTimeout(
+            () => alert("Raportti lähetetty, kiitoksia"),
+            100);
+
     },
 
     render() {
         return <div>
             <DebugReporterModal showModal={this.state.reporting} close={this.close_reportform} send_report={this.serialize_state} />
             <div id="debughelper">
-                <div id="debughelper_container"><button onClick={this.show_reportform}>Raportoi virhe</button></div>
+                <div id="debughelper_container">
+                    <Button bsSize="large" onClick={this.show_reportform}>
+                        <Glyphicon glyph="envelope" />
+                    </Button>
+                </div>
                 <div id="slide">Jos tapahtumien hallinnassa tai syöttölomakkeen toiminnassa on virhe, klikkaa "raportoi virhe"&#x2011;nappia,
                     niin saamme virhetilanteesta tiedon ja voimme tutkia asiaa.</div>
             </div>

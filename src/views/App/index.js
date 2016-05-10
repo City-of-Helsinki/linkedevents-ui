@@ -1,5 +1,5 @@
-require('!style!css!sass!src/assets/main.scss');
 require('!style!css!src/assets/additional_css/bootstrap.custom.min.css');
+require('!style!css!sass!src/assets/main.scss');
 
 import React from 'react'
 import {connect} from 'react-redux'
