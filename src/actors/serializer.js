@@ -1,15 +1,16 @@
 
+/*
+Saves store state to global module for another app
+ */
+
 let arg = null;
 
 window.ARG = arg;
 
-
-
 export default (store) => {
-    
-    const { editor, routing } = store.getState();
-    const dispatch = store.dispatch;
-    console.log("updating state array");
-    window.ARG = _.cloneDeep(editor);
-
+    const state = _.cloneDeep(_.omit(store.getState(), ['userEvents']));
+    if (state.user) {
+        state.user.token = null; // JWT token is of not to be saved into Sentry
+    }
+    window.ARG = state;
 }

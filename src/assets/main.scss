@@ -151,15 +151,38 @@ header {
 
 #debughelper {
     position: fixed;
-    bottom: 0;
+    bottom: 5em;
     left: 0;
-    right: 0;
-    background: white;
-    border-top: 1px solid black;
-    padding: 0.3em 0 0 0.2em;
 }
 
-#debughelper button {
-    margin: 0.3em 1em 1em 0.3em;
-    float: left;
+#debughelper_container {
+    //margin: 0.3em 1em 1em 0.3em;
+    //padding: 1em 0 0 0.2em;
+    position: relative;
+    z-index: 100;
+    height: 3em;
+    width: 2em;
+    //background: white;
+    //border: 1px solid black;
+    font-size: 200%;
+}
+
+#slide {
+    position: absolute;
+    z-index: 99;
+    left: -33em;
+    width: 33em;
+    height: 4em;
+    transition: 1s;
+    background-color: white;
+    border: 1px solid black;
+    border-left: none;
+    top: 0;
+    margin-top: -0.5em;
+    padding: 0.2em 0.3em 0.2em 3.3em;
+}
+
+#debughelper:hover #slide {
+    transition: 0.5s;
+    left: 0;
 }
