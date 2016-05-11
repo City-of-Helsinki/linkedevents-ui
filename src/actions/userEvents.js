@@ -9,7 +9,7 @@ import { setFlashMsg } from './app'
 
 function makeRequest(user = {}, page, dispatch) {
     const {organization} = user
-    var url = `${appSettings.api_base}/event/?organization=${organization}&show_all=1&sort=-last_modified_time&page_size=100`
+    var url = `${appSettings.api_base}/event/?publisher=${organization}&show_all=1&sort=-last_modified_time&page_size=100`
     if(appSettings.nocache) {
         url += `&nocache=${Date.now()}`
     }
