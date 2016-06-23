@@ -5,7 +5,7 @@ import authedFetch from 'src/utils/authedFetch'
 import { setFlashMsg } from './app'
 
 function makeRequest(query, startDate, endDate) {
-    var url = `${appSettings.api_base}/event/?text=${query}`
+    var url = `${appSettings.api_base}/search/?type=event&q=${query}`
 
     if(appSettings.nocache) {
         url += `&nocache=${Date.now()}`
