@@ -20,8 +20,9 @@ let EventItem = (props) => {
 
     let url = "/event/" + encodeURIComponent(props.event['id']) + '/'
 
+    const image = props.event.images.length > 0 ? props.event.images[0].url : defaultThumbnail
     let thumbnailStyle = {
-        backgroundImage: 'url(' + (props.event.image || defaultThumbnail) + ')'
+        backgroundImage: 'url(' + image + ')'
     }
 
     return (
