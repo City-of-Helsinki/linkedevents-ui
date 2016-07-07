@@ -63,6 +63,10 @@ class HelOffersField extends React.Component {
         this.onBlur()
     }
 
+    componentDidMount() {
+        this.onBlur()
+    }
+
     render() {
         let values = {}
         if(this.props.defaultValue && this.props.defaultValue.length) {
