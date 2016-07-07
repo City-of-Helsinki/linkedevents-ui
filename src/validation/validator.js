@@ -5,7 +5,11 @@ import validationFn from './validationRules'
 const draftValidations = {
     name: ['requiredMulti'],
     end_time: ['afterStartTime'],
-    short_description: ['shortString']
+    short_description: ['shortString'],
+    info_url: ['isUrl'],
+    extlink_facebook: ['isUrl'],
+    extlink_twitter: ['isUrl'],
+    extlink_instagram: ['isUrl']
 }
 
 // Validations for published event
@@ -15,7 +19,11 @@ const publicValidations = {
     hel_main: ['atLeastOne'],
     start_time: ['requiredString'], // Datetime is saved as ISO string
     end_time: ['afterStartTime'],
-    short_description: ['shortString']
+    short_description: ['shortString'],
+    info_url: ['isUrl'],
+    extlink_facebook: ['isUrl'],
+    extlink_twitter: ['isUrl'],
+    extlink_instagram: ['isUrl']
 }
 
 /**
