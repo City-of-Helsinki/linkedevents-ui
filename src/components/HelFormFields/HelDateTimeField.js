@@ -80,7 +80,10 @@ const HelDateTimeField = React.createClass({
             }
         }
         else {
-          // Errors were found
+            // Errors were found
+            let obj = {}
+            obj[this.props.name] = null
+            this.context.dispatch(setData(obj))
         }
 
         // if(typeof this.props.onBlur === 'function') {
@@ -130,9 +133,10 @@ const HelDateTimeField = React.createClass({
 
     componentWillReceiveProps: function(nextProps) {
         if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
-            let value = this.parseValueFromString(nextProps.defaultValue)
-
-            this.setState({ value: value })
+            if (moment(nextProps.defaultValue).isValid()) {
+                const value = this.parseValueFromString(nextProps.defaultValue)
+                this.setState({value: value})
+            }
         }
     },
 
