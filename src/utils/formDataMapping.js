@@ -11,6 +11,40 @@ export {
     mapAPIDataToUIFormat
 }
 
+// hel.fi audience keywords that correspond to YSO audience keywords need to be posted also for now
+
+const helFiYsoAudienceMapping = {
+    'helfi:1': ['yso:p4354', 'yso:p13050'],
+    'helfi:2': ['yso:p11617'],
+    'helfi:3': ['yso:p6165'],
+    'helfi:4': ['yso:p7179'],
+    'helfi:5': ['yso:p2434'],
+    'helfi:6': ['yso:p3128'],
+    'helfi:7': ['yso:p1393'],
+}
+
+function _addHelFiAudienceKeywords(original_audiences) {
+    let audiences = _.clone(original_audiences)
+
+    const audienceIds = _.map(audiences, function(audience) {
+        // parse keyword ID from keyword URL
+        return audience.slice(_.lastIndexOf(audience, '/', audience.length - 2) + 1, -1)
+    })
+
+    // iterate hel.fi keywords
+    _.forOwn(helFiYsoAudienceMapping, function(ysoIDs, helFiID) {
+
+        // check that every YSO keyword for the current hel.fi keyword is selected
+        const containsEveryYso = _.every(ysoIDs, function(ysoID) {
+            return _.contains(audienceIds, ysoID)
+        })
+        if (containsEveryYso) {
+            audiences.push(`${appSettings.api_base}/keyword/` + helFiID + '/')
+        }
+    })
+    return audiences
+}
+
 // TODO: Refactoring form components to output and accept the correct format (like <MultiLanguageField> to output {fi: name, se: namn})
 
 function mapUIDataToAPIFormat(values) {
@@ -60,7 +94,8 @@ function mapUIDataToAPIFormat(values) {
     }
 
     if(values.audience && values.audience.length !== undefined) {
-        obj.audience = _.map(values.audience, (item) => ({ '@id': item }))
+        const audiences = _addHelFiAudienceKeywords(values.audience)
+        obj.audience = _.map(audiences, (item) => ({ '@id': item }))
     }
 
     if(values.in_language) {
