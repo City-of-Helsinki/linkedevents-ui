@@ -121,6 +121,6 @@
     "no-connection": "Ei yhteyttä palvelimelle!",
 
     "image-creation-success": "Kuva luotiin onnistuneesti!",
-    "image-creation-error": "Virhe kuvaa luodessa."
-
+    "image-creation-error": "Virhe kuvaa luodessa.",
+    "search-no-results": "Ei tuloksia"
 }

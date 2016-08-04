@@ -15,6 +15,7 @@ import { fetchEvents } from 'src/actions/events'
 class SearchPage extends React.Component {
     constructor(props) {
         super(props)
+        this.state = {searchExecuted: false}
     }
 
     searchEvents(searchQuery, startDate, endDate) {
@@ -23,10 +24,18 @@ class SearchPage extends React.Component {
         }
         else {
             this.props.dispatch(fetchEvents(searchQuery, startDate, endDate))
+            this.setState({searchExecuted: true})
         }
     }
 
     // <FilterableEventTable events={this.props.events} apiErrorMsg={''} />
+
+    getResults() {
+        if (this.state.searchExecuted && !this.props.events.length > 0) {
+            return <div className="search-no-results"><FormattedMessage id="search-no-results"/></div>
+        }
+        return <EventGrid events={this.props.events} apiErrorMsg={''}/>
+    }
 
     render() {
         return (
@@ -35,7 +44,7 @@ class SearchPage extends React.Component {
                 <p><FormattedMessage id="search-events-description"/></p>
                 <SearchBar onFormSubmit={ (query, start, end) => this.searchEvents(query, start, end) }/>
                 <Loader loaded={!this.props.isFetching} scale={3}>
-                    <EventGrid events={this.props.events} apiErrorMsg={''} />
+                    {this.getResults()}
                 </Loader>
             </div>
         )
