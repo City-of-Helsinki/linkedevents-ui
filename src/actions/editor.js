@@ -88,7 +88,7 @@ export function validateFor(publicationStatus) {
  * @param  {[type]} publicationStatus       [description]
  * @return {[type]}                         [description]
  */
-export function sendData(formValues, user, updateExisting = false, publicationStatus) {
+export function sendData(formValues, contentLanguages, user, updateExisting = false, publicationStatus) {
     return (dispatch) => {
 
         publicationStatus = publicationStatus || formValues.publication_status
@@ -102,7 +102,7 @@ export function sendData(formValues, user, updateExisting = false, publicationSt
         dispatch(validateFor(publicationStatus))
 
         // Run validations
-        let validationErrors = doValidations(formValues, publicationStatus)
+        let validationErrors = doValidations(formValues, contentLanguages, publicationStatus)
 
         // There are validation errors, don't continue sending
         if (_.keys(validationErrors).length > 0) {

@@ -30,15 +30,15 @@ const publicValidations = {
  * Run draft/public validations depending which document
  * @return {object} Validation errors object
  */
-export function doValidations(values, validateFor) {
+export function doValidations(values, languages, validateFor) {
     // Public validations
     if(validateFor === constants.PUBLICATION_STATUS.PUBLIC) {
-        return runValidationWithSettings(values, publicValidations)
+        return runValidationWithSettings(values, languages, publicValidations)
     }
 
     // Do draft validations
     else if (validateFor === constants.PUBLICATION_STATUS.DRAFT) {
-        return runValidationWithSettings(values, draftValidations)
+        return runValidationWithSettings(values, languages, draftValidations)
     }
 
     else {
@@ -46,13 +46,18 @@ export function doValidations(values, validateFor) {
     }
 }
 
-function runValidationWithSettings(values, settings) {
+function runValidationWithSettings(values, languages, settings) {
     let obj = {}
+
+    // Add content languages to values to have them available in the validations
+    const valuesWithLanguages = Object.assign({}, values, {
+        _contentLanguages: languages
+    })
 
     _.each(settings, (validations, key) => {
         // Returns an array of validation errors (array of nulls if validation passed)
         let errors = validations.map(validation =>
-            (validationFn[validation](values, values[key]) ? null : validation)
+            (validationFn[validation](valuesWithLanguages, values[key]) ? null : validation)
         )
         // Remove nulls
         _.remove(errors, i => i === null)

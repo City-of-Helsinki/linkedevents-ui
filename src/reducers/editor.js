@@ -45,7 +45,7 @@ function update(state = initialState, action) {
         let validationErrors = Object.assign({}, state.validationErrors)
         // If there are validation errors, check if they are fixed
         if (_.keys(state.validationErrors).length > 0) {
-            validationErrors = doValidations(newValues, state.validateFor)
+            validationErrors = doValidations(newValues, state.contentLanguages, state.validateFor)
         }
 
         return Object.assign({}, state, {
