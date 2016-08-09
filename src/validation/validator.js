@@ -14,12 +14,13 @@ const draftValidations = {
 
 // Validations for published event
 const publicValidations = {
-    name: ['requiredMulti'],
+    name: ['requiredMulti', 'requiredInContentLanguages'],
     location: ['requiredAtId'],
     hel_main: ['atLeastOne'],
     start_time: ['requiredString'], // Datetime is saved as ISO string
     end_time: ['afterStartTime'],
-    short_description: ['shortString'],
+    short_description: ['requiredMulti', 'requiredInContentLanguages', 'shortString'],
+    description: ['requiredMulti', 'requiredInContentLanguages'],
     info_url: ['isUrl'],
     extlink_facebook: ['isUrl'],
     extlink_twitter: ['isUrl'],

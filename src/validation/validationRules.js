@@ -172,6 +172,19 @@ var validations = {
             }
         }
         return true
+    },
+    requiredInContentLanguages: function requiredInContentLanguages(values, value) {
+        if (typeof value !== 'object') {
+            return false
+        }
+
+        let requiredLanguages = new Set(values._contentLanguages)
+        _.forOwn(value, (item, key) => {
+            if (item.length && item.length > 0) {
+                requiredLanguages.delete(key)
+            }
+        })
+        return requiredLanguages.size === 0
     }
 };
 
