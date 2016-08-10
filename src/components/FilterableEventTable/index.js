@@ -38,7 +38,7 @@ let EventRow = (props) => {
     let draftClass = draft ? 'draft-row' : ''
     let nameColumn = null
     if (draft) {
-        nameColumn = (<TableRowColumn className={draftClass}><span className="label label-warning">LUONNOS</span> <Link to={url}>{name}</Link></TableRowColumn>)
+        nameColumn = (<TableRowColumn className={draftClass}><div className="d-inline bg-danger draft-label">LUONNOS</div> <Link to={url}>{name}</Link></TableRowColumn>)
     }
     else {
         nameColumn = (<TableRowColumn><Link to={url}>{name}</Link></TableRowColumn>)
