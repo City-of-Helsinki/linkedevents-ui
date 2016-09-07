@@ -9,6 +9,8 @@ import { connect } from 'react-redux'
 import { get as getIfExists, isEmpty } from 'lodash'
 
 import ImageGalleryGrid from '../ImageGalleryGrid'
+import { confirmAction } from 'src/actions/app.js'
+import { getStringWithLocale } from 'src/utils/locale'
 
 class ImagePicker extends React.Component {
 
@@ -45,7 +47,17 @@ class ImagePicker extends React.Component {
     handleDelete(event) {
         let selectedImage = this.props.editor.values.image
         if (!isEmpty(selectedImage)) {
-            this.props.dispatch(deleteImage(selectedImage, this.props.user))
+            this.props.dispatch(
+                confirmAction(
+                    'confirm-image-delete',
+                    'warning',
+                    'delete',
+                    {
+                        action: e => this.props.dispatch(deleteImage(selectedImage, this.props.user)),
+                        additionalMsg: selectedImage.name
+                    }
+                )
+            )
         }
     }
 
