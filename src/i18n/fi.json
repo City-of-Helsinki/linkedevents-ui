@@ -121,6 +121,7 @@
     "no-connection": "Ei yhteyttä palvelimelle!",
 
     "image-creation-success": "Kuva luotiin onnistuneesti!",
-    "image-creation-error": "Virhe kuvaa luodessa."
-
+    "image-creation-error": "Virhe kuvaa luodessa.",
+    "image-deletion-success": "Kuva poistettiin onnistuneesti!",
+    "image-deletion-error": "Virhe kuvaa poistettaessa."
 }

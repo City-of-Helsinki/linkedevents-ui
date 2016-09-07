@@ -22,6 +22,28 @@ function makeRequest(organization, pg_size) {
     return $.getJSON(url);
 }
 
+function getRequestBaseSettings(user, method = "POST", image_id = null) {
+    let token = user ? user.token : ""
+
+    let url = appSettings.api_base + "/image/"
+    if (image_id) {
+        url += image_id + "/"
+    }
+
+    return {
+        "async": true,
+        "crossDomain": true,
+        "url": url,
+        "method": method,
+        "headers": {
+            "authorization": 'JWT ' + token,
+            "accept": "application/json",
+        },
+        "processData": false
+    }
+
+}
+
 export const startFetching = createAction(constants.REQUEST_IMAGES);
 
 export function fetchUserImages(user, page_size) {
@@ -52,11 +74,6 @@ export function receiveUserImagesFail(response) {
 
 export function postImage(formData = null, user, externalUrl = null) {
     return (dispatch) => {
-        let token = ''
-        if(user) { //might not exist
-            token = user.token
-        }
-
         let requestContentSettings = {}
         if(formData) {
             requestContentSettings = {
@@ -71,17 +88,7 @@ export function postImage(formData = null, user, externalUrl = null) {
             }
         }
 
-        let baseSettings = {
-            "async": true,
-            "crossDomain": true,
-            "url": `${appSettings.api_base}/image/`,
-            "method": "POST",
-            "headers": {
-                "authorization": 'JWT ' + token,
-                "accept": "application/json",
-            },
-            "processData": false
-        }
+        const baseSettings = getRequestBaseSettings(user);
 
         let settings = Object.assign({}, baseSettings, requestContentSettings)
         return $.ajax(settings).done(response => {
@@ -116,5 +123,24 @@ export function imageUploadComplete(json) {
     return {
         type: constants.IMAGE_UPLOAD_SUCCESS,
         data: json
+    }
+}
+
+export function deleteImage(selectedImage, user) {
+    return (dispatch) => {
+        const settings = getRequestBaseSettings(user, "DELETE", selectedImage.id)
+        return $.ajax(settings).done(response => {
+
+            // update form image value
+            dispatch(setData({'image': null}))
+
+            dispatch(setFlashMsg('image-deletion-success', 'success', response))
+
+            // update image picker images
+            dispatch(fetchUserImages(user, 1000))
+
+        }).fail(response => {
+            dispatch(setFlashMsg('image-deletion-error', 'error', response))
+        })
     }
 }
