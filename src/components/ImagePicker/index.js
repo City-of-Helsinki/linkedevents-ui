@@ -4,11 +4,13 @@ import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl'
 import Modal from 'react-bootstrap/lib/Modal';
 import { RaisedButton } from 'material-ui'
-import { postImage, postImageWithURL } from 'src/actions/userImages.js'
+import { postImage, postImageWithURL, deleteImage } from 'src/actions/userImages.js'
 import { connect } from 'react-redux'
-import { get as getIfExists } from 'lodash'
+import { get as getIfExists, isEmpty } from 'lodash'
 
 import ImageGalleryGrid from '../ImageGalleryGrid'
+import { confirmAction } from 'src/actions/app.js'
+import { getStringWithLocale } from 'src/utils/locale'
 
 class ImagePicker extends React.Component {
 
@@ -39,6 +41,23 @@ class ImagePicker extends React.Component {
         data.append('image', file)
         if(file && (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' )) {
             this.props.dispatch(postImage(data, this.props.user))
+        }
+    }
+
+    handleDelete(event) {
+        let selectedImage = this.props.editor.values.image
+        if (!isEmpty(selectedImage)) {
+            this.props.dispatch(
+                confirmAction(
+                    'confirm-image-delete',
+                    'warning',
+                    'delete',
+                    {
+                        action: e => this.props.dispatch(deleteImage(selectedImage, this.props.user)),
+                        additionalMsg: selectedImage.name
+                    }
+                )
+            )
         }
     }
 
@@ -105,6 +124,13 @@ class ImagePicker extends React.Component {
                     </Modal.Body>
 
                     <Modal.Footer>
+                        <RaisedButton
+                            label={<FormattedMessage id="delete"/>}
+                            onClick={() => this.handleDelete()}
+                            primary={false}
+                            style={{margin:"0 10px 0 0"}}
+                            disabled={isEmpty(this.props.editor.values.image)}
+                        />
                         <RaisedButton
                             label={<FormattedMessage id="ready"/>}
                             onClick={() => this.closeGalleryModal()}
