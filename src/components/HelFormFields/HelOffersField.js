@@ -7,6 +7,8 @@ import HelCheckbox from './HelCheckbox'
 import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
 
+import ValidationPopover from 'src/components/ValidationPopover'
+
 class HelOffersField extends React.Component {
 
     static contextTypes = {
@@ -81,6 +83,7 @@ class HelOffersField extends React.Component {
 
         return (
             <div className="offers">
+                <label style={{position: 'relative'}}><ValidationPopover validationErrors={this.props.validationErrors} /></label>
                 <MultiLanguageField defaultValue={values.info_url} ref="info_url" label="event-purchase-link" languages={this.props.languages} onBlur={e => this.onBlur(e)} validations={['isUrl']}  />
                 <HelCheckbox defaultChecked={free} ref="is_free" label={<FormattedMessage id="is-free"/>} onChange={(e,v) => this.setIsFree(e,v)} />
                 <MultiLanguageField defaultValue={values.price} disabled={free} ref="price" label="event-price" languages={this.props.languages} onBlur={e => this.onBlur(e)} />
