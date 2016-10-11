@@ -156,12 +156,14 @@ var EditorPage = React.createClass({
 
     saveAsDraft(event) {
         let doUpdate = this.props.params.action === 'update'
-        this.props.dispatch(sendData(this.props.editor.values, this.props.user, doUpdate, constants.PUBLICATION_STATUS.DRAFT))
+        const {values, contentLanguages} = this.props.editor
+        this.props.dispatch(sendData(values, contentLanguages, this.props.user, doUpdate, constants.PUBLICATION_STATUS.DRAFT))
     },
 
     saveAsPublished(event) {
         let doUpdate = this.props.params.action === 'update'
-        this.props.dispatch(sendData(this.props.editor.values, this.props.user, doUpdate, constants.PUBLICATION_STATUS.PUBLIC))
+        const {values, contentLanguages} = this.props.editor
+        this.props.dispatch(sendData(values, contentLanguages, this.props.user, doUpdate, constants.PUBLICATION_STATUS.PUBLIC))
     },
 
     deleteEvent() {
