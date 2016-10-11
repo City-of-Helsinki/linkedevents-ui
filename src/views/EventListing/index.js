@@ -52,9 +52,7 @@ class EventListing extends React.Component {
                     {" "}<FormattedMessage id="organization-events-prompt" /></p>
                     </div>);
         }
-        if (events.isFetching && user) {
-            return <h1>{`Fetching events for user ${user.id}`}</h1>
-        }
+
         if (events.fetchComplete) {
             return (
                     <div className="container">

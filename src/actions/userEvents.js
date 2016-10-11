@@ -25,7 +25,7 @@ function makeRequest(user = {}, page, dispatch) {
     return authedFetch(url, options, user, dispatch);
 }
 
-export const startFetching = createAction(constants.REQUEST_EVENTS);
+export const startFetching = createAction(constants.REQUEST_USER_EVENTS);
 
 export function receiveUserEvents(json) {
     return {
@@ -45,7 +45,7 @@ export function receiveUserEventsError(error) {
 
 export function fetchUserEvents(user, page) {
     return (dispatch) => {
-        dispatch(startFetching);
+        dispatch(startFetching());
         makeRequest(user, page, dispatch).then(function (response) {
             if (response.status >= 400) {
                 dispatch(receiveUserEventsError({

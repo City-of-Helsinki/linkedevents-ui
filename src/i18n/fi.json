@@ -124,5 +124,7 @@
     "image-creation-error": "Virhe kuvaa luodessa.",
     "image-deletion-success": "Kuva poistettiin onnistuneesti!",
     "image-deletion-error": "Virhe kuvaa poistettaessa.",
-    "confirm-image-delete": "Varmista kuvan poistaminen"
+    "confirm-image-delete": "Varmista kuvan poistaminen",
+
+    "search-no-results": "Ei tuloksia"
 }

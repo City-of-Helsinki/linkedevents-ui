@@ -48,9 +48,16 @@ export function receiveEvents(json) {
     }
 }
 
+export function startFetchingEvents() {
+    return {
+        type: constants.REQUEST_EVENTS
+    }
+}
+
 // NOTE: Server should always return either json, or nothing (on failed connection)
 export function fetchEvents(query, startDate, endDate) {
     return (dispatch) => {
+        dispatch(startFetchingEvents())
         return makeRequest(query, startDate, endDate)
             .then(json => dispatch(receiveEvents(json)))
     }
@@ -70,7 +77,7 @@ export function receiveEventDetailsError(error) {
     }
 }
 
-export function startFetching() {
+export function startFetchingEventDetails() {
     return {
         type: constants.REQUEST_EVENT
     }
@@ -91,7 +98,7 @@ export function fetchEventDetails(eventID, user = {}) {
     }
 
     return (dispatch) => {
-        dispatch(startFetching())
+        dispatch(startFetchingEventDetails())
 
         return authedFetch(url, options, user, dispatch)
             .then(response => {
