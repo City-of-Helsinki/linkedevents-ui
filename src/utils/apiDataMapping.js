@@ -6,6 +6,8 @@ export function mapKeywordSetToForm(keywordSets, id, locale = 'fi') {
     if(keywordSet && keywordSet.keywords) {
         return keywordSet.keywords.map((item) => {
             let label = getStringWithLocale(item, 'name', locale)
+            // we don't want yso parentheses visible in keyword sets, so only pick the part before them
+            label = label.split([' ('])[0]
             return {
                 value: item['@id'],
                 label: label
