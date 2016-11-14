@@ -1,5 +1,7 @@
 import React from 'react'
 import HelTextField from './HelTextField.js'
+import HelDatePicker from './HelDatePicker.js'
+import HelTimePicker from './HelTimePicker.js'
 
 import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
@@ -150,8 +152,8 @@ const HelDateTimeField = React.createClass({
             <div className="multi-field">
                 <div className="indented">
                     <label style={{position: 'relative'}}><FormattedMessage id={`${this.props.label}`} /> <ValidationPopover validationErrors={this.props.validationErrors} /></label>
-                    <HelTextField ref="date" defaultValue={this.state.value.date} validations={['isDate']} placeholder="pp.kk.vvvv" onChange={this.handleChange} onBlur={this.onBlur} label={<FormattedMessage id="date" />} />
-                    <HelTextField ref="time" defaultValue={this.state.value.time} validations={['isTime']} placeholder="hh.mm" onChange={this.handleChange} onBlur={this.onBlur} label={<FormattedMessage id="time" />} />
+                    <HelDatePicker ref="date" defaultValue={this.state.value.date} validations={['isDate']} placeholder="pp.kk.vvvv" onChange={this.handleChange} onBlur={this.onBlur} label={<FormattedMessage id="date" />} />
+                    <HelTimePicker ref="time" defaultValue={this.state.value.time} validations={['isTime']} placeholder="hh.mm" onChange={this.handleChange} onBlur={this.onBlur} label={<FormattedMessage id="time" />} />
                 </div>
             </div>
         )

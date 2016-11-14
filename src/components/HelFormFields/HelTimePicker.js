@@ -45,7 +45,7 @@ let HelTimePicker = React.createClass({
 
     render: function () {
         return (
-            <HelTextField validations={['isTime']} name={this.props.name} onChange={this.handleChange} />
+            <HelTextField validations={['isTime']} placeholder='hh:mm' name={this.props.name} onChange={this.handleChange} />
         )
     }
 });

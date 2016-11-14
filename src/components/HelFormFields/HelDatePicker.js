@@ -45,7 +45,7 @@ let HelDatePicker = React.createClass({
 
     render: function () {
         return (
-            <HelTextField validations={['isDate']} name={this.props.name} onChange={this.handleChange} />
+            <HelTextField validations={['isDate']} name={this.props.name} placeholder='dd.mm.yyyy' onChange={this.handleChange} />
         )
     }
 });
