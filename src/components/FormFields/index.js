@@ -15,6 +15,9 @@ import {
     HelDatePicker
 } from 'src/components/HelFormFields'
 
+import { RaisedButton, FlatButton } from 'material-ui'
+
+
 
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
 
@@ -75,6 +78,11 @@ class FormFields extends React.Component {
         let helTargetOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helsinki:audiences')
         let helEventLangOptions = mapLanguagesSetToForm(this.props.editor.languages)
 
+        let buttonStyle = {
+            height: '64px',
+            margin: '10px 5px'
+        }
+
         const { values, validationErrors, contentLanguages } = this.props.editor
 
         return (
@@ -122,6 +130,14 @@ class FormFields extends React.Component {
                                 <HelDateTimeField validationErrors={validationErrors['end_time']} defaultValue={values['end_time']} ref="end_time" name="end_time" label="event-ending-datetime" />
                             </div>
                         </div>
+                        <RaisedButton
+                            style={buttonStyle}
+                            primary={true}
+                            label="Lisää uusi tapahtuma" />
+                        <RaisedButton
+                            style={buttonStyle} 
+                            primary={true}
+                            label="Toistuva tapahtuma..." />
                     </div>
                     <SideField>
                         <div className="tip">
