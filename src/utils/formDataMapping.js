@@ -131,7 +131,7 @@ function mapUIDataToAPIFormat(values) {
     */
 }
 
-export function mapAPIDataToUIFormat(values) {
+function mapAPIDataToUIFormat(values) {
     if(!values) {
         return {}
     }
