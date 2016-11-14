@@ -156,6 +156,9 @@ const HelDateTimeField = React.createClass({
                     <HelDatePicker ref="date" defaultValue={this.state.value.date} validations={['isDate']} placeholder="pp.kk.vvvv" onChange={this.handleChange} onBlur={this.onBlur} label={<FormattedMessage id="date" />} />
 
                     <HelTimePicker ref="time" defaultValue={this.state.value.time} validations={['isTime']} placeholder="hh.mm" onChange={this.handleChange} onBlur={this.onBlur} label={<FormattedMessage id="time" />} />
+                    <button>Toistuva tapahtuma</button>
+                    <button>Lisää kerta</button>
+
 
                 </div>
             </div>
