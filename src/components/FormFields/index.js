@@ -12,8 +12,10 @@ import {
     HelDateTimeField,
     HelSelect,
     HelOffersField,
-    HelDatePicker
+    HelDatePicker,
+
 } from 'src/components/HelFormFields'
+import RepetetiveEvent from 'src/components/RepetetiveEvent'
 
 import { RaisedButton, FlatButton } from 'material-ui'
 
@@ -135,9 +137,10 @@ class FormFields extends React.Component {
                             primary={true}
                             label="Lisää uusi tapahtuma" />
                         <RaisedButton
-                            style={buttonStyle} 
+                            style={buttonStyle}
                             primary={true}
                             label="Toistuva tapahtuma..." />
+                            <RepetetiveEvent/>
                     </div>
                     <SideField>
                         <div className="tip">
