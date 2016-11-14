@@ -154,7 +154,6 @@ const HelDateTimeField = React.createClass({
                 <div className="indented">
                     <label style={{position: 'relative'}}><FormattedMessage id={`${this.props.label}`} /> <ValidationPopover validationErrors={this.props.validationErrors} /></label>
                     <HelDatePicker ref="date" defaultValue={this.state.value.date} validations={['isDate']} placeholder="pp.kk.vvvv" onChange={this.handleChange} onBlur={this.onBlur} label={<FormattedMessage id="date" />} />
-                    <DatePicker selected={this.state.date} onChange={this.handleChange} />
 
                     <HelTimePicker ref="time" defaultValue={this.state.value.time} validations={['isTime']} placeholder="hh.mm" onChange={this.handleChange} onBlur={this.onBlur} label={<FormattedMessage id="time" />} />
 
@@ -163,29 +162,5 @@ const HelDateTimeField = React.createClass({
         )
     }
 });
-var DatePicker = require('react-datepicker');
 
-require('react-datepicker/dist/react-datepicker.css');
-
-var Example = React.createClass({
-  displayName: 'Example',
-
-  getInitialState: function() {
-    return {
-      startDate: moment()
-    };
-  },
-
-  handleChange: function(date) {
-    this.setState({
-      startDate: date
-    });
-  },
-
-  render: function() {
-    return <DatePicker
-        selected={this.state.startDate}
-        onChange={this.handleChange} />;
-  }
-});
 export default HelDateTimeField

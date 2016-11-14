@@ -1,5 +1,8 @@
 import React from 'react'
 import HelTextField from './HelTextField.js'
+import DatePicker from 'react-datepicker/dist/react-datepicker.js'
+import 'react-datepicker/dist/react-datepicker.css'
+import './HelDatePicker.scss'
 
 import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
@@ -16,7 +19,8 @@ let HelDatePicker = React.createClass({
         }
 
         return {
-            value: defaultValue || null
+            value: defaultValue || null,
+            startDate: moment()
         }
     },
 
@@ -24,17 +28,11 @@ let HelDatePicker = React.createClass({
         name: React.PropTypes.string.isRequired
     },
 
-    handleChange: function (event, value) {
-        let time = moment.tz(value, 'Europe/Helsinki').utc().format();
+    handleChange: function (date) {
+        this.setState({
+          startDate: date
+        });
 
-        let obj = {}
-        obj[this.props.name] = time;
-
-        this.props.dispatch(setData(obj))
-
-        if(typeof this.props.onChange === 'function') {
-            this.props.onChange(event, value)
-        }
     },
 
     handleBlur: function (event, value) {
@@ -45,7 +43,10 @@ let HelDatePicker = React.createClass({
 
     render: function () {
         return (
-            <HelTextField validations={['isDate']} name={this.props.name} placeholder='dd.mm.yyyy' onChange={this.handleChange} />
+          <div className='hel-text-field'>
+            <DatePicker validations={['isDate']} selected={this.state.startDate} name={this.props.name} onChange={this.handleChange} />
+          </div>
+
         )
     }
 });
