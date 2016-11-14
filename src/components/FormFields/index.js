@@ -139,13 +139,9 @@ class FormFields extends React.Component {
                             label={<span><i className="material-icons">add</i> <FormattedMessage id="event-add-new-occasion" /></span>} />
                         <RaisedButton
                             style={buttonStyle}
-<<<<<<< HEAD
                             primary={true}
-                            label="Toistuva tapahtuma..." />
-                            <RepetetiveEvent/>
-=======
                             label={<span><i className="material-icons">autorenew</i> <FormattedMessage id="event-add-recurring" /></span>} />
->>>>>>> 4e014ebdd73b0f44c02782ecc61200327dd03641
+                            <RepetetiveEvent/>
                     </div>
                     <SideField>
                         <div className="tip">
