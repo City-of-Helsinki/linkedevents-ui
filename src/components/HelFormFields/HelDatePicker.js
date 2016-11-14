@@ -44,7 +44,8 @@ let HelDatePicker = React.createClass({
     render: function () {
         return (
           <div className='hel-text-field'>
-            <DatePicker validations={['isDate']} selected={this.state.startDate} name={this.props.name} onChange={this.handleChange} />
+
+            <DatePicker placeholderText='pp.kk.vvvv' validations={['isDate']} selected={this.state.startDate} name={this.props.name} onChange={this.handleChange} />
           </div>
 
         )
