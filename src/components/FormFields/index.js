@@ -80,7 +80,8 @@ class FormFields extends React.Component {
 
         let buttonStyle = {
             height: '64px',
-            margin: '10px 5px'
+            margin: '10px 5px',
+            display: 'block'
         }
 
         const { values, validationErrors, contentLanguages } = this.props.editor
@@ -133,11 +134,10 @@ class FormFields extends React.Component {
                         <RaisedButton
                             style={buttonStyle}
                             primary={true}
-                            label="Lisää uusi tapahtuma" />
+                            label={<span><i className="material-icons">add</i> <FormattedMessage id="event-add-new-occasion" /></span>} />
                         <RaisedButton
-                            style={buttonStyle} 
-                            primary={true}
-                            label="Toistuva tapahtuma..." />
+                            style={buttonStyle}
+                            label={<span><i className="material-icons">autorenew</i> <FormattedMessage id="event-add-recurring" /></span>} />
                     </div>
                     <SideField>
                         <div className="tip">

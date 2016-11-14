@@ -35,9 +35,11 @@
     "use-existing-image": "Use an image in the system",
     "no-image": "NO IMAGE",
 
-    "event-datetime-fields-header": "Event time",
+    "event-datetime-fields-header": "Event times",
     "event-starting-date": "Starting date",
     "event-starting-time": "Starting time",
+    "event-add-new-occasion": "Add new occasion",
+    "event-add-recurring": "Recurring event",
     "event-ending-date": "Ending date",
     "event-ending-time": "Ending time",
 

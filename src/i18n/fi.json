@@ -51,9 +51,11 @@
     "use-existing-image": "Käytä järjestelmässä olemassaolevaa kuvaa",
     "no-image": "EI KUVAA",
 
-    "event-datetime-fields-header": "Tapahtuman ajankohta",
+    "event-datetime-fields-header": "Tapahtuman ajankohdat",
     "event-starting-datetime": "Tapahtuma alkaa",
     "event-ending-datetime": "Tapahtuma päättyy",
+    "event-add-new-occasion": "Lisää uusi ajankohta",
+    "event-add-recurring": "Toistuva tapahtuma",
     "date": "Päivämäärä",
     "time": "Aika",
 
