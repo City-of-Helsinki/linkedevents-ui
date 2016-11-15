@@ -18,8 +18,10 @@ const RepetetiveEvent = React.createClass ({
           <div className="multi-field">
 	         <HelDateTimeField ref="start_time" name="start_time" label="event-starting-datetime" />
            <HelDateTimeField ref="end_time" name="end_time" label="event-ending-datetime" />
-           <HelCheckbox/>
-
+           <div className="multi-field">Toistetaan <HelTextField/> viikon välein</div>
+           <HelCheckbox/><HelCheckbox/>
+           Toistuminen alkaa <HelDateTimeField ref="start_time" name="start_time" label="event-starting-datetime"/>
+           Toistuminen päättyy <HelDateTimeField ref="end_time" name="end_time" label="event-ending-datetime" />
           </div>
 
 
