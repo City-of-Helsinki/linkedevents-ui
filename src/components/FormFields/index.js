@@ -64,8 +64,18 @@ let updateEventHidden = function(eventData) {
 class FormFields extends React.Component {
 
     static contextTypes = {
-        intl: React.PropTypes.object
+        intl: React.PropTypes.object,
+        showRepetitiveEvent: React.PropTypes.bool,
+        events: React.PropTypes.object
     };
+
+    constructor(props) {
+      super(props);
+      this.state = {
+          showRepetitiveEvent: false,
+          events: {}
+      };
+    }
 
     componentWillReceiveProps() {
         this.forceUpdate()
@@ -73,6 +83,14 @@ class FormFields extends React.Component {
 
     shouldComponentUpdate() {
         return true
+    }
+
+    addEventOccasion() {
+
+    }
+
+    showRepetitiveEventDialog(event) {
+        this.setState({showRepetitiveEvent: !this.state.showRepetitiveEvent})
     }
 
     render() {
@@ -139,9 +157,12 @@ class FormFields extends React.Component {
                             label={<span><i className="material-icons">add</i> <FormattedMessage id="event-add-new-occasion" /></span>} />
                         <RaisedButton
                             style={buttonStyle}
-                            primary={true}
+                            primary={!this.state.showRepetitiveEvent}
+                            onClick={ (e) => this.showRepetitiveEventDialog(e) }
                             label={<span><i className="material-icons">autorenew</i> <FormattedMessage id="event-add-recurring" /></span>} />
+                        <div className={"repetitive-event " + (this.state.showRepetitiveEvent ? 'show' : 'hidden')}>
                             <RepetetiveEvent/>
+                        </div>
                     </div>
                     <SideField>
                         <div className="tip">
