@@ -210,7 +210,14 @@ var EditorPage = React.createClass({
 
         let clearButton = null
         if(_.keys(this.props.editor.values).length) {
-            clearButton = (<RaisedButton onClick={this.clearForm} primary={true} className="pull-right" label={<span><FormattedMessage id="clear-form"/><i className="material-icons">&#xE14C;</i></span>}/>)
+            clearButton = (
+                <RaisedButton
+                    onClick={this.clearForm}
+                    primary={true}
+                    className="pull-right"
+                    label={<span><FormattedMessage id="clear-form"/><i className="material-icons">&#xE14C;</i></span>}
+                />
+            )
         }
 
         // TODO: fix flow for non-authorized users

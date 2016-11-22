@@ -103,7 +103,6 @@ class FormFields extends React.Component {
             margin: '10px 5px',
             display: 'block'
         }
-
         const { values, validationErrors, contentLanguages } = this.props.editor
 
         return (
@@ -184,7 +183,7 @@ class FormFields extends React.Component {
                             required={true}
                             validationErrors={validationErrors['location']} defaultValue={values['location']}
                             placeholder={this.context.intl.formatMessage({ id: "event-location" })}
-                            />
+                        />
                         <MultiLanguageField multiLine={true} label="event-location-additional-info" ref="location_extra_info" name="location_extra_info" validationErrors={validationErrors["location_extra_info"]} defaultValue={values["location_extra_info"]} languages={this.props.editor.contentLanguages} />
                     </div>
                     <SideField>
@@ -239,21 +238,26 @@ class FormFields extends React.Component {
                                     options={helMainOptions} />
                     <SideField><p className="tip">Valitse vähintään yksi pääkategoria.</p></SideField>
                 </div>
-                <div className="row"><HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-target-groups"/>}
-                                    selectedValues={values['audience']}
-                                    ref="audience"
-                                    name="audience"
-                                    validationErrors={validationErrors['audience']}
-                                    itemClassName="col-sm-12"
-                                    options={helTargetOptions} />
+                <div className="row">
+                    <HelLabeledCheckboxGroup
+                        groupLabel={<FormattedMessage id="hel-target-groups"/>}
+                        selectedValues={values['audience']}
+                        ref="audience"
+                        name="audience"
+                        validationErrors={validationErrors['audience']}
+                        itemClassName="col-sm-12"
+                        options={helTargetOptions}
+                    />
                     <SideField><p className="tip">Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään.</p></SideField>
-                    <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-event-languages"/>}
-                                    selectedValues={values['in_language']}
-                                    ref="in_language"
-                                    name="in_language"
-                                    validationErrors={validationErrors['in_language']}
-                                    itemClassName="col-sm-6"
-                                    options={helEventLangOptions} />
+                    <HelLabeledCheckboxGroup
+                        groupLabel={<FormattedMessage id="hel-event-languages"/>}
+                        selectedValues={values['in_language']}
+                        ref="in_language"
+                        name="in_language"
+                        validationErrors={validationErrors['in_language']}
+                        itemClassName="col-sm-6"
+                        options={helEventLangOptions}
+                    />
                     <SideField><p className="tip">Kielet, joita tapahtumassa käytetään.</p></SideField>
                 </div>
             </div>
