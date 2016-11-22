@@ -120,6 +120,19 @@ var validations = {
 
         return false;
     },
+    inTheFuture: function inTheFuture(values, value) {
+
+        if(!value) {return true}
+
+        let now = new Date()
+        let time = new Date(value)
+
+        if (time - now >= 0) {
+            return true;
+        }
+
+        return false;
+    },
     required: function required(values, value) {
         return _isExisty(value)
     },
