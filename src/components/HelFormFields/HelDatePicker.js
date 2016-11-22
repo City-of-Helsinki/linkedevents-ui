@@ -10,7 +10,6 @@ import {setData} from 'src/actions/editor.js'
 import moment from 'moment'
 
 let HelDatePicker = React.createClass({
-
     getInitialState: function() {
         let defaultValue = this.props.editor.values[this.props.name] || null
 
@@ -20,31 +19,36 @@ let HelDatePicker = React.createClass({
 
         return {
             value: defaultValue || null,
-            startDate: moment()
+            date: moment()
         }
     },
 
     propTypes: {
-        name: React.PropTypes.string.isRequired
+        name: React.PropTypes.string.isRequired,
+        onBlur: React.PropTypes.func.isRequired
     },
 
     handleChange: function (date) {
         this.setState({
-          startDate: date
+          date: date
         });
-
     },
 
-    handleBlur: function (event, value) {
-        if(typeof this.props.onBlur === 'function') {
-            this.props.onBlur(event, value)
-        }
+    handleBlur: function () {
+        this.props.onBlur(this.state.date._d)
     },
 
     render: function () {
         return (
           <div className='hel-text-field'>
-            <DatePicker placeholderText='pp.kk.vvvv' validations={['isDate']} selected={this.state.startDate} name={this.props.name} onChange={this.handleChange} />
+            <DatePicker
+                placeholderText='pp.kk.vvvv'
+                validations={['isDate']}
+                selected={this.state.date}
+                name={this.props.name}
+                onChange={this.handleChange}
+                onBlur={this.handleBlur}
+            />
           </div>
 
         )

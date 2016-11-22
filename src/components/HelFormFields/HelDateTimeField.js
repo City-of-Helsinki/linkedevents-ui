@@ -46,73 +46,58 @@ const HelDateTimeField = React.createClass({
         dispatch: React.PropTypes.func
     },
 
-    handleChange: function (event) {
-        this.setState({value: {
-            date: this.refs.date.getValue(),
-            time: this.refs.time.getValue()
-        }})
+    onDateBlur: function(date) {
+        this.setState({
+            value: {
+                date: date
+            }
+        });
     },
 
-    onBlur: function() {
+    onTimeBlur: function(time) {
         this.setState({value: {
-            date: this.refs.date.getValue(),
-            time: this.refs.time.getValue()
+            time: time
         }})
-
+        const date = this.state.value.date;
         // Returns empty list if there are no validation errors
-        let errors = [
-            this.refs.time.getValidationErrors(),
-            this.refs.date.getValidationErrors()
-        ]
-
-        // Filter out empty lists
-        let actualErrors = errors.filter(list => (list.length > 0))
+        // let errors = [
+        //     this.refs.time.getValidationErrors(),
+        //     this.state.date.getValidationErrors()
+        // ]
+        //
+        // // Filter out empty lists
+        // let actualErrors = errors.filter(list => (list.length > 0))
 
         // If no validation errors, format time
-        if(actualErrors.length === 0) {
+        // if(actualErrors.length === 0) {
+        let datetime = this.getDateTimeFromFields(date, time)
 
-            let datetime = this.getDateTimeFromFields()
+        let obj = {}
+        obj[this.props.name] = datetime
 
-            let obj = {}
-            obj[this.props.name] = datetime
-
-            this.context.dispatch(setData(obj))
-
-            if(typeof this.props.onChange === 'function') {
-                this.props.onChange(event, value)
-            }
-        }
-        else {
-            // Errors were found
-            let obj = {}
-            obj[this.props.name] = null
-            this.context.dispatch(setData(obj))
-        }
+        this.context.dispatch(setData(obj))
+        // }
 
         // if(typeof this.props.onBlur === 'function') {
         //     this.props.onBlur(event, value)
         // }
     },
 
-    getDateTimeFromFields: function() {
-        let rawDate = this.refs.date.getValue();
-        let rawTime = this.refs.time.getValue();
-
-        if(!rawDate && !rawTime) {
+    getDateTimeFromFields: function(date, time) {
+        if(!date || !time) {
             return undefined
         }
-
-        let date = moment.tz(rawDate, 'D.M.YYYY', 'Europe/Helsinki')
-
-        let time = '00:00'
-
-        if(rawTime) {
-            time = moment.tz(rawTime, 'H.mm', 'Europe/Helsinki').format('HH:mm')
+        let newDate;
+        let newTime;
+        if(date) {
+            newDate = moment.tz(date, 'Europe/Helsinki').format('YYYY-MM-DD');
         }
-
-        let datetime = moment.tz(`${rawDate} ${time}`, 'D.M.YYYY HH:mm', 'Europe/Helsinki').utc().toISOString()
-
-        return datetime;
+        if(time) {
+            newTime = moment.tz(time, 'H.mm', 'Europe/Helsinki').format('HH:mm')
+        }
+        let newDateTime = newDate+'T'+newTime;
+        const dateTime = moment.tz(newDateTime, 'Europe/Helsinki').utc().toISOString()
+        return dateTime;
     },
 
     // Parses date time object from datetime string
@@ -153,8 +138,8 @@ const HelDateTimeField = React.createClass({
             <div className="multi-field">
                 <div className="indented">
                     <label style={{position: 'relative'}}><FormattedMessage id={`${this.props.label}`} /> <ValidationPopover validationErrors={this.props.validationErrors} /></label>
-                    <HelDatePicker ref="date" defaultValue={this.state.value.date} validations={['isDate']} placeholder="pp.kk.vvvv" onChange={this.handleChange} onBlur={this.onBlur} label={<FormattedMessage id="date" />} />
-                    <HelTimePicker ref="time" defaultValue={this.state.value.time} validations={['isTime']} placeholder="hh.mm" onChange={this.handleChange} onBlur={this.onBlur} label={<FormattedMessage id="time" />} />
+                    <HelDatePicker ref="date" name="date" defaultValue={this.state.value.date} validations={['isDate']} placeholder="pp.kk.vvvv" onChange={this.handleChange} onBlur={this.onDateBlur} label={<FormattedMessage id="date" />} />
+                    <HelTimePicker ref="time" name="time" defaultValue={this.state.value.time} validations={['isTime']} placeholder="hh.mm" onChange={this.handleChange} onBlur={this.onTimeBlur} label={<FormattedMessage id="time" />} />
 
                 </div>
             </div>

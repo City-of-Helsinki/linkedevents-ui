@@ -21,31 +21,25 @@ let HelTimePicker = React.createClass({
     },
 
     propTypes: {
-        name: React.PropTypes.string.isRequired
+        name: React.PropTypes.string.isRequired,
+        onBlur: React.PropTypes.func.isRequired
     },
 
-    handleChange: function (event, value) {
-        let time = moment.tz(value, 'Europe/Helsinki').utc().format();
-
-        let obj = {}
-        obj[this.props.name] = time;
-
-        this.props.dispatch(setData(obj))
-
-        if(typeof this.props.onChange === 'function') {
-            this.props.onChange(event, value)
-        }
+    handleChange: function(event, time) {
+        this.setState({
+            value: {
+                time: time
+            }
+        });
     },
 
-    handleBlur: function (event, value) {
-        if(typeof this.props.onBlur === 'function') {
-            this.props.onBlur(event, value)
-        }
+    handleBlur: function () {
+        this.props.onBlur(this.state.value.time)
     },
 
     render: function () {
         return (
-            <HelTextField validations={['isTime']} placeholder='hh:mm' name={this.props.name} onChange={this.handleChange} />
+            <HelTextField validations={['isTime']} placeholder='hh:mm' name={this.props.name} onChange={this.handleChange} onBlur={this.handleBlur} />
         )
     }
 });
