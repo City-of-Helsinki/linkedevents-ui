@@ -63,9 +63,10 @@ let HelTextField = React.createClass({
     },
 
     handleBlur: function (event) {
-
         // Apply changes to store if no validation errors, or the props 'forceApplyToStore' is defined
-        if(this.props.name && this.getValidationErrors().length === 0 || this.props.name && this.props.forceApplyToStore) {
+        if( this.props.name && this.getValidationErrors().length === 0 &&
+            !this.props.name.includes('time') ||
+            this.props.name && this.props.forceApplyToStore) {
             let obj = {}
             obj[this.props.name] = this.refs.text.getValue()
             this.context.dispatch(setData(obj))

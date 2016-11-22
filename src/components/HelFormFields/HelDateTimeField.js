@@ -9,6 +9,7 @@ import {setData} from 'src/actions/editor.js'
 
 import { FormattedMessage } from 'react-intl'
 
+import validationRules from 'src/validation/validationRules.js';
 import ValidationPopover from 'src/components/ValidationPopover'
 
 import moment from 'moment'
@@ -22,18 +23,14 @@ const HelDateTimeField = React.createClass({
             defaultValue = moment(defaultValue).tz('Europe/Helsinki');
 
             return {
-                value: {
-                    date: defaultValue.format('D.M.YYYY'),
-                    time: defaultValue.format('H.mm')
-                }
+                date: defaultValue.format('D.M.YYYY'),
+                time: defaultValue.format('H.mm')
             }
         }
 
         return {
-            value: {
-                date: null,
-                time: null
-            }
+            date: null,
+            time: null
         }
     },
 
@@ -46,56 +43,45 @@ const HelDateTimeField = React.createClass({
         dispatch: React.PropTypes.func
     },
 
-    onDateBlur: function(date) {
+    onChange: function(type, value) {
         this.setState({
-            value: {
-                date: date
-            }
-        });
+            [type]: value
+        })
     },
 
-    onTimeBlur: function(time) {
-        this.setState({value: {
-            time: time
-        }})
-        const date = this.state.value.date;
-        // Returns empty list if there are no validation errors
-        // let errors = [
-        //     this.refs.time.getValidationErrors(),
-        //     this.state.date.getValidationErrors()
-        // ]
-        //
-        // // Filter out empty lists
-        // let actualErrors = errors.filter(list => (list.length > 0))
+    onBlur: function(type, value) {
 
-        // If no validation errors, format time
-        // if(actualErrors.length === 0) {
-        let datetime = this.getDateTimeFromFields(date, time)
+        if(this.state.date && this.state.time) {
+            const date = moment.tz(this.state.date, 'Europe/Helsinki').format('YYYY-MM-DD')
+            const time = this.state.time
+            let errors = [
+                this.getValidationErrors('isTime', time),
+                this.getValidationErrors('isDate', date)
+            ]
 
-        let obj = {}
-        obj[this.props.name] = datetime
-
-        this.context.dispatch(setData(obj))
-        // }
-
-        // if(typeof this.props.onBlur === 'function') {
-        //     this.props.onBlur(event, value)
-        // }
+            // Filter out empty lists
+            let actualErrors = errors.filter(list => (list.length > 0))
+            // If no validation errors, format datetime
+            if(actualErrors.length === 0) {
+                let datetime = this.getDateTimeFromFields(date, time)
+                if(datetime) {
+                    let obj = {}
+                    obj[this.props.name] = datetime
+                    this.context.dispatch(setData(obj))
+                }
+            }
+        }
     },
 
     getDateTimeFromFields: function(date, time) {
         if(!date || !time) {
             return undefined
         }
-        let newDate;
         let newTime;
-        if(date) {
-            newDate = moment.tz(date, 'Europe/Helsinki').format('YYYY-MM-DD');
-        }
         if(time) {
             newTime = moment.tz(time, 'H.mm', 'Europe/Helsinki').format('HH:mm')
         }
-        let newDateTime = newDate+'T'+newTime;
+        let newDateTime = date+'T'+newTime;
         const dateTime = moment.tz(newDateTime, 'Europe/Helsinki').utc().toISOString()
         return dateTime;
     },
@@ -119,6 +105,24 @@ const HelDateTimeField = React.createClass({
         }
     },
 
+    getValidationErrors: function(type, value) {
+        if(value && type) {
+            let validations;
+            if(typeof validationRules[type] === 'function') {
+                validations =  [{
+                    rule: type,
+                    passed: validationRules[type](null, value)
+                }]
+            }
+            validations = validations.filter(i => (i.passed === false))
+            if(validations.length) {
+                return validations;
+            }
+        }
+
+        return []
+    },
+
     componentWillReceiveProps: function(nextProps) {
         if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
             if (moment(nextProps.defaultValue).isValid()) {
@@ -138,8 +142,8 @@ const HelDateTimeField = React.createClass({
             <div className="multi-field">
                 <div className="indented">
                     <label style={{position: 'relative'}}><FormattedMessage id={`${this.props.label}`} /> <ValidationPopover validationErrors={this.props.validationErrors} /></label>
-                    <HelDatePicker ref="date" name="date" defaultValue={this.state.value.date} validations={['isDate']} placeholder="pp.kk.vvvv" onChange={this.handleChange} onBlur={this.onDateBlur} label={<FormattedMessage id="date" />} />
-                    <HelTimePicker ref="time" name="time" defaultValue={this.state.value.time} validations={['isTime']} placeholder="hh.mm" onChange={this.handleChange} onBlur={this.onTimeBlur} label={<FormattedMessage id="time" />} />
+                    <HelDatePicker ref="date" name={this.props.name} defaultValue={this.state.date} validations={['isDate']} placeholder="pp.kk.vvvv" onChange={this.onChange} onBlur={this.onBlur} label={<FormattedMessage id="date" />} />
+                    <HelTimePicker ref="time" name={this.props.name} defaultValue={this.state.time} validations={['isTime']} placeholder="hh.mm" onChange={this.onChange} onBlur={this.onBlur} label={<FormattedMessage id="time" />} />
 
                 </div>
             </div>

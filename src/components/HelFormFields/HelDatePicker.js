@@ -11,14 +11,7 @@ import moment from 'moment'
 
 let HelDatePicker = React.createClass({
     getInitialState: function() {
-        let defaultValue = this.props.editor.values[this.props.name] || null
-
-        if(defaultValue) {
-            defaultValue = moment(defaultValue).tz('Europe/Helsinki').format('D.M.YYYY');
-        }
-
         return {
-            value: defaultValue || null,
             date: moment()
         }
     },
@@ -28,14 +21,19 @@ let HelDatePicker = React.createClass({
         onBlur: React.PropTypes.func.isRequired
     },
 
+    componentDidMount: function () {
+        this.props.onChange('date', this.state.date._d)
+    },
+
     handleChange: function (date) {
         this.setState({
           date: date
-        });
+        })
+        this.props.onChange('date', date._d)
     },
 
     handleBlur: function () {
-        this.props.onBlur(this.state.date._d)
+        this.props.onBlur()
     },
 
     render: function () {
@@ -43,7 +41,6 @@ let HelDatePicker = React.createClass({
           <div className='hel-text-field'>
             <DatePicker
                 placeholderText='pp.kk.vvvv'
-                validations={['isDate']}
                 selected={this.state.date}
                 name={this.props.name}
                 onChange={this.handleChange}
