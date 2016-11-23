@@ -49,7 +49,7 @@
     "or": "tai",
     "organization-images": "Organisaation kuvat",
     "use-existing-image": "Käytä järjestelmässä olemassaolevaa kuvaa",
-    "no-image": "EI KUVAA",
+    "no-image": "Tapahtumalla ei ole kuvaa",
 
     "event-datetime-fields-header": "Tapahtuman ajankohta",
     "event-starting-datetime": "Tapahtuma alkaa",

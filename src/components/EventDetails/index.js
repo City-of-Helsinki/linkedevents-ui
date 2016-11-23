@@ -98,6 +98,24 @@ let TextValue = (props) => {
     }
 }
 
+let ImageValue = (props) => {
+    if(props.value !== undefined && props.value instanceof Object) {
+        let bgStyle = {backgroundImage: 'url(' + props.value.url + ')'}
+
+        return (
+        <div className="row">
+            <div className="thumbnail" style={bgStyle} />
+        </div>
+        )
+    } else {
+        return (
+            <FormHeader>
+                    <FormattedMessage id="no-image"/>
+            </FormHeader>
+        )
+    }
+}
+
 let OptionGroup = (props) => {
 
     let values = props.values || []
@@ -188,6 +206,7 @@ class EventDetails extends React.Component {
 
         return (
             <div>
+                <ImageValue labelKey="event-image" value={props.values["image"]}/>
                 <FormHeader>
                     { props.intl.formatMessage({id: "event-description-fields-header"}) }
                 </FormHeader>
