@@ -12,11 +12,12 @@ import moment from 'moment'
 let HelDatePicker = React.createClass({
     getInitialState: function() {
         return {
-            date: moment()
+            date: this.props.defaultValue ? moment(this.props.defaultValue) : moment()
         }
     },
 
     propTypes: {
+        defaultValue: React.PropTypes.object,
         name: React.PropTypes.string.isRequired,
         onBlur: React.PropTypes.func.isRequired
     },

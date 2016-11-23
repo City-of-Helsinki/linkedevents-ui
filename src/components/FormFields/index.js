@@ -70,16 +70,14 @@ class FormFields extends React.Component {
         intl: React.PropTypes.object,
         dispatch: React.PropTypes.func,
         showNewEvents: React.PropTypes.bool,
-        showRepetitiveEvent: React.PropTypes.bool,
-        events: React.PropTypes.object
+        showRepetitiveEvent: React.PropTypes.bool
     };
 
     constructor(props) {
       super(props);
       this.state = {
-          showNewEvents: false,
-          showRepetitiveEvent: false,
-          events: {}
+          showNewEvents: true,
+          showRepetitiveEvent: false
       };
     }
 
@@ -93,10 +91,10 @@ class FormFields extends React.Component {
 
     addNewEventDialog() {
         let obj = {}
-        const key = Object.keys(this.props.editor.values.sub_events).length+1;
+        const key = Object.keys(this.props.editor.values.sub_events).length+1
         obj[key] = {
-            start_time: moment.tz(moment(), 'Europe/Helsinki').utc().toISOString(),
-            end_time: moment.tz(moment().add(1, 'hours'), 'Europe/Helsinki').utc().toISOString()
+            start_time: this.props.editor.values.start_time || moment.tz(moment(), 'Europe/Helsinki').utc().toISOString(),
+            end_time: this.props.editor.values.end_time || moment.tz(moment(), 'Europe/Helsinki').utc().toISOString()
         }
         this.context.dispatch(addEventData(obj, key))
     }
@@ -109,6 +107,19 @@ class FormFields extends React.Component {
         this.setState({showNewEvents: !this.state.showNewEvents})
     }
     generateNewEventFields(events) {
+        const newEvents = []
+        for (const key in events) {
+            if (events.hasOwnProperty(key)) {
+                newEvents.push(
+                    <NewEvent
+                        key={key}
+                        eventKey={key}
+                        event={events[key]}
+                    />
+                )
+            }
+        }
+        return newEvents
     }
     render() {
         let helMainOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helfi:topics')
@@ -167,6 +178,9 @@ class FormFields extends React.Component {
                                 <HelDateTimeField validationErrors={validationErrors['end_time']} defaultValue={values['end_time']} ref="end_time" name="end_time" label="event-ending-datetime" />
                             </div>
                         </div>
+                        <div className={"new-events " + (this.state.showNewEvents ? 'show' : 'hidden')}>
+                            { newEvents }
+                        </div>
                         <RaisedButton
                             style={buttonStyle}
                             primary={true}
@@ -177,9 +191,6 @@ class FormFields extends React.Component {
                             primary={!this.state.showRepetitiveEvent}
                             onClick={ () => this.showRepetitiveEventDialog() }
                             label={<span><i className="material-icons">autorenew</i> <FormattedMessage id="event-add-recurring" /></span>} />
-                        <div className={"new-events " + (this.state.showNewEvents ? 'show' : 'hidden')}>
-                            { newEvents }
-                        </div>
                         <div className={"repetitive-event " + (this.state.showRepetitiveEvent ? 'show' : 'hidden')}>
                             <RepetitiveEvent/>
                         </div>

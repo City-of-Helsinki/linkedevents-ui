@@ -5,7 +5,7 @@ import HelTimePicker from './HelTimePicker.js'
 
 
 import {connect} from 'react-redux'
-import {setData} from 'src/actions/editor.js'
+import {setData, setEventData} from 'src/actions/editor.js'
 
 import { FormattedMessage } from 'react-intl'
 
@@ -18,13 +18,11 @@ const HelDateTimeField = React.createClass({
 
     getInitialState: function() {
         let defaultValue = this.props.defaultValue || null
-
         if(moment(defaultValue).isValid()) {
             defaultValue = moment(defaultValue).tz('Europe/Helsinki');
-
             return {
-                date: defaultValue.format('D.M.YYYY'),
-                time: defaultValue.format('H.mm')
+                date: defaultValue,
+                time: defaultValue.format('HH.mm')
             }
         }
 
@@ -35,7 +33,8 @@ const HelDateTimeField = React.createClass({
     },
 
     propTypes: {
-        name: React.PropTypes.string.isRequired
+        name: React.PropTypes.string.isRequired,
+        eventKey: React.PropTypes.string
     },
 
     contextTypes: {
@@ -67,7 +66,11 @@ const HelDateTimeField = React.createClass({
                 if(datetime) {
                     let obj = {}
                     obj[this.props.name] = datetime
-                    this.context.dispatch(setData(obj))
+                    if(this.props.eventKey){
+                        this.context.dispatch(setEventData(obj, this.props.eventKey))
+                    } else {
+                        this.context.dispatch(setData(obj))
+                    }
                 }
             }
         }
@@ -92,9 +95,8 @@ const HelDateTimeField = React.createClass({
 
         if(moment(newValue).isValid()) {
             newValue = moment(newValue).tz('Europe/Helsinki');
-
             return {
-                date: newValue.format('D.M.YYYY'),
+                date: newValue,
                 time: newValue.format('H.mm')
             }
         } else {
