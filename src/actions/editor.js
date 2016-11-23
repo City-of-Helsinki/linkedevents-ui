@@ -19,6 +19,15 @@ export function setData(formValues) {
     }
 }
 
+export function addEventData(formValues, key) {
+    return {
+       type: constants.EDITOR_SETDATA,
+       key,
+       values: formValues,
+       event: true
+    }
+}
+
 export function setLanguages(languages) {
     return {
         type: constants.EDITOR_SETLANGUAGES,

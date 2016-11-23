@@ -23,6 +23,7 @@
     "express": "^4.13.3",
     "formsy-react": "^0.17.0",
     "history": "^1.13.1",
+    "immutability-helper": "^2.0.0",
     "intl": "^1.0.1",
     "isomorphic-fetch": "^2.2.0",
     "jquery": "^2.1.4",

@@ -13,15 +13,18 @@ import {
     HelSelect,
     HelOffersField,
     HelDatePicker,
-
+    NewEvent
 } from 'src/components/HelFormFields'
-import RepetetiveEvent from 'src/components/RepetetiveEvent'
+import RepetitiveEvent from 'src/components/RepetitiveEvent'
 
 import { RaisedButton, FlatButton } from 'material-ui'
 
-
-
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
+import {connect} from 'react-redux'
+
+import {addEventData} from 'src/actions/editor.js'
+
+import moment from 'moment'
 
 import API from 'src/api.js'
 
@@ -65,6 +68,8 @@ class FormFields extends React.Component {
 
     static contextTypes = {
         intl: React.PropTypes.object,
+        dispatch: React.PropTypes.func,
+        showNewEvents: React.PropTypes.bool,
         showRepetitiveEvent: React.PropTypes.bool,
         events: React.PropTypes.object
     };
@@ -72,6 +77,7 @@ class FormFields extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
+          showNewEvents: false,
           showRepetitiveEvent: false,
           events: {}
       };
@@ -85,14 +91,25 @@ class FormFields extends React.Component {
         return true
     }
 
-    addEventOccasion() {
-
+    addNewEventDialog() {
+        let obj = {}
+        const key = Object.keys(this.props.editor.values.sub_events).length+1;
+        obj[key] = {
+            start_time: moment.tz(moment(), 'Europe/Helsinki').utc().toISOString(),
+            end_time: moment.tz(moment().add(1, 'hours'), 'Europe/Helsinki').utc().toISOString()
+        }
+        this.context.dispatch(addEventData(obj, key))
     }
 
-    showRepetitiveEventDialog(event) {
+    showRepetitiveEventDialog() {
         this.setState({showRepetitiveEvent: !this.state.showRepetitiveEvent})
     }
 
+    showNewEventDialog() {
+        this.setState({showNewEvents: !this.state.showNewEvents})
+    }
+    generateNewEventFields(events) {
+    }
     render() {
         let helMainOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helfi:topics')
         let helTargetOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helsinki:audiences')
@@ -104,7 +121,7 @@ class FormFields extends React.Component {
             display: 'block'
         }
         const { values, validationErrors, contentLanguages } = this.props.editor
-
+        const newEvents = this.generateNewEventFields(this.props.editor.values.sub_events);
         return (
             <div>
                 <div className="col-sm-12 highlighted-block">
@@ -153,14 +170,18 @@ class FormFields extends React.Component {
                         <RaisedButton
                             style={buttonStyle}
                             primary={true}
+                            onClick={ () => this.addNewEventDialog() }
                             label={<span><i className="material-icons">add</i> <FormattedMessage id="event-add-new-occasion" /></span>} />
                         <RaisedButton
                             style={buttonStyle}
                             primary={!this.state.showRepetitiveEvent}
-                            onClick={ (e) => this.showRepetitiveEventDialog(e) }
+                            onClick={ () => this.showRepetitiveEventDialog() }
                             label={<span><i className="material-icons">autorenew</i> <FormattedMessage id="event-add-recurring" /></span>} />
+                        <div className={"new-events " + (this.state.showNewEvents ? 'show' : 'hidden')}>
+                            { newEvents }
+                        </div>
                         <div className={"repetitive-event " + (this.state.showRepetitiveEvent ? 'show' : 'hidden')}>
-                            <RepetetiveEvent/>
+                            <RepetitiveEvent/>
                         </div>
                     </div>
                     <SideField>

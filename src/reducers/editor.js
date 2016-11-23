@@ -1,12 +1,15 @@
 import constants from '../constants'
 import { get as getIfExists } from 'lodash'
+import updater from 'immutability-helper';
 
 import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
 import getContentLanguages from 'src/utils/language'
 
 import {doValidations} from 'src/validation/validator.js'
 
-let editorValues = {}
+let editorValues = {
+    sub_events: {}
+}
 let languages = {}
 let keywordSets = {}
 
@@ -35,7 +38,15 @@ function clearEventDataFromLocalStorage() {
 
 function update(state = initialState, action) {
     if(action.type === constants.EDITOR_SETDATA) {
-
+        if (action.event) {
+            return updater(state, {
+                values: {
+                    sub_events: {
+                        [action.key]: { $set: action.values[action.key] }
+                    }
+                }
+            });
+        }
         // Merge new values to existing values
         let newValues = Object.assign({}, state.values, action.values)
 
