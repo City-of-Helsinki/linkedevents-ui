@@ -100,11 +100,9 @@ let TextValue = (props) => {
 
 let ImageValue = (props) => {
     if(props.value !== undefined && props.value instanceof Object) {
-        let bgStyle = {backgroundImage: 'url(' + props.value.url + ')'}
-
         return (
         <div className="row">
-            <div className="thumbnail" style={bgStyle} />
+            <legend className="col-xs-12"><img src={props.value.url}/></legend>
         </div>
         )
     } else {
@@ -169,7 +167,7 @@ let DateTime = (props) => {
 
 let FormHeader = (props) => (
     <div className="row">
-        <legend className="col-sm-12">{ props.children }</legend>
+        <legend className="col-xs-12">{ props.children }</legend>
     </div>
 )
 
