@@ -1,5 +1,5 @@
 import constants from '../constants'
-import { get as getIfExists } from 'lodash'
+import { omit, get as getIfExists } from 'lodash'
 import updater from 'immutability-helper';
 
 import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
@@ -64,7 +64,17 @@ function update(state = initialState, action) {
             validationErrors: validationErrors
         })
     }
-
+    if (action.type === constants.EDITOR_DELETE_SUB_EVENT) {
+        const oldSubEvents = Object.assign({}, state.values.sub_events);
+        const newSubEvents = _.omit(oldSubEvents, action.event);
+        return updater(state, {
+            values: {
+                sub_events: {
+                    $set: newSubEvents
+                }
+            }
+        });
+    }
     if (action.type === constants.EDITOR_SETLANGUAGES) {
         return Object.assign({}, state, {
             contentLanguages: action.languages

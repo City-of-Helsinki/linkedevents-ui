@@ -22,7 +22,7 @@ import { RaisedButton, FlatButton } from 'material-ui'
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
 import {connect} from 'react-redux'
 
-import {addEventData} from 'src/actions/editor.js'
+import {setEventData} from 'src/actions/editor.js'
 
 import moment from 'moment'
 
@@ -96,7 +96,7 @@ class FormFields extends React.Component {
             start_time: this.props.editor.values.start_time || moment.tz(moment(), 'Europe/Helsinki').utc().toISOString(),
             end_time: this.props.editor.values.end_time || moment.tz(moment(), 'Europe/Helsinki').utc().toISOString()
         }
-        this.context.dispatch(addEventData(obj, key))
+        this.context.dispatch(setEventData(obj, key))
     }
 
     showRepetitiveEventDialog() {

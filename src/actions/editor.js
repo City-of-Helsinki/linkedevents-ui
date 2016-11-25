@@ -12,22 +12,27 @@ import { doValidations } from 'src/validation/validator.js'
  * Set editor form data
  * @param {obj} formValues      new form values
  */
-export function setData(formValues) {
+export function setData(values) {
     return {
         type: constants.EDITOR_SETDATA,
-        values: formValues
+        values
     }
 }
 
-export function addEventData(formValues, key) {
+export function deleteSubEvent(event) {
+    return {
+        type: constants.EDITOR_DELETE_SUB_EVENT,
+        event
+    }
+}
+export function setEventData(values, key) {
     return {
        type: constants.EDITOR_SETDATA,
        key,
-       values: formValues,
+       values,
        event: true
     }
 }
-
 export function setLanguages(languages) {
     return {
         type: constants.EDITOR_SETLANGUAGES,

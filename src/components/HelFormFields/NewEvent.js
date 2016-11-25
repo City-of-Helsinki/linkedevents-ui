@@ -1,8 +1,27 @@
 import React from 'react'
 import HelDateTimeField from 'src/components/HelFormFields/HelDateTimeField.js'
+import './NewEvent.scss'
+import { RaisedButton } from 'material-ui'
+import {connect} from 'react-redux'
+import { deleteSubEvent } from 'src/actions/editor.js'
 
-const NewEvent = React.createClass ({
-    render: function () {
+class NewEvent extends React.Component {
+    static contextTypes = {
+        dispatch: React.PropTypes.func
+    };
+
+    deleteSubEvent() {
+        this.context.dispatch(deleteSubEvent(this.props.eventKey))
+    }
+    render() {
+        const buttonStyles = {
+            width: "42px",
+            minWidth: "42px",
+            height: "36px",
+            position: "absolute",
+            left: "-30px",
+            top: "25px"
+        }
         return (
             <div className="new-events">
                 <div className="multi-field">
@@ -25,12 +44,17 @@ const NewEvent = React.createClass ({
                                 eventKey={this.props.eventKey}
                             />
                         </div>
+                        <RaisedButton
+                            onClick={() => this.deleteSubEvent()}
+                            style={buttonStyles}
+                            label={<span className="center-delete"><i className="material-icons">delete</i></span>}
+                        />
                     </div>
                 </div>
             </div>
         )
     }
-});
+};
 
 NewEvent.propTypes = {
     event: React.PropTypes.object.isRequired,
