@@ -5,7 +5,7 @@ import HelTimePicker from './HelTimePicker.js'
 
 
 import {connect} from 'react-redux'
-import {setData, setEventData} from 'src/actions/editor.js'
+import {setData, updateSubEvent} from 'src/actions/editor.js'
 
 import { FormattedMessage } from 'react-intl'
 
@@ -67,7 +67,7 @@ const HelDateTimeField = React.createClass({
                     let obj = {}
                     obj[this.props.name] = datetime
                     if(this.props.eventKey){
-                        this.context.dispatch(setEventData(obj, this.props.eventKey))
+                        this.context.dispatch(updateSubEvent(datetime, this.props.name, this.props.eventKey))
                     } else {
                         this.context.dispatch(setData(obj))
                     }

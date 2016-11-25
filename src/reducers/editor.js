@@ -75,6 +75,17 @@ function update(state = initialState, action) {
             }
         });
     }
+    if (action.type === constants.EDITOR_UPDATE_SUB_EVENT) {
+        return updater(state, {
+            values: {
+                sub_events: {
+                    [action.eventKey]: {
+                        [action.property]: { $set: action.value }
+                    }
+                }
+            }
+        })
+    }
     if (action.type === constants.EDITOR_SETLANGUAGES) {
         return Object.assign({}, state, {
             contentLanguages: action.languages

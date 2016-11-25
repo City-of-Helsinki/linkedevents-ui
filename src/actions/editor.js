@@ -25,6 +25,14 @@ export function deleteSubEvent(event) {
         event
     }
 }
+export function updateSubEvent(value, property, eventKey) {
+    return {
+        type: constants.EDITOR_UPDATE_SUB_EVENT,
+        value,
+        property,
+        eventKey
+    }
+}
 export function setEventData(values, key) {
     return {
        type: constants.EDITOR_SETDATA,
