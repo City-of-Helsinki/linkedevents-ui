@@ -9,6 +9,7 @@ import DatePicker from 'react-datepicker/dist/react-datepicker.js'
 
 import 'react-datepicker/dist/react-datepicker.css'
 import 'src/components/HelFormFields/HelDatePicker.scss'
+import './RepetitiveEvent.scss'
 
 const RepetitiveEvent = React.createClass ({
     render: function () {
@@ -24,10 +25,18 @@ const RepetitiveEvent = React.createClass ({
                             <HelDateTimeField ref="end_time" name="end_time" label="event-ending-datetime" />
                         </div>
                     </div>
-                    <div className="multi-field repeat-frequency">Toistetaan <HelTextField/> viikon välein</div>
-                    <HelCheckbox/><HelCheckbox/>
-                    Toistuminen alkaa <HelDateTimeField ref="start_time" name="start_time" label="event-starting-datetime"/>
-                    Toistuminen päättyy <HelDateTimeField ref="end_time" name="end_time" label="event-ending-datetime" />
+                    <div className="multi-field repeat-frequency">Toistetaan <div className="" style={{maxWidth: "40px", display: 'inline-block'}}><HelTextField/></div> viikon välein</div>
+                    <div className="col-xs-6"><div className="reoccurring-day"><HelCheckbox/></div> maanantai</div>
+                    <div className="col-xs-6"><div className="reoccurring-day"><HelCheckbox/></div> tiistai</div>
+                    <div className="col-xs-6"><div className="reoccurring-day"><HelCheckbox/></div> keskiviikko</div>
+                    <div className="col-xs-6"><div className="reoccurring-day"><HelCheckbox/></div> torstai</div>
+                    <div className="col-xs-6"><div className="reoccurring-day"><HelCheckbox/></div> perjantai</div>
+                    <div className="col-xs-6"><div className="reoccurring-day"><HelCheckbox/></div> lauantai</div>
+                    <div className="col-xs-6"><div className="reoccurring-day"><HelCheckbox/></div> sunnuntai</div>
+                    <div className="col-xs-12">
+                        Toistuminen alkaa <HelDateTimeField ref="start_time" name="start_time" label="event-starting-datetime"/>
+                        Toistuminen päättyy <HelDateTimeField ref="end_time" name="end_time" label="event-ending-datetime" />
+                    </div>
                 </div>
             </div>
         )

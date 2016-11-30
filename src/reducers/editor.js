@@ -37,7 +37,7 @@ function clearEventDataFromLocalStorage() {
 }
 
 function update(state = initialState, action) {
-    if(action.type === constants.EDITOR_SETDATA) {
+    if (action.type === constants.EDITOR_SETDATA) {
         if (action.event) {
             return updater(state, {
                 values: {
@@ -64,6 +64,7 @@ function update(state = initialState, action) {
             validationErrors: validationErrors
         })
     }
+
     if (action.type === constants.EDITOR_DELETE_SUB_EVENT) {
         const oldSubEvents = Object.assign({}, state.values.sub_events);
         const newSubEvents = _.omit(oldSubEvents, action.event);
@@ -75,6 +76,7 @@ function update(state = initialState, action) {
             }
         });
     }
+
     if (action.type === constants.EDITOR_UPDATE_SUB_EVENT) {
         return updater(state, {
             values: {
@@ -86,19 +88,20 @@ function update(state = initialState, action) {
             }
         })
     }
+
     if (action.type === constants.EDITOR_SETLANGUAGES) {
         return Object.assign({}, state, {
             contentLanguages: action.languages
         });
     }
 
-    if(action.type === constants.VALIDATE_FOR) {
+    if (action.type === constants.VALIDATE_FOR) {
         return Object.assign({}, state, {
             validateFor: action.validateFor
         })
     }
 
-    if(action.type === constants.EDITOR_REPLACEDATA) {
+    if (action.type === constants.EDITOR_REPLACEDATA) {
 
         // Replace new values to existing values
         let newValues = Object.assign({}, action.values)
@@ -111,44 +114,44 @@ function update(state = initialState, action) {
         })
     }
 
-    if(action.type === constants.EDITOR_CLEARDATA) {
+    if (action.type === constants.EDITOR_CLEARDATA) {
         clearEventDataFromLocalStorage()
 
         return Object.assign({}, state, {
-            values: {},
+            values: editorValues,
             validationErrors: {},
             validateFor: null,
             validationStatus: constants.VALIDATION_STATUS.CLEARED
         })
     }
 
-    if(action.type === constants.EDITOR_SENDDATA_SUCCESS) {
+    if (action.type === constants.EDITOR_SENDDATA_SUCCESS) {
         clearEventDataFromLocalStorage()
 
         return Object.assign({}, state, {
             createdEvent: action.data.event,
             createdAt: action.data.createdAt,
-            values: {}
+            values: editorValues
         })
     }
 
-    if(action.type === constants.EDITOR_SENDDATA_ERROR) {
+    if (action.type === constants.EDITOR_SENDDATA_ERROR) {
         return state;
     }
 
-    if(action.type === constants.EDITOR_RECEIVE_KEYWORDSETS) {
+    if (action.type === constants.EDITOR_RECEIVE_KEYWORDSETS) {
         return Object.assign({}, state, {
             keywordSets: action.keywordSets
         })
     }
 
-    if(action.type === constants.EDITOR_RECEIVE_LANGUAGES) {
+    if (action.type === constants.EDITOR_RECEIVE_LANGUAGES) {
         return Object.assign({}, state, {
             languages: action.languages
         })
     }
 
-    if(action.type === constants.RECEIVE_EVENT_FOR_EDITING) {
+    if (action.type === constants.RECEIVE_EVENT_FOR_EDITING) {
         let newValues = Object.assign({}, mapAPIDataToUIFormat(action.event))
 
         return Object.assign({}, state, {
@@ -166,7 +169,7 @@ function update(state = initialState, action) {
         })
     }
 
-    if(action.type === constants.SET_VALIDATION_ERRORS) {
+    if (action.type === constants.SET_VALIDATION_ERRORS) {
         return Object.assign({}, state, {
             validationErrors: action.errors,
             validationStatus: constants.VALIDATION_STATUS.RESOLVE

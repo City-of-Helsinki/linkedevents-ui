@@ -110,8 +110,14 @@ export function validateFor(publicationStatus) {
  * @param  {[type]} publicationStatus       [description]
  * @return {[type]}                         [description]
  */
+
 export function sendData(formValues, contentLanguages, user, updateExisting = false, publicationStatus) {
     return (dispatch) => {
+        const recurring = _.keys(formValues.sub_events).length > 0;
+
+        if (recurring) {
+            Object.assign({}, formValues, { super_event_type: "recurring"})
+        }
 
         publicationStatus = publicationStatus || formValues.publication_status
 
@@ -216,6 +222,17 @@ export function sendDataComplete(json, action) {
                 createdAt: Date.now(),
                 data: json
             })
+        }
+    }
+}
+
+export function sendRecurringData(formValues, contentLanguages, user, updateExisting = false, publicationStatus) {
+    return (dispatch) => {
+        const subEvents = formValues.sub_events
+        for (const key in formValues.sub_events) {
+            if (subEvents.hasOwnProperty(key)) {
+                dispatch(sendData(formValues, contentLanguages, user, updateExisting = false, publicationStatus))
+            }
         }
     }
 }
