@@ -113,10 +113,9 @@ export function validateFor(publicationStatus) {
 
 export function sendData(formValues, contentLanguages, user, updateExisting = false, publicationStatus) {
     return (dispatch) => {
-        const recurring = _.keys(formValues.sub_events).length > 0;
-
-        if (recurring) {
-            Object.assign({}, formValues, { super_event_type: "recurring"})
+        let recurring = false;
+        if(formValues.sub_events) {
+            recurring = _.keys(formValues.sub_events).length > 0
         }
 
         publicationStatus = publicationStatus || formValues.publication_status
@@ -149,6 +148,11 @@ export function sendData(formValues, contentLanguages, user, updateExisting = fa
         }
 
         let data = Object.assign({}, formValues, { publication_status: publicationStatus })
+        data = _.omit(data, ['sub_events']);
+
+        if (recurring) {
+            data = Object.assign({}, data, { super_event_type: "recurring"})
+        }
 
         return fetch(url, {
             method: updateExisting ? 'PUT' : 'POST',
@@ -175,6 +179,9 @@ export function sendData(formValues, contentLanguages, user, updateExisting = fa
                 }
 
                 if(response.status === 200 || response.status === 201) {
+                    if (recurring) {
+                        dispatch(sendRecurringData(formValues, contentLanguages, user, updateExisting, publicationStatus, json.id))
+                    }
                     dispatch(sendDataComplete(json, actionName))
                 }
                 // Validation errors
@@ -226,12 +233,14 @@ export function sendDataComplete(json, action) {
     }
 }
 
-export function sendRecurringData(formValues, contentLanguages, user, updateExisting = false, publicationStatus) {
+export function sendRecurringData(formValues, contentLanguages, user, updateExisting = false, publicationStatus, superEventId) {
     return (dispatch) => {
-        const subEvents = formValues.sub_events
-        for (const key in formValues.sub_events) {
+        const subEvents = Object.assign({}, formValues.sub_events)
+        const baseEvent = Object.assign({}, formValues, { sub_events: {}, super_event: superEventId})
+        for (const key in subEvents) {
             if (subEvents.hasOwnProperty(key)) {
-                dispatch(sendData(formValues, contentLanguages, user, updateExisting = false, publicationStatus))
+                const newValues = Object.assign({}, baseEvent, {start_time: subEvents[key].start_time, end_time: subEvents[key].end_time})
+                dispatch(sendData(newValues, contentLanguages, user, updateExisting = false, publicationStatus))
             }
         }
     }
