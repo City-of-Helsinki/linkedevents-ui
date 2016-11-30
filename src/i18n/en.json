@@ -42,6 +42,18 @@
     "event-add-recurring": "Recurring event",
     "event-ending-date": "Ending date",
     "event-ending-time": "Ending time",
+    "monday": "Monday",
+    "monday": "Tuesday",
+    "monday": "Wednesday",
+    "monday": "Thursday",
+    "monday": "Friday",
+    "monday": "Saturday",
+    "monday": "Sunday",
+
+    "repetition-begin": "Repetition begins",
+    "repetition-end": "Repetition ends",
+    "repeated": "Repeated in",
+    "repetition-interval": "week intervals.",
 
     "event-location-fields-header": "Location",
     "event-location": "Location",

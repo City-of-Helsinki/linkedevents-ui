@@ -58,6 +58,19 @@
     "event-add-recurring": "Toistuva tapahtuma",
     "date": "Päivämäärä",
     "time": "Aika",
+    "monday": "maanantai",
+    "tuesday": "tiistai",
+    "wednesday": "keskiviikko",
+    "thursday": "torstai",
+    "friday": "perjantai",
+    "saturday": "lauantai",
+    "sunday": "sunnuntai",
+
+    "repetition-begin": "Toistuminen alkaa",
+    "repetition-end": "Toistuminen päättyy",
+    "repeated": "Toistetaan",
+    "repetition-interval": "viikon välein.",
+
 
     "event-location-fields-header": "Tapahtumapaikka",
     "event-location": "Paikka",
