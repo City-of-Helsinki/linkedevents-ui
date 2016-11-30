@@ -9,9 +9,9 @@ import DatePicker from 'react-datepicker/dist/react-datepicker.js'
 
 import 'react-datepicker/dist/react-datepicker.css'
 import 'src/components/HelFormFields/HelDatePicker.scss'
-import './RepetitiveEvent.scss'
+import './RecurringEvent.scss'
 
-const RepetitiveEvent = React.createClass ({
+const RecurringEvent = React.createClass ({
     render: function () {
         return (
             <div className="recurring-events">
@@ -43,4 +43,4 @@ const RepetitiveEvent = React.createClass ({
     }
 });
 
-export default RepetitiveEvent;
+export default RecurringEvent;

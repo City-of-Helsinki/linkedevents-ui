@@ -15,7 +15,7 @@ import {
     HelDatePicker,
     NewEvent
 } from 'src/components/HelFormFields'
-import RepetitiveEvent from 'src/components/RepetitiveEvent'
+import RecurringEvent from 'src/components/RecurringEvent'
 
 import { RaisedButton, FlatButton } from 'material-ui'
 
@@ -70,14 +70,14 @@ class FormFields extends React.Component {
         intl: React.PropTypes.object,
         dispatch: React.PropTypes.func,
         showNewEvents: React.PropTypes.bool,
-        showRepetitiveEvent: React.PropTypes.bool
+        showRecurringEvent: React.PropTypes.bool
     };
 
     constructor(props) {
       super(props);
       this.state = {
           showNewEvents: true,
-          showRepetitiveEvent: false
+          showRecurringEvent: false
       };
     }
 
@@ -101,8 +101,8 @@ class FormFields extends React.Component {
         this.context.dispatch(setEventData(obj, key))
     }
 
-    showRepetitiveEventDialog() {
-        this.setState({showRepetitiveEvent: !this.state.showRepetitiveEvent})
+    showRecurringEventDialog() {
+        this.setState({showRecurringEvent: !this.state.showRecurringEvent})
     }
 
     showNewEventDialog() {
@@ -190,11 +190,11 @@ class FormFields extends React.Component {
                             label={<span><i className="material-icons">add</i> <FormattedMessage id="event-add-new-occasion" /></span>} />
                         <RaisedButton
                             style={buttonStyle}
-                            primary={!this.state.showRepetitiveEvent}
-                            onClick={ () => this.showRepetitiveEventDialog() }
+                            primary={!this.state.showRecurringEvent}
+                            onClick={ () => this.showRecurringEventDialog() }
                             label={<span><i className="material-icons">autorenew</i> <FormattedMessage id="event-add-recurring" /></span>} />
-                        <div className={"repetitive-event " + (this.state.showRepetitiveEvent ? 'show' : 'hidden')}>
-                            <RepetitiveEvent/>
+                        <div className={"repetitive-event " + (this.state.showRecurringEvent ? 'show' : 'hidden')}>
+                            <RecurringEvent/>
                         </div>
                     </div>
                     <SideField>
