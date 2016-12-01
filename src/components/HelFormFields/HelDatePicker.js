@@ -27,16 +27,26 @@ let HelDatePicker = React.createClass({
     },
 
     handleChange: function (date) {
-        this.setState({
-          date: date
-        })
-        this.props.onChange('date', date._d)
+        if(date.isValid()) {
+            this.setState({
+              date: date
+            })
+            this.props.onChange('date', date._d)
+        }
     },
 
     handleBlur: function () {
-        this.props.onBlur()
+        if(typeof this.props.onBlur === 'function') {
+            this.props.onBlur()
+        }
     },
-
+    componentWillReceiveProps(nextProps) {
+        if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
+            if (moment(nextProps.defaultValue).isValid()) {
+                this.setState({date: moment(nextProps.defaultValue)})
+            }
+        }
+    },
     render: function () {
         return (
           <div className='hel-text-field'>

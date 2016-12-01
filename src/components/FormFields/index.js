@@ -183,6 +183,9 @@ class FormFields extends React.Component {
                         <div className={"new-events " + (this.state.showNewEvents ? 'show' : 'hidden')}>
                             { newEvents }
                         </div>
+                        { this.state.showRecurringEvent &&
+                            <RecurringEvent toggle={() => this.showRecurringEventDialog()} validationErrors={validationErrors} values={values}/>
+                        }
                         <RaisedButton
                             style={buttonStyle}
                             primary={true}
@@ -193,9 +196,6 @@ class FormFields extends React.Component {
                             primary={!this.state.showRecurringEvent}
                             onClick={ () => this.showRecurringEventDialog() }
                             label={<span><i className="material-icons">autorenew</i> <FormattedMessage id="event-add-recurring" /></span>} />
-                        <div className={"repetitive-event " + (this.state.showRecurringEvent ? 'show' : 'hidden')}>
-                            <RecurringEvent/>
-                        </div>
                     </div>
                     <SideField>
                         <div className="tip">

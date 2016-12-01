@@ -68,8 +68,8 @@
 
     "repetition-begin": "Toistuminen alkaa",
     "repetition-end": "Toistuminen päättyy",
-    "repeated": "Toistetaan",
-    "repetition-interval": "viikon välein.",
+    "repeated": "Toistetaan ",
+    "repetition-interval": " viikon välein.",
 
 
     "event-location-fields-header": "Tapahtumapaikka",

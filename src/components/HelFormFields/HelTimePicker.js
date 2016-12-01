@@ -28,6 +28,7 @@ let HelTimePicker = React.createClass({
                 name={this.props.name}
                 onChange={this.handleChange}
                 onBlur={this.handleBlur}
+                defaultValue={this.props.defaultValue}
             />
         )
     }

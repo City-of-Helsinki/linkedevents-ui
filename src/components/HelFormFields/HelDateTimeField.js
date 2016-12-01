@@ -129,7 +129,7 @@ const HelDateTimeField = React.createClass({
         if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
             if (moment(nextProps.defaultValue).isValid()) {
                 const value = this.parseValueFromString(nextProps.defaultValue)
-                this.setState({value: value})
+                this.setState({date: value.date, time: value.time})
             }
         }
     },
@@ -146,7 +146,6 @@ const HelDateTimeField = React.createClass({
                     <label style={{position: 'relative'}}><FormattedMessage id={`${this.props.label}`} /> <ValidationPopover validationErrors={this.props.validationErrors} /></label>
                     <HelDatePicker ref="date" name={this.props.name} defaultValue={this.state.date} validations={['isDate']} placeholder="pp.kk.vvvv" onChange={this.onChange} onBlur={this.onBlur} label={<FormattedMessage id="date" />} />
                     <HelTimePicker ref="time" name={this.props.name} defaultValue={this.state.time} validations={['isTime']} placeholder="hh.mm" onChange={this.onChange} onBlur={this.onBlur} label={<FormattedMessage id="time" />} />
-
                 </div>
             </div>
         )
