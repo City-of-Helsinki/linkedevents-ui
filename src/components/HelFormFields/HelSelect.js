@@ -45,6 +45,7 @@ class HelSelect extends React.Component {
                     loadOptions={ (val) => this.getOptions(val)  }
                     onChange={ (val) => this.onChange(val) }
                     ignoreAccents={false}
+                    autoload={false}
                 />
             </div>
         )
