@@ -91,9 +91,25 @@ class FormFields extends React.Component {
 
     addNewEventDialog() {
         let obj = {}
+        let startTime
+        let endTime
         const key = Object.keys(this.props.editor.values.sub_events).length+1
-        const startTime = this.props.editor.values.start_time ? moment(this.props.editor.values.start_time) : moment()
-        const endTime = this.props.editor.values.end_time ? moment(this.props.editor.values.end_time) : moment()
+        if (_.keys(this.props.editor.values.sub_events).length) {
+            const subEvents = this.props.editor.values.sub_events
+            const startDates = []
+            const endDates = []
+            for (const key in subEvents) {
+                if (subEvents.hasOwnProperty(key)) {
+                    startDates.push(moment(subEvents[key].start_time))
+                    endDates.push(moment(subEvents[key].end_time))
+                }
+            }
+            startTime = moment.max(startDates)
+            endTime = moment.max(endDates)
+        } else {
+            startTime = this.props.editor.values.start_time ? moment(this.props.editor.values.start_time) : moment()
+            endTime = this.props.editor.values.end_time ? moment(this.props.editor.values.end_time) : moment()
+        }
         obj[key] = {
             start_time: moment.tz(startTime.add(1, 'weeks'), 'Europe/Helsinki').utc().toISOString(),
             end_time: moment.tz(endTime.add(1, 'weeks'), 'Europe/Helsinki').utc().toISOString()
