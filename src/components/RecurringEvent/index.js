@@ -79,12 +79,13 @@ class RecurringEvent extends React.Component {
                     const day = dayCodes[days[key]]
                     const interval = weekInterval*7
                     for (let i = 0; i < 53 ; i++) {
-                        if (moment().isoWeekday(day + i*interval).isBetween(moment(recurringStart).subtract(1, "day"), moment(recurringEnd).add(1, "day"), 'day')) {
+                        if (moment().isoWeekday(day + i*interval).isBetween(moment(recurringStart), moment(recurringEnd).add(1, "day"), 'day')) {
                             let obj = {}
                             const key = Object.keys(this.props.values.sub_events).length+count
                             count += 1
-                            const startTime = moment().isoWeekday(day + i*interval)
-                            const endTime = moment().isoWeekday(day + i*interval).add(eventLength, 'minutes')
+                            const startTime = moment().isoWeekday(day + i*interval).hours(moment(this.props.values.start_time).format("HH")).minutes(moment(this.props.values.start_time).format("mm"))
+                            let endTime = Object.assign({}, startTime)
+                            endTime = moment(endTime).add(eventLength, 'minutes').hours(moment(this.props.values.end_time).format("HH")).minutes(moment(this.props.values.end_time).format("mm"))
                             obj[key] = {
                                 start_time: moment.tz(startTime, 'Europe/Helsinki').utc().toISOString(),
                                 end_time: moment.tz(endTime, 'Europe/Helsinki').utc().toISOString()
