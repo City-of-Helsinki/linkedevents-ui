@@ -1,31 +1,30 @@
-import React from 'react'
-import HelTextField from 'src/components/HelFormFields/HelTextField.js'
-import HelTimePicker from 'src/components/HelFormFields/HelTimePicker.js'
-import HelDatePicker from 'src/components/HelFormFields/HelDatePicker.js'
-import HelDateTimeField from 'src/components/HelFormFields/HelDateTimeField.js'
-import RecurringDateRangePicker from './RecurringDateRangePicker'
-import { FormattedMessage } from 'react-intl'
-import { RaisedButton } from 'material-ui'
-import DatePicker from 'react-datepicker/dist/react-datepicker.js'
-import DayCheckbox from './DayCheckbox'
+import React from "react"
+import HelTextField from "src/components/HelFormFields/HelTextField.js"
+import HelDateTimeField from "src/components/HelFormFields/HelDateTimeField.js"
+import RecurringDateRangePicker from "./RecurringDateRangePicker"
+import { FormattedMessage } from "react-intl"
+import { RaisedButton } from "material-ui"
+import DatePicker from "react-datepicker/dist/react-datepicker.js"
+import DayCheckbox from "./DayCheckbox"
 
-import {connect} from 'react-redux'
-import {setEventData} from 'src/actions/editor.js'
+import {connect} from "react-redux"
+import {setEventData} from "src/actions/editor.js"
 
-import validationRules from 'src/validation/validationRules.js'
-import ValidationPopover from 'src/components/ValidationPopover'
+import validationRules from "src/validation/validationRules.js"
+import ValidationPopover from "src/components/ValidationPopover"
 
-import moment from 'moment'
+import moment from "moment"
+import update from "immutability-helper"
 
-import 'react-datepicker/dist/react-datepicker.css'
-import 'src/components/HelFormFields/HelDatePicker.scss'
-import './RecurringEvent.scss'
+import "react-datepicker/dist/react-datepicker.css"
+import "src/components/HelFormFields/HelDatePicker.scss"
+import "./RecurringEvent.scss"
 
 class RecurringEvent extends React.Component {
 
     static contextTypes = {
         dispatch: React.PropTypes.func
-    };
+    }
 
     constructor (props) {
         super(props)
@@ -96,7 +95,6 @@ class RecurringEvent extends React.Component {
                     }
                 }
             }
-            // this.props.generateRecurringEvents(recurringStart, recurringEnd, days, weekInterval)
         }
     }
     onCheckboxChange (key, value) {
@@ -112,10 +110,23 @@ class RecurringEvent extends React.Component {
         const dayElements = []
         for (const key in days) {
             if(days.hasOwnProperty(key)) {
-                dayElements.push(<DayCheckbox key={key} day={key} onChange={this.onCheckboxChange}/>)
+                dayElements.push(<DayCheckbox key={key} day={key} onChange={this.onCheckboxChange} defaultChecked={days[key]}/>)
             }
         }
         return dayElements
+    }
+    componentWillMount() {
+        if(this.props.values.start_time) {
+            let newDays = Object.assign({}, this.state.daysSelected)
+            for(const key in newDays) {
+                if(newDays.hasOwnProperty(key)) {
+                    if(key == moment(this.props.values.start_time).locale('en').format("dddd").toLowerCase()){
+                        newDays[key] = true
+                    }
+                }
+            }
+            this.setState({daysSelected: newDays})
+        }
     }
     componentWillReceiveProps(nextProps) {
         if(nextProps.values.start_time && nextProps.values.start_time !== this.state.recurringStart) {
@@ -126,13 +137,13 @@ class RecurringEvent extends React.Component {
         }
     }
     render() {
-        const { validationErrors, values } = this.props;
+        const { validationErrors, values } = this.props
         const buttonStyle = {
-            height: '64px',
-            margin: '10px 5px',
-            display: 'flex'
+            height: "64px",
+            margin: "10px 5px",
+            display: "flex"
         }
-        const days = this.generateCheckboxes(this.state.daysSelected);
+        const days = this.generateCheckboxes(this.state.daysSelected)
         return (
             <div className="recurring-events-modal" onClick={this.props.toggle}>
                 <div className="recurring-events" onClick={(e) => this.stop(e)}>
@@ -185,6 +196,6 @@ class RecurringEvent extends React.Component {
             </div>
         )
     }
-};
+}
 
-export default RecurringEvent;
+export default RecurringEvent

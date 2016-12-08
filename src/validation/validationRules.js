@@ -108,7 +108,6 @@ var validations = {
         return validations.matchRegexp(values, value, /^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/i);
     },
     afterStartTime: function afterStartTime(values, value) {
-
         if(!values.start_time || !value) { return true }
 
         let time = new Date(value)
@@ -136,7 +135,6 @@ var validations = {
         if(_.keys(value).length === 0) {
             return false
         }
-
         let hasOneValue = false
 
         _.each(value, item => {
