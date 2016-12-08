@@ -68,6 +68,7 @@
 
     "repetition-begin": "Toistuminen alkaa",
     "repetition-end": "Toistuminen päättyy",
+    "repetition-interval-label": "Toistoväli",
     "repeated": "Toistetaan ",
     "repetition-interval": " viikon välein.",
 
@@ -129,6 +130,8 @@
     "validation-stringLengthCounter": " merkkiä jäljellä",
     "validation-requiredInContentLanguages": "Tämä kenttä vaaditaan kaikilla valituilla kielillä",
     "validation-offerIsFreeOrHasPrice": "Maksullinen tapahtuma vaatii hinnan kaikilla valituilla kielillä",
+    "validation-atLeastOneIsTrue": "Valitse vähintään yksi toistopäivä",
+    "validation-isMoreThanOne": "Toistovälin tulee olla vähintään 1 viikko",
 
     "server-error": "Virhe palvelimella.",
     "validation-error": "Lomakkeessa on virheitä. Tarkasta lomake.",

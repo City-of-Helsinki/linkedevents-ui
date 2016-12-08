@@ -196,6 +196,20 @@ var validations = {
             return false
         }
         return _containsAllLanguages(offer.price, values._contentLanguages)
+    },
+    atLeastOneIsTrue: function atLeastOneIsTrue(values, value) {
+        for (const key in value) {
+            if (value.hasOwnProperty(key)) {
+                if(value[key]) {
+                    return true
+                }
+            }
+        }
+        return false
+    },
+    isMoreThanOne: function isMoreThanOne(values, value) {
+        console.log(value);
+        return value > 0 ? true : false
     }
 };
 

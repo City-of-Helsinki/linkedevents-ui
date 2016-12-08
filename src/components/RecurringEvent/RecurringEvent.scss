@@ -29,13 +29,31 @@
     display: inline-block;
     margin-right: 7px;
 }
+.dates-label {
+    position: relative;
+    font-size: 15px;
+    margin: 10px 0px;
+    color: #777;
+}
 .repetition-count {
     max-width: 27px;
     display: inline-block;
     input {
         text-align: center;
     }
+    span {
+        .form-group {
+            .control-label {
+                position: absolute;
+                left: -105px;
+                top: -25px;
+            }
+        }
+    }
 }
 .recurring-date-range-wrapper {
     margin-top:20px;
+}
+.popover-content {
+    pointer-events: none;
 }
