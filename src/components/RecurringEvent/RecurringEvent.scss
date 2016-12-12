@@ -60,3 +60,14 @@
 .popover-content {
     pointer-events: none;
 }
+.recurring-times {
+    .label-wrapper {
+        position: relative;
+    }
+    .label-wrapper > span:first-child {
+        position: relative;
+        font-size: 15px;
+        margin: 10px 0px;
+        color: #777;
+    }
+}

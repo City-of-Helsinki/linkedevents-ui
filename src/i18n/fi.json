@@ -71,7 +71,8 @@
     "repetition-interval-label": "Toistoväli",
     "repeated": "Toistetaan ",
     "repetition-interval": " viikon välein.",
-
+    "repetition-start-time": "Tapahtumien alkuaika",
+    "repetition-end-time": "Tapahtumien loppuaika",
 
     "event-location-fields-header": "Tapahtumapaikka",
     "event-location": "Paikka",
