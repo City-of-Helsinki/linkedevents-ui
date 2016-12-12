@@ -1,10 +1,8 @@
 import React from "react"
 import HelTextField from "src/components/HelFormFields/HelTextField.js"
-import HelDateTimeField from "src/components/HelFormFields/HelDateTimeField.js"
 import RecurringDateRangePicker from "./RecurringDateRangePicker"
 import { FormattedMessage } from "react-intl"
 import { RaisedButton } from "material-ui"
-import DatePicker from "react-datepicker/dist/react-datepicker.js"
 import DayCheckbox from "./DayCheckbox"
 
 import {connect} from "react-redux"
@@ -16,8 +14,6 @@ import ValidationPopover from "src/components/ValidationPopover"
 import moment from "moment"
 import update from "immutability-helper"
 
-import "react-datepicker/dist/react-datepicker.css"
-import "src/components/HelFormFields/HelDatePicker.scss"
 import "./RecurringEvent.scss"
 
 class RecurringEvent extends React.Component {
@@ -182,14 +178,6 @@ class RecurringEvent extends React.Component {
             this.setState({daysSelected: newDays})
         }
     }
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.values.start_time && nextProps.values.start_time !== this.state.recurringStart) {
-            this.setState({recurringStart: nextProps.values.start_time})
-        }
-        if(nextProps.values.end_time && nextProps.values.end_time !== this.state.recurringEnd) {
-            this.setState({recurringEnd: nextProps.values.end_time})
-        }
-    }
     render() {
         const { validationErrors, values } = this.props
         const buttonStyle = {
@@ -220,14 +208,14 @@ class RecurringEvent extends React.Component {
                     </div>
                     <div>
                         <span className="dates-label">Toistopäivät<ValidationPopover small validationErrors={(this.state.errors.atLeastOneIsTrue ? ["atLeastOneIsTrue"] : "")} /></span>
-
                     </div>
                     { days }
                     <div className="col-xs-12 recurring-date-range-wrapper multi-field">
                         <RecurringDateRangePicker
                             name="recurringStart"
                             validationErrors={(this.state.errors.isDate ? ["isDate"] : "")}
-                            ref="start_time" defaultValue={this.state.recurringStart}
+                            ref="start_time"
+                            defaultValue={this.state.recurringStartDate}
                             label="repetition-begin"
                             onChange={this.onChange}
                             onBlur={() => this.clearErrors()}
@@ -236,7 +224,8 @@ class RecurringEvent extends React.Component {
                         <RecurringDateRangePicker
                             name="recurringEnd"
                             validationErrors={(this.state.errors.afterStartTime ? ["afterStartTime"] : "")}
-                            ref="end_time" defaultValue={this.state.recurringEnd}
+                            ref="end_time"
+                            defaultValue={this.state.recurringEndDate}
                             label="repetition-end"
                             onChange={this.onChange}
                         />

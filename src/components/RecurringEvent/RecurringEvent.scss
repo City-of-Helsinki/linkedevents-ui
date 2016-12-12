@@ -13,10 +13,13 @@
 .recurring-events {
     position: relative;
     z-index: 999;
-    padding: 0px 20px 150px 20px;
+    padding: 2vw;
     max-width: 80vw;
+    max-height: 95vh;
+    overflow: scroll;
     background-color: white;
     h2 {
+        margin-top: 5px;
         padding: 10px;
     }
 }

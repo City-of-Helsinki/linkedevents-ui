@@ -208,7 +208,6 @@ var validations = {
         return false
     },
     isMoreThanOne: function isMoreThanOne(values, value) {
-        console.log(value);
         return value > 0 ? true : false
     }
 };
