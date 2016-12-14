@@ -39,10 +39,16 @@ class EventCreated extends React.Component {
             height: '72px',
             margin: '0 10px'
         }
+        let label
         if(this.props.params.action !== 'delete') {
+            if(this.props.events.event.super_event) {
+                label = "Siirry ensimmäiseen tapahtumaan"
+            } else {
+                label = "Siirry tapahtumaan"
+            }
             return (
                 <div className="actions">
-                    <RaisedButton onClick={e => this.goToEvent(e)} style={buttonStyle} secondary={true} label="Siirry tapahtumaan" />
+                    <RaisedButton onClick={e => this.goToEvent(e)} style={buttonStyle} secondary={true} label={label} />
                 </div>
             )
         } else {
@@ -75,6 +81,8 @@ class EventCreated extends React.Component {
             headerText = "Luonnoksen tallennus onnistui!"
         }  else if(this.props.params.action === 'savepublic') {
             headerText = "Julkaistun tapahtuman tallennus onnistui!"
+        } else if(this.props.params.action === 'create' && typeof event.super_event === 'object') {
+            headerText = "Tapahtumat tallennettiin!"
         } else if(this.props.params.action === 'create') {
             headerText = "Tapahtuma tallennettiin!"
         } else if(this.props.params.action === 'delete') {

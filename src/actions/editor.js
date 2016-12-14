@@ -112,21 +112,11 @@ export function validateFor(publicationStatus) {
  */
 
 export function sendData(formValues, contentLanguages, user, updateExisting = false, publicationStatus) {
-    return (dispatch) => {
+    const prepareFormValues = (formValues, contentLanguages, user, updateExisting, publicationStatus) => {
         let recurring = false;
         if(formValues.sub_events) {
             recurring = _.keys(formValues.sub_events).length > 0
         }
-
-        publicationStatus = publicationStatus || formValues.publication_status
-
-        if(!publicationStatus) {
-            return
-        }
-
-        // Set publication status for editor values. This is used by the validation to determine
-        // which set of rules to use
-        dispatch(validateFor(publicationStatus))
 
         // Run validations
         let validationErrors = doValidations(formValues, contentLanguages, publicationStatus)
@@ -136,24 +126,44 @@ export function sendData(formValues, contentLanguages, user, updateExisting = fa
             return dispatch(setValidationErrors(validationErrors))
         }
 
-        let url = `${appSettings.api_base}/event/`
-
-        if(updateExisting) {
-            url += `${formValues.id}/`
-        }
-
-        let token = ''
-        if(user) {
-             token = user.token
-        }
-
         let data = Object.assign({}, formValues, { publication_status: publicationStatus })
         data = _.omit(data, ['sub_events']);
 
         if (recurring) {
             data = Object.assign({}, data, { super_event_type: "recurring"})
         }
+        return mapUIDataToAPIFormat(data)
+    }
 
+    return (dispatch) => {
+        publicationStatus = publicationStatus || formValues.publication_status
+
+        if(!publicationStatus) {
+            return
+        }
+        let preparedFormValues
+        if(!Array.isArray(formValues)) {
+            preparedFormValues = {}
+            preparedFormValues = prepareFormValues(formValues, contentLanguages, user, updateExisting, publicationStatus)
+        } else if(Array.isArray(formValues) && formValues.length > 0) {
+            preparedFormValues = []
+            formValues.map(formObject => {
+                preparedFormValues.push(prepareFormValues(formObject, contentLanguages, user, updateExisting, publicationStatus))
+            })
+        }
+        let url = `${appSettings.api_base}/event/`
+        if(updateExisting) {
+            const updateId = formValues.id || formValues[0].id
+            url += `${updateId}/`
+        }
+
+        let token = ''
+        if(user) {
+             token = user.token
+        }
+        // Set publication status for editor values. This is used by the validation to determine
+        // which set of rules to use
+        dispatch(validateFor(publicationStatus))
         return fetch(url, {
             method: updateExisting ? 'PUT' : 'POST',
             headers: {
@@ -161,14 +171,16 @@ export function sendData(formValues, contentLanguages, user, updateExisting = fa
                 'Content-Type': 'application/json',
                 'Authorization': 'JWT ' + token,
             },
-            body: JSON.stringify(mapUIDataToAPIFormat(data))
+            body: JSON.stringify(preparedFormValues)
         }).then(response => {
             //console.log('Received', response)
             let jsonPromise = response.json()
 
             jsonPromise.then(json => {
                 let actionName = updateExisting ? 'update' : 'create'
-
+                if(Array.isArray(json)) {
+                    json = json[0]
+                }
                 // The publication_status was changed to public. The event was published!
                 if(json.publication_status === constants.PUBLICATION_STATUS.PUBLIC && json.publication_status !== formValues.publication_status) {
                     actionName = 'publish'
@@ -179,10 +191,11 @@ export function sendData(formValues, contentLanguages, user, updateExisting = fa
                 }
 
                 if(response.status === 200 || response.status === 201) {
-                    if (recurring) {
-                        dispatch(sendRecurringData(formValues, contentLanguages, user, updateExisting, publicationStatus, json.id))
+                    if (json.super_event_type === 'recurring') {
+                        dispatch(sendRecurringData(formValues, contentLanguages, user, updateExisting, publicationStatus, json['@id']))
+                    } else {
+                        dispatch(sendDataComplete(json, actionName))
                     }
-                    dispatch(sendDataComplete(json, actionName))
                 }
                 // Validation errors
                 else if(response.status === 400) {
@@ -236,12 +249,15 @@ export function sendDataComplete(json, action) {
 export function sendRecurringData(formValues, contentLanguages, user, updateExisting = false, publicationStatus, superEventId) {
     return (dispatch) => {
         const subEvents = Object.assign({}, formValues.sub_events)
-        const baseEvent = Object.assign({}, formValues, { sub_events: {}, super_event: superEventId})
+        const baseEvent = Object.assign({}, formValues, { sub_events: {}, super_event: {'@id': superEventId}})
+        const newValues = []
         for (const key in subEvents) {
             if (subEvents.hasOwnProperty(key)) {
-                const newValues = Object.assign({}, baseEvent, {start_time: subEvents[key].start_time, end_time: subEvents[key].end_time})
-                dispatch(sendData(newValues, contentLanguages, user, updateExisting = false, publicationStatus))
+                newValues.push(Object.assign({}, baseEvent, {start_time: subEvents[key].start_time, end_time: subEvents[key].end_time}))
             }
+        }
+        if(newValues.length > 0) {
+            dispatch(sendData(newValues, contentLanguages, user, updateExisting = false, publicationStatus))
         }
     }
 }
