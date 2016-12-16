@@ -149,6 +149,15 @@ header {
     padding: 20px;
 }
 
+#testingmessage {
+    background: red;
+    text-align: center;
+    height: 3em;
+    line-height: 3em;
+    color: white;
+    font-size: 150%;
+}
+
 #debughelper {
     position: fixed;
     bottom: 5em;
