@@ -27,7 +27,8 @@ var jade = require('jade');
 const indexTemplate = jade.compileFile(path.join(common.paths.SRC, 'index.jade'), { pretty: true })
 
 const indexHtml = indexTemplate({
-    configJson: JSON.stringify(config)
+    configJson: JSON.stringify(config),
+    APP_MODE: process.env.APP_MODE
 })
 
 var config = {
