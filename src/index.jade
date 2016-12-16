@@ -21,7 +21,9 @@ html.no-js
           | to improve your experience.
         <![endif]-->
         if APP_MODE == 'testing'
-            div#testingmessage Linked Events Testing
+            #testingmessage
+                | tämä Linked Events on testiversio
+                a(href=LE_PRODUCTION_INSTANCE) siirry tuotantoon
         div
             #content
         div

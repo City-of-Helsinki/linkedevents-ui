@@ -9,7 +9,8 @@ const indexTemplate = jade.compileFile(path.join(common.paths.SRC, 'index.jade')
 
 const indexHtml = indexTemplate({
     configJson: JSON.stringify(config),
-    APP_MODE: process.env.APP_MODE
+    APP_MODE: process.env.APP_MODE,
+    LE_PRODUCTION_INSTANCE: process.env.LE_PRODUCTION_INSTANCE || '#'
 })
 
 export default {
