@@ -23,7 +23,7 @@ let HelDatePicker = React.createClass({
     },
 
     componentDidMount: function () {
-        this.props.onChange('date', this.state.date._d)
+        this.props.onChange('date', this.state.date)
     },
 
     handleChange: function (date) {
@@ -31,7 +31,7 @@ let HelDatePicker = React.createClass({
             this.setState({
               date: date
             })
-            this.props.onChange('date', date._d)
+            this.props.onChange('date', date)
         }
     },
 
