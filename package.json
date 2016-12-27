@@ -23,6 +23,7 @@
     "es6-promise": "^3.0.2",
     "express": "^4.13.3",
     "formsy-react": "^0.17.0",
+    "git-revision-webpack-plugin": "^2.4.0",
     "history": "^1.13.1",
     "intl": "^1.0.1",
     "isomorphic-fetch": "^2.2.0",

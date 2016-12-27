@@ -4,13 +4,18 @@ import webpack from 'webpack';
 import config from 'config';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import jade from 'jade';
+import GitRevisionPlugin from 'git-revision-webpack-plugin';
+
+const gitRevisionPlugin = new GitRevisionPlugin();
+config.commit_hash = gitRevisionPlugin.commithash();
 
 const indexTemplate = jade.compileFile(path.join(common.paths.SRC, 'index.jade'), { pretty: true })
 
 const indexHtml = indexTemplate({
     configJson: JSON.stringify(config),
     APP_MODE: process.env.APP_MODE,
-    LE_PRODUCTION_INSTANCE: process.env.LE_PRODUCTION_INSTANCE || '#'
+    LE_PRODUCTION_INSTANCE: process.env.LE_PRODUCTION_INSTANCE || '#',
+    COMMIT_HASH: config.commit_hash
 })
 
 export default {
