@@ -21,6 +21,11 @@ var config = require('config');
 //import HtmlWebpackPlugin from 'html-webpack-plugin';
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const GitRevisionPlugin = require('git-revision-webpack-plugin');
+
+const gitRevisionPlugin = new GitRevisionPlugin();
+config.commit_hash = gitRevisionPlugin.commithash();
+
 //import jade from 'jade';
 var jade = require('jade');
 
@@ -29,7 +34,8 @@ const indexTemplate = jade.compileFile(path.join(common.paths.SRC, 'index.jade')
 const indexHtml = indexTemplate({
     configJson: JSON.stringify(config),
     APP_MODE: process.env.APP_MODE,
-    LE_PRODUCTION_INSTANCE: process.env.LE_PRODUCTION_INSTANCE || '#'
+    LE_PRODUCTION_INSTANCE: process.env.LE_PRODUCTION_INSTANCE || '#',
+    COMMIT_HASH: config.commit_hash
 })
 
 var config = {
