@@ -200,3 +200,12 @@ header {
 #testingmessage a {
     margin: 1em;
 }
+
+#commitmessage {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    font-size: 80%;
+    margin: 0.3em;
+    color: #48a3e7;
+}
