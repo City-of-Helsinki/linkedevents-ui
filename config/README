@@ -1,0 +1,3 @@
+# Client Side Configuration
+
+These files govern Webpack configuration for app's settings. For server side configuration see server or dev_server module.
