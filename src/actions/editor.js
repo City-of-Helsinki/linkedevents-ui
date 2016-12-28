@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch'
+import moment from 'moment';
 
 import constants from '../constants'
 import {mapUIDataToAPIFormat} from 'src/utils/formDataMapping.js'
@@ -112,12 +113,11 @@ export function validateFor(publicationStatus) {
  */
 
 export function sendData(formValues, contentLanguages, user, updateExisting = false, publicationStatus) {
-    const prepareFormValues = (formValues, contentLanguages, user, updateExisting, publicationStatus) => {
+    const prepareFormValues = (formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch) => {
         let recurring = false;
         if(formValues.sub_events) {
             recurring = _.keys(formValues.sub_events).length > 0
         }
-
         // Run validations
         let validationErrors = doValidations(formValues, contentLanguages, publicationStatus)
 
@@ -125,12 +125,24 @@ export function sendData(formValues, contentLanguages, user, updateExisting = fa
         if (_.keys(validationErrors).length > 0) {
             return dispatch(setValidationErrors(validationErrors))
         }
-
         let data = Object.assign({}, formValues, { publication_status: publicationStatus })
-        data = _.omit(data, ['sub_events']);
-
         if (recurring) {
-            data = Object.assign({}, data, { super_event_type: "recurring"})
+            const subEvents = data.sub_events
+            let endDates = [];
+            for(const key in subEvents) {
+                if(subEvents.hasOwnProperty(key)) {
+                    endDates.push(moment(subEvents[key].end_time))
+                }
+            }
+            let newSubEvents = Object.assign({}, {[0]: {start_time: data.start_time, end_time: data.end_time}});
+            for(const key in subEvents) {
+                if(subEvents.hasOwnProperty(key)) {
+                    newSubEvents = Object.assign({}, newSubEvents, {[key+1]: subEvents[key]});
+                }
+            }
+            data.end_time = moment.tz(moment.max(endDates), 'Europe/Helsinki').utc().toISOString();
+            formValues.sub_events = newSubEvents
+            data = Object.assign({}, data, { super_event_type: "recurring" })
         }
         return mapUIDataToAPIFormat(data)
     }
@@ -144,11 +156,21 @@ export function sendData(formValues, contentLanguages, user, updateExisting = fa
         let preparedFormValues
         if(!Array.isArray(formValues)) {
             preparedFormValues = {}
-            preparedFormValues = prepareFormValues(formValues, contentLanguages, user, updateExisting, publicationStatus)
+            const newValues = prepareFormValues(formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch)
+            if(newValues !== undefined) {
+                preparedFormValues = newValues
+            } else {
+                return
+            }
         } else if(Array.isArray(formValues) && formValues.length > 0) {
             preparedFormValues = []
             formValues.map(formObject => {
-                preparedFormValues.push(prepareFormValues(formObject, contentLanguages, user, updateExisting, publicationStatus))
+                const newValues = prepareFormValues(formObject, contentLanguages, user, updateExisting, publicationStatus, dispatch)
+                if(newValues !== undefined) {
+                    preparedFormValues.push(newValues)
+                } else {
+                    return
+                }
             })
         }
         let url = `${appSettings.api_base}/event/`
