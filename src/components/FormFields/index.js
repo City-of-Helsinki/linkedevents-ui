@@ -11,11 +11,20 @@ import {
     HelLanguageSelect,
     HelDateTimeField,
     HelSelect,
-    HelOffersField
+    HelOffersField,
+    HelDatePicker,
+    NewEvent
 } from 'src/components/HelFormFields'
+import RecurringEvent from 'src/components/RecurringEvent'
 
+import { RaisedButton, FlatButton } from 'material-ui'
 
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
+import {connect} from 'react-redux'
+
+import {setEventData} from 'src/actions/editor.js'
+
+import moment from 'moment'
 
 import API from 'src/api.js'
 
@@ -58,8 +67,19 @@ let updateEventHidden = function(eventData) {
 class FormFields extends React.Component {
 
     static contextTypes = {
-        intl: React.PropTypes.object
+        intl: React.PropTypes.object,
+        dispatch: React.PropTypes.func,
+        showNewEvents: React.PropTypes.bool,
+        showRecurringEvent: React.PropTypes.bool
     };
+
+    constructor(props) {
+      super(props);
+      this.state = {
+          showNewEvents: true,
+          showRecurringEvent: false
+      };
+    }
 
     componentWillReceiveProps() {
         this.forceUpdate()
@@ -69,13 +89,69 @@ class FormFields extends React.Component {
         return true
     }
 
+    addNewEventDialog() {
+        let obj = {}
+        let startTime
+        let endTime
+        let subEventKeys = Object.keys(this.props.editor.values.sub_events)
+        let key = subEventKeys.length > 0 ? Math.max.apply(null, subEventKeys)+1 : 1
+        if (_.keys(this.props.editor.values.sub_events).length) {
+            const subEvents = this.props.editor.values.sub_events
+            const startDates = []
+            const endDates = []
+            for (const key in subEvents) {
+                if (subEvents.hasOwnProperty(key)) {
+                    startDates.push(moment(subEvents[key].start_time))
+                    endDates.push(moment(subEvents[key].end_time))
+                }
+            }
+            startTime = moment.max(startDates)
+            endTime = moment.max(endDates)
+        } else {
+            startTime = this.props.editor.values.start_time ? moment(this.props.editor.values.start_time) : moment()
+            endTime = this.props.editor.values.end_time ? moment(this.props.editor.values.end_time) : moment()
+        }
+        obj[key] = {
+            start_time: moment.tz(startTime.add(1, 'weeks'), 'Europe/Helsinki').utc().toISOString(),
+            end_time: moment.tz(endTime.add(1, 'weeks'), 'Europe/Helsinki').utc().toISOString()
+        }
+        this.context.dispatch(setEventData(obj, key))
+    }
+
+    showRecurringEventDialog() {
+        this.setState({showRecurringEvent: !this.state.showRecurringEvent})
+    }
+
+    showNewEventDialog() {
+        this.setState({showNewEvents: !this.state.showNewEvents})
+    }
+    generateNewEventFields(events) {
+        const newEvents = []
+        for (const key in events) {
+            if (events.hasOwnProperty(key)) {
+                newEvents.push(
+                    <NewEvent
+                        key={key}
+                        eventKey={key}
+                        event={events[key]}
+                    />
+                )
+            }
+        }
+        return newEvents
+    }
     render() {
         let helMainOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helfi:topics')
         let helTargetOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helsinki:audiences')
         let helEventLangOptions = mapLanguagesSetToForm(this.props.editor.languages)
 
+        let buttonStyle = {
+            height: '64px',
+            margin: '10px 5px',
+            display: 'block'
+        }
         const { values, validationErrors, contentLanguages } = this.props.editor
-
+        const newEvents = this.generateNewEventFields(this.props.editor.values.sub_events);
         return (
             <div>
                 <div className="col-sm-12 highlighted-block">
@@ -113,8 +189,30 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6">
-                        <HelDateTimeField validationErrors={validationErrors['start_time']} defaultValue={values['start_time']} ref="start_time" name="start_time" label="event-starting-datetime" />
-                        <HelDateTimeField validationErrors={validationErrors['end_time']} defaultValue={values['end_time']} ref="end_time" name="end_time" label="event-ending-datetime" />
+                        <div className="row">
+                            <div className="col-xs-12 col-md-6">
+                                <HelDateTimeField validationErrors={validationErrors['start_time']} defaultValue={values['start_time']} ref="start_time" name="start_time" label="event-starting-datetime" />
+                            </div>
+                            <div className="col-xs-12 col-md-6">
+                                <HelDateTimeField validationErrors={validationErrors['end_time']} defaultValue={values['end_time']} ref="end_time" name="end_time" label="event-ending-datetime" />
+                            </div>
+                        </div>
+                        <div className={"new-events " + (this.state.showNewEvents ? 'show' : 'hidden')}>
+                            { newEvents }
+                        </div>
+                        { this.state.showRecurringEvent &&
+                            <RecurringEvent toggle={() => this.showRecurringEventDialog()} validationErrors={validationErrors} values={values}/>
+                        }
+                        <RaisedButton
+                            style={buttonStyle}
+                            primary={true}
+                            onClick={ () => this.addNewEventDialog() }
+                            label={<span><i className="material-icons">add</i> <FormattedMessage id="event-add-new-occasion" /></span>} />
+                        <RaisedButton
+                            style={buttonStyle}
+                            primary={!this.state.showRecurringEvent}
+                            onClick={ () => this.showRecurringEventDialog() }
+                            label={<span><i className="material-icons">autorenew</i> <FormattedMessage id="event-add-recurring" /></span>} />
                     </div>
                     <SideField>
                         <div className="tip">
@@ -136,7 +234,7 @@ class FormFields extends React.Component {
                             required={true}
                             validationErrors={validationErrors['location']} defaultValue={values['location']}
                             placeholder={this.context.intl.formatMessage({ id: "event-location" })}
-                            />
+                        />
                         <MultiLanguageField multiLine={true} label="event-location-additional-info" ref="location_extra_info" name="location_extra_info" validationErrors={validationErrors["location_extra_info"]} defaultValue={values["location_extra_info"]} languages={this.props.editor.contentLanguages} />
                     </div>
                     <SideField>
@@ -191,21 +289,26 @@ class FormFields extends React.Component {
                                     options={helMainOptions} />
                     <SideField><p className="tip">Valitse vähintään yksi pääkategoria.</p></SideField>
                 </div>
-                <div className="row"><HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-target-groups"/>}
-                                    selectedValues={values['audience']}
-                                    ref="audience"
-                                    name="audience"
-                                    validationErrors={validationErrors['audience']}
-                                    itemClassName="col-sm-12"
-                                    options={helTargetOptions} />
+                <div className="row">
+                    <HelLabeledCheckboxGroup
+                        groupLabel={<FormattedMessage id="hel-target-groups"/>}
+                        selectedValues={values['audience']}
+                        ref="audience"
+                        name="audience"
+                        validationErrors={validationErrors['audience']}
+                        itemClassName="col-sm-12"
+                        options={helTargetOptions}
+                    />
                     <SideField><p className="tip">Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään.</p></SideField>
-                    <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-event-languages"/>}
-                                    selectedValues={values['in_language']}
-                                    ref="in_language"
-                                    name="in_language"
-                                    validationErrors={validationErrors['in_language']}
-                                    itemClassName="col-sm-6"
-                                    options={helEventLangOptions} />
+                    <HelLabeledCheckboxGroup
+                        groupLabel={<FormattedMessage id="hel-event-languages"/>}
+                        selectedValues={values['in_language']}
+                        ref="in_language"
+                        name="in_language"
+                        validationErrors={validationErrors['in_language']}
+                        itemClassName="col-sm-6"
+                        options={helEventLangOptions}
+                    />
                     <SideField><p className="tip">Kielet, joita tapahtumassa käytetään.</p></SideField>
                 </div>
             </div>

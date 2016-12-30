@@ -1,5 +1,8 @@
 import React from 'react'
 import HelTextField from './HelTextField.js'
+import DatePicker from 'react-datepicker/dist/react-datepicker.js'
+import 'react-datepicker/dist/react-datepicker.css'
+import './HelDatePicker.scss'
 
 import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
@@ -7,45 +10,55 @@ import {setData} from 'src/actions/editor.js'
 import moment from 'moment'
 
 let HelDatePicker = React.createClass({
-
     getInitialState: function() {
-        let defaultValue = this.props.editor.values[this.props.name] || null
-
-        if(defaultValue) {
-            defaultValue = moment(defaultValue).tz('Europe/Helsinki').format('D.M.YYYY');
-        }
-
         return {
-            value: defaultValue || null
+            date: this.props.defaultValue ? moment(this.props.defaultValue) : moment()
         }
     },
 
     propTypes: {
-        name: React.PropTypes.string.isRequired
+        defaultValue: React.PropTypes.object,
+        name: React.PropTypes.string.isRequired,
+        onBlur: React.PropTypes.func.isRequired
     },
 
-    handleChange: function (event, value) {
-        let time = moment.tz(value, 'Europe/Helsinki').utc().format();
+    componentDidMount: function () {
+        this.props.onChange('date', this.state.date)
+    },
 
-        let obj = {}
-        obj[this.props.name] = time;
-
-        this.props.dispatch(setData(obj))
-
-        if(typeof this.props.onChange === 'function') {
-            this.props.onChange(event, value)
+    handleChange: function (date) {
+        if(date.isValid()) {
+            this.setState({
+              date: date
+            })
+            this.props.onChange('date', date)
         }
     },
 
-    handleBlur: function (event, value) {
+    handleBlur: function () {
         if(typeof this.props.onBlur === 'function') {
-            this.props.onBlur(event, value)
+            this.props.onBlur()
         }
     },
-
+    componentWillReceiveProps(nextProps) {
+        if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
+            if (moment(nextProps.defaultValue).isValid()) {
+                this.setState({date: moment(nextProps.defaultValue)})
+            }
+        }
+    },
     render: function () {
         return (
-            <HelTextField validations={['isDate']} name={this.props.name} onChange={this.handleChange} />
+          <div className='hel-text-field'>
+            <DatePicker
+                placeholderText='pp.kk.vvvv'
+                selected={this.state.date}
+                name={this.props.name}
+                onChange={this.handleChange}
+                onBlur={this.handleBlur}
+            />
+          </div>
+
         )
     }
 });

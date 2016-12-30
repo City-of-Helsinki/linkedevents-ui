@@ -1,0 +1,73 @@
+.recurring-events-modal {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    z-index: 998;
+    background-color: rgba(0,0,0,0.75);
+    width: 100vw;
+    height: 100vh;
+}
+.recurring-events {
+    position: relative;
+    z-index: 999;
+    padding: 2vw;
+    max-width: 80vw;
+    max-height: 95vh;
+    overflow: scroll;
+    background-color: white;
+    h2 {
+        margin-top: 5px;
+        padding: 10px;
+    }
+}
+.recurring-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+.recurring-day {
+    display: inline-block;
+    margin-right: 7px;
+}
+.dates-label {
+    position: relative;
+    font-size: 15px;
+    margin: 10px 0px;
+    color: #777;
+}
+.repetition-count {
+    max-width: 27px;
+    display: inline-block;
+    input {
+        text-align: center;
+    }
+    span {
+        .form-group {
+            .control-label {
+                position: absolute;
+                left: -105px;
+                top: -25px;
+            }
+        }
+    }
+}
+.recurring-date-range-wrapper {
+    margin-top:20px;
+}
+.popover-content {
+    pointer-events: none;
+}
+.recurring-times {
+    .label-wrapper {
+        position: relative;
+    }
+    .label-wrapper > span:first-child {
+        position: relative;
+        font-size: 15px;
+        margin: 10px 0px;
+        color: #777;
+    }
+}

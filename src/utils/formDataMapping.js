@@ -67,7 +67,8 @@ function mapUIDataToAPIFormat(values) {
     obj.provider = values.provider
     obj.event_status = values.event_status || constants.EVENT_STATUS.SCHEDULED
     obj.publication_status = values.publication_status || constants.PUBLICATION_STATUS.DRAFT
-
+    obj.super_event_type = values.super_event_type
+    obj.super_event = values.super_event
     // Location data
     obj.location = values.location
     obj.location_extra_info = values.location_extra_info

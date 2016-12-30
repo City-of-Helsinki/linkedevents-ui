@@ -102,7 +102,10 @@ var EditorPage = React.createClass({
             margin: '0 10px'
         }
         let publicationStatus = _.get(this.props, 'editor.values.publication_status')
-
+        let labelText = "Julkaise tapahtuma"
+        if (_.keys(this.props.editor.values.sub_events).length > 0) {
+            labelText = "Julkaise tapahtumat"
+        }
         if(this.props.params.action === 'update' && publicationStatus === constants.PUBLICATION_STATUS.PUBLIC) {
             return (
                 <RaisedButton
@@ -119,7 +122,7 @@ var EditorPage = React.createClass({
                         style={buttonStyle}
                         primary={true}
                         disabled={this.props.user && !this.props.user.organization}
-                        label="Julkaise tapahtuma"
+                        label={labelText}
                         onClick={ (e) => this.saveAsPublished(e) }
                     />
                 </span>
@@ -210,7 +213,14 @@ var EditorPage = React.createClass({
 
         let clearButton = null
         if(_.keys(this.props.editor.values).length) {
-            clearButton = (<RaisedButton onClick={this.clearForm} primary={true} className="pull-right" label={<span><FormattedMessage id="clear-form"/><i className="material-icons">&#xE14C;</i></span>}/>)
+            clearButton = (
+                <RaisedButton
+                    onClick={this.clearForm}
+                    primary={true}
+                    className="pull-right"
+                    label={<span><FormattedMessage id="clear-form"/><i className="material-icons">&#xE14C;</i></span>}
+                />
+            )
         }
 
         // TODO: fix flow for non-authorized users

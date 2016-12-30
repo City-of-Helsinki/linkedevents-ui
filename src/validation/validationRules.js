@@ -102,13 +102,12 @@ var validations = {
         return !_isExisty(value) || isEmpty(value) || value.length >= length;
     },
     isTime: function isTime(values, value) {
-        return validations.matchRegexp(values, value, /^(2[0-3]|1[0-9]|0[0-9]|[0-9])((:|.)[0-5][0-9]|[0-9])?$/i);
+        return validations.matchRegexp(values, value, /^(2[0-3]|1[0-9]|0[0-9]|[0-9])((:|\.)[0-5][0-9])?$/i);
     },
     isDate: function isDate(values, value) {
-        return validations.matchRegexp(values, value, /^([1-9]|0[1-9]|[1-2][0-9]|3[0-1])\.([1-9]|0[1-9]|1[0-2])\.[0-9]{4}$/i);
+        return validations.matchRegexp(values, value, /^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/i);
     },
     afterStartTime: function afterStartTime(values, value) {
-
         if(!values.start_time || !value) { return true }
 
         let time = new Date(value)
@@ -149,7 +148,6 @@ var validations = {
         if(_.keys(value).length === 0) {
             return false
         }
-
         let hasOneValue = false
 
         _.each(value, item => {
@@ -211,6 +209,19 @@ var validations = {
             return false
         }
         return _containsAllLanguages(offer.price, values._contentLanguages)
+    },
+    atLeastOneIsTrue: function atLeastOneIsTrue(values, value) {
+        for (const key in value) {
+            if (value.hasOwnProperty(key)) {
+                if(value[key]) {
+                    return true
+                }
+            }
+        }
+        return false
+    },
+    isMoreThanOne: function isMoreThanOne(values, value) {
+        return value > 0 ? true : false
     }
 };
 

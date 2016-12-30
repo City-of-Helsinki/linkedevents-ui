@@ -19,7 +19,8 @@ let HelTextField = React.createClass({
     },
 
     propTypes: {
-        name: React.PropTypes.string
+        name: React.PropTypes.string,
+        placeholder: React.PropTypes.string
     },
 
     contextTypes: {
@@ -62,9 +63,10 @@ let HelTextField = React.createClass({
     },
 
     handleBlur: function (event) {
-
         // Apply changes to store if no validation errors, or the props 'forceApplyToStore' is defined
-        if(this.props.name && this.getValidationErrors().length === 0 || this.props.name && this.props.forceApplyToStore) {
+        if( this.props.name && this.getValidationErrors().length === 0 &&
+            !this.props.name.includes('time') ||
+            this.props.name && this.props.forceApplyToStore) {
             let obj = {}
             obj[this.props.name] = this.refs.text.getValue()
             this.context.dispatch(setData(obj))
@@ -164,6 +166,7 @@ let HelTextField = React.createClass({
                 type={type}
                 value={this.state.value}
                 label={label}
+                placeholder={this.props.placeholder}
                 // help="Validation is based on string length."
                 // bsStyle={this.validationState()} // TODO: Check glyph styling, now it shows success for empty values
                 hasFeedback
