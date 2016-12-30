@@ -20,7 +20,13 @@ html.no-js
           | Please <a href="http://browsehappy.com/">upgrade your browser</a>
           | to improve your experience.
         <![endif]-->
+        if APP_MODE == 'testing'
+            #testingmessage
+                | tämä Linked Events on testiversio
+                a(href=LE_PRODUCTION_INSTANCE) siirry tuotantoon
         div
             #content
         div
             #debughelper
+        #commitmessage
+            | UI version: #{COMMIT_HASH}

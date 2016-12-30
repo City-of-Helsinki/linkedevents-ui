@@ -186,3 +186,26 @@ header {
     transition: 0.5s;
     left: 0;
 }
+
+
+#testingmessage {
+    background: red;
+    text-align: center;
+    height: 3em;
+    line-height: 3em;
+    color: white;
+    font-size: 130%;
+}
+
+#testingmessage a {
+    margin: 1em;
+}
+
+#commitmessage {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    font-size: 80%;
+    margin: 0.3em;
+    color: #48a3e7;
+}

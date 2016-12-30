@@ -3,7 +3,7 @@
 Saves store state to global module for another app
  */
 
-let arg = null;
+let arg = {};
 
 window.ARG = arg;
 

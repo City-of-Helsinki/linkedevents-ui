@@ -144,6 +144,7 @@ var DebugHelper = React.createClass({
 
     serialize_state(reportmsg) {
         window.ARG.debug_message = reportmsg;
+        window.ARG.commit_hash = appSettings.commit_hash;
         this.close_reportform();
         report(JSON.stringify(window.ARG));
 
