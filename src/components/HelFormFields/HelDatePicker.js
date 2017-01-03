@@ -56,6 +56,7 @@ let HelDatePicker = React.createClass({
                 name={this.props.name}
                 onChange={this.handleChange}
                 onBlur={this.handleBlur}
+                locale="fi"
             />
           </div>
 

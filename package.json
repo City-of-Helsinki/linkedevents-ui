@@ -34,7 +34,7 @@
     "jwt-decode": "^2.0.1",
     "lodash": "^3.10.1",
     "material-ui": "^0.14.0",
-    "moment": "^2.10.6",
+    "moment": "^2.13.0",
     "moment-timezone": "^0.4.1",
     "nconf": "^0.8.2",
     "passport": "^0.3.2",
