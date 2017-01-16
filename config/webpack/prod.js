@@ -53,7 +53,7 @@ var config = {
     },
 
     debug: false,
-
+    devtool: 'source-map',
     resolve: {
         root: common.paths.ROOT,
         extensions: ['.', '', '.webpack.js', '.web.js', '.jsx', '.js']
