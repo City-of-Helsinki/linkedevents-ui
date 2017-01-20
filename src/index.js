@@ -121,6 +121,9 @@ var DebugReporterModal = React.createClass({
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={this.props.close}>Sulje</Button>
+                    <div style={{fontSize: '80%', margin: '0.5em'}}>
+                        Sovelluksen versiotunniste: {appSettings.commit_hash}
+                    </div>
                 </Modal.Footer>
             </Modal>
         </div>
@@ -160,7 +163,7 @@ var DebugHelper = React.createClass({
             <div id="debughelper">
                 <div id="debughelper_container">
                     <Button bsSize="large" onClick={this.show_reportform}>
-                        <Glyphicon glyph="envelope" />
+                        <i className="material-icons">feedback</i>
                     </Button>
                 </div>
                 <div id="slide">Jos tapahtumien hallinnassa tai syöttölomakkeen toiminnassa on virhe, klikkaa "raportoi virhe"&#x2011;nappia,
