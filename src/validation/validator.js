@@ -26,7 +26,6 @@ const publicValidations = {
     extlink_facebook: ['isUrl'],
     extlink_twitter: ['isUrl'],
     extlink_instagram: ['isUrl'],
-    offers: ['offerIsFreeOrHasPrice']
 }
 
 /**
