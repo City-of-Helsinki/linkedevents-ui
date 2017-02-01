@@ -7,6 +7,7 @@ const draftValidations = {
     start_time: ['inTheFuture'],
     end_time: ['afterStartTime', 'inTheFuture'],
     short_description: ['shortString'],
+    description: ['longString'],
     info_url: ['isUrl'],
     extlink_facebook: ['isUrl'],
     extlink_twitter: ['isUrl'],
@@ -21,7 +22,7 @@ const publicValidations = {
     start_time: ['requiredString', 'inTheFuture'], // Datetime is saved as ISO string
     end_time: ['afterStartTime', 'inTheFuture'],
     short_description: ['requiredMulti', 'requiredInContentLanguages', 'shortString'],
-    description: ['requiredMulti', 'requiredInContentLanguages'],
+    description: ['requiredMulti', 'requiredInContentLanguages', 'longString'],
     info_url: ['isUrl'],
     extlink_facebook: ['isUrl'],
     extlink_twitter: ['isUrl'],

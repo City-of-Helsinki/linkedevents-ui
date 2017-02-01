@@ -130,6 +130,7 @@
     "validation-inTheFuture": "Tapahtuman pitää olla tulevaisuudessa",
     "validation-shortString": "Tämä kenttä voi olla korkeintaan 160 merkkiä pitkä",
     "validation-stringLengthCounter": " merkkiä jäljellä",
+    "validation-longStringLengthCounter": " merkkiä käytetty",
     "validation-requiredInContentLanguages": "Tämä kenttä vaaditaan kaikilla valituilla kielillä",
     "validation-offerIsFreeOrHasPrice": "Maksullinen tapahtuma vaatii hinnan kaikilla valituilla kielillä",
     "validation-atLeastOneIsTrue": "Valitse vähintään yksi toistopäivä",
