@@ -30,7 +30,8 @@
         display: block;
         background-color: #f6f6f6;
 
-        line-height: 72px;
+        //line-height: 72px;
+        line-height: 1.5;
 
         color: #5a5959;
 
@@ -52,8 +53,9 @@
         }
 
         .language-selection {
-            height: 72px;
+            height: 100%;
             width: 100%;
+            padding: 20px;
 
             label {
                 font-size: 20px;
