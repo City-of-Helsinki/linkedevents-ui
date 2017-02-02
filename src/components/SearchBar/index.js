@@ -86,7 +86,7 @@ class SearchBar extends React.Component {
         //var label = this.formatLabel() + ' ';
         return (
             <form onSubmit={ (e) => this.handleSubmit(e) } className="row search-bar">
-                <div className="col-xs-9">
+                <div className="col-sm-8 col-xs-12">
                     <Input
                         type="text"
                         placeholder="Tapahtuman nimi tai paikka"
@@ -97,7 +97,7 @@ class SearchBar extends React.Component {
                         />
                 </div>
 
-                <div className="col-xs-3">
+                <div className="col-sm-4 col-xs-12">
                     <Button style={{height: '72px'}}
                         className="mui-raised-button"
                         type="submit"
