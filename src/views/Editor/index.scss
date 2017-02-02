@@ -29,6 +29,7 @@
     .highlighted-block {
         display: block;
         background-color: #f6f6f6;
+        padding: 20px;
 
         //line-height: 72px;
         line-height: 1.5;
@@ -55,11 +56,10 @@
         .language-selection {
             height: 100%;
             width: 100%;
-            padding: 20px;
 
             label {
                 font-size: 20px;
-                padding-right: 10px;
+                padding-right: 30px;
             }
         }
     }
@@ -123,4 +123,11 @@
         background-color: #f7f7f7;
         height: 176px;
     }
+}
+
+@media (max-width: 480px) {
+    legend,
+        .legend  {
+            margin-top: 2rem !important;
+        }
 }
