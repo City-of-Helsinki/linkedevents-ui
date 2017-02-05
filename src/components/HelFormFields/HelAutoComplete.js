@@ -35,7 +35,8 @@ class HelAutoComplete extends React.Component {
                         value: item.id,
                         label: item.name.fi, // TODO: use locale
                         '@id': `/v1/${this.props.resource}/${item.id}/`,
-                        id: item.id
+                        id: item.id,
+                        n_events: item.n_events
                     }
                 })
             }).then((json) => {
@@ -68,6 +69,10 @@ class HelAutoComplete extends React.Component {
         }
     }
 
+    optionRenderer(item) {
+        return `${item.label} (${item.n_events} tapahtumaa)`
+    }
+
     render() {
 
         let values = {
@@ -91,6 +96,7 @@ class HelAutoComplete extends React.Component {
                         isLoading={this.state.isLoading}
                         ignoreAccents={false}
                         autoload={false}
+                        optionRenderer={this.optionRenderer}
                     />
                 </div>
                 <div >
