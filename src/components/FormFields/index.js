@@ -282,7 +282,7 @@ class FormFields extends React.Component {
                     <FormattedMessage id="event-categorization" />
                 </FormHeader>
                 <div className="row">
-                    <HelSelect selectedValues={values['keywords']} legend={"Tapahtuman asiasanat"} ref="keywords" name="keywords" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?show_all_keywords=1&data_source=yso&filter=`} validationErrors={validationErrors['keywords']} />
+                    <HelSelect selectedValues={values['keywords']} legend={"Tapahtuman asiasanat"} ref="keywords" name="keywords" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?show_all_keywords=1&data_source=yso&text=`} validationErrors={validationErrors['keywords']} />
                     <SideField><p className="tip">Liitä tapahtumaan vähintään yksi asiasana, joka kuvaa tapahtuman teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta.</p></SideField>
                     <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-main-categories"/>}
                                     selectedValues={values['hel_main']}
