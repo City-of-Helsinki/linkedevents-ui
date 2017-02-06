@@ -7,7 +7,7 @@ import { RaisedButton } from 'material-ui'
 import { postImage, postImageWithURL, deleteImage } from 'src/actions/userImages.js'
 import { connect } from 'react-redux'
 import { get as getIfExists, isEmpty } from 'lodash'
-
+import ImageEdit from '../ImageEdit'
 import ImageGalleryGrid from '../ImageGalleryGrid'
 import { confirmAction } from 'src/actions/app.js'
 import { getStringWithLocale } from 'src/utils/locale'
@@ -116,13 +116,12 @@ class ImagePicker extends React.Component {
                             style={{margin:"0 0 0 10px"}}
                         />
                     </Modal.Header>
-
                     <Modal.Body>
                         <Modal.Title id='ModalBodyTitle'><FormattedMessage id="use-existing-image"/></Modal.Title>
                         <ImageGalleryGrid editor={this.props.editor} user={this.props.user} images={this.props.images} />
                         <div style={{clear:'both'}} />
                     </Modal.Body>
-
+                    <ImageEdit label="image-edit" name="image" />
                     <Modal.Footer>
                         <RaisedButton
                             label={<FormattedMessage id="delete"/>}

@@ -1,0 +1,27 @@
+.form-check-input {
+    margin-right: 7px;
+}
+
+.edit-label {
+    margin: 0 20px;
+    span {
+        font-size: 15px;
+        color: #777;
+    }
+}
+
+.btn-save-image-data {
+    font-family: Roboto, sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+    outline: none;
+    height: 70px;
+    width: 80%;
+    border-radius: 2px;
+    background-color: #48a3e7;
+    color: #fff;
+    margin: 30px;
+    &:hover, &:focus {
+        color: #fff;
+    }
+}
