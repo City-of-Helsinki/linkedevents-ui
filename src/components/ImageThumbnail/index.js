@@ -4,6 +4,7 @@ import React from 'react'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { connect } from 'react-redux'
 import { selectImage } from 'src/actions/userImages'
+import ImageEdit from '../ImageEdit'
 
 class ImageThumbnail extends React.Component {
 
@@ -37,7 +38,7 @@ class ImageThumbnail extends React.Component {
             <div className="col-md-3 col-xs-12" onClick={() => this.selectThis()} id={this.props.data.id}>
                 <div className={classname}>
                     <div className="thumbnail" style={bgStyle} />
-                    <div className="name">{this.props.data.name} text here</div>
+                    <ImageEdit />
                 </div>
             </div>
         )

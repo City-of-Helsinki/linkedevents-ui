@@ -34,27 +34,25 @@ class ImageEdit extends React.Component {
 
     render() {
         return (
-            <button className="image-edit btn-lg btn-warning" onClick={() => this.openGalleryModal()}>Testing image edit
+            <div className="name edit-image" onClick={() => this.openGalleryModal()}>Edit image<i className="material-icons">&#xE869;</i>
 
                 <Modal
                     id="image-modal"
                     show={this.state.open}
                     onHide={() => this.closeGalleryModal()}
                     aria-labelledby="ModalHeader"
-                    width="500px"
+                    width="600px"
                  >
-                    <Modal.Header>
+                   <Modal.Body>
                         <RaisedButton
                             label="Sulje"
                             onClick={() => this.closeGalleryModal()}
                             style={{float:"right"}}
                             primary={true}
                         />
-                    </Modal.Header>
-                    <Modal.Body>
                         <h3>Kuvan tiedot</h3>
                         <div>
-                            <div className="col-sm-8">
+                            <div className="col-sm-8 edit-form">
                                 <div className="hel-text-field">
                                     <label className="hel-label">Kuvateksti (korkeintaan 160 merkkiä)</label>
                                     <input type="text" className="form-control" />
@@ -66,7 +64,7 @@ class ImageEdit extends React.Component {
                                 <h4>Kuvan lisenssi</h4>
                                 <div className="form-check">
                                     <label className="edit-label">
-                                        <input type="checkbox" className="form-check-input" />
+                                        <input type="checkbox" className="form-check-input" checked />
                                         Creative Commons BY 4.0
                                     </label>
                                     <label className="edit-label">
@@ -82,7 +80,7 @@ class ImageEdit extends React.Component {
                     </Modal.Footer>
                 </Modal>
                 { this.props.children }
-            </button>
+            </div>
         )
     }
 }
