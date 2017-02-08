@@ -194,21 +194,16 @@ var validations = {
         }
         return true
     },
+    longString: function longString(values, value) {
+            if(value.length > 10000) {
+                return false
+            }
+    },
     requiredInContentLanguages: function requiredInContentLanguages(values, value) {
         if (typeof value !== 'object') {
             return false
         }
         return _containsAllLanguages(value, values._contentLanguages)
-    },
-    offerIsFreeOrHasPrice: function requireIsFreeOrPrice(values, value) {
-        const offer = value[0]
-        if (offer.is_free === true) {
-            return true
-        }
-        if (!_isExisty(offer.price)) {
-            return false
-        }
-        return _containsAllLanguages(offer.price, values._contentLanguages)
     },
     atLeastOneIsTrue: function atLeastOneIsTrue(values, value) {
         for (const key in value) {

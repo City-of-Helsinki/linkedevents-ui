@@ -28,11 +28,16 @@ class HelSelect extends React.Component {
             }).then((json) => {
                 return _.map(json.data, (item) => ({
                     label: item.name.fi, // TODO: use locale
-                    value: `/v0.1/${this.props.resource}/${item.id}/`
+                    value: `/v0.1/${this.props.resource}/${item.id}/`,
+                    n_events: item.n_events
                 }));
             }).then((json) => {
                 return { options: json };
             })
+    }
+
+    optionRenderer(item) {
+        return `${item.label} (${item.n_events} tapahtumaa)`
     }
 
     render() {
@@ -46,6 +51,7 @@ class HelSelect extends React.Component {
                     onChange={ (val) => this.onChange(val) }
                     ignoreAccents={false}
                     autoload={false}
+                    optionRenderer={this.optionRenderer}
                 />
             </div>
         )
