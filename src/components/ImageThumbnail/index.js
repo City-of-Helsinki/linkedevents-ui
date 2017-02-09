@@ -38,7 +38,7 @@ class ImageThumbnail extends React.Component {
             <div className="col-md-3 col-xs-12" onClick={() => this.selectThis()} id={this.props.data.id}>
                 <div className={classname}>
                     <div className="thumbnail" style={bgStyle} />
-                    <ImageEdit />
+                    <ImageEdit image={bgStyle} />
                 </div>
             </div>
         )

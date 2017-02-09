@@ -121,7 +121,6 @@ class ImagePicker extends React.Component {
                         <ImageGalleryGrid editor={this.props.editor} user={this.props.user} images={this.props.images} />
                         <div style={{clear:'both'}} />
                     </Modal.Body>
-                    <ImageEdit label="image-edit" name="image" />
                     <Modal.Footer>
                         <RaisedButton
                             label={<FormattedMessage id="delete"/>}

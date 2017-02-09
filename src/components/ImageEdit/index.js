@@ -25,33 +25,35 @@ class ImageEdit extends React.Component {
         // Save image data
     }
 
-    closeGalleryModal() {
+    closeEditModal() {
         this.setState({ open: false })
     }
-    openGalleryModal() {
+    openEditModal() {
         this.setState({ open: true })
     }
 
     render() {
         return (
-            <div className="name edit-image" onClick={() => this.openGalleryModal()}>Edit image<i className="material-icons">&#xE869;</i>
+            <div className="name edit-image" onClick={() => this.openEditModal()}>Edit image<i className="material-icons">&#xE869;</i>
 
                 <Modal
                     id="image-modal"
                     show={this.state.open}
-                    onHide={() => this.closeGalleryModal()}
+                    onHide={() => this.closeEditModal()}
                     aria-labelledby="ModalHeader"
                     width="600px"
                  >
-                   <Modal.Body>
+                   <Modal.Header>
                         <RaisedButton
                             label="Sulje"
-                            onClick={() => this.closeGalleryModal()}
+                            onClick={() => this.closeEditModal()}
                             style={{float:"right"}}
                             primary={true}
                         />
                         <h3>Kuvan tiedot</h3>
-                        <div>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="row">
                             <div className="col-sm-8 edit-form">
                                 <div className="hel-text-field">
                                     <label className="hel-label">Kuvateksti (korkeintaan 160 merkkiä)</label>
@@ -64,7 +66,7 @@ class ImageEdit extends React.Component {
                                 <h4>Kuvan lisenssi</h4>
                                 <div className="form-check">
                                     <label className="edit-label">
-                                        <input type="checkbox" className="form-check-input" checked />
+                                        <input type="checkbox" className="form-check-input" defaultChecked />
                                         Creative Commons BY 4.0
                                     </label>
                                     <label className="edit-label">
@@ -73,6 +75,7 @@ class ImageEdit extends React.Component {
                                     </label>
                                 </div>
                             </div>
+                            <div className="col-sm-4 edit-form form-image" style={this.props.image} ></div>
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
