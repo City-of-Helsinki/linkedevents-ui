@@ -25,12 +25,20 @@ let EventItem = (props) => {
         backgroundImage: 'url(' + image + ')'
     }
 
+    const getDay = props.event.start_time;
+    let date = getDay.split('T');
+    let convertedDate = date[0].split('-').reverse().join('.');
+
     return (
         <Link to={url}>
             <div className="col-xs-12 col-md-6 col-lg-4" key={ props.event['id'] }>
                 <div className="event-item">
                     <div className="thumbnail" style={thumbnailStyle} />
-                    <div className="name">{name}</div>
+                    <div className="name">
+                        <span className="converted-day">{convertedDate}</span>
+                        {name}
+                    </div>
+
                 </div>
             </div>
         </Link>
