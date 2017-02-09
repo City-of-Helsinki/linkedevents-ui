@@ -194,10 +194,8 @@ var validations = {
         }
         return true
     },
-    longString: function longString(values, value) {
-            // if(value.length > 10000) {
-            //     return false
-            // }
+    longString: function longString() {
+            return true
     },
     requiredInContentLanguages: function requiredInContentLanguages(values, value) {
         if (typeof value !== 'object') {
