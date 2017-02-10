@@ -61,7 +61,7 @@ let EventTable = (props) => {
     })
 
     return (
-        <Table selectable={false} multiSelectable={false}>
+        <Table selectable={false} multiSelectable={false} className="event-table">
             <TableHeader enableSelectAll={false} adjustForCheckbox={false} displaySelectAll={false}>
                 <TableRow>
                     <TableHeaderColumn>Otsikko</TableHeaderColumn>
