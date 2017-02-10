@@ -289,7 +289,7 @@ class FormFields extends React.Component {
                                     ref="hel_main"
                                     name="hel_main"
                                     validationErrors={validationErrors['hel_main']}
-                                    itemClassName="col-sm-12"
+                                    itemClassName="col-md-12 col-lg-6"
                                     options={helMainOptions} />
                     <SideField><p className="tip">Valitse vähintään yksi pääkategoria.</p></SideField>
                 </div>
@@ -300,7 +300,7 @@ class FormFields extends React.Component {
                         ref="audience"
                         name="audience"
                         validationErrors={validationErrors['audience']}
-                        itemClassName="col-sm-12"
+                        itemClassName="col-md-12 col-lg-6"
                         options={helTargetOptions}
                     />
                     <SideField><p className="tip">Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään.</p></SideField>
@@ -310,7 +310,7 @@ class FormFields extends React.Component {
                         ref="in_language"
                         name="in_language"
                         validationErrors={validationErrors['in_language']}
-                        itemClassName="col-sm-6"
+                        itemClassName="col-md-12 col-lg-6"
                         options={helEventLangOptions}
                     />
                     <SideField><p className="tip">Kielet, joita tapahtumassa käytetään.</p></SideField>
