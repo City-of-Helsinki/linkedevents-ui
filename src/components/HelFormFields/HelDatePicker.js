@@ -53,6 +53,7 @@ let HelDatePicker = React.createClass({
             <DatePicker
                 placeholderText='pp.kk.vvvv'
                 selected={this.state.date}
+                autoOk={true}
                 name={this.props.name}
                 onChange={this.handleChange}
                 onBlur={this.handleBlur}
