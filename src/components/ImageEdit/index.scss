@@ -1,6 +1,8 @@
-#image-edit {
+#image-modal {
     z-index: 1040;
-    height: auto;
+    .modal-dialog {
+        height: auto;
+    }
 }
 
 .form-check-input {

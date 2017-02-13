@@ -4,7 +4,7 @@ import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl'
 import Modal from 'react-bootstrap/lib/Modal';
 import { RaisedButton } from 'material-ui'
-import { postImage, postImageWithURL, deleteImage } from 'src/actions/userImages.js'
+import { postImage, deleteImage } from 'src/actions/userImages.js'
 import { connect } from 'react-redux'
 import { get as getIfExists, isEmpty } from 'lodash'
 import ImageEdit from '../ImageEdit'
@@ -23,7 +23,10 @@ class ImagePicker extends React.Component {
         // }
 
         this.state = {
-            open: false
+            open: false,
+            edit: false,
+            imageData: null,
+            thumbnailUrl: null
         }
     }
 
@@ -40,7 +43,7 @@ class ImagePicker extends React.Component {
         let data = new FormData()
         data.append('image', file)
         if(file && (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' )) {
-            this.props.dispatch(postImage(data, this.props.user))
+            this.setState({edit: true, imageFile: file, thumbnailUrl: window.URL.createObjectURL(file)})
         }
     }
 
@@ -137,6 +140,15 @@ class ImagePicker extends React.Component {
                     </Modal.Footer>
 
                 </Modal>
+                {   this.state.edit &&
+                    this.state.imageFile &&
+                    this.state.thumbnailUrl &&
+                    <ImageEdit
+                        imageFile={this.state.imageFile}
+                        thumbnailUrl={this.state.thumbnailUrl}
+                        close={() => this.setState({edit: false, open: false})}
+                    />
+                }
                 { this.props.children }
             </div>
         )
