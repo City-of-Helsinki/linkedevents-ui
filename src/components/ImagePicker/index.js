@@ -25,7 +25,7 @@ class ImagePicker extends React.Component {
         this.state = {
             open: false,
             edit: false,
-            imageData: null,
+            imageFile: null,
             thumbnailUrl: null
         }
     }
@@ -35,7 +35,7 @@ class ImagePicker extends React.Component {
     }
 
     handleExternalImageSave() {
-        this.props.dispatch(postImage(null, this.props.user, this.externalImageURL.value))
+        this.setState({edit: true, imageFile: null, thumbnailUrl: this.externalImageURL.value})
     }
 
     handleUpload(event) {
@@ -141,7 +141,6 @@ class ImagePicker extends React.Component {
 
                 </Modal>
                 {   this.state.edit &&
-                    this.state.imageFile &&
                     this.state.thumbnailUrl &&
                     <ImageEdit
                         imageFile={this.state.imageFile}

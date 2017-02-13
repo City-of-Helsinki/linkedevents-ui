@@ -25,7 +25,11 @@ class ImageEdit extends React.Component {
 
     handleImagePost() {
         let data = new FormData()
-        data.append('image', this.props.imageFile)
+        if(this.props.imageFile) {
+            data.append('image', this.props.imageFile)
+        } else {
+            data.append('url', this.props.thumbnailUrl)
+        }
         data.append("name", this.state.name)
         data.append("photographer_name", this.state.photographerName)
         data.append("license", this.state.license)
@@ -67,8 +71,6 @@ class ImageEdit extends React.Component {
                                 <input
                                     type="text"
                                     className="form-control"
-                                    validationErrors={validationErrors["short_description"]}
-                                    validations={['shortString']}
                                     onChange={(e) => this.handleTextChange(e, "name")}
                                     value={this.state.name}
                                 />
