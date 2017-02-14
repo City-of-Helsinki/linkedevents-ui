@@ -72,20 +72,12 @@ export function receiveUserImagesFail(response) {
     }
 }
 
-export function postImage(formData = null, user, externalUrl = null) {
+export function postImage(formData, user) {
     return (dispatch) => {
-        let requestContentSettings = {}
-        if(formData) {
-            requestContentSettings = {
-                "mimeType": "multipart/form-data",
-                "contentType": false,
-                "data": formData
-            }
-        } else {
-            requestContentSettings = {
-                "contentType": "application/json",
-                "data": JSON.stringify({'url':externalUrl})
-            }
+        const requestContentSettings = {
+            "mimeType": "multipart/form-data",
+            "contentType": false,
+            "data": formData
         }
 
         const baseSettings = getRequestBaseSettings(user);
