@@ -14,7 +14,19 @@ $search-bar-height: 72px;
         width: 100%;
         height: $search-bar-height;
     }
-
+    .time-label {
+        position: relative;
+        display: block;
+        margin-top: 22px;
+        margin-bottom: 6px;
+    }
+    .start-date:after {
+        content: '-';
+        position: absolute;
+        font-size: 30px;
+        top: 16px;
+        right: -5px;
+    }
     .text-field {
         width: 100%;
 

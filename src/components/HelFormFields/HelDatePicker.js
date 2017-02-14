@@ -12,14 +12,14 @@ import moment from 'moment'
 let HelDatePicker = React.createClass({
     getInitialState: function() {
         return {
-            date: this.props.defaultValue ? moment(this.props.defaultValue) : moment()
+            date: this.props.defaultValue
         }
     },
 
     propTypes: {
         defaultValue: React.PropTypes.object,
         name: React.PropTypes.string.isRequired,
-        onBlur: React.PropTypes.func.isRequired
+        onBlur: React.PropTypes.func
     },
 
     componentDidMount: function () {
@@ -27,7 +27,12 @@ let HelDatePicker = React.createClass({
     },
 
     handleChange: function (date) {
-        if(date.isValid()) {
+        if (date._pf.nullInput) {
+            this.setState({
+              date: undefined
+            })
+            this.props.onChange('date', undefined)
+        } else if (date.isValid()) {
             this.setState({
               date: date
             })
@@ -43,7 +48,7 @@ let HelDatePicker = React.createClass({
     componentWillReceiveProps(nextProps) {
         if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
             if (moment(nextProps.defaultValue).isValid()) {
-                this.setState({date: moment(nextProps.defaultValue)})
+                this.setState({date: nextProps.defaultValue})
             }
         }
     },
