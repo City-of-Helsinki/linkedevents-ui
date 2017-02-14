@@ -1,24 +1,21 @@
-import '!style!css!sass!./index.scss'
+import "!style!css!sass!./index.scss"
 
-import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl'
-import Modal from 'react-bootstrap/lib/Modal';
-import { RaisedButton } from 'material-ui'
-import { postImage, postImageWithURL, deleteImage } from 'src/actions/userImages.js'
-import { connect } from 'react-redux'
-import { get as getIfExists, isEmpty } from 'lodash'
-import FormFields from '../FormFields'
-import ImageGalleryGrid from '../ImageGalleryGrid'
-import { confirmAction } from 'src/actions/app.js'
-import { getStringWithLocale } from 'src/utils/locale'
+import React from "react";
+import { injectIntl } from "react-intl"
+import Modal from "react-bootstrap/lib/Modal";
+import { RaisedButton } from "material-ui"
+import { postImage, deleteImage } from "src/actions/userImages.js"
+import { connect } from "react-redux"
+import FormFields from "../FormFields"
+import HelTextField from "../HelFormFields/HelTextField"
 
 class ImageEdit extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            name: "",
-            photographerName: "",
+            name: this.props.defaultName || "",
+            photographerName: this.props.defaultPhotographerName || "",
             license: "cc_by"
         }
     }
@@ -26,9 +23,9 @@ class ImageEdit extends React.Component {
     handleImagePost() {
         let data = new FormData()
         if(this.props.imageFile) {
-            data.append('image', this.props.imageFile)
+            data.append("image", this.props.imageFile)
         } else {
-            data.append('url', this.props.thumbnailUrl)
+            data.append("url", this.props.thumbnailUrl)
         }
         data.append("name", this.state.name)
         data.append("photographer_name", this.state.photographerName)
@@ -68,16 +65,20 @@ class ImageEdit extends React.Component {
                         <div className="col-sm-8 edit-form">
                             <div className="hel-text-field">
                                 <label className="hel-label">Kuvateksti (korkeintaan 160 merkkiä)</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
+                                <HelTextField
                                     onChange={(e) => this.handleTextChange(e, "name")}
-                                    value={this.state.name}
+                                    defaultValue={this.state.name}
+                                    validations={["shortString"]}
                                 />
                             </div>
                             <div className="hel-text-field">
                                 <label className="hel-label">Kuvaaja</label>
-                                <input type="text" className="form-control" onChange={(e) => this.handleTextChange(e, "photographerName")} value={this.state.photographerName} />
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    onChange={(e) => this.handleTextChange(e, "photographerName")}
+                                    defaultValue={this.state.photographerName}
+                                />
                             </div>
                             <h4>Kuvan lisenssi</h4>
                             <div className="form-check">
