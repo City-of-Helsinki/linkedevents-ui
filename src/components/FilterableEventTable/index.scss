@@ -1,3 +1,18 @@
 .draft-row {
     background-color: rgba(255, 208, 91, 0.60) !important;
 }
+
+.event-table {
+    td, th {
+        overflow-wrap: break-word;
+        white-space: normal !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .event-table {
+        td, th {
+            display: block;
+        }
+    }
+}

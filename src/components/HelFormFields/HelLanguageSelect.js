@@ -44,7 +44,7 @@ class HelLanguageSelect extends React.Component {
         })
 
         return (
-            <div className="language-selection spread-evenly">
+            <div className="col-sm-12 language-selection">
                 {checkboxes}
             </div>
         )

@@ -62,6 +62,10 @@
 
 @media (max-width: 520px) {
     .validation-error-popover {
+        &.popover {
+            top:-70%;
+            left:0;
+        }
         .popover-content {
             min-width: 100px;
             white-space: normal;
@@ -75,3 +79,4 @@
         }
     }
 }
+

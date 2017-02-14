@@ -63,7 +63,7 @@ class SearchBar extends React.Component {
                         onBlur={() => null}
                     />
                 </div>
-                <div className="col-xs-12 col-sm-9">
+                <div className="col-sm-8 col-xs-12">
                     <Input
                         type="text"
                         placeholder="Tapahtuman nimi tai paikka"
@@ -73,8 +73,7 @@ class SearchBar extends React.Component {
                         groupClassName="text-field"
                         />
                 </div>
-
-                <div className="col-xs-12 col-sm-3">
+                <div className="col-sm-4 col-xs-12">
                     <Button style={{height: '72px'}}
                         className="mui-raised-button"
                         type="submit"
