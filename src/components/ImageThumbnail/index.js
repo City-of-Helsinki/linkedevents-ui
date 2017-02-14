@@ -44,7 +44,7 @@ class ImageThumbnail extends React.Component {
                     <div className="name edit-image" onClick={() => this.setState({edit: true})}>{this.props.data.name || "Edit image"}<i className="material-icons">&#xE869;</i></div>
                 </div>
                 {   this.state.edit &&
-                    <ImageEdit defaultName={this.props.data.name} defaultPhotographerName={this.props.data.photographerName} thumbnailUrl={this.props.url} close={() => this.setState({edit: false})}/>
+                    <ImageEdit defaultName={this.props.data.name} defaultPhotographerName={this.props.data.photographer_name} thumbnailUrl={this.props.url} close={() => this.setState({edit: false})}/>
                 }
             </div>
         )
