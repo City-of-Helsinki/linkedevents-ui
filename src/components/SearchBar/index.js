@@ -71,6 +71,7 @@ class SearchBar extends React.Component {
                         onChange={ (e) => this.handleStringChange(e) }
                         ref="searchQueryInput"
                         groupClassName="text-field"
+                        autoFocus
                         />
                 </div>
                 <div className="col-sm-4 col-xs-12">
