@@ -40,13 +40,12 @@ class SearchBar extends React.Component {
         return (
             <form onSubmit={ (e) => this.handleSubmit(e) } className="row search-bar">
                 <div className="col-sm-2 time-label">
-                    <label>Etsi ajalta</label>
+                    <label>Etsi vain ajalta</label>
                 </div>
                 <div className="col-xs-8 col-sm-5 col-md-3 start-date">
                     <HelDatePicker
                         ref="date"
                         name="startDate"
-                        defaultValue={this.state.startDate}
                         validations={['isDate']}
                         placeholder="pp.kk.vvvv"
                         onChange={(date, value) => this.handleDateChange('startDate', date, value)}
