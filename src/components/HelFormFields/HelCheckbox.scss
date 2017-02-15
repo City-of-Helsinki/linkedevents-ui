@@ -18,3 +18,13 @@
         margin-top: 0;
     }
 }
+
+@media (min-width: 990px) and (max-width: 1200px) {
+    .hel-checkbox {
+        label {
+            span {
+                font-size: 14px;
+            }
+        }
+    }
+}
