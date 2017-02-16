@@ -14,5 +14,8 @@
         td, th {
             display: block;
         }
+        td:first-child, th:first-child {
+            margin-top: 20px;
+        }
     }
 }
