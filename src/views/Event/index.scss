@@ -28,3 +28,17 @@
         #fff 20px
     );
 }
+
+@media (max-width: 480px) {
+    .actions {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        button {
+            span {
+                word-break: break-all;
+                line-height: 1;
+            }
+        }
+    }
+}
