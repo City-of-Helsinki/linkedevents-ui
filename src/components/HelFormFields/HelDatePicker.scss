@@ -1,3 +1,10 @@
 .react-datepicker__input-container {
   display: block;
 }
+
+@media (max-width: 480px) {
+    .liner {
+        border-bottom: 1px solid #48A3E7;
+        padding-bottom: 40px;
+    }
+}
