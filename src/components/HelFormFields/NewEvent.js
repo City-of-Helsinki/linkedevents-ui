@@ -25,7 +25,7 @@ class NewEvent extends React.Component {
         return (
             <div className="new-events">
                 <div className="multi-field">
-                    <div className="row">
+                    <div className="row liner">
                         <div className="col-xs-12 col-md-6">
                             <HelDateTimeField
                                 ref="start_time"
