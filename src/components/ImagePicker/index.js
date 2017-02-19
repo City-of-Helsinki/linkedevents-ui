@@ -4,7 +4,7 @@ import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl'
 import Modal from 'react-bootstrap/lib/Modal';
 import { RaisedButton } from 'material-ui'
-import { postImage, deleteImage } from 'src/actions/userImages.js'
+import { deleteImage } from 'src/actions/userImages.js'
 import { connect } from 'react-redux'
 import { get as getIfExists, isEmpty } from 'lodash'
 import ImageEdit from '../ImageEdit'

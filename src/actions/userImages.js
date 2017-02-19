@@ -22,12 +22,12 @@ function makeRequest(organization, pg_size) {
     return $.getJSON(url);
 }
 
-function getRequestBaseSettings(user, method = "POST", image_id = null) {
+function getRequestBaseSettings(user, method = "POST", imageId = null) {
     let token = user ? user.token : ""
 
     let url = appSettings.api_base + "/image/"
-    if (image_id) {
-        url += image_id + "/"
+    if (imageId) {
+        url += imageId + "/"
     }
 
     return {
@@ -72,7 +72,7 @@ export function receiveUserImagesFail(response) {
     }
 }
 
-export function postImage(formData, user) {
+export function postImage(formData, user, imageId = null) {
     return (dispatch) => {
         const requestContentSettings = {
             "mimeType": "multipart/form-data",
@@ -80,7 +80,7 @@ export function postImage(formData, user) {
             "data": formData
         }
 
-        const baseSettings = getRequestBaseSettings(user);
+        const baseSettings = imageId ? getRequestBaseSettings(user, "PUT", imageId) : getRequestBaseSettings(user)
 
         let settings = Object.assign({}, baseSettings, requestContentSettings)
         return $.ajax(settings).done(response => {
@@ -95,7 +95,7 @@ export function postImage(formData, user) {
             // and also set the preview image
             dispatch(imageUploadComplete(resp))
             // and flash a message
-            dispatch(setFlashMsg('image-creation-success', 'success', response))
+            dispatch(setFlashMsg(imageId ? 'image-update-success' : 'image-creation-success', 'success', response))
 
         }).fail(response => {
             dispatch(setFlashMsg('image-creation-error', 'error', response))

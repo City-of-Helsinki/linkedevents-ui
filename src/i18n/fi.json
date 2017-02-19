@@ -148,6 +148,8 @@
     "image-creation-error": "Virhe kuvaa luodessa.",
     "image-deletion-success": "Kuva poistettiin onnistuneesti!",
     "image-deletion-error": "Virhe kuvaa poistettaessa.",
+    "image-update-success": "Kuvan tiedot päivitettiin onnistuneesti!",
+    "image-update-error": "Virhe kuvaa päivittäessä.",
     "confirm-image-delete": "Varmista kuvan poistaminen",
 
     "search-no-results": "Ei tuloksia"
