@@ -14,18 +14,21 @@ class ImageEdit extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            updateExisting: this.props.updateExisting || false,
             name: this.props.defaultName || "",
             photographerName: this.props.defaultPhotographerName || "",
-            license: "cc_by"
+            license: this.props.license || "cc_by"
         }
     }
 
     handleImagePost() {
         let data = new FormData()
-        if(this.props.imageFile) {
-            data.append("image", this.props.imageFile)
-        } else {
-            data.append("url", this.props.thumbnailUrl)
+        if(!this.state.updateExisting) {
+            if(this.props.imageFile) {
+                data.append("image", this.props.imageFile)
+            } else {
+                data.append("url", this.props.thumbnailUrl)
+            }
         }
         data.append("name", this.state.name)
         data.append("photographer_name", this.state.photographerName)
@@ -33,7 +36,8 @@ class ImageEdit extends React.Component {
         this.props.dispatch(
             postImage(
                 data,
-                this.props.user
+                this.props.user,
+                this.state.updateExisting ? this.props.id : null
             )
         )
         this.props.close()
