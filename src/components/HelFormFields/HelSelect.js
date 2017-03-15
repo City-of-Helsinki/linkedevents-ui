@@ -28,7 +28,7 @@ class HelSelect extends React.Component {
             }).then((json) => {
                 return _.map(json.data, (item) => ({
                     label: item.name.fi, // TODO: use locale
-                    value: `/v0.1/${this.props.resource}/${item.id}/`,
+                    value: `/v1/${this.props.resource}/${item.id}/`,
                     n_events: item.n_events
                 }));
             }).then((json) => {
