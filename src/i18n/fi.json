@@ -136,6 +136,7 @@
     "validation-offerIsFreeOrHasPrice": "Maksullinen tapahtuma vaatii hinnan kaikilla valituilla kielillä",
     "validation-atLeastOneIsTrue": "Valitse vähintään yksi toistopäivä",
     "validation-isMoreThanOne": "Toistovälin tulee olla vähintään 1 viikko",
+    "validation-daysWithinInterval": "Yksi tai useampi valituista päivistä ei esiinny toistovälillä",
 
     "server-error": "Virhe palvelimella.",
     "validation-error": "Lomakkeessa on virheitä. Tarkasta lomake.",
