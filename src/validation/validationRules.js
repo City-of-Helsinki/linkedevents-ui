@@ -1,6 +1,7 @@
 // Use Formsy React validation rules as a base https://github.com/christianalfoni/formsy-react
 
 import moment from 'moment'
+import { includes } from 'lodash';
 
 /**
  * Notice that all the validation functions follow the Formsy's parameter setup (values, value)
@@ -215,6 +216,43 @@ var validations = {
     },
     isMoreThanOne: function isMoreThanOne(values, value) {
         return value > 0 ? true : false
+    },
+    daysWithinInterval: function daysWithinInterval(values, value) {
+        if (!(value < 6)) { return true }
+        const { start_day_index, end_day_index, daysSelected } = values
+        const dayCodes = {
+            monday: 0,
+            tuesday: 1,
+            wednesday: 2,
+            thursday: 3,
+            friday: 4,
+            saturday: 5,
+            sunday: 6
+        };
+        let daysSelectedState = [];
+        let betweenInterval;
+
+        if (start_day_index <= end_day_index) {
+            betweenInterval = true
+        } else {
+            betweenInterval = false
+        }
+
+        for (const key in daysSelected) {
+            if (daysSelected[key] === true) {
+                if (betweenInterval) {
+                    daysSelectedState.push(start_day_index <= dayCodes[key] && dayCodes[key] <= end_day_index)
+                } else {
+                    daysSelectedState.push(dayCodes[key] <= end_day_index || start_day_index <= dayCodes[key])
+                }
+            }
+        }
+
+        if (includes(daysSelectedState, false)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 };
 
