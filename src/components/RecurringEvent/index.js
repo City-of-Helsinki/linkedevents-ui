@@ -48,6 +48,7 @@ class RecurringEvent extends React.Component {
             errors: {
                 afterStartTime: false,
                 atLeastOneIsTrue: false,
+                daysWithinInterval: false,
                 isMoreThanOne: false,
                 isDate: false,
                 isTime: false
@@ -58,6 +59,7 @@ class RecurringEvent extends React.Component {
         this.setState({errors: {
             afterStartTime: false,
             atLeastOneIsTrue: false,
+            daysWithinInterval: false,
             isMoreThanOne: false,
             isDate: false,
             isTime: false
@@ -83,8 +85,10 @@ class RecurringEvent extends React.Component {
     generateEvents (rules) {
         const { recurringStartDate, recurringStartTime, recurringEndDate, recurringEndTime, daysSelected, weekInterval } = rules
         let endDateTestObject = Object.assign({}, {type: "end_date", start_time: moment(recurringStartDate).format("YYYY-MM-DD"), end_time: moment(recurringEndDate).subtract(1, "day").format("YYYY-MM-DD")})
+        let intervalTestObject = Object.assign({}, {type: "day_within_interval", daysSelected, start_day_index: moment(recurringStartDate).weekday(), end_day_index: moment(recurringEndDate).weekday()})
         let errors = [
             this.getValidationErrors("afterStartTime", endDateTestObject),
+            this.getValidationErrors("daysWithinInterval", intervalTestObject),
             this.getValidationErrors("isDate", moment(recurringStartDate).format("YYYY-MM-DD")),
             this.getValidationErrors("isTime", recurringStartTime),
             this.getValidationErrors("isTime", recurringEndTime),
@@ -129,6 +133,7 @@ class RecurringEvent extends React.Component {
                         recurringEndTime.minutes = recurringEndTime.full.substring(3, 5)
                 }
                 let count = 1
+
                 for (const key in days) {
                     if (days.hasOwnProperty(key)) {
                         const day = dayCodes[days[key]]
@@ -168,6 +173,11 @@ class RecurringEvent extends React.Component {
             validations =  [{
                 rule: type,
                 passed: validationRules[type](value, value.end_time)
+            }]
+        } else if (value.type && value.type === "day_within_interval") {
+            validations = [{
+                rule: type,
+                passed: validationRules[type](value, this.state.recurringEndDate.diff(this.state.recurringStartDate, "days"))
             }]
         } else if(typeof validationRules[type] === "function") {
             validations =  [{
