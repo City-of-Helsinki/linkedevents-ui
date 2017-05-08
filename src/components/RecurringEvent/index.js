@@ -251,7 +251,11 @@ class RecurringEvent extends React.Component {
                         <FormattedMessage id="repetition-interval" />
                     </div>
                     <div>
-                        <span className="dates-label">Toistopäivät<ValidationPopover small validationErrors={(this.state.errors.atLeastOneIsTrue ? ["atLeastOneIsTrue"] : "")} /></span>
+                        <span className="dates-label">
+                            Toistopäivät
+                            <ValidationPopover small validationErrors={(this.state.errors.atLeastOneIsTrue ? ["atLeastOneIsTrue"] : "")} />
+                            <ValidationPopover small validationErrors={(this.state.errors.daysWithinInterval ? ["daysWithinInterval"] : "")} />
+                        </span>
                     </div>
                     { days }
                     <div className="col-xs-12 recurring-date-range-wrapper multi-field">
