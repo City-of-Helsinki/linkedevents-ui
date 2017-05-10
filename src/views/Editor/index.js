@@ -4,6 +4,7 @@ import '!style!css!sass!./index.scss'
 import 'style!vendor/stylesheets/typeahead.css'
 
 import React from 'react'
+import Loader from 'react-loader'
 import {connect} from 'react-redux'
 import {FormattedMessage} from 'react-intl'
 
@@ -118,10 +119,11 @@ var EditorPage = React.createClass({
         } else {
             return (
                 <span>
+                    <Loader loaded={!this.props.editor.isSending} scale={1}/>
                     <RaisedButton
                         style={buttonStyle}
                         primary={true}
-                        disabled={this.props.user && !this.props.user.organization}
+                        disabled={this.props.editor.isSending || (this.props.user && !this.props.user.organization)}
                         label={labelText}
                         onClick={ (e) => this.saveAsPublished(e) }
                     />
