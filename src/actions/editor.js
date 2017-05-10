@@ -114,6 +114,7 @@ export function validateFor(publicationStatus) {
 
 export function sendData(formValues, contentLanguages, user, updateExisting = false, publicationStatus) {
     const prepareFormValues = (formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch) => {
+        dispatch({ type: constants.EDITOR_SENDDATA })
         let recurring = false;
         if(formValues.sub_events) {
             recurring = _.keys(formValues.sub_events).length > 0

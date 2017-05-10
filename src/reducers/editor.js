@@ -29,7 +29,8 @@ const initialState = {
     contentLanguages: ['fi'],
     keywordSets: keywordSets,
     validationErrors: {},
-    validateFor: null
+    validateFor: null,
+    isSending: false
 }
 
 function clearEventDataFromLocalStorage() {
@@ -125,18 +126,27 @@ function update(state = initialState, action) {
         })
     }
 
+    if (action.type === constants.EDITOR_SENDDATA) {
+        return Object.assign({}, state, {
+            isSending: true
+        })
+    }
+
     if (action.type === constants.EDITOR_SENDDATA_SUCCESS) {
         clearEventDataFromLocalStorage()
 
         return Object.assign({}, state, {
             createdEvent: action.data.event,
             createdAt: action.data.createdAt,
-            values: editorValues
+            values: editorValues,
+            isSending: false
         })
     }
 
     if (action.type === constants.EDITOR_SENDDATA_ERROR) {
-        return state;
+        return Object.assign({}, state, {
+            isSending: false
+        })
     }
 
     if (action.type === constants.EDITOR_RECEIVE_KEYWORDSETS) {
@@ -172,7 +182,8 @@ function update(state = initialState, action) {
     if (action.type === constants.SET_VALIDATION_ERRORS) {
         return Object.assign({}, state, {
             validationErrors: action.errors,
-            validationStatus: constants.VALIDATION_STATUS.RESOLVE
+            validationStatus: constants.VALIDATION_STATUS.RESOLVE,
+            isSending: false
         })
     }
 
