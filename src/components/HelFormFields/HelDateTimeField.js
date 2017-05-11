@@ -44,6 +44,22 @@ const HelDateTimeField = React.createClass({
         dispatch: React.PropTypes.func
     },
 
+    componentWillReceiveProps: function(nextProps) {
+        if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
+            if (moment(nextProps.defaultValue).isValid()) {
+                const value = this.parseValueFromString(nextProps.defaultValue)
+                this.setState({date: value.date, time: value.time},
+                    () => this.setData())
+            }
+
+        }
+    },
+
+    // Update only if the state has changed
+    shouldComponentUpdate: function(nextProps, nextState) {
+        return true
+    },
+
     onChange: function(type, value) {
         this.setState({
             [type]: value
@@ -128,20 +144,6 @@ const HelDateTimeField = React.createClass({
         }
 
         return []
-    },
-
-    componentWillReceiveProps: function(nextProps) {
-        if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
-            if (moment(nextProps.defaultValue).isValid()) {
-                const value = this.parseValueFromString(nextProps.defaultValue)
-                this.setState({date: value.date, time: value.time})
-            }
-        }
-    },
-
-    // Update only if the state has changed
-    shouldComponentUpdate: function(nextProps, nextState) {
-        return true
     },
 
     render: function () {
