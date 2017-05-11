@@ -76,6 +76,7 @@ class FormFields extends React.Component {
 
     constructor(props) {
       super(props);
+      this.setDateRange = this.setDateRange.bind(this)
       this.state = {
           showNewEvents: true,
           showRecurringEvent: false
@@ -126,6 +127,7 @@ class FormFields extends React.Component {
     showNewEventDialog() {
         this.setState({showNewEvents: !this.state.showNewEvents})
     }
+
     generateNewEventFields(events) {
         let newEvents = []
         for (const key in events) {
@@ -142,6 +144,11 @@ class FormFields extends React.Component {
         newEvents = sortBy(newEvents, (events) => (events.props.event.start_time))
         return newEvents
     }
+
+    setDateRange(recurringStartDateTime, recurringEndDateTime) {
+        this.setState({ recurringStartDateTime, recurringEndDateTime })
+    }
+
     render() {
         let helMainOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helfi:topics')
         let helTargetOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helsinki:audiences')
@@ -203,7 +210,7 @@ class FormFields extends React.Component {
                             { newEvents }
                         </div>
                         { this.state.showRecurringEvent &&
-                            <RecurringEvent toggle={() => this.showRecurringEventDialog()} validationErrors={validationErrors} values={values}/>
+                            <RecurringEvent toggle={() => this.showRecurringEventDialog()} validationErrors={validationErrors} values={values} setDateRange={this.setDateRange} />
                         }
                         <RaisedButton
                             style={buttonStyle}

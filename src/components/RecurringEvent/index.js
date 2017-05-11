@@ -156,6 +156,13 @@ class RecurringEvent extends React.Component {
                         }
                     }
                 }
+
+                const recurringStartDateTime = moment(this.state.recurringStartDate.format('YYYY-MM-DD') + 'T' + recurringStartTime.full)
+                const recurringEndDateTime = moment(this.state.recurringEndDate.format('YYYY-MM-DD') + 'T' + recurringEndTime.full)
+                this.props.setDateRange(
+                    recurringStartDateTime,
+                    recurringEndDateTime
+                )
             }
         } else {
             let newErrors = Object.assign({}, this.state.errors)
