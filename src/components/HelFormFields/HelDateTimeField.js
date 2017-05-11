@@ -50,8 +50,11 @@ const HelDateTimeField = React.createClass({
         })
     },
 
-    onBlur: function(type, value) {
+    onBlur: function() {
+        this.setData();
+    },
 
+    setData: function() {
         if(this.state.date && this.state.time) {
             const date = moment.tz(this.state.date, 'Europe/Helsinki').format('YYYY-MM-DD')
             const time = this.state.time
