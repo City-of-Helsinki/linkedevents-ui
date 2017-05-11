@@ -200,10 +200,20 @@ class FormFields extends React.Component {
                     <div className="col-sm-6">
                         <div className="row">
                             <div className="col-xs-12 col-md-6">
-                                <HelDateTimeField validationErrors={validationErrors['start_time']} defaultValue={values['start_time']} ref="start_time" name="start_time" label="event-starting-datetime" />
+                                <HelDateTimeField
+                                    validationErrors={validationErrors['start_time']}
+                                    defaultValue={values['start_time'] || this.state.recurringStartDateTime}
+                                    ref="start_time"
+                                    name="start_time"
+                                    label="event-starting-datetime" />
                             </div>
                             <div className="col-xs-12 col-md-6">
-                                <HelDateTimeField validationErrors={validationErrors['end_time']} defaultValue={values['end_time']} ref="end_time" name="end_time" label="event-ending-datetime" />
+                                <HelDateTimeField
+                                    validationErrors={validationErrors['end_time']}
+                                    defaultValue={values['end_time'] || this.state.recurringEndDateTime}
+                                    ref="end_time"
+                                    name="end_time"
+                                    label="event-ending-datetime" />
                             </div>
                         </div>
                         <div className={"new-events " + (this.state.showNewEvents ? 'show' : 'hidden')}>
