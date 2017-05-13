@@ -39,7 +39,8 @@ const HelDateTimeField = React.createClass({
         ]),
         eventKey: React.PropTypes.string,
         name: React.PropTypes.string.isRequired,
-        validationErrors: React.PropTypes.object
+        validationErrors: React.PropTypes.object,
+        setDateTime: React.PropTypes.func
     },
 
     contextTypes: {
@@ -93,6 +94,9 @@ const HelDateTimeField = React.createClass({
                         this.context.dispatch(updateSubEvent(datetime, this.props.name, this.props.eventKey))
                     } else {
                         this.context.dispatch(setData(obj))
+                    }
+                    if (this.props.setDateTime) {
+                        this.props.setDateTime(datetime)
                     }
                 }
             }

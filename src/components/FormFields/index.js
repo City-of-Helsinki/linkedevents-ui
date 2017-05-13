@@ -76,6 +76,8 @@ class FormFields extends React.Component {
 
     constructor(props) {
       super(props);
+      this.setStartDateTime = this.setStartDateTime.bind(this)
+      this.setEndDateTime = this.setEndDateTime.bind(this)
       this.state = {
           showNewEvents: true,
           showRecurringEvent: false
@@ -117,6 +119,14 @@ class FormFields extends React.Component {
             end_time: moment.tz(endTime.add(1, 'weeks'), 'Europe/Helsinki').utc().toISOString()
         }
         this.context.dispatch(setEventData(obj, key))
+    }
+
+    setStartDateTime(startDateTime) {
+        this.setState({ firstStartDateTime: startDateTime })
+    }
+
+    setEndDateTime(endDateTime) {
+        this.setState({ firstEndDateTime: endDateTime })
     }
 
     showRecurringEventDialog() {
@@ -198,7 +208,8 @@ class FormFields extends React.Component {
                             <div className="col-xs-12 col-md-6">
                                 <HelDateTimeField
                                     validationErrors={validationErrors['start_time']}
-                                    defaultValue={values['start_time'] || this.state.recurringStartDateTime}
+                                    defaultValue={values['start_time'] || this.state.firstStartDateTime}
+                                    setDateTime={this.setStartDateTime}
                                     ref="start_time"
                                     name="start_time"
                                     label="event-starting-datetime" />
@@ -206,7 +217,8 @@ class FormFields extends React.Component {
                             <div className="col-xs-12 col-md-6">
                                 <HelDateTimeField
                                     validationErrors={validationErrors['end_time']}
-                                    defaultValue={values['end_time'] || this.state.recurringEndDateTime}
+                                    defaultValue={values['end_time'] || this.state.firstEndDateTime}
+                                    setDateTime={this.setEndDateTime}
                                     ref="end_time"
                                     name="end_time"
                                     label="event-ending-datetime" />
