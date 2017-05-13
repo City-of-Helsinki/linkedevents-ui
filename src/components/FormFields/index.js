@@ -84,7 +84,15 @@ class FormFields extends React.Component {
       };
     }
 
-    componentWillReceiveProps() {
+    componentWillReceiveProps(nextProps) {
+        const events = nextProps.editor.values.sub_events
+        console.log(nextProps.editor.values.sub_events);
+        if (Object.keys(events).length > 0 && !this.state.firstStartDateTime && !this.state.firstEndDateTime) {
+            const firstEvent = events['1']
+            this.setStartDateTime(firstEvent.start_time)
+            this.setEndDateTime(firstEvent.end_time)
+            delete events['1']
+        }
         this.forceUpdate()
     }
 
