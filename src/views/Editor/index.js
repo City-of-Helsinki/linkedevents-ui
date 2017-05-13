@@ -103,9 +103,9 @@ var EditorPage = React.createClass({
             margin: '0 10px'
         }
         let publicationStatus = _.get(this.props, 'editor.values.publication_status')
-        let labelText = "Julkaise tapahtuma"
+        let labelText = this.props.editor.isSending ? "Julkaistaan tapahtumaa" : "Julkaise tapahtuma"
         if (_.keys(this.props.editor.values.sub_events).length > 0) {
-            labelText = "Julkaise tapahtumat"
+            labelText = this.props.editor.isSending ? "Julkaistaan tapahtumia" : "Julkaise tapahtumat"
         }
         if(this.props.params.action === 'update' && publicationStatus === constants.PUBLICATION_STATUS.PUBLIC) {
             return (
