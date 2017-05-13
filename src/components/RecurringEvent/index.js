@@ -139,7 +139,7 @@ class RecurringEvent extends React.Component {
                         const day = dayCodes[days[key]]
                         const interval = weekInterval*7
                         for (let i = 0; i < 53 ; i++) {
-                            if (moment().isoWeekday(day + i*interval).isBetween(moment(recurringStartDate), moment(recurringEndDate).add(1, "day"), "day")) {
+                            if (moment().isoWeekday(day + i*interval).isBetween(moment(recurringStartDate).startOf('day'), moment(recurringEndDate).endOf('day'))) {
                                 let obj = {}
                                 const key = Object.keys(this.props.values.sub_events).length+count
                                 count += 1
