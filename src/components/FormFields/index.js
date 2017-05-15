@@ -144,6 +144,14 @@ class FormFields extends React.Component {
         return newEvents
     }
 
+    trimmedDescription() {
+        let descriptions = Object.assign({}, this.props.editor.values["description"])
+        for (const lang in descriptions) {
+            descriptions[lang] = descriptions[lang].replace(/<\/p><p>/gi, "\n\n").replace(/<br\s*[\/]?>/gi, "\n").replace(/<p>/g, '').replace(/<\/p>/g, '')
+        }
+        return descriptions
+    }
+
     render() {
         let helMainOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helfi:topics')
         let helTargetOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helsinki:audiences')
@@ -178,7 +186,7 @@ class FormFields extends React.Component {
                     <div className="col-sm-6">
                         <MultiLanguageField required={true} multiLine={false} label="event-headline" ref="name" name="name" validationErrors={validationErrors["name"]} defaultValue={values["name"]} languages={this.props.editor.contentLanguages} />
                         <MultiLanguageField required={true} multiLine={true} label="event-short-description" ref="short_description" name="short_description" validationErrors={validationErrors["short_description"]} defaultValue={values["short_description"]} languages={this.props.editor.contentLanguages} validations={['shortString']} forceApplyToStore />
-                        <MultiLanguageField required={true} multiLine={true} label="event-description" ref="description" name="description" validationErrors={validationErrors["description"]} defaultValue={values["description"]} languages={this.props.editor.contentLanguages} validations={['longString']} />
+                        <MultiLanguageField required={true} multiLine={true} label="event-description" ref="description" name="description" validationErrors={validationErrors["description"]} defaultValue={this.trimmedDescription()} languages={this.props.editor.contentLanguages} validations={['longString']} />
                         <MultiLanguageField required={false} multiLine={false} label="event-info-url" ref="info_url" name="info_url" validationErrors={validationErrors["info_url"]} defaultValue={values["info_url"]} languages={this.props.editor.contentLanguages} validations={['isUrl']} forceApplyToStore />
                     </div>
                     <SideField>
