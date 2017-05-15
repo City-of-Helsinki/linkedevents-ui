@@ -90,6 +90,14 @@ class FormFields extends React.Component {
         return true
     }
 
+    showRecurringEventDialog() {
+        this.setState({showRecurringEvent: !this.state.showRecurringEvent})
+    }
+
+    showNewEventDialog() {
+        this.setState({showNewEvents: !this.state.showNewEvents})
+    }
+
     addNewEventDialog() {
         let obj = {}
         let startTime
@@ -119,13 +127,6 @@ class FormFields extends React.Component {
         this.context.dispatch(setEventData(obj, key))
     }
 
-    showRecurringEventDialog() {
-        this.setState({showRecurringEvent: !this.state.showRecurringEvent})
-    }
-
-    showNewEventDialog() {
-        this.setState({showNewEvents: !this.state.showNewEvents})
-    }
     generateNewEventFields(events) {
         let newEvents = []
         for (const key in events) {
@@ -142,11 +143,11 @@ class FormFields extends React.Component {
         newEvents = sortBy(newEvents, (events) => (events.props.event.start_time))
         return newEvents
     }
+
     render() {
         let helMainOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helfi:topics')
         let helTargetOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helsinki:audiences')
         let helEventLangOptions = mapLanguagesSetToForm(this.props.editor.languages)
-
         let buttonStyle = {
             height: '64px',
             margin: '10px 5px',
