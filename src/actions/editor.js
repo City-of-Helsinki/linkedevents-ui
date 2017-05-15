@@ -132,13 +132,13 @@ export function sendData(formValues, contentLanguages, user, updateExisting = fa
         // Check for 'palvelukeskuskortti' in audience
         if (formValues) {
             if (formValues.audience && includes(formValues.audience, "https://api.hel.fi/linkedevents-test/v1/keyword/helsinki:aflfbat76e/")) {
-                const specialDescription = '<p>Tapahtuma on tarkoitettu vain eläkeläisille ja työttömille, joilla on <a href="https://www.hel.fi/sote/fi/palvelut/palvelukuvaus?id=3252" target="_blank">palvelukeskuskortti</a>.<p><br/><br/>'
+                const specialDescription = '<p>Tapahtuma on tarkoitettu vain eläkeläisille ja työttömille, joilla on <a href="https://www.hel.fi/sote/fi/palvelut/palvelukuvaus?id=3252" target="_blank">palvelukeskuskortti</a>.<p>'
                 if (formValues.description && formValues.description.fi) {
                     if (!includes(formValues.description.fi, "https://www.hel.fi/sote/fi/palvelut/palvelukuvaus?id=3252")) { // Don't repeat insertion
                         descriptionTexts.fi = specialDescription + formValues.description.fi
                     }
                 } else {
-                    descriptionText.fi = specialDescription
+                    descriptionTexts.fi = specialDescription
                 }
             }
         }
