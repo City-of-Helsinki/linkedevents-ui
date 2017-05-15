@@ -48,7 +48,8 @@ let MultiLanguageValue = (props) => {
 
     _.each(langOptions, (key) => {
         let val = value[key]
-        const createHTML = () => ({ __html: value[key] })
+        const createHTML = () => ({ __html: val })
+
         if(val) {
             elements.push(<div className={colClass} key={key}><div className={`in-${key} indented`}><label className="language"><FormattedMessage id={`in-${key}`} /></label><div dangerouslySetInnerHTML={createHTML()}/></div></div>)
         }
