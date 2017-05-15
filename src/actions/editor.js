@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch'
 import moment from 'moment';
+import { includes } from 'lodash';
 
 import constants from '../constants'
 import {mapUIDataToAPIFormat} from 'src/utils/formDataMapping.js'
@@ -118,6 +119,18 @@ export function sendData(formValues, contentLanguages, user, updateExisting = fa
         if(formValues.sub_events) {
             recurring = _.keys(formValues.sub_events).length > 0
         }
+        // Check for 'palvelukeskuskortti' in audience
+        let descriptionText
+        if (formValues) {
+            if (formValues.audience && includes(formValues.audience, "https://api.hel.fi/linkedevents-test/v1/keyword/helsinki:aflfbat76e/")) {
+                const specialDescription = '<p>Tapahtuma on tarkoitettu vain eläkeläisille ja työttömille, joilla on <a href="https://www.hel.fi/sote/fi/palvelut/palvelukuvaus?id=3252" target="_blank">palvelukeskuskortti</a>.<p><br/><br/>'
+                if (formValues.description.fi) {
+                    descriptionText = specialDescription + formValues.description.fi
+                } else {
+                    descriptionText = specialDescription
+                }
+            }
+        }
         // Run validations
         let validationErrors = doValidations(formValues, contentLanguages, publicationStatus)
 
@@ -125,7 +138,7 @@ export function sendData(formValues, contentLanguages, user, updateExisting = fa
         if (_.keys(validationErrors).length > 0) {
             return dispatch(setValidationErrors(validationErrors))
         }
-        let data = Object.assign({}, formValues, { publication_status: publicationStatus })
+        let data = Object.assign({}, formValues, { publication_status: publicationStatus, description: { fi: descriptionText }  })
         if (recurring) {
             const subEvents = data.sub_events
             let endDates = [];
