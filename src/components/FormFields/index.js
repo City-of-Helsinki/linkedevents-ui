@@ -90,6 +90,14 @@ class FormFields extends React.Component {
         return true
     }
 
+    showRecurringEventDialog() {
+        this.setState({showRecurringEvent: !this.state.showRecurringEvent})
+    }
+
+    showNewEventDialog() {
+        this.setState({showNewEvents: !this.state.showNewEvents})
+    }
+
     addNewEventDialog() {
         let obj = {}
         let startTime
@@ -119,13 +127,6 @@ class FormFields extends React.Component {
         this.context.dispatch(setEventData(obj, key))
     }
 
-    showRecurringEventDialog() {
-        this.setState({showRecurringEvent: !this.state.showRecurringEvent})
-    }
-
-    showNewEventDialog() {
-        this.setState({showNewEvents: !this.state.showNewEvents})
-    }
     generateNewEventFields(events) {
         let newEvents = []
         for (const key in events) {
