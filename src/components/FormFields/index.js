@@ -25,7 +25,6 @@ import {connect} from 'react-redux'
 import {setEventData} from 'src/actions/editor.js'
 
 import moment from 'moment'
-// import {sortBy} from 'lodash'
 
 import API from 'src/api.js'
 
@@ -140,7 +139,7 @@ class FormFields extends React.Component {
                 )
             }
         }
-        // newEvents = sortBy(newEvents, (events) => (events.props.event.start_time))
+
         return newEvents
     }
     render() {
