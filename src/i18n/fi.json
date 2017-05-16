@@ -153,5 +153,6 @@
     "image-update-error": "Virhe kuvaa päivittäessä.",
     "confirm-image-delete": "Varmista kuvan poistaminen",
 
-    "search-no-results": "Ei tuloksia"
+    "search-no-results": "Ei tuloksia",
+    "copy-to-clipboard": "Kopioi leikepöydälle"
 }
