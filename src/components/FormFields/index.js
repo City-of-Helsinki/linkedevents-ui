@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { FormattedMessage, injectIntl } from 'react-intl'
+import CopyToClipboard from 'react-copy-to-clipboard'
 
 import ImagePicker from 'src/components/ImagePicker'
 import {
@@ -239,6 +240,7 @@ class FormFields extends React.Component {
                             validationErrors={validationErrors['location']} defaultValue={values['location']}
                             placeholder={this.context.intl.formatMessage({ id: "event-location" })}
                         />
+                        <CopyToClipboard text={values['location'] ? values['location'].id : ''}><button className="clipboard-copy-button" title="Kopioi leikepöydälle"><i className="material-icons">&#xE14D;</i></button></CopyToClipboard>
                         <MultiLanguageField multiLine={true} label="event-location-additional-info" ref="location_extra_info" name="location_extra_info" validationErrors={validationErrors["location_extra_info"]} defaultValue={values["location_extra_info"]} languages={this.props.editor.contentLanguages} />
                     </div>
                     <SideField>
