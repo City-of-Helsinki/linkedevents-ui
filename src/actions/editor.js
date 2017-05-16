@@ -20,18 +20,23 @@ export function setData(values) {
     }
 }
 
-export function deleteSubEvent(event) {
-    return {
-        type: constants.EDITOR_DELETE_SUB_EVENT,
-        event
-    }
-}
 export function updateSubEvent(value, property, eventKey) {
     return {
         type: constants.EDITOR_UPDATE_SUB_EVENT,
         value,
         property,
         eventKey
+    }
+}
+export function deleteSubEvent(event) {
+    return {
+        type: constants.EDITOR_DELETE_SUB_EVENT,
+        event
+    }
+}
+export function sortSubEvents() {
+    return {
+        type: constants.EDITOR_SORT_SUB_EVENTS
     }
 }
 export function setEventData(values, key) {
