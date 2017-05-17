@@ -214,6 +214,7 @@ class EventDetails extends React.Component {
                         <MultiLanguageValue labelKey="event-short-description" value={props.values["short_description"]}/>
                         <MultiLanguageValue labelKey="event-description" value={props.values["description"]} />
                         <MultiLanguageValue labelKey="event-info-url" value={props.values["info_url"]} />
+                        <MultiLanguageValue labelKey="event-provider" value={props.values["provider"]} />
                     </div>
                 </div>
 

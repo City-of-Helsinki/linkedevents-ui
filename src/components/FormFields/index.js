@@ -179,6 +179,7 @@ class FormFields extends React.Component {
                         <MultiLanguageField required={true} multiLine={true} label="event-short-description" ref="short_description" name="short_description" validationErrors={validationErrors["short_description"]} defaultValue={values["short_description"]} languages={this.props.editor.contentLanguages} validations={['shortString']} forceApplyToStore />
                         <MultiLanguageField required={true} multiLine={true} label="event-description" ref="description" name="description" validationErrors={validationErrors["description"]} defaultValue={values["description"]} languages={this.props.editor.contentLanguages} validations={['longString']} />
                         <MultiLanguageField required={false} multiLine={false} label="event-info-url" ref="info_url" name="info_url" validationErrors={validationErrors["info_url"]} defaultValue={values["info_url"]} languages={this.props.editor.contentLanguages} validations={['isUrl']} forceApplyToStore />
+                        <MultiLanguageField required={false} multiLine={false} label="event-provider-input" ref="provider" name="provider" validationErrors={validationErrors["provider"]} defaultValue={values["provider"]} languages={this.props.editor.contentLanguages} />
                     </div>
                     <SideField>
                         <label><FormattedMessage id="event-image"/></label>
