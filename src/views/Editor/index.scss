@@ -131,3 +131,8 @@
             margin-top: 2rem !important;
         }
 }
+@media (max-width: 520px) {
+    .clipboard-copy-button {
+        position: static !important;
+    }
+}
