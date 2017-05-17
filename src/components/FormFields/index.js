@@ -144,6 +144,19 @@ class FormFields extends React.Component {
         newEvents = sortBy(newEvents, (events) => (events.props.event.start_time))
         return newEvents
     }
+
+    getKeywords(keywords) {
+        const regExp = /keyword\/\s*([^\n\r]*)\//i
+        const keywordIds = []
+
+        for (const key in keywords) {
+            const match = regExp.exec(keywords[key].value)
+            keywordIds.push(match[1])
+        }
+
+        return keywordIds.join()
+    }
+
     render() {
         let helMainOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helfi:topics')
         let helTargetOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helsinki:audiences')
@@ -286,6 +299,7 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <HelSelect selectedValues={values['keywords']} legend={"Tapahtuman asiasanat"} ref="keywords" name="keywords" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?show_all_keywords=1&data_source=yso&text=`} validationErrors={validationErrors['keywords']} />
+                    <CopyToClipboard text={values['keywords'] ? this.getKeywords(values['keywords']) : ''}><button className="clipboard-copy-button" title={this.context.intl.formatMessage({id: "copy-to-clipboard"})}><i className="material-icons">&#xE14D;</i></button></CopyToClipboard>
                     <SideField><p className="tip">Liitä tapahtumaan vähintään yksi asiasana, joka kuvaa tapahtuman teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta.</p></SideField>
                     <HelLabeledCheckboxGroup groupLabel={<FormattedMessage id="hel-main-categories"/>}
                                     selectedValues={values['hel_main']}
