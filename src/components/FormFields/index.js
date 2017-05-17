@@ -244,7 +244,7 @@ class FormFields extends React.Component {
                 <FormHeader>
                     <FormattedMessage id="event-location-fields-header" />
                 </FormHeader>
-                <div className="row">
+                <div className="row location-row">
                     <div className="col-sm-6">
                         <HelAutoComplete
                             ref="location" name="location"
@@ -297,7 +297,7 @@ class FormFields extends React.Component {
                 <FormHeader>
                     <FormattedMessage id="event-categorization" />
                 </FormHeader>
-                <div className="row">
+                <div className="row keyword-row">
                     <HelSelect selectedValues={values['keywords']} legend={"Tapahtuman asiasanat"} ref="keywords" name="keywords" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?show_all_keywords=1&data_source=yso&text=`} validationErrors={validationErrors['keywords']} />
                     <CopyToClipboard text={values['keywords'] ? this.getKeywords(values['keywords']) : ''}><button className="clipboard-copy-button" title={this.context.intl.formatMessage({id: "copy-to-clipboard"})}><i className="material-icons">&#xE14D;</i></button></CopyToClipboard>
                     <SideField><p className="tip">Liitä tapahtumaan vähintään yksi asiasana, joka kuvaa tapahtuman teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta.</p></SideField>
