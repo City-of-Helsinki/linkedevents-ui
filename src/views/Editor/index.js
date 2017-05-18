@@ -5,6 +5,7 @@ import 'style!vendor/stylesheets/typeahead.css'
 
 import React from 'react'
 import {connect} from 'react-redux'
+import { Lifecycle } from 'react-router'
 import {FormattedMessage} from 'react-intl'
 
 import { RaisedButton, FlatButton } from 'material-ui'
@@ -30,11 +31,13 @@ import FormFields from 'src/components/FormFields'
 //
 
 var EditorPage = React.createClass({
+    mixins: [ Lifecycle ],
 
     getInitialState() {
         return {
             canSubmit: false,
-            disabled: false
+            disabled: false,
+            isDirty: false
         }
     },
 
@@ -61,6 +64,19 @@ var EditorPage = React.createClass({
 
     componentWillUnmount() {
         this.props.dispatch(setValidationErrors({}))
+    },
+
+    routerWillLeave(nextLocation) {
+        // TODO: routerWillLeave is called twice
+        if (this.state.isDirty) {
+            return 'Lomakkeella tallentamattomia tietoja. Oletko varma että haluat poistua?'
+        }
+    },
+
+    setDirtyState() {
+        if (!this.state.isDirty) {
+            this.setState({ isDirty: true })
+        }
     },
 
     enableButton() {
