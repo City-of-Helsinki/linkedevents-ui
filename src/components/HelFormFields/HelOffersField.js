@@ -17,6 +17,13 @@ class HelOffersField extends React.Component {
     };
 
     onBlur(e) {
+        this.setData()
+        if (this.props.setDirtyState) {
+            this.props.setDirtyState()
+        }
+    }
+
+    setData() {
         if(this.props.name) {
             if(this.noValidationErrors()) {
                 let obj = {}
@@ -62,11 +69,11 @@ class HelOffersField extends React.Component {
     }
 
     setIsFree(e, value) {
-        this.onBlur()
+        this.setData()
     }
 
     componentDidMount() {
-        this.onBlur()
+        this.setData()
     }
 
     render() {

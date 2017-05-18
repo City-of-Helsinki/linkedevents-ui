@@ -47,6 +47,10 @@ class MultiLanguageField extends React.Component {
             if(this.noValidationErrors() || this.props.forceApplyToStore) {
                 this.context.dispatch(setData(obj))
             }
+
+            if (this.props.setDirtyState) {
+                this.props.setDirtyState()
+            }
         }
 
         if(typeof this.props.onBlur === 'function') {

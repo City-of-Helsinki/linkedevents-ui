@@ -176,12 +176,14 @@ var EditorPage = React.createClass({
     saveAsDraft(event) {
         let doUpdate = this.props.params.action === 'update'
         const {values, contentLanguages} = this.props.editor
+        this.setDirtyState()
         this.props.dispatch(sendData(values, contentLanguages, this.props.user, doUpdate, constants.PUBLICATION_STATUS.DRAFT))
     },
 
     saveAsPublished(event) {
         let doUpdate = this.props.params.action === 'update'
         const {values, contentLanguages} = this.props.editor
+        this.setDirtyState()
         this.props.dispatch(sendData(values, contentLanguages, this.props.user, doUpdate, constants.PUBLICATION_STATUS.PUBLIC))
     },
 
@@ -260,7 +262,7 @@ var EditorPage = React.createClass({
                 </div>
 
                 <div className="container">
-                    <FormFields ref="form" action={this.props.params.action} editor={this.props.editor} />
+                    <FormFields ref="form" action={this.props.params.action} editor={this.props.editor} setDirtyState={this.setDirtyState} />
                 </div>
 
                 <div className="editor-action-buttons">
