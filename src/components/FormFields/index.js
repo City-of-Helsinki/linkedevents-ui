@@ -126,6 +126,7 @@ class FormFields extends React.Component {
     showNewEventDialog() {
         this.setState({showNewEvents: !this.state.showNewEvents})
     }
+
     generateNewEventFields(events) {
         let newEvents = []
         for (const key in events) {
@@ -142,6 +143,7 @@ class FormFields extends React.Component {
         newEvents = sortBy(newEvents, (events) => (events.props.event.start_time))
         return newEvents
     }
+
     render() {
         let helMainOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helfi:topics')
         let helTargetOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helsinki:audiences')

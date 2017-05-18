@@ -38,16 +38,10 @@ var EditorPage = React.createClass({
         }
     },
 
-    enableButton() {
-        return this.setState({
-            canSubmit: true
-        });
-    },
-
-    disableButton() {
-        return this.setState({
-            canSubmit: false
-        });
+    componentWillMount() {
+        if(this.props.params.action === 'update' && this.props.params.eventId) {
+            this.props.dispatch(fetchEventForEditing(this.props.params.eventId, this.props.user))
+        }
     },
 
     componentWillReceiveProps: function(nextProps) {
@@ -63,6 +57,22 @@ var EditorPage = React.createClass({
         }
 
         this.forceUpdate()
+    },
+
+    componentWillUnmount() {
+        this.props.dispatch(setValidationErrors({}))
+    },
+
+    enableButton() {
+        return this.setState({
+            canSubmit: true
+        });
+    },
+
+    disableButton() {
+        return this.setState({
+            canSubmit: false
+        });
     },
 
     getDeleteOrCancelButton: function() {
@@ -137,16 +147,6 @@ var EditorPage = React.createClass({
                 { this.getSaveButtons() }
             </div>
         )
-    },
-
-    componentWillMount() {
-        if(this.props.params.action === 'update' && this.props.params.eventId) {
-            this.props.dispatch(fetchEventForEditing(this.props.params.eventId, this.props.user))
-        }
-    },
-
-    componentWillUnmount() {
-        this.props.dispatch(setValidationErrors({}))
     },
 
     clearForm() {
