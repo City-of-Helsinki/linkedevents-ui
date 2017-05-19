@@ -177,14 +177,14 @@ var EditorPage = React.createClass({
     saveAsDraft(event) {
         let doUpdate = this.props.params.action === 'update'
         const {values, contentLanguages} = this.props.editor
-        this.setDirtyState()
+        this.setState({ isDirty: false })
         this.props.dispatch(sendData(values, contentLanguages, this.props.user, doUpdate, constants.PUBLICATION_STATUS.DRAFT))
     },
 
     saveAsPublished(event) {
         let doUpdate = this.props.params.action === 'update'
         const {values, contentLanguages} = this.props.editor
-        this.setDirtyState()
+        this.setState({ isDirty: false })
         this.props.dispatch(sendData(values, contentLanguages, this.props.user, doUpdate, constants.PUBLICATION_STATUS.PUBLIC))
     },
 
