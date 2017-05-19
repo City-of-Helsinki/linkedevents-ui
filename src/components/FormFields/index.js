@@ -265,7 +265,7 @@ class FormFields extends React.Component {
                         <RaisedButton
                             style={buttonStyle}
                             primary={true}
-                            disabled={!this.state.freeEvent}
+                            disabled={this.state.freeEvent}
                             onClick={ () => null }
                             label={<span><i className="material-icons">add</i> <FormattedMessage id="event-add-price" /></span>} />
                     </div>
