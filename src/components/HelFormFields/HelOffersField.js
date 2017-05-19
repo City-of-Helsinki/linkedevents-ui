@@ -62,6 +62,7 @@ class HelOffersField extends React.Component {
     }
 
     setIsFree(e, value) {
+        this.props.setFreeEvent()
         this.onBlur()
     }
 

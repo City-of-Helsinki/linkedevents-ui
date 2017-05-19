@@ -76,9 +76,11 @@ class FormFields extends React.Component {
 
     constructor(props) {
       super(props);
+      this.setFreeEvent = this.setFreeEvent.bind(this)
       this.state = {
           showNewEvents: true,
-          showRecurringEvent: false
+          showRecurringEvent: false,
+          freeEvent: true
       };
     }
 
@@ -88,6 +90,10 @@ class FormFields extends React.Component {
 
     shouldComponentUpdate() {
         return true
+    }
+
+    setFreeEvent() {
+        this.setState({ freeEvent: !this.state.freeEvent })
     }
 
     addNewEventDialog() {
@@ -255,7 +261,13 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6">
-                        <HelOffersField ref="offers" name="offers" validationErrors={validationErrors["offers"]} defaultValue={values["offers"]} languages={this.props.editor.contentLanguages} />
+                        <HelOffersField ref="offers" name="offers" validationErrors={validationErrors["offers"]} defaultValue={values["offers"]} languages={this.props.editor.contentLanguages} setFreeEvent={this.setFreeEvent} />
+                        <RaisedButton
+                            style={buttonStyle}
+                            primary={true}
+                            disabled={!this.state.freeEvent}
+                            onClick={ () => null }
+                            label={<span><i className="material-icons">add</i> <FormattedMessage id="event-add-price" /></span>} />
                     </div>
                     <SideField>
                         <div className="tip">
