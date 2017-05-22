@@ -47,6 +47,19 @@ function update(state = initialState, action) {
                 }
             });
         }
+        if (action.offer) {
+            if (action.add) {
+                const offers = JSON.parse(JSON.stringify(state.values.offers))
+                offers.push(action.values)
+                return updater(state, {
+                    values: {
+                        offers: {
+                            $set: offers
+                        }
+                    }
+                })
+            }
+        }
         // Merge new values to existing values
         let newValues = Object.assign({}, state.values, action.values)
 

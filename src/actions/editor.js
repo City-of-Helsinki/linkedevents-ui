@@ -42,6 +42,14 @@ export function setEventData(values, key) {
        event: true
     }
 }
+export function addOfferData(values) {
+    return {
+        type: constants.EDITOR_SETDATA,
+        values,
+        offer: true,
+        add: true
+    }
+}
 export function setLanguages(languages) {
     return {
         type: constants.EDITOR_SETLANGUAGES,
