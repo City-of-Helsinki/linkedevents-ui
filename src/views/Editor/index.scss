@@ -122,6 +122,13 @@
 
         background-color: #f7f7f7;
         height: 176px;
+
+        .loader {
+            position: relative;
+            top: 32px;
+            left: -120px;
+        }
+
     }
 }
 

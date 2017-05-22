@@ -1,5 +1,5 @@
 import constants from '../constants'
-import { omit, get as getIfExists } from 'lodash'
+import { map, sortBy, omit, get as getIfExists } from 'lodash'
 import updater from 'immutability-helper';
 
 import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
@@ -29,7 +29,8 @@ const initialState = {
     contentLanguages: ['fi'],
     keywordSets: keywordSets,
     validationErrors: {},
-    validateFor: null
+    validateFor: null,
+    isSending: false
 }
 
 function clearEventDataFromLocalStorage() {
@@ -47,6 +48,7 @@ function update(state = initialState, action) {
                 }
             });
         }
+
         // Merge new values to existing values
         let newValues = Object.assign({}, state.values, action.values)
 
@@ -65,6 +67,18 @@ function update(state = initialState, action) {
         })
     }
 
+    if (action.type === constants.EDITOR_UPDATE_SUB_EVENT) {
+        return updater(state, {
+            values: {
+                sub_events: {
+                    [action.eventKey]: {
+                        [action.property]: { $set: action.value }
+                    }
+                }
+            }
+        })
+    }
+
     if (action.type === constants.EDITOR_DELETE_SUB_EVENT) {
         const oldSubEvents = Object.assign({}, state.values.sub_events);
         const newSubEvents = _.omit(oldSubEvents, action.event);
@@ -77,16 +91,21 @@ function update(state = initialState, action) {
         });
     }
 
-    if (action.type === constants.EDITOR_UPDATE_SUB_EVENT) {
+    if (action.type === constants.EDITOR_SORT_SUB_EVENTS) {
+        const mappedSubEvents = map(state.values.sub_events)
+        const sortedSubEvents = sortBy(mappedSubEvents, (event) => event.start_time)
+        const subEventsObject = {};
+        for (const event in sortedSubEvents) {
+            subEventsObject[event] = sortedSubEvents[event]
+        }
+        
         return updater(state, {
             values: {
                 sub_events: {
-                    [action.eventKey]: {
-                        [action.property]: { $set: action.value }
-                    }
+                    $set: subEventsObject
                 }
             }
-        })
+        });
     }
 
     if (action.type === constants.EDITOR_SETLANGUAGES) {
@@ -125,18 +144,27 @@ function update(state = initialState, action) {
         })
     }
 
+    if (action.type === constants.EDITOR_SENDDATA) {
+        return Object.assign({}, state, {
+            isSending: true
+        })
+    }
+
     if (action.type === constants.EDITOR_SENDDATA_SUCCESS) {
         clearEventDataFromLocalStorage()
 
         return Object.assign({}, state, {
             createdEvent: action.data.event,
             createdAt: action.data.createdAt,
-            values: editorValues
+            values: editorValues,
+            isSending: false
         })
     }
 
     if (action.type === constants.EDITOR_SENDDATA_ERROR) {
-        return state;
+        return Object.assign({}, state, {
+            isSending: false
+        })
     }
 
     if (action.type === constants.EDITOR_RECEIVE_KEYWORDSETS) {
@@ -172,7 +200,8 @@ function update(state = initialState, action) {
     if (action.type === constants.SET_VALIDATION_ERRORS) {
         return Object.assign({}, state, {
             validationErrors: action.errors,
-            validationStatus: constants.VALIDATION_STATUS.RESOLVE
+            validationStatus: constants.VALIDATION_STATUS.RESOLVE,
+            isSending: false
         })
     }
 
