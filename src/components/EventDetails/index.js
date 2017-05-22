@@ -104,7 +104,7 @@ let ImageValue = (props) => {
     if(props.value !== undefined && props.value instanceof Object) {
         return (
         <div className="row">
-            <legend className="col-xs-12"><img src={props.value.url}/></legend>
+            <legend className="col-xs-12"><img src={props.value.url} className="event-image"/></legend>
         </div>
         )
     } else {
