@@ -112,3 +112,7 @@ legend {
 .white {
     background: #ffffff;
 }
+
+.offer-values:not(:first-of-type) {
+    margin-top: 3rem;
+}
