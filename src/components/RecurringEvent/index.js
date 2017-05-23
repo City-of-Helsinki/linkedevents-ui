@@ -7,7 +7,7 @@ import { RaisedButton } from "material-ui"
 import DayCheckbox from "./DayCheckbox"
 
 import {connect} from "react-redux"
-import {setEventData} from "src/actions/editor.js"
+import {setEventData, sortSubEvents} from "src/actions/editor.js"
 
 import validationRules from "src/validation/validationRules.js"
 import ValidationPopover from "src/components/ValidationPopover"
@@ -156,6 +156,7 @@ class RecurringEvent extends React.Component {
                         }
                     }
                 }
+                this.context.dispatch(sortSubEvents())
             }
         } else {
             let newErrors = Object.assign({}, this.state.errors)
