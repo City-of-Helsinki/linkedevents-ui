@@ -48,8 +48,10 @@ let MultiLanguageValue = (props) => {
 
     _.each(langOptions, (key) => {
         let val = value[key]
+        const createHTML = () => ({ __html: val })
+
         if(val) {
-            elements.push(<div className={colClass} key={key}><div className={`in-${key} indented`}><label className="language"><FormattedMessage id={`in-${key}`} /></label><div>{val}</div></div></div>)
+            elements.push(<div className={colClass} key={key}><div className={`in-${key} indented`}><label className="language"><FormattedMessage id={`in-${key}`} /></label><div dangerouslySetInnerHTML={createHTML()}/></div></div>)
         }
     })
 
@@ -102,7 +104,7 @@ let ImageValue = (props) => {
     if(props.value !== undefined && props.value instanceof Object) {
         return (
         <div className="row">
-            <legend className="col-xs-12"><img src={props.value.url}/></legend>
+            <legend className="col-xs-12"><img src={props.value.url} className="event-image"/></legend>
         </div>
         )
     } else {
@@ -214,6 +216,7 @@ class EventDetails extends React.Component {
                         <MultiLanguageValue labelKey="event-short-description" value={props.values["short_description"]}/>
                         <MultiLanguageValue labelKey="event-description" value={props.values["description"]} />
                         <MultiLanguageValue labelKey="event-info-url" value={props.values["info_url"]} />
+                        <MultiLanguageValue labelKey="event-provider" value={props.values["provider"]} />
                     </div>
                 </div>
 

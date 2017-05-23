@@ -25,7 +25,6 @@ import {connect} from 'react-redux'
 import {setEventData} from 'src/actions/editor.js'
 
 import moment from 'moment'
-import {sortBy} from 'lodash'
 
 import API from 'src/api.js'
 
@@ -90,6 +89,14 @@ class FormFields extends React.Component {
         return true
     }
 
+    showRecurringEventDialog() {
+        this.setState({showRecurringEvent: !this.state.showRecurringEvent})
+    }
+
+    showNewEventDialog() {
+        this.setState({showNewEvents: !this.state.showNewEvents})
+    }
+
     addNewEventDialog() {
         let obj = {}
         let startTime
@@ -119,14 +126,6 @@ class FormFields extends React.Component {
         this.context.dispatch(setEventData(obj, key))
     }
 
-    showRecurringEventDialog() {
-        this.setState({showRecurringEvent: !this.state.showRecurringEvent})
-    }
-
-    showNewEventDialog() {
-        this.setState({showNewEvents: !this.state.showNewEvents})
-    }
-
     generateNewEventFields(events) {
         let newEvents = []
         for (const key in events) {
@@ -140,15 +139,22 @@ class FormFields extends React.Component {
                 )
             }
         }
-        newEvents = sortBy(newEvents, (events) => (events.props.event.start_time))
+
         return newEvents
+    }
+
+    trimmedDescription() {
+        let descriptions = Object.assign({}, this.props.editor.values["description"])
+        for (const lang in descriptions) {
+            descriptions[lang] = descriptions[lang].replace(/<\/p><p>/gi, "\n\n").replace(/<br\s*[\/]?>/gi, "\n").replace(/<p>/g, '').replace(/<\/p>/g, '')
+        }
+        return descriptions
     }
 
     render() {
         let helMainOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helfi:topics')
         let helTargetOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helsinki:audiences')
         let helEventLangOptions = mapLanguagesSetToForm(this.props.editor.languages)
-
         let buttonStyle = {
             height: '64px',
             margin: '10px 5px',
@@ -179,8 +185,9 @@ class FormFields extends React.Component {
                     <div className="col-sm-6">
                         <MultiLanguageField required={true} multiLine={false} label="event-headline" ref="name" name="name" validationErrors={validationErrors["name"]} defaultValue={values["name"]} languages={this.props.editor.contentLanguages} setDirtyState={this.props.setDirtyState} />
                         <MultiLanguageField required={true} multiLine={true} label="event-short-description" ref="short_description" name="short_description" validationErrors={validationErrors["short_description"]} defaultValue={values["short_description"]} languages={this.props.editor.contentLanguages} validations={['shortString']} setDirtyState={this.props.setDirtyState} forceApplyToStore />
-                        <MultiLanguageField required={true} multiLine={true} label="event-description" ref="description" name="description" validationErrors={validationErrors["description"]} defaultValue={values["description"]} languages={this.props.editor.contentLanguages} validations={['longString']} setDirtyState={this.props.setDirtyState} />
+                        <MultiLanguageField required={true} multiLine={true} label="event-description" ref="description" name="description" validationErrors={validationErrors["description"]} defaultValue={this.trimmedDescription()} languages={this.props.editor.contentLanguages} validations={['longString']} setDirtyState={this.props.setDirtyState} />
                         <MultiLanguageField required={false} multiLine={false} label="event-info-url" ref="info_url" name="info_url" validationErrors={validationErrors["info_url"]} defaultValue={values["info_url"]} languages={this.props.editor.contentLanguages} validations={['isUrl']} setDirtyState={this.props.setDirtyState} forceApplyToStore />
+                        <MultiLanguageField required={false} multiLine={false} label="event-provider-input" ref="provider" name="provider" validationErrors={validationErrors["provider"]} defaultValue={values["provider"]} languages={this.props.editor.contentLanguages} setDirtyState={this.props.setDirtyState} />
                     </div>
                     <SideField>
                         <label><FormattedMessage id="event-image"/></label>

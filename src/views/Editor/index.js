@@ -4,6 +4,7 @@ import '!style!css!sass!./index.scss'
 import 'style!vendor/stylesheets/typeahead.css'
 
 import React from 'react'
+import Loader from 'react-loader'
 import {connect} from 'react-redux'
 import { Lifecycle } from 'react-router'
 import {FormattedMessage} from 'react-intl'
@@ -129,9 +130,9 @@ var EditorPage = React.createClass({
             margin: '0 10px'
         }
         let publicationStatus = _.get(this.props, 'editor.values.publication_status')
-        let labelText = "Julkaise tapahtuma"
+        let labelText = this.props.editor.isSending ? "Julkaistaan tapahtumaa" : "Julkaise tapahtuma"
         if (_.keys(this.props.editor.values.sub_events).length > 0) {
-            labelText = "Julkaise tapahtumat"
+            labelText = this.props.editor.isSending ? "Julkaistaan tapahtumia" : "Julkaise tapahtumat"
         }
         if(this.props.params.action === 'update' && publicationStatus === constants.PUBLICATION_STATUS.PUBLIC) {
             return (
@@ -145,10 +146,11 @@ var EditorPage = React.createClass({
         } else {
             return (
                 <span>
+                    <Loader loaded={!this.props.editor.isSending} scale={1}/>
                     <RaisedButton
                         style={buttonStyle}
                         primary={true}
-                        disabled={this.props.user && !this.props.user.organization}
+                        disabled={this.props.editor.isSending || (this.props.user && !this.props.user.organization)}
                         label={labelText}
                         onClick={ (e) => this.saveAsPublished(e) }
                     />
