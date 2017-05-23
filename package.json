@@ -44,6 +44,7 @@
     "react": "^0.14.7",
     "react-addons-pure-render-mixin": "^0.14.6",
     "react-bootstrap": "^0.28.2",
+    "react-copy-to-clipboard": "^4.0.0",
     "react-datepicker": "^0.34.0",
     "react-dom": "^0.14.3",
     "react-helmet": "^2.2.0",

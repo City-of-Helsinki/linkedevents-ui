@@ -1,6 +1,8 @@
+require('!style!css!sass!./index.scss')
 import React from 'react'
 
 import { FormattedMessage, injectIntl } from 'react-intl'
+import CopyToClipboard from 'react-copy-to-clipboard'
 
 import ImagePicker from 'src/components/ImagePicker'
 import {
@@ -143,6 +145,18 @@ class FormFields extends React.Component {
         return newEvents
     }
 
+    getKeywords(keywords) {
+        const regExp = /keyword\/\s*([^\n\r]*)\//i
+        const keywordIds = []
+
+        for (const key in keywords) {
+            const match = regExp.exec(keywords[key].value)
+            keywordIds.push(match[1])
+        }
+
+        return keywordIds.join()
+    }
+
     trimmedDescription() {
         let descriptions = Object.assign({}, this.props.editor.values["description"])
         for (const lang in descriptions) {
@@ -238,7 +252,7 @@ class FormFields extends React.Component {
                 <FormHeader>
                     <FormattedMessage id="event-location-fields-header" />
                 </FormHeader>
-                <div className="row">
+                <div className="row location-row">
                     <div className="col-sm-6">
                         <HelAutoComplete
                             ref="location" name="location"
@@ -249,6 +263,7 @@ class FormFields extends React.Component {
                             placeholder={this.context.intl.formatMessage({ id: "event-location" })}
                             setDirtyState={this.props.setDirtyState}
                         />
+                        <CopyToClipboard text={values['location'] ? values['location'].id : ''}><button className="clipboard-copy-button" title={this.context.intl.formatMessage({id: "copy-to-clipboard"})}><i className="material-icons">&#xE14D;</i></button></CopyToClipboard>
                         <MultiLanguageField multiLine={true} label="event-location-additional-info" ref="location_extra_info" name="location_extra_info" validationErrors={validationErrors["location_extra_info"]} defaultValue={values["location_extra_info"]} languages={this.props.editor.contentLanguages} setDirtyState={this.props.setDirtyState} />
                     </div>
                     <SideField>
@@ -291,8 +306,9 @@ class FormFields extends React.Component {
                 <FormHeader>
                     <FormattedMessage id="event-categorization" />
                 </FormHeader>
-                <div className="row">
+                <div className="row keyword-row">
                     <HelSelect selectedValues={values['keywords']} legend={"Tapahtuman asiasanat"} ref="keywords" name="keywords" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?show_all_keywords=1&data_source=yso&text=`} validationErrors={validationErrors['keywords']} setDirtyState={this.props.setDirtyState} />
+                    <CopyToClipboard text={values['keywords'] ? this.getKeywords(values['keywords']) : ''}><button className="clipboard-copy-button" title={this.context.intl.formatMessage({id: "copy-to-clipboard"})}><i className="material-icons">&#xE14D;</i></button></CopyToClipboard>
                     <SideField><p className="tip">Liitä tapahtumaan vähintään yksi asiasana, joka kuvaa tapahtuman teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta.</p></SideField>
                     <HelLabeledCheckboxGroup
                         groupLabel={<FormattedMessage id="hel-main-categories"/>}
