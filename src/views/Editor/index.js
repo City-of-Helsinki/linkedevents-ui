@@ -68,10 +68,8 @@ var EditorPage = React.createClass({
     },
 
     routerWillLeave(nextLocation) {
-        // _asked is a workaround because routerWillLeave is called twice
-        if (this.state.isDirty && !this._asked) {
-            this._asked = true
-            return 'Lomakkeella tallentamattomia tietoja. Oletko varma että haluat poistua?'
+        if (this.state.isDirty) {
+            return 'Changes that you have made may not be saved.\n\nAre you sure you want to leave?'
         }
     },
 
