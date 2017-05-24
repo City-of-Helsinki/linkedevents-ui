@@ -35,6 +35,13 @@ var EditorPage = React.createClass({
     mixins: [ Lifecycle ],
 
     getInitialState() {
+        this.handler = (ev) => {
+            ev.preventDefault();
+            if (this.state.isDirty) {
+                (ev || window.event).returnValue = null;
+                return null
+            }
+        }
         return {
             canSubmit: false,
             disabled: false,
@@ -46,6 +53,10 @@ var EditorPage = React.createClass({
         if(this.props.params.action === 'update' && this.props.params.eventId) {
             this.props.dispatch(fetchEventForEditing(this.props.params.eventId, this.props.user))
         }
+    },
+
+    componentDidMount() {
+        window.addEventListener("beforeunload", this.handler)
     },
 
     componentWillReceiveProps: function(nextProps) {
@@ -64,6 +75,7 @@ var EditorPage = React.createClass({
     },
 
     componentWillUnmount() {
+        window.removeEventListener("beforeunload", this.handler)
         this.props.dispatch(setValidationErrors({}))
     },
 
