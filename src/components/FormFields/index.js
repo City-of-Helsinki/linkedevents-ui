@@ -226,7 +226,9 @@ class FormFields extends React.Component {
                                     setDateTime={this.setStartDateTime}
                                     ref="start_time"
                                     name="start_time"
-                                    label="event-starting-datetime" />
+                                    label="event-starting-datetime"
+                                    setDirtyState={this.props.setDirtyState}
+                                />
                             </div>
                             <div className="col-xs-12 col-md-6">
                                 <HelDateTimeField
@@ -235,7 +237,9 @@ class FormFields extends React.Component {
                                     setDateTime={this.setEndDateTime}
                                     ref="end_time"
                                     name="end_time"
-                                    label="event-ending-datetime" />
+                                    label="event-ending-datetime"
+                                    setDirtyState={this.props.setDirtyState}
+                                />
                             </div>
                         </div>
                         <div className={"new-events " + (this.state.showNewEvents ? 'show' : 'hidden')}>
