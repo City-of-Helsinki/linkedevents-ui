@@ -73,5 +73,6 @@
 
     "event-categorization": "Categorization",
     "hel-fi-main-categories": "Hel.fi main categories",
-    "search-no-results": "No results"
+    "search-no-results": "No results",
+    "copy-to-clipboard": "Copy to clipboard"
 }
