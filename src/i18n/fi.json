@@ -35,6 +35,8 @@
     "event-short-description": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
     "event-description": "Kuvaus",
     "event-info-url": "Kotisivu",
+    "event-provider": "Tapahtuman järjestäjä",
+    "event-provider-input": "Tapahtuman järjestäjä (jos eri kuin syöttäjän organisaatio)",
 
     "organization-events": "Tapahtumien hallinta",
     "organization-events-prompt": "muokataksesi tapahtumia.",
@@ -154,5 +156,6 @@
     "image-update-error": "Virhe kuvaa päivittäessä.",
     "confirm-image-delete": "Varmista kuvan poistaminen",
 
-    "search-no-results": "Ei tuloksia"
+    "search-no-results": "Ei tuloksia",
+    "copy-to-clipboard": "Kopioi leikepöydälle"
 }
