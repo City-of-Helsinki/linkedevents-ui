@@ -85,6 +85,10 @@ class FormFields extends React.Component {
       };
     }
 
+    componentDidMount() {
+        this.addNewEventDialog()
+    }
+
     componentWillReceiveProps(nextProps) {
         // const events = nextProps.editor.values.sub_events
         // if (Object.keys(events).length > 0 && !this.state.firstStartDateTime && !this.state.firstEndDateTime) {
@@ -119,20 +123,29 @@ class FormFields extends React.Component {
             const startDates = []
             const endDates = []
             for (const key in subEvents) {
-                if (subEvents.hasOwnProperty(key)) {
+                if (subEvents.hasOwnProperty(key) && subEvents[key].start_time !== undefined && subEvents[key].end_time !== undefined) {
                     startDates.push(moment(subEvents[key].start_time))
                     endDates.push(moment(subEvents[key].end_time))
                 }
             }
-            startTime = moment.max(startDates)
-            endTime = moment.max(endDates)
+            if (startDates.length) {
+                startTime = moment.max(startDates)
+                endTime = moment.max(endDates)
+            }
         } else {
-            startTime = this.props.editor.values.start_time ? moment(this.props.editor.values.start_time) : moment()
-            endTime = this.props.editor.values.end_time ? moment(this.props.editor.values.end_time) : moment()
+            startTime = undefined
+            endTime = undefined
         }
-        obj[key] = {
-            start_time: moment.tz(startTime.add(1, 'weeks'), 'Europe/Helsinki').utc().toISOString(),
-            end_time: moment.tz(endTime.add(1, 'weeks'), 'Europe/Helsinki').utc().toISOString()
+        if (startTime === undefined || endTime === undefined) {
+            obj[key] = {
+                startTime: undefined,
+                endTime: undefined
+            }
+        } else {
+            obj[key] = {
+                start_time: moment.tz(startTime.add(1, 'weeks'), 'Europe/Helsinki').utc().toISOString(),
+                end_time: moment.tz(endTime.add(1, 'weeks'), 'Europe/Helsinki').utc().toISOString()
+            }
         }
         this.context.dispatch(setEventData(obj, key))
     }
