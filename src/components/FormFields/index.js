@@ -77,8 +77,8 @@ class FormFields extends React.Component {
 
     constructor(props) {
       super(props);
-      this.setStartDateTime = this.setStartDateTime.bind(this)
-      this.setEndDateTime = this.setEndDateTime.bind(this)
+    //   this.setStartDateTime = this.setStartDateTime.bind(this)
+    //   this.setEndDateTime = this.setEndDateTime.bind(this)
       this.state = {
           showNewEvents: true,
           showRecurringEvent: false
@@ -86,13 +86,13 @@ class FormFields extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const events = nextProps.editor.values.sub_events
-        if (Object.keys(events).length > 0 && !this.state.firstStartDateTime && !this.state.firstEndDateTime) {
-            const firstEvent = events['1']
-            this.setStartDateTime(firstEvent.start_time)
-            this.setEndDateTime(firstEvent.end_time)
-            delete events['1']
-        }
+        // const events = nextProps.editor.values.sub_events
+        // if (Object.keys(events).length > 0 && !this.state.firstStartDateTime && !this.state.firstEndDateTime) {
+        //     const firstEvent = events['1']
+        //     this.setStartDateTime(firstEvent.start_time)
+        //     this.setEndDateTime(firstEvent.end_time)
+        //     delete events['1']
+        // }
         this.forceUpdate()
     }
 
@@ -137,13 +137,13 @@ class FormFields extends React.Component {
         this.context.dispatch(setEventData(obj, key))
     }
 
-    setStartDateTime(startDateTime) {
-        this.setState({ firstStartDateTime: startDateTime })
-    }
-
-    setEndDateTime(endDateTime) {
-        this.setState({ firstEndDateTime: endDateTime })
-    }
+    // setStartDateTime(startDateTime) {
+    //     this.setState({ firstStartDateTime: startDateTime })
+    // }
+    //
+    // setEndDateTime(endDateTime) {
+    //     this.setState({ firstEndDateTime: endDateTime })
+    // }
 
     generateNewEventFields(events) {
         let newEvents = []
@@ -232,7 +232,7 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6">
-                        <div className="row">
+                        {/* <div className="row">
                             <div className="col-xs-12 col-md-6">
                                 <HelDateTimeField
                                     validationErrors={validationErrors['start_time']}
@@ -255,7 +255,7 @@ class FormFields extends React.Component {
                                     setDirtyState={this.props.setDirtyState}
                                 />
                             </div>
-                        </div>
+                        </div> */}
                         <div className={"new-events " + (this.state.showNewEvents ? 'show' : 'hidden')}>
                             { newEvents }
                         </div>
