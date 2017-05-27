@@ -120,6 +120,34 @@ function update(state = initialState, action) {
         });
     }
 
+    if (action.type === constants.EDITOR_ADD_OFFER) {
+        let offersItems = []
+        if (state.values.offers) {
+            offersItems = JSON.parse(JSON.stringify(state.values.offers))
+        }
+        offersItems.push(action.values)
+        return updater(state, {
+            values: {
+                offers: {
+                    $set: offersItems
+                }
+            }
+        })
+    }
+
+    if (action.type === constants.EDITOR_DELETE_OFFER) {
+        const index = parseInt(action.offerKey)
+        const offers = JSON.parse(JSON.stringify(state.values.offers))
+        offers.splice(index, 1)
+        return updater(state, {
+            values: {
+                offers: {
+                    $set: offers
+                }
+            }
+        });
+    }
+
     if (action.type === constants.EDITOR_SETLANGUAGES) {
         return Object.assign({}, state, {
             contentLanguages: action.languages

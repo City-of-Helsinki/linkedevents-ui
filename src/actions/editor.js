@@ -56,6 +56,18 @@ export function addOfferData(values) {
         add: true
     }
 }
+export function addOffer(values) {
+    return {
+        type: constants.EDITOR_ADD_OFFER,
+        values
+    }
+}
+export function deleteOffer(offerKey) {
+    return {
+        type: constants.EDITOR_DELETE_OFFER,
+        offerKey
+    }
+}
 export function setLanguages(languages) {
     return {
         type: constants.EDITOR_SETLANGUAGES,
