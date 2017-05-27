@@ -8,7 +8,6 @@ import './HelOffersField.scss'
 import { RaisedButton } from 'material-ui'
 
 import {connect} from 'react-redux'
-import {setData, addOfferData} from 'src/actions/editor.js'
 
 import ValidationPopover from 'src/components/ValidationPopover'
 
@@ -31,71 +30,11 @@ class HelOffersField extends React.Component {
         if (this.props.defaultValue && this.props.defaultValue.length) {
             this.setState({ values: this.props.defaultValue })
         }
-        if (this.props.defaultValue && _.isBoolean(this.props.defaultValue[0].is_free)) {
-            this.setState({ freeEvent: this.props.defaultValue[0].is_free })
+    }
+
         }
     }
 
-    componentDidMount() {
-        this.onBlur()
-    }
-
-    setIsFree(e, value) {
-        this.setState({ freeEvent: !this.state.freeEvent })
-        this.onBlur()
-    }
-
-    onBlur(e) {
-        if(this.props.name) {
-            if(this.noValidationErrors()) {
-                let obj = {}
-                obj[this.props.name] = this.getValue()
-
-                this.context.dispatch(setData(obj))
-            }
-        }
-    }
-
-    // Creates database 'offers' object from inputs
-    getValue() {
-        const offerObjects = []
-        // Unwrap connect and injectIntl
-        const pairs = _.map(this.refs, (ref, key) => ({
-            key: key,
-            value: ref.getValue()
-        }))
-
-        for (const key in this.props.defaultValue) {
-            let obj = {}
-            pairs.forEach((pair) => {
-                if (pair.key === 'is_free') {
-                    obj[pair.key] = pair.value
-                } else if (pair.key.split('-')[1] === key) {
-                    obj[pair.key.split('-')[0]] = pair.value
-                }
-            })
-
-            if(obj.is_free == true) {
-                obj = _.omit(obj, ['price', 'description']);
-            }
-            offerObjects.push(obj)
-        }
-
-        return offerObjects
-    }
-
-    noValidationErrors() {
-        let noErrors = _.map(this.refs, (ref, key) =>
-            (ref.noValidationErrors())
-        )
-
-        let actualErrors = _.filter(noErrors, i => (i === false))
-
-        if(actualErrors.length > 0) {
-            return false
-        }
-
-        return true
     }
 
     addNewOffer() {
