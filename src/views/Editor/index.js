@@ -81,7 +81,7 @@ var EditorPage = React.createClass({
 
     routerWillLeave(nextLocation) {
         if (this.state.isDirty) {
-            return 'Changes that you have made may not be saved.\n\nAre you sure you want to leave?'
+            return 'Muutoksiasi ei ole tallennettu.\n\nOletko varma että haluat jatkaa?'
         }
     },
 
