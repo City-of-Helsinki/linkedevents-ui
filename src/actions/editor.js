@@ -48,12 +48,12 @@ export function setEventData(values, key) {
        event: true
     }
 }
-export function addOfferData(values) {
+export function setOfferData(values, key) {
     return {
-        type: constants.EDITOR_SETDATA,
-        values,
-        offer: true,
-        add: true
+       type: constants.EDITOR_SETDATA,
+       key,
+       values,
+       offer: true
     }
 }
 export function addOffer(values) {

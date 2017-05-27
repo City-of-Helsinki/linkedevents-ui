@@ -43,23 +43,23 @@ function update(state = initialState, action) {
             return updater(state, {
                 values: {
                     sub_events: {
-                        [action.key]: { $set: action.values[action.key] }
+                        [action.key]: {
+                            $set: action.values[action.key]
+                        }
                     }
                 }
             });
         }
         if (action.offer) {
-            if (action.add) {
-                const offers = JSON.parse(JSON.stringify(state.values.offers))
-                offers.push(action.values)
-                return updater(state, {
-                    values: {
-                        offers: {
-                            $set: offers
+            return updater(state, {
+                values: {
+                    offers: {
+                        [action.key]: {
+                            $set: action.values[action.key]
                         }
                     }
-                })
-            }
+                }
+            });
         }
         // Merge new values to existing values
         let newValues = Object.assign({}, state.values, action.values)
