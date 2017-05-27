@@ -191,7 +191,7 @@ let OffersValue = (props) => {
 
         return (
             <div>
-                <CheckedValue checked={offersValueList[0].is_free} labelKey="is-free"/>
+                <CheckedValue checked={offers[0].is_free} labelKey="is-free"/>
                 {offersValueList}
             </div>
         )
