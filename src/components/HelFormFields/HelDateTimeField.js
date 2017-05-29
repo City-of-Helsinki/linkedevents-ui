@@ -39,7 +39,7 @@ const HelDateTimeField = React.createClass({
         ]),
         eventKey: React.PropTypes.string,
         name: React.PropTypes.string.isRequired,
-        validationErrors: React.PropTypes.object,
+        validationErrors: React.PropTypes.array,
         setDateTime: React.PropTypes.func
     },
 

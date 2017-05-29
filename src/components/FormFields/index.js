@@ -168,6 +168,7 @@ class FormFields extends React.Component {
                         key={key}
                         eventKey={key}
                         event={events[key]}
+                        validationErrors={this.props.editor.validationErrors}
                     />
                 )
             }
