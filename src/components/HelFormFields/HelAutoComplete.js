@@ -64,6 +64,10 @@ class HelAutoComplete extends React.Component {
 
         this.context.dispatch(setData(obj))
 
+        if (this.props.setDirtyState) {
+            this.props.setDirtyState()
+        }
+
         if(typeof this.props.onSelection === 'function') {
             this.props.onSelection(val)
         }
