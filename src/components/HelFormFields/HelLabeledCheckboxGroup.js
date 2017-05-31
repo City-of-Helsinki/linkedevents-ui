@@ -34,6 +34,10 @@ let HelLabeledCheckboxGroup = React.createClass({
         if(typeof this.props.onChange === 'function') {
             this.props.onChange(checkedNames)
         }
+
+        if (this.props.setDirtyState) {
+            this.props.setDirtyState()
+        }
     },
 
     shouldComponentUpdate: function(nextProps) {

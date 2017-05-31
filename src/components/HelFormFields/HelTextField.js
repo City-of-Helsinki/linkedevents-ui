@@ -77,6 +77,9 @@ let HelTextField = React.createClass({
             let obj = {}
             obj[this.props.name] = this.refs.text.getValue()
             this.context.dispatch(setData(obj))
+            if (this.props.setDirtyState) {
+                this.props.setDirtyState()
+            }
         }
 
         if(typeof this.props.onBlur === 'function') {
