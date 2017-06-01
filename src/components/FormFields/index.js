@@ -138,8 +138,8 @@ class FormFields extends React.Component {
         }
         if (startTime === undefined || endTime === undefined) {
             obj[key] = {
-                startTime: undefined,
-                endTime: undefined
+                start_time: undefined,
+                end_time: undefined
             }
         } else {
             obj[key] = {
