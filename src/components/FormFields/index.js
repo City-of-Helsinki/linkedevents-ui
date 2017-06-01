@@ -117,7 +117,7 @@ class FormFields extends React.Component {
         let startTime
         let endTime
         let subEventKeys = Object.keys(this.props.editor.values.sub_events)
-        let key = subEventKeys.length > 0 ? Math.max.apply(null, subEventKeys)+1 : 1
+        let key = subEventKeys.length > 0 ? Math.max.apply(null, subEventKeys)+1 : 0
         if (_.keys(this.props.editor.values.sub_events).length) {
             const subEvents = this.props.editor.values.sub_events
             const startDates = []
