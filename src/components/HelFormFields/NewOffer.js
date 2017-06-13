@@ -1,7 +1,10 @@
 import React from 'react'
-import MultiLanguageField from 'src/components/HelFormFields/MultiLanguageField.js'
 import { RaisedButton } from 'material-ui'
+
+import MultiLanguageField from 'src/components/HelFormFields/MultiLanguageField.js'
+import ValidationPopover from 'src/components/ValidationPopover'
 import { setOfferData, deleteOffer } from 'src/actions/editor.js'
+
 
 class NewOffer extends React.Component {
     static contextTypes = {
@@ -74,8 +77,8 @@ class NewOffer extends React.Component {
         return (
             <div key={offerKey} className="offer-fields" style={{'position': 'relative'}}>
                 <MultiLanguageField defaultValue={defaultValue.info_url} ref="info_url" label="event-purchase-link" languages={languages} onBlur={e => this.onBlur(e)} validations={['isUrl']}  />
-                <MultiLanguageField defaultValue={defaultValue.price} disabled={isFree} ref="price" label="event-price" languages={languages} onBlur={e => this.onBlur(e)} />
-                <MultiLanguageField defaultValue={defaultValue.description} disabled={isFree} ref="description" label="event-price-info" languages={languages} multiLine={true} onBlur={e => this.onBlur(e)} />
+                <MultiLanguageField defaultValue={defaultValue.price} disabled={isFree} ref="price" label="event-price" languages={languages} onBlur={e => this.onBlur(e)} validationErrors={this.props.validationErrors['price']} index={this.props.offerKey} />
+                <MultiLanguageField defaultValue={defaultValue.description} disabled={isFree} ref="description" label="event-price-info" languages={languages} multiLine={true} onBlur={e => this.onBlur(e)} validationErrors={this.props.validationErrors['offer_description']} index={this.props.offerKey} />
                 <RaisedButton
                     onClick={() => this.deleteOffer()}
                     style={buttonStyles}

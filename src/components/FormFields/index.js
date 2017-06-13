@@ -279,7 +279,7 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6">
-                        <HelOffersField ref="offers" name="offers" validationErrors={validationErrors["offers"]} defaultValue={values["offers"]} languages={this.props.editor.contentLanguages} />
+                        <HelOffersField ref="offers" name="offers" validationErrors={validationErrors} defaultValue={values["offers"]} languages={this.props.editor.contentLanguages} />
                     </div>
                     <SideField>
                         <div className="tip">

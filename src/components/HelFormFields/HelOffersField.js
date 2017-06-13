@@ -62,6 +62,7 @@ class HelOffersField extends React.Component {
                     key={key}
                     offerKey={key}
                     defaultValue={this.props.defaultValue[key]}
+                    validationErrors={this.props.validationErrors}
                     languages={this.props.languages}
                     isFree={this.state.isFree}
                 />
