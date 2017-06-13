@@ -140,6 +140,7 @@
     "validation-atLeastOneIsTrue": "Valitse vähintään yksi toistopäivä",
     "validation-isMoreThanOne": "Toistovälin tulee olla vähintään 1 viikko",
     "validation-daysWithinInterval": "Yksi tai useampi valituista päivistä ei esiinny toistovälillä",
+    "validation-hasPrice": "Hintatietoja puuttuu",
 
     "server-error": "Virhe palvelimella.",
     "validation-error": "Lomakkeessa on virheitä. Tarkasta lomake.",
