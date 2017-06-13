@@ -9,7 +9,8 @@ import './HelOffersField.scss'
 import { RaisedButton } from 'material-ui'
 
 import {connect} from 'react-redux'
-import { addOffer } from 'src/actions/editor.js'
+import { addOffer, setOfferData } from 'src/actions/editor.js'
+
 
 import ValidationPopover from 'src/components/ValidationPopover'
 
@@ -44,6 +45,10 @@ class HelOffersField extends React.Component {
     }
 
     setIsFree(e, value) {
+        if (!this.props.defaultValue || !this.props.defaultValue.length) {
+            this.addNewOffer()
+            this.context.dispatch(setOfferData({ '0': { is_free: !this.state.isFree } }, 0))
+        }
         this.setState({ isFree: !this.state.isFree })
     }
 
