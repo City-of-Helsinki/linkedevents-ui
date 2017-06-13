@@ -255,8 +255,10 @@ var validations = {
         }
     },
     hasPrice: function hasPrice(values, value, key) {
-        if (!value.is_free) {
+        if (value.is_free !== undefined && !value.is_free) {
             return value[key] && value[key].fi.length
+        } else {
+            return true
         }
     }
 };
