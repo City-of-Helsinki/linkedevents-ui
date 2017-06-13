@@ -83,7 +83,7 @@ function mapUIDataToAPIFormat(values) {
     if (values.offers === undefined) {
         obj.offers = []
     }
-    if(values.offers.length && !values.offers[0].is_free) {
+    if(values.offers && values.offers.length && !values.offers[0].is_free) {
         obj.offers = values.offers
     } else {
         obj.offers = [{ is_free: true }]
