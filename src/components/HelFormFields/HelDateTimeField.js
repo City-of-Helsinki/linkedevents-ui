@@ -71,6 +71,10 @@ const HelDateTimeField = React.createClass({
                     } else {
                         this.context.dispatch(setData(obj))
                     }
+
+                    if (this.props.setDirtyState) {
+                        this.props.setDirtyState()
+                    }
                 }
             }
         }
