@@ -66,11 +66,18 @@ class EventPage extends React.Component {
             userCanEdit = true
         }
 
-        let draftClass = event.publication_status == "draft" ? "event-page draft" : "event-page"
+        // Add necessary badges
+        let draftClass = event.publication_status == constants.PUBLICATION_STATUS.DRAFT ? "event-page draft" : "event-page"
         let draftBadge = null
-        if (event.publication_status == "draft") {
+        if (event.publication_status === constants.PUBLICATION_STATUS.DRAFT) {
             draftBadge = (<span style={{marginRight:'0.5em'}} className="label label-warning">LUONNOS</span>)
         }
+        let cancelledClass = event.publication_status == constants.EVENT_STATUS.CANCELLED ? "event-page cancelled" : "event-page"
+        let cancelledBadge = null
+        if (event.event_status === constants.EVENT_STATUS.CANCELLED) {
+            cancelledBadge = (<span style={{marginRight:'0.5em'}} className="label label-danger">PERUUTETTU</span>)
+        }
+
         if(this.props.events.eventError) {
             return (
                 <header className="container header">
@@ -85,6 +92,7 @@ class EventPage extends React.Component {
                 <div className={draftClass}>
                     <header className="container header">
                         <h1>
+                            {cancelledBadge}
                             {draftBadge}
                             { getStringWithLocale(event, 'name') }
                         </h1>
