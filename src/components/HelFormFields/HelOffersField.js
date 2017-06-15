@@ -27,6 +27,7 @@ class HelOffersField extends React.Component {
           values: this.props.defaultValue,
           isFree: true
       };
+  }
 
     componentWillMount() {
         if (this.props.defaultValue && this.props.defaultValue.length) {
