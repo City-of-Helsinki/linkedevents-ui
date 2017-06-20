@@ -61,21 +61,23 @@ class HelOffersField extends React.Component {
         this.context.dispatch(addOffer(obj))
     }
 
-    generateOffers() {
-        const offers = []
-        for (const key in this.props.defaultValue) {
-            offers.push(
-                <NewOffer
-                    key={key}
-                    offerKey={key}
-                    defaultValue={this.props.defaultValue[key]}
-                    validationErrors={this.props.validationErrors}
-                    languages={this.props.languages}
-                    isFree={this.state.isFree}
-                />
-            )
+    generateOffers(offers) {
+        const newOffers = []
+        for (const key in offers) {
+            if (offers.hasOwnProperty(key) && !(offers.length === 1 && this.state.isFree)) {
+                newOffers.push(
+                    <NewOffer
+                        key={key}
+                        offerKey={key}
+                        defaultValue={this.props.defaultValue[key]}
+                        validationErrors={this.props.validationErrors}
+                        languages={this.props.languages}
+                        isFree={this.state.isFree}
+                    />
+                )
+            }
         }
-        return offers
+        return newOffers
     }
 
     render() {
@@ -84,7 +86,7 @@ class HelOffersField extends React.Component {
             margin: '10px 5px',
             display: 'block'
         }
-        const offerDetails = this.generateOffers()
+        const offerDetails = this.generateOffers(this.props.defaultValue)
 
         return (
             <div className="offers-field">
