@@ -68,6 +68,12 @@ export function deleteOffer(offerKey) {
         offerKey
     }
 }
+export function setFreeOffers(isFree) {
+    return {
+        type: constants.EDITOR_SET_FREE_OFFERS,
+        isFree
+    }
+}
 export function setLanguages(languages) {
     return {
         type: constants.EDITOR_SETLANGUAGES,

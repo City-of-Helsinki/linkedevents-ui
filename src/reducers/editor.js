@@ -148,6 +148,20 @@ function update(state = initialState, action) {
         });
     }
 
+    if (action.type === constants.EDITOR_SET_FREE_OFFERS) {
+        const offers = JSON.parse(JSON.stringify(state.values.offers))
+        for (const offer of offers) {
+            offer.is_free = action.isFree
+        }
+        return updater(state, {
+            values: {
+                offers: {
+                    $set: offers
+                }
+            }
+        })
+    }
+
     if (action.type === constants.EDITOR_SETLANGUAGES) {
         return Object.assign({}, state, {
             contentLanguages: action.languages
