@@ -175,14 +175,24 @@ let FormHeader = (props) => (
 
 
 let OffersValue = (props) => {
-    if(props.values.offers && props.values.offers[0] && typeof props.values.offers[0] === 'object') {
-        let offer = props.values.offers[0]
+    const { offers } = props.values
+    if (offers && offers[0] && typeof offers[0] === 'object') {
+        const offersValueList = []
+        for (const key in props.values.offers) {
+            const offerValues = (
+                <div key={key} className="offer-values">
+                    <MultiLanguageValue labelKey="event-purchase-link" value={offers[key].info_url} />
+                    <MultiLanguageValue labelKey="event-price" hidden={offers[key].is_free} value={offers[key].price} />
+                    <MultiLanguageValue labelKey="event-price-info" hidden={offers[key].is_free} value={offers[key].description} />
+                </div>
+            )
+            offersValueList.push(offerValues)
+        }
+
         return (
             <div>
-                <CheckedValue checked={offer.is_free} labelKey="is-free"/>
-                <MultiLanguageValue labelKey="event-purchase-link" value={offer.info_url} />
-                <MultiLanguageValue labelKey="event-price" hidden={offer.is_free} value={offer.price} />
-                <MultiLanguageValue labelKey="event-price-info" hidden={offer.is_free} value={offer.description} />
+                <CheckedValue checked={offers[0].is_free} labelKey="is-free"/>
+                {offersValueList}
             </div>
         )
     } else {

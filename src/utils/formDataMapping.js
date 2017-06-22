@@ -80,8 +80,13 @@ function mapUIDataToAPIFormat(values) {
     }
 
     // Price data
-    if(values.offers) {
+    if (values.offers === undefined) {
+        obj.offers = []
+    }
+    if(values.offers && values.offers.length && !values.offers[0].is_free) {
         obj.offers = values.offers
+    } else {
+        obj.offers = [{ is_free: true }]
     }
 
     // Keywords, audience, languages

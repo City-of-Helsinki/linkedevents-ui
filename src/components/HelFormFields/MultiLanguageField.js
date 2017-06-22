@@ -111,6 +111,7 @@ class MultiLanguageField extends React.Component {
                         disabled={this.props.disabled}
                         validations={this.props.validations}
                         validationErrors={this.props.validationErrors}
+                        index={this.props.index}
                         multiLine={this.props.multiLine} />
                 </div>
             )
@@ -128,7 +129,7 @@ class MultiLanguageField extends React.Component {
         return (
             <div className="multi-field">
                 <div className="indented">
-                    <label><FormattedMessage id={`${props.label}`} /><ValidationPopover validationErrors={this.props.validationErrors} /></label>
+                    <label><FormattedMessage id={`${props.label}`} /><ValidationPopover validationErrors={this.props.validationErrors} index={this.props.index} /></label>
                     {textInputs}
                 </div>
             </div>
