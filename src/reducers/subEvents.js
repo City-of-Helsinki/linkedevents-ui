@@ -8,7 +8,7 @@ const initialState = {
 }
 
 function update(state = initialState, action) {
-    if(action.type === constants.REQUEST_CHILD_EVENTS) {
+    if(action.type === constants.REQUEST_SUB_EVENTS) {
         return Object.assign({}, state, {
             isFetching: true,
             fetchComplete: false,
@@ -17,7 +17,7 @@ function update(state = initialState, action) {
         })
     }
 
-    if(action.type === constants.RECEIVE_CHILD_EVENTS) {
+    if(action.type === constants.RECEIVE_SUB_EVENTS) {
         return Object.assign({}, state, {
             isFetching: false,
             fetchComplete: true,
@@ -26,7 +26,7 @@ function update(state = initialState, action) {
         });
     }
 
-    if(action.type === constants.RECEIVE_CHILD_EVENTS_ERROR) {
+    if(action.type === constants.RECEIVE_SUB_EVENTS_ERROR) {
         return Object.assign({}, state, {
             isFetching: false,
             fetchComplete: false,

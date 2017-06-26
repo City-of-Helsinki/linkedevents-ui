@@ -17,33 +17,32 @@ function makeRequest(superEventID, user = {}, dispatch) {
     return authedFetch(url, options, user, dispatch);
 }
 
-export const startFetching = createAction(constants.REQUEST_CHILD_EVENTS);
+export const startFetching = createAction(constants.REQUEST_SUB_EVENTS);
 
-export function receiveChildEvents(json) {
-    console.log('Received child events:', json.data);
+export function receiveSubEvents(json) {
     return {
-        type: constants.RECEIVE_CHILD_EVENTS,
+        type: constants.RECEIVE_SUB_EVENTS,
         events: json.data
     }
 }
 
-export function receiveChildEventsError(error) {
+export function receiveSubEventsError(error) {
     return {
-        type: constants.RECEIVE_CHILD_EVENTS_ERROR,
+        type: constants.RECEIVE_SUB_EVENTS_ERROR,
         error: error
     }
 }
 
-export function fetchChildEvents(user, superEventID) {
+export function fetchSubEvents(user, superEventID) {
     return (dispatch) => {
         dispatch(startFetching());
         makeRequest(user, superEventID, dispatch).then(function (response) {
             if (response.status >= 400) {
-                dispatch(receiveChildEventsError({
+                dispatch(receiveSubEventsError({
                     error: 'API Error ' + response.status
                 }));
             }
-            response.json().then(json => dispatch(receiveChildEvents(json)));
+            response.json().then(json => dispatch(receiveSubEvents(json)));
         })
         .catch(e => {
             // Error happened while fetching ajax (connection or javascript)
