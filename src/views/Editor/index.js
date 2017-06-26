@@ -15,6 +15,7 @@ import { getStringWithLocale } from 'src/utils/locale'
 
 import {fetchEventForEditing, deleteEvent as deleteEventAction, cancelEvent as cancelEventAction, sendData, clearData, fetchKeywordSets, fetchLanguages, setValidationErrors} from 'src/actions/editor.js'
 import {confirmAction, clearFlashMsg} from 'src/actions/app.js'
+import {fetchChildEvents} from 'src/actions/childEvents.js'
 
 import constants from 'src/constants.js'
 
@@ -52,6 +53,7 @@ var EditorPage = React.createClass({
     componentWillMount() {
         if(this.props.params.action === 'update' && this.props.params.eventId) {
             this.props.dispatch(fetchEventForEditing(this.props.params.eventId, this.props.user))
+            this.props.dispatch(fetchChildEvents(this.props.params.eventId, this.props.user))
         }
     },
 
