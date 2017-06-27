@@ -8,6 +8,7 @@ import Loader from 'react-loader'
 import {connect} from 'react-redux'
 import { Lifecycle } from 'react-router'
 import {FormattedMessage} from 'react-intl'
+import moment from 'moment'
 
 import { RaisedButton, FlatButton } from 'material-ui'
 
@@ -211,6 +212,19 @@ var EditorPage = React.createClass({
         // console.log(event)
     },
 
+    getWarningMarkup() {
+        let warningText = 'VAROITUS: Tämä toiminto poistaa tapahtuman lopullisesti. Voit tarvittaessa myös perua tapahtuman tai lykätä sitä.<br/>'
+        let subEventWarning = ''
+        if (this.props.subEvents.items && this.props.subEvents.items.length) {
+            const subEventNames = []
+            for (const subEvent of this.props.subEvents.items) {
+                subEventNames.push(`</br><strong>${subEvent.name.fi}</strong> (${moment(subEvent.start_time).format("DD.MM.YYYY")})`)
+            }
+            subEventWarning = '</br>Poistaessasi tämän tapahtuman myös seuraavat alitapahtumat poistetaan:</br>' + subEventNames
+        }
+        return warningText + subEventWarning
+    },
+
     saveAsDraft(event) {
         let doUpdate = this.props.params.action === 'update'
         const {values, contentLanguages} = this.props.editor
@@ -234,7 +248,8 @@ var EditorPage = React.createClass({
                 'delete',
                 {
                     action: e => this.props.dispatch(deleteEventAction(this.props.params.eventId, this.props.user)),
-                    additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi')
+                    additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
+                    additionalMarkup: this.getWarningMarkup()
                 }
             )
         )
@@ -319,5 +334,6 @@ var EditorPage = React.createClass({
 
 export default connect((state) => ({
     editor: state.editor,
+    subEvents: state.subEvents,
     user: state.user
 }))(EditorPage)
