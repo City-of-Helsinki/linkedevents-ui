@@ -148,7 +148,7 @@ class App extends React.Component {
                    </Modal.Header>
                    <Modal.Body>
                      <p>{confirmMsg}</p>
-                     <p>{additionalMsg}</p>
+                     <p><strong>{additionalMsg}</strong></p>
                    </Modal.Body>
                    <Modal.Footer>
                      <RaisedButton style={buttonStyle} label={<FormattedMessage id="cancel" />} onClick={e => this.props.dispatch(cancelAction())} />
