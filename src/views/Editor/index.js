@@ -105,7 +105,7 @@ var EditorPage = React.createClass({
         });
     },
 
-    getDeleteOrCancelButton: function() {
+    getDeleteButton: function() {
         let buttonStyle = {
             height: '64px',
             margin: '0 10px'
@@ -122,7 +122,29 @@ var EditorPage = React.createClass({
                         onClick={ (e) => this.deleteEvent(e) }
                         />
                 )
-            } else if (publicationStatus === constants.PUBLICATION_STATUS.PUBLIC) {
+            }
+            if (publicationStatus === constants.PUBLICATION_STATUS.PUBLIC) {
+                return (
+                    <RaisedButton
+                        style={buttonStyle}
+                        label="Poista tapahtuma"
+                        onClick={ (e) => this.deleteEvent(e) }
+                    />
+                )
+            }
+        }
+    },
+
+    getCancelButton: function() {
+        let buttonStyle = {
+            height: '64px',
+            margin: '0 10px'
+        }
+
+        if(this.props.params.action === 'update') {
+            let publicationStatus = _.get(this.props, 'editor.values.publication_status')
+
+            if (publicationStatus === constants.PUBLICATION_STATUS.PUBLIC) {
                 return (
                     <RaisedButton
                         style={buttonStyle}
@@ -174,7 +196,8 @@ var EditorPage = React.createClass({
     getActionButtons: function() {
         return (
             <div className="actions">
-                { this.getDeleteOrCancelButton() }
+                { this.getDeleteButton() }
+                { this.getCancelButton() }
                 { this.getSaveButtons() }
             </div>
         )
