@@ -247,12 +247,25 @@ var EditorPage = React.createClass({
                 'warning',
                 'delete',
                 {
-                    action: e => this.props.dispatch(deleteEventAction(this.props.params.eventId, this.props.user)),
+                    action: () => this.deleteEvents(),
                     additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
                     additionalMarkup: this.getWarningMarkup()
                 }
             )
         )
+    },
+
+    deleteEvents() {
+        if (this.props.subEvents.items.length) {
+            for (const subEvent of this.props.subEvents.items) {
+                this.deleteSubEvent(subEvent.id, this.props.user)
+            }
+        }
+        return this.props.dispatch(deleteEventAction(this.props.params.eventId, this.props.user))
+    },
+
+    deleteSubEvent(eventId) {
+        return this.props.dispatch(deleteEventAction(eventId, this.props.user))
     },
 
     confirmCancel() {
