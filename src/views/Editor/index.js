@@ -120,7 +120,7 @@ var EditorPage = React.createClass({
                     <RaisedButton
                         style={buttonStyle}
                         label="Poista tapahtuma"
-                        onClick={ (e) => this.deleteEvent(e) }
+                        onClick={ (e) => this.confirmDelete(e) }
                         />
                 )
             }
@@ -129,7 +129,7 @@ var EditorPage = React.createClass({
                     <RaisedButton
                         style={buttonStyle}
                         label="Poista tapahtuma"
-                        onClick={ (e) => this.deleteEvent(e) }
+                        onClick={ (e) => this.confirmDelete(e) }
                     />
                 )
             }
@@ -150,7 +150,7 @@ var EditorPage = React.createClass({
                     <RaisedButton
                         style={buttonStyle}
                         label="Peruuta tapahtuma"
-                        onClick={ (e) => this.cancelEvent(e) }
+                        onClick={ (e) => this.confirmCancel(e) }
                         />
                 )
             } else {
@@ -239,7 +239,7 @@ var EditorPage = React.createClass({
         this.props.dispatch(sendData(values, contentLanguages, this.props.user, doUpdate, constants.PUBLICATION_STATUS.PUBLIC))
     },
 
-    deleteEvent() {
+    confirmDelete() {
         // TODO: maybe do a decorator for confirmable actions etc...?
         this.props.dispatch(
             confirmAction(
@@ -255,7 +255,7 @@ var EditorPage = React.createClass({
         )
     },
 
-    cancelEvent() {
+    confirmCancel() {
         // TODO: maybe do a decorator for confirmable actions etc...?
         this.props.dispatch(
             confirmAction(
