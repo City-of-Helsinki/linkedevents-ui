@@ -1,3 +1,5 @@
+import '!style!css!sass!./index.scss'
+
 import React from 'react'
 
 export const Help = () => {
@@ -5,24 +7,22 @@ export const Help = () => {
         <div className="container help-page">
             <div id="short">
                 <h1>Linked Events lyhyesti</h1>
-                <p>
-                    <ul>
-                        <li>Samoja tapahtumatietoja käytetään monissa eri sovelluksissa.</li>
-                        <li>Rajapintaan voi syöttää tapahtumia kaupungin luvalla.</li>
-                        <li>Tarkat tiedot helpottavat tapahtuman löytämistä.</li>
-                        <li>Tapahtumia voi kopioida ja niille voi antaa useita päivämääriä.</li>
+                <ul>
+                    <li>Samoja tapahtumatietoja käytetään monissa eri sovelluksissa.</li>
+                    <li>Rajapintaan voi syöttää tapahtumia kaupungin luvalla.</li>
+                    <li>Tarkat tiedot helpottavat tapahtuman löytämistä.</li>
+                    <li>Tapahtumia voi kopioida ja niille voi antaa useita päivämääriä.</li>
 
-                        <li>Tapahtumaa syöttäessä tärkeimpiä ovat:
-                        <ul>
-                            <li>Selkeät otsikko, lyhyt kuvaus ja kuvaus</li>
-                            <li>Jos kohderyhmä on rajattu, tieto siitä kuvauskentässä</li>
-                            <li>Verkkoon sopivaksi muokattu 3:2-vaakakuva</li>
-                            <li>Oikein merkityt tapahtuma-aika ja -paikka</li>
-                            <li>Osuva asiasanoitus ja luokittelu</li>
-                        </ul>
-                        </li>
+                    <li>Tapahtumaa syöttäessä tärkeimpiä ovat:
+                    <ul>
+                        <li>Selkeät otsikko, lyhyt kuvaus ja kuvaus</li>
+                        <li>Jos kohderyhmä on rajattu, tieto siitä kuvauskentässä</li>
+                        <li>Verkkoon sopivaksi muokattu 3:2-vaakakuva</li>
+                        <li>Oikein merkityt tapahtuma-aika ja -paikka</li>
+                        <li>Osuva asiasanoitus ja luokittelu</li>
                     </ul>
-                </p>
+                    </li>
+                </ul>
 
                 <p>Kaupungin tapahtumakalenteri: <a href="http://www.hel.fi/tapahtumat" target="_blank">hel.fi/tapahtumat</a>.</p>
                 <p>Linked Events -rajapinta: <a href="http://api.hel.fi/linkedevents" target="_blank">api.hel.fi/linkedevents</a>.</p>
