@@ -97,6 +97,7 @@ const HelDateTimeField = React.createClass({
                     }
                     if (this.props.setDateTime) {
                         this.props.setDateTime(datetime)
+                    }
 
                     if (this.props.setDirtyState) {
                         this.props.setDirtyState()
