@@ -29,6 +29,16 @@
     );
 }
 
+.cancelled {
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(222, 114, 106, 0.60),
+        rgba(222, 114, 106, 0.60) 10px,
+        #fff 10px,
+        #fff 20px
+    );
+}
+
 @media (max-width: 480px) {
     .actions {
         margin: 0;

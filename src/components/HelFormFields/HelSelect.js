@@ -19,6 +19,10 @@ class HelSelect extends React.Component {
         let obj = {}
         obj[this.props.name] = value
         this.context.dispatch(setData(obj))
+
+        if (this.props.setDirtyState) {
+            this.props.setDirtyState()
+        }
     }
 
     getOptions(input) {

@@ -6,6 +6,7 @@ import 'style!vendor/stylesheets/typeahead.css'
 import React from 'react'
 import Loader from 'react-loader'
 import {connect} from 'react-redux'
+import { Lifecycle } from 'react-router'
 import {FormattedMessage} from 'react-intl'
 
 import { RaisedButton, FlatButton } from 'material-ui'
@@ -31,24 +32,31 @@ import FormFields from 'src/components/FormFields'
 //
 
 var EditorPage = React.createClass({
+    mixins: [ Lifecycle ],
 
     getInitialState() {
+        this.handler = (ev) => {
+            ev.preventDefault();
+            if (this.state.isDirty) {
+                (ev || window.event).returnValue = null;
+                return null
+            }
+        }
         return {
             canSubmit: false,
-            disabled: false
+            disabled: false,
+            isDirty: false
         }
     },
 
-    enableButton() {
-        return this.setState({
-            canSubmit: true
-        });
+    componentWillMount() {
+        if(this.props.params.action === 'update' && this.props.params.eventId) {
+            this.props.dispatch(fetchEventForEditing(this.props.params.eventId, this.props.user))
+        }
     },
 
-    disableButton() {
-        return this.setState({
-            canSubmit: false
-        });
+    componentDidMount() {
+        window.addEventListener("beforeunload", this.handler)
     },
 
     componentWillReceiveProps: function(nextProps) {
@@ -64,6 +72,35 @@ var EditorPage = React.createClass({
         }
 
         this.forceUpdate()
+    },
+
+    componentWillUnmount() {
+        window.removeEventListener("beforeunload", this.handler)
+        this.props.dispatch(setValidationErrors({}))
+    },
+
+    routerWillLeave(nextLocation) {
+        if (this.state.isDirty) {
+            return 'Muutoksiasi ei ole tallennettu.\n\nOletko varma että haluat jatkaa?'
+        }
+    },
+
+    setDirtyState() {
+        if (!this.state.isDirty) {
+            this.setState({ isDirty: true })
+        }
+    },
+
+    enableButton() {
+        return this.setState({
+            canSubmit: true
+        });
+    },
+
+    disableButton() {
+        return this.setState({
+            canSubmit: false
+        });
     },
 
     getDeleteOrCancelButton: function() {
@@ -141,16 +178,6 @@ var EditorPage = React.createClass({
         )
     },
 
-    componentWillMount() {
-        if(this.props.params.action === 'update' && this.props.params.eventId) {
-            this.props.dispatch(fetchEventForEditing(this.props.params.eventId, this.props.user))
-        }
-    },
-
-    componentWillUnmount() {
-        this.props.dispatch(setValidationErrors({}))
-    },
-
     clearForm() {
         this.props.dispatch(clearData())
     },
@@ -162,12 +189,14 @@ var EditorPage = React.createClass({
     saveAsDraft(event) {
         let doUpdate = this.props.params.action === 'update'
         const {values, contentLanguages} = this.props.editor
+        this.setState({ isDirty: false })
         this.props.dispatch(sendData(values, contentLanguages, this.props.user, doUpdate, constants.PUBLICATION_STATUS.DRAFT))
     },
 
     saveAsPublished(event) {
         let doUpdate = this.props.params.action === 'update'
         const {values, contentLanguages} = this.props.editor
+        this.setState({ isDirty: false })
         this.props.dispatch(sendData(values, contentLanguages, this.props.user, doUpdate, constants.PUBLICATION_STATUS.PUBLIC))
     },
 
@@ -246,7 +275,7 @@ var EditorPage = React.createClass({
                 </div>
 
                 <div className="container">
-                    <FormFields ref="form" action={this.props.params.action} editor={this.props.editor} />
+                    <FormFields ref="form" action={this.props.params.action} editor={this.props.editor} setDirtyState={this.setDirtyState} />
                 </div>
 
                 <div className="editor-action-buttons">

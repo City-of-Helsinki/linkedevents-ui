@@ -77,6 +77,9 @@ let HelTextField = React.createClass({
             let obj = {}
             obj[this.props.name] = this.refs.text.getValue()
             this.context.dispatch(setData(obj))
+            if (this.props.setDirtyState) {
+                this.props.setDirtyState()
+            }
         }
 
         if(typeof this.props.onBlur === 'function') {
@@ -152,7 +155,7 @@ let HelTextField = React.createClass({
             requiredElem = (<span>*</span>)
         }
 
-        label = (<span style={{position: 'relative'}}>{label} {requiredElem} <ValidationPopover small validationErrors={this.props.validationErrors} /></span>)
+        label = (<span style={{position: 'relative'}}>{label} {requiredElem} <ValidationPopover small validationErrors={this.props.validationErrors} index={this.props.index} /></span>)
 
         let groupClassName = 'hel-text-field'
         if(this.props.disabled) {
