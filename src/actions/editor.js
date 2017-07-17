@@ -48,6 +48,32 @@ export function setEventData(values, key) {
        event: true
     }
 }
+export function setOfferData(values, key) {
+    return {
+       type: constants.EDITOR_SETDATA,
+       key,
+       values,
+       offer: true
+    }
+}
+export function addOffer(values) {
+    return {
+        type: constants.EDITOR_ADD_OFFER,
+        values
+    }
+}
+export function deleteOffer(offerKey) {
+    return {
+        type: constants.EDITOR_DELETE_OFFER,
+        offerKey
+    }
+}
+export function setFreeOffers(isFree) {
+    return {
+        type: constants.EDITOR_SET_FREE_OFFERS,
+        isFree
+    }
+}
 export function setLanguages(languages) {
     return {
         type: constants.EDITOR_SETLANGUAGES,

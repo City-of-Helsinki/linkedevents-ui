@@ -9,6 +9,7 @@ import { Table, TableHeader, TableBody, TableRow, TableHeaderColumn, TableRowCol
 
 import SearchBar from 'src/components/SearchBar'
 import { fetchEvents } from 'src/actions/events.js'
+import constants from 'src/constants'
 
 let dateFormat = function(timeStr) {
     return timeStr ? moment(timeStr).format('ll') : ''
@@ -34,13 +35,19 @@ let EventRow = (props) => {
 
     let url = "/event/" + e.id;
 
-    let draft = props.event.publication_status == "draft"
-    let draftClass = draft ? 'draft-row' : ''
+    // Add necessary badges
     let nameColumn = null
+    let draft = props.event.publication_status === constants.PUBLICATION_STATUS.DRAFT
+    // let draftClass = draft ? 'draft-row' : ''
+    let draftClass = null
+    let cancelled = props.event.event_status === constants.EVENT_STATUS.CANCELLED
+    // let cancelledClass = cancelled ? 'cancelled-row' : ''
+    let cancelledClass = null
     if (draft) {
         nameColumn = (<TableRowColumn className={draftClass}><span className="label label-warning">LUONNOS</span> <Link to={url}>{name}</Link></TableRowColumn>)
-    }
-    else {
+    } else if (cancelled) {
+        nameColumn = (<TableRowColumn className={cancelledClass}><span className="label label-danger">PERUUTETTU</span> <Link to={url}>{name}</Link></TableRowColumn>)
+    } else {
         nameColumn = (<TableRowColumn><Link to={url}>{name}</Link></TableRowColumn>)
     }
 

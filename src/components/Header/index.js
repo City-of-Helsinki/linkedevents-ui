@@ -40,6 +40,7 @@ class HeaderBar extends React.Component {
                     <FlatButton className="mui-flat-button" style={buttonStyle} linkButton={true} label={<span><FormattedMessage id="create-event"/><i className="material-icons">&#xE145;</i></span>} onClick={() => this.props.dispatch(pushPath('/event/create/new'))} />
                 </ToolbarGroup>
                 <ToolbarGroup key={2} float="right">
+                    <FlatButton className="mui-flat-button" style={buttonStyle} linkButton={true} label={<i className="material-icons info-icon">&#xE8FD;</i>} onClick={() => this.props.dispatch(pushPath('/help'))} />
                     {loginButton}
                 </ToolbarGroup>
                 <div className="clearfix"/>

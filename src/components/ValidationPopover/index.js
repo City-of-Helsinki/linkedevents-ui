@@ -8,10 +8,21 @@ export default (props) => {
     let errorMsg = null
 
     if(props.validationErrors && props.validationErrors[0]) {
-        errorMsg = `validation-${props.validationErrors[0]}`
-        errorMsg = (<FormattedMessage className="msg" id={errorMsg}/>)
-    }
-    else {
+        let errorText = null
+        if (typeof props.validationErrors[0] === 'object') {
+            for (const object in props.validationErrors[0]) {
+                if (props.validationErrors[0][object].key === props.index) {
+                    errorText = `validation-${props.validationErrors[0][object].validation}`
+                }
+            }
+        } else {
+            errorText = `validation-${props.validationErrors[0]}`
+        }
+        if (errorText === null) {
+            return (<span></span>)
+        }
+        errorMsg = (<FormattedMessage className="msg" id={errorText}/>)
+    } else {
         return (<span></span>)
     }
 

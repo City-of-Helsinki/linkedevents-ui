@@ -30,6 +30,7 @@ import moment from 'moment'
 import App from './views/App'
 import Editor from './views/Editor'
 import Search from './views/Search'
+import Help from './views/Help'
 import Event from './views/Event'
 import EventCreated from './views/EventCreated'
 import EventListing from './views/EventListing'
@@ -85,6 +86,7 @@ ReactDOM.render(
                     <Route path="/event/:action/:eventId" component={Editor}/>
                     <Route path="/event/done/:action/:eventId" component={EventCreated}/>
                     <Route path="/search" component={Search}/>
+                    <Route path="/help" component={Help}/>
                 </Route>
             </Router>
         </IntlProvider>

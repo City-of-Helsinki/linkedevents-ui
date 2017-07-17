@@ -68,6 +68,10 @@ $header-bar-height: 56px;
     .clearfix {
         clear: both;
     }
+
+    .info-icon {
+        padding-left: 15px;
+    }
 }
 
 @media (max-width: 800px) {
@@ -83,4 +87,3 @@ $header-bar-height: 56px;
         }
     }
 }
-

@@ -43,12 +43,24 @@ function update(state = initialState, action) {
             return updater(state, {
                 values: {
                     sub_events: {
-                        [action.key]: { $set: action.values[action.key] }
+                        [action.key]: {
+                            $set: action.values[action.key]
+                        }
                     }
                 }
             });
         }
-
+        if (action.offer) {
+            return updater(state, {
+                values: {
+                    offers: {
+                        [action.key]: {
+                            $set: action.values[action.key]
+                        }
+                    }
+                }
+            });
+        }
         // Merge new values to existing values
         let newValues = Object.assign({}, state.values, action.values)
 
@@ -98,7 +110,7 @@ function update(state = initialState, action) {
         for (const event in sortedSubEvents) {
             subEventsObject[event] = sortedSubEvents[event]
         }
-        
+
         return updater(state, {
             values: {
                 sub_events: {
@@ -106,6 +118,48 @@ function update(state = initialState, action) {
                 }
             }
         });
+    }
+
+    if (action.type === constants.EDITOR_ADD_OFFER) {
+        let offersItems = []
+        if (state.values.offers) {
+            offersItems = JSON.parse(JSON.stringify(state.values.offers))
+        }
+        offersItems.push(action.values)
+        return updater(state, {
+            values: {
+                offers: {
+                    $set: offersItems
+                }
+            }
+        })
+    }
+
+    if (action.type === constants.EDITOR_DELETE_OFFER) {
+        const index = parseInt(action.offerKey)
+        const offers = JSON.parse(JSON.stringify(state.values.offers))
+        offers.splice(index, 1)
+        return updater(state, {
+            values: {
+                offers: {
+                    $set: offers
+                }
+            }
+        });
+    }
+
+    if (action.type === constants.EDITOR_SET_FREE_OFFERS) {
+        const offers = JSON.parse(JSON.stringify(state.values.offers))
+        for (const offer of offers) {
+            offer.is_free = action.isFree
+        }
+        return updater(state, {
+            values: {
+                offers: {
+                    $set: offers
+                }
+            }
+        })
     }
 
     if (action.type === constants.EDITOR_SETLANGUAGES) {
