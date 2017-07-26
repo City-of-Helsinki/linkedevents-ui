@@ -204,6 +204,12 @@ var validations = {
         }
         return _containsAllLanguages(value, values._contentLanguages)
     },
+    offerIsFreeOrHasPrice: function offerIsFreeOrHasPrice(values, value, key) {
+        if (typeof value !== 'object') {
+            return false
+        }
+        return _containsAllLanguages(value[key], values._contentLanguages)
+    },
     atLeastOneIsTrue: function atLeastOneIsTrue(values, value) {
         for (const key in value) {
             if (value.hasOwnProperty(key)) {
