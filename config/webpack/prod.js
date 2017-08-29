@@ -35,7 +35,6 @@ const indexHtml = indexTemplate({
     configJson: JSON.stringify(config),
     APP_MODE: process.env.APP_MODE,
     LE_PRODUCTION_INSTANCE: process.env.LE_PRODUCTION_INSTANCE || '#',
-    COMMIT_HASH: config.commit_hash
 })
 
 var config = {
