@@ -16,7 +16,7 @@ const common = {
     }
 }
 
-const jsonConfigKeys = ["api_base", "place_autocomplete_api_base", "local_storage_user_expiry_time", "nocache", "helsinkiTargetApp", "raven_id"];
+const jsonConfigKeys = ["api_base", "place_autocomplete_api_base", "local_storage_user_expiry_time", "nocache", "raven_id"];
 const templateConfigKeys = ["LE_PRODUCTION_INSTANCE", "APP_MODE"];
 
 nconf.env(jsonConfigKeys.concat(templateConfigKeys));
@@ -36,7 +36,7 @@ const indexTemplate = jade.compileFile(path.join(common.paths.SRC, 'index.jade')
 // We only want a subset of the read variables in configJson passed
 // to template. Nconf only allows for fetching one variable or all
 var configJson = {};
-for (var key in jsonConfigKeys) {
+for (var key of jsonConfigKeys) {
     configJson[key] = nconf.get(key);
 }
 
