@@ -1,43 +1,52 @@
-//import path from 'path';
-var path = require('path');
+const webpack = require('webpack');
+const nconf = require('nconf');
+const jade = require('jade');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const GitRevisionPlugin = require('git-revision-webpack-plugin');
 
-//import common from './common.js';
+// There are defined in common.js as well, but that is not available without
+// transpilation, which is not done for webpack configuration file
+const path = require('path');
 const ROOT = path.resolve(__dirname, '../..');
 const SRC = path.resolve(ROOT, 'src');
-
-var common = {
+const common = {
     paths: {
         ROOT,
         SRC
     }
-};
+}
 
-//import webpack from 'webpack';
-var webpack = require('webpack');
+const jsonConfigKeys = ["api_base", "place_autocomplete_api_base", "local_storage_user_expiry_time", "nocache", "helsinkiTargetApp", "raven_id"];
+const templateConfigKeys = ["LE_PRODUCTION_INSTANCE", "APP_MODE"];
 
-//import config from 'config';
-var config = require('config');
-
-//import HtmlWebpackPlugin from 'html-webpack-plugin';
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-
-const GitRevisionPlugin = require('git-revision-webpack-plugin');
+nconf.env(jsonConfigKeys.concat(templateConfigKeys));
+nconf.defaults({
+    'LE_PRODUCTION_INSTANCE': '#',
+    'APP_MODE': 'production',
+    // settings this by default does not break anything too badly, but is still risky...
+    'place_autocomplete_api_base': 'https://api.hel.fi/linkedevents/v1/search/?language=fi&type=place'
+});
+nconf.required(jsonConfigKeys.concat(templateConfigKeys));
 
 const gitRevisionPlugin = new GitRevisionPlugin();
-config.commit_hash = gitRevisionPlugin.commithash();
-
-//import jade from 'jade';
-var jade = require('jade');
+nconf.set('commit_hash', gitRevisionPlugin.commithash());
 
 const indexTemplate = jade.compileFile(path.join(common.paths.SRC, 'index.jade'), { pretty: true })
 
+// We only want a subset of the read variables in configJson passed
+// to template. Nconf only allows for fetching one variable or all
+var configJson = {};
+for (var key in jsonConfigKeys) {
+    configJson[key] = nconf.get(key);
+}
+
 const indexHtml = indexTemplate({
-    configJson: JSON.stringify(config),
-    APP_MODE: process.env.APP_MODE,
-    LE_PRODUCTION_INSTANCE: process.env.LE_PRODUCTION_INSTANCE || '#',
+    APP_MODE: nconf.get('APP_MODE'),
+    LE_PRODUCTION_INSTANCE: nconf.get('LE_PRODUCTION_INSTANCE'),
+    configJson: JSON.stringify(configJson)
 })
 
-var config = {
+const config = {
     raven_id: null,
     context: path.join(common.paths.ROOT, '/src'),
     entry: [
