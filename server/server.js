@@ -26,8 +26,5 @@ app.use(passport.initialize());
 app.use(passport.session());
 addAuth(app, passport, settings);
 
-const args = require('minimist')(process.argv.slice(2));
-const port = process.env.PORT || 8080
-
-console.log('Starting server at port', port);
-app.listen(port);
+console.log('Starting server at port', settings.port);
+app.listen(settings.port);
