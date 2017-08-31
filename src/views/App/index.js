@@ -105,6 +105,12 @@ class App extends React.Component {
             additionalMsg = this.props.app.confirmAction.data.additionalMsg
         }
 
+        let additionalMarkup = (<div/>)
+        if(this.props.app.confirmAction && this.props.app.confirmAction.data && this.props.app.confirmAction.data.additionalMarkup) {
+            additionalMarkup = this.props.app.confirmAction.data.additionalMarkup
+        }
+        const getMarkup = () => ({__html: additionalMarkup})
+
         let buttonStyle = {
             marginLeft: '10px'
         }
@@ -148,7 +154,8 @@ class App extends React.Component {
                    </Modal.Header>
                    <Modal.Body>
                      <p>{confirmMsg}</p>
-                     <p>{additionalMsg}</p>
+                     <p><strong>{additionalMsg}</strong></p>
+                     <div dangerouslySetInnerHTML={getMarkup()}/>
                    </Modal.Body>
                    <Modal.Footer>
                      <RaisedButton style={buttonStyle} label={<FormattedMessage id="cancel" />} onClick={e => this.props.dispatch(cancelAction())} />
