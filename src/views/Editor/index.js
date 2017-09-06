@@ -8,6 +8,7 @@ import Loader from 'react-loader'
 import {connect} from 'react-redux'
 import { Lifecycle } from 'react-router'
 import {FormattedMessage} from 'react-intl'
+import moment from 'moment'
 
 import { RaisedButton, FlatButton } from 'material-ui'
 
@@ -15,6 +16,7 @@ import { getStringWithLocale } from 'src/utils/locale'
 
 import {fetchEventForEditing, deleteEvent as deleteEventAction, cancelEvent as cancelEventAction, sendData, clearData, fetchKeywordSets, fetchLanguages, setValidationErrors} from 'src/actions/editor.js'
 import {confirmAction, clearFlashMsg} from 'src/actions/app.js'
+import {fetchSubEvents} from 'src/actions/subEvents.js'
 
 import constants from 'src/constants.js'
 
@@ -52,6 +54,7 @@ var EditorPage = React.createClass({
     componentWillMount() {
         if(this.props.params.action === 'update' && this.props.params.eventId) {
             this.props.dispatch(fetchEventForEditing(this.props.params.eventId, this.props.user))
+            this.props.dispatch(fetchSubEvents(this.props.params.eventId, this.props.user))
         }
     },
 
@@ -103,7 +106,7 @@ var EditorPage = React.createClass({
         });
     },
 
-    getDeleteOrCancelButton: function() {
+    getDeleteButton: function() {
         let buttonStyle = {
             height: '64px',
             margin: '0 10px'
@@ -117,15 +120,37 @@ var EditorPage = React.createClass({
                     <RaisedButton
                         style={buttonStyle}
                         label="Poista tapahtuma"
-                        onClick={ (e) => this.deleteEvent(e) }
+                        onClick={ (e) => this.confirmDelete(e) }
                         />
                 )
-            } else if (publicationStatus === constants.PUBLICATION_STATUS.PUBLIC) {
+            }
+            if (publicationStatus === constants.PUBLICATION_STATUS.PUBLIC) {
+                return (
+                    <RaisedButton
+                        style={buttonStyle}
+                        label="Poista tapahtuma"
+                        onClick={ (e) => this.confirmDelete(e) }
+                    />
+                )
+            }
+        }
+    },
+
+    getCancelButton: function() {
+        let buttonStyle = {
+            height: '64px',
+            margin: '0 10px'
+        }
+
+        if(this.props.params.action === 'update') {
+            let publicationStatus = _.get(this.props, 'editor.values.publication_status')
+
+            if (publicationStatus === constants.PUBLICATION_STATUS.PUBLIC) {
                 return (
                     <RaisedButton
                         style={buttonStyle}
                         label="Peruuta tapahtuma"
-                        onClick={ (e) => this.cancelEvent(e) }
+                        onClick={ (e) => this.confirmCancel(e) }
                         />
                 )
             } else {
@@ -172,7 +197,8 @@ var EditorPage = React.createClass({
     getActionButtons: function() {
         return (
             <div className="actions">
-                { this.getDeleteOrCancelButton() }
+                { this.getDeleteButton() }
+                { this.getCancelButton() }
                 { this.getSaveButtons() }
             </div>
         )
@@ -184,6 +210,19 @@ var EditorPage = React.createClass({
 
     goToPreview(event) {
         // console.log(event)
+    },
+
+    getWarningMarkup() {
+        let warningText = 'VAROITUS: Tämä toiminto poistaa tapahtuman lopullisesti. Voit tarvittaessa myös perua tapahtuman tai lykätä sitä.<br/>'
+        let subEventWarning = ''
+        if (this.props.subEvents.items && this.props.subEvents.items.length) {
+            const subEventNames = []
+            for (const subEvent of this.props.subEvents.items) {
+                subEventNames.push(`</br><strong>${subEvent.name.fi}</strong> (${moment(subEvent.start_time).format("DD.MM.YYYY")})`)
+            }
+            subEventWarning = '</br>Poistaessasi tämän tapahtuman myös seuraavat alitapahtumat poistetaan:</br>' + subEventNames
+        }
+        return warningText + subEventWarning
     },
 
     saveAsDraft(event) {
@@ -200,7 +239,7 @@ var EditorPage = React.createClass({
         this.props.dispatch(sendData(values, contentLanguages, this.props.user, doUpdate, constants.PUBLICATION_STATUS.PUBLIC))
     },
 
-    deleteEvent() {
+    confirmDelete() {
         // TODO: maybe do a decorator for confirmable actions etc...?
         this.props.dispatch(
             confirmAction(
@@ -208,14 +247,28 @@ var EditorPage = React.createClass({
                 'warning',
                 'delete',
                 {
-                    action: e => this.props.dispatch(deleteEventAction(this.props.params.eventId, this.props.user)),
-                    additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi')
+                    action: () => this.deleteEvents(),
+                    additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
+                    additionalMarkup: this.getWarningMarkup()
                 }
             )
         )
     },
 
-    cancelEvent() {
+    deleteEvents() {
+        if (this.props.subEvents.items.length) {
+            for (const subEvent of this.props.subEvents.items) {
+                this.deleteSubEvent(subEvent.id, this.props.user)
+            }
+        }
+        return this.props.dispatch(deleteEventAction(this.props.params.eventId, this.props.user))
+    },
+
+    deleteSubEvent(eventId) {
+        return this.props.dispatch(deleteEventAction(eventId, this.props.user))
+    },
+
+    confirmCancel() {
         // TODO: maybe do a decorator for confirmable actions etc...?
         this.props.dispatch(
             confirmAction(
@@ -294,5 +347,6 @@ var EditorPage = React.createClass({
 
 export default connect((state) => ({
     editor: state.editor,
+    subEvents: state.subEvents,
     user: state.user
 }))(EditorPage)

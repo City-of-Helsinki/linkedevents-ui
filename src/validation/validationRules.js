@@ -204,6 +204,12 @@ var validations = {
         }
         return _containsAllLanguages(value, values._contentLanguages)
     },
+    offerIsFreeOrHasPrice: function offerIsFreeOrHasPrice(values, value, key) {
+        if (typeof value !== 'object') {
+            return false
+        }
+        return _containsAllLanguages(value[key], values._contentLanguages)
+    },
     atLeastOneIsTrue: function atLeastOneIsTrue(values, value) {
         for (const key in value) {
             if (value.hasOwnProperty(key)) {
@@ -256,7 +262,26 @@ var validations = {
     },
     hasPrice: function hasPrice(values, value, key) {
         if (value.is_free !== undefined && !value.is_free) {
-            return value[key] && value[key].fi.length
+            const validateLanguages = (value) => {
+                let hasFinnish = true;
+                let hasEnglish = true;
+                let hasSwedish = true;
+                let hasLanguage = false
+                if (value.fi) {
+                  hasLanguage = true
+                  hasFinnish = !!value.fi.length
+                }
+                if (value.en) {
+                  hasLanguage = true
+                  hasEnglish = !!value.en.length
+                }
+                if (value.sv) {
+                  hasLanguage = true
+                  hasSwedish = !!value.sv.length
+                }
+                return hasLanguage && hasFinnish && hasEnglish && hasSwedish
+            }
+            return value[key] && validateLanguages(value[key])
         } else {
             return true
         }
