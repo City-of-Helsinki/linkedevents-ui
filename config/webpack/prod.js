@@ -16,15 +16,13 @@ const common = {
     }
 }
 
-const jsonConfigKeys = ["api_base", "place_autocomplete_api_base", "local_storage_user_expiry_time", "nocache", "raven_id"];
+const jsonConfigKeys = ["api_base", "local_storage_user_expiry_time", "nocache", "raven_id"];
 const templateConfigKeys = ["LE_PRODUCTION_INSTANCE", "APP_MODE"];
 
 nconf.env(jsonConfigKeys.concat(templateConfigKeys));
 nconf.defaults({
     'LE_PRODUCTION_INSTANCE': '#',
     'APP_MODE': 'production',
-    // settings this by default does not break anything too badly, but is still risky...
-    'place_autocomplete_api_base': 'https://api.hel.fi/linkedevents/v1/search/?language=fi&type=place'
 });
 nconf.required(jsonConfigKeys.concat(templateConfigKeys));
 
