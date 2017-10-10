@@ -48,8 +48,7 @@ var config = {
     ],
     output: {
         path: common.paths.ROOT + '/dist',
-        //filename: '[name].js'
-        filename: 'bundle.js'
+        filename: '[name].[chunkhash].js'
     },
 
     debug: false,
