@@ -62,13 +62,7 @@ function update(state = initialState, action) {
             });
         }
         // Merge new values to existing values
-        let newValues = Object.assign({}, state.values)
-        if (action.inObject) {
-            let newObjectValues = Object.assign({}, state.values[action.inObject.name][action.inObject.index], action.values)
-            newValues = Object.assign({}, state.values, { [action.inObject.name]: { [action.inObject.index]: newObjectValues }})
-        } else {
-            newValues = Object.assign({}, state.values, action.values)
-        }
+        let newValues = Object.assign({}, state.values, action.values)
 
         // Local storage saving disabled for now
         // localStorage.setItem('EDITOR_VALUES', JSON.stringify(newValues))

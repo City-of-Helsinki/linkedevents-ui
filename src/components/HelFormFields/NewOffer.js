@@ -76,9 +76,9 @@ class NewOffer extends React.Component {
         }
         return (
             <div key={offerKey} className="offer-fields" style={{'position': 'relative'}}>
-                <MultiLanguageField inObject={'offers'} defaultValue={defaultValue.info_url} validations={['isUrl']} name="info_url" ref="info_url" label="event-purchase-link" languages={languages} onBlur={e => this.onBlur(e)} index={this.props.offerKey} />
-                <MultiLanguageField inObject={'offers'} defaultValue={defaultValue.price} validations={['shortString']} name="price" ref="price" label="event-price" languages={languages} onBlur={e => this.onBlur(e)} required={true} index={this.props.offerKey} disabled={isFree} validationErrors={this.props.validationErrors['price']} />
-                <MultiLanguageField inObject={'offers'} defaultValue={defaultValue.description} validations={['shortString']} name="description" ref="description" label="event-price-info" languages={languages} onBlur={e => this.onBlur(e)} required={true} index={this.props.offerKey} disabled={isFree} multiLine={true} validationErrors={this.props.validationErrors['offer_description']} />
+                <MultiLanguageField defaultValue={defaultValue.info_url} ref="info_url" label="event-purchase-link" languages={languages} onBlur={e => this.onBlur(e)} validations={['isUrl']}  />
+                <MultiLanguageField defaultValue={defaultValue.price} disabled={isFree} ref="price" label="event-price" languages={languages} onBlur={e => this.onBlur(e)} validationErrors={this.props.validationErrors['price']} index={this.props.offerKey} />
+                <MultiLanguageField defaultValue={defaultValue.description} disabled={isFree} ref="description" label="event-price-info" languages={languages} multiLine={true} onBlur={e => this.onBlur(e)} validationErrors={this.props.validationErrors['offer_description']} index={this.props.offerKey} />
                 <RaisedButton
                     onClick={() => this.deleteOffer()}
                     style={buttonStyles}

@@ -14,10 +14,9 @@ import { doValidations } from 'src/validation/validator.js'
  * Set editor form data
  * @param {obj} formValues      new form values
  */
-export function setData(values, inObject) {
+export function setData(values) {
     return {
         type: constants.EDITOR_SETDATA,
-        inObject,
         values
     }
 }

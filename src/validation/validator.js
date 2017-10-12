@@ -4,10 +4,9 @@ import validationFn from './validationRules'
 // Validations for draft
 const draftValidations = {
     name: ['requiredMulti'],
-    start_time: ['inTheFuture'],
     end_time: ['afterStartTime', 'inTheFuture'],
-    offer_description: ['hasPrice', 'offerIsFreeOrHasPrice'],
-    price: ['hasPrice', 'offerIsFreeOrHasPrice'],
+    offer_description: ['hasPrice'],
+    price: ['hasPrice'],
     short_description: ['shortString'],
     description: ['longString'],
     info_url: ['isUrl'],
@@ -21,10 +20,10 @@ const publicValidations = {
     name: ['requiredMulti', 'requiredInContentLanguages'],
     location: ['requiredAtId'],
     hel_main: ['atLeastOne'],
-    start_time: ['requiredString', 'inTheFuture'], // Datetime is saved as ISO string
+    start_time: ['requiredString'], // Datetime is saved as ISO string
     end_time: ['afterStartTime', 'inTheFuture'],
-    offer_description: ['hasPrice', 'offerIsFreeOrHasPrice'],
-    price: ['hasPrice', 'offerIsFreeOrHasPrice'],
+    offer_description: ['hasPrice'],
+    price: ['hasPrice'],
     short_description: ['requiredMulti', 'requiredInContentLanguages', 'shortString'],
     description: ['requiredMulti', 'requiredInContentLanguages', 'longString'],
     info_url: ['isUrl'],
