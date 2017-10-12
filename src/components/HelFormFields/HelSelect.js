@@ -26,7 +26,7 @@ class HelSelect extends React.Component {
     }
 
     getOptions(input) {
-        return fetch(this.props.dataSource + input)
+        return fetch(this.props.dataSource + encodeURI(input))
             .then((response) => {
                 return response.json();
             }).then((json) => {
