@@ -26,7 +26,7 @@ class HelAutoComplete extends React.Component {
     getOptions(input) {
         let self = this
         this.setState({isLoading: true});
-        return fetch(this.props.dataSource + input)
+        return fetch(this.props.dataSource + encodeURI(input))
             .then((response) => {
                 return response.json();
             }).then((json) => {
