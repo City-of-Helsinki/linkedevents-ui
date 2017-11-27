@@ -16,6 +16,9 @@ export default function getOptions() {
 
     nconf.env(configKeys)
     nconf.defaults(defaults)
+    if(process.env.NODE_ENV == 'development') {
+        nconf.file({file: 'config_dev.json'})
+    }
 
     nconf.required(configKeys)
 
