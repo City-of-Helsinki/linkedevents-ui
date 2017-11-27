@@ -1,18 +1,33 @@
+Linkedevents-UI - form-style UI for Linked Events API
+=====================================================
+
 [![Build status](https://travis-ci.org/City-of-Helsinki/linkedevents-ui.svg?branch=master)](https://travis-ci.org/City-of-Helsinki/linkedevents-ui)
 [![codecov](https://codecov.io/gh/City-of-Helsinki/linkedevents-ui/branch/master/graph/badge.svg)](https://codecov.io/gh/City-of-Helsinki/linkedevents-ui)
 
-# Installation
+Linkedevents-UI is a user interface for creating and changing events through
+Linked Events API. It exposes many capabilities of the API including:
+
+* Creation, changing and deletion of events
+* Managing multipart events
+* Showing available actions based on user permissions
+
+# Development Installation
+
+## Prerequisites
+* Yarn
+* Node v8 LTS 
+
+## Configuration
+
+config_dev.json contains partially working settings giving you read only
+access to our test API. If you have your own API and/or authentication
+server you can change the relevant settings therein.
+
+## Running development server
 
 ```
-$ npm install
-$ npm start
+$ yarn
+$ yarn start
 ```
 
 Then point your browser to the webpack dev server at http://localhost:8080/.
-
-If you're doing API development as well, set your API endpoint in your
-local config file at `config/local.yml`, for example:
-
-    api_base: http://localhost:8000/v1
-
-For server or development server (used for authorization environment), set appropriate variables also in respective server modules.
