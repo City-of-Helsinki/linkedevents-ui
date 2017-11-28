@@ -26,7 +26,7 @@ nconf.defaults({
 });
 // 'memory' is needed to store the commit_hash
 nconf.use('memory')
-nconf.set('commit_hash', new GitRevisionPlugin.commithash());
+nconf.set('commit_hash', new GitRevisionPlugin().commithash());
 nconf.required(jsonConfigKeys.concat(templateConfigKeys));
 
 const indexTemplate = jade.compileFile(path.join(common.paths.SRC, 'index.jade'), { pretty: true })
