@@ -16,7 +16,7 @@ const common = {
     }
 }
 
-const jsonConfigKeys = ["api_base", "local_storage_user_expiry_time", "nocache", "raven_id"];
+const jsonConfigKeys = ["api_base", "local_storage_user_expiry_time", "nocache", "raven_id", "commit_hash"];
 const templateConfigKeys = ["LE_PRODUCTION_INSTANCE", "APP_MODE"];
 
 nconf.env(jsonConfigKeys.concat(templateConfigKeys));
@@ -24,10 +24,10 @@ nconf.defaults({
     'LE_PRODUCTION_INSTANCE': '#',
     'APP_MODE': 'production',
 });
+// 'memory' is needed to store the commit_hash
+nconf.use('memory')
+nconf.set('commit_hash', new GitRevisionPlugin.commithash());
 nconf.required(jsonConfigKeys.concat(templateConfigKeys));
-
-const gitRevisionPlugin = new GitRevisionPlugin();
-nconf.set('commit_hash', gitRevisionPlugin.commithash());
 
 const indexTemplate = jade.compileFile(path.join(common.paths.SRC, 'index.jade'), { pretty: true })
 
