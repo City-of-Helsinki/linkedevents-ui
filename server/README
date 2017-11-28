@@ -1,3 +1,0 @@
-# Production server configuration
-
-getSettings.js sets environment variables for configuration of production server mode
