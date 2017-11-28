@@ -8,15 +8,25 @@ import getSettings from './getSettings'
 import express from 'express'
 import { getPassport, addAuth } from './auth'
 
+import webpack from 'webpack'
+import webpackMiddleware from 'webpack-dev-middleware'
+import webpackHotMiddleware from 'webpack-hot-middleware'
+import config from '../config/webpack/dev.js'
+
 const settings = getSettings()
 const app = express()
 const passport = getPassport(settings)
 
-app.use('/', express.static(path.resolve(__dirname, '..', 'dist')));
-
-app.get('/', function (req, res) {
-    res.sendfile(path.resolve(__dirname, '..', 'dist'));
-});
+if(process.env.NODE_ENV !== 'development') {
+    app.use('/', express.static(path.resolve(__dirname, '..', 'dist')));
+    app.get('/', function (req, res) {
+        res.sendfile(path.resolve(__dirname, '..', 'dist'));
+    });
+} else {
+    const compiler = webpack(config)
+    app.use(webpackMiddleware(compiler));
+    app.use(webpackHotMiddleware(compiler));
+}
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -26,8 +36,5 @@ app.use(passport.initialize());
 app.use(passport.session());
 addAuth(app, passport, settings);
 
-const args = require('minimist')(process.argv.slice(2));
-const port = process.env.PORT || 8080
-
-console.log('Starting server at port', port);
-app.listen(port);
+console.log('Starting server at port', settings.port);
+app.listen(settings.port);
