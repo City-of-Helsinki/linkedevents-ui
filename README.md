@@ -16,12 +16,15 @@ Linked Events API. It exposes many capabilities of the API including:
 ## Prerequisites
 * Yarn
 * Node v8 LTS 
+* Python 2 (due to node-sass using node-gyp)
 
 ## Configuration
 
-config_dev.json contains partially working settings giving you read only
+`config_dev.json` contains partially working settings giving you read only
 access to our test API. If you have your own API and/or authentication
-server you can change the relevant settings therein.
+credentials you can change the relevant settings therein.
+
+Using your own authentication server requires code changes in server/auth.js.
 
 ## Running development server
 
@@ -31,3 +34,4 @@ $ yarn start
 ```
 
 Then point your browser to the webpack dev server at http://localhost:8080/.
+
