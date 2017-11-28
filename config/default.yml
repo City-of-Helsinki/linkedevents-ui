@@ -1,4 +1,0 @@
-api_base: https://api.hel.fi/linkedevents-test/v1
-local_storage_user_expiry_time: 48 # in hours
-nocache: true # force no caching of results
-raven_id: false
