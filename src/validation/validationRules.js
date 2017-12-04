@@ -103,7 +103,7 @@ var validations = {
         return !_isExisty(value) || isEmpty(value) || value.length >= length;
     },
     isTime: function isTime(values, value) {
-        return validations.matchRegexp(values, value, /(24:00)|(^(2[0-3]|1[0-9]|0[0-9]|[0-9])((:|\.)[0-5][0-9]))?$/i);
+        return validations.matchRegexp(values, value, /^(24:00|(2[0-3]|1[0-9]|0[0-9]|[0-9])((:|\.)[0-5][0-9]))$/i);
     },
     isDate: function isDate(values, value) {
         return validations.matchRegexp(values, value, /^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/i);
