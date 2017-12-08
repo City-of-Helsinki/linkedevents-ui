@@ -20,8 +20,8 @@ const publicValidations = {
     name: ['requiredMulti', 'requiredInContentLanguages'],
     location: ['requiredAtId'],
     hel_main: ['atLeastOne'],
-    start_time: ['requiredString'], // Datetime is saved as ISO string
-    end_time: ['afterStartTime', 'inTheFuture'],
+    start_time: ['requiredString', 'isIsoDate'], // Datetime is saved as ISO string
+    end_time: ['isIsoDate', 'afterStartTime', 'inTheFuture'],
     offer_description: ['hasPrice'],
     price: ['hasPrice'],
     short_description: ['requiredMulti', 'requiredInContentLanguages', 'shortString'],

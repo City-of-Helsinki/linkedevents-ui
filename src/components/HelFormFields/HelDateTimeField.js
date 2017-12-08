@@ -49,54 +49,69 @@ const HelDateTimeField = React.createClass({
     },
 
     onBlur: function(type, value) {
-
-        if(this.state.date && this.state.time) {
+        if(this.state.date || this.state.time) {
             const date = moment.tz(this.state.date, 'Europe/Helsinki').format('YYYY-MM-DD')
             const time = this.state.time
-            let errors = [
-                this.getValidationErrors('isTime', time),
-                this.getValidationErrors('isDate', date)
-            ]
 
-            // Filter out empty lists
-            let actualErrors = errors.filter(list => (list.length > 0))
-            // If no validation errors, format datetime
-            if(actualErrors.length === 0) {
-                let datetime = this.getDateTimeFromFields(date, time)
-                if(datetime) {
-                    let obj = {}
-                    obj[this.props.name] = datetime
-                    if(this.props.eventKey){
-                        this.context.dispatch(updateSubEvent(datetime, this.props.name, this.props.eventKey))
-                    } else {
-                        this.context.dispatch(setData(obj))
-                    }
+            let datetime = this.getDateTimeFromFields(date, time)
+            if(datetime) {
+                let obj = {}
+                obj[this.props.name] = datetime
+                if(this.props.eventKey){
+                    this.context.dispatch(updateSubEvent(datetime, this.props.name, this.props.eventKey))
+                } else {
+                    this.context.dispatch(setData(obj))
+                }
 
-                    if (this.props.setDirtyState) {
-                        this.props.setDirtyState()
-                    }
+                if (this.props.setDirtyState) {
+                    this.props.setDirtyState()
                 }
             }
         }
     },
 
     getDateTimeFromFields: function(date, time) {
-        if(!date || !time) {
+        if(!date) {
             return undefined
         }
-        let newTime;
+        let newTime
+        let newDateTime = date
+        let invalidTimeProvided = false
         if(time) {
             newTime = moment.tz(time, 'H.mm', 'Europe/Helsinki').format('HH:mm')
-            if(time.lastIndexOf('24', 0) === 0) {
+            if (newTime == 'Invalid date'){
+                invalidTimeProvided = true
+            } else if(time.lastIndexOf('24', 0) === 0) {
                 // User gave time which begins with '24'. Moment formats that to 00:00 so we'll have to change it back to 24
                 // Otherwise date would be rolled back one day.
                 newTime = '24' + newTime.substring(2)
+                newDateTime = date + 'T' + newTime
+            } else {
+                newDateTime = newDateTime + 'T' + time
             }
         }
+        else {
+            newDateTime = date
+        }
 
-        let newDateTime = date+'T'+newTime;
-        const dateTime = moment.tz(newDateTime, 'Europe/Helsinki').utc().toISOString()
-        return dateTime;
+        if (invalidTimeProvided == false) {
+            if(!time){
+                // datetime has to be rolled one day forward if we don't have time provided. Otherwise date will be 1 day less than user supplied.
+                newDateTime = moment(newDateTime).add(1, 'days')
+            }
+            newDateTime = moment.tz(newDateTime, 'Europe/Helsinki').utc().toISOString()
+            // If time was not given on time field, remove time part (begins with character 'T') from the formatted dateTime.
+            if(!time){
+                newDateTime = newDateTime.substring(0, newDateTime.indexOf( "T" ))
+            }
+        } else {
+            // Invalid time provided by user. We'll include the invalid value to output so we'll get the correct validation errors.
+            newDateTime = moment.tz(date, 'Europe/Helsinki').utc().toISOString()
+            newDateTime = newDateTime.substring(0, newDateTime.indexOf( "T" ))
+            newDateTime = newDateTime + 'T' + time
+        }
+
+        return newDateTime;
     },
 
     // Parses date time object from datetime string
@@ -105,9 +120,16 @@ const HelDateTimeField = React.createClass({
 
         if(moment(newValue).isValid()) {
             newValue = moment(newValue).tz('Europe/Helsinki');
+
+            let newValueTimePortion = null
+            //Check if time portion is supplied
+            if (string.length>10) {
+                newValueTimePortion = newValue.format('H.mm')
+            }
+
             return {
                 date: newValue,
-                time: newValue.format('H.mm')
+                time: newValueTimePortion
             }
         } else {
             return {
@@ -115,24 +137,6 @@ const HelDateTimeField = React.createClass({
                 time: null
             }
         }
-    },
-
-    getValidationErrors: function(type, value) {
-        if(value && type) {
-            let validations;
-            if(typeof validationRules[type] === 'function') {
-                validations =  [{
-                    rule: type,
-                    passed: validationRules[type](null, value)
-                }]
-            }
-            validations = validations.filter(i => (i.passed === false))
-            if(validations.length) {
-                return validations;
-            }
-        }
-
-        return []
     },
 
     componentWillReceiveProps: function(nextProps) {
@@ -149,13 +153,17 @@ const HelDateTimeField = React.createClass({
         return true
     },
 
+    timePickerComponentName: function(dateTimeFieldName) {
+        return (dateTimeFieldName + 'timePicker')
+    },
+
     render: function () {
         return (
             <div className="multi-field">
                 <div className="indented">
                     <label style={{position: 'relative'}}><FormattedMessage id={`${this.props.label}`} /> <ValidationPopover validationErrors={this.props.validationErrors} /></label>
                     <HelDatePicker ref="date" name={this.props.name} defaultValue={this.state.date} validations={['isDate']} placeholder="pp.kk.vvvv" onChange={this.onChange} onBlur={this.onBlur} label={<FormattedMessage id="date" />} />
-                    <HelTimePicker ref="time" name={this.props.name} defaultValue={this.state.time} validations={['isTime']} placeholder="hh.mm" onChange={this.onChange} onBlur={this.onBlur} label={<FormattedMessage id="time" />} />
+                    <HelTimePicker ref="time" name={this.timePickerComponentName(this.props.name)} defaultValue={this.state.time} validations={['isTime']} placeholder="hh.mm" onChange={this.onChange} onBlur={this.onBlur} label={<FormattedMessage id="time" />} />
                 </div>
             </div>
         )

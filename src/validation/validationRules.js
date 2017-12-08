@@ -108,6 +108,10 @@ var validations = {
     isDate: function isDate(values, value) {
         return validations.matchRegexp(values, value, /^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/i);
     },
+    isIsoDate: function isIsoDate(values, value) {
+        if(!value) { return true }
+        return moment(value, moment.ISO_8601).isValid()
+    },
     afterStartTime: function afterStartTime(values, value) {
         if(!values.start_time || !value) { return true }
 

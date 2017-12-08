@@ -47,7 +47,11 @@ let HelTextField = React.createClass({
         })
 
         this.recalculateHeight()
-        this.setValidationErrorsToState()
+
+        let isTime = _.findIndex(this.props.validations, i => i === "isTime") !== -1;
+        if (isTime === false){
+            this.setValidationErrorsToState()
+        }
 
         if(typeof this.props.onChange === 'function') {
             this.props.onChange(event, this.refs.text.getValue())
@@ -55,21 +59,32 @@ let HelTextField = React.createClass({
     },
 
     helpText: function() {
-        let msg = this.context.intl.formatMessage({id: 'validation-stringLengthCounter' })
-        let longmsg = this.context.intl.formatMessage({id: 'validation-longStringLengthCounter' })
         let isShortString = _.findIndex(this.props.validations, i => i === "shortString") !== -1;
         let isLongString = _.findIndex(this.props.validations, i => i === "longString") !== -1;
+        let isTime = _.findIndex(this.props.validations, i => i === "isTime") !== -1;
         if (isShortString === true) {
+            let msg = this.context.intl.formatMessage({id: 'validation-stringLengthCounter' })
             return !this.state.error && isShortString
                 ? '' + (160 - this.state.value.length.toString()) + msg
                 : this.state.error
         } else if (isLongString === true) {
+            let longmsg = this.context.intl.formatMessage({id: 'validation-longStringLengthCounter' })
             return !this.state.error && isLongString
                 ? '' + (this.state.value.length.toString()) + longmsg
                 : this.state.error
+        } else if (isTime === true) {
+            let timemsg = this.context.intl.formatMessage({id: 'validation-isTime' })
+            return this.state.error
+                ? timemsg
+                : ''
         }
     },
     handleBlur: function (event) {
+        let isTime = _.findIndex(this.props.validations, i => i === "isTime") !== -1;
+        if (isTime === true) {  //Time field error is shown only after blur
+            this.setValidationErrorsToState()
+        }
+
         // Apply changes to store if no validation errors, or the props 'forceApplyToStore' is defined
         if( this.props.name && this.getValidationErrors().length === 0 &&
             !this.props.name.includes('time') ||
