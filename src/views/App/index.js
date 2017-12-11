@@ -1,6 +1,8 @@
 require('!style-loader!css-loader!src/assets/additional_css/bootstrap.custom.min.css');
 require('!style-loader!css-loader!sass-loader!src/assets/main.scss');
 
+import PropTypes from 'prop-types';
+
 import React from 'react'
 import {connect} from 'react-redux'
 
@@ -63,13 +65,13 @@ class Notifications extends React.Component {
 class App extends React.Component {
 
     static propTypes = {
-        children: React.PropTypes.node,
+        children: PropTypes.node,
     };
 
     static childContextTypes = {
-        muiTheme: React.PropTypes.object,
-        intl: React.PropTypes.object,
-        dispatch: React.PropTypes.func
+        muiTheme: PropTypes.object,
+        intl: PropTypes.object,
+        dispatch: PropTypes.func
         // language: React.PropTypes.object,
         // user: React.PropTypes.object
     };

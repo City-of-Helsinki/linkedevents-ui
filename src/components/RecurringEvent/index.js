@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from "react"
 import HelTextField from "src/components/HelFormFields/HelTextField.js"
 import RecurringDateRangePicker from "./RecurringDateRangePicker"
@@ -20,8 +21,8 @@ import "./RecurringEvent.scss"
 class RecurringEvent extends React.Component {
 
     static contextTypes = {
-        intl: React.PropTypes.object,
-        dispatch: React.PropTypes.func
+        intl: PropTypes.object,
+        dispatch: PropTypes.func
     }
 
     constructor (props) {

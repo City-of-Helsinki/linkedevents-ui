@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react'
 import { RaisedButton } from 'material-ui'
 
@@ -8,7 +9,7 @@ import { setOfferData, deleteOffer } from 'src/actions/editor.js'
 
 class NewOffer extends React.Component {
     static contextTypes = {
-        dispatch: React.PropTypes.func
+        dispatch: PropTypes.func
     };
 
     componentDidUpdate(prevProps) {
@@ -87,13 +88,13 @@ class NewOffer extends React.Component {
             </div>
         )
     }
-};
+}
 
 NewOffer.propTypes = {
-    isFree: React.PropTypes.bool,
-    languages: React.PropTypes.array,
-    offerKey: React.PropTypes.string.isRequired,
-    defaultValue: React.PropTypes.object
+    isFree: PropTypes.bool,
+    languages: PropTypes.array,
+    offerKey: PropTypes.string.isRequired,
+    defaultValue: PropTypes.object
 }
 
 export default NewOffer;

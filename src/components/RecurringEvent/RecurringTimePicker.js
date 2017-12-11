@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react'
 import HelTimePicker from 'src/components/HelFormFields/HelTimePicker.js'
 
@@ -17,10 +18,10 @@ const RecurringTimePicker = ({name, time, onChange, onBlur}) => {
 }
 
 RecurringTimePicker.propTypes = {
-	name: React.PropTypes.string.isRequired,
-    time: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    onBlur: React.PropTypes.func.isRequired
+	name: PropTypes.string.isRequired,
+    time: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onBlur: PropTypes.func.isRequired
 }
 
 export default RecurringTimePicker;

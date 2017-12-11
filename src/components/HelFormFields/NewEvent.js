@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react'
 import HelDateTimeField from 'src/components/HelFormFields/HelDateTimeField.js'
 import './NewEvent.scss'
@@ -7,7 +8,7 @@ import { deleteSubEvent } from 'src/actions/editor.js'
 
 class NewEvent extends React.Component {
     static contextTypes = {
-        dispatch: React.PropTypes.func
+        dispatch: PropTypes.func
     };
 
     deleteSubEvent() {
@@ -54,11 +55,11 @@ class NewEvent extends React.Component {
             </div>
         )
     }
-};
+}
 
 NewEvent.propTypes = {
-    event: React.PropTypes.object.isRequired,
-    eventKey: React.PropTypes.string.isRequired
+    event: PropTypes.object.isRequired,
+    eventKey: PropTypes.string.isRequired
 }
 
 export default NewEvent;

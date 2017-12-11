@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react'
 
 import Input from 'react-bootstrap/lib/Input.js'
@@ -13,8 +14,8 @@ import ValidationPopover from 'src/components/ValidationPopover'
 class HelAutoComplete extends React.Component {
 
     static contextTypes = {
-        intl: React.PropTypes.object,
-        dispatch: React.PropTypes.func
+        intl: PropTypes.object,
+        dispatch: PropTypes.func
     };
 
     constructor(props) {

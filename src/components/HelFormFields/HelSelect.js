@@ -1,5 +1,7 @@
 import '!style-loader!css-loader!sass-loader!./HelSelect.scss'
 
+import PropTypes from 'prop-types';
+
 import React from 'react'
 
 import fetch from 'isomorphic-fetch'
@@ -11,8 +13,8 @@ import {setData} from 'src/actions/editor.js'
 class HelSelect extends React.Component {
 
     static contextTypes = {
-        intl: React.PropTypes.object,
-        dispatch: React.PropTypes.func
+        intl: PropTypes.object,
+        dispatch: PropTypes.func
     };
 
     onChange(value) {
