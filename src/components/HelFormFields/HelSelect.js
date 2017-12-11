@@ -1,4 +1,4 @@
-import '!style!css!sass!./HelSelect.scss'
+import '!style-loader!css-loader!sass-loader!./HelSelect.scss'
 
 import React from 'react'
 
