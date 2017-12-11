@@ -14,7 +14,8 @@ const gitRevisionPlugin = new GitRevisionPlugin();
 nconf.env({ parseValues: true, whitelist: jsonConfigKeys.concat(templateConfigKeys)});
 nconf.defaults({
     'LE_PRODUCTION_INSTANCE': '#',
-    'APP_MODE': 'production',
+    // APP_MODE='testing' trigger a nice red banner
+    'APP_MODE': 'testing'
 });
 nconf.file({file: 'config_dev.json'})
 nconf.set('commit_hash', gitRevisionPlugin.commithash());
