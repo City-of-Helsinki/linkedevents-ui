@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react'
 import HelDatePicker from 'src/components/HelFormFields/HelDatePicker.js'
 import { FormattedMessage } from 'react-intl'
@@ -57,8 +58,8 @@ class RecurringDateRangePicker extends React.Component {
             </div>
         )
     }
-};
+}
 RecurringDateRangePicker.contextTypes = {
-    dispatch: React.PropTypes.func
+    dispatch: PropTypes.func
 };
 export default RecurringDateRangePicker

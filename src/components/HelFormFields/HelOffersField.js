@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react'
 
 import { FormattedMessage, injectIntl } from 'react-intl'
@@ -17,8 +18,8 @@ import ValidationPopover from 'src/components/ValidationPopover'
 class HelOffersField extends React.Component {
 
     static contextTypes = {
-        intl: React.PropTypes.object,
-        dispatch: React.PropTypes.func
+        intl: PropTypes.object,
+        dispatch: PropTypes.func
     };
 
     constructor(props) {

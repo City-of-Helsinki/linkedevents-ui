@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import Input from 'react-bootstrap/lib/Input'
@@ -13,12 +14,12 @@ import ValidationPopover from 'src/components/ValidationPopover'
 let HelLabeledCheckboxGroup = React.createClass({
 
     contextTypes: {
-        intl: React.PropTypes.object,
-        dispatch: React.PropTypes.func
+        intl: PropTypes.object,
+        dispatch: PropTypes.func
     },
 
     propTypes: {
-        name: React.PropTypes.string,
+        name: PropTypes.string,
     },
 
     handleChange: function() {

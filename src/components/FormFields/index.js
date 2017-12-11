@@ -1,4 +1,5 @@
 require('!style-loader!css-loader!sass-loader!./index.scss')
+import PropTypes from 'prop-types';
 import React from 'react'
 
 import { FormattedMessage, injectIntl } from 'react-intl'
@@ -69,10 +70,10 @@ let updateEventHidden = function(eventData) {
 class FormFields extends React.Component {
 
     static contextTypes = {
-        intl: React.PropTypes.object,
-        dispatch: React.PropTypes.func,
-        showNewEvents: React.PropTypes.bool,
-        showRecurringEvent: React.PropTypes.bool
+        intl: PropTypes.object,
+        dispatch: PropTypes.func,
+        showNewEvents: PropTypes.bool,
+        showRecurringEvent: PropTypes.bool
     };
 
     constructor(props) {

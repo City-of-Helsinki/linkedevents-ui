@@ -1,5 +1,7 @@
 import './MultiLanguageField.scss'
 
+import PropTypes from 'prop-types';
+
 import React from 'react'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import HelTextField from './HelTextField'
@@ -26,8 +28,8 @@ class MultiLanguageField extends React.Component {
     }
 
     static contextTypes = {
-        intl: React.PropTypes.object,
-        dispatch: React.PropTypes.func
+        intl: PropTypes.object,
+        dispatch: PropTypes.func
     };
 
     onChange(e,value,lang) {

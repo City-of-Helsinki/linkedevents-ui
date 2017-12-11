@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react'
 import HelTextField from './HelTextField.js'
 import HelDatePicker from './HelDatePicker.js'
@@ -33,13 +34,13 @@ const HelDateTimeField = React.createClass({
     },
 
     propTypes: {
-        name: React.PropTypes.string.isRequired,
-        eventKey: React.PropTypes.string
+        name: PropTypes.string.isRequired,
+        eventKey: PropTypes.string
     },
 
     contextTypes: {
-        intl: React.PropTypes.object,
-        dispatch: React.PropTypes.func
+        intl: PropTypes.object,
+        dispatch: PropTypes.func
     },
 
     onChange: function(type, value) {
