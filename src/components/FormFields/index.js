@@ -1,4 +1,4 @@
-require('!style!css!sass!./index.scss')
+require('!style-loader!css-loader!sass-loader!./index.scss')
 import React from 'react'
 
 import { FormattedMessage, injectIntl } from 'react-intl'

@@ -1,7 +1,7 @@
 
 // styles
-import '!style!css!sass!./index.scss'
-import 'style!vendor/stylesheets/typeahead.css'
+import '!style-loader!css-loader!sass-loader!./index.scss'
+import 'style-loader!vendor/stylesheets/typeahead.css'
 
 import React from 'react'
 import Loader from 'react-loader'

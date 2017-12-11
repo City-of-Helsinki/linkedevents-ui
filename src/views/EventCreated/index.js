@@ -1,4 +1,4 @@
-import '!style!css!sass!./index.scss'
+import '!style-loader!css-loader!sass-loader!./index.scss'
 
 import React from 'react'
 import {connect} from 'react-redux'
