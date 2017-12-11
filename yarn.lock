@@ -3299,6 +3299,13 @@ ncname@1.0.x:
   dependencies:
     xml-char-classes "^1.0.0"
 
+nconf-toml@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/nconf-toml/-/nconf-toml-0.0.2.tgz#bba652e8d7deb734285e6bbf28cfe61bbbdede56"
+  dependencies:
+    toml "^2.3.0"
+    tomlify-j0.4 "^1.0.1"
+
 nconf@^0.9.1:
   version "0.9.1"
   resolved "https://registry.yarnpkg.com/nconf/-/nconf-0.9.1.tgz#f11baf90f418aecef0cb484974b479fb4803fa6c"
@@ -4942,6 +4949,14 @@ to-fast-properties@^1.0.3:
 toggle-selection@^1.0.3:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/toggle-selection/-/toggle-selection-1.0.6.tgz#6e45b1263f2017fa0acc7d89d78b15b8bf77da32"
+
+toml@^2.3.0:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/toml/-/toml-2.3.3.tgz#8d683d729577cb286231dfc7a8affe58d31728fb"
+
+tomlify-j0.4@^1.0.1:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/tomlify-j0.4/-/tomlify-j0.4-1.0.4.tgz#ee01710c101791da70fc808d5e9219649a760945"
 
 toposort@^1.0.0:
   version "1.0.6"

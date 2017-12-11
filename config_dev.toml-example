@@ -1,0 +1,25 @@
+# Linked Events API instance the UI will use
+api_base="https://api.hel.fi/linkedevents-test/v1"
+# linkedevents-ui stores user login information locally
+# it will expire after this time
+local_storage_user_expiry_time=48
+# Authentication ID for UI as used by Helsinki SSO (Tunnistamo)
+helsinkiAuthId="replace-me-with-real-auth-id-for-authentication-to-work"
+# Authentication secret as used by Helsinki SSO (Tunnistamo)
+helsinkiAuthSecret="replace-me-with-real-auth-secret-for-authentication-to-work"
+# UI will request access to API identified by this Authentication ID from SSO
+helsinkiTargetApp="replace-me-with-real-target-app-for-authentication-to-work"
+# Add cache buster to every UI URL
+nocache=true
+# Any exceptions will be sent to this Raven DSN (specify false to disable)
+raven_id=false
+# URL used for generating authentication callbacks
+publicUrl="http://localhost:8080"
+# Secret used to secure session cookies for the client
+sessionSecret="dev-secret-do-not-use-in-production"
+# Client supports putting up a big banner directing users away
+# to production instances, to avoid accidental data inputs
+# This specifies the URL of production instance
+LE_PRODUCTION_INSTANCE="#"
+# "testing"-mode enables the banner, anything else disables it
+APP_MODE="testing"
