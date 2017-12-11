@@ -7,5 +7,7 @@
     "nocache": true,
     "raven_id": false,
     "publicUrl": "http://localhost:8080",
-    "sessionSecret": "dev-secret-do-not-use-in-production"
+    "sessionSecret": "dev-secret-do-not-use-in-production",
+    "LE_PRODUCTION_INSTANCE": "#",
+    "APP_MODE": "testing"
 }
