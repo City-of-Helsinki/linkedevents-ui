@@ -11,7 +11,7 @@ const templateConfigKeys = ['LE_PRODUCTION_INSTANCE', 'APP_MODE'];
 
 const gitRevisionPlugin = new GitRevisionPlugin();
 
-nconf.env(jsonConfigKeys.concat(templateConfigKeys));
+nconf.env({ parseValues: true, whitelist: jsonConfigKeys.concat(templateConfigKeys)});
 nconf.defaults({
     'LE_PRODUCTION_INSTANCE': '#',
     'APP_MODE': 'production',
