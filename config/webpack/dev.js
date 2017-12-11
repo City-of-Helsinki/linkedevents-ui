@@ -12,12 +12,18 @@ const templateConfigKeys = ['LE_PRODUCTION_INSTANCE', 'APP_MODE'];
 const gitRevisionPlugin = new GitRevisionPlugin();
 
 nconf.env(jsonConfigKeys.concat(templateConfigKeys));
+// Do not use this to change settings in development (or production!)
+// instead in development use config_dev.toml in project root
+// (and in production use environment variables)
 nconf.defaults({
+    'api_base': 'https://api.hel.fi/linkedevents-test/v1',
+    'local_storage_user_expiry_time': 48,
+    'nocache': true,
+    'raven_id': false,
     'LE_PRODUCTION_INSTANCE': '#',
-    // APP_MODE='testing' trigger a nice red banner
     'APP_MODE': 'testing'
 });
-nconf.file({file: 'config_dev.json'})
+nconf.file({file: 'config_dev.toml', format: require('nconf-toml')})
 nconf.set('commit_hash', gitRevisionPlugin.commithash());
 nconf.required(jsonConfigKeys.concat(templateConfigKeys));
 

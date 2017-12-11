@@ -20,11 +20,16 @@ Linked Events API. It exposes many capabilities of the API including:
 
 ## Configuration
 
-`config_dev.json` contains partially working settings giving you read only
-access to our test API. If you have your own API and/or authentication
-credentials you can change the relevant settings therein.
+LE UI is configured to use Helsinki Linked Events test api by default. This
+lets you search for events and view their details.
 
-Using your own authentication server requires code changes in server/auth.js.
+For development the easiest way to further configure the application, is
+to copy `config_dev.toml-example` to `config_dev.toml`. It contains
+configuration that should be mostly identical to built-in configuration.
+Every setting should be described in comments as well.
+
+Note that `config_dev.toml` resembles a shell fragment, but it is TOML,
+instead of shell. Thereby do not try to add exports or such there.
 
 ## Running development server
 
@@ -34,4 +39,3 @@ $ yarn start
 ```
 
 Then point your browser to the webpack dev server at http://localhost:8080/.
-
