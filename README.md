@@ -1,10 +1,10 @@
-Linked Events-UI - form-style UI for Linked Events API
-=====================================================
+Linked Events UI - form-style UI for Linked Events API
+======================================================
 
 [![Build status](https://travis-ci.org/City-of-Helsinki/linkedevents-ui.svg?branch=master)](https://travis-ci.org/City-of-Helsinki/linkedevents-ui)
 [![codecov](https://codecov.io/gh/City-of-Helsinki/linkedevents-ui/branch/master/graph/badge.svg)](https://codecov.io/gh/City-of-Helsinki/linkedevents-ui)
 
-Linked Events-UI is a user interface for creating and changing events through
+Linked Events UI is a user interface for creating and changing events through
 Linked Events API. It exposes many capabilities of the API including:
 
 * Creation, changing and deletion of events
@@ -28,8 +28,10 @@ to copy `config_dev.toml-example` to `config_dev.toml`. It contains
 configuration that should be mostly identical to built-in configuration.
 Every setting should be described in comments as well.
 
-Note that `config_dev.toml` resembles a shell fragment, but it is TOML,
-instead of shell. Thereby do not try to add exports or such there.
+Note that `config_dev.toml` resembles a shell fragment, but it is TOML. A
+configuration language very similar to "INI"-files. Thereby do not try to
+add exports or other shell constructs there. `source`:ing the file is an
+iffy proposition as well.
 
 ## Running development server
 
