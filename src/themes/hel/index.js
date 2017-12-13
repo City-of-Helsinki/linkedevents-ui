@@ -1,8 +1,6 @@
-import ThemeManager from 'material-ui/lib/styles/theme-manager'
-
-let Colors = require('material-ui/lib/styles/colors')
-let ColorManipulator = require('material-ui/lib/utils/color-manipulator')
-let Spacing = require('material-ui/lib/styles/spacing')
+let Colors = require('material-ui/colors')
+let Spacing = require('material-ui/styles/spacing')
+import { createMuiTheme } from 'material-ui/styles'
 
 let helRawStyle = {
     spacing: Spacing,
@@ -18,7 +16,7 @@ let helRawStyle = {
         alternateTextColor: Colors.white,
         canvasColor: Colors.white,
         borderColor: Colors.grey300,
-        disabledColor: ColorManipulator.fade(Colors.darkBlack, 0.3),
+        disabledColor: Colors.darkBlack300,
     },
 }
 
@@ -36,39 +34,46 @@ let helHeaderRawStyle = {
         alternateTextColor: Colors.white,
         canvasColor: Colors.white,
         borderColor: Colors.grey300,
-        disabledColor: ColorManipulator.fade(Colors.darkBlack, 0.3),
+        disabledColor: Colors.darkBlack300,
     },
 }
 
-let helTheme = ThemeManager.getMuiTheme(helRawStyle)
-let headerTheme = ThemeManager.getMuiTheme(helHeaderRawStyle)
+let helTheme = createMuiTheme(helRawStyle)
+let headerTheme = createMuiTheme(helHeaderRawStyle)
 
-helTheme.textField.textColor = helRawStyle.palette.textColor
-helTheme.textField.hintColor = helRawStyle.palette.disabledColor
-helTheme.textField.floatingLabelColor = helRawStyle.palette.textColor
-helTheme.textField.disabledTextColor = helRawStyle.palette.disabledColor
-helTheme.textField.errorColor = Colors.red500
-helTheme.textField.focusColor = helRawStyle.palette.primary1Color
-helTheme.textField.backgroundColor = '#ffffff'
+//helTheme.palette.shades.light.text.primary = helRawStyle.palette.textColor
+// helTheme.textField.textColor = helRawStyle.palette.textColor
+//helTheme.palette.shades.light.text.hint = helRawStyle.palette.disabledColor
+// helTheme.textField.hintColor = helRawStyle.palette.disabledColor
+//helTheme.palette.shades.light.input.labelText = helRawStyle.palette.textColor
 
-helTheme.flatButton.textTransform = 'none'
-helTheme.raisedButton.textTransform = 'none'
+// helTheme.textField.floatingLabelColor = helRawStyle.palette.textColor
+// helTheme.textField.disabledTextColor = helRawStyle.palette.disabledColor
+// helTheme.textField.errorColor = Colors.red500
+// helTheme.textField.focusColor = helRawStyle.palette.primary1Color
+// helTheme.textField.backgroundColor = '#ffffff'
 
-helTheme.flatButton.fontWeight = 300
-helTheme.raisedButton.fontWeight = 300
+// helTheme.flatButton.textTransform = 'none'
+// helTheme.raisedButton.textTransform = 'none'
 
-// Override specific component styles
-headerTheme.toolbar.backgroundColor = '#0072c6'
-headerTheme.toolbar.height = 56
-headerTheme.toolbar.titleFontSize = 20
-headerTheme.toolbar.iconColor = '#ffffff'
-headerTheme.toolbar.separatorColor = '#ffffff'
-headerTheme.toolbar.menuHoverColor = '#ffffff'
-headerTheme.flatButton.textColor = '#ffffff'
-headerTheme.flatButton.textTransform = 'none'
-headerTheme.flatButton.fontWeight = 300
+// helTheme.flatButton.fontWeight = 300
+// helTheme.raisedButton.fontWeight = 300
 
-headerTheme.textField.floatingLabelColor = helRawStyle.palette.textColor
+// // Override specific component styles
+// Original: headerTheme.toolbar.backgroundColor = '#0072c6'
+headerTheme.mixins.toolbar.backgroundColor = '#0072c6'
+headerTheme.mixins.toolbar.height = 56
+headerTheme.mixins.toolbar.titleFontSize = 20
+headerTheme.mixins.toolbar.iconColor = '#ffffff'
+headerTheme.mixins.toolbar.separatorColor = '#ffffff'
+headerTheme.mixins.toolbar.menuHoverColor = '#ffffff'
+
+// headerTheme.flatButton.textColor = '#ffffff'
+// headerTheme.flatButton.textTransform = 'none'
+// headerTheme.flatButton.fontWeight = 300
+
+// headerTheme.textField.floatingLabelColor = helRawStyle.palette.textColor
+
 
 export {
     helTheme as HelTheme,

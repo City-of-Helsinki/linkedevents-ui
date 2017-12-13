@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 
 import {FormattedMessage} from 'react-intl'
 
-import {RaisedButton, FlatButton} from 'material-ui'
+import {Button} from 'material-ui'
 
 import {fetchEventDetails} from 'src/actions/events.js'
 
@@ -48,13 +48,13 @@ class EventCreated extends React.Component {
             }
             return (
                 <div className="actions">
-                    <RaisedButton onClick={e => this.goToEvent(e)} style={buttonStyle} secondary={true} label={label} />
+                    <Button raised onClick={e => this.goToEvent(e)} style={buttonStyle} secondary={true} label={label} />
                 </div>
             )
         } else {
             return (
                 <div className="actions">
-                    <RaisedButton onClick={e => this.goToBrowsing(e)} style={buttonStyle} secondary={true} label="Palaa takaisin tapahtumiin" />
+                    <Button raised onClick={e => this.goToBrowsing(e)} style={buttonStyle} secondary={true} label="Palaa takaisin tapahtumiin" />
                 </div>
             )
         }
