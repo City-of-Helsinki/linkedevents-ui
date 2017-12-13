@@ -10,6 +10,11 @@ import {FormattedMessage} from 'react-intl'
 
 // Material-ui Components
 import { Toolbar, Button, FontIcon } from 'material-ui'
+// Material-ui Icons
+import List from 'material-ui-icons/List'
+import Search from 'material-ui-icons/Search'
+import Add from 'material-ui-icons/Add'
+import HelpOutline from 'material-ui-icons/HelpOutline'
 
 import { IndexLink } from 'react-router'
 
@@ -28,15 +33,21 @@ class HeaderBar extends React.Component {
 
         return (
             <Toolbar className="mui-toolbar">
-                <IndexLink to="/" className="title">
-                    <img className="title-image" src={cityOfHelsinkiLogo} alt="City Of Helsinki" />
-                    <div className="title-text">Linked Events</div>
-                </IndexLink>
-                <Button className="mui-flat-button" style={buttonStyle} label={<span><FormattedMessage id="organization-events"/><i className="material-icons">&#xE896;</i></span>} onClick={() => this.props.dispatch(pushPath('/'))} />
-                <Button className="mui-flat-button" style={buttonStyle} label={<span><FormattedMessage id="search-events"/><i className="material-icons">&#xE8B6;</i></span>} onClick={() => this.props.dispatch(pushPath('/search'))} />
-                <Button className="mui-flat-button" style={buttonStyle} label={<span><FormattedMessage id="create-event"/><i className="material-icons">&#xE145;</i></span>} onClick={() => this.props.dispatch(pushPath('/event/create/new'))} />
-                <Button className="mui-flat-button" style={buttonStyle} label={<i className="material-icons info-icon">&#xE8FD;</i>} onClick={() => this.props.dispatch(pushPath('/help'))} />
-                {loginButton}
+                <div float="left">
+                    <IndexLink to="/" className="title">
+                        <img className="title-image" src={cityOfHelsinkiLogo} alt="City Of Helsinki" />
+                        <div className="title-text">Linked Events</div>
+                    </IndexLink>
+                </div>
+                <div float="left">
+                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.dispatch(pushPath('/'))}><FormattedMessage id="organization-events"/><List/></Button>
+                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.dispatch(pushPath('/search'))}><FormattedMessage id="search-events"/><Search/></Button>
+                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.dispatch(pushPath('/event/create/new'))}><FormattedMessage id="create-event"/><Add/></Button>
+                </div>
+                <div float="right">
+                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.dispatch(pushPath('/help'))}><HelpOutline/></Button>
+                    {loginButton}
+                </div>
                 <div className="clearfix"/>
             </Toolbar>
         )
