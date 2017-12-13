@@ -21,6 +21,7 @@ import {clearFlashMsg, cancelAction, doAction} from 'src/actions/app.js'
 import {FormattedMessage} from 'react-intl'
 
 // Material-ui theming
+import { MuiThemeProvider } from 'material-ui/styles'
 import { HelTheme } from 'src/themes/hel'
 
 class Notifications extends React.Component {
@@ -144,27 +145,29 @@ class App extends React.Component {
         }
 
         return (
-            <div>
-                <Headerbar />
-                {organization_missing_msg}
-                <div className="content">
-                    {this.props.children}
+            <MuiThemeProvider theme={HelTheme}>
+                <div>
+                    <Headerbar />
+                    {organization_missing_msg}
+                    <div className="content">
+                        {this.props.children}
+                    </div>
+                    <Notifications flashMsg={this.props.app.flashMsg} dispatch={this.props.dispatch} />
+                    <Modal show={(!!this.props.app.confirmAction)} dialogClassName="custom-modal" onHide={e => this.props.dispatch(cancelAction())}>
+                    <Modal.Header closeButton>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>{confirmMsg}</p>
+                        <p><strong>{additionalMsg}</strong></p>
+                        <div dangerouslySetInnerHTML={getMarkup()}/>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <MaterialButton style={buttonStyle} label={<FormattedMessage id="cancel" />} onClick={e => this.props.dispatch(cancelAction())} />
+                        <MaterialButton style={buttonStyle} backgroundColor={isWarningModal ? 'rgba(255,160,160,1)' : null} label={<FormattedMessage id={actionButtonLabel} />} onClick={e => this.props.dispatch(doAction(this.props.app.confirmAction.data))} />
+                    </Modal.Footer>
+                    </Modal>
                 </div>
-                <Notifications flashMsg={this.props.app.flashMsg} dispatch={this.props.dispatch} />
-                <Modal show={(!!this.props.app.confirmAction)} dialogClassName="custom-modal" onHide={e => this.props.dispatch(cancelAction())}>
-                   <Modal.Header closeButton>
-                   </Modal.Header>
-                   <Modal.Body>
-                     <p>{confirmMsg}</p>
-                     <p><strong>{additionalMsg}</strong></p>
-                     <div dangerouslySetInnerHTML={getMarkup()}/>
-                   </Modal.Body>
-                   <Modal.Footer>
-                     <MaterialButton style={buttonStyle} label={<FormattedMessage id="cancel" />} onClick={e => this.props.dispatch(cancelAction())} />
-                     <MaterialButton style={buttonStyle} backgroundColor={isWarningModal ? 'rgba(255,160,160,1)' : null} label={<FormattedMessage id={actionButtonLabel} />} onClick={e => this.props.dispatch(doAction(this.props.app.confirmAction.data))} />
-                   </Modal.Footer>
-                 </Modal>
-            </div>
+            </MuiThemeProvider>
         )
     }
 }
