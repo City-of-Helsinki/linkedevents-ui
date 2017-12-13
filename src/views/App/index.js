@@ -7,8 +7,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 
 import Headerbar from 'src/components/Header'
-import Snackbar from 'material-ui/lib/snackbar';
-import RaisedButton from 'material-ui/lib/raised-button';
+import Snackbar from 'material-ui/Snackbar';
+import MaterialButton from 'material-ui/Button';
 import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
 import Well from 'react-bootstrap/lib/Well'
@@ -160,8 +160,8 @@ class App extends React.Component {
                      <div dangerouslySetInnerHTML={getMarkup()}/>
                    </Modal.Body>
                    <Modal.Footer>
-                     <RaisedButton style={buttonStyle} label={<FormattedMessage id="cancel" />} onClick={e => this.props.dispatch(cancelAction())} />
-                     <RaisedButton style={buttonStyle} backgroundColor={isWarningModal ? 'rgba(255,160,160,1)' : null} label={<FormattedMessage id={actionButtonLabel} />} onClick={e => this.props.dispatch(doAction(this.props.app.confirmAction.data))} />
+                     <MaterialButton style={buttonStyle} label={<FormattedMessage id="cancel" />} onClick={e => this.props.dispatch(cancelAction())} />
+                     <MaterialButton style={buttonStyle} backgroundColor={isWarningModal ? 'rgba(255,160,160,1)' : null} label={<FormattedMessage id={actionButtonLabel} />} onClick={e => this.props.dispatch(doAction(this.props.app.confirmAction.data))} />
                    </Modal.Footer>
                  </Modal>
             </div>

@@ -10,7 +10,7 @@ import { Lifecycle } from 'react-router'
 import {FormattedMessage} from 'react-intl'
 import moment from 'moment'
 
-import { RaisedButton, FlatButton } from 'material-ui'
+import { Button } from 'material-ui'
 
 import { getStringWithLocale } from 'src/utils/locale'
 
@@ -117,7 +117,8 @@ var EditorPage = React.createClass({
 
             if (publicationStatus === constants.PUBLICATION_STATUS.DRAFT) {
                 return (
-                    <RaisedButton
+                    <Button
+                        raised
                         style={buttonStyle}
                         label="Poista tapahtuma"
                         onClick={ (e) => this.confirmDelete(e) }
@@ -126,7 +127,8 @@ var EditorPage = React.createClass({
             }
             if (publicationStatus === constants.PUBLICATION_STATUS.PUBLIC) {
                 return (
-                    <RaisedButton
+                    <Button
+                        raised
                         style={buttonStyle}
                         label="Poista tapahtuma"
                         onClick={ (e) => this.confirmDelete(e) }
@@ -147,7 +149,8 @@ var EditorPage = React.createClass({
 
             if (publicationStatus === constants.PUBLICATION_STATUS.PUBLIC) {
                 return (
-                    <RaisedButton
+                    <Button
+                        raised
                         style={buttonStyle}
                         label="Peruuta tapahtuma"
                         onClick={ (e) => this.confirmCancel(e) }
@@ -171,7 +174,8 @@ var EditorPage = React.createClass({
         }
         if(this.props.params.action === 'update' && publicationStatus === constants.PUBLICATION_STATUS.PUBLIC) {
             return (
-                <RaisedButton
+                <Button
+                    raised
                     style={buttonStyle}
                     label="Tallenna muutokset julkaistuun tapahtumaan"
                     primary={true}
@@ -182,7 +186,8 @@ var EditorPage = React.createClass({
             return (
                 <span>
                     <Loader loaded={!this.props.editor.isSending} scale={1}/>
-                    <RaisedButton
+                    <Button
+                        raised
                         style={buttonStyle}
                         primary={true}
                         disabled={this.props.editor.isSending || (this.props.user && !this.props.user.organization)}
@@ -298,7 +303,8 @@ var EditorPage = React.createClass({
         let clearButton = null
         if(_.keys(this.props.editor.values).length) {
             clearButton = (
-                <RaisedButton
+                <Button
+                    raised
                     onClick={this.clearForm}
                     primary={true}
                     className="pull-right"

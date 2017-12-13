@@ -20,7 +20,7 @@ import {
 } from 'src/components/HelFormFields'
 import RecurringEvent from 'src/components/RecurringEvent'
 
-import { RaisedButton, FlatButton } from 'material-ui'
+import { Button } from 'material-ui'
 
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
 import {connect} from 'react-redux'
@@ -229,12 +229,14 @@ class FormFields extends React.Component {
                         { this.state.showRecurringEvent &&
                             <RecurringEvent toggle={() => this.showRecurringEventDialog()} validationErrors={validationErrors} values={values}/>
                         }
-                        <RaisedButton
+                        <Button
+                            raised
                             style={buttonStyle}
                             primary={true}
                             onClick={ () => this.addNewEventDialog() }
                             label={<span><i className="material-icons">add</i> <FormattedMessage id="event-add-new-occasion" /></span>} />
-                        <RaisedButton
+                        <Button
+                            raised
                             style={buttonStyle}
                             primary={!this.state.showRecurringEvent}
                             onClick={ () => this.showRecurringEventDialog() }

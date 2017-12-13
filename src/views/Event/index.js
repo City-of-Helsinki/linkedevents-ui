@@ -8,7 +8,7 @@ import EventDetails from 'src/components/EventDetails'
 
 import {FormattedMessage} from 'react-intl'
 
-import {RaisedButton, FlatButton} from 'material-ui'
+import {Button} from 'material-ui'
 
 import {fetchEventDetails} from 'src/actions/events.js'
 
@@ -100,8 +100,8 @@ class EventPage extends React.Component {
                     <div className="container">
                         <div className="col-sm-12">
                             <div className="col-sm-12 actions">
-                                <RaisedButton onClick={e => this.editEvent(e)} disabled={!userCanEdit} style={buttonStyle} primary={true} label="Muokkaa tapahtumaa" />
-                                <RaisedButton onClick={e => this.copyAsTemplate(e)} style={buttonStyle} secondary={true} label="Kopioi uuden tapahtuman pohjaksi" />
+                                <Button raised onClick={e => this.editEvent(e)} disabled={!userCanEdit} style={buttonStyle} primary={true} label="Muokkaa tapahtumaa" />
+                                <Button raised onClick={e => this.copyAsTemplate(e)} style={buttonStyle} secondary={true} label="Kopioi uuden tapahtuman pohjaksi" />
                             </div>
                         </div>
                     </div>
