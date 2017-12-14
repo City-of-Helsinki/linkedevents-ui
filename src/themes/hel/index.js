@@ -10,13 +10,43 @@ let helRawStyle = {
         primary2Color: Colors.cyan700,
         primary3Color: Colors.gray700,
         accent1Color: '#48a3e7',
-        accent2Color: '#0072c6', // Toolbar color
+        accent2Color: '#0072c6',
         accent3Color: Colors.grey500,
         textColor: Colors.black,
         alternateTextColor: Colors.white,
         canvasColor: Colors.white,
         borderColor: Colors.grey300,
         disabledColor: Colors.darkBlack300,
+    },
+    overrides: {
+        MuiButton: {
+            root: {
+                textTransform: 'none',
+                fontWeight: 300,
+           },
+        },
+        MuiInput: {
+            root: {
+                textColor: Colors.black,
+                hintColor: Colors.darkBlack300,
+                floatingLabelColor: Colors.black,
+                backgroundColor: '#ffffff',
+                disabled: {
+                    color: Colors.darkBlack300
+                },
+                error: {
+                    color: Colors.red500
+                },
+                focused: {
+                    color: Colors.cyan500
+                }
+            },
+            MuiToolbar: {
+                root: {
+                    backgroundColor: '#0072c6',
+                },
+            },
+        },
     },
 }
 
@@ -28,7 +58,7 @@ let helHeaderRawStyle = {
         primary2Color: Colors.cyan700,
         primary3Color: Colors.gray700,
         accent1Color: '#48a3e7',
-        accent2Color: '#0072c6', // Toolbar color
+        accent2Color: '#0072c6',
         accent3Color: Colors.grey500,
         textColor: Colors.black,
         alternateTextColor: Colors.white,
@@ -36,44 +66,38 @@ let helHeaderRawStyle = {
         borderColor: Colors.grey300,
         disabledColor: Colors.darkBlack300,
     },
+    overrides: {
+        MuiButton: {
+            root: {
+                textTransform: 'none',
+                fontWeight: 300,
+                textColor: '#ffffff',
+            },
+        },
+        MuiInput: {
+            root: {
+                floatingLabelColor: Colors.black,
+            },
+        },
+        MuiToolbar: {
+            root: {
+                backgroundColor: '#0072c6',
+            },
+        },
+    },
 }
+
 
 let helTheme = createMuiTheme(helRawStyle)
 let headerTheme = createMuiTheme(helHeaderRawStyle)
 
-//helTheme.palette.shades.light.text.primary = helRawStyle.palette.textColor
-// helTheme.textField.textColor = helRawStyle.palette.textColor
-//helTheme.palette.shades.light.text.hint = helRawStyle.palette.disabledColor
-// helTheme.textField.hintColor = helRawStyle.palette.disabledColor
-//helTheme.palette.shades.light.input.labelText = helRawStyle.palette.textColor
-
-// helTheme.textField.floatingLabelColor = helRawStyle.palette.textColor
-// helTheme.textField.disabledTextColor = helRawStyle.palette.disabledColor
-// helTheme.textField.errorColor = Colors.red500
-// helTheme.textField.focusColor = helRawStyle.palette.primary1Color
-// helTheme.textField.backgroundColor = '#ffffff'
-
-// helTheme.flatButton.textTransform = 'none'
-// helTheme.raisedButton.textTransform = 'none'
-
-// helTheme.flatButton.fontWeight = 300
-// helTheme.raisedButton.fontWeight = 300
-
-// // Override specific component styles
-// Original: headerTheme.toolbar.backgroundColor = '#0072c6'
+// Override specific component styles
 headerTheme.mixins.toolbar.backgroundColor = '#0072c6'
 headerTheme.mixins.toolbar.height = 56
 headerTheme.mixins.toolbar.titleFontSize = 20
 headerTheme.mixins.toolbar.iconColor = '#ffffff'
 headerTheme.mixins.toolbar.separatorColor = '#ffffff'
 headerTheme.mixins.toolbar.menuHoverColor = '#ffffff'
-
-// headerTheme.flatButton.textColor = '#ffffff'
-// headerTheme.flatButton.textTransform = 'none'
-// headerTheme.flatButton.fontWeight = 300
-
-// headerTheme.textField.floatingLabelColor = helRawStyle.palette.textColor
-
 
 export {
     helTheme as HelTheme,
