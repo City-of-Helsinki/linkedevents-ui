@@ -100,8 +100,8 @@ class EventPage extends React.Component {
                     <div className="container">
                         <div className="col-sm-12">
                             <div className="col-sm-12 actions">
-                                <Button raised onClick={e => this.editEvent(e)} disabled={!userCanEdit} style={buttonStyle} color="primary" label="Muokkaa tapahtumaa" />
-                                <Button raised onClick={e => this.copyAsTemplate(e)} style={buttonStyle} color="secondary" label="Kopioi uuden tapahtuman pohjaksi" />
+                                <Button raised onClick={e => this.editEvent(e)} disabled={!userCanEdit} style={buttonStyle} color="primary">Muokkaa tapahtumaa</Button>
+                                <Button raised onClick={e => this.copyAsTemplate(e)} style={buttonStyle} color="secondary">Kopioi uuden tapahtuman pohjaksi</Button>
                             </div>
                         </div>
                     </div>

@@ -11,6 +11,8 @@ import {FormattedMessage} from 'react-intl'
 import moment from 'moment'
 
 import { Button } from 'material-ui'
+// Material-ui Icons
+import Close from 'material-ui-icons/Close'
 
 import { getStringWithLocale } from 'src/utils/locale'
 
@@ -177,10 +179,9 @@ var EditorPage = React.createClass({
                 <Button
                     raised
                     style={buttonStyle}
-                    label="Tallenna muutokset julkaistuun tapahtumaan"
-                    primary={true}
+                    color="primary"
                     onClick={ (e) => this.saveAsPublished(e) }
-                />
+                >Tallenna muutokset julkaistuun tapahtumaan</Button>
             )
         } else {
             return (
@@ -189,11 +190,10 @@ var EditorPage = React.createClass({
                     <Button
                         raised
                         style={buttonStyle}
-                        primary={true}
+                        color="primary"
                         disabled={this.props.editor.isSending || (this.props.user && !this.props.user.organization)}
-                        label={labelText}
                         onClick={ (e) => this.saveAsPublished(e) }
-                    />
+                    >{labelText}</Button>
                 </span>
             )
         }
@@ -306,10 +306,9 @@ var EditorPage = React.createClass({
                 <Button
                     raised
                     onClick={this.clearForm}
-                    primary={true}
+                    color="primary"
                     className="pull-right"
-                    label={<span><FormattedMessage id="clear-form"/><i className="material-icons">&#xE14C;</i></span>}
-                />
+               ><FormattedMessage id="clear-form"/> <Close/></Button>
             )
         }
 
