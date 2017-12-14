@@ -48,13 +48,13 @@ class EventCreated extends React.Component {
             }
             return (
                 <div className="actions">
-                    <Button raised onClick={e => this.goToEvent(e)} style={buttonStyle} secondary={true} label={label} />
+                    <Button raised onClick={e => this.goToEvent(e)} style={buttonStyle} color="secondary">{label}</Button>
                 </div>
             )
         } else {
             return (
                 <div className="actions">
-                    <Button raised onClick={e => this.goToBrowsing(e)} style={buttonStyle} secondary={true} label="Palaa takaisin tapahtumiin" />
+                    <Button raised onClick={e => this.goToBrowsing(e)} style={buttonStyle} color="secondary">Palaa takaisin tapahtumiin</Button>
                 </div>
             )
         }

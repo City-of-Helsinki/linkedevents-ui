@@ -77,7 +77,7 @@ class SearchBar extends React.Component {
                     <Button style={{height: '72px'}}
                         className="mui-raised-button"
                         type="submit"
-                        primary={true}
+                        color="primary"
                         onClick={ (e) => this.handleSubmit(e) }>
                         Hae tapahtumia
                     </Button>

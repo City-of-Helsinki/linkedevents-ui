@@ -21,6 +21,9 @@ import {
 import RecurringEvent from 'src/components/RecurringEvent'
 
 import { Button } from 'material-ui'
+// Material-ui Icons
+import Add from 'material-ui-icons/Add'
+import Autorenew from 'material-ui-icons/Autorenew'
 
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
 import {connect} from 'react-redux'
@@ -172,8 +175,19 @@ class FormFields extends React.Component {
         let helEventLangOptions = mapLanguagesSetToForm(this.props.editor.languages)
         let buttonStyle = {
             height: '64px',
+            width: '100%',
             margin: '10px 5px',
             display: 'block'
+        }
+        const getAddRecurringEventButtonColor = (showRecurringEvent) => {
+            // if showRecurringEvent == false : color='primary'
+            // if showRecurringEvent == true : color='secondary'
+            if (showRecurringEvent == true) {
+                return 'primary'
+            } else {
+                return 'secondary'
+            }
+
         }
         const { values, validationErrors, contentLanguages } = this.props.editor
         const newEvents = this.generateNewEventFields(this.props.editor.values.sub_events);
@@ -232,15 +246,15 @@ class FormFields extends React.Component {
                         <Button
                             raised
                             style={buttonStyle}
-                            primary={true}
+                            color="primary"
                             onClick={ () => this.addNewEventDialog() }
-                            label={<span><i className="material-icons">add</i> <FormattedMessage id="event-add-new-occasion" /></span>} />
+                            ><Add/> <FormattedMessage id="event-add-new-occasion" /></Button>
                         <Button
                             raised
                             style={buttonStyle}
-                            primary={!this.state.showRecurringEvent}
+                            color={getAddRecurringEventButtonColor(this.state.showRecurringEvent)}
                             onClick={ () => this.showRecurringEventDialog() }
-                            label={<span><i className="material-icons">autorenew</i> <FormattedMessage id="event-add-recurring" /></span>} />
+                            ><Autorenew/> <FormattedMessage id="event-add-recurring" /></Button>
                     </div>
                     <SideField>
                         <div className="tip">

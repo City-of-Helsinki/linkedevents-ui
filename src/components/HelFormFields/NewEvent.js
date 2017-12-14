@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react'
 import HelDateTimeField from 'src/components/HelFormFields/HelDateTimeField.js'
 import './NewEvent.scss'
-import { RaisedButton } from 'material-ui'
+import { Button } from 'material-ui'
 import {connect} from 'react-redux'
 import { deleteSubEvent } from 'src/actions/editor.js'
 
@@ -45,11 +45,11 @@ class NewEvent extends React.Component {
                                 eventKey={this.props.eventKey}
                             />
                         </div>
-                        <RaisedButton
+                        <Button
+                            raised
                             onClick={() => this.deleteSubEvent()}
                             style={buttonStyles}
-                            label={<span className="center-delete"><i className="material-icons">delete</i></span>}
-                        />
+                        >delete</Button>
                     </div>
                 </div>
             </div>

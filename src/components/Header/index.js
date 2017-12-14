@@ -26,9 +26,9 @@ class HeaderBar extends React.Component {
         let buttonStyle = { color: '#ffffff' }
 
         // NOTE: mockup for login button functionality
-        let loginButton = <Button style={buttonStyle} label={<FormattedMessage id="login"/>} onClick={() => this.props.dispatch(login())} />
+        let loginButton = <Button style={buttonStyle} onClick={() => this.props.dispatch(login())}><FormattedMessage id="login"/></Button>
         if(this.props.user) {
-            loginButton = <Button style={buttonStyle} label={this.props.user.displayName} onClick={() => this.props.dispatch(logout())} />
+            loginButton = <Button style={buttonStyle} onClick={() => this.props.dispatch(logout())}>{this.props.user.displayName}</Button>
         }
 
         return (

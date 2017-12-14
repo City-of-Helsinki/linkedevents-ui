@@ -7,7 +7,7 @@ import HelCheckbox from './HelCheckbox'
 import NewOffer from './NewOffer'
 import './HelOffersField.scss'
 
-import { RaisedButton } from 'material-ui'
+import { Button } from 'material-ui'
 
 import {connect} from 'react-redux'
 import { addOffer, setOfferData, setFreeOffers } from 'src/actions/editor.js'
@@ -95,12 +95,14 @@ class HelOffersField extends React.Component {
                 <div className="offers">
                     { offerDetails }
                 </div>
-                <RaisedButton
+                <Button
+                    raised
                     style={buttonStyle}
-                    primary={true}
+                    color="primary"
                     disabled={this.state.isFree}
-                    onClick={ () => this.addNewOffer() }
-                    label={<span><i className="material-icons">add</i> <FormattedMessage id="event-add-price" /></span>} />
+                    onClick={ () => this.addNewOffer() }>
+                    <FormattedMessage id="event-add-price" />
+                </Button>
             </div>
         )
     }
