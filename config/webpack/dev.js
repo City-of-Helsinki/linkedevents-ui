@@ -11,7 +11,7 @@ const templateConfigKeys = ['LE_PRODUCTION_INSTANCE', 'APP_MODE'];
 
 const gitRevisionPlugin = new GitRevisionPlugin();
 
-nconf.env(jsonConfigKeys.concat(templateConfigKeys));
+nconf.env({ parseValues: true, whitelist: jsonConfigKeys.concat(templateConfigKeys)});
 // Do not use this to change settings in development (or production!)
 // instead in development use config_dev.toml in project root
 // (and in production use environment variables)
