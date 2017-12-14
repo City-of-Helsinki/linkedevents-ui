@@ -53,12 +53,15 @@ class Notifications extends React.Component {
               className="notification-bar"
               open={(!!this.props.flashMsg)}
               message={flashMsg}
-              bodyStyle={{'backgroundColor': 'rgb(0,108,188)'}}
               autoHideDuration={duration}
               onRequestClose={closeFn}
               action={actionLabel}
-              onActionTouchTap={actionFn}
-            />
+              action={[
+                <Button key="snackActionButton" onClick={actionFn}>
+                  {actionLabel}
+                </Button>
+              ]}
+              />
         )
     }
 }

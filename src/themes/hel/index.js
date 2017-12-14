@@ -41,10 +41,20 @@ let helRawStyle = {
                     color: Colors.cyan500
                 }
             },
-            MuiToolbar: {
-                root: {
-                    backgroundColor: '#0072c6',
-                },
+        },
+        MuiToolbar: {
+            root: {
+                backgroundColor: '#0072c6',
+            },
+        },
+        MuiSnackbar: {
+            root: {
+                backgroundColor: '#0072c6',
+            },
+        },
+        MuiSnackbarContent: {
+            root: {
+                backgroundColor: '#0072c6',
             },
         },
     },
@@ -77,11 +87,6 @@ let helHeaderRawStyle = {
         MuiInput: {
             root: {
                 floatingLabelColor: Colors.black,
-            },
-        },
-        MuiToolbar: {
-            root: {
-                backgroundColor: '#0072c6',
             },
         },
     },
