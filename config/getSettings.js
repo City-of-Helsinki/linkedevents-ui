@@ -40,9 +40,7 @@ function filterObject(object, keys) {
 }
 
 function getConfig() {
-    console.log("Entering getConfig")
     if(settings['serverConfig'] !== null) {
-        console.log("returning existing")
         return settings
     }
 
@@ -69,13 +67,12 @@ function getConfig() {
     nconf.required(serverConfigKeys.concat(jsonConfigKeys.concat(templateConfigKeys)))
 
     const completeConfig = nconf.get()
-    console.log(completeConfig)
 
     settings['serverConfig'] = filterObject(completeConfig, serverConfigKeys)
     settings['jsonConfig'] = filterObject(completeConfig, jsonConfigKeys)
     settings['templateConfig'] = filterObject(completeConfig, templateConfigKeys)
 
-    console.log("settings are")
+    console.log("Your settings are:")
     console.log(settings)
 
     return settings;
