@@ -4,6 +4,8 @@ const jade = require('jade');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
 
+const settings = require('../getSettings.js')()
+
 // There are defined in common.js as well, but that is not available without
 // transpilation, which is not done for webpack configuration file
 const path = require('path');
@@ -16,32 +18,12 @@ const common = {
     }
 }
 
-const jsonConfigKeys = ["api_base", "local_storage_user_expiry_time", "nocache", "raven_id", "commit_hash"];
-const templateConfigKeys = ["LE_PRODUCTION_INSTANCE", "APP_MODE"];
-
-nconf.env({ parseValues: true, whitelist: jsonConfigKeys.concat(templateConfigKeys)});
-nconf.defaults({
-    'LE_PRODUCTION_INSTANCE': '#',
-    'APP_MODE': 'production',
-});
-// 'memory' is needed to store the commit_hash
-nconf.use('memory')
-nconf.set('commit_hash', new GitRevisionPlugin().commithash());
-nconf.required(jsonConfigKeys.concat(templateConfigKeys));
-
 const indexTemplate = jade.compileFile(path.join(common.paths.SRC, 'index.jade'), { pretty: true })
 
-// We only want a subset of the read variables in configJson passed
-// to template. Nconf only allows for fetching one variable or all
-var configJson = {};
-for (var key of jsonConfigKeys) {
-    configJson[key] = nconf.get(key);
-}
-
 const indexHtml = indexTemplate({
-    APP_MODE: nconf.get('APP_MODE'),
-    LE_PRODUCTION_INSTANCE: nconf.get('LE_PRODUCTION_INSTANCE'),
-    configJson: JSON.stringify(configJson)
+    APP_MODE: settings['templateConfig']['APP_MODE'],
+    LE_PRODUCTION_INSTANCE: settings['templateConfig']['LE_PRODUCTION_INSTANCE'],
+    configJson: JSON.stringify(settings['jsonConfig'])
 })
 
 const config = {
