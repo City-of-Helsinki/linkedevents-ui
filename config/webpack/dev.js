@@ -24,6 +24,7 @@ nconf.defaults({
     'APP_MODE': 'testing'
 });
 nconf.file({file: 'config_dev.toml', format: require('nconf-toml')})
+nconf.file({file: 'config_dev.json'})
 nconf.set('commit_hash', gitRevisionPlugin.commithash());
 nconf.required(jsonConfigKeys.concat(templateConfigKeys));
 

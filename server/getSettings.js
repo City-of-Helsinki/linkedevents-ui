@@ -21,6 +21,7 @@ export default function getOptions() {
     nconf.defaults(defaults)
     if(process.env.NODE_ENV == 'development') {
         nconf.file({file: 'config_dev.toml', format: require('nconf-toml')})
+        nconf.file({file: 'config_dev.json'})
     }
 
     nconf.required(configKeys)
