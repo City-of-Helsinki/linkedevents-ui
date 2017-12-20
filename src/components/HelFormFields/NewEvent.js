@@ -5,7 +5,8 @@ import './NewEvent.scss'
 import { Button } from 'material-ui'
 import {connect} from 'react-redux'
 import { deleteSubEvent } from 'src/actions/editor.js'
-
+// Material-ui Icons
+import Delete from 'material-ui-icons/Delete'
 class NewEvent extends React.Component {
     static contextTypes = {
         dispatch: PropTypes.func
@@ -49,7 +50,7 @@ class NewEvent extends React.Component {
                             raised
                             onClick={() => this.deleteSubEvent()}
                             style={buttonStyles}
-                        >delete</Button>
+                        ><Delete/></Button>
                     </div>
                 </div>
             </div>
