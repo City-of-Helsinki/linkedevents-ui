@@ -177,15 +177,12 @@ class FormFields extends React.Component {
             height: '64px',
             width: '100%',
             margin: '10px 5px',
-            display: 'block'
         }
         const getAddRecurringEventButtonColor = (showRecurringEvent) => {
-            // if showRecurringEvent == false : color='primary'
-            // if showRecurringEvent == true : color='secondary'
             if (showRecurringEvent == true) {
-                return 'primary'
-            } else {
                 return 'secondary'
+            } else {
+                return 'primary'
             }
 
         }
