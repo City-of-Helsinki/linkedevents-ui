@@ -22,7 +22,9 @@ let helRawStyle = {
         MuiButton: {
             root: {
                 textTransform: 'none',
-                fontWeight: 300,
+                fontWeight: 500,
+                fontSize: '0.8em',
+                lineHeight: '36px'
            },
         },
         MuiInput: {
@@ -55,6 +57,11 @@ let helRawStyle = {
         MuiSnackbarContent: {
             root: {
                 backgroundColor: '#0072c6',
+            },
+        },
+        MuiTable: {
+            root: {
+                backgroundColor: '#ffffff',
             },
         },
     },
