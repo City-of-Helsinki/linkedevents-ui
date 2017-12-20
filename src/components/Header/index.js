@@ -24,6 +24,7 @@ class HeaderBar extends React.Component {
 
     render() {
         let buttonStyle = { color: '#ffffff' }
+        let verticalAlignMiddle = { verticalAlign: 'middle' }
 
         // NOTE: mockup for login button functionality
         let loginButton = <Button style={buttonStyle} onClick={() => this.props.dispatch(login())}><FormattedMessage id="login"/></Button>
@@ -45,7 +46,7 @@ class HeaderBar extends React.Component {
                     <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.dispatch(pushPath('/event/create/new'))}><FormattedMessage id="create-event"/><Add/></Button>
                 </div>
                 <div float="right">
-                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.dispatch(pushPath('/help'))}><HelpOutline/></Button>
+                    <Button className="mui-flat-button" style={{...buttonStyle,...verticalAlignMiddle}} onClick={() => this.props.dispatch(pushPath('/help'))}><HelpOutline/></Button>
                     {loginButton}
                 </div>
                 <div className="clearfix"/>
