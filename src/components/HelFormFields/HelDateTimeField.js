@@ -33,13 +33,34 @@ const HelDateTimeField = React.createClass({
     },
 
     propTypes: {
+        defaultValue: React.PropTypes.oneOfType([
+            React.PropTypes.string,
+            React.PropTypes.object
+        ]),
+        eventKey: React.PropTypes.string,
         name: React.PropTypes.string.isRequired,
-        eventKey: React.PropTypes.string
+        validationErrors: React.PropTypes.array,
+        setDateTime: React.PropTypes.func
     },
 
     contextTypes: {
         intl: React.PropTypes.object,
         dispatch: React.PropTypes.func
+    },
+
+    componentWillReceiveProps: function(nextProps) {
+        if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
+            if (moment(nextProps.defaultValue).isValid()) {
+                const value = this.parseValueFromString(nextProps.defaultValue)
+                this.setState({date: value.date, time: value.time},
+                    () => this.setData())
+            }
+        }
+    },
+
+    // Update only if the state has changed
+    shouldComponentUpdate: function(nextProps, nextState) {
+        return true
     },
 
     onChange: function(type, value) {
@@ -48,8 +69,11 @@ const HelDateTimeField = React.createClass({
         })
     },
 
-    onBlur: function(type, value) {
+    onBlur: function() {
+        this.setData();
+    },
 
+    setData: function() {
         if(this.state.date && this.state.time) {
             const date = moment.tz(this.state.date, 'Europe/Helsinki').format('YYYY-MM-DD')
             const time = this.state.time
@@ -70,6 +94,9 @@ const HelDateTimeField = React.createClass({
                         this.context.dispatch(updateSubEvent(datetime, this.props.name, this.props.eventKey))
                     } else {
                         this.context.dispatch(setData(obj))
+                    }
+                    if (this.props.setDateTime) {
+                        this.props.setDateTime(datetime)
                     }
 
                     if (this.props.setDirtyState) {
@@ -133,20 +160,6 @@ const HelDateTimeField = React.createClass({
         }
 
         return []
-    },
-
-    componentWillReceiveProps: function(nextProps) {
-        if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
-            if (moment(nextProps.defaultValue).isValid()) {
-                const value = this.parseValueFromString(nextProps.defaultValue)
-                this.setState({date: value.date, time: value.time})
-            }
-        }
-    },
-
-    // Update only if the state has changed
-    shouldComponentUpdate: function(nextProps, nextState) {
-        return true
     },
 
     render: function () {

@@ -83,7 +83,11 @@ class FormFields extends React.Component {
       };
     }
 
-    componentWillReceiveProps() {
+    // componentDidMount() {
+    //     this.addNewEventDialog()
+    // }
+
+    componentWillReceiveProps(nextProps) {
         this.forceUpdate()
     }
 
@@ -104,32 +108,42 @@ class FormFields extends React.Component {
         let startTime
         let endTime
         let subEventKeys = Object.keys(this.props.editor.values.sub_events)
-        let key = subEventKeys.length > 0 ? Math.max.apply(null, subEventKeys)+1 : 1
+        let key = subEventKeys.length > 0 ? Math.max.apply(null, subEventKeys)+1 : 0
         if (_.keys(this.props.editor.values.sub_events).length) {
             const subEvents = this.props.editor.values.sub_events
             const startDates = []
             const endDates = []
             for (const key in subEvents) {
-                if (subEvents.hasOwnProperty(key)) {
+                if (subEvents.hasOwnProperty(key) && subEvents[key].start_time !== undefined && subEvents[key].end_time !== undefined) {
                     startDates.push(moment(subEvents[key].start_time))
                     endDates.push(moment(subEvents[key].end_time))
                 }
             }
-            startTime = moment.max(startDates)
-            endTime = moment.max(endDates)
+            if (startDates.length) {
+                startTime = moment.max(startDates)
+                endTime = moment.max(endDates)
+            }
         } else {
-            startTime = this.props.editor.values.start_time ? moment(this.props.editor.values.start_time) : moment()
-            endTime = this.props.editor.values.end_time ? moment(this.props.editor.values.end_time) : moment()
+            startTime = undefined
+            endTime = undefined
         }
-        obj[key] = {
-            start_time: moment.tz(startTime.add(1, 'weeks'), 'Europe/Helsinki').utc().toISOString(),
-            end_time: moment.tz(endTime.add(1, 'weeks'), 'Europe/Helsinki').utc().toISOString()
+        if (startTime === undefined || endTime === undefined) {
+            obj[key] = {
+                start_time: undefined,
+                end_time: undefined
+            }
+        } else {
+            obj[key] = {
+                start_time: moment.tz(startTime.add(1, 'weeks'), 'Europe/Helsinki').utc().toISOString(),
+                end_time: moment.tz(endTime.add(1, 'weeks'), 'Europe/Helsinki').utc().toISOString()
+            }
         }
         this.context.dispatch(setEventData(obj, key))
     }
 
     generateNewEventFields(events) {
         let newEvents = []
+
         for (const key in events) {
             if (events.hasOwnProperty(key)) {
                 newEvents.push(
@@ -137,6 +151,7 @@ class FormFields extends React.Component {
                         key={key}
                         eventKey={key}
                         event={events[key]}
+                        validationErrors={this.props.editor.validationErrors}
                     />
                 )
             }
@@ -214,19 +229,35 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6">
-                        <div className="row">
+                        {/* <div className="row">
                             <div className="col-xs-12 col-md-6">
-                                <HelDateTimeField validationErrors={validationErrors['start_time']} defaultValue={values['start_time']} ref="start_time" name="start_time" label="event-starting-datetime" setDirtyState={this.props.setDirtyState} />
+                                <HelDateTimeField
+                                    validationErrors={validationErrors['start_time']}
+                                    defaultValue={values['start_time'] || this.state.firstStartDateTime}
+                                    setDateTime={this.setStartDateTime}
+                                    ref="start_time"
+                                    name="start_time"
+                                    label="event-starting-datetime"
+                                    setDirtyState={this.props.setDirtyState}
+                                />
                             </div>
                             <div className="col-xs-12 col-md-6">
-                                <HelDateTimeField validationErrors={validationErrors['end_time']} defaultValue={values['end_time']} ref="end_time" name="end_time" label="event-ending-datetime" setDirtyState={this.props.setDirtyState} />
+                                <HelDateTimeField
+                                    validationErrors={validationErrors['end_time']}
+                                    defaultValue={values['end_time'] || this.state.firstEndDateTime}
+                                    setDateTime={this.setEndDateTime}
+                                    ref="end_time"
+                                    name="end_time"
+                                    label="event-ending-datetime"
+                                    setDirtyState={this.props.setDirtyState}
+                                />
                             </div>
-                        </div>
+                        </div> */}
                         <div className={"new-events " + (this.state.showNewEvents ? 'show' : 'hidden')}>
                             { newEvents }
                         </div>
                         { this.state.showRecurringEvent &&
-                            <RecurringEvent toggle={() => this.showRecurringEventDialog()} validationErrors={validationErrors} values={values}/>
+                            <RecurringEvent toggle={() => this.showRecurringEventDialog()} validationErrors={validationErrors} values={values} />
                         }
                         <RaisedButton
                             style={buttonStyle}
