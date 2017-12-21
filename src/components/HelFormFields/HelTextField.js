@@ -61,6 +61,7 @@ let HelTextField = React.createClass({
         let longmsg = this.context.intl.formatMessage({id: 'validation-longStringLengthCounter' })
         let isShortString = _.findIndex(this.props.validations, i => i === "shortString") !== -1;
         let isLongString = _.findIndex(this.props.validations, i => i === "longString") !== -1;
+        let isUrl = _.findIndex(this.props.validations, i => i === "isUrl") !== -1;
         if (isShortString === true) {
             return !this.state.error && isShortString
                 ? '' + (160 - this.state.value.length.toString()) + msg
@@ -69,8 +70,13 @@ let HelTextField = React.createClass({
             return !this.state.error && isLongString
                 ? '' + (this.state.value.length.toString()) + longmsg
                 : this.state.error
+        } else if (isUrl === true) {
+            let urlmsg = this.context.intl.formatMessage({id: 'validation-isUrl' })
+            return this.state.error
+                ? urlmsg
+                : this.state.error
         }
-    },
+},
     handleBlur: function (event) {
         // Apply changes to store if no validation errors, or the props 'forceApplyToStore' is defined
         if( this.props.name && this.getValidationErrors().length === 0 &&
