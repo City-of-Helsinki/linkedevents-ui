@@ -87,7 +87,13 @@ const HelDateTimeField = React.createClass({
         let newTime;
         if(time) {
             newTime = moment.tz(time, 'H.mm', 'Europe/Helsinki').format('HH:mm')
+            if(time.lastIndexOf('24', 0) === 0) {
+                // User gave time which begins with '24'. Moment formats that to 00:00 so we'll have to change it back to 24
+                // Otherwise date would be rolled back one day.
+                newTime = '24' + newTime.substring(2)
+            }
         }
+
         let newDateTime = date+'T'+newTime;
         const dateTime = moment.tz(newDateTime, 'Europe/Helsinki').utc().toISOString()
         return dateTime;
