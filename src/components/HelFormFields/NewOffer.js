@@ -5,7 +5,8 @@ import { Button } from 'material-ui'
 import MultiLanguageField from 'src/components/HelFormFields/MultiLanguageField.js'
 import ValidationPopover from 'src/components/ValidationPopover'
 import { setOfferData, deleteOffer } from 'src/actions/editor.js'
-
+// Material-ui Icons
+import Delete from 'material-ui-icons/Delete'
 
 class NewOffer extends React.Component {
     static contextTypes = {
@@ -83,7 +84,7 @@ class NewOffer extends React.Component {
                 <Button
                     raised
                     onClick={() => this.deleteOffer()}
-                    style={buttonStyles}>delete
+                    style={buttonStyles}><Delete/>
                 </Button>
             </div>
         )
