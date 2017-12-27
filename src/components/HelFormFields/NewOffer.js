@@ -80,9 +80,9 @@ class NewOffer extends React.Component {
         return (
             <div key={offerKey} className="offer-fields" style={{'position': 'relative'}}>
                 <label style={{position: 'relative'}}><ValidationPopover validationErrors={this.props.validationErrors} /></label>
-                <MultiLanguageField name="info_url" defaultValue={defaultValue.info_url} ref="info_url" label="event-purchase-link" languages={languages} onBlur={e => this.onBlur(e)} validations={['isUrl']} validationErrors={this.props.validationErrors['info_url']} index={this.props.offerKey}/>
-                <MultiLanguageField name="price" defaultValue={defaultValue.price} disabled={isFree} ref="price" label="event-price" languages={languages} onBlur={e => this.onBlur(e)} validationErrors={this.props.validationErrors['price']} index={this.props.offerKey} />
-                <MultiLanguageField name="description" defaultValue={defaultValue.description} disabled={isFree} ref="description" label="event-price-info" languages={languages} multiLine={true} onBlur={e => this.onBlur(e)} validationErrors={this.props.validationErrors['offer_description']} index={this.props.offerKey} />
+                <MultiLanguageField defaultValue={defaultValue.info_url} ref="info_url" label="event-purchase-link" languages={languages} onBlur={e => this.onBlur(e)} validations={['isUrl']} validationErrors={this.props.validationErrors['info_url']} index={this.props.offerKey}/>
+                <MultiLanguageField defaultValue={defaultValue.price} disabled={isFree} ref="price" label="event-price" languages={languages} onBlur={e => this.onBlur(e)} validationErrors={this.props.validationErrors['price']} index={this.props.offerKey} />
+                <MultiLanguageField defaultValue={defaultValue.description} disabled={isFree} ref="description" label="event-price-info" languages={languages} multiLine={true} onBlur={e => this.onBlur(e)} validationErrors={this.props.validationErrors['offer_description']} index={this.props.offerKey} />
                 <Button
                     raised
                     onClick={() => this.deleteOffer()}
