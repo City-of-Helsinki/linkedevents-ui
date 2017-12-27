@@ -122,9 +122,7 @@ var EditorPage = React.createClass({
                     <Button
                         raised
                         style={buttonStyle}
-                        label="Poista tapahtuma"
-                        onClick={ (e) => this.confirmDelete(e) }
-                        />
+                        onClick={ (e) => this.confirmDelete(e) }>Poista tapahtuma</Button>
                 )
             }
             if (publicationStatus === constants.PUBLICATION_STATUS.PUBLIC) {
@@ -132,10 +130,8 @@ var EditorPage = React.createClass({
                     <Button
                         raised
                         style={buttonStyle}
-                        label="Poista tapahtuma"
-                        onClick={ (e) => this.confirmDelete(e) }
-                    />
-                )
+                        onClick={ (e) => this.confirmDelete(e) }>Poista tapahtuma</Button>
+                    )
             }
         }
     },
@@ -154,9 +150,7 @@ var EditorPage = React.createClass({
                     <Button
                         raised
                         style={buttonStyle}
-                        label="Peruuta tapahtuma"
-                        onClick={ (e) => this.confirmCancel(e) }
-                        />
+                        onClick={ (e) => this.confirmCancel(e) }>Peruuta tapahtuma</Button>
                 )
             } else {
                 return null
