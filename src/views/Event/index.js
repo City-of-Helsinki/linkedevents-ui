@@ -49,7 +49,8 @@ class EventPage extends React.Component {
     render() {
         let buttonStyle = {
             height: '64px',
-            'marginRight': '10px'
+            marginRight: '10px',
+            color: '#ffffff',
         }
 
         let event = mapAPIDataToUIFormat(this.props.events.event)
@@ -101,7 +102,7 @@ class EventPage extends React.Component {
                         <div className="col-sm-12">
                             <div className="col-sm-12 actions">
                                 <Button raised onClick={e => this.editEvent(e)} disabled={!userCanEdit} style={buttonStyle} color="primary">Muokkaa tapahtumaa</Button>
-                                <Button raised onClick={e => this.copyAsTemplate(e)} style={buttonStyle} color="secondary">Kopioi uuden tapahtuman pohjaksi</Button>
+                                <Button raised onClick={e => this.copyAsTemplate(e)} style={buttonStyle} color="accent">Kopioi uuden tapahtuman pohjaksi</Button>
                             </div>
                         </div>
                     </div>

@@ -2,12 +2,19 @@ let Colors = require('material-ui/colors')
 let Spacing = require('material-ui/styles/spacing')
 import { createMuiTheme } from 'material-ui/styles'
 import blue from 'material-ui/colors/blue'
+import cyan from 'material-ui/colors/cyan'
+
+let helCyan = {
+    ...cyan,
+    A200: '#00bcd4',
+  }
 
 let helRawStyle = {
     spacing: Spacing,
     fontFamily: 'Roboto, sans-serif',
     palette: {
         primary: blue,
+        secondary: helCyan,
         primary2Color: Colors.cyan700,
         primary3Color: Colors.gray700,
         accent1Color: '#48a3e7',
@@ -25,7 +32,10 @@ let helRawStyle = {
                 textTransform: 'none',
                 fontWeight: 500,
                 fontSize: '0.8em',
-                lineHeight: '36px'
+                lineHeight: '36px',
+                raisedAccent: {
+                    color: blue,
+                }
            },
         },
         MuiInput: {

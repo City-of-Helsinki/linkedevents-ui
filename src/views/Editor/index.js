@@ -111,7 +111,8 @@ var EditorPage = React.createClass({
     getDeleteButton: function() {
         let buttonStyle = {
             height: '64px',
-            margin: '0 10px'
+            margin: '0 10px',
+            color: '#ffffff',
         }
 
         if(this.props.params.action === 'update') {
@@ -121,6 +122,7 @@ var EditorPage = React.createClass({
                 return (
                     <Button
                         raised
+                        color="accent"
                         style={buttonStyle}
                         onClick={ (e) => this.confirmDelete(e) }>Poista tapahtuma</Button>
                 )
@@ -129,6 +131,7 @@ var EditorPage = React.createClass({
                 return (
                     <Button
                         raised
+                        color="accent"
                         style={buttonStyle}
                         onClick={ (e) => this.confirmDelete(e) }>Poista tapahtuma</Button>
                     )
@@ -139,7 +142,8 @@ var EditorPage = React.createClass({
     getCancelButton: function() {
         let buttonStyle = {
             height: '64px',
-            margin: '0 10px'
+            margin: '0 10px',
+            color: '#ffffff',
         }
 
         if(this.props.params.action === 'update') {
@@ -149,6 +153,7 @@ var EditorPage = React.createClass({
                 return (
                     <Button
                         raised
+                        color="accent"
                         style={buttonStyle}
                         onClick={ (e) => this.confirmCancel(e) }>Peruuta tapahtuma</Button>
                 )
