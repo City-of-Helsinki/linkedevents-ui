@@ -115,6 +115,12 @@ var validations = {
     afterStartTime: function afterStartTime(values, value) {
         if(!values.start_time || !value) { return true }
 
+        //If start time or end time is invalid we'll skip this validation and don't return error from it
+        //as we should be getting validation error from date validation
+        if (!validations.isDate(null, values.start_time) || !validations.isDate(null, value)) {
+            return true
+        }
+
         let time = new Date(value)
         let start_time = new Date(values.start_time)
 
