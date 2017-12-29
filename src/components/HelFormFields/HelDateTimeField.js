@@ -79,8 +79,7 @@ const HelDateTimeField = React.createClass({
         let newDateTime = date
         let invalidTimeProvided = false
         if(time) {
-            newTime = moment.tz(time, 'H.mm', 'Europe/Helsinki').format('HH:mm')
-            if (newTime == 'Invalid date'){
+            if (!validationRules.isTime(null,time)) {
                 invalidTimeProvided = true
             } else if(time.lastIndexOf('24', 0) === 0) {
                 // User gave time which begins with '24'. Moment formats that to 00:00 so we'll have to change it back to 24
@@ -100,7 +99,8 @@ const HelDateTimeField = React.createClass({
                 // datetime has to be rolled one day forward if we don't have time provided. Otherwise date will be 1 day less than user supplied.
                 newDateTime = moment(newDateTime).add(1, 'days')
             }
-            newDateTime = moment.tz(newDateTime, 'Europe/Helsinki').utc().toISOString()
+            newDateTime = moment(newDateTime, moment.HTML5_FMT.DATETIME_LOCAL).toISOString()
+
             // If time was not given on time field, remove time part (begins with character 'T') from the formatted dateTime.
             if(!time){
                 newDateTime = newDateTime.substring(0, newDateTime.indexOf( "T" ))
