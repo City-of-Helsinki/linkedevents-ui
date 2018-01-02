@@ -20,6 +20,8 @@ import {replaceData} from 'src/actions/editor.js'
 
 import constants from 'src/constants'
 
+import moment from 'moment'
+
 class EventPage extends React.Component {
 
     componentWillMount() {
@@ -65,6 +67,20 @@ class EventPage extends React.Component {
         if(event && this.props.user && event.event_status !== constants.EVENT_STATUS.CANCELLED &&
         this.props.user.organization && event.organization && this.props.user.organization === event.organization) {
             userCanEdit = true
+        }
+
+        // User can edit event
+        let eventIsInThePast = false
+
+        //Check if event (end time) is in the past. If event is in the past then editing is not allowed
+        if (userCanEdit == true && event.end_time) {
+            //Convert to moment object
+            let endTime = moment(event.end_time, moment.defaultFormatUtc)
+            let currentDate = moment()
+            if (currentDate.diff(endTime) > 0) {
+                //Event is in the past
+                userCanEdit = false
+            }
         }
 
         // Add necessary badges
