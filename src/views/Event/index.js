@@ -9,6 +9,7 @@ import EventDetails from 'src/components/EventDetails'
 import {FormattedMessage} from 'react-intl'
 
 import {Button} from 'material-ui'
+import Tooltip from 'material-ui/Tooltip'
 
 import {fetchEventDetails} from 'src/actions/events.js'
 
@@ -72,6 +73,7 @@ class EventPage extends React.Component {
         // User can edit event
         let eventIsInThePast = false
 
+        let editEventTooltipTitle = ''
         //Check if event (end time) is in the past. If event is in the past then editing is not allowed
         if (userCanEdit == true && event.end_time) {
             //Convert to moment object
@@ -80,6 +82,7 @@ class EventPage extends React.Component {
             if (currentDate.diff(endTime) > 0) {
                 //Event is in the past
                 userCanEdit = false
+                editEventTooltipTitle = 'Menneisyydessä olevia tapahtumia ei voi muokata.'
             }
         }
 
@@ -104,6 +107,9 @@ class EventPage extends React.Component {
                 </header>
             )
         }
+
+        const editEventButton = <Button raised onClick={e => this.editEvent(e)} disabled={!userCanEdit} style={buttonStyle} color="primary">Muokkaa tapahtumaa</Button>
+
         if(event && event.name) {
             return (
                 <div className={draftClass}>
@@ -117,7 +123,15 @@ class EventPage extends React.Component {
                     <div className="container">
                         <div className="col-sm-12">
                             <div className="col-sm-12 actions">
-                                <Button raised onClick={e => this.editEvent(e)} disabled={!userCanEdit} style={buttonStyle} color="primary">Muokkaa tapahtumaa</Button>
+                                {editEventTooltipTitle === '' &&
+                                    editEventButton
+                                }
+                                {editEventTooltipTitle !== '' &&
+                                    <Tooltip title={editEventTooltipTitle}>
+                                        <span>{editEventButton}</span>
+                                    </Tooltip>
+                                }
+
                                 <Button raised onClick={e => this.copyAsTemplate(e)} style={buttonStyle} color="accent">Kopioi uuden tapahtuman pohjaksi</Button>
                             </div>
                         </div>
