@@ -6,7 +6,7 @@ import moment from 'moment'
 import defaultThumbnail from 'src/assets/images/helsinki-coat-of-arms-white.png'
 
 import constants from 'src/constants'
-import '!style!css!sass!./index.scss'
+import '!style-loader!css-loader!sass-loader!./index.scss'
 
 let dateFormat = function(timeStr) {
     return timeStr ? moment(timeStr).format('YYYY-MM-DD') : ''

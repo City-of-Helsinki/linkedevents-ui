@@ -1,7 +1,7 @@
 
 // styles
-import '!style!css!sass!./index.scss'
-import 'style!vendor/stylesheets/typeahead.css'
+import '!style-loader!css-loader!sass-loader!./index.scss'
+import 'style-loader!vendor/stylesheets/typeahead.css'
 
 import React from 'react'
 import Loader from 'react-loader'
@@ -10,7 +10,9 @@ import { Lifecycle } from 'react-router'
 import {FormattedMessage} from 'react-intl'
 import moment from 'moment'
 
-import { RaisedButton, FlatButton } from 'material-ui'
+import { Button } from 'material-ui'
+// Material-ui Icons
+import Close from 'material-ui-icons/Close'
 
 import { getStringWithLocale } from 'src/utils/locale'
 
@@ -109,7 +111,8 @@ var EditorPage = React.createClass({
     getDeleteButton: function() {
         let buttonStyle = {
             height: '64px',
-            margin: '0 10px'
+            margin: '0 10px',
+            color: '#ffffff',
         }
 
         if(this.props.params.action === 'update') {
@@ -117,21 +120,21 @@ var EditorPage = React.createClass({
 
             if (publicationStatus === constants.PUBLICATION_STATUS.DRAFT) {
                 return (
-                    <RaisedButton
+                    <Button
+                        raised
+                        color="accent"
                         style={buttonStyle}
-                        label="Poista tapahtuma"
-                        onClick={ (e) => this.confirmDelete(e) }
-                        />
+                        onClick={ (e) => this.confirmDelete(e) }>Poista tapahtuma</Button>
                 )
             }
             if (publicationStatus === constants.PUBLICATION_STATUS.PUBLIC) {
                 return (
-                    <RaisedButton
+                    <Button
+                        raised
+                        color="accent"
                         style={buttonStyle}
-                        label="Poista tapahtuma"
-                        onClick={ (e) => this.confirmDelete(e) }
-                    />
-                )
+                        onClick={ (e) => this.confirmDelete(e) }>Poista tapahtuma</Button>
+                    )
             }
         }
     },
@@ -139,7 +142,8 @@ var EditorPage = React.createClass({
     getCancelButton: function() {
         let buttonStyle = {
             height: '64px',
-            margin: '0 10px'
+            margin: '0 10px',
+            color: '#ffffff',
         }
 
         if(this.props.params.action === 'update') {
@@ -147,11 +151,11 @@ var EditorPage = React.createClass({
 
             if (publicationStatus === constants.PUBLICATION_STATUS.PUBLIC) {
                 return (
-                    <RaisedButton
+                    <Button
+                        raised
+                        color="accent"
                         style={buttonStyle}
-                        label="Peruuta tapahtuma"
-                        onClick={ (e) => this.confirmCancel(e) }
-                        />
+                        onClick={ (e) => this.confirmCancel(e) }>Peruuta tapahtuma</Button>
                 )
             } else {
                 return null
@@ -171,24 +175,24 @@ var EditorPage = React.createClass({
         }
         if(this.props.params.action === 'update' && publicationStatus === constants.PUBLICATION_STATUS.PUBLIC) {
             return (
-                <RaisedButton
+                <Button
+                    raised
                     style={buttonStyle}
-                    label="Tallenna muutokset julkaistuun tapahtumaan"
-                    primary={true}
+                    color="primary"
                     onClick={ (e) => this.saveAsPublished(e) }
-                />
+                >Tallenna muutokset julkaistuun tapahtumaan</Button>
             )
         } else {
             return (
                 <span>
                     <Loader loaded={!this.props.editor.isSending} scale={1}/>
-                    <RaisedButton
+                    <Button
+                        raised
                         style={buttonStyle}
-                        primary={true}
+                        color="primary"
                         disabled={this.props.editor.isSending || (this.props.user && !this.props.user.organization)}
-                        label={labelText}
                         onClick={ (e) => this.saveAsPublished(e) }
-                    />
+                    >{labelText}</Button>
                 </span>
             )
         }
@@ -298,12 +302,12 @@ var EditorPage = React.createClass({
         let clearButton = null
         if(_.keys(this.props.editor.values).length) {
             clearButton = (
-                <RaisedButton
+                <Button
+                    raised
                     onClick={this.clearForm}
-                    primary={true}
+                    color="primary"
                     className="pull-right"
-                    label={<span><FormattedMessage id="clear-form"/><i className="material-icons">&#xE14C;</i></span>}
-                />
+               ><FormattedMessage id="clear-form"/> <Close/></Button>
             )
         }
 

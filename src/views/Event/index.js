@@ -1,4 +1,4 @@
-import '!style!css!sass!./index.scss'
+import '!style-loader!css-loader!sass-loader!./index.scss'
 
 import React from 'react'
 import {connect} from 'react-redux'
@@ -8,7 +8,7 @@ import EventDetails from 'src/components/EventDetails'
 
 import {FormattedMessage} from 'react-intl'
 
-import {RaisedButton, FlatButton} from 'material-ui'
+import {Button} from 'material-ui'
 
 import {fetchEventDetails} from 'src/actions/events.js'
 
@@ -51,7 +51,8 @@ class EventPage extends React.Component {
     render() {
         let buttonStyle = {
             height: '64px',
-            'marginRight': '10px'
+            marginRight: '10px',
+            color: '#ffffff',
         }
 
         let event = mapAPIDataToUIFormat(this.props.events.event)
@@ -116,8 +117,8 @@ class EventPage extends React.Component {
                     <div className="container">
                         <div className="col-sm-12">
                             <div className="col-sm-12 actions">
-                                <RaisedButton onClick={e => this.editEvent(e)} disabled={!userCanEdit} style={buttonStyle} primary={true} label="Muokkaa tapahtumaa" />
-                                <RaisedButton onClick={e => this.copyAsTemplate(e)} style={buttonStyle} secondary={true} label="Kopioi uuden tapahtuman pohjaksi" />
+                                <Button raised onClick={e => this.editEvent(e)} disabled={!userCanEdit} style={buttonStyle} color="primary">Muokkaa tapahtumaa</Button>
+                                <Button raised onClick={e => this.copyAsTemplate(e)} style={buttonStyle} color="accent">Kopioi uuden tapahtuman pohjaksi</Button>
                             </div>
                         </div>
                     </div>

@@ -1,14 +1,16 @@
+import PropTypes from 'prop-types';
 import React from 'react'
-import { RaisedButton } from 'material-ui'
+import { Button } from 'material-ui'
 
 import MultiLanguageField from 'src/components/HelFormFields/MultiLanguageField.js'
 import ValidationPopover from 'src/components/ValidationPopover'
 import { setOfferData, deleteOffer } from 'src/actions/editor.js'
-
+// Material-ui Icons
+import Delete from 'material-ui-icons/Delete'
 
 class NewOffer extends React.Component {
     static contextTypes = {
-        dispatch: React.PropTypes.func
+        dispatch: PropTypes.func
     };
 
     componentDidUpdate(prevProps) {
@@ -79,21 +81,21 @@ class NewOffer extends React.Component {
                 <MultiLanguageField defaultValue={defaultValue.info_url} ref="info_url" label="event-purchase-link" languages={languages} onBlur={e => this.onBlur(e)} validations={['isUrl']}  />
                 <MultiLanguageField defaultValue={defaultValue.price} disabled={isFree} ref="price" label="event-price" languages={languages} onBlur={e => this.onBlur(e)} validationErrors={this.props.validationErrors['price']} index={this.props.offerKey} />
                 <MultiLanguageField defaultValue={defaultValue.description} disabled={isFree} ref="description" label="event-price-info" languages={languages} multiLine={true} onBlur={e => this.onBlur(e)} validationErrors={this.props.validationErrors['offer_description']} index={this.props.offerKey} />
-                <RaisedButton
+                <Button
+                    raised
                     onClick={() => this.deleteOffer()}
-                    style={buttonStyles}
-                    label={<span className="center-delete"><i className="material-icons">delete</i></span>}
-                />
+                    style={buttonStyles}><Delete/>
+                </Button>
             </div>
         )
     }
-};
+}
 
 NewOffer.propTypes = {
-    isFree: React.PropTypes.bool,
-    languages: React.PropTypes.array,
-    offerKey: React.PropTypes.string.isRequired,
-    defaultValue: React.PropTypes.object
+    isFree: PropTypes.bool,
+    languages: PropTypes.array,
+    offerKey: PropTypes.string.isRequired,
+    defaultValue: PropTypes.object
 }
 
 export default NewOffer;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react'
 
 import { FormattedMessage, injectIntl } from 'react-intl'
@@ -6,7 +7,7 @@ import HelCheckbox from './HelCheckbox'
 import NewOffer from './NewOffer'
 import './HelOffersField.scss'
 
-import { RaisedButton } from 'material-ui'
+import { Button } from 'material-ui'
 
 import {connect} from 'react-redux'
 import { addOffer, setOfferData, setFreeOffers } from 'src/actions/editor.js'
@@ -17,8 +18,8 @@ import ValidationPopover from 'src/components/ValidationPopover'
 class HelOffersField extends React.Component {
 
     static contextTypes = {
-        intl: React.PropTypes.object,
-        dispatch: React.PropTypes.func
+        intl: PropTypes.object,
+        dispatch: PropTypes.func
     };
 
     constructor(props) {
@@ -83,6 +84,7 @@ class HelOffersField extends React.Component {
     render() {
         let buttonStyle = {
             height: '64px',
+            width: '100%',
             margin: '10px 5px',
             display: 'block'
         }
@@ -94,12 +96,14 @@ class HelOffersField extends React.Component {
                 <div className="offers">
                     { offerDetails }
                 </div>
-                <RaisedButton
+                <Button
+                    raised
                     style={buttonStyle}
-                    primary={true}
+                    color="primary"
                     disabled={this.state.isFree}
-                    onClick={ () => this.addNewOffer() }
-                    label={<span><i className="material-icons">add</i> <FormattedMessage id="event-add-price" /></span>} />
+                    onClick={ () => this.addNewOffer() }>
+                    <FormattedMessage id="event-add-price" />
+                </Button>
             </div>
         )
     }

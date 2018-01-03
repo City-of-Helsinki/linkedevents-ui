@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react'
 import HelTextField from './HelTextField.js'
 import DatePicker from 'react-datepicker/dist/react-datepicker.js'
@@ -17,9 +18,9 @@ let HelDatePicker = React.createClass({
     },
 
     propTypes: {
-        defaultValue: React.PropTypes.object,
-        name: React.PropTypes.string.isRequired,
-        onBlur: React.PropTypes.func
+        defaultValue: PropTypes.object,
+        name: PropTypes.string.isRequired,
+        onBlur: PropTypes.func
     },
 
     componentDidMount: function () {
