@@ -1,12 +1,14 @@
-require('!style!css!src/assets/additional_css/bootstrap.custom.min.css');
-require('!style!css!sass!src/assets/main.scss');
+require('!style-loader!css-loader!src/assets/additional_css/bootstrap.custom.min.css');
+require('!style-loader!css-loader!sass-loader!src/assets/main.scss');
+
+import PropTypes from 'prop-types';
 
 import React from 'react'
 import {connect} from 'react-redux'
 
 import Headerbar from 'src/components/Header'
-import Snackbar from 'material-ui/lib/snackbar';
-import RaisedButton from 'material-ui/lib/raised-button';
+import Snackbar from 'material-ui/Snackbar';
+import MaterialButton from 'material-ui/Button';
 import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
 import Well from 'react-bootstrap/lib/Well'
@@ -19,6 +21,7 @@ import {clearFlashMsg, cancelAction, doAction} from 'src/actions/app.js'
 import {FormattedMessage} from 'react-intl'
 
 // Material-ui theming
+import { MuiThemeProvider } from 'material-ui/styles'
 import { HelTheme } from 'src/themes/hel'
 
 class Notifications extends React.Component {
@@ -50,12 +53,15 @@ class Notifications extends React.Component {
               className="notification-bar"
               open={(!!this.props.flashMsg)}
               message={flashMsg}
-              bodyStyle={{'backgroundColor': 'rgb(0,108,188)'}}
               autoHideDuration={duration}
               onRequestClose={closeFn}
               action={actionLabel}
-              onActionTouchTap={actionFn}
-            />
+              action={[
+                <Button key="snackActionButton" onClick={actionFn}>
+                  {actionLabel}
+                </Button>
+              ]}
+              />
         )
     }
 }
@@ -63,13 +69,13 @@ class Notifications extends React.Component {
 class App extends React.Component {
 
     static propTypes = {
-        children: React.PropTypes.node,
+        children: PropTypes.node,
     };
 
     static childContextTypes = {
-        muiTheme: React.PropTypes.object,
-        intl: React.PropTypes.object,
-        dispatch: React.PropTypes.func
+        muiTheme: PropTypes.object,
+        intl: PropTypes.object,
+        dispatch: PropTypes.func
         // language: React.PropTypes.object,
         // user: React.PropTypes.object
     };
@@ -142,27 +148,29 @@ class App extends React.Component {
         }
 
         return (
-            <div>
-                <Headerbar />
-                {organization_missing_msg}
-                <div className="content">
-                    {this.props.children}
+            <MuiThemeProvider theme={HelTheme}>
+                <div>
+                    <Headerbar />
+                    {organization_missing_msg}
+                    <div className="content">
+                        {this.props.children}
+                    </div>
+                    <Notifications flashMsg={this.props.app.flashMsg} dispatch={this.props.dispatch} />
+                    <Modal show={(!!this.props.app.confirmAction)} dialogClassName="custom-modal" onHide={e => this.props.dispatch(cancelAction())}>
+                    <Modal.Header closeButton>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>{confirmMsg}</p>
+                        <p><strong>{additionalMsg}</strong></p>
+                        <div dangerouslySetInnerHTML={getMarkup()}/>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <MaterialButton style={buttonStyle} label={<FormattedMessage id="cancel" />} onClick={e => this.props.dispatch(cancelAction())} />
+                        <MaterialButton style={buttonStyle} backgroundColor={isWarningModal ? 'rgba(255,160,160,1)' : null} label={<FormattedMessage id={actionButtonLabel} />} onClick={e => this.props.dispatch(doAction(this.props.app.confirmAction.data))} />
+                    </Modal.Footer>
+                    </Modal>
                 </div>
-                <Notifications flashMsg={this.props.app.flashMsg} dispatch={this.props.dispatch} />
-                <Modal show={(!!this.props.app.confirmAction)} dialogClassName="custom-modal" onHide={e => this.props.dispatch(cancelAction())}>
-                   <Modal.Header closeButton>
-                   </Modal.Header>
-                   <Modal.Body>
-                     <p>{confirmMsg}</p>
-                     <p><strong>{additionalMsg}</strong></p>
-                     <div dangerouslySetInnerHTML={getMarkup()}/>
-                   </Modal.Body>
-                   <Modal.Footer>
-                     <RaisedButton style={buttonStyle} label={<FormattedMessage id="cancel" />} onClick={e => this.props.dispatch(cancelAction())} />
-                     <RaisedButton style={buttonStyle} backgroundColor={isWarningModal ? 'rgba(255,160,160,1)' : null} label={<FormattedMessage id={actionButtonLabel} />} onClick={e => this.props.dispatch(doAction(this.props.app.confirmAction.data))} />
-                   </Modal.Footer>
-                 </Modal>
-            </div>
+            </MuiThemeProvider>
         )
     }
 }

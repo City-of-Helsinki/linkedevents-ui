@@ -1,11 +1,11 @@
-import '!style!css!sass!./index.scss'
+import '!style-loader!css-loader!sass-loader!./index.scss'
 
 import React from 'react'
 import {connect} from 'react-redux'
 
 import {FormattedMessage} from 'react-intl'
 
-import {RaisedButton, FlatButton} from 'material-ui'
+import {Button} from 'material-ui'
 
 import {fetchEventDetails} from 'src/actions/events.js'
 
@@ -48,13 +48,13 @@ class EventCreated extends React.Component {
             }
             return (
                 <div className="actions">
-                    <RaisedButton onClick={e => this.goToEvent(e)} style={buttonStyle} secondary={true} label={label} />
+                    <Button raised onClick={e => this.goToEvent(e)} style={buttonStyle} color="accent">{label}</Button>
                 </div>
             )
         } else {
             return (
                 <div className="actions">
-                    <RaisedButton onClick={e => this.goToBrowsing(e)} style={buttonStyle} secondary={true} label="Palaa takaisin tapahtumiin" />
+                    <Button raised onClick={e => this.goToBrowsing(e)} style={buttonStyle} color="accent">Palaa takaisin tapahtumiin</Button>
                 </div>
             )
         }

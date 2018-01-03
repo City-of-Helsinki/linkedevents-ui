@@ -1,11 +1,11 @@
-require('!style!css!sass!./index.scss');
+require('!style-loader!css-loader!sass-loader!./index.scss');
 
 import React from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import { sortBy, reverse } from 'lodash'
-import { Table, TableHeader, TableBody, TableRow, TableHeaderColumn, TableRowColumn } from 'material-ui'
+import { Table, TableHead, TableBody, TableRow, TableCell } from 'material-ui'
 
 import SearchBar from 'src/components/SearchBar'
 import { fetchEvents } from 'src/actions/events.js'
@@ -44,19 +44,19 @@ let EventRow = (props) => {
     // let cancelledClass = cancelled ? 'cancelled-row' : ''
     let cancelledClass = null
     if (draft) {
-        nameColumn = (<TableRowColumn className={draftClass}><span className="label label-warning">LUONNOS</span> <Link to={url}>{name}</Link></TableRowColumn>)
+        nameColumn = (<TableCell className={draftClass}><span className="label label-warning">LUONNOS</span> <Link to={url}>{name}</Link></TableCell>)
     } else if (cancelled) {
-        nameColumn = (<TableRowColumn className={cancelledClass}><span className="label label-danger">PERUUTETTU</span> <Link to={url}>{name}</Link></TableRowColumn>)
+        nameColumn = (<TableCell className={cancelledClass}><span className="label label-danger">PERUUTETTU</span> <Link to={url}>{name}</Link></TableCell>)
     } else {
-        nameColumn = (<TableRowColumn><Link to={url}>{name}</Link></TableRowColumn>)
+        nameColumn = (<TableCell><Link to={url}>{name}</Link></TableCell>)
     }
 
     return (
         <TableRow key={e['id']}>
             {nameColumn}
-            <TableRowColumn className={draftClass}>{dateFormat(e.start_time)}</TableRowColumn>
-            <TableRowColumn className={draftClass}>{dateFormat(e.end_time)}</TableRowColumn>
-            <TableRowColumn className={draftClass}>{dateTimeFormat(e.last_modified_time)}</TableRowColumn>
+            <TableCell className={draftClass}>{dateFormat(e.start_time)}</TableCell>
+            <TableCell className={draftClass}>{dateFormat(e.end_time)}</TableCell>
+            <TableCell className={draftClass}>{dateTimeFormat(e.last_modified_time)}</TableCell>
         </TableRow>
     )
 }
@@ -68,15 +68,15 @@ let EventTable = (props) => {
     })
 
     return (
-        <Table selectable={false} multiSelectable={false} className="event-table">
-            <TableHeader enableSelectAll={false} adjustForCheckbox={false} displaySelectAll={false}>
+        <Table className="event-table">
+            <TableHead>
                 <TableRow>
-                    <TableHeaderColumn>Otsikko</TableHeaderColumn>
-                    <TableHeaderColumn>Tapahtuma alkaa</TableHeaderColumn>
-                    <TableHeaderColumn>Tapahtuma päättyy</TableHeaderColumn>
-                    <TableHeaderColumn>Muokattu viimeksi</TableHeaderColumn>
+                    <TableCell>Otsikko</TableCell>
+                    <TableCell>Tapahtuma alkaa</TableCell>
+                    <TableCell>Tapahtuma päättyy</TableCell>
+                    <TableCell>Muokattu viimeksi</TableCell>
                 </TableRow>
-            </TableHeader>
+            </TableHead>
             <TableBody>{rows}</TableBody>
         </Table>
     )

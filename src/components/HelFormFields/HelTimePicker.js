@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react'
 import HelTextField from './HelTextField.js'
 
@@ -8,8 +9,8 @@ import moment from 'moment'
 let HelTimePicker = React.createClass({
 
     propTypes: {
-        name: React.PropTypes.string.isRequired,
-        onBlur: React.PropTypes.func.isRequired
+        name: PropTypes.string.isRequired,
+        onBlur: PropTypes.func.isRequired
     },
 
     handleChange: function(event, time) {
