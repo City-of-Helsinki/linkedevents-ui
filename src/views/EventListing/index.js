@@ -30,7 +30,7 @@ class EventListing extends React.Component {
 
     fetchEvents() {
         if (this.props.user) {
-            this.props.dispatch(fetchUserEvents(this.props.user, 1))
+            this.props.dispatch(fetchUserEvents(this.props.user, 1, this.props.events.sortBy, this.props.events.sortOrder))
         }
     }
 
@@ -58,7 +58,7 @@ class EventListing extends React.Component {
                     <div className="container">
                     <h1><FormattedMessage id="organization-events"/></h1>
                     <p><FormattedMessage id="organization-events-description"/></p>
-                    <FilterableEventTable events={events.items} apiErrorMsg={''} />
+                    <FilterableEventTable events={events.items} apiErrorMsg={''} sortBy={events.sortBy} sortOrder={events.sortOrder} user={this.props.user}/>
                     </div>
             )
         }

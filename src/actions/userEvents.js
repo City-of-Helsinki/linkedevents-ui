@@ -7,9 +7,15 @@ import authedFetch from 'src/utils/authedFetch'
 
 import { setFlashMsg } from './app'
 
-function makeRequest(user = {}, page, dispatch) {
+function makeRequest(user = {}, page, sortBy, sortOrder, dispatch) {
     const {organization} = user
-    var url = `${appSettings.api_base}/event/?publisher=${organization}&show_all=1&sort=-last_modified_time&page_size=100`
+    let apiSortDirectionPrefix = ''
+    if (sortOrder === 'desc') {
+        apiSortDirectionPrefix = '-'
+    }
+    let apiSortParam = apiSortDirectionPrefix + sortBy
+
+    var url = `${appSettings.api_base}/event/?publisher=${organization}&show_all=1&sort=${apiSortParam}&page_size=100`
     if(appSettings.nocache) {
         url += `&nocache=${Date.now()}`
     }
@@ -21,7 +27,6 @@ function makeRequest(user = {}, page, dispatch) {
         }
     }
 
-    //var url = `${appSettings.api_base}/event/?show_all=1&sort=-last_modified_time&page_size=100`
     return authedFetch(url, options, user, dispatch);
 }
 
@@ -43,10 +48,10 @@ export function receiveUserEventsError(error) {
     }
 }
 
-export function fetchUserEvents(user, page) {
+export function fetchUserEvents(user, page, sortBy, sortOrder) {
     return (dispatch) => {
         dispatch(startFetching());
-        makeRequest(user, page, dispatch).then(function (response) {
+        makeRequest(user, page, sortBy, sortOrder, dispatch).then(function (response) {
             if (response.status >= 400) {
                 dispatch(receiveUserEventsError({
                     error: 'API Error ' + response.status
@@ -57,5 +62,13 @@ export function fetchUserEvents(user, page) {
         .catch(e => {
             // Error happened while fetching ajax (connection or javascript)
         });
+    }
+}
+
+export function setUserEventsSortOrder(sortBy, sortOrder) {
+    return {
+        type: constants.SET_USER_EVENTS_SORTORDER,
+        sortBy: sortBy,
+        sortOrder: sortOrder
     }
 }

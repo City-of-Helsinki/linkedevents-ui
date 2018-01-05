@@ -5,7 +5,9 @@ const initialState = {
     isFetching: false,
     fetchComplete: false,
     items: [],
-    error: null
+    error: null,
+    sortBy: 'last_modified_time',
+    sortOrder: 'desc'
 }
 
 function update(state = initialState, action) {
@@ -33,6 +35,13 @@ function update(state = initialState, action) {
             fetchComplete: false,
             items: [],
             error: action.error
+        });
+    }
+
+    if(action.type === constants.SET_USER_EVENTS_SORTORDER) {
+        return Object.assign({}, state, {
+            sortBy: action.sortBy,
+            sortOrder: action.sortOrder
         });
     }
 
