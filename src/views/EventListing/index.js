@@ -53,16 +53,13 @@ class EventListing extends React.Component {
                     </div>);
         }
 
-        if (events.fetchComplete) {
-            return (
-                    <div className="container">
-                    <h1><FormattedMessage id="organization-events"/></h1>
-                    <p><FormattedMessage id="organization-events-description"/></p>
-                    <FilterableEventTable events={events.items} apiErrorMsg={''} sortBy={events.sortBy} sortOrder={events.sortOrder} user={this.props.user}/>
-                    </div>
-            )
-        }
-        return null;
+        return (
+                <div className="container">
+                <h1><FormattedMessage id="organization-events"/></h1>
+                <p><FormattedMessage id="organization-events-description"/></p>
+                <FilterableEventTable events={events.items} apiErrorMsg={''} sortBy={events.sortBy} sortOrder={events.sortOrder} user={this.props.user} fetchComplete={events.fetchComplete}/>
+                </div>
+        )
     }
 }
 
