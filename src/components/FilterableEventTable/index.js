@@ -6,7 +6,7 @@ import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import { sortBy, reverse } from 'lodash'
-import { Table, TableHead, TableBody, TableRow, TableCell, TableSortLabel } from 'material-ui'
+import { Table, TableHead, TableBody, TableRow, TableCell, TableSortLabel, CircularProgress } from 'material-ui'
 
 import SearchBar from 'src/components/SearchBar'
 import { fetchEvents } from 'src/actions/events.js'
@@ -33,10 +33,10 @@ class FilterableEventTable extends React.Component {
         let dateTimeFormat = function(timeStr) {
             return timeStr ? moment(timeStr).calendar() : ''
         }
-        
+
         let EventRow = (props) => {
             let e = props.event
-        
+
             let name = null
             if (e.name ) {
                 name = (
@@ -48,9 +48,9 @@ class FilterableEventTable extends React.Component {
             else {
                 name = '<event>'
             }
-        
+
             let url = "/event/" + e.id;
-        
+
             // Add necessary badges
             let nameColumn = null
             let draft = props.event.publication_status === constants.PUBLICATION_STATUS.DRAFT
@@ -66,7 +66,7 @@ class FilterableEventTable extends React.Component {
             } else {
                 nameColumn = (<TableCell><Link to={url}>{name}</Link></TableCell>)
             }
-        
+
             return (
                 <TableRow key={e['id']}>
                     {nameColumn}
@@ -93,10 +93,10 @@ class FilterableEventTable extends React.Component {
                             <TableCell key="alkaa">
                                 <TableSortLabel active={props.sortBy === 'start_time'} direction={props.sortBy === 'start_time' && props.sortOrder} onClick={() => this.props.changeSortOrder('start_time', props.sortBy, props.sortOrder, props.user)}>Tapahtuma alkaa</TableSortLabel>
                             </TableCell>
-                            <TableCell>
+                            <TableCell key="päättyy">
                                 <TableSortLabel active={props.sortBy === 'end_time'} direction={props.sortBy === 'end_time' && props.sortOrder} onClick={() => this.props.changeSortOrder('end_time', props.sortBy, props.sortOrder, props.user)}>Tapahtuma päättyy</TableSortLabel>
                             </TableCell>
-                            <TableCell>
+                            <TableCell key="muokattu">
                                 <TableSortLabel active={props.sortBy === 'last_modified_time'} direction={props.sortBy === 'last_modified_time' && props.sortOrder} onClick={() => this.props.changeSortOrder('last_modified_time', props.sortBy, props.sortOrder, props.user)}>Muokattu viimeksi</TableSortLabel><
                             /TableCell>
                         </TableRow>
@@ -108,10 +108,18 @@ class FilterableEventTable extends React.Component {
 
         let results = null
         const { getNextPage } = this.props;
-        if (this.props.events.length > 0) {
+        if (this.props.events.length > 0 || this.props.fetchComplete === false) {
+            const progressStyle = {
+                'margin-top': '20px',
+                'margin-left': '60px'
+            }
+
             results = (
                 <div>
                     <EventTable events={this.props.events} getNextPage={getNextPage} filterText={''} sortBy={this.props.sortBy} sortOrder={this.props.sortOrder} user={this.props.user}/>
+                    {this.props.fetchComplete === false &&
+                        <span><CircularProgress style={progressStyle}/></span>
+                    }
                 </div>
             )
         } else {
