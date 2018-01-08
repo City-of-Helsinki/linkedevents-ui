@@ -12,10 +12,6 @@ import {login, logout} from 'src/actions/user.js'
 class EventListing extends React.Component {
     constructor(props) {
         super(props)
-
-        this.state = {
-            nextEventsPage: 1
-        }
     }
     componentDidMount() {
         this.fetchEvents()
@@ -30,7 +26,7 @@ class EventListing extends React.Component {
 
     fetchEvents() {
         if (this.props.user) {
-            this.props.dispatch(fetchUserEvents(this.props.user, 1, this.props.events.sortBy, this.props.events.sortOrder))
+            this.props.dispatch(fetchUserEvents(this.props.user, 1, this.props.events.sortBy, this.props.events.sortOrder, this.props.events.paginationPage))
         }
     }
 
@@ -54,11 +50,11 @@ class EventListing extends React.Component {
         }
 
         return (
-                <div className="container">
-                <h1><FormattedMessage id="organization-events"/></h1>
-                <p><FormattedMessage id="organization-events-description"/></p>
-                <FilterableEventTable events={events.items} apiErrorMsg={''} sortBy={events.sortBy} sortOrder={events.sortOrder} user={this.props.user} fetchComplete={events.fetchComplete}/>
-                </div>
+            <div className="container">
+            <h1><FormattedMessage id="organization-events"/></h1>
+            <p><FormattedMessage id="organization-events-description"/></p>
+            <FilterableEventTable events={events.items} apiErrorMsg={''} sortBy={events.sortBy} sortOrder={events.sortOrder} user={this.props.user} fetchComplete={events.fetchComplete} count={events.count} paginationPage={events.paginationPage}/>
+            </div>
         )
     }
 }
