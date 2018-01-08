@@ -6,7 +6,7 @@ import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import { sortBy, reverse } from 'lodash'
-import { Table, TableHead, TableBody, TableRow, TableCell, TableSortLabel, CircularProgress } from 'material-ui'
+import { Table, TableHead, TableBody, TableFooter, TableRow, TableCell, TableSortLabel, TablePagination, CircularProgress } from 'material-ui'
 
 import SearchBar from 'src/components/SearchBar'
 import { fetchEvents } from 'src/actions/events.js'
@@ -82,26 +82,41 @@ class FilterableEventTable extends React.Component {
             let rows = props.events.map(function(event) {
                 return (<EventRow event={event} key={event.id} />)
             })
+            let rowsPerPage = 100
+            let rowsCount = props.count
+            let paginationPage = props.paginationPage
 
             return (
                 <Table className="event-table">
                     <TableHead>
                         <TableRow>
                             <TableCell key="otsikko">
-                                <TableSortLabel active={props.sortBy === 'name'} direction={props.sortBy === 'name' && props.sortOrder} onClick={() => this.props.changeSortOrder('name', props.sortBy, props.sortOrder, props.user)}>Otsikko</TableSortLabel>
+                                <TableSortLabel active={props.sortBy === 'name'} direction={props.sortBy === 'name' && props.sortOrder} onClick={() => this.props.changeSortOrder('name', props.sortBy, props.sortOrder, props.paginationPage, props.user)}>Otsikko</TableSortLabel>
                             </TableCell>
                             <TableCell key="alkaa">
-                                <TableSortLabel active={props.sortBy === 'start_time'} direction={props.sortBy === 'start_time' && props.sortOrder} onClick={() => this.props.changeSortOrder('start_time', props.sortBy, props.sortOrder, props.user)}>Tapahtuma alkaa</TableSortLabel>
+                                <TableSortLabel active={props.sortBy === 'start_time'} direction={props.sortBy === 'start_time' && props.sortOrder} onClick={() => this.props.changeSortOrder('start_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}>Tapahtuma alkaa</TableSortLabel>
                             </TableCell>
                             <TableCell key="päättyy">
-                                <TableSortLabel active={props.sortBy === 'end_time'} direction={props.sortBy === 'end_time' && props.sortOrder} onClick={() => this.props.changeSortOrder('end_time', props.sortBy, props.sortOrder, props.user)}>Tapahtuma päättyy</TableSortLabel>
+                                <TableSortLabel active={props.sortBy === 'end_time'} direction={props.sortBy === 'end_time' && props.sortOrder} onClick={() => this.props.changeSortOrder('end_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}>Tapahtuma päättyy</TableSortLabel>
                             </TableCell>
                             <TableCell key="muokattu">
-                                <TableSortLabel active={props.sortBy === 'last_modified_time'} direction={props.sortBy === 'last_modified_time' && props.sortOrder} onClick={() => this.props.changeSortOrder('last_modified_time', props.sortBy, props.sortOrder, props.user)}>Muokattu viimeksi</TableSortLabel><
+                                <TableSortLabel active={props.sortBy === 'last_modified_time'} direction={props.sortBy === 'last_modified_time' && props.sortOrder} onClick={() => this.props.changeSortOrder('last_modified_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}>Muokattu viimeksi</TableSortLabel><
                             /TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>{rows}</TableBody>
+                    <TableFooter>
+                        <TableRow>
+                            <TablePagination
+                            count={rowsCount}
+                            rowsPerPage={rowsPerPage}
+                            rowsPerPageOptions = {[]}
+                            page={paginationPage}
+                            onChangePage={(event, newPage) => this.props.changePaginationPage(props.sortBy, props.sortOrder, newPage, props.user)}
+                            labelDisplayedRows={ ({ from, to, count }) => {  return `${from}-${to} / ${count}` }  }
+                            />
+                        </TableRow>
+                    </TableFooter>
                 </Table>
             )
         }
@@ -110,13 +125,13 @@ class FilterableEventTable extends React.Component {
         const { getNextPage } = this.props;
         if (this.props.events.length > 0 || this.props.fetchComplete === false) {
             const progressStyle = {
-                'margin-top': '20px',
-                'margin-left': '60px'
+                marginTop: '20px',
+                marginLeft: '60px'
             }
 
             results = (
                 <div>
-                    <EventTable events={this.props.events} getNextPage={getNextPage} filterText={''} sortBy={this.props.sortBy} sortOrder={this.props.sortOrder} user={this.props.user}/>
+                    <EventTable events={this.props.events} getNextPage={getNextPage} filterText={''} sortBy={this.props.sortBy} sortOrder={this.props.sortOrder} user={this.props.user} count={this.props.count} paginationPage={this.props.paginationPage}/>
                     {this.props.fetchComplete === false &&
                         <span><CircularProgress style={progressStyle}/></span>
                     }
@@ -150,12 +165,12 @@ class FilterableEventTable extends React.Component {
             </div>
         )
     }
-    
+
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        changeSortOrder: (sortBy, sortByBeforeChange, orderBeforeChange, user) => {
+        changeSortOrder: (sortBy, sortByBeforeChange, orderBeforeChange, paginationPage, user) => {
             // sortBy = API field name
             let newOrder = ''
 
@@ -172,10 +187,16 @@ const mapDispatchToProps = (dispatch) => {
                     newOrder = 'desc'
                 }
             }
+            // when sort order is changed, we're going back to first page
+            paginationPage = 0
 
-            dispatch(setUserEventsSortOrder(sortBy, newOrder))
-            dispatch(fetchUserEvents(user, 1, sortBy, newOrder))
-      }
+            dispatch(setUserEventsSortOrder(sortBy, newOrder, paginationPage))
+            dispatch(fetchUserEvents(user, 1, sortBy, newOrder, paginationPage))
+        },
+        changePaginationPage: (sortBy, order, paginationPage, user) => {
+            dispatch(setUserEventsSortOrder(sortBy, order, paginationPage))
+            dispatch(fetchUserEvents(user, 1, sortBy, order, paginationPage))
+        }
     }
   }
 

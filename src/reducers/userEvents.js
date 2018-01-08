@@ -7,7 +7,9 @@ const initialState = {
     items: [],
     error: null,
     sortBy: 'last_modified_time',
-    sortOrder: 'desc'
+    sortOrder: 'desc',
+    count: null,
+    paginationPage: 0
 }
 
 function update(state = initialState, action) {
@@ -25,7 +27,8 @@ function update(state = initialState, action) {
             isFetching: false,
             fetchComplete: true,
             items: action.items,
-            error: null
+            error: null,
+            count: action.count
         });
     }
 
@@ -41,7 +44,8 @@ function update(state = initialState, action) {
     if(action.type === constants.SET_USER_EVENTS_SORTORDER) {
         return Object.assign({}, state, {
             sortBy: action.sortBy,
-            sortOrder: action.sortOrder
+            sortOrder: action.sortOrder,
+            paginationPage: action.paginationPage
         });
     }
 

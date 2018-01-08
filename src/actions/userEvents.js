@@ -7,15 +7,14 @@ import authedFetch from 'src/utils/authedFetch'
 
 import { setFlashMsg } from './app'
 
-function makeRequest(user = {}, page, sortBy, sortOrder, dispatch) {
+function makeRequest(user = {}, page, sortBy, sortOrder, paginationPage, dispatch) {
     const {organization} = user
     let apiSortDirectionPrefix = ''
     if (sortOrder === 'desc') {
         apiSortDirectionPrefix = '-'
     }
     let apiSortParam = apiSortDirectionPrefix + sortBy
-
-    var url = `${appSettings.api_base}/event/?publisher=${organization}&show_all=1&sort=${apiSortParam}&page_size=100`
+    var url = `${appSettings.api_base}/event/?publisher=${organization}&show_all=1&sort=${apiSortParam}&page=${paginationPage + 1}&page_size=100`
     if(appSettings.nocache) {
         url += `&nocache=${Date.now()}`
     }
@@ -36,7 +35,8 @@ export function receiveUserEvents(json) {
     return {
         type: constants.RECEIVE_USER_EVENTS,
         items: json.data,
-        receivedAt: Date.now()
+        receivedAt: Date.now(),
+        count: json.meta.count
     }
 }
 
@@ -48,10 +48,10 @@ export function receiveUserEventsError(error) {
     }
 }
 
-export function fetchUserEvents(user, page, sortBy, sortOrder) {
+export function fetchUserEvents(user, page, sortBy, sortOrder, paginationPage) {
     return (dispatch) => {
         dispatch(startFetching());
-        makeRequest(user, page, sortBy, sortOrder, dispatch).then(function (response) {
+        makeRequest(user, page, sortBy, sortOrder, paginationPage, dispatch).then(function (response) {
             if (response.status >= 400) {
                 dispatch(receiveUserEventsError({
                     error: 'API Error ' + response.status
@@ -65,10 +65,11 @@ export function fetchUserEvents(user, page, sortBy, sortOrder) {
     }
 }
 
-export function setUserEventsSortOrder(sortBy, sortOrder) {
+export function setUserEventsSortOrder(sortBy, sortOrder, paginationPage) {
     return {
         type: constants.SET_USER_EVENTS_SORTORDER,
         sortBy: sortBy,
-        sortOrder: sortOrder
+        sortOrder: sortOrder,
+        paginationPage: paginationPage
     }
 }
