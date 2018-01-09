@@ -26,7 +26,7 @@ class EventListing extends React.Component {
 
     fetchEvents() {
         if (this.props.user) {
-            this.props.dispatch(fetchUserEvents(this.props.user, 1, this.props.events.sortBy, this.props.events.sortOrder, this.props.events.paginationPage))
+            this.props.dispatch(fetchUserEvents(this.props.user, this.props.events.sortBy, this.props.events.sortOrder, this.props.events.paginationPage))
         }
     }
 

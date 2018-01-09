@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import { sortBy, reverse } from 'lodash'
 import { Table, TableHead, TableBody, TableFooter, TableRow, TableCell, TableSortLabel, TablePagination, CircularProgress } from 'material-ui'
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
 
 import SearchBar from 'src/components/SearchBar'
 import { fetchEvents } from 'src/actions/events.js'
@@ -77,6 +78,24 @@ class FilterableEventTable extends React.Component {
             )
         }
 
+        const paginationTheme = createMuiTheme({
+            overrides: {
+                MuiTypography: {
+                    caption: {
+                        color: 'black', //color of footer 1-100 / 400 text
+                    },
+                },
+                MuiIconButton: {
+                    disabled: {
+                        color: 'gray', //color of "< >"" disabled icon buttons
+                    },
+                    root: {
+                        color: 'black', //color of "< >"" icon buttons
+                    },
+                },
+            },
+        })
+
         let EventTable = (props) => {
 
             let rows = props.events.map(function(event) {
@@ -105,18 +124,20 @@ class FilterableEventTable extends React.Component {
                         </TableRow>
                     </TableHead>
                     <TableBody>{rows}</TableBody>
-                    <TableFooter>
-                        <TableRow>
-                            <TablePagination
-                            count={rowsCount}
-                            rowsPerPage={rowsPerPage}
-                            rowsPerPageOptions = {[]}
-                            page={paginationPage}
-                            onChangePage={(event, newPage) => this.props.changePaginationPage(props.sortBy, props.sortOrder, newPage, props.user)}
-                            labelDisplayedRows={ ({ from, to, count }) => {  return `${from}-${to} / ${count}` }  }
-                            />
-                        </TableRow>
-                    </TableFooter>
+                    <MuiThemeProvider theme={paginationTheme}>
+                        <TableFooter>
+                            <TableRow>
+                                <TablePagination
+                                count={rowsCount}
+                                rowsPerPage={rowsPerPage}
+                                rowsPerPageOptions = {[]}
+                                page={paginationPage}
+                                onChangePage={(event, newPage) => this.props.changePaginationPage(props.sortBy, props.sortOrder, newPage, props.user)}
+                                labelDisplayedRows={ ({ from, to, count }) => {  return `${from}-${to} / ${count}` }  }
+                                />
+                            </TableRow>
+                        </TableFooter>
+                    </MuiThemeProvider>
                 </Table>
             )
         }
@@ -176,8 +197,12 @@ const mapDispatchToProps = (dispatch) => {
 
             // Check if sortBy column changed
             if (sortBy !== sortByBeforeChange) {
-                // Yes -> default sort order for new column is descending
-                newOrder = 'desc'
+                // .. yes, sortBy changed
+                if (sortBy === 'name') { // If we clicked "name" column then default sort order is ascending
+                    newOrder = 'asc'
+                } else { //otherwise default sort order for new column is descending
+                    newOrder = 'desc'
+                }
             } else {
                 // User clicked the same column by which previously sorted
                 // -> change sort order
@@ -191,11 +216,11 @@ const mapDispatchToProps = (dispatch) => {
             paginationPage = 0
 
             dispatch(setUserEventsSortOrder(sortBy, newOrder, paginationPage))
-            dispatch(fetchUserEvents(user, 1, sortBy, newOrder, paginationPage))
+            dispatch(fetchUserEvents(user, sortBy, newOrder, paginationPage))
         },
         changePaginationPage: (sortBy, order, paginationPage, user) => {
             dispatch(setUserEventsSortOrder(sortBy, order, paginationPage))
-            dispatch(fetchUserEvents(user, 1, sortBy, order, paginationPage))
+            dispatch(fetchUserEvents(user, sortBy, order, paginationPage))
         }
     }
   }

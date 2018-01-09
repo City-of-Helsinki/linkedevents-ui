@@ -7,13 +7,15 @@ import authedFetch from 'src/utils/authedFetch'
 
 import { setFlashMsg } from './app'
 
-function makeRequest(user = {}, page, sortBy, sortOrder, paginationPage, dispatch) {
+function makeRequest(user = {}, sortBy, sortOrder, paginationPage, dispatch) {
     const {organization} = user
     let apiSortDirectionPrefix = ''
     if (sortOrder === 'desc') {
         apiSortDirectionPrefix = '-'
     }
     let apiSortParam = apiSortDirectionPrefix + sortBy
+    // API page parameter begins from 1 but TablePagination component we use uses 0 based counting
+    // that's why we add to paginationPage variable when passing it to API
     var url = `${appSettings.api_base}/event/?publisher=${organization}&show_all=1&sort=${apiSortParam}&page=${paginationPage + 1}&page_size=100`
     if(appSettings.nocache) {
         url += `&nocache=${Date.now()}`
@@ -48,10 +50,10 @@ export function receiveUserEventsError(error) {
     }
 }
 
-export function fetchUserEvents(user, page, sortBy, sortOrder, paginationPage) {
+export function fetchUserEvents(user, sortBy, sortOrder, paginationPage) {
     return (dispatch) => {
         dispatch(startFetching());
-        makeRequest(user, page, sortBy, sortOrder, paginationPage, dispatch).then(function (response) {
+        makeRequest(user, sortBy, sortOrder, paginationPage, dispatch).then(function (response) {
             if (response.status >= 400) {
                 dispatch(receiveUserEventsError({
                     error: 'API Error ' + response.status
