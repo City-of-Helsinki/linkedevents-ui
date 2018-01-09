@@ -30,6 +30,7 @@ let HelTimePicker = React.createClass({
                 onChange={this.handleChange}
                 onBlur={this.handleBlur}
                 defaultValue={this.props.defaultValue}
+                forceApplyToStore
             />
         )
     }

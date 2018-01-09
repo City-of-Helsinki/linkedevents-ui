@@ -103,13 +103,23 @@ var validations = {
         return !_isExisty(value) || isEmpty(value) || value.length >= length;
     },
     isTime: function isTime(values, value) {
-        return validations.matchRegexp(values, value, /(24:00)|(^(2[0-3]|1[0-9]|0[0-9]|[0-9])((:|\.)[0-5][0-9]))?$/i);
+        return validations.matchRegexp(values, value, /^(24:00|(2[0-3]|1[0-9]|0[0-9]|[0-9])((:|\.)[0-5][0-9]))$/i);
     },
     isDate: function isDate(values, value) {
         return validations.matchRegexp(values, value, /^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/i);
     },
+    isIsoDate: function isIsoDate(values, value) {
+        if(!value) { return true }
+        return moment(value, moment.ISO_8601).isValid()
+    },
     afterStartTime: function afterStartTime(values, value) {
         if(!values.start_time || !value) { return true }
+
+        //If start time or end time is invalid we'll skip this validation and don't return error from it
+        //as we should be getting validation error from date validation
+        if (!validations.isDate(null, values.start_time) || !validations.isDate(null, value)) {
+            return true
+        }
 
         let time = new Date(value)
         let start_time = new Date(values.start_time)
