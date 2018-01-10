@@ -118,13 +118,19 @@ class App extends React.Component {
         const getMarkup = () => ({__html: additionalMarkup})
 
         let buttonStyle = {
-            marginLeft: '10px'
+            marginLeft: '10px',
+            color: 'white',
+            backgroundColor: '#1976d2'
         }
 
         let warningButtonStyle = {
-            'marginLeft': '10px',
-            background: 'red',
+            marginLeft: '10px',
+            color: 'white',
             backgroundColor: 'red'
+        }
+        let useWarningButtonStyle = false
+        if (this.props.app.confirmAction && this.props.app.confirmAction.style === 'warning') {
+            useWarningButtonStyle = true
         }
 
         let isWarningModal = false;
@@ -165,8 +171,8 @@ class App extends React.Component {
                         <div dangerouslySetInnerHTML={getMarkup()}/>
                     </Modal.Body>
                     <Modal.Footer>
-                        <MaterialButton style={buttonStyle} label={<FormattedMessage id="cancel" />} onClick={e => this.props.dispatch(cancelAction())} />
-                        <MaterialButton style={buttonStyle} backgroundColor={isWarningModal ? 'rgba(255,160,160,1)' : null} label={<FormattedMessage id={actionButtonLabel} />} onClick={e => this.props.dispatch(doAction(this.props.app.confirmAction.data))} />
+                        <MaterialButton style={buttonStyle} onClick={e => this.props.dispatch(cancelAction())}><FormattedMessage id="cancel" /></MaterialButton>
+                        <MaterialButton style={useWarningButtonStyle ? warningButtonStyle : buttonStyle} onClick={e => this.props.dispatch(doAction(this.props.app.confirmAction.data))}><FormattedMessage id={actionButtonLabel} /></MaterialButton>
                     </Modal.Footer>
                     </Modal>
                 </div>
