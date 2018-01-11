@@ -166,6 +166,13 @@ function mapAPIDataToUIFormat(values) {
         obj.offers = values.offers
     }
 
+    // Subevents
+    if (values.sub_events.length === 0) {
+        obj.sub_events = {}
+    } else {
+        obj.sub_events = values.sub_events
+    }
+
     // TODO: Filter hel_main categories from keywords, non-hel_main categories from hel_main
     //
     let keywords = _.cloneDeep(values.keywords)
