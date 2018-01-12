@@ -52,7 +52,7 @@ function update(state = initialState, action) {
                 }
             });
             newValues = newValues.values
-        } if (action.offer) {
+        } else if (action.offer) {
             newValues = updater(state, {
                 values: {
                     offers: {
