@@ -8,7 +8,8 @@ import {mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
 
 export {
     mapUIDataToAPIFormat,
-    mapAPIDataToUIFormat
+    mapAPIDataToUIFormat,
+    removeTimePartFromIsoDate
 }
 
 // hel.fi audience keywords that correspond to YSO audience keywords need to be posted also for now
@@ -123,11 +124,19 @@ function mapUIDataToAPIFormat(values) {
     })
 
     if(values.start_time) {
-        obj.start_time = values.start_time
+        if (values.isWholeDayEvent) {
+            obj.start_time = removeTimePartFromIsoDate(values.start_time)
+        } else {
+            obj.start_time = values.start_time
+        }
     }
 
     if(values.end_time) {
-        obj.end_time = values.end_time
+        if (values.isWholeDayEvent) {
+            obj.end_time = removeTimePartFromIsoDate(values.end_time)
+        } else {
+            obj.end_time = values.end_time
+        }
     }
 
     return obj
@@ -135,6 +144,14 @@ function mapUIDataToAPIFormat(values) {
     /*
     'date_published': DATETIME, // Not required at the moment...
     */
+}
+
+function removeTimePartFromIsoDate(date){
+    if (date.indexOf('T') > 0) {
+        return date.substr(0, date.indexOf('T'))
+    } else {
+        return date
+    }
 }
 
 function mapAPIDataToUIFormat(values) {

@@ -3,7 +3,7 @@ import React from 'react'
 import HelTextField from './HelTextField.js'
 import HelDatePicker from './HelDatePicker.js'
 import HelTimePicker from './HelTimePicker.js'
-
+import HelCheckbox from './HelCheckbox'
 
 import {connect} from 'react-redux'
 import {setData, updateSubEvent} from 'src/actions/editor.js'
@@ -65,11 +65,12 @@ const HelDateTimeField = React.createClass({
             if(actualErrors.length === 0) {
                 let datetime = this.getDateTimeFromFields(date, time)
                 if(datetime) {
-                    let obj = {}
-                    obj[this.props.name] = datetime
                     if(this.props.eventKey){
                         this.context.dispatch(updateSubEvent(datetime, this.props.name, this.props.eventKey))
                     } else {
+                        let obj = {}
+                        obj[this.props.name] = datetime
+                        obj[this.props.name + 'WholeDayEvent'] = this.state.isWholeDayEvent
                         this.context.dispatch(setData(obj))
                     }
 
@@ -150,13 +151,29 @@ const HelDateTimeField = React.createClass({
         return true
     },
 
+    setIsWholeDayEvent(e, value) {
+        if(this.props.eventKey){
+            //Subevent
+            this.context.dispatch(updateSubEvent(value, 'isWholeDayEvent', this.props.eventKey))
+        } else {
+            let obj = {}
+            obj['isWholeDayEvent'] = value
+            this.context.dispatch(setData(obj))
+        }
+    },
+
     render: function () {
         return (
             <div className="multi-field">
                 <div className="indented">
                     <label style={{position: 'relative'}}><FormattedMessage id={`${this.props.label}`} /> <ValidationPopover validationErrors={this.props.validationErrors} /></label>
                     <HelDatePicker ref="date" name={this.props.name} defaultValue={this.state.date} validations={['isDate']} placeholder="pp.kk.vvvv" onChange={this.onChange} onBlur={this.onBlur} label={<FormattedMessage id="date" />} />
+                    {!this.props.isWholeDayEvent &&
                     <HelTimePicker ref="time" name={this.props.name} defaultValue={this.state.time} validations={['isTime']} placeholder="hh.mm" onChange={this.onChange} onBlur={this.onBlur} label={<FormattedMessage id="time" />} />
+                    }
+                    {!!this.props.showWholeDayEventSwitch === true &&
+                       <HelCheckbox defaultChecked={this.props.isWholeDayEvent} label={<FormattedMessage id="event-whole-day-event"/>} onChange={(e,v) => this.setIsWholeDayEvent(e,v)}/>
+                    }
                 </div>
             </div>
         )
