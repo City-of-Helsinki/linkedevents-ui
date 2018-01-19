@@ -11,6 +11,8 @@ import {FormattedMessage} from 'react-intl'
 import moment from 'moment'
 
 import { Button } from 'material-ui'
+import Tooltip from 'material-ui/Tooltip'
+
 // Material-ui Icons
 import Close from 'material-ui-icons/Close'
 
@@ -19,8 +21,8 @@ import { getStringWithLocale } from 'src/utils/locale'
 import {fetchEventForEditing, deleteEvent as deleteEventAction, cancelEvent as cancelEventAction, sendData, clearData, fetchKeywordSets, fetchLanguages, setValidationErrors} from 'src/actions/editor.js'
 import {confirmAction, clearFlashMsg} from 'src/actions/app.js'
 import {fetchSubEvents} from 'src/actions/subEvents.js'
-
 import constants from 'src/constants.js'
+import {checkEventEditability} from 'src/utils/checkEventEditability.js'
 
 // the backup doesn't support non-language links, so we use hardcoded
 // 'fi' instead for the link language
@@ -108,7 +110,7 @@ var EditorPage = React.createClass({
         });
     },
 
-    getDeleteButton: function() {
+    getDeleteButton: function(disabled=false) {
         let buttonStyle = {
             height: '64px',
             margin: '0 10px',
@@ -116,30 +118,18 @@ var EditorPage = React.createClass({
         }
 
         if(this.props.params.action === 'update') {
-            let publicationStatus = _.get(this.props, 'editor.values.publication_status')
-
-            if (publicationStatus === constants.PUBLICATION_STATUS.DRAFT) {
-                return (
-                    <Button
-                        raised
-                        color="accent"
-                        style={buttonStyle}
-                        onClick={ (e) => this.confirmDelete(e) }>Poista tapahtuma</Button>
-                )
-            }
-            if (publicationStatus === constants.PUBLICATION_STATUS.PUBLIC) {
-                return (
-                    <Button
-                        raised
-                        color="accent"
-                        style={buttonStyle}
-                        onClick={ (e) => this.confirmDelete(e) }>Poista tapahtuma</Button>
-                    )
-            }
+            return (
+                <Button
+                    raised
+                    color="accent"
+                    style={buttonStyle}
+                    disabled={disabled}
+                    onClick={ (e) => this.confirmDelete(e) }>Poista tapahtuma</Button>
+            )
         }
     },
 
-    getCancelButton: function() {
+    getCancelButton: function(disabled=false) {
         let buttonStyle = {
             height: '64px',
             margin: '0 10px',
@@ -155,6 +145,7 @@ var EditorPage = React.createClass({
                         raised
                         color="accent"
                         style={buttonStyle}
+                        disabled={disabled}
                         onClick={ (e) => this.confirmCancel(e) }>Peruuta tapahtuma</Button>
                 )
             } else {
@@ -163,47 +154,52 @@ var EditorPage = React.createClass({
         }
     },
 
-    getSaveButtons: function() {
+    getSaveButtons: function(disabled=false) {
         let buttonStyle = {
             height: '64px',
             margin: '0 10px'
         }
         let publicationStatus = _.get(this.props, 'editor.values.publication_status')
-        let labelText = this.props.editor.isSending ? "Julkaistaan tapahtumaa" : "Julkaise tapahtuma"
+        // if publication status field is not present, the user is not logged in and the event is public
+        let eventExists = this.props.params.action === 'update' &&
+            (publicationStatus ? (publicationStatus === constants.PUBLICATION_STATUS.PUBLIC) : true)
+        let labelText = this.props.editor.isSending ?
+            (eventExists ? "Tallennetaan muutoksia" : "Julkaistaan tapahtumaa")
+            : (eventExists ? "Tallenna muutokset julkaistuun tapahtumaan" : "Julkaise tapahtuma")
         if (_.keys(this.props.editor.values.sub_events).length > 0) {
             labelText = this.props.editor.isSending ? "Julkaistaan tapahtumia" : "Julkaise tapahtumat"
         }
-        if(this.props.params.action === 'update' && publicationStatus === constants.PUBLICATION_STATUS.PUBLIC) {
-            return (
+
+        return (
+            <span>
+                <Loader loaded={!this.props.editor.isSending} scale={1}/>
                 <Button
                     raised
                     style={buttonStyle}
                     color="primary"
+                    disabled={disabled}
                     onClick={ (e) => this.saveAsPublished(e) }
-                >Tallenna muutokset julkaistuun tapahtumaan</Button>
-            )
-        } else {
-            return (
-                <span>
-                    <Loader loaded={!this.props.editor.isSending} scale={1}/>
-                    <Button
-                        raised
-                        style={buttonStyle}
-                        color="primary"
-                        disabled={this.props.editor.isSending || (this.props.user && !this.props.user.organization)}
-                        onClick={ (e) => this.saveAsPublished(e) }
-                    >{labelText}</Button>
-                </span>
-            )
-        }
+                >{labelText}</Button>
+            </span>
+        )
     },
 
     getActionButtons: function() {
+        let {eventIsEditable, eventEditabilityExplanation} = checkEventEditability(this.props.user, this.props.editor.values)
+
+        let disabled = this.props.editor.isSending || !eventIsEditable
+        let buttons = <div className="col-sm-12 actions">
+            { this.getDeleteButton(disabled) }
+            { this.getCancelButton(disabled) }
+            { this.getSaveButtons(disabled) }
+        </div>
         return (
-            <div className="actions">
-                { this.getDeleteButton() }
-                { this.getCancelButton() }
-                { this.getSaveButtons() }
+            <div>
+                {eventIsEditable ? buttons :
+                <Tooltip title={eventEditabilityExplanation}>
+                    <span>{buttons}</span>
+                </Tooltip>
+                }
             </div>
         )
     },
