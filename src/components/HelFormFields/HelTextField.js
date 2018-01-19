@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 
 import React from 'react'
 import Input from 'react-bootstrap/lib/Input.js'
-import {setData} from 'src/actions/editor.js'
+import { setData } from '../../actions/editor'
 
 import {injectIntl} from 'react-intl'
 
-import validationRules from 'src/validation/validationRules.js';
-import ValidationPopover from 'src/components/ValidationPopover'
+import validationRules from '../../validation/validationRules'
+import ValidationPopover from '../ValidationPopover'
 
 let HelTextField = React.createClass({
 

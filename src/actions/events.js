@@ -1,6 +1,6 @@
 import constants from '../constants'
 import fetch from 'isomorphic-fetch'
-import authedFetch from 'src/utils/authedFetch'
+import authedFetch from '../utils/authedFetch'
 
 import { setFlashMsg } from './app'
 
