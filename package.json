@@ -18,7 +18,7 @@
     "babel-polyfill": "^6.23.0",
     "babel-preset-stage-2": "^6.1.18",
     "body-parser": "^1.14.1",
-    "bootstrap": "4.0.0-alpha.2",
+    "bootstrap": "4.0.0",
     "codecov": "^3.0.0",
     "connect-history-api-fallback": "^1.1.0",
     "cookie-parser": "^1.4.0",
