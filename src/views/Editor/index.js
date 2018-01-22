@@ -154,15 +154,29 @@ var EditorPage = React.createClass({
         }
     },
 
+    eventExists() {
+        if (!this.props.params.action === 'update') {
+            // we are not updating an existing event
+            return false
+        }
+        let publicationStatus = _.get(this.props, 'editor.values.publication_status')
+        if (!publicationStatus) {
+            // if the field is missing, the user is not logged in, so the event is public
+            return true
+        }
+        if (publicationStatus === constants.PUBLICATION_STATUS.PUBLIC) {
+            return true
+        }
+        // the publication status field exists and the event is not public
+        return false
+    },
+
     getSaveButtons: function(disabled=false) {
         let buttonStyle = {
             height: '64px',
             margin: '0 10px'
         }
-        let publicationStatus = _.get(this.props, 'editor.values.publication_status')
-        // if publication status field is not present, the user is not logged in and the event is public
-        let eventExists = this.props.params.action === 'update' &&
-            (publicationStatus ? (publicationStatus === constants.PUBLICATION_STATUS.PUBLIC) : true)
+        let eventExists = this.eventExists()
         let labelText = this.props.editor.isSending ?
             (eventExists ? "Tallennetaan muutoksia" : "Julkaistaan tapahtumaa")
             : (eventExists ? "Tallenna muutokset julkaistuun tapahtumaan" : "Julkaise tapahtuma")
