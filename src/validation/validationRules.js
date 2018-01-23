@@ -93,14 +93,16 @@ var validations = {
                 let finnishUrlValidationPassed = true
                 let englishUrlValidationPassed = true
                 let swedishUrlValidationPassed = true
-                if (value[key].fi) {
-                    finnishUrlValidationPassed = _isUrl(values, value[key].fi)
-                }
-                if (value[key].en) {
-                    englishUrlValidationPassed = _isUrl(values, value[key].en)
-                }
-                if (value[key].sv) {
-                    swedishUrlValidationPassed = _isUrl(values, value[key].sv)
+                if (value[key] !== null) {
+                    if (value[key].fi) {
+                        finnishUrlValidationPassed = _isUrl(values, value[key].fi)
+                    }
+                    if (value[key].en) {
+                        englishUrlValidationPassed = _isUrl(values, value[key].en)
+                    }
+                    if (value[key].sv) {
+                        swedishUrlValidationPassed = _isUrl(values, value[key].sv)
+                    }
                 }
                 return finnishUrlValidationPassed && englishUrlValidationPassed && swedishUrlValidationPassed
             } else {
