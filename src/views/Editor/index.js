@@ -130,7 +130,7 @@ var EditorPage = React.createClass({
     },
 
     eventExists() {
-        if (!this.props.params.action === 'update') {
+        if (this.props.params.action !== 'update') {
             // we are not updating an existing event
             return false
         }
