@@ -129,31 +129,6 @@ var EditorPage = React.createClass({
         }
     },
 
-    getCancelButton: function(disabled=false) {
-        let buttonStyle = {
-            height: '64px',
-            margin: '0 10px',
-            color: '#ffffff',
-        }
-
-        if(this.props.params.action === 'update') {
-            let publicationStatus = _.get(this.props, 'editor.values.publication_status')
-
-            if (publicationStatus === constants.PUBLICATION_STATUS.PUBLIC) {
-                return (
-                    <Button
-                        raised
-                        color="accent"
-                        style={buttonStyle}
-                        disabled={disabled}
-                        onClick={ (e) => this.confirmCancel(e) }>Peruuta tapahtuma</Button>
-                )
-            } else {
-                return null
-            }
-        }
-    },
-
     eventExists() {
         if (!this.props.params.action === 'update') {
             // we are not updating an existing event
@@ -169,6 +144,27 @@ var EditorPage = React.createClass({
         }
         // the publication status field exists and the event is not public
         return false
+    },
+
+    getCancelButton: function(disabled=false) {
+        let buttonStyle = {
+            height: '64px',
+            margin: '0 10px',
+            color: '#ffffff',
+        }
+
+        if(this.eventExists()) {
+            return (
+                <Button
+                    raised
+                    color="accent"
+                    style={buttonStyle}
+                    disabled={disabled}
+                    onClick={ (e) => this.confirmCancel(e) }>Peruuta tapahtuma</Button>
+            )
+        } else {
+            return null
+        }
     },
 
     getSaveButtons: function(disabled=false) {
