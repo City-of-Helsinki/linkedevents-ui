@@ -56,7 +56,7 @@ var validations = {
                 let finnishUrlValidationPassed = true
                 let englishUrlValidationPassed = true
                 let swedishUrlValidationPassed = true
-                if (value[key] !== null) {
+                if (value[key]) {
                     if (value[key].fi) {
                         finnishUrlValidationPassed = _isUrl(values, value[key].fi)
                     }
