@@ -1,4 +1,4 @@
-require('!style!css!sass!./index.scss');
+require('!style-loader!css-loader!sass-loader!./index.scss');
 
 import moment from 'moment'
 
@@ -77,7 +77,7 @@ class SearchBar extends React.Component {
                     <Button style={{height: '72px'}}
                         className="mui-raised-button"
                         type="submit"
-                        primary={true}
+                        color="primary"
                         onClick={ (e) => this.handleSubmit(e) }>
                         Hae tapahtumia
                     </Button>

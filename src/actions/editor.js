@@ -151,6 +151,13 @@ export function sendData(formValues, contentLanguages, user, updateExisting = fa
         if(formValues.sub_events) {
             recurring = _.keys(formValues.sub_events).length > 0
         }
+        // Run validations
+        let validationErrors = doValidations(formValues, contentLanguages, publicationStatus)
+
+        // There are validation errors, don't continue sending
+        if (_.keys(validationErrors).length > 0) {
+            return dispatch(setValidationErrors(validationErrors))
+        }
         // Format descriptions to HTML
         const descriptionTexts = formValues.description
         for (const lang in formValues.description) {
@@ -162,25 +169,17 @@ export function sendData(formValues, contentLanguages, user, updateExisting = fa
           }
         }
         // Check for 'palvelukeskuskortti' in audience
-        if (formValues) {
-            if (formValues.audience && includes(formValues.audience, `${appSettings.api_base}/keyword/helsinki:aflfbat76e/`)) {
-                const specialDescription = '<p>Tapahtuma on tarkoitettu vain eläkeläisille ja työttömille, joilla on <a href="https://www.hel.fi/sote/fi/palvelut/palvelukuvaus?id=3252" target="_blank">palvelukeskuskortti</a>.</p>'
-                if (formValues.description && formValues.description.fi) {
-                    if (!includes(formValues.description.fi, "https://www.hel.fi/sote/fi/palvelut/palvelukuvaus?id=3252")) { // Don't repeat insertion
-                        descriptionTexts.fi = specialDescription + formValues.description.fi
-                    }
-                } else {
-                    descriptionTexts.fi = specialDescription
+        if (formValues.audience && includes(formValues.audience, `${appSettings.api_base}/keyword/helsinki:aflfbat76e/`)) {
+            const specialDescription = '<p>Tapahtuma on tarkoitettu vain eläkeläisille ja työttömille, joilla on <a href="https://www.hel.fi/sote/fi/palvelut/palvelukuvaus?id=3252" target="_blank">palvelukeskuskortti</a>.</p>'
+            if (formValues.description && formValues.description.fi && descriptionTexts.fi) {
+                if (!includes(formValues.description.fi, "https://www.hel.fi/sote/fi/palvelut/palvelukuvaus?id=3252")) { // Don't repeat insertion
+                    descriptionTexts.fi = specialDescription + formValues.description.fi
                 }
+            } else {
+                descriptionTexts.fi = specialDescription
             }
         }
-        // Run validations
-        let validationErrors = doValidations(formValues, contentLanguages, publicationStatus)
 
-        // There are validation errors, don't continue sending
-        if (_.keys(validationErrors).length > 0) {
-            return dispatch(setValidationErrors(validationErrors))
-        }
         let data = Object.assign({}, formValues, { publication_status: publicationStatus, description: descriptionTexts  })
         if (recurring) {
             const subEvents = data.sub_events

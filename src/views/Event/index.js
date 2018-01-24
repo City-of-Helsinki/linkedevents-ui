@@ -1,4 +1,4 @@
-import '!style!css!sass!./index.scss'
+import '!style-loader!css-loader!sass-loader!./index.scss'
 
 import React from 'react'
 import {connect} from 'react-redux'
@@ -8,7 +8,8 @@ import EventDetails from 'src/components/EventDetails'
 
 import {FormattedMessage} from 'react-intl'
 
-import {RaisedButton, FlatButton} from 'material-ui'
+import {Button} from 'material-ui'
+import Tooltip from 'material-ui/Tooltip'
 
 import {fetchEventDetails} from 'src/actions/events.js'
 
@@ -19,6 +20,8 @@ import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
 import {replaceData} from 'src/actions/editor.js'
 
 import constants from 'src/constants'
+
+import moment from 'moment'
 
 class EventPage extends React.Component {
 
@@ -49,7 +52,8 @@ class EventPage extends React.Component {
     render() {
         let buttonStyle = {
             height: '64px',
-            'marginRight': '10px'
+            marginRight: '10px',
+            color: '#ffffff',
         }
 
         let event = mapAPIDataToUIFormat(this.props.events.event)
@@ -64,6 +68,22 @@ class EventPage extends React.Component {
         if(event && this.props.user && event.event_status !== constants.EVENT_STATUS.CANCELLED &&
         this.props.user.organization && event.organization && this.props.user.organization === event.organization) {
             userCanEdit = true
+        }
+
+        // User can edit event
+        let eventIsInThePast = false
+
+        let editEventTooltipTitle = ''
+        //Check if event (end time) is in the past. If event is in the past then editing is not allowed
+        if (userCanEdit == true && event.end_time) {
+            //Convert to moment object
+            let endTime = moment(event.end_time, moment.defaultFormatUtc)
+            let currentDate = moment()
+            if (currentDate.diff(endTime) > 0) {
+                //Event is in the past
+                userCanEdit = false
+                editEventTooltipTitle = 'Menneisyydessä olevia tapahtumia ei voi muokata.'
+            }
         }
 
         // Add necessary badges
@@ -87,6 +107,9 @@ class EventPage extends React.Component {
                 </header>
             )
         }
+
+        const editEventButton = <Button raised onClick={e => this.editEvent(e)} disabled={!userCanEdit} style={buttonStyle} color="primary">Muokkaa tapahtumaa</Button>
+
         if(event && event.name) {
             return (
                 <div className={draftClass}>
@@ -100,8 +123,16 @@ class EventPage extends React.Component {
                     <div className="container">
                         <div className="col-sm-12">
                             <div className="col-sm-12 actions">
-                                <RaisedButton onClick={e => this.editEvent(e)} disabled={!userCanEdit} style={buttonStyle} primary={true} label="Muokkaa tapahtumaa" />
-                                <RaisedButton onClick={e => this.copyAsTemplate(e)} style={buttonStyle} secondary={true} label="Kopioi uuden tapahtuman pohjaksi" />
+                                {editEventTooltipTitle === '' &&
+                                    editEventButton
+                                }
+                                {editEventTooltipTitle !== '' &&
+                                    <Tooltip title={editEventTooltipTitle}>
+                                        <span>{editEventButton}</span>
+                                    </Tooltip>
+                                }
+
+                                <Button raised onClick={e => this.copyAsTemplate(e)} style={buttonStyle} color="accent">Kopioi uuden tapahtuman pohjaksi</Button>
                             </div>
                         </div>
                     </div>
