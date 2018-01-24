@@ -5,7 +5,7 @@ import { includes } from 'lodash';
 import constants from '../constants'
 import {mapUIDataToAPIFormat} from 'src/utils/formDataMapping.js'
 
-import { pushPath } from 'redux-simple-router'
+import { push } from 'react-router-redux'
 import { setFlashMsg, confirmAction } from './app'
 
 import { doValidations } from 'src/validation/validator.js'
@@ -313,7 +313,7 @@ export function sendDataComplete(json, action) {
             })
         }
         else {
-            dispatch(pushPath(`/event/done/${action}/${json.id}`))
+            dispatch(push(`/event/done/${action}/${json.id}`))
             dispatch({
                 type: constants.EDITOR_SENDDATA_SUCCESS,
                 createdAt: Date.now(),
@@ -523,7 +523,7 @@ export function deleteEvent(eventID, user, values) {
 
             if(response.status === 200 || response.status === 201 || response.status === 203 || response.status === 204) {
                 dispatch(clearData())
-                dispatch(pushPath(`/event/done/delete/${eventID}`))
+                dispatch(push(`/event/done/delete/${eventID}`))
                 dispatch(eventDeleted(values))
             }
 

@@ -56,9 +56,9 @@ var EditorPage = React.createClass({
     },
 
     componentWillMount() {
-        if(this.props.params.action === 'update' && this.props.params.eventId) {
-            this.props.dispatch(fetchEventForEditing(this.props.params.eventId, this.props.user))
-            this.props.dispatch(fetchSubEvents(this.props.params.eventId, this.props.user))
+        if(this.props.match.params.action === 'update' && this.props.match.params.eventId) {
+            this.props.dispatch(fetchEventForEditing(this.props.match.params.eventId, this.props.user))
+            this.props.dispatch(fetchSubEvents(this.props.match.params.eventId, this.props.user))
         }
     },
 
@@ -70,9 +70,9 @@ var EditorPage = React.createClass({
         // Check if we are changing the editing mode on fly
         // (happens when jumping from update event page to create event page)
         // Clear page or fetch new eventdata accordingly
-        if(nextProps.params && this.props.params.action !== nextProps.params.action) {
-            if(nextProps.params.action === 'update') {
-                this.props.dispatch(fetchEventForEditing(this.props.params.eventId), this.props.user)
+        if(nextProps.match && nextProps.match.params && this.props.match.params.action !== nextProps.match.params.action) {
+            if(nextProps.match.params.action === 'update') {
+                this.props.dispatch(fetchEventForEditing(this.props.match.params.eventId), this.props.user)
             } else {
                 this.props.dispatch(clearData())
             }
@@ -117,7 +117,7 @@ var EditorPage = React.createClass({
             color: '#ffffff',
         }
 
-        if(this.props.params.action === 'update') {
+        if(this.props.match.params.action === 'update') {
             return (
                 <Button
                     raised
@@ -130,7 +130,7 @@ var EditorPage = React.createClass({
     },
 
     eventExists() {
-        if (this.props.params.action !== 'update') {
+        if (this.props.match.params.action !== 'update') {
             // we are not updating an existing event
             return false
         }
@@ -235,14 +235,14 @@ var EditorPage = React.createClass({
     },
 
     saveAsDraft(event) {
-        let doUpdate = this.props.params.action === 'update'
+        let doUpdate = this.props.match.params.action === 'update'
         const {values, contentLanguages} = this.props.editor
         this.setState({ isDirty: false })
         this.props.dispatch(sendData(values, contentLanguages, this.props.user, doUpdate, constants.PUBLICATION_STATUS.DRAFT))
     },
 
     saveAsPublished(event) {
-        let doUpdate = this.props.params.action === 'update'
+        let doUpdate = this.props.match.params.action === 'update'
         const {values, contentLanguages} = this.props.editor
         this.setState({ isDirty: false })
         this.props.dispatch(sendData(values, contentLanguages, this.props.user, doUpdate, constants.PUBLICATION_STATUS.PUBLIC))
@@ -270,7 +270,7 @@ var EditorPage = React.createClass({
                 this.deleteSubEvent(subEvent.id, this.props.user)
             }
         }
-        return this.props.dispatch(deleteEventAction(this.props.params.eventId, this.props.user))
+        return this.props.dispatch(deleteEventAction(this.props.match.params.eventId, this.props.user))
     },
 
     deleteSubEvent(eventId) {
@@ -285,7 +285,7 @@ var EditorPage = React.createClass({
                 'warning',
                 'cancel-event',
                 {
-                    action: e => this.props.dispatch(cancelEventAction(this.props.params.eventId, this.props.user, this.props.editor.values)),
+                    action: e => this.props.dispatch(cancelEventAction(this.props.match.params.eventId, this.props.user, this.props.editor.values)),
                     additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi')
                 }
             )
@@ -302,7 +302,7 @@ var EditorPage = React.createClass({
             margin: '0 5px'
         }
 
-        let headerTextId = (this.props.params.action === 'update') ? 'edit-event' : 'create-event'
+        let headerTextId = (this.props.match.params.action === 'update') ? 'edit-event' : 'create-event'
 
         let clearButton = null
         if(_.keys(this.props.editor.values).length) {
@@ -337,7 +337,7 @@ var EditorPage = React.createClass({
                 </div>
 
                 <div className="container">
-                    <FormFields ref="form" action={this.props.params.action} editor={this.props.editor} setDirtyState={this.setDirtyState} />
+                    <FormFields ref="form" action={this.props.match.params.action} editor={this.props.editor} setDirtyState={this.setDirtyState} />
                 </div>
 
                 <div className="editor-action-buttons">

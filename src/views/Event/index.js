@@ -13,7 +13,7 @@ import Tooltip from 'material-ui/Tooltip'
 
 import {fetchEventDetails} from 'src/actions/events.js'
 
-import {pushPath} from 'redux-simple-router'
+import { push } from 'react-router-redux'
 
 import {getStringWithLocale} from 'src/utils/locale'
 import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
@@ -27,7 +27,7 @@ import moment from 'moment'
 class EventPage extends React.Component {
 
     componentWillMount() {
-        this.props.dispatch(fetchEventDetails(this.props.params.eventId, this.props.user))
+        this.props.dispatch(fetchEventDetails(this.props.match.params.eventId, this.props.user))
     }
 
     copyAsTemplate() {
@@ -37,7 +37,7 @@ class EventPage extends React.Component {
             delete formData.id
 
             this.props.dispatch(replaceData(formData))
-            this.props.dispatch(pushPath(`/event/create/new`))
+            this.props.dispatch(push(`/event/create/new`))
         }
     }
 
@@ -46,7 +46,7 @@ class EventPage extends React.Component {
             let formData = mapAPIDataToUIFormat(this.props.events.event)
 
             this.props.dispatch(replaceData(formData))
-            this.props.dispatch(pushPath(`/event/update/${this.props.events.event.id}`))
+            this.props.dispatch(push(`/event/update/${this.props.events.event.id}`))
         }
     }
 
