@@ -122,7 +122,7 @@
     "ruotsi": "ruotsi",
     "suomi": "suomi",
 
-    "validation-isUrl": "Tarkista URL osoitteen kirjoitusmuoto",
+    "validation-isUrl": "Kirjoita URL osoite kokonaisena ja oikeassa muodossa (http://...)",
     "validation-isTime": "Kirjoita aika oikeassa muodossa HH.mm tai HH",
     "validation-isDate": "Kirjoita päivämäärä muodossa pp.kk.vvvv tai p.k.vvvv",
     "validation-atLeastOne": "Valitse vähintään yksi kategoria",
