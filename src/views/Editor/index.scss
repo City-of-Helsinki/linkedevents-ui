@@ -126,9 +126,14 @@
         .loader {
             position: relative;
             top: 32px;
-            left: -120px;
+            left: 200px;
         }
 
+        .actions {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
     }
 }
 
