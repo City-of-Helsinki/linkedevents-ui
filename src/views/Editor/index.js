@@ -181,16 +181,13 @@ var EditorPage = React.createClass({
         }
 
         return (
-            <span>
-                <Loader loaded={!this.props.editor.isSending} scale={1}/>
-                <Button
-                    raised
-                    style={buttonStyle}
-                    color="primary"
-                    disabled={disabled}
-                    onClick={ (e) => this.saveAsPublished(e) }
-                >{labelText}</Button>
-            </span>
+            <Button
+                raised
+                style={buttonStyle}
+                color="primary"
+                disabled={disabled}
+                onClick={ (e) => this.saveAsPublished(e) }
+            >{labelText}</Button>
         )
     },
 
@@ -198,9 +195,11 @@ var EditorPage = React.createClass({
         let {eventIsEditable, eventEditabilityExplanation} = checkEventEditability(this.props.user, this.props.editor.values)
 
         let disabled = this.props.editor.isSending || !eventIsEditable
-        let buttons = <div className="col-sm-12 actions">
-            { this.getDeleteButton(disabled) }
-            { this.getCancelButton(disabled) }
+        let buttons = <div className="actions">
+            <div>
+                { this.getDeleteButton(disabled) }
+                { this.getCancelButton(disabled) }
+            </div>
             { this.getSaveButtons(disabled) }
         </div>
         return (
@@ -344,9 +343,8 @@ var EditorPage = React.createClass({
                 <div className="editor-action-buttons">
                     <div className="container">
                         <div className="row">
-                            <div className="pull-right">
-                                {this.getActionButtons()}
-                            </div>
+                            <Loader loaded={!this.props.editor.isSending} scale={1}/>
+                            {this.getActionButtons()}
                         </div>
                     </div>
                 </div>
