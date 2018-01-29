@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 export default () => {
     // Define appsettings for Jest tests
     const appSettings = {
@@ -6,4 +8,5 @@ export default () => {
       local_storage_user_expiry_time: 48
     }
     global.appSettings = appSettings  // Jest's global == window
+    global._ = _
 }

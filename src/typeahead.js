@@ -2,6 +2,11 @@ import $ from 'jquery'
 import jQuery from 'jquery';
 import Bloodhound from 'typeahead.js/dist/bloodhound.min.js'
 
+if (typeof appSettings == 'undefined') {
+    // This function is needed for Jest tests because prefetch is evaluated before Jest test inits appSettings
+    global.appSettings = { api_base: ''}
+}
+
 let engine = new Bloodhound({
     initialize: true,
     queryTokenizer: Bloodhound.tokenizers.whitespace,

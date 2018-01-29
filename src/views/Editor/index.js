@@ -16,13 +16,13 @@ import Tooltip from 'material-ui/Tooltip'
 // Material-ui Icons
 import Close from 'material-ui-icons/Close'
 
-import { getStringWithLocale } from 'src/utils/locale'
+import { getStringWithLocale } from '../../utils/locale'
 
-import {fetchEventForEditing, deleteEvent as deleteEventAction, cancelEvent as cancelEventAction, sendData, clearData, fetchKeywordSets, fetchLanguages, setValidationErrors} from 'src/actions/editor.js'
-import {confirmAction, clearFlashMsg} from 'src/actions/app.js'
-import {fetchSubEvents} from 'src/actions/subEvents.js'
-import constants from 'src/constants.js'
-import {checkEventEditability} from 'src/utils/checkEventEditability.js'
+import {fetchEventForEditing, deleteEvent as deleteEventAction, cancelEvent as cancelEventAction, sendData, clearData, fetchKeywordSets, fetchLanguages, setValidationErrors} from '../../actions/editor'
+import {confirmAction, clearFlashMsg} from '../../actions/app'
+import {fetchSubEvents} from '../../actions/subEvents'
+import constants from '../../constants'
+import {checkEventEditability} from '../../utils/checkEventEditability'
 
 // the backup doesn't support non-language links, so we use hardcoded
 // 'fi' instead for the link language
@@ -31,7 +31,7 @@ var EXT_LINK_NO_LANGUAGE = 'fi'
 // sentinel for authentication alert
 var sentinel = true;
 
-import FormFields from 'src/components/FormFields'
+import FormFields from '../../components/FormFields'
 
 // === code ===
 //

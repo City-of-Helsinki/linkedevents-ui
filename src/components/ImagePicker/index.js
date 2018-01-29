@@ -4,13 +4,13 @@ import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl'
 import Modal from 'react-bootstrap/lib/Modal';
 import { Button } from 'material-ui'
-import { deleteImage } from 'src/actions/userImages.js'
+import { deleteImage } from '../../actions/userImages'
 import { connect } from 'react-redux'
 import { get as getIfExists, isEmpty } from 'lodash'
 import ImageEdit from '../ImageEdit'
 import ImageGalleryGrid from '../ImageGalleryGrid'
-import { confirmAction } from 'src/actions/app.js'
-import { getStringWithLocale } from 'src/utils/locale'
+import { confirmAction } from '../../actions/app'
+import { getStringWithLocale } from '../../utils/locale'
 
 class ImagePicker extends React.Component {
 

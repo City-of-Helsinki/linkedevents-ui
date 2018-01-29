@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react'
-import HelTimePicker from 'src/components/HelFormFields/HelTimePicker.js'
+import HelTimePicker from '../HelFormFields/HelTimePicker'
 
 const RecurringTimePicker = ({name, time, onChange, onBlur}) => {
     const changePasser = (event, value) => {

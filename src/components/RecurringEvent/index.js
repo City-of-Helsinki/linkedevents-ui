@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from "react"
-import HelTextField from "src/components/HelFormFields/HelTextField.js"
+import HelTextField from '../HelFormFields/HelTextField'
 import RecurringDateRangePicker from "./RecurringDateRangePicker"
 import RecurringTimePicker from "./RecurringTimePicker"
 import { FormattedMessage } from "react-intl"
@@ -10,10 +10,10 @@ import DayCheckbox from "./DayCheckbox"
 import Add from 'material-ui-icons/Add'
 
 import {connect} from "react-redux"
-import {setEventData, sortSubEvents} from "src/actions/editor.js"
+import { setEventData, sortSubEvents } from '../../actions/editor'
 
-import validationRules from "src/validation/validationRules.js"
-import ValidationPopover from "src/components/ValidationPopover"
+import validationRules from '../../validation/validationRules'
+import ValidationPopover from '../ValidationPopover'
 
 import moment from "moment"
 import update from "immutability-helper"

@@ -6,12 +6,12 @@ import HelTimePicker from './HelTimePicker.js'
 
 
 import {connect} from 'react-redux'
-import {setData, updateSubEvent} from 'src/actions/editor.js'
+import { setData, updateSubEvent } from '../../actions/editor'
 
 import { FormattedMessage } from 'react-intl'
 
-import validationRules from 'src/validation/validationRules.js';
-import ValidationPopover from 'src/components/ValidationPopover'
+import validationRules from '../../validation/validationRules'
+import ValidationPopover from '../ValidationPopover'
 
 import moment from 'moment'
 

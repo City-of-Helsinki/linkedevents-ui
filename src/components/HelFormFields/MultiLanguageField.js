@@ -6,9 +6,9 @@ import React from 'react'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import HelTextField from './HelTextField'
 
-import ValidationPopover from 'src/components/ValidationPopover'
+import ValidationPopover from '../ValidationPopover'
 
-import {setData} from 'src/actions/editor.js'
+import { setData } from '../../actions/editor'
 
 // A text component for multiple language inputs. Outputs linked events language field format
 // field = {

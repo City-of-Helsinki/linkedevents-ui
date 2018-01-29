@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react'
 import { Button } from 'material-ui'
 
-import MultiLanguageField from 'src/components/HelFormFields/MultiLanguageField.js'
-import ValidationPopover from 'src/components/ValidationPopover'
-import { setOfferData, deleteOffer } from 'src/actions/editor.js'
+import MultiLanguageField from '../HelFormFields/MultiLanguageField'
+import ValidationPopover from '../ValidationPopover'
+import { setOfferData, deleteOffer } from '../../actions/editor'
 // Material-ui Icons
 import Delete from 'material-ui-icons/Delete'
 import { FormattedMessage } from 'react-intl'
