@@ -32,6 +32,16 @@ function update(state = initialState, action) {
         });
     }
 
+    if(action.type === constants.RESET_USER_EVENTS_FETCHING) {
+        return Object.assign({}, state, {
+            isFetching: false,
+            fetchComplete: false,
+            items: [],
+            error: null,
+            count: null
+        });
+    }
+
     if(action.type === constants.RECEIVE_USER_EVENTS_ERROR) {
         return Object.assign({}, state, {
             isFetching: false,

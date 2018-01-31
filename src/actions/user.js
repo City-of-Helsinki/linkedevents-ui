@@ -1,6 +1,7 @@
 import constants from '../constants.js'
 import fetch from 'isomorphic-fetch'
 import _ from 'lodash'
+import { resetUserEventsFetching } from './userEvents'
 
 // Handled by the user reducer
 export function receiveUserData(data) {
@@ -87,5 +88,6 @@ export function logout() {
       fetch('/auth/logout', {method: 'POST', credentials: 'same-origin'}) // Fire-and-forget
       localStorage.removeItem('user')
       dispatch(clearUserData())
+      dispatch(resetUserEventsFetching())
   };
 }
