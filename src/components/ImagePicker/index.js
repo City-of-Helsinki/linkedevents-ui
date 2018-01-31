@@ -95,32 +95,28 @@ class ImagePicker extends React.Component {
                     <Modal.Header>
                         <Button
                             raised
-                            label={<FormattedMessage id="ready"/>}
                             onClick={() => this.closeGalleryModal()}
-                            style={{float:"right"}}
-                            color="primary"
-                        />
+                            style={{float:"right",lineHeight:"1.5",height:"36px"}}
+                            color="primary"><FormattedMessage id="ready"/>
+                        </Button>
 
                         <Modal.Title id='ModalHeader'><FormattedMessage id="new-image" /></Modal.Title>
                         <br />
                         <input onChange={(e) => this.handleUpload(e)} style={{ display: 'none' }} type="file" ref={(ref) => this.hiddenFileInput = ref} />
                         <Button
                             raised
-                            label= {<FormattedMessage id="upload-image" />}
                             onClick={() => this.clickHiddenUploadInput()}
                             color="primary"
-                            style={{margin:"0 0 15px 0"}}
-                        />
+                            style={{margin:"0 0 15px 0",lineHeight:"1.5",height:"36px"}}><FormattedMessage id="upload-image" />
+                        </Button>
                         <br />
                         <FormattedMessage id="use-external-image-url" />
                         <br />
                         <input id="externalImageURL" onSubmit={this.handleExternalImageSave} placeholder={"URL"} ref={(ref) => this.externalImageURL = ref} />
                         <Button
                             raised
-                            label="OK"
                             onClick={() => this.handleExternalImageSave()}
-                            style={{margin:"0 0 0 10px"}}
-                        />
+                            style={{margin:"0 0 0 10px",lineHeight:"1.5",height:"36px"}}>OK</Button>
                     </Modal.Header>
                     <Modal.Body>
                         <Modal.Title id='ModalBodyTitle'><FormattedMessage id="use-existing-image"/></Modal.Title>
@@ -130,18 +126,17 @@ class ImagePicker extends React.Component {
                     <Modal.Footer>
                         <Button
                             raised
-                            label={<FormattedMessage id="delete"/>}
                             onClick={() => this.handleDelete()}
                             primary={false}
-                            style={{margin:"0 10px 0 0"}}
-                            disabled={isEmpty(this.props.editor.values.image)}
-                        />
+                            style={{margin:"0 10px 0 0",lineHeight:"1.5",height:"36px"}}
+                            disabled={isEmpty(this.props.editor.values.image)}><FormattedMessage id="delete"/>
+                        </Button>
                         <Button
                             raised
-                            label={<FormattedMessage id="ready"/>}
                             onClick={() => this.closeGalleryModal()}
-                            color="primary"
-                        />
+                            style={{lineHeight:"1.5",height:"36px"}}
+                            color="primary"><FormattedMessage id="ready"/>
+                        </Button>
                     </Modal.Footer>
 
                 </Modal>

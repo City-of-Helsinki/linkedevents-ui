@@ -60,8 +60,7 @@ class ImageEdit extends React.Component {
                         raised
                         onClick={() => this.props.close()}
                         style={{float:"right"}}
-                        color="primary"
-                    >Sulje</Button>
+                        color="primary">Sulje</Button>
                     <h3>Kuvan tiedot</h3>
                 </Modal.Header>
                 <Modal.Body>

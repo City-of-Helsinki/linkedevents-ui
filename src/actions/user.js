@@ -41,8 +41,12 @@ export function retrieveUserFromSession() {
                 }
                 return fetch(`${appSettings.api_base}/user/${user.username}/`, settings).then((response) => {
                     return response.json()
-                }).then((organizationJSON) => {
-                    let mergedUser = Object.assign({}, user, { organization: _.get(organizationJSON, 'organization', null) })
+                }).then((userJSON) => {
+                    let mergedUser = Object.assign({}, user, {
+                        organization: _.get(userJSON, 'organization', null),
+                        adminOrganizations: _.get(userJSON, 'admin_organizations', null),
+                        organizationMemberships: _.get(userJSON, 'organization_memberships', null)
+                    })
 
                     saveUserToLocalStorage(mergedUser)
                     return dispatch(receiveUserData(mergedUser))

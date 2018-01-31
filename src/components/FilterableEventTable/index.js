@@ -2,7 +2,7 @@ require('!style-loader!css-loader!sass-loader!./index.scss');
 
 import PropTypes from 'prop-types';
 import React from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import { sortBy, reverse } from 'lodash'
@@ -119,8 +119,8 @@ class FilterableEventTable extends React.Component {
                                 <TableSortLabel active={props.sortBy === 'end_time'} direction={props.sortBy === 'end_time' && props.sortOrder} onClick={() => this.props.changeSortOrder('end_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}>Tapahtuma päättyy</TableSortLabel>
                             </TableCell>
                             <TableCell key="muokattu">
-                                <TableSortLabel active={props.sortBy === 'last_modified_time'} direction={props.sortBy === 'last_modified_time' && props.sortOrder} onClick={() => this.props.changeSortOrder('last_modified_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}>Muokattu viimeksi</TableSortLabel><
-                            /TableCell>
+                                <TableSortLabel active={props.sortBy === 'last_modified_time'} direction={props.sortBy === 'last_modified_time' && props.sortOrder} onClick={() => this.props.changeSortOrder('last_modified_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}>Muokattu viimeksi</TableSortLabel>
+                            </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>{rows}</TableBody>
