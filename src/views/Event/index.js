@@ -13,11 +13,12 @@ import Tooltip from 'material-ui/Tooltip'
 
 import {fetchEventDetails} from 'src/actions/events.js'
 
-import {pushPath} from 'redux-simple-router'
+import { push } from 'react-router-redux'
 
 import {getStringWithLocale} from 'src/utils/locale'
 import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
 import {replaceData} from 'src/actions/editor.js'
+import {checkEventEditability} from 'src/utils/checkEventEditability.js'
 
 import constants from 'src/constants'
 
@@ -26,7 +27,7 @@ import moment from 'moment'
 class EventPage extends React.Component {
 
     componentWillMount() {
-        this.props.dispatch(fetchEventDetails(this.props.params.eventId, this.props.user))
+        this.props.dispatch(fetchEventDetails(this.props.match.params.eventId, this.props.user))
     }
 
     copyAsTemplate() {
@@ -36,7 +37,7 @@ class EventPage extends React.Component {
             delete formData.id
 
             this.props.dispatch(replaceData(formData))
-            this.props.dispatch(pushPath(`/event/create/new`))
+            this.props.dispatch(push(`/event/create/new`))
         }
     }
 
@@ -45,11 +46,12 @@ class EventPage extends React.Component {
             let formData = mapAPIDataToUIFormat(this.props.events.event)
 
             this.props.dispatch(replaceData(formData))
-            this.props.dispatch(pushPath(`/event/update/${this.props.events.event.id}`))
+            this.props.dispatch(push(`/event/update/${this.props.events.event.id}`))
         }
     }
 
     render() {
+        const user = this.props.user
         let buttonStyle = {
             height: '64px',
             marginRight: '10px',
@@ -61,30 +63,8 @@ class EventPage extends React.Component {
         // To prevent 'Can't access field of undefined errors'
         event.location = event.location || {}
 
-        // User can edit event
-        let userCanEdit = false
-
-        // TODO: refactor to a utils function
-        if(event && this.props.user && event.event_status !== constants.EVENT_STATUS.CANCELLED &&
-        this.props.user.organization && event.organization && this.props.user.organization === event.organization) {
-            userCanEdit = true
-        }
-
-        // User can edit event
-        let eventIsInThePast = false
-
-        let editEventTooltipTitle = ''
-        //Check if event (end time) is in the past. If event is in the past then editing is not allowed
-        if (userCanEdit == true && event.end_time) {
-            //Convert to moment object
-            let endTime = moment(event.end_time, moment.defaultFormatUtc)
-            let currentDate = moment()
-            if (currentDate.diff(endTime) > 0) {
-                //Event is in the past
-                userCanEdit = false
-                editEventTooltipTitle = 'Menneisyydessä olevia tapahtumia ei voi muokata.'
-            }
-        }
+        // Tooltip is empty if the event is editable
+        let {eventIsEditable, eventEditabilityExplanation} = checkEventEditability(user, event)
 
         // Add necessary badges
         let draftClass = event.publication_status == constants.PUBLICATION_STATUS.DRAFT ? "event-page draft" : "event-page"
@@ -108,7 +88,7 @@ class EventPage extends React.Component {
             )
         }
 
-        const editEventButton = <Button raised onClick={e => this.editEvent(e)} disabled={!userCanEdit} style={buttonStyle} color="primary">Muokkaa tapahtumaa</Button>
+        const editEventButton = <Button raised onClick={e => this.editEvent(e)} disabled={!eventIsEditable} style={buttonStyle} color="primary">Muokkaa tapahtumaa</Button>
 
         if(event && event.name) {
             return (
@@ -123,11 +103,8 @@ class EventPage extends React.Component {
                     <div className="container">
                         <div className="col-sm-12">
                             <div className="col-sm-12 actions">
-                                {editEventTooltipTitle === '' &&
-                                    editEventButton
-                                }
-                                {editEventTooltipTitle !== '' &&
-                                    <Tooltip title={editEventTooltipTitle}>
+                                {eventIsEditable ? editEventButton :
+                                    <Tooltip title={eventEditabilityExplanation}>
                                         <span>{editEventButton}</span>
                                     </Tooltip>
                                 }

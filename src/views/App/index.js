@@ -48,6 +48,11 @@ class Notifications extends React.Component {
         let actionLabel = this.props.flashMsg && this.props.flashMsg.action && this.props.flashMsg.action.label
         let actionFn = this.props.flashMsg && this.props.flashMsg.action && this.props.flashMsg.action.fn
 
+        let actionButton = null
+        if (actionLabel && actionFn) {
+            actionButton = <Button key="snackActionButton" onClick={actionFn}>{actionLabel}</Button>
+        }
+
         return (
             <Snackbar
               className="notification-bar"
@@ -55,12 +60,7 @@ class Notifications extends React.Component {
               message={flashMsg}
               autoHideDuration={duration}
               onRequestClose={closeFn}
-              action={actionLabel}
-              action={[
-                <Button key="snackActionButton" onClick={actionFn}>
-                  {actionLabel}
-                </Button>
-              ]}
+              action={[actionButton]}
               />
         )
     }

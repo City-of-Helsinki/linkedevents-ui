@@ -7,13 +7,14 @@ if(window && !window.Intl) {
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Router, Route, IndexRoute } from 'react-router'
+import { Route } from 'react-router'
+import { Link, withRouter } from 'react-router-dom'
+import createHistory from 'history/createBrowserHistory' //'history/createHashHistory'
 
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
-import { Provider } from 'react-redux'
+import { Provider, connect } from 'react-redux'
 
-import { createHashHistory } from 'history'
-import { syncReduxAndRouter, routeReducer } from 'redux-simple-router'
+import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
 
 import thunk from 'redux-thunk'
 
@@ -50,19 +51,19 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 
 injectTapEventPlugin()
 
-const reducer = combineReducers(Object.assign({}, reducers, {
-  routing: routeReducer
+const history = createHistory()
+
+const allReducers = combineReducers(Object.assign({}, reducers, {
+  router: routerReducer
 }))
 
-const createStoreWithMiddleware = compose(
+const allMiddlewares = compose(
     applyMiddleware(thunk),
+    applyMiddleware(routerMiddleware(history)),
     typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f
-)(createStore)
+)
 
-const store = createStoreWithMiddleware(reducer)
-const history = createHashHistory()
-
-syncReduxAndRouter(history, store)
+const store = createStore(allReducers, allMiddlewares)
 
 let locale = 'fi'
 moment.locale(locale)
@@ -75,20 +76,21 @@ store.subscribe(_.bind(Validator, null, store))
 store.subscribe(_.bind(Serializer, null, store));
 
 addLocaleData(fiLocaleData);
+const LayoutContainer = withRouter(connect()(App));
 
 ReactDOM.render(
     <Provider store={store}>
         <IntlProvider locale={locale} messages={translations[locale] || {}}>
-            <Router history={history}>
-                <Route path="/" component={App}>
-                    <IndexRoute component={EventListing}/>
-                    <Route path="/event/:eventId" component={Event}/>
-                    <Route path="/event/:action/:eventId" component={Editor}/>
-                    <Route path="/event/done/:action/:eventId" component={EventCreated}/>
-                    <Route path="/search" component={Search}/>
-                    <Route path="/help" component={Help}/>
-                </Route>
-            </Router>
+            <ConnectedRouter history={history}>
+                <LayoutContainer>
+                    <Route exact path="/" component={EventListing}/>
+                    <Route exact path="/event/:eventId" component={Event}/>
+                    <Route exact path="/event/:action/:eventId" component={Editor}/>
+                    <Route exact path="/event/done/:action/:eventId" component={EventCreated}/>
+                    <Route exact path="/search" component={Search}/>
+                    <Route exact path="/help" component={Help}/>
+                </LayoutContainer>
+            </ConnectedRouter>
         </IntlProvider>
     </Provider>,
     document.getElementById('content')
