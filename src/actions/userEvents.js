@@ -50,6 +50,12 @@ export function receiveUserEventsError(error) {
     }
 }
 
+export function resetUserEventsFetching() {
+    return {
+        type: constants.RESET_USER_EVENTS_FETCHING
+    }
+}
+
 export function fetchUserEvents(user, sortBy, sortOrder, paginationPage) {
     return (dispatch) => {
         dispatch(startFetching());
