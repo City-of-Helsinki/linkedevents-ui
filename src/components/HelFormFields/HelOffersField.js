@@ -65,7 +65,7 @@ class HelOffersField extends React.Component {
     generateOffers(offers) {
         const newOffers = []
         for (const key in offers) {
-            if (offers.hasOwnProperty(key) && !(offers.length === 1 && this.state.isFree)) {
+            if (offers.hasOwnProperty(key) && !this.state.isFree) {
                 newOffers.push(
                     <NewOffer
                         key={key}

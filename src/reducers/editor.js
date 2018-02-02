@@ -180,6 +180,17 @@ function update(state = initialState, action) {
         for (const offer of offers) {
             offer.is_free = action.isFree
         }
+
+        if (action.isFree === true) {
+            // Event is free so we can clear the offers key from state store
+            // this prevents validation errors on possibly already entered offer fields
+            return updater(state, {
+                values: {
+                    $unset: ['offers']
+                }
+            })
+        }
+
         return updater(state, {
             values: {
                 offers: {
