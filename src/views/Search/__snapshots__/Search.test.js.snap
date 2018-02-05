@@ -1,0 +1,152 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Editor Snapshot should render view correctly 1`] = `
+<div
+  className="container"
+>
+  <h1>
+    <span>
+      Etsi tapahtumia
+    </span>
+  </h1>
+  <p>
+    <span>
+      Katsele kaikkia Linked Eventsin tapahtumia.
+    </span>
+  </p>
+  <form
+    className="row search-bar"
+    onSubmit={[Function]}
+  >
+    <div
+      className="col-sm-2 time-label"
+    >
+      <label>
+        Etsi vain ajalta
+      </label>
+    </div>
+    <div
+      className="col-xs-8 col-sm-5 col-md-3 start-date"
+    >
+      <div
+        className="hel-text-field"
+      >
+        <div
+          className="react-datepicker__input-container"
+        >
+          <input
+            autoComplete={undefined}
+            autoFocus={undefined}
+            className=""
+            disabled={false}
+            id={undefined}
+            name="startDate"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            placeholder="pp.kk.vvvv"
+            readOnly={undefined}
+            required={undefined}
+            tabIndex={undefined}
+            title={undefined}
+            type="text"
+            value=""
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-xs-8 col-sm-5 col-md-3"
+    >
+      <div
+        className="hel-text-field"
+      >
+        <div
+          className="react-datepicker__input-container"
+        >
+          <input
+            autoComplete={undefined}
+            autoFocus={undefined}
+            className=""
+            disabled={false}
+            id={undefined}
+            name="endDate"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            placeholder="pp.kk.vvvv"
+            readOnly={undefined}
+            required={undefined}
+            tabIndex={undefined}
+            title={undefined}
+            type="text"
+            value=""
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-sm-8 col-xs-12"
+    >
+      <div
+        className="form-group text-field"
+      >
+        <label
+          className="control-label"
+          htmlFor={undefined}
+        >
+          Tapahtuman nimi tai paikka
+        </label>
+        <input
+          autoFocus={true}
+          className="form-control"
+          disabled={false}
+          groupClassName="text-field"
+          hasFeedback={false}
+          label="Tapahtuman nimi tai paikka"
+          multiple={false}
+          onChange={[Function]}
+          placeholder="Tapahtuman nimi tai paikka"
+          type="text"
+        />
+      </div>
+    </div>
+    <div
+      className="col-sm-4 col-xs-12"
+    >
+      <button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsStyle="default"
+        className="mui-raised-button btn btn-default"
+        color="primary"
+        disabled={false}
+        navDropdown={false}
+        navItem={false}
+        onClick={[Function]}
+        style={
+          Object {
+            "height": "72px",
+          }
+        }
+        type="submit"
+      >
+        Hae tapahtumia
+      </button>
+    </div>
+    <p />
+  </form>
+  <div
+    className="loadedContent"
+  >
+    <div
+      className="row event-grid"
+    />
+  </div>
+</div>
+`;
