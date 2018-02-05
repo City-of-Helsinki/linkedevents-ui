@@ -1,13 +1,16 @@
+import { IntlProvider } from 'react-intl'
+import { MemoryRouter as Router } from 'react-router'
 import { Provider } from 'react-redux'
 import React from 'react'
-import { IntlProvider } from 'react-intl'
 import translations from '../i18n'
 
 export default (store, component, locale = 'fi') => {
   return (
     <Provider store={store}>
       <IntlProvider locale={locale} messages={translations[locale]}>
-        {component}
+        <Router>
+            {component}
+        </Router>
       </IntlProvider>
     </Provider>
   )

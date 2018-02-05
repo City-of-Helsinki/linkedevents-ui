@@ -71,6 +71,10 @@ const initialStore = {
     items: [],
     eventError: null,
     eventsError: null
+  },
+  app: {
+    flashMsg: null,
+    confirmAction: null
   }
 }
 
