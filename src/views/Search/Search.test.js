@@ -52,7 +52,7 @@ const initialStore = {
   }
 }
 
-describe('Editor Snapshot', () => {
+describe('Search Snapshot', () => {
   beforeEach(() => {
     store = mockStore(initialStore)
   })

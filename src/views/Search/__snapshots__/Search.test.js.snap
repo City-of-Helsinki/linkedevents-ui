@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Editor Snapshot should render view correctly 1`] = `
+exports[`Search Snapshot should render view correctly 1`] = `
 <div
   className="container"
 >
