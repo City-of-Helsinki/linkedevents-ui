@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react'
 import HelCheckbox from 'src/components/HelFormFields/HelCheckbox.js'
 import { FormattedMessage } from 'react-intl'
@@ -17,8 +18,8 @@ const DayCheckbox = ({day, onChange, defaultChecked}) => {
 }
 
 DayCheckbox.propTypes = {
-	day: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func.isRequired
+	day: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired
 }
 
 export default DayCheckbox;

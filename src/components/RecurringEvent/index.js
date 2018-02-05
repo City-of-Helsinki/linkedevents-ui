@@ -1,10 +1,13 @@
+import PropTypes from 'prop-types';
 import React from "react"
 import HelTextField from "src/components/HelFormFields/HelTextField.js"
 import RecurringDateRangePicker from "./RecurringDateRangePicker"
 import RecurringTimePicker from "./RecurringTimePicker"
 import { FormattedMessage } from "react-intl"
-import { RaisedButton } from "material-ui"
+import { Button } from "material-ui"
 import DayCheckbox from "./DayCheckbox"
+// Material-ui Icons
+import Add from 'material-ui-icons/Add'
 
 import {connect} from "react-redux"
 import {setEventData, sortSubEvents} from "src/actions/editor.js"
@@ -20,8 +23,8 @@ import "./RecurringEvent.scss"
 class RecurringEvent extends React.Component {
 
     static contextTypes = {
-        intl: React.PropTypes.object,
-        dispatch: React.PropTypes.func
+        intl: PropTypes.object,
+        dispatch: PropTypes.func
     }
 
     constructor (props) {
@@ -227,6 +230,7 @@ class RecurringEvent extends React.Component {
         const { validationErrors, values } = this.props
         const buttonStyle = {
             height: "64px",
+            width: "100%",
             margin: "10px 5px",
             display: "flex"
         }
@@ -288,11 +292,11 @@ class RecurringEvent extends React.Component {
                         <RecurringTimePicker name="recurringEndTime" time={this.state.recurringEndTime} onChange={this.onTimeChange} onBlur={this.onTimeChange} />
                     </div>
                     <div className="col-xs-12">
-                        <RaisedButton
+                        <Button
+                            raised
                             style={buttonStyle}
-                            primary={true}
-                            onClick={() => this.generateEvents(this.state)}
-                            label={<span><i className="material-icons">add</i>Lisää kerrat</span>} />
+                            color="primary"
+                            onClick={() => this.generateEvents(this.state)}><Add/> Lisää kerrat</Button>
                     </div>
                 </div>
             </div>

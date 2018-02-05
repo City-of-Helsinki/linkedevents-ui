@@ -1,9 +1,9 @@
-import "!style!css!sass!./index.scss"
+import "!style-loader!css-loader!sass-loader!./index.scss"
 
 import React from "react";
 import { injectIntl } from "react-intl"
 import Modal from "react-bootstrap/lib/Modal";
-import { RaisedButton } from "material-ui"
+import { Button } from "material-ui"
 import { postImage, deleteImage } from "src/actions/userImages.js"
 import { connect } from "react-redux"
 import FormFields from "../FormFields"
@@ -56,12 +56,11 @@ class ImageEdit extends React.Component {
                 width="600px"
              >
                <Modal.Header>
-                    <RaisedButton
-                        label="Sulje"
+                    <Button
+                        raised
                         onClick={() => this.props.close()}
                         style={{float:"right"}}
-                        primary={true}
-                    />
+                        color="primary">Sulje</Button>
                     <h3>Kuvan tiedot</h3>
                 </Modal.Header>
                 <Modal.Body>

@@ -1,5 +1,7 @@
 import './HelCheckbox.scss'
 
+import PropTypes from 'prop-types';
+
 import React from 'react'
 import Input from 'react-bootstrap/lib/Input.js'
 
@@ -9,12 +11,12 @@ import {setData} from 'src/actions/editor.js'
 let HelCheckbox = React.createClass({
 
     contextTypes: {
-        intl: React.PropTypes.object,
-        dispatch: React.PropTypes.func
+        intl: PropTypes.object,
+        dispatch: PropTypes.func
     },
 
     propTypes: {
-        name: React.PropTypes.string
+        name: PropTypes.string
     },
 
     handleCheck: function (event) {

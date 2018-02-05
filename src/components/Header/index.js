@@ -1,17 +1,22 @@
-require('!style!css!sass!./index.scss')
+require('!style-loader!css-loader!sass-loader!./index.scss')
 
 import React from 'react'
 
 import {connect} from 'react-redux'
-import {pushPath} from 'redux-simple-router'
+import { push } from 'react-router-redux'
 import {login, logout} from 'src/actions/user.js'
 
 import {FormattedMessage} from 'react-intl'
 
 // Material-ui Components
-import { Toolbar, ToolbarGroup, FlatButton, FontIcon } from 'material-ui'
+import { Toolbar, Button, FontIcon } from 'material-ui'
+// Material-ui Icons
+import List from 'material-ui-icons/List'
+import Search from 'material-ui-icons/Search'
+import Add from 'material-ui-icons/Add'
+import HelpOutline from 'material-ui-icons/HelpOutline'
 
-import { IndexLink } from 'react-router'
+import { Link } from 'react-router-dom'
 
 import cityOfHelsinkiLogo from 'src/assets/images/helsinki-coat-of-arms-white.png'
 
@@ -19,30 +24,31 @@ class HeaderBar extends React.Component {
 
     render() {
         let buttonStyle = { color: '#ffffff' }
+        let verticalAlignMiddle = { verticalAlign: 'middle' }
 
         // NOTE: mockup for login button functionality
-        let loginButton = <FlatButton style={buttonStyle} linkButton={true} label={<FormattedMessage id="login"/>} onClick={() => this.props.dispatch(login())} />
+        let loginButton = <Button style={buttonStyle} onClick={() => this.props.dispatch(login())}><FormattedMessage id="login"/></Button>
         if(this.props.user) {
-            loginButton = <FlatButton style={buttonStyle} linkButton={true} label={this.props.user.displayName} onClick={() => this.props.dispatch(logout())} />
+            loginButton = <Button style={buttonStyle} onClick={() => this.props.dispatch(logout())}>{this.props.user.displayName}</Button>
         }
 
         return (
             <Toolbar className="mui-toolbar">
-                <ToolbarGroup key={0} float="left">
-                    <IndexLink to="/" className="title">
+                <div style={{float: 'left'}}>
+                    <Link to="/" className="title">
                         <img className="title-image" src={cityOfHelsinkiLogo} alt="City Of Helsinki" />
                         <div className="title-text">Linked Events</div>
-                    </IndexLink>
-                </ToolbarGroup>
-                <ToolbarGroup key={1} float="left">
-                    <FlatButton className="mui-flat-button" style={buttonStyle} linkButton={true} label={<span><FormattedMessage id="organization-events"/><i className="material-icons">&#xE896;</i></span>} onClick={() => this.props.dispatch(pushPath('/'))} />
-                    <FlatButton className="mui-flat-button" style={buttonStyle} linkButton={true} label={<span><FormattedMessage id="search-events"/><i className="material-icons">&#xE8B6;</i></span>} onClick={() => this.props.dispatch(pushPath('/search'))} />
-                    <FlatButton className="mui-flat-button" style={buttonStyle} linkButton={true} label={<span><FormattedMessage id="create-event"/><i className="material-icons">&#xE145;</i></span>} onClick={() => this.props.dispatch(pushPath('/event/create/new'))} />
-                </ToolbarGroup>
-                <ToolbarGroup key={2} float="right">
-                    <FlatButton className="mui-flat-button" style={buttonStyle} linkButton={true} label={<i className="material-icons info-icon">&#xE8FD;</i>} onClick={() => this.props.dispatch(pushPath('/help'))} />
+                    </Link>
+                </div>
+                <div style={{float: 'left'}}>
+                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.dispatch(push('/'))}><FormattedMessage id="organization-events"/><List/></Button>
+                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.dispatch(push('/search'))}><FormattedMessage id="search-events"/><Search/></Button>
+                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.dispatch(push('/event/create/new'))}><FormattedMessage id="create-event"/><Add/></Button>
+                </div>
+                <div style={{float: 'right'}}>
+                    <Button className="mui-flat-button" style={{...buttonStyle,...verticalAlignMiddle}} onClick={() => this.props.dispatch(push('/help'))}><HelpOutline/></Button>
                     {loginButton}
-                </ToolbarGroup>
+                </div>
                 <div className="clearfix"/>
             </Toolbar>
         )

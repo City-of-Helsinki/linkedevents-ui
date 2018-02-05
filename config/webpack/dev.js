@@ -14,6 +14,7 @@ const templateConfigKeys = ['LE_PRODUCTION_INSTANCE', 'APP_MODE'];
 const gitRevisionPlugin = new GitRevisionPlugin();
 
 nconf.env({ parseValues: true, whitelist: jsonConfigKeys.concat(templateConfigKeys)});
+
 // Do not use this to change settings in development (or production!)
 // instead in development use config_dev.toml in project root
 // (and in production use environment variables)
@@ -21,6 +22,7 @@ nconf.env({ parseValues: true, whitelist: jsonConfigKeys.concat(templateConfigKe
 nconf.file({file: 'config_dev.toml', format: require('nconf-toml')})
 nconf.set('commit_hash', gitRevisionPlugin.commithash());
 nconf.required(jsonConfigKeys.concat(templateConfigKeys));
+
 nconf.defaults({
     'api_base': 'https://api.hel.fi/linkedevents-test/v1',
     'local_storage_user_expiry_time': 48,
@@ -68,31 +70,31 @@ export default {
         path: common.paths.ROOT + '/dist',
         filename: '[name].js'
     },
-    debug: true,
     devtool: 'cheap-module-eval-source-map',
     resolve: {
-        root: common.paths.ROOT,
-        extensions: ['.', '', '.webpack.js', '.web.js', '.jsx', '.js']
+        modules: [common.paths.ROOT, 'node_modules'],
+        extensions: ['.', '.webpack.js', '.web.js', '.jsx', '.js']
     },
     module: {
-        loaders: [
-            {test: /\.(js|jsx)?$/, exclude: /node_modules/, loader: 'babel' },
-            {test: /\.scss$/, loaders: ["style", "css", "sass"]},
-            {test: /\.css$/, loader: 'style!css'},
-            {test: /\.json$/, loader: 'json'},
-            {test: /\.jade$/, loader: 'jade'},
-            {test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff"},
-            {test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff"},
-            {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream"},
-            {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file"},
-            {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=image/svg+xml"},
+        rules: [
+            {test: /\.(js|jsx)?$/, exclude: /node_modules/, loader: 'babel-loader' },
+            {test: /\.scss$/, use: [{ loader: "style-loader"}, { loader: "css-loader"}, { loader: "sass-loader"}]},
+            {test: /\.css$/, use: ['style-loader', 'css-loader']},
+            {test: /\.jade$/, loader: 'jade-loader'},
+            {test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=10000&mimetype=application/font-woff"},
+            {test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=10000&mimetype=application/font-woff"},
+            {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=10000&mimetype=application/octet-stream"},
+            {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader"},
+            {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=10000&mimetype=image/svg+xml"},
             {test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192'}
         ]
     },
     plugins: [
-        new webpack.optimize.OccurenceOrderPlugin(),
+        new webpack.LoaderOptionsPlugin({
+            debug: true
+        }),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery",

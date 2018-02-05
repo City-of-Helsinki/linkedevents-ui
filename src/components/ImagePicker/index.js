@@ -1,9 +1,9 @@
-import '!style!css!sass!./index.scss'
+import '!style-loader!css-loader!sass-loader!./index.scss'
 
 import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl'
 import Modal from 'react-bootstrap/lib/Modal';
-import { RaisedButton } from 'material-ui'
+import { Button } from 'material-ui'
 import { deleteImage } from 'src/actions/userImages.js'
 import { connect } from 'react-redux'
 import { get as getIfExists, isEmpty } from 'lodash'
@@ -93,31 +93,30 @@ class ImagePicker extends React.Component {
                     width="600px"
                  >
                     <Modal.Header>
-                        <RaisedButton
-                            label={<FormattedMessage id="ready"/>}
+                        <Button
+                            raised
                             onClick={() => this.closeGalleryModal()}
-                            style={{float:"right"}}
-                            primary={true}
-                        />
+                            style={{float:"right",lineHeight:"1.5",height:"36px"}}
+                            color="primary"><FormattedMessage id="ready"/>
+                        </Button>
 
                         <Modal.Title id='ModalHeader'><FormattedMessage id="new-image" /></Modal.Title>
                         <br />
                         <input onChange={(e) => this.handleUpload(e)} style={{ display: 'none' }} type="file" ref={(ref) => this.hiddenFileInput = ref} />
-                        <RaisedButton
-                            label= {<FormattedMessage id="upload-image" />}
+                        <Button
+                            raised
                             onClick={() => this.clickHiddenUploadInput()}
-                            primary={true}
-                            style={{margin:"0 0 15px 0"}}
-                        />
+                            color="primary"
+                            style={{margin:"0 0 15px 0",lineHeight:"1.5",height:"36px"}}><FormattedMessage id="upload-image" />
+                        </Button>
                         <br />
                         <FormattedMessage id="use-external-image-url" />
                         <br />
                         <input id="externalImageURL" onSubmit={this.handleExternalImageSave} placeholder={"URL"} ref={(ref) => this.externalImageURL = ref} />
-                        <RaisedButton
-                            label="OK"
+                        <Button
+                            raised
                             onClick={() => this.handleExternalImageSave()}
-                            style={{margin:"0 0 0 10px"}}
-                        />
+                            style={{margin:"0 0 0 10px",lineHeight:"1.5",height:"36px"}}>OK</Button>
                     </Modal.Header>
                     <Modal.Body>
                         <Modal.Title id='ModalBodyTitle'><FormattedMessage id="use-existing-image"/></Modal.Title>
@@ -125,18 +124,19 @@ class ImagePicker extends React.Component {
                         <div style={{clear:'both'}} />
                     </Modal.Body>
                     <Modal.Footer>
-                        <RaisedButton
-                            label={<FormattedMessage id="delete"/>}
+                        <Button
+                            raised
                             onClick={() => this.handleDelete()}
                             primary={false}
-                            style={{margin:"0 10px 0 0"}}
-                            disabled={isEmpty(this.props.editor.values.image)}
-                        />
-                        <RaisedButton
-                            label={<FormattedMessage id="ready"/>}
+                            style={{margin:"0 10px 0 0",lineHeight:"1.5",height:"36px"}}
+                            disabled={isEmpty(this.props.editor.values.image)}><FormattedMessage id="delete"/>
+                        </Button>
+                        <Button
+                            raised
                             onClick={() => this.closeGalleryModal()}
-                            primary={true}
-                        />
+                            style={{lineHeight:"1.5",height:"36px"}}
+                            color="primary"><FormattedMessage id="ready"/>
+                        </Button>
                     </Modal.Footer>
 
                 </Modal>

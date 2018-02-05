@@ -39,8 +39,10 @@ function clearEventDataFromLocalStorage() {
 
 function update(state = initialState, action) {
     if (action.type === constants.EDITOR_SETDATA) {
+        let newValues = {}
+        // Merge new values to existing values
         if (action.event) {
-            return updater(state, {
+            newValues = updater(state, {
                 values: {
                     sub_events: {
                         [action.key]: {
@@ -49,9 +51,9 @@ function update(state = initialState, action) {
                     }
                 }
             });
-        }
-        if (action.offer) {
-            return updater(state, {
+            newValues = newValues.values
+        } else if (action.offer) {
+            newValues = updater(state, {
                 values: {
                     offers: {
                         [action.key]: {
@@ -60,17 +62,42 @@ function update(state = initialState, action) {
                     }
                 }
             });
+            newValues = newValues.values
+        } else {
+            newValues = Object.assign({}, state.values, action.values)
         }
-        // Merge new values to existing values
-        let newValues = Object.assign({}, state.values, action.values)
-
+    
         // Local storage saving disabled for now
         // localStorage.setItem('EDITOR_VALUES', JSON.stringify(newValues))
-
+    
         let validationErrors = Object.assign({}, state.validationErrors)
         // If there are validation errors, check if they are fixed
         if (_.keys(state.validationErrors).length > 0) {
             validationErrors = doValidations(newValues, state.contentLanguages, state.validateFor || constants.PUBLICATION_STATUS.PUBLIC)
+        }
+
+        if (action.event) {
+            return updater(state, {
+                values: {
+                    sub_events: {
+                        [action.key]: {
+                            $set: newValues.sub_events[action.key]
+                        }
+                    }
+                },
+                validationErrors: {$set: validationErrors}
+            });
+        } else if (action.offer) {
+            return updater(state, {
+                values: {
+                    offers: {
+                        [action.key]: {
+                            $set: newValues.offers[action.key]
+                        }
+                    }
+                },
+                validationErrors: {$set: validationErrors}
+            });
         }
 
         return Object.assign({}, state, {
@@ -153,6 +180,17 @@ function update(state = initialState, action) {
         for (const offer of offers) {
             offer.is_free = action.isFree
         }
+
+        if (action.isFree === true) {
+            // Event is free so we can clear the offers key from state store
+            // this prevents validation errors on possibly already entered offer fields
+            return updater(state, {
+                values: {
+                    $unset: ['offers']
+                }
+            })
+        }
+
         return updater(state, {
             values: {
                 offers: {

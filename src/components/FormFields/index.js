@@ -1,4 +1,5 @@
-require('!style!css!sass!./index.scss')
+require('!style-loader!css-loader!sass-loader!./index.scss')
+import PropTypes from 'prop-types';
 import React from 'react'
 
 import { FormattedMessage, injectIntl } from 'react-intl'
@@ -19,7 +20,10 @@ import {
 } from 'src/components/HelFormFields'
 import RecurringEvent from 'src/components/RecurringEvent'
 
-import { RaisedButton, FlatButton } from 'material-ui'
+import { Button } from 'material-ui'
+// Material-ui Icons
+import Add from 'material-ui-icons/Add'
+import Autorenew from 'material-ui-icons/Autorenew'
 
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
 import {connect} from 'react-redux'
@@ -69,10 +73,10 @@ let updateEventHidden = function(eventData) {
 class FormFields extends React.Component {
 
     static contextTypes = {
-        intl: React.PropTypes.object,
-        dispatch: React.PropTypes.func,
-        showNewEvents: React.PropTypes.bool,
-        showRecurringEvent: React.PropTypes.bool
+        intl: PropTypes.object,
+        dispatch: PropTypes.func,
+        showNewEvents: PropTypes.bool,
+        showRecurringEvent: PropTypes.bool
     };
 
     constructor(props) {
@@ -171,8 +175,16 @@ class FormFields extends React.Component {
         let helEventLangOptions = mapLanguagesSetToForm(this.props.editor.languages)
         let buttonStyle = {
             height: '64px',
+            width: '100%',
             margin: '10px 5px',
-            display: 'block'
+        }
+        const getAddRecurringEventButtonColor = (showRecurringEvent) => {
+            if (showRecurringEvent == true) {
+                return 'secondary'
+            } else {
+                return 'primary'
+            }
+
         }
         const { values, validationErrors, contentLanguages } = this.props.editor
         const newEvents = this.generateNewEventFields(this.props.editor.values.sub_events);
@@ -228,16 +240,18 @@ class FormFields extends React.Component {
                         { this.state.showRecurringEvent &&
                             <RecurringEvent toggle={() => this.showRecurringEventDialog()} validationErrors={validationErrors} values={values}/>
                         }
-                        <RaisedButton
+                        <Button
+                            raised
                             style={buttonStyle}
-                            primary={true}
+                            color="primary"
                             onClick={ () => this.addNewEventDialog() }
-                            label={<span><i className="material-icons">add</i> <FormattedMessage id="event-add-new-occasion" /></span>} />
-                        <RaisedButton
+                            ><Add/> <FormattedMessage id="event-add-new-occasion" /></Button>
+                        <Button
+                            raised
                             style={buttonStyle}
-                            primary={!this.state.showRecurringEvent}
+                            color={getAddRecurringEventButtonColor(this.state.showRecurringEvent)}
                             onClick={ () => this.showRecurringEventDialog() }
-                            label={<span><i className="material-icons">autorenew</i> <FormattedMessage id="event-add-recurring" /></span>} />
+                            ><Autorenew/> <FormattedMessage id="event-add-recurring" /></Button>
                     </div>
                     <SideField>
                         <div className="tip">
