@@ -298,9 +298,8 @@ class FormFields extends React.Component {
                     </div>
                     <SideField>
                         <div className="tip">
-                            <p>Merkitse jos tapahtuma on maksuton tai lisää tapahtuman hinta tekstimuodossa (esim. 7€/5€).</p>
-                            <p>Kerro mahdollisesta ennakkoilmoittautumisesta tai anna lisätietoja esimerkiksi paikkavarauksista.</p>
-                            <p>Lisää mahdollinen linkki lipunmyyntiin tai ilmoittautumiseen.</p>
+                            <p>Merkitse onko tapahtuma maksuton. Syötä maksulliselle tapahtumalle hinta muodossa "5€".</p>
+                            <p>Jos tapahtumalla on useita hintoja, klikkaa Lisää uusi hintatieto ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.</p>
                         </div>
                     </SideField>
                 </div>
