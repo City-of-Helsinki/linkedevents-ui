@@ -56,7 +56,7 @@ class MultiLanguageField extends React.Component {
         }
 
         if(typeof this.props.onBlur === 'function') {
-            this.props.onBlur(event, this.getValue())
+            this.props.onBlur(e, this.getValue())
         }
     }
 
