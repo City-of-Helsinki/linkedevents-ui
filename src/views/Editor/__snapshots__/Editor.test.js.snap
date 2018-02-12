@@ -1,6 +1,3541 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Editor Snapshot should render view correctly 1`] = `
+exports[`Editor Snapshot should render view correctly when editing existing event 1`] = `
+<div
+  className="editor-page"
+>
+  <div
+    className="container header"
+  >
+    <h1>
+      <span>
+        Muokkaa tapahtumaa
+      </span>
+    </h1>
+    <span
+      className="controls"
+    >
+      <button
+        className="MuiButtonBase-root-17 MuiButton-root-1 MuiButton-raised-8 MuiButton-raisedPrimary-10 pull-right"
+        disabled={false}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        role={undefined}
+        tabIndex={0}
+        type="button"
+      >
+        <span
+          className="MuiButton-label-3"
+        >
+          <span>
+            Tyhjennä kentät
+          </span>
+           
+          <svg
+            aria-hidden="true"
+            className="MuiSvgIcon-root-19"
+            color={undefined}
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+          </svg>
+        </span>
+        <span
+          className="MuiTouchRipple-root-26"
+        />
+      </button>
+    </span>
+  </div>
+  <div
+    className="container"
+  >
+    <div>
+      <div
+        className="col-sm-12 highlighted-block"
+      >
+        <div
+          className="col-xl-4 col-sm-12"
+        >
+          <label>
+            <span>
+              Tapahtumatiedot syötetään
+            </span>
+          </label>
+        </div>
+        <div
+          className="col-xl-8 col-sm-12"
+        >
+          <div
+            className="spread-evenly"
+          >
+            <div
+              className="col-sm-12 language-selection"
+            >
+              <div
+                className="form-group hel-checkbox inline"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={true}
+                      className=""
+                      disabled={false}
+                      groupClassName="hel-checkbox inline"
+                      hasFeedback={false}
+                      label={
+                        <FormattedMessage
+                          id="in-fi"
+                          values={Object {}}
+                        />
+                      }
+                      multiple={false}
+                      name="fi"
+                      onChange={[Function]}
+                      style={
+                        Object {
+                          "width": "auto",
+                        }
+                      }
+                      type="checkbox"
+                    />
+                    <span>
+                      suomeksi
+                    </span>
+                  </label>
+                </div>
+              </div>
+              <div
+                className="form-group hel-checkbox inline"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={true}
+                      className=""
+                      disabled={false}
+                      groupClassName="hel-checkbox inline"
+                      hasFeedback={false}
+                      label={
+                        <FormattedMessage
+                          id="in-sv"
+                          values={Object {}}
+                        />
+                      }
+                      multiple={false}
+                      name="sv"
+                      onChange={[Function]}
+                      style={
+                        Object {
+                          "width": "auto",
+                        }
+                      }
+                      type="checkbox"
+                    />
+                    <span>
+                      ruotsiksi
+                    </span>
+                  </label>
+                </div>
+              </div>
+              <div
+                className="form-group hel-checkbox inline"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      disabled={false}
+                      groupClassName="hel-checkbox inline"
+                      hasFeedback={false}
+                      label={
+                        <FormattedMessage
+                          id="in-en"
+                          values={Object {}}
+                        />
+                      }
+                      multiple={false}
+                      name="en"
+                      onChange={[Function]}
+                      style={
+                        Object {
+                          "width": "auto",
+                        }
+                      }
+                      type="checkbox"
+                    />
+                    <span>
+                      englanniksi
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="row"
+      >
+        <legend
+          className="col-sm-12"
+        >
+          <span>
+            Tapahtuman kuvaus
+          </span>
+        </legend>
+      </div>
+      <div
+        className="row"
+      >
+        <div
+          className="col-sm-6"
+        >
+          <div
+            className="multi-field"
+          >
+            <div
+              className="indented"
+            >
+              <label>
+                <span>
+                  Otsikko
+                </span>
+                <span />
+              </label>
+              <div>
+                <span
+                  style={
+                    Object {
+                      "position": "relative",
+                    }
+                  }
+                >
+                  <div
+                    className="form-group has-feedback hel-text-field"
+                  >
+                    <label
+                      className="control-label hel-label relative"
+                      htmlFor={undefined}
+                    >
+                      <span
+                        style={
+                          Object {
+                            "position": "relative",
+                          }
+                        }
+                      >
+                        suomeksi
+                         
+                        <span>
+                          *
+                        </span>
+                         
+                        <span />
+                      </span>
+                    </label>
+                    <input
+                      className="form-control"
+                      disabled={false}
+                      groupClassName="hel-text-field"
+                      hasFeedback={true}
+                      help={undefined}
+                      label={
+                        <span
+                          style={
+                            Object {
+                              "position": "relative",
+                            }
+                          }
+                        >
+                          suomeksi
+                           
+                          <span>
+                            *
+                          </span>
+                           
+                          <Unknown
+                            index={undefined}
+                            small={true}
+                            validationErrors={undefined}
+                          />
+                        </span>
+                      }
+                      labelClassName="hel-label relative"
+                      multiple={false}
+                      name={undefined}
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      placeholder={undefined}
+                      rows="1"
+                      type="text"
+                      value="ExampleEventForUnitTests_otsikkofi"
+                    />
+                    <span
+                      className="form-control-feedback"
+                    />
+                  </div>
+                </span>
+              </div>
+              <div>
+                <span
+                  style={
+                    Object {
+                      "position": "relative",
+                    }
+                  }
+                >
+                  <div
+                    className="form-group has-feedback hel-text-field"
+                  >
+                    <label
+                      className="control-label hel-label relative"
+                      htmlFor={undefined}
+                    >
+                      <span
+                        style={
+                          Object {
+                            "position": "relative",
+                          }
+                        }
+                      >
+                        ruotsiksi
+                         
+                        <span>
+                          *
+                        </span>
+                         
+                        <span />
+                      </span>
+                    </label>
+                    <input
+                      className="form-control"
+                      disabled={false}
+                      groupClassName="hel-text-field"
+                      hasFeedback={true}
+                      help={undefined}
+                      label={
+                        <span
+                          style={
+                            Object {
+                              "position": "relative",
+                            }
+                          }
+                        >
+                          ruotsiksi
+                           
+                          <span>
+                            *
+                          </span>
+                           
+                          <Unknown
+                            index={undefined}
+                            small={true}
+                            validationErrors={undefined}
+                          />
+                        </span>
+                      }
+                      labelClassName="hel-label relative"
+                      multiple={false}
+                      name={undefined}
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      placeholder={undefined}
+                      rows="1"
+                      type="text"
+                      value="ExampleEventForUnitTests_otsikkosv"
+                    />
+                    <span
+                      className="form-control-feedback"
+                    />
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            className="multi-field"
+          >
+            <div
+              className="indented"
+            >
+              <label>
+                <span>
+                  Lyhyt kuvaus (korkeintaan 160 merkkiä)
+                </span>
+                <span />
+              </label>
+              <div>
+                <span
+                  style={
+                    Object {
+                      "position": "relative",
+                    }
+                  }
+                >
+                  <div
+                    className="form-group has-feedback hel-text-field"
+                  >
+                    <label
+                      className="control-label hel-label relative"
+                      htmlFor={undefined}
+                    >
+                      <span
+                        style={
+                          Object {
+                            "position": "relative",
+                          }
+                        }
+                      >
+                        suomeksi
+                         
+                        <span>
+                          *
+                        </span>
+                         
+                        <span />
+                      </span>
+                    </label>
+                    <textarea
+                      className="form-control"
+                      disabled={false}
+                      groupClassName="hel-text-field"
+                      hasFeedback={true}
+                      help="146 merkkiä jäljellä"
+                      label={
+                        <span
+                          style={
+                            Object {
+                              "position": "relative",
+                            }
+                          }
+                        >
+                          suomeksi
+                           
+                          <span>
+                            *
+                          </span>
+                           
+                          <Unknown
+                            index={undefined}
+                            small={true}
+                            validationErrors={undefined}
+                          />
+                        </span>
+                      }
+                      labelClassName="hel-label relative"
+                      multiple={false}
+                      name={undefined}
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      placeholder={undefined}
+                      rows="1"
+                      type="textarea"
+                      value="Lyhyt suomeksi"
+                    />
+                    <span
+                      className="form-control-feedback"
+                    />
+                    <span
+                      className="help-block"
+                    >
+                      146 merkkiä jäljellä
+                    </span>
+                  </div>
+                </span>
+              </div>
+              <div>
+                <span
+                  style={
+                    Object {
+                      "position": "relative",
+                    }
+                  }
+                >
+                  <div
+                    className="form-group has-feedback hel-text-field"
+                  >
+                    <label
+                      className="control-label hel-label relative"
+                      htmlFor={undefined}
+                    >
+                      <span
+                        style={
+                          Object {
+                            "position": "relative",
+                          }
+                        }
+                      >
+                        ruotsiksi
+                         
+                        <span>
+                          *
+                        </span>
+                         
+                        <span />
+                      </span>
+                    </label>
+                    <textarea
+                      className="form-control"
+                      disabled={false}
+                      groupClassName="hel-text-field"
+                      hasFeedback={true}
+                      help="141 merkkiä jäljellä"
+                      label={
+                        <span
+                          style={
+                            Object {
+                              "position": "relative",
+                            }
+                          }
+                        >
+                          ruotsiksi
+                           
+                          <span>
+                            *
+                          </span>
+                           
+                          <Unknown
+                            index={undefined}
+                            small={true}
+                            validationErrors={undefined}
+                          />
+                        </span>
+                      }
+                      labelClassName="hel-label relative"
+                      multiple={false}
+                      name={undefined}
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      placeholder={undefined}
+                      rows="1"
+                      type="textarea"
+                      value="En kort beskrivning"
+                    />
+                    <span
+                      className="form-control-feedback"
+                    />
+                    <span
+                      className="help-block"
+                    >
+                      141 merkkiä jäljellä
+                    </span>
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            className="multi-field"
+          >
+            <div
+              className="indented"
+            >
+              <label>
+                <span>
+                  Kuvaus
+                </span>
+                <span />
+              </label>
+              <div>
+                <span
+                  style={
+                    Object {
+                      "position": "relative",
+                    }
+                  }
+                >
+                  <div
+                    className="form-group has-feedback hel-text-field"
+                  >
+                    <label
+                      className="control-label hel-label relative"
+                      htmlFor={undefined}
+                    >
+                      <span
+                        style={
+                          Object {
+                            "position": "relative",
+                          }
+                        }
+                      >
+                        suomeksi
+                         
+                        <span>
+                          *
+                        </span>
+                         
+                        <span />
+                      </span>
+                    </label>
+                    <textarea
+                      className="form-control"
+                      disabled={false}
+                      groupClassName="hel-text-field"
+                      hasFeedback={true}
+                      help="15 merkkiä käytetty"
+                      label={
+                        <span
+                          style={
+                            Object {
+                              "position": "relative",
+                            }
+                          }
+                        >
+                          suomeksi
+                           
+                          <span>
+                            *
+                          </span>
+                           
+                          <Unknown
+                            index={undefined}
+                            small={true}
+                            validationErrors={undefined}
+                          />
+                        </span>
+                      }
+                      labelClassName="hel-label relative"
+                      multiple={false}
+                      name={undefined}
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      placeholder={undefined}
+                      rows="1"
+                      type="textarea"
+                      value="Kuvaus suomeksi"
+                    />
+                    <span
+                      className="form-control-feedback"
+                    />
+                    <span
+                      className="help-block"
+                    >
+                      15 merkkiä käytetty
+                    </span>
+                  </div>
+                </span>
+              </div>
+              <div>
+                <span
+                  style={
+                    Object {
+                      "position": "relative",
+                    }
+                  }
+                >
+                  <div
+                    className="form-group has-feedback hel-text-field"
+                  >
+                    <label
+                      className="control-label hel-label relative"
+                      htmlFor={undefined}
+                    >
+                      <span
+                        style={
+                          Object {
+                            "position": "relative",
+                          }
+                        }
+                      >
+                        ruotsiksi
+                         
+                        <span>
+                          *
+                        </span>
+                         
+                        <span />
+                      </span>
+                    </label>
+                    <textarea
+                      className="form-control"
+                      disabled={false}
+                      groupClassName="hel-text-field"
+                      hasFeedback={true}
+                      help="16 merkkiä käytetty"
+                      label={
+                        <span
+                          style={
+                            Object {
+                              "position": "relative",
+                            }
+                          }
+                        >
+                          ruotsiksi
+                           
+                          <span>
+                            *
+                          </span>
+                           
+                          <Unknown
+                            index={undefined}
+                            small={true}
+                            validationErrors={undefined}
+                          />
+                        </span>
+                      }
+                      labelClassName="hel-label relative"
+                      multiple={false}
+                      name={undefined}
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      placeholder={undefined}
+                      rows="1"
+                      type="textarea"
+                      value="Kuvaus ruotsiksi"
+                    />
+                    <span
+                      className="form-control-feedback"
+                    />
+                    <span
+                      className="help-block"
+                    >
+                      16 merkkiä käytetty
+                    </span>
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            className="multi-field"
+          >
+            <div
+              className="indented"
+            >
+              <label>
+                <span>
+                  Kotisivu
+                </span>
+                <span />
+              </label>
+              <div>
+                <span
+                  style={
+                    Object {
+                      "position": "relative",
+                    }
+                  }
+                >
+                  <div
+                    className="form-group has-feedback hel-text-field"
+                  >
+                    <label
+                      className="control-label hel-label relative"
+                      htmlFor={undefined}
+                    >
+                      <span
+                        style={
+                          Object {
+                            "position": "relative",
+                          }
+                        }
+                      >
+                        suomeksi
+                         
+                         
+                        <span />
+                      </span>
+                    </label>
+                    <input
+                      className="form-control"
+                      disabled={false}
+                      groupClassName="hel-text-field"
+                      hasFeedback={true}
+                      help={null}
+                      label={
+                        <span
+                          style={
+                            Object {
+                              "position": "relative",
+                            }
+                          }
+                        >
+                          suomeksi
+                           
+                           
+                          <Unknown
+                            index={undefined}
+                            small={true}
+                            validationErrors={undefined}
+                          />
+                        </span>
+                      }
+                      labelClassName="hel-label relative"
+                      multiple={false}
+                      name={undefined}
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      placeholder={undefined}
+                      rows="1"
+                      type="text"
+                      value="http://foo.fi"
+                    />
+                    <span
+                      className="form-control-feedback"
+                    />
+                  </div>
+                </span>
+              </div>
+              <div>
+                <span
+                  style={
+                    Object {
+                      "position": "relative",
+                    }
+                  }
+                >
+                  <div
+                    className="form-group has-feedback hel-text-field"
+                  >
+                    <label
+                      className="control-label hel-label relative"
+                      htmlFor={undefined}
+                    >
+                      <span
+                        style={
+                          Object {
+                            "position": "relative",
+                          }
+                        }
+                      >
+                        ruotsiksi
+                         
+                         
+                        <span />
+                      </span>
+                    </label>
+                    <input
+                      className="form-control"
+                      disabled={false}
+                      groupClassName="hel-text-field"
+                      hasFeedback={true}
+                      help={null}
+                      label={
+                        <span
+                          style={
+                            Object {
+                              "position": "relative",
+                            }
+                          }
+                        >
+                          ruotsiksi
+                           
+                           
+                          <Unknown
+                            index={undefined}
+                            small={true}
+                            validationErrors={undefined}
+                          />
+                        </span>
+                      }
+                      labelClassName="hel-label relative"
+                      multiple={false}
+                      name={undefined}
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      placeholder={undefined}
+                      rows="1"
+                      type="text"
+                      value="http://bar.sv"
+                    />
+                    <span
+                      className="form-control-feedback"
+                    />
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            className="multi-field"
+          >
+            <div
+              className="indented"
+            >
+              <label>
+                <span>
+                  Tapahtuman järjestäjä (jos eri kuin syöttäjän organisaatio)
+                </span>
+                <span />
+              </label>
+              <div>
+                <span
+                  style={
+                    Object {
+                      "position": "relative",
+                    }
+                  }
+                >
+                  <div
+                    className="form-group has-feedback hel-text-field"
+                  >
+                    <label
+                      className="control-label hel-label relative"
+                      htmlFor={undefined}
+                    >
+                      <span
+                        style={
+                          Object {
+                            "position": "relative",
+                          }
+                        }
+                      >
+                        suomeksi
+                         
+                         
+                        <span />
+                      </span>
+                    </label>
+                    <input
+                      className="form-control"
+                      disabled={false}
+                      groupClassName="hel-text-field"
+                      hasFeedback={true}
+                      help={undefined}
+                      label={
+                        <span
+                          style={
+                            Object {
+                              "position": "relative",
+                            }
+                          }
+                        >
+                          suomeksi
+                           
+                           
+                          <Unknown
+                            index={undefined}
+                            small={true}
+                            validationErrors={undefined}
+                          />
+                        </span>
+                      }
+                      labelClassName="hel-label relative"
+                      multiple={false}
+                      name={undefined}
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      placeholder={undefined}
+                      rows="1"
+                      type="text"
+                      value="Järkkäri"
+                    />
+                    <span
+                      className="form-control-feedback"
+                    />
+                  </div>
+                </span>
+              </div>
+              <div>
+                <span
+                  style={
+                    Object {
+                      "position": "relative",
+                    }
+                  }
+                >
+                  <div
+                    className="form-group has-feedback hel-text-field"
+                  >
+                    <label
+                      className="control-label hel-label relative"
+                      htmlFor={undefined}
+                    >
+                      <span
+                        style={
+                          Object {
+                            "position": "relative",
+                          }
+                        }
+                      >
+                        ruotsiksi
+                         
+                         
+                        <span />
+                      </span>
+                    </label>
+                    <input
+                      className="form-control"
+                      disabled={false}
+                      groupClassName="hel-text-field"
+                      hasFeedback={true}
+                      help={undefined}
+                      label={
+                        <span
+                          style={
+                            Object {
+                              "position": "relative",
+                            }
+                          }
+                        >
+                          ruotsiksi
+                           
+                           
+                          <Unknown
+                            index={undefined}
+                            small={true}
+                            validationErrors={undefined}
+                          />
+                        </span>
+                      }
+                      labelClassName="hel-label relative"
+                      multiple={false}
+                      name={undefined}
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      placeholder={undefined}
+                      rows="1"
+                      type="text"
+                      value="Jårkkari"
+                    />
+                    <span
+                      className="form-control-feedback"
+                    />
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="side-field col-sm-5 col-sm-push-1"
+        >
+          <label>
+            <span>
+              Tapahtuman kuva (klikkaa vaihtaaksesi)
+            </span>
+          </label>
+          <div
+            className="image-picker"
+            onClick={[Function]}
+          >
+            <div>
+              <div
+                className="img-preview"
+                style={
+                  Object {
+                    "backgroundImage": "url()",
+                  }
+                }
+              />
+              <div>
+                <i
+                  className="material-icons"
+                >
+                  
+                </i>
+              </div>
+              <label>
+                <span>
+                  Lisää tapahtumalle kuva tai valitse kuvapankista
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="row"
+      >
+        <legend
+          className="col-sm-12"
+        >
+          <span>
+            Tapahtuman ajankohdat
+          </span>
+        </legend>
+      </div>
+      <div
+        className="row"
+      >
+        <div
+          className="col-sm-6"
+        >
+          <div
+            className="row"
+          >
+            <div
+              className="col-xs-12 col-md-6"
+            >
+              <div
+                className="multi-field"
+              >
+                <div
+                  className="indented"
+                >
+                  <label
+                    style={
+                      Object {
+                        "position": "relative",
+                      }
+                    }
+                  >
+                    <span>
+                      Tapahtuma alkaa
+                    </span>
+                     
+                    <span />
+                  </label>
+                  <div
+                    className="hel-text-field"
+                  >
+                    <div
+                      className="react-datepicker__input-container"
+                    >
+                      <input
+                        autoComplete={undefined}
+                        autoFocus={undefined}
+                        className=""
+                        disabled={false}
+                        id={undefined}
+                        name="start_time"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onKeyDown={[Function]}
+                        placeholder="pp.kk.vvvv"
+                        readOnly={undefined}
+                        required={undefined}
+                        tabIndex={undefined}
+                        title={undefined}
+                        type="text"
+                        value="12.02.2018"
+                      />
+                    </div>
+                  </div>
+                  <span
+                    style={
+                      Object {
+                        "position": "relative",
+                      }
+                    }
+                  >
+                    <div
+                      className="form-group has-feedback hel-text-field"
+                    >
+                      <label
+                        className="control-label hel-label relative"
+                        htmlFor={undefined}
+                      >
+                        <span
+                          style={
+                            Object {
+                              "position": "relative",
+                            }
+                          }
+                        >
+                           
+                           
+                          <span />
+                        </span>
+                      </label>
+                      <input
+                        className="form-control"
+                        disabled={false}
+                        groupClassName="hel-text-field"
+                        hasFeedback={true}
+                        help={undefined}
+                        label={
+                          <span
+                            style={
+                              Object {
+                                "position": "relative",
+                              }
+                            }
+                          >
+                             
+                             
+                            <Unknown
+                              index={undefined}
+                              small={true}
+                              validationErrors={undefined}
+                            />
+                          </span>
+                        }
+                        labelClassName="hel-label relative"
+                        multiple={false}
+                        name="start_time"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        placeholder="hh.mm"
+                        rows="1"
+                        type="text"
+                        value="15.16"
+                      />
+                      <span
+                        className="form-control-feedback"
+                      />
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              className="col-xs-12 col-md-6"
+            >
+              <div
+                className="multi-field"
+              >
+                <div
+                  className="indented"
+                >
+                  <label
+                    style={
+                      Object {
+                        "position": "relative",
+                      }
+                    }
+                  >
+                    <span>
+                      Tapahtuma päättyy
+                    </span>
+                     
+                    <span />
+                  </label>
+                  <div
+                    className="hel-text-field"
+                  >
+                    <div
+                      className="react-datepicker__input-container"
+                    >
+                      <input
+                        autoComplete={undefined}
+                        autoFocus={undefined}
+                        className=""
+                        disabled={false}
+                        id={undefined}
+                        name="end_time"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onKeyDown={[Function]}
+                        placeholder="pp.kk.vvvv"
+                        readOnly={undefined}
+                        required={undefined}
+                        tabIndex={undefined}
+                        title={undefined}
+                        type="text"
+                        value="12.02.2018"
+                      />
+                    </div>
+                  </div>
+                  <span
+                    style={
+                      Object {
+                        "position": "relative",
+                      }
+                    }
+                  >
+                    <div
+                      className="form-group has-feedback hel-text-field"
+                    >
+                      <label
+                        className="control-label hel-label relative"
+                        htmlFor={undefined}
+                      >
+                        <span
+                          style={
+                            Object {
+                              "position": "relative",
+                            }
+                          }
+                        >
+                           
+                           
+                          <span />
+                        </span>
+                      </label>
+                      <input
+                        className="form-control"
+                        disabled={false}
+                        groupClassName="hel-text-field"
+                        hasFeedback={true}
+                        help={undefined}
+                        label={
+                          <span
+                            style={
+                              Object {
+                                "position": "relative",
+                              }
+                            }
+                          >
+                             
+                             
+                            <Unknown
+                              index={undefined}
+                              small={true}
+                              validationErrors={undefined}
+                            />
+                          </span>
+                        }
+                        labelClassName="hel-label relative"
+                        multiple={false}
+                        name="end_time"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        placeholder="hh.mm"
+                        rows="1"
+                        type="text"
+                        value="17.18"
+                      />
+                      <span
+                        className="form-control-feedback"
+                      />
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="new-events show"
+          />
+          <button
+            className="MuiButtonBase-root-17 MuiButton-root-1 MuiButton-raised-8 MuiButton-raisedPrimary-10"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            role={undefined}
+            style={
+              Object {
+                "height": "64px",
+                "margin": "10px 5px",
+                "width": "100%",
+              }
+            }
+            tabIndex={0}
+            type="button"
+          >
+            <span
+              className="MuiButton-label-3"
+            >
+              <svg
+                aria-hidden="true"
+                className="MuiSvgIcon-root-19"
+                color={undefined}
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+                />
+              </svg>
+               
+              <span>
+                Lisää uusi ajankohta
+              </span>
+            </span>
+            <span
+              className="MuiTouchRipple-root-26"
+            />
+          </button>
+          <button
+            className="MuiButtonBase-root-17 MuiButton-root-1 MuiButton-raised-8 MuiButton-raisedPrimary-10"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            role={undefined}
+            style={
+              Object {
+                "height": "64px",
+                "margin": "10px 5px",
+                "width": "100%",
+              }
+            }
+            tabIndex={0}
+            type="button"
+          >
+            <span
+              className="MuiButton-label-3"
+            >
+              <svg
+                aria-hidden="true"
+                className="MuiSvgIcon-root-19"
+                color={undefined}
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3c4.42 0 8-3.58 8-8 0-1.57-.46-3.03-1.24-4.26z"
+                />
+              </svg>
+               
+              <span>
+                Toistuva tapahtuma
+              </span>
+            </span>
+            <span
+              className="MuiTouchRipple-root-26"
+            />
+          </button>
+        </div>
+        <div
+          className="side-field col-sm-5 col-sm-push-1"
+        >
+          <div
+            className="tip"
+          >
+            <p>
+              Kirjoita tapahtuman alkamispäivä ja myös alkamisaika, jos tapahtuma alkaa tiettyyn kellonaikaan.
+            </p>
+            <p>
+              Kirjoita myös päättymispäivä sekä päättymisaika, jos tapahtuma päättyy tiettyyn kellonaikaan.
+            </p>
+            <p>
+              Jos tapahtuma järjestetään useamman kerran, voit lisätä tapahtumalle uusia ajankohtia. Jos tapahtuma toistuu säännöllisesti, voit lisätä kaikki ajankohdat kerralla valitsemalla Toistuva tapahtuma.
+            </p>
+            <p>
+              Ylimääräisen ajankohdan voit poistaa valitsemalla ajankohdan vieressä olevan roskakorisymbolin.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        className="row"
+      >
+        <legend
+          className="col-sm-12"
+        >
+          <span>
+            Tapahtumapaikka
+          </span>
+        </legend>
+      </div>
+      <div
+        className="row location-row"
+      >
+        <div
+          className="col-sm-6"
+        >
+          <span>
+            <div
+              className="hel-select"
+            >
+              <span
+                className="legend"
+                style={
+                  Object {
+                    "position": "relative",
+                    "width": "auto",
+                  }
+                }
+              >
+                Paikka 
+                <span />
+              </span>
+              <div
+                className="Select Select--single is-clearable is-searchable has-value"
+                style={undefined}
+              >
+                <div
+                  className="Select-control"
+                  onKeyDown={[Function]}
+                  onMouseDown={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchMove={[Function]}
+                  onTouchStart={[Function]}
+                  style={undefined}
+                >
+                  <span
+                    className="Select-multi-value-wrapper"
+                    id="react-select-4--value"
+                  >
+                    <div
+                      className="Select-value"
+                      style={undefined}
+                      title={undefined}
+                    >
+                      <span
+                        aria-selected="true"
+                        className="Select-value-label"
+                        id="react-select-4--value-item"
+                        role="option"
+                      >
+                        Tuomiokirkon krypta
+                      </span>
+                    </div>
+                    <div
+                      className="Select-input"
+                      style={
+                        Object {
+                          "display": "inline-block",
+                        }
+                      }
+                    >
+                      <input
+                        aria-activedescendant="react-select-4--value"
+                        aria-describedby={undefined}
+                        aria-expanded="false"
+                        aria-haspopup="false"
+                        aria-label={undefined}
+                        aria-labelledby={undefined}
+                        aria-owns=""
+                        className={undefined}
+                        id={undefined}
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        required={false}
+                        role="combobox"
+                        style={
+                          Object {
+                            "boxSizing": "content-box",
+                            "width": "5px",
+                          }
+                        }
+                        tabIndex={undefined}
+                        value=""
+                      />
+                      <div
+                        style={
+                          Object {
+                            "height": 0,
+                            "left": 0,
+                            "overflow": "scroll",
+                            "position": "absolute",
+                            "top": 0,
+                            "visibility": "hidden",
+                            "whiteSpace": "pre",
+                          }
+                        }
+                      >
+                        
+                      </div>
+                    </div>
+                  </span>
+                  <span
+                    aria-label="Clear value"
+                    className="Select-clear-zone"
+                    onMouseDown={[Function]}
+                    onTouchEnd={[Function]}
+                    onTouchMove={[Function]}
+                    onTouchStart={[Function]}
+                    title="Clear value"
+                  >
+                    <span
+                      className="Select-clear"
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "&times;",
+                        }
+                      }
+                    />
+                  </span>
+                  <span
+                    className="Select-arrow-zone"
+                    onMouseDown={[Function]}
+                  >
+                    <span
+                      className="Select-arrow"
+                      onMouseDown={[Function]}
+                    />
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div
+                className="form-group hel-text-field"
+              >
+                <label
+                  className="control-label hel-label"
+                  htmlFor={undefined}
+                >
+                  Paikan ID
+                </label>
+                <input
+                  className="form-control"
+                  disabled={true}
+                  groupClassName="hel-text-field"
+                  hasFeedback={false}
+                  label="Paikan ID"
+                  labelClassName="hel-label"
+                  multiple={false}
+                  type="text"
+                  value="matko:587"
+                />
+              </div>
+            </div>
+          </span>
+          <button
+            className="clipboard-copy-button"
+            onClick={[Function]}
+            title="Kopioi leikepöydälle"
+          >
+            <i
+              className="material-icons"
+            >
+              
+            </i>
+          </button>
+          <div
+            className="multi-field"
+          >
+            <div
+              className="indented"
+            >
+              <label>
+                <span>
+                  Paikan lisätiedot
+                </span>
+                <span />
+              </label>
+              <div>
+                <span
+                  style={
+                    Object {
+                      "position": "relative",
+                    }
+                  }
+                >
+                  <div
+                    className="form-group has-feedback hel-text-field"
+                  >
+                    <label
+                      className="control-label hel-label relative"
+                      htmlFor={undefined}
+                    >
+                      <span
+                        style={
+                          Object {
+                            "position": "relative",
+                          }
+                        }
+                      >
+                        suomeksi
+                         
+                         
+                        <span />
+                      </span>
+                    </label>
+                    <textarea
+                      className="form-control"
+                      disabled={false}
+                      groupClassName="hel-text-field"
+                      hasFeedback={true}
+                      help={undefined}
+                      label={
+                        <span
+                          style={
+                            Object {
+                              "position": "relative",
+                            }
+                          }
+                        >
+                          suomeksi
+                           
+                           
+                          <Unknown
+                            index={undefined}
+                            small={true}
+                            validationErrors={undefined}
+                          />
+                        </span>
+                      }
+                      labelClassName="hel-label relative"
+                      multiple={false}
+                      name={undefined}
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      placeholder={undefined}
+                      rows="1"
+                      type="textarea"
+                      value="Kryptassa tapahtuu"
+                    />
+                    <span
+                      className="form-control-feedback"
+                    />
+                  </div>
+                </span>
+              </div>
+              <div>
+                <span
+                  style={
+                    Object {
+                      "position": "relative",
+                    }
+                  }
+                >
+                  <div
+                    className="form-group has-feedback hel-text-field"
+                  >
+                    <label
+                      className="control-label hel-label relative"
+                      htmlFor={undefined}
+                    >
+                      <span
+                        style={
+                          Object {
+                            "position": "relative",
+                          }
+                        }
+                      >
+                        ruotsiksi
+                         
+                         
+                        <span />
+                      </span>
+                    </label>
+                    <textarea
+                      className="form-control"
+                      disabled={false}
+                      groupClassName="hel-text-field"
+                      hasFeedback={true}
+                      help={undefined}
+                      label={
+                        <span
+                          style={
+                            Object {
+                              "position": "relative",
+                            }
+                          }
+                        >
+                          ruotsiksi
+                           
+                           
+                          <Unknown
+                            index={undefined}
+                            small={true}
+                            validationErrors={undefined}
+                          />
+                        </span>
+                      }
+                      labelClassName="hel-label relative"
+                      multiple={false}
+                      name={undefined}
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      placeholder={undefined}
+                      rows="1"
+                      type="textarea"
+                      value="Det händer på kryptan"
+                    />
+                    <span
+                      className="form-control-feedback"
+                    />
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="side-field col-sm-5 col-sm-push-1"
+        >
+          <div
+            className="tip"
+          >
+            <p>
+              Aloita kirjoittamaan kenttään tapahtumapaikan nimen alkua ja valitse oikea paikka alle ilmestyvästä listasta.
+            </p>
+            <p>
+              Jos tapahtumapaikka löytyy listasta, osoitetta ja sijaintia ei tarvitse kuvailla tarkemmin. Voit kuitenkin laittaa lisätietoja tapahtuman löytämiseksi, kuten kerrosnumero tai muu tarkempi sijainti.
+            </p>
+            <p>
+              Jos tapahtumapaikkaa ei löydy listasta, valitse tapahtumapaikaksi Helsinki ja kirjoita tarkempi paikka tai osoite lisätietokenttään.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        className="row"
+      >
+        <legend
+          className="col-sm-12"
+        >
+          <span>
+            Hintatiedot
+          </span>
+        </legend>
+      </div>
+      <div
+        className="row"
+      >
+        <div
+          className="col-sm-6"
+        >
+          <div
+            className="offers-field"
+          >
+            <div
+              className="form-group hel-checkbox"
+            >
+              <div
+                className="checkbox"
+              >
+                <label
+                  className=""
+                  htmlFor={undefined}
+                >
+                  <input
+                    checked={true}
+                    className=""
+                    disabled={false}
+                    groupClassName="hel-checkbox"
+                    hasFeedback={false}
+                    label={
+                      <FormattedMessage
+                        id="is-free"
+                        values={Object {}}
+                      />
+                    }
+                    multiple={false}
+                    name={undefined}
+                    onChange={[Function]}
+                    type="checkbox"
+                  />
+                  <span>
+                    Maksuton
+                  </span>
+                </label>
+              </div>
+            </div>
+            <div
+              className="offers"
+            />
+            <button
+              className="MuiButtonBase-root-17 MuiButtonBase-disabled-18 MuiButton-root-1 MuiButton-raised-8 MuiButton-raisedPrimary-10 MuiButton-disabled-13"
+              disabled={true}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              role={undefined}
+              style={
+                Object {
+                  "display": "block",
+                  "height": "64px",
+                  "margin": "10px 5px",
+                  "width": "100%",
+                }
+              }
+              tabIndex={-1}
+              type="button"
+            >
+              <span
+                className="MuiButton-label-3"
+              >
+                <span>
+                  Lisää uusi hintatieto
+                </span>
+              </span>
+            </button>
+          </div>
+        </div>
+        <div
+          className="side-field col-sm-5 col-sm-push-1"
+        >
+          <div
+            className="tip"
+          >
+            <p>
+              Merkitse jos tapahtuma on maksuton tai lisää tapahtuman hinta tekstimuodossa (esim. 7€/5€).
+            </p>
+            <p>
+              Kerro mahdollisesta ennakkoilmoittautumisesta tai anna lisätietoja esimerkiksi paikkavarauksista.
+            </p>
+            <p>
+              Lisää mahdollinen linkki lipunmyyntiin tai ilmoittautumiseen.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        className="row"
+      >
+        <legend
+          className="col-sm-12"
+        >
+          <span>
+            Tapahtuma sosiaalisessa mediassa
+          </span>
+        </legend>
+      </div>
+      <div
+        className="row"
+      >
+        <div
+          className="col-sm-6"
+        >
+          <span
+            style={
+              Object {
+                "position": "relative",
+              }
+            }
+          >
+            <div
+              className="form-group has-feedback hel-text-field"
+            >
+              <label
+                className="control-label hel-label relative"
+                htmlFor={undefined}
+              >
+                <span
+                  style={
+                    Object {
+                      "position": "relative",
+                    }
+                  }
+                >
+                  <span>
+                    Facebook (url)
+                  </span>
+                   
+                   
+                  <span />
+                </span>
+              </label>
+              <input
+                className="form-control"
+                disabled={false}
+                groupClassName="hel-text-field"
+                hasFeedback={true}
+                help={null}
+                label={
+                  <span
+                    style={
+                      Object {
+                        "position": "relative",
+                      }
+                    }
+                  >
+                    <FormattedMessage
+                      id="facebook-url"
+                      values={Object {}}
+                    />
+                     
+                     
+                    <Unknown
+                      index={undefined}
+                      small={true}
+                      validationErrors={undefined}
+                    />
+                  </span>
+                }
+                labelClassName="hel-label relative"
+                multiple={false}
+                name="extlink_facebook"
+                onBlur={[Function]}
+                onChange={[Function]}
+                placeholder={undefined}
+                rows="1"
+                type="text"
+                value="http://kasvokirja.fi"
+              />
+              <span
+                className="form-control-feedback"
+              />
+            </div>
+          </span>
+          <span
+            style={
+              Object {
+                "position": "relative",
+              }
+            }
+          >
+            <div
+              className="form-group has-feedback hel-text-field"
+            >
+              <label
+                className="control-label hel-label relative"
+                htmlFor={undefined}
+              >
+                <span
+                  style={
+                    Object {
+                      "position": "relative",
+                    }
+                  }
+                >
+                  <span>
+                    Twitter (url)
+                  </span>
+                   
+                   
+                  <span />
+                </span>
+              </label>
+              <input
+                className="form-control"
+                disabled={false}
+                groupClassName="hel-text-field"
+                hasFeedback={true}
+                help={null}
+                label={
+                  <span
+                    style={
+                      Object {
+                        "position": "relative",
+                      }
+                    }
+                  >
+                    <FormattedMessage
+                      id="twitter-url"
+                      values={Object {}}
+                    />
+                     
+                     
+                    <Unknown
+                      index={undefined}
+                      small={true}
+                      validationErrors={undefined}
+                    />
+                  </span>
+                }
+                labelClassName="hel-label relative"
+                multiple={false}
+                name="extlink_twitter"
+                onBlur={[Function]}
+                onChange={[Function]}
+                placeholder={undefined}
+                rows="1"
+                type="text"
+                value="http://twiitti.fi"
+              />
+              <span
+                className="form-control-feedback"
+              />
+            </div>
+          </span>
+          <span
+            style={
+              Object {
+                "position": "relative",
+              }
+            }
+          >
+            <div
+              className="form-group has-feedback hel-text-field"
+            >
+              <label
+                className="control-label hel-label relative"
+                htmlFor={undefined}
+              >
+                <span
+                  style={
+                    Object {
+                      "position": "relative",
+                    }
+                  }
+                >
+                  <span>
+                    Instagram (url)
+                  </span>
+                   
+                   
+                  <span />
+                </span>
+              </label>
+              <input
+                className="form-control"
+                disabled={false}
+                groupClassName="hel-text-field"
+                hasFeedback={true}
+                help={null}
+                label={
+                  <span
+                    style={
+                      Object {
+                        "position": "relative",
+                      }
+                    }
+                  >
+                    <FormattedMessage
+                      id="instagram-url"
+                      values={Object {}}
+                    />
+                     
+                     
+                    <Unknown
+                      index={undefined}
+                      small={true}
+                      validationErrors={undefined}
+                    />
+                  </span>
+                }
+                labelClassName="hel-label relative"
+                multiple={false}
+                name="extlink_instagram"
+                onBlur={[Function]}
+                onChange={[Function]}
+                placeholder={undefined}
+                rows="1"
+                type="text"
+                value="http://instataan.com"
+              />
+              <span
+                className="form-control-feedback"
+              />
+            </div>
+          </span>
+        </div>
+        <div
+          className="side-field col-sm-5 col-sm-push-1"
+        >
+          <p
+            className="tip"
+          >
+            Lisää linkki tapahtuman tai sen järjestäjän some-sivulle.
+          </p>
+        </div>
+      </div>
+      <div
+        className="row"
+      >
+        <legend
+          className="col-sm-12"
+        >
+          <span>
+            Tapahtuman luokittelu
+          </span>
+        </legend>
+      </div>
+      <div
+        className="row keyword-row"
+      >
+        <div
+          className="hel-select col-lg-6"
+        >
+          <legend>
+            Tapahtuman asiasanat
+          </legend>
+          <div
+            className="Select Select--multi is-clearable is-searchable has-value"
+            style={undefined}
+          >
+            <div
+              className="Select-control"
+              onKeyDown={[Function]}
+              onMouseDown={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              style={undefined}
+            >
+              <span
+                className="Select-multi-value-wrapper"
+                id="react-select-5--value"
+              >
+                <div
+                  className="Select-value"
+                  style={undefined}
+                  title={undefined}
+                >
+                  <span
+                    aria-hidden="true"
+                    className="Select-value-icon"
+                    onMouseDown={[Function]}
+                    onTouchEnd={[Function]}
+                    onTouchMove={[Function]}
+                    onTouchStart={[Function]}
+                  >
+                    ×
+                  </span>
+                  <span
+                    aria-selected="true"
+                    className="Select-value-label"
+                    id="react-select-5--value-0"
+                    role="option"
+                  >
+                    kulttuuritapahtumat
+                    <span
+                      className="Select-aria-only"
+                    >
+                       
+                    </span>
+                  </span>
+                </div>
+                <div
+                  className="Select-value"
+                  style={undefined}
+                  title={undefined}
+                >
+                  <span
+                    aria-hidden="true"
+                    className="Select-value-icon"
+                    onMouseDown={[Function]}
+                    onTouchEnd={[Function]}
+                    onTouchMove={[Function]}
+                    onTouchStart={[Function]}
+                  >
+                    ×
+                  </span>
+                  <span
+                    aria-selected="true"
+                    className="Select-value-label"
+                    id="react-select-5--value-1"
+                    role="option"
+                  >
+                    retkeily
+                    <span
+                      className="Select-aria-only"
+                    >
+                       
+                    </span>
+                  </span>
+                </div>
+                <div
+                  className="Select-input"
+                  style={
+                    Object {
+                      "display": "inline-block",
+                    }
+                  }
+                >
+                  <input
+                    aria-activedescendant="react-select-5--value"
+                    aria-describedby={undefined}
+                    aria-expanded="false"
+                    aria-haspopup="false"
+                    aria-label={undefined}
+                    aria-labelledby={undefined}
+                    aria-owns=""
+                    className={undefined}
+                    id={undefined}
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    required={false}
+                    role="combobox"
+                    style={
+                      Object {
+                        "boxSizing": "content-box",
+                        "width": "5px",
+                      }
+                    }
+                    tabIndex={undefined}
+                    value=""
+                  />
+                  <div
+                    style={
+                      Object {
+                        "height": 0,
+                        "left": 0,
+                        "overflow": "scroll",
+                        "position": "absolute",
+                        "top": 0,
+                        "visibility": "hidden",
+                        "whiteSpace": "pre",
+                      }
+                    }
+                  >
+                    
+                  </div>
+                </div>
+              </span>
+              <span
+                aria-label="Clear all"
+                className="Select-clear-zone"
+                onMouseDown={[Function]}
+                onTouchEnd={[Function]}
+                onTouchMove={[Function]}
+                onTouchStart={[Function]}
+                title="Clear all"
+              >
+                <span
+                  className="Select-clear"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "&times;",
+                    }
+                  }
+                />
+              </span>
+              <span
+                className="Select-arrow-zone"
+                onMouseDown={[Function]}
+              >
+                <span
+                  className="Select-arrow"
+                  onMouseDown={[Function]}
+                />
+              </span>
+            </div>
+          </div>
+        </div>
+        <button
+          className="clipboard-copy-button"
+          onClick={[Function]}
+          title="Kopioi leikepöydälle"
+        >
+          <i
+            className="material-icons"
+          >
+            
+          </i>
+        </button>
+        <div
+          className="side-field col-sm-5 col-sm-push-1"
+        >
+          <p
+            className="tip"
+          >
+            Liitä tapahtumaan vähintään yksi asiasana, joka kuvaa tapahtuman teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta.
+          </p>
+        </div>
+        <fieldset
+          className="checkbox-group col-lg-6"
+        >
+          <div>
+            <span
+              className="legend"
+              style={
+                Object {
+                  "position": "relative",
+                  "width": "auto",
+                }
+              }
+            >
+              <span>
+                Hel.fi-pääkategoriat
+              </span>
+               
+              <span />
+            </span>
+          </div>
+          <div
+            className="left_column"
+          >
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      defaultChecked={false}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="Päivähoito ja koulutus"
+                      multiple={false}
+                      name="hel_main.https://api.hel.fi/linkedevents-test/v1/keyword/helfi:11/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/keyword/helfi:11/"
+                    />
+                    Päivähoito ja koulutus
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={true}
+                      className=""
+                      defaultChecked={true}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="Asuminen ja ympäristö"
+                      multiple={false}
+                      name="hel_main.https://api.hel.fi/linkedevents-test/v1/keyword/helfi:13/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/keyword/helfi:13/"
+                    />
+                    Asuminen ja ympäristö
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={true}
+                      className=""
+                      defaultChecked={true}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="Kulttuuri ja vapaa-aika"
+                      multiple={false}
+                      name="hel_main.https://api.hel.fi/linkedevents-test/v1/keyword/helfi:12/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/keyword/helfi:12/"
+                    />
+                    Kulttuuri ja vapaa-aika
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      defaultChecked={false}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="Kaupunki ja hallinto"
+                      multiple={false}
+                      name="hel_main.https://api.hel.fi/linkedevents-test/v1/keyword/helfi:8/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/keyword/helfi:8/"
+                    />
+                    Kaupunki ja hallinto
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      defaultChecked={false}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="Sosiaali- ja terveyspalvelut"
+                      multiple={false}
+                      name="hel_main.https://api.hel.fi/linkedevents-test/v1/keyword/helfi:9/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/keyword/helfi:9/"
+                    />
+                    Sosiaali- ja terveyspalvelut
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      defaultChecked={false}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="Liikenne ja kartat"
+                      multiple={false}
+                      name="hel_main.https://api.hel.fi/linkedevents-test/v1/keyword/helfi:10/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/keyword/helfi:10/"
+                    />
+                    Liikenne ja kartat
+                  </label>
+                </div>
+              </div>
+            </span>
+          </div>
+          <div
+            className="right_column"
+          />
+        </fieldset>
+        <div
+          className="side-field col-sm-5 col-sm-push-1"
+        >
+          <p
+            className="tip"
+          >
+            Valitse vähintään yksi pääkategoria.
+          </p>
+        </div>
+      </div>
+      <div
+        className="row"
+      >
+        <fieldset
+          className="checkbox-group col-lg-6"
+        >
+          <div>
+            <span
+              className="legend"
+              style={
+                Object {
+                  "position": "relative",
+                  "width": "auto",
+                }
+              }
+            >
+              <span>
+                Kohderyhmät
+              </span>
+               
+              <span />
+            </span>
+          </div>
+          <div
+            className="left_column"
+          >
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      defaultChecked={false}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="vammaiset"
+                      multiple={false}
+                      name="audience.https://api.hel.fi/linkedevents-test/v1/keyword/yso:p7179/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/keyword/yso:p7179/"
+                    />
+                    vammaiset
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      defaultChecked={false}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="lapset"
+                      multiple={false}
+                      name="audience.https://api.hel.fi/linkedevents-test/v1/keyword/yso:p4354/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/keyword/yso:p4354/"
+                    />
+                    lapset
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      defaultChecked={false}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="lapsiperheet"
+                      multiple={false}
+                      name="audience.https://api.hel.fi/linkedevents-test/v1/keyword/yso:p13050/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/keyword/yso:p13050/"
+                    />
+                    lapsiperheet
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      defaultChecked={false}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="maahanmuuttajat"
+                      multiple={false}
+                      name="audience.https://api.hel.fi/linkedevents-test/v1/keyword/yso:p6165/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/keyword/yso:p6165/"
+                    />
+                    maahanmuuttajat
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={true}
+                      className=""
+                      defaultChecked={true}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="nuoret"
+                      multiple={false}
+                      name="audience.https://api.hel.fi/linkedevents-test/v1/keyword/yso:p11617/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/keyword/yso:p11617/"
+                    />
+                    nuoret
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      defaultChecked={false}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="yritykset"
+                      multiple={false}
+                      name="audience.https://api.hel.fi/linkedevents-test/v1/keyword/yso:p3128/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/keyword/yso:p3128/"
+                    />
+                    yritykset
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      defaultChecked={false}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="järjestöt"
+                      multiple={false}
+                      name="audience.https://api.hel.fi/linkedevents-test/v1/keyword/yso:p1393/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/keyword/yso:p1393/"
+                    />
+                    järjestöt
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      defaultChecked={false}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="vanhukset"
+                      multiple={false}
+                      name="audience.https://api.hel.fi/linkedevents-test/v1/keyword/yso:p2434/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/keyword/yso:p2434/"
+                    />
+                    vanhukset
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      defaultChecked={false}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="mielenterveyskuntoutujat"
+                      multiple={false}
+                      name="audience.https://api.hel.fi/linkedevents-test/v1/keyword/yso:p12297/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/keyword/yso:p12297/"
+                    />
+                    mielenterveyskuntoutujat
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      defaultChecked={false}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="päihdekuntoutujat"
+                      multiple={false}
+                      name="audience.https://api.hel.fi/linkedevents-test/v1/keyword/yso:p23886/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/keyword/yso:p23886/"
+                    />
+                    päihdekuntoutujat
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={true}
+                      className=""
+                      defaultChecked={true}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="omaishoitoperheet"
+                      multiple={false}
+                      name="audience.https://api.hel.fi/linkedevents-test/v1/keyword/helsinki:aflfbatkwe/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/keyword/helsinki:aflfbatkwe/"
+                    />
+                    omaishoitoperheet
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      defaultChecked={false}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="palvelukeskuskortti"
+                      multiple={false}
+                      name="audience.https://api.hel.fi/linkedevents-test/v1/keyword/helsinki:aflfbat76e/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/keyword/helsinki:aflfbat76e/"
+                    />
+                    palvelukeskuskortti
+                  </label>
+                </div>
+              </div>
+            </span>
+          </div>
+          <div
+            className="right_column"
+          />
+        </fieldset>
+        <div
+          className="side-field col-sm-5 col-sm-push-1"
+        >
+          <p
+            className="tip"
+          >
+            Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään.
+          </p>
+        </div>
+        <fieldset
+          className="checkbox-group col-lg-6"
+        >
+          <div>
+            <span
+              className="legend"
+              style={
+                Object {
+                  "position": "relative",
+                  "width": "auto",
+                }
+              }
+            >
+              <span>
+                Tapahtuman kielet
+              </span>
+               
+              <span />
+            </span>
+          </div>
+          <div
+            className="left_column"
+          >
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      defaultChecked={false}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="englanti"
+                      multiple={false}
+                      name="in_language.https://api.hel.fi/linkedevents-test/v1/language/en/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/language/en/"
+                    />
+                    englanti
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={true}
+                      className=""
+                      defaultChecked={true}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="ruotsi"
+                      multiple={false}
+                      name="in_language.https://api.hel.fi/linkedevents-test/v1/language/sv/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/language/sv/"
+                    />
+                    ruotsi
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={true}
+                      className=""
+                      defaultChecked={true}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="suomi"
+                      multiple={false}
+                      name="in_language.https://api.hel.fi/linkedevents-test/v1/language/fi/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/language/fi/"
+                    />
+                    suomi
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      defaultChecked={false}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="venäjä"
+                      multiple={false}
+                      name="in_language.https://api.hel.fi/linkedevents-test/v1/language/ru/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/language/ru/"
+                    />
+                    venäjä
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      defaultChecked={false}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="viro"
+                      multiple={false}
+                      name="in_language.https://api.hel.fi/linkedevents-test/v1/language/et/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/language/et/"
+                    />
+                    viro
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      defaultChecked={false}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="ranska"
+                      multiple={false}
+                      name="in_language.https://api.hel.fi/linkedevents-test/v1/language/fr/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/language/fr/"
+                    />
+                    ranska
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      defaultChecked={false}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="somali"
+                      multiple={false}
+                      name="in_language.https://api.hel.fi/linkedevents-test/v1/language/so/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/language/so/"
+                    />
+                    somali
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      defaultChecked={false}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="espanja"
+                      multiple={false}
+                      name="in_language.https://api.hel.fi/linkedevents-test/v1/language/es/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/language/es/"
+                    />
+                    espanja
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      defaultChecked={false}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="turkki"
+                      multiple={false}
+                      name="in_language.https://api.hel.fi/linkedevents-test/v1/language/tr/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/language/tr/"
+                    />
+                    turkki
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      defaultChecked={false}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="kiina"
+                      multiple={false}
+                      name="in_language.https://api.hel.fi/linkedevents-test/v1/language/zh/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/language/zh/"
+                    />
+                    kiina
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      defaultChecked={false}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="persia"
+                      multiple={false}
+                      name="in_language.https://api.hel.fi/linkedevents-test/v1/language/fa/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/language/fa/"
+                    />
+                    persia
+                  </label>
+                </div>
+              </div>
+            </span>
+            <span
+              className="col-md-12 col-lg-6"
+            >
+              <div
+                className="form-group hel-checkbox"
+              >
+                <div
+                  className="checkbox"
+                >
+                  <label
+                    className=""
+                    htmlFor={undefined}
+                  >
+                    <input
+                      checked={false}
+                      className=""
+                      defaultChecked={false}
+                      disabled={false}
+                      groupClassName="hel-checkbox"
+                      hasFeedback={false}
+                      label="arabia"
+                      multiple={false}
+                      name="in_language.https://api.hel.fi/linkedevents-test/v1/language/ar/"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="https://api.hel.fi/linkedevents-test/v1/language/ar/"
+                    />
+                    arabia
+                  </label>
+                </div>
+              </div>
+            </span>
+          </div>
+          <div
+            className="right_column"
+          />
+        </fieldset>
+        <div
+          className="side-field col-sm-5 col-sm-push-1"
+        >
+          <p
+            className="tip"
+          >
+            Kielet, joita tapahtumassa käytetään.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="editor-action-buttons"
+  >
+    <div
+      className="container"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="loadedContent"
+        />
+        <div>
+          <div
+            className="actions"
+          >
+            <div>
+              <button
+                className="MuiButtonBase-root-17 MuiButton-root-1 MuiButton-raised-8 MuiButton-raisedAccent-11"
+                disabled={false}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                onKeyUp={[Function]}
+                onMouseDown={[Function]}
+                onMouseLeave={[Function]}
+                onMouseUp={[Function]}
+                onTouchEnd={[Function]}
+                onTouchMove={[Function]}
+                onTouchStart={[Function]}
+                role={undefined}
+                style={
+                  Object {
+                    "color": "#ffffff",
+                    "height": "64px",
+                    "margin": "0 10px",
+                  }
+                }
+                tabIndex={0}
+                type="button"
+              >
+                <span
+                  className="MuiButton-label-3"
+                >
+                  Poista tapahtuma
+                </span>
+                <span
+                  className="MuiTouchRipple-root-26"
+                />
+              </button>
+              <button
+                className="MuiButtonBase-root-17 MuiButton-root-1 MuiButton-raised-8 MuiButton-raisedAccent-11"
+                disabled={false}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                onKeyUp={[Function]}
+                onMouseDown={[Function]}
+                onMouseLeave={[Function]}
+                onMouseUp={[Function]}
+                onTouchEnd={[Function]}
+                onTouchMove={[Function]}
+                onTouchStart={[Function]}
+                role={undefined}
+                style={
+                  Object {
+                    "color": "#ffffff",
+                    "height": "64px",
+                    "margin": "0 10px",
+                  }
+                }
+                tabIndex={0}
+                type="button"
+              >
+                <span
+                  className="MuiButton-label-3"
+                >
+                  Peruuta tapahtuma
+                </span>
+                <span
+                  className="MuiTouchRipple-root-26"
+                />
+              </button>
+            </div>
+            <button
+              className="MuiButtonBase-root-17 MuiButton-root-1 MuiButton-raised-8 MuiButton-raisedPrimary-10"
+              disabled={false}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              role={undefined}
+              style={
+                Object {
+                  "height": "64px",
+                  "margin": "0 10px",
+                }
+              }
+              tabIndex={0}
+              type="button"
+            >
+              <span
+                className="MuiButton-label-3"
+              >
+                Tallenna muutokset julkaistuun tapahtumaan
+              </span>
+              <span
+                className="MuiTouchRipple-root-26"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Editor Snapshot should render view correctly when new event 1`] = `
 <div
   className="editor-page"
 >
