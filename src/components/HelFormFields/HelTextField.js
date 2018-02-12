@@ -108,36 +108,12 @@ let HelTextField = React.createClass({
     },
 
     getValidationErrors: function() {
-        // console.log('xxx step 1')
-        // if (this.refs.text) {
-        //     console.log(this.refs.text)
-        // }
-        // console.log('xxx custom 1')
-        // if (this.state.value) {
-        //     console.log(this.state.value)
-        // }
-
-
-        // console.log('xxx step 2')
-        // if (this.state.value && this.refs.text.getValue()) {
-        //     console.log(this.refs.text.getValue())
-        // }
-        // console.log('xxx step 3')
-        // if (this.props.validations) {
-        //     console.log(this.props.validations)
-        // }
-        // console.log('xxx step 4')
-        // if (this.props.validations.length) {
-        //     console.log(this.props.validations.length)
-        // }
-        
-
-        if(this.refs.text && this.state.value && this.refs.text.getValue() && this.props.validations && this.props.validations.length) {
+        if(this.refs.text && this.state.value && this.props.validations && this.props.validations.length) {
             let validations = this.props.validations.map(item => {
                 if(typeof validationRules[item] === 'function') {
                     return {
                         rule: item,
-                        passed: validationRules[item](null, this.refs.text.getValue())
+                        passed: validationRules[item](null, this.state.value)
                     }
                 } else {
                     return {
