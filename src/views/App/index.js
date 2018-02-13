@@ -59,7 +59,7 @@ class Notifications extends React.Component {
               open={(!!this.props.flashMsg)}
               message={flashMsg}
               autoHideDuration={duration}
-              onRequestClose={closeFn}
+              onClose={closeFn}
               action={[actionButton]}
               />
         )
