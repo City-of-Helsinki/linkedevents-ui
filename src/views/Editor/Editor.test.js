@@ -477,8 +477,8 @@ const initialStoreExistingEvent = {
       extlink_facebook: 'http://kasvokirja.fi',
       extlink_twitter: 'http://twiitti.fi',
       extlink_instagram: 'http://instataan.com',
-      start_time: '2018-02-12T13:16:00Z',
-      end_time: '2018-02-12T15:18:00Z'
+      start_time: '2038-02-12T13:16:00Z',
+      end_time: '2038-02-12T15:18:00Z'
     },
     languages: [
       {
