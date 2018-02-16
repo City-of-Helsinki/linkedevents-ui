@@ -12,7 +12,7 @@
     "test": "jest"
   },
   "engines": {
-    "node": "~8"
+    "node": ">=8"
   },
   "dependencies": {
     "app-module-path": "^1.0.5",
