@@ -3,7 +3,7 @@ import React from 'react'
 import { FormattedMessage, injectIntl } from 'react-intl'
 
 import {connect} from 'react-redux'
-import {setData} from 'src/actions/editor.js'
+import { setData } from '../../actions/editor'
 
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
 

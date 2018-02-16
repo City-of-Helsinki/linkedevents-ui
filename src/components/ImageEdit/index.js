@@ -4,7 +4,7 @@ import React from "react";
 import { injectIntl } from "react-intl"
 import Modal from "react-bootstrap/lib/Modal";
 import { Button } from "material-ui"
-import { postImage, deleteImage } from "src/actions/userImages.js"
+import { postImage, deleteImage } from '../../actions/userImages'
 import { connect } from "react-redux"
 import FormFields from "../FormFields"
 import HelTextField from "../HelFormFields/HelTextField"

@@ -1,13 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
-import FilterableEventTable from 'src/components/FilterableEventTable'
-import EventGrid from 'src/components/EventGrid'
-import SearchBar from 'src/components/SearchBar'
+import FilterableEventTable from '../../components/FilterableEventTable'
+import EventGrid from '../../components/EventGrid'
+import SearchBar from '../../components/SearchBar'
 
-import { fetchUserEvents } from 'src/actions/userEvents'
-import {login, logout} from 'src/actions/user.js'
+import { fetchUserEvents } from '../../actions/userEvents'
+import { login, logout } from '../../actions/user'
 
 class EventListing extends React.Component {
     constructor(props) {

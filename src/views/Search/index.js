@@ -4,12 +4,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import {FormattedMessage} from 'react-intl'
 
-import FilterableEventTable from 'src/components/FilterableEventTable'
-import EventGrid from 'src/components/EventGrid'
-import SearchBar from 'src/components/SearchBar'
+import FilterableEventTable from '../../components/FilterableEventTable'
+import EventGrid from '../../components/EventGrid'
+import SearchBar from '../../components/SearchBar'
 import Loader from 'react-loader'
 
-import { fetchEvents } from 'src/actions/events'
+import { fetchEvents } from '../../actions/events'
 
 
 class SearchPage extends React.Component {

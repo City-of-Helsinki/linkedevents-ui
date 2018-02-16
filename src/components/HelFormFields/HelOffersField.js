@@ -10,10 +10,10 @@ import './HelOffersField.scss'
 import { Button } from 'material-ui'
 
 import {connect} from 'react-redux'
-import { addOffer, setOfferData, setFreeOffers } from 'src/actions/editor.js'
+import { addOffer, setOfferData, setFreeOffers } from '../../actions/editor'
 
 
-import ValidationPopover from 'src/components/ValidationPopover'
+import ValidationPopover from '../ValidationPopover'
 
 class HelOffersField extends React.Component {
 

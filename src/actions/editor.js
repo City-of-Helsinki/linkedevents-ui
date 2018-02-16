@@ -3,12 +3,12 @@ import moment from 'moment';
 import { includes } from 'lodash';
 
 import constants from '../constants'
-import {mapUIDataToAPIFormat} from 'src/utils/formDataMapping.js'
+import { mapUIDataToAPIFormat } from '../utils/formDataMapping'
 
 import { push } from 'react-router-redux'
 import { setFlashMsg, confirmAction } from './app'
 
-import { doValidations } from 'src/validation/validator.js'
+import { doValidations } from '../validation/validator'
 
 /**
  * Set editor form data

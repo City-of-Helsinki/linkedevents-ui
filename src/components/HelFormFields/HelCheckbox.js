@@ -6,7 +6,7 @@ import React from 'react'
 import Input from 'react-bootstrap/lib/Input.js'
 
 import {connect} from 'react-redux'
-import {setData} from 'src/actions/editor.js'
+import { setData } from '../../actions/editor'
 
 let HelCheckbox = React.createClass({
 

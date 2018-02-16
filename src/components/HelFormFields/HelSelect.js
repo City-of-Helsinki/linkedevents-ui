@@ -8,7 +8,7 @@ import fetch from 'isomorphic-fetch'
 import Select from 'react-select'
 
 import {connect} from 'react-redux'
-import {setData} from 'src/actions/editor.js'
+import { setData } from '../../actions/editor'
 
 class HelSelect extends React.Component {
 

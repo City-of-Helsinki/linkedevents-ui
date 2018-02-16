@@ -1,7 +1,7 @@
 import React from 'react';
 import { get as getIfExists } from 'lodash'
 import { connect } from 'react-redux'
-import { fetchUserImages } from 'src/actions/userImages'
+import { fetchUserImages } from '../../actions/userImages'
 import ImageThumbnail from '../ImageThumbnail'
 
 class ImageGalleryGrid extends React.Component {

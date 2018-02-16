@@ -1,8 +1,8 @@
 // Validator actor which listens to validation changes and sets flash message if validation errors are cleared.
 // Subscribes for store changes in src/index.js
 
-import { setFlashMsg, clearFlashMsg } from 'src/actions/app'
-import constants from 'src/constants'
+import { setFlashMsg, clearFlashMsg } from '../actions/app'
+import constants from '../constants'
 
 let wasErrors = false
 

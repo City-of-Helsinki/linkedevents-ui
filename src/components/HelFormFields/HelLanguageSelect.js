@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl'
 import Input from 'react-bootstrap/lib/Input'
 
 import {connect} from 'react-redux'
-import {setLanguages} from 'src/actions/editor.js'
+import {setLanguages} from '../../actions/editor'
 
 import _ from 'lodash'
 

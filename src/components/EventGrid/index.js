@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import moment from 'moment'
 
-import defaultThumbnail from 'src/assets/images/helsinki-coat-of-arms-white.png'
+import defaultThumbnail from '../../assets/images/helsinki-coat-of-arms-white.png'
 
-import constants from 'src/constants'
+import constants from '../../constants'
 import '!style-loader!css-loader!sass-loader!./index.scss'
 
 let dateFormat = function(timeStr) {

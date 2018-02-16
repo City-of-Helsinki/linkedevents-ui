@@ -1,10 +1,10 @@
 import _ from 'lodash'
-import constants from 'src/constants.js'
+import constants from '../constants'
 import moment from 'moment'
 import 'moment-timezone'
 
 import { getStringWithLocale } from './locale'
-import {mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
+import { mapLanguagesSetToForm } from '../utils/apiDataMapping'
 
 export {
     mapUIDataToAPIFormat,

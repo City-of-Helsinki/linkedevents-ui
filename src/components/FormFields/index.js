@@ -5,7 +5,7 @@ import React from 'react'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import CopyToClipboard from 'react-copy-to-clipboard'
 
-import ImagePicker from 'src/components/ImagePicker'
+import ImagePicker from '../ImagePicker'
 import {
     HelAutoComplete,
     MultiLanguageField,
@@ -17,22 +17,22 @@ import {
     HelOffersField,
     HelDatePicker,
     NewEvent
-} from 'src/components/HelFormFields'
-import RecurringEvent from 'src/components/RecurringEvent'
+} from '../HelFormFields'
+import RecurringEvent from '../RecurringEvent'
 
 import { Button } from 'material-ui'
 // Material-ui Icons
 import Add from 'material-ui-icons/Add'
 import Autorenew from 'material-ui-icons/Autorenew'
 
-import {mapKeywordSetToForm, mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
+import {mapKeywordSetToForm, mapLanguagesSetToForm} from '../../utils/apiDataMapping'
 import {connect} from 'react-redux'
 
-import {setEventData} from 'src/actions/editor.js'
+import {setEventData} from '../../actions/editor'
 
 import moment from 'moment'
 
-import API from 'src/api.js'
+import API from '../../api'
 
 let FormHeader = (props) => (
     <div className="row">

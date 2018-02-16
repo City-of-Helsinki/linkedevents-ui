@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 
 import React from 'react'
 import Input from 'react-bootstrap/lib/Input.js'
-import {setData} from 'src/actions/editor.js'
+import { setData } from '../../actions/editor'
 
 import {injectIntl} from 'react-intl'
 
-import validationRules from 'src/validation/validationRules.js';
-import ValidationPopover from 'src/components/ValidationPopover'
+import validationRules from '../../validation/validationRules'
+import ValidationPopover from '../ValidationPopover'
 
 let HelTextField = React.createClass({
 
@@ -101,19 +101,19 @@ let HelTextField = React.createClass({
     },
 
     recalculateHeight: function() {
-        if(this.props.multiLine) {
+        if(this.props.multiLine && this.refs.text.getInputDOMNode()) {
             this.refs.text.getInputDOMNode().style.height = 0;
             this.refs.text.getInputDOMNode().style.height = this.refs.text.getInputDOMNode().scrollHeight + 2 + 'px';
         }
     },
 
     getValidationErrors: function() {
-        if(this.refs.text && this.refs.text.getValue() && this.props.validations && this.props.validations.length) {
+        if(this.refs.text && this.state.value && this.props.validations && this.props.validations.length) {
             let validations = this.props.validations.map(item => {
                 if(typeof validationRules[item] === 'function') {
                     return {
                         rule: item,
-                        passed: validationRules[item](null, this.refs.text.getValue())
+                        passed: validationRules[item](null, this.state.value)
                     }
                 } else {
                     return {

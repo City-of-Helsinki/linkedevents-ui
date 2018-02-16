@@ -3,7 +3,7 @@ import '!style-loader!css-loader!sass-loader!./index.scss'
 import React from 'react'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { connect } from 'react-redux'
-import { selectImage } from 'src/actions/userImages'
+import { selectImage } from '../../actions/userImages'
 import ImageEdit from '../ImageEdit'
 
 class ImageThumbnail extends React.Component {

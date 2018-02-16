@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react'
-import HelDatePicker from 'src/components/HelFormFields/HelDatePicker.js'
+import HelDatePicker from '../HelFormFields/HelDatePicker'
 import { FormattedMessage } from 'react-intl'
 
-import validationRules from 'src/validation/validationRules.js';
-import ValidationPopover from 'src/components/ValidationPopover'
+import validationRules from '../../validation/validationRules'
+import ValidationPopover from '../ValidationPopover'
 
 import moment from 'moment'
 

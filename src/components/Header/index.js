@@ -4,7 +4,7 @@ import React from 'react'
 
 import {connect} from 'react-redux'
 import { push } from 'react-router-redux'
-import {login, logout} from 'src/actions/user.js'
+import {login, logout} from '../../actions/user'
 
 import {FormattedMessage} from 'react-intl'
 
@@ -18,7 +18,7 @@ import HelpOutline from 'material-ui-icons/HelpOutline'
 
 import { Link } from 'react-router-dom'
 
-import cityOfHelsinkiLogo from 'src/assets/images/helsinki-coat-of-arms-white.png'
+import cityOfHelsinkiLogo from '../../assets/images/helsinki-coat-of-arms-white.png'
 
 class HeaderBar extends React.Component {
 

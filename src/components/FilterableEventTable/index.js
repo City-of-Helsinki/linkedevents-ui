@@ -9,10 +9,10 @@ import { sortBy, reverse } from 'lodash'
 import { Table, TableHead, TableBody, TableFooter, TableRow, TableCell, TableSortLabel, TablePagination, CircularProgress } from 'material-ui'
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
 
-import SearchBar from 'src/components/SearchBar'
-import { fetchEvents } from 'src/actions/events.js'
-import { setUserEventsSortOrder, fetchUserEvents } from 'src/actions/userEvents.js'
-import constants from 'src/constants'
+import SearchBar from '../SearchBar'
+import { fetchEvents } from '../../actions/events'
+import { setUserEventsSortOrder, fetchUserEvents } from '../../actions/userEvents'
+import constants from '../../constants'
 
 class FilterableEventTable extends React.Component {
     static contextTypes = {
@@ -99,7 +99,7 @@ class FilterableEventTable extends React.Component {
         let EventTable = (props) => {
 
             let rows = props.events.map(function(event) {
-                return (<EventRow event={event} key={event.id} />)
+                return (<EventRow event={event} key={event['@id']} />)
             })
             let rowsPerPage = 100
             let rowsCount = props.count
@@ -110,13 +110,13 @@ class FilterableEventTable extends React.Component {
                     <TableHead>
                         <TableRow>
                             <TableCell key="otsikko">
-                                <TableSortLabel active={props.sortBy === 'name'} direction={props.sortBy === 'name' && props.sortOrder} onClick={() => this.props.changeSortOrder('name', props.sortBy, props.sortOrder, props.paginationPage, props.user)}>Otsikko</TableSortLabel>
+                                <TableSortLabel active={props.sortBy === 'name'} direction={props.sortBy === 'name' ? props.sortOrder : null} onClick={() => this.props.changeSortOrder('name', props.sortBy, props.sortOrder, props.paginationPage, props.user)}>Otsikko</TableSortLabel>
                             </TableCell>
                             <TableCell key="alkaa">
-                                <TableSortLabel active={props.sortBy === 'start_time'} direction={props.sortBy === 'start_time' && props.sortOrder} onClick={() => this.props.changeSortOrder('start_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}>Tapahtuma alkaa</TableSortLabel>
+                                <TableSortLabel active={props.sortBy === 'start_time'} direction={props.sortBy === 'start_time' ? props.sortOrder : null} onClick={() => this.props.changeSortOrder('start_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}>Tapahtuma alkaa</TableSortLabel>
                             </TableCell>
                             <TableCell key="päättyy">
-                                <TableSortLabel active={props.sortBy === 'end_time'} direction={props.sortBy === 'end_time' && props.sortOrder} onClick={() => this.props.changeSortOrder('end_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}>Tapahtuma päättyy</TableSortLabel>
+                                <TableSortLabel active={props.sortBy === 'end_time'} direction={props.sortBy === 'end_time' ? props.sortOrder : null} onClick={() => this.props.changeSortOrder('end_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}>Tapahtuma päättyy</TableSortLabel>
                             </TableCell>
                             <TableCell key="muokattu">
                                 <TableSortLabel active={props.sortBy === 'last_modified_time'} direction={props.sortBy === 'last_modified_time' && props.sortOrder} onClick={() => this.props.changeSortOrder('last_modified_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}>Muokattu viimeksi</TableSortLabel>
@@ -128,7 +128,7 @@ class FilterableEventTable extends React.Component {
                         <TableFooter>
                             <TableRow>
                                 <TablePagination
-                                count={rowsCount}
+                                count={rowsCount !== null ? rowsCount : 0}
                                 rowsPerPage={rowsPerPage}
                                 rowsPerPageOptions = {[]}
                                 page={paginationPage}

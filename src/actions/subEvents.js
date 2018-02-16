@@ -1,7 +1,7 @@
 import { createAction } from 'redux-actions';
 // import fetch from 'isomorphic-fetch'
 
-import authedFetch from 'src/utils/authedFetch'
+import authedFetch from '../utils/authedFetch'
 import constants from '../constants'
 
 function makeRequest(superEventID, user = {}, dispatch) {

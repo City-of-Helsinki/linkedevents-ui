@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react'
 import {connect} from 'react-redux'
 
-import Headerbar from 'src/components/Header'
+import Headerbar from '../../components/Header'
 import Snackbar from 'material-ui/Snackbar';
 import MaterialButton from 'material-ui/Button';
 import Modal from 'react-bootstrap/lib/Modal';
@@ -15,14 +15,14 @@ import Well from 'react-bootstrap/lib/Well'
 
 import {injectIntl} from 'react-intl'
 
-import {retrieveUserFromSession} from 'src/actions/user'
-import {fetchKeywordSets, fetchLanguages} from 'src/actions/editor.js'
-import {clearFlashMsg, cancelAction, doAction} from 'src/actions/app.js'
+import {retrieveUserFromSession} from '../../actions/user'
+import {fetchKeywordSets, fetchLanguages} from '../../actions/editor'
+import {clearFlashMsg, cancelAction, doAction} from '../../actions/app'
 import {FormattedMessage} from 'react-intl'
 
 // Material-ui theming
 import { MuiThemeProvider } from 'material-ui/styles'
-import { HelTheme } from 'src/themes/hel'
+import { HelTheme } from '../../themes/hel'
 
 class Notifications extends React.Component {
 
@@ -59,7 +59,7 @@ class Notifications extends React.Component {
               open={(!!this.props.flashMsg)}
               message={flashMsg}
               autoHideDuration={duration}
-              onRequestClose={closeFn}
+              onClose={closeFn}
               action={[actionButton]}
               />
         )
