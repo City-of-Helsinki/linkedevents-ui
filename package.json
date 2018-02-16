@@ -11,7 +11,7 @@
     "testing": "NODE_ENV=production APP_MODE=testing webpack -p --config config/webpack/prod.js"
   },
   "engines": {
-    "node": "~8"
+    "node": ">=8"
   },
   "dependencies": {
     "app-module-path": "^1.0.5",
