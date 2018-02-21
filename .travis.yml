@@ -3,12 +3,24 @@ node_js:
   - "lts/*"
   - "node"
 
+# Environment variables needed for build to start
+env:
+  - APP_MODE=testing
+  - LE_PRODUCTION_INSTANCE=https://linkedevents.hel.fi/
+  - local_storage_user_expiry_time=48
+  - export nocache=true
+  - api_base=https://api.hel.fi/linkedevents-test/v1
+  - export raven_id=https://xyz_im_not_real@sentry.example.com/infinity
+
 cache:
   directories:
     - node_modules
 
 install:
   - yarn
+
+script:
+  - yarn run build
 
 after_success:
   - npm run codecov
