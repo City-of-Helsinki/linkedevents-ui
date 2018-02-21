@@ -20,7 +20,6 @@ export const Help = () => {
                         <li>Verkkoon sopivaksi muokattu 3:2-vaakakuva, esim. 1200px X 800px.</li>
                         <li>Ylätasoinen asiasanoitus ja luokittelu. Käytä aina joitain suosittuja asiasanoja.</li>
                     </ul>
-                    </li>
                 </ul>
 
                 <p>Kaupungin tapahtumakalenteri: <a href="http://www.hel.fi/tapahtumat" target="_blank">hel.fi/tapahtumat</a>.</p>
