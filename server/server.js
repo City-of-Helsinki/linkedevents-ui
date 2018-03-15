@@ -4,7 +4,7 @@ import path from 'path'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import cookieSession from 'cookie-session'
-import getSettings from './getSettings'
+import getSettings from '../config/getSettings'
 import express from 'express'
 import { getPassport, addAuth } from './auth'
 
@@ -13,7 +13,7 @@ import webpackMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import config from '../config/webpack/dev.js'
 
-const settings = getSettings()
+const settings = getSettings()['serverConfig']
 const app = express()
 const passport = getPassport(settings)
 

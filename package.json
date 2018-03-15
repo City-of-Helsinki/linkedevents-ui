@@ -42,6 +42,7 @@
     "moment": "^2.20.1",
     "moment-timezone": "^0.5.14",
     "nconf": "^0.9.1",
+    "nconf-toml": "^0.0.2",
     "passport": "^0.3.2",
     "passport-helsinki": "https://github.com/City-of-Helsinki/passport-helsinki.git",
     "progress": "^1.1.8",
