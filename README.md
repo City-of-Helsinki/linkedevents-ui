@@ -18,6 +18,14 @@ Linked Events API. It exposes many capabilities of the API including:
 * Node v8 LTS 
 * Python 2 (due to node-sass using node-gyp)
 
+If you're building the application in Windows environment you might also need to install windows-build-tools by running
+
+```
+npm install --global --production windows-build-tools
+```
+
+then close the commandline and try in a new commanline window. windows-build-tools have to be installed only once.
+
 ## Configuration
 
 `config_dev.json` contains partially working settings giving you read only
