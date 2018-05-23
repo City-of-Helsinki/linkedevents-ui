@@ -72,7 +72,7 @@ address suits your fancy.
 
 You will still need the source tree for the authentication server (below)
 
-### Settings up the runtime
+### Setting up the runtime
 
 In addition to serving the files built in previous step, you will need to
 run the built-in authentication server (or proxy really).  Although
