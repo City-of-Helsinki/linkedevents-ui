@@ -77,8 +77,8 @@ You will still need the source tree for the authentication server (below)
 In addition to serving the files built in previous step, you will need to
 run the built-in authentication server (or proxy really).  Although
 linkedevents-ui runs completely in client, it currently uses authentication
-code based OAuth2 flow.  This is a historical accident, that will be
-remedied one day.
+code based OAuth2 Authorization Code flow. This is a historical accident,
+that will be remedied one day.
 
 We recommend running the authentication server with some sort of process
 manager, possibly one specialized in running Node applications. Your system
