@@ -14,22 +14,28 @@ const common = {
         ROOT,
         SRC
     }
-}
+};
 
+// Values capsulated as JSON object in the template, for consumption by JS
 const jsonConfigKeys = ["api_base", "local_storage_user_expiry_time", "nocache", "raven_id", "commit_hash"];
+// Values interpolated through the JADE templates as it sees fit
 const templateConfigKeys = ["LE_PRODUCTION_INSTANCE", "APP_MODE"];
+// Values used within this configuration thing
+// Currently the only thing here is not meaningful for dev at all
+const configConfigKeys = ["ASSET_PATH"];
 
-nconf.env(jsonConfigKeys.concat(templateConfigKeys));
+nconf.env(jsonConfigKeys.concat(templateConfigKeys).concat(configConfigKeys));
 nconf.defaults({
     'LE_PRODUCTION_INSTANCE': '#',
     'APP_MODE': 'production',
+    'ASSET_PATH': '/',
 });
 // 'memory' is needed to store the commit_hash
-nconf.use('memory')
+nconf.use('memory');
 nconf.set('commit_hash', new GitRevisionPlugin().commithash());
 nconf.required(jsonConfigKeys.concat(templateConfigKeys));
 
-const indexTemplate = jade.compileFile(path.join(common.paths.SRC, 'index.jade'), { pretty: true })
+const indexTemplate = jade.compileFile(path.join(common.paths.SRC, 'index.jade'), { pretty: true });
 
 // We only want a subset of the read variables in configJson passed
 // to template. Nconf only allows for fetching one variable or all
@@ -42,7 +48,7 @@ const indexHtml = indexTemplate({
     APP_MODE: nconf.get('APP_MODE'),
     LE_PRODUCTION_INSTANCE: nconf.get('LE_PRODUCTION_INSTANCE'),
     configJson: JSON.stringify(configJson)
-})
+});
 
 const config = {
     context: path.join(common.paths.ROOT, '/src'),
@@ -52,6 +58,7 @@ const config = {
         path.join(common.paths.SRC, '/index.js')
     ],
     output: {
+        publicPath: nconf.get('ASSET_PATH'),
         path: common.paths.ROOT + '/dist',
         filename: '[name].[chunkhash].js'
     },
