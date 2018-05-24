@@ -45,6 +45,17 @@ function _addHelFiAudienceKeywords(original_audiences) {
     return audiences
 }
 
+function _nullifyEmptyStrings(multiLangObject) {
+    _.forOwn(multiLangObject, function(value, language) {
+
+        // do not send empty strings to the backend, as this will set the null language field to non-null
+        if (value === '') {
+            multiLangObject[language] = null
+        }
+    })
+    return multiLangObject
+}
+
 // TODO: Refactoring form components to output and accept the correct format (like <MultiLanguageField> to output {fi: name, se: namn})
 
 function mapUIDataToAPIFormat(values) {
@@ -60,18 +71,18 @@ function mapUIDataToAPIFormat(values) {
     }
 
     // General data
-    obj.name = values.name
-    obj.short_description = values.short_description
-    obj.description = values.description
-    obj.info_url = values.info_url
-    obj.provider = values.provider
+    obj.name = _nullifyEmptyStrings(values.name)
+    obj.short_description = _nullifyEmptyStrings(values.short_description)
+    obj.description = _nullifyEmptyStrings(values.description)
+    obj.info_url = _nullifyEmptyStrings(values.info_url)
+    obj.provider = _nullifyEmptyStrings(values.provider)
     obj.event_status = values.event_status || constants.EVENT_STATUS.SCHEDULED
     obj.publication_status = values.publication_status || constants.PUBLICATION_STATUS.DRAFT
     obj.super_event_type = values.super_event_type
     obj.super_event = values.super_event
     // Location data
     obj.location = values.location
-    obj.location_extra_info = values.location_extra_info
+    obj.location_extra_info = _nullifyEmptyStrings(values.location_extra_info)
 
     // Image data
     if(values.image) {
