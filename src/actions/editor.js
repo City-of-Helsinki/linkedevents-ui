@@ -144,6 +144,8 @@ export function validateFor(publicationStatus) {
  * @return {[type]}                         [description]
  */
 
+const multiLanguageFields = ['name', 'description', 'short_description', 'provider', 'location_extra_info']
+
 export function sendData(formValues, contentLanguages, user, updateExisting = false, publicationStatus) {
     const prepareFormValues = (formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch) => {
         dispatch({ type: constants.EDITOR_SENDDATA })
@@ -158,15 +160,34 @@ export function sendData(formValues, contentLanguages, user, updateExisting = fa
         if (_.keys(validationErrors).length > 0) {
             return dispatch(setValidationErrors(validationErrors))
         }
+
+        const multiLanguageValues = {}
+        // Language fields not included in contentLanguages should not be posted, they aren't validated anyway
+        for (var field of multiLanguageFields) {
+            for (const lang in formValues[field]) {
+                if (!(field in multiLanguageValues)) {
+                    multiLanguageValues[field] = {}
+                }
+                if (contentLanguages.includes(lang)) {
+                    multiLanguageValues[field][lang] = formValues[field][lang]
+                } else {
+                    // Null is needed here to overwrite any existing strings in the backend
+                    multiLanguageValues[field][lang] = null
+                }
+            }
+        }
+
         // Format descriptions to HTML
         const descriptionTexts = formValues.description
         for (const lang in formValues.description) {
-          const desc = formValues.description[lang].replace(/\n\n/g, "</p><p>").replace(/\n/g, "<br/>")
-          if (desc.indexOf('<p>') === 0 && desc.substr(desc.length - 4) === '</p>') {
-              descriptionTexts[lang] = desc;
-          } else {
-              descriptionTexts[lang] = `<p>${desc}</p>`
-          }
+            if (formValues.description[lang]) {
+                const desc = formValues.description[lang].replace(/\n\n/g, "</p><p>").replace(/\n/g, "<br/>")
+                if (desc.indexOf('<p>') === 0 && desc.substr(desc.length - 4) === '</p>') {
+                    descriptionTexts[lang] = desc
+                } else {
+                    descriptionTexts[lang] = `<p>${desc}</p>`
+                }
+            }
         }
         // Check for 'palvelukeskuskortti' in audience
         if (formValues.audience && includes(formValues.audience, `${appSettings.api_base}/keyword/helsinki:aflfbat76e/`)) {
@@ -180,7 +201,7 @@ export function sendData(formValues, contentLanguages, user, updateExisting = fa
             }
         }
 
-        let data = Object.assign({}, formValues, { publication_status: publicationStatus, description: descriptionTexts  })
+        let data = Object.assign({}, formValues, multiLanguageValues, { publication_status: publicationStatus, description: descriptionTexts  })
         if (recurring) {
             const subEvents = data.sub_events
             let endDates = [];
