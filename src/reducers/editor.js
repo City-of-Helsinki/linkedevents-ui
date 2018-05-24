@@ -221,7 +221,8 @@ function update(state = initialState, action) {
         // localStorage.setItem('EDITOR_VALUES', JSON.stringify(newValues))
 
         return Object.assign({}, state, {
-            values: newValues
+            values: newValues,
+            contentLanguages: getContentLanguages(newValues),
         })
     }
 
@@ -275,8 +276,7 @@ function update(state = initialState, action) {
         let newValues = Object.assign({}, mapAPIDataToUIFormat(action.event))
 
         return Object.assign({}, state, {
-            values: newValues,
-            contentLanguages: getContentLanguages(action.event),
+            values: newValues
         })
     }
 
