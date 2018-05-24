@@ -1,6 +1,10 @@
-$en-color: darken(#28e7b3, 18%);
-$fi-color: #48a3e7;
-$sv-color: darken(#ffe843, 22%);
+$en-color: #009246; // tram
+$fi-color: #0000bf; // bus
+$sv-color: #ffc61e; // summer
+$ru-color: #9fc9eb; // fog
+$zh-color: #bd2719; // brick
+$ar-color: #00d7a7; // copper
+
 
 $default-margin-top: 1.5rem;
 
@@ -33,6 +37,30 @@ $default-margin-top: 1.5rem;
 
             .language {
                 color: $en-color;
+            }
+        }
+
+        &.in-ru {
+            border-color: $ru-color;
+
+            .language {
+                color: $ru-color;
+            }
+        }
+
+        &.in-zh {
+            border-color: $zh-color;
+
+            .language {
+                color: $zh-color;
+            }
+        }
+
+        &.in-ar {
+            border-color: $ar-color;
+
+            .language {
+                color: $ar-color;
             }
         }
     }
