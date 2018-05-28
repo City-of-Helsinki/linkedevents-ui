@@ -10,14 +10,14 @@ import HelOffersField from './HelOffersField.js'
 import NewEvent from './NewEvent.js'
 
 export {
-  HelTextField,
-  HelAutoComplete,
-  MultiLanguageField,
-  HelLanguageSelect,
-  HelLabeledCheckboxGroup,
-  HelCheckbox,
-  HelSelect,
-  HelDateTimeField,
-  HelOffersField,
-  NewEvent,
+    HelTextField,
+    HelAutoComplete,
+    MultiLanguageField,
+    HelLanguageSelect,
+    HelLabeledCheckboxGroup,
+    HelCheckbox,
+    HelSelect,
+    HelDateTimeField,
+    HelOffersField,
+    NewEvent,
 }

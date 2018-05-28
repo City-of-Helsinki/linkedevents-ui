@@ -5,109 +5,109 @@ import blue from 'material-ui/colors/blue'
 import cyan from 'material-ui/colors/cyan'
 
 let helCyan = {
-  ...cyan,
-  A200: '#00bcd4',
+    ...cyan,
+    A200: '#00bcd4',
 }
 
 let helRawStyle = {
-  spacing: Spacing,
-  fontFamily: 'Roboto, sans-serif',
-  palette: {
-    primary: blue,
-    secondary: helCyan,
-    primary2Color: Colors.cyan700,
-    primary3Color: Colors.gray700,
-    accent1Color: '#48a3e7',
-    accent2Color: '#0072c6',
-    accent3Color: Colors.grey500,
-    textColor: Colors.black,
-    alternateTextColor: Colors.white,
-    canvasColor: Colors.white,
-    borderColor: Colors.grey300,
-    disabledColor: Colors.darkBlack300,
-  },
-  overrides: {
-    MuiButton: {
-      root: {
-        textTransform: 'none',
-        fontWeight: 500,
-        fontSize: '0.8em',
-        lineHeight: '36px',
-        raisedAccent: {
-          color: blue,
-        },
-      },
-    },
-    MuiInput: {
-      root: {
+    spacing: Spacing,
+    fontFamily: 'Roboto, sans-serif',
+    palette: {
+        primary: blue,
+        secondary: helCyan,
+        primary2Color: Colors.cyan700,
+        primary3Color: Colors.gray700,
+        accent1Color: '#48a3e7',
+        accent2Color: '#0072c6',
+        accent3Color: Colors.grey500,
         textColor: Colors.black,
-        hintColor: Colors.darkBlack300,
-        floatingLabelColor: Colors.black,
-        backgroundColor: '#ffffff',
-        disabled: {
-          color: Colors.darkBlack300,
+        alternateTextColor: Colors.white,
+        canvasColor: Colors.white,
+        borderColor: Colors.grey300,
+        disabledColor: Colors.darkBlack300,
+    },
+    overrides: {
+        MuiButton: {
+            root: {
+                textTransform: 'none',
+                fontWeight: 500,
+                fontSize: '0.8em',
+                lineHeight: '36px',
+                raisedAccent: {
+                    color: blue,
+                },
+            },
         },
-        error: {
-          color: Colors.red500,
+        MuiInput: {
+            root: {
+                textColor: Colors.black,
+                hintColor: Colors.darkBlack300,
+                floatingLabelColor: Colors.black,
+                backgroundColor: '#ffffff',
+                disabled: {
+                    color: Colors.darkBlack300,
+                },
+                error: {
+                    color: Colors.red500,
+                },
+                focused: {
+                    color: Colors.cyan500,
+                },
+            },
         },
-        focused: {
-          color: Colors.cyan500,
+        MuiToolbar: {
+            root: {
+                backgroundColor: '#0072c6',
+            },
         },
-      },
+        MuiSnackbar: {
+            root: {
+                backgroundColor: '#0072c6',
+            },
+        },
+        MuiSnackbarContent: {
+            root: {
+                backgroundColor: '#0072c6',
+            },
+        },
+        MuiTable: {
+            root: {
+                backgroundColor: '#ffffff',
+            },
+        },
     },
-    MuiToolbar: {
-      root: {
-        backgroundColor: '#0072c6',
-      },
-    },
-    MuiSnackbar: {
-      root: {
-        backgroundColor: '#0072c6',
-      },
-    },
-    MuiSnackbarContent: {
-      root: {
-        backgroundColor: '#0072c6',
-      },
-    },
-    MuiTable: {
-      root: {
-        backgroundColor: '#ffffff',
-      },
-    },
-  },
 }
 
 let helHeaderRawStyle = {
-  spacing: Spacing,
-  fontFamily: 'Roboto, sans-serif',
-  palette: {
-    primary: blue,
-    primary2Color: Colors.cyan700,
-    primary3Color: Colors.gray700,
-    accent1Color: '#48a3e7',
-    accent2Color: '#0072c6',
-    accent3Color: Colors.grey500,
-    textColor: Colors.black,
-    alternateTextColor: Colors.white,
-    canvasColor: Colors.white,
-    borderColor: Colors.grey300,
-    disabledColor: Colors.darkBlack300,
-  },
-  overrides: {
-    MuiButton: {
-      root: {
-        textTransform: 'none',
-        fontWeight: 300,
-        textColor: '#ffffff',
-      },
+    spacing: Spacing,
+    fontFamily: 'Roboto, sans-serif',
+    palette: {
+        primary: blue,
+        primary2Color: Colors.cyan700,
+        primary3Color: Colors.gray700,
+        accent1Color: '#48a3e7',
+        accent2Color: '#0072c6',
+        accent3Color: Colors.grey500,
+        textColor: Colors.black,
+        alternateTextColor: Colors.white,
+        canvasColor: Colors.white,
+        borderColor: Colors.grey300,
+        disabledColor: Colors.darkBlack300,
     },
-    MuiInput: {
-      root: {
-        floatingLabelColor: Colors.black,
-      },
+    overrides: {
+        MuiButton: {
+            root: {
+                textTransform: 'none',
+                fontWeight: 300,
+                textColor: '#ffffff',
+            },
+        },
+        MuiInput: {
+            root: {
+                floatingLabelColor: Colors.black,
+            },
+        },
     },
-  },
 }
 
 
@@ -123,6 +123,6 @@ headerTheme.mixins.toolbar.separatorColor = '#ffffff'
 headerTheme.mixins.toolbar.menuHoverColor = '#ffffff'
 
 export {
-  helTheme as HelTheme,
-  headerTheme as HeaderTheme,
+    helTheme as HelTheme,
+    headerTheme as HeaderTheme,
 }

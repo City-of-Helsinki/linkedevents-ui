@@ -10,58 +10,58 @@ import {fetchUserEvents} from 'src/actions/userEvents'
 import {login, logout} from 'src/actions/user.js'
 
 class EventListing extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-  componentDidMount() {
-    this.fetchEvents()
-  }
-  componentDidUpdate() {
-    const {fetchComplete, isFetching} = this.props.events;
-    if (fetchComplete || isFetching) {
-      return;
+    constructor(props) {
+        super(props)
     }
-    this.fetchEvents()
-  }
-
-  fetchEvents() {
-    if (this.props.user) {
-      this.props.dispatch(fetchUserEvents(this.props.user, this.props.events.sortBy, this.props.events.sortOrder, this.props.events.paginationPage))
+    componentDidMount() {
+        this.fetchEvents()
     }
-  }
+    componentDidUpdate() {
+        const {fetchComplete, isFetching} = this.props.events;
+        if (fetchComplete || isFetching) {
+            return;
+        }
+        this.fetchEvents()
+    }
 
-  // <FilterableEventTable events={this.props.events} apiErrorMsg={''} />
+    fetchEvents() {
+        if (this.props.user) {
+            this.props.dispatch(fetchUserEvents(this.props.user, this.props.events.sortBy, this.props.events.sortOrder, this.props.events.paginationPage))
+        }
+    }
 
-  render() {
+    // <FilterableEventTable events={this.props.events} apiErrorMsg={''} />
+
+    render() {
     // Use material UI table
     // or similar grid
-    const {events, user} = this.props;
-    const header = <h1><FormattedMessage id="organization-events"/></h1>
-    if (!user) {
-      return (
-        <div className="container">
-          {header}
-          <p>
-            <a style={{cursor: 'pointer'}} onClick={() => this.props.dispatch(login())}>
-              <FormattedMessage id="login" />
-            </a>
-            {' '}<FormattedMessage id="organization-events-prompt" /></p>
-        </div>);
-    }
+        const {events, user} = this.props;
+        const header = <h1><FormattedMessage id="organization-events"/></h1>
+        if (!user) {
+            return (
+                <div className="container">
+                    {header}
+                    <p>
+                        <a style={{cursor: 'pointer'}} onClick={() => this.props.dispatch(login())}>
+                            <FormattedMessage id="login" />
+                        </a>
+                        {' '}<FormattedMessage id="organization-events-prompt" /></p>
+                </div>);
+        }
 
-    return (
-      <div className="container">
-        <h1><FormattedMessage id="organization-events"/></h1>
-        <p><FormattedMessage id="organization-events-description"/></p>
-        <FilterableEventTable events={events.items} apiErrorMsg={''} sortBy={events.sortBy} sortOrder={events.sortOrder} user={this.props.user} fetchComplete={events.fetchComplete} count={events.count} paginationPage={events.paginationPage}/>
-      </div>
-    )
-  }
+        return (
+            <div className="container">
+                <h1><FormattedMessage id="organization-events"/></h1>
+                <p><FormattedMessage id="organization-events-description"/></p>
+                <FilterableEventTable events={events.items} apiErrorMsg={''} sortBy={events.sortBy} sortOrder={events.sortOrder} user={this.props.user} fetchComplete={events.fetchComplete} count={events.count} paginationPage={events.paginationPage}/>
+            </div>
+        )
+    }
 }
 
 export default connect((state) => ({
-  events: state.userEvents,
-  user: state.user,
-  organization: state.organization,
-  apiErrorMsg: state.events.apiErrorMsg,
+    events: state.userEvents,
+    user: state.user,
+    organization: state.organization,
+    apiErrorMsg: state.events.apiErrorMsg,
 }))(EventListing);

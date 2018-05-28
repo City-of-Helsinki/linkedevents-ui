@@ -11,66 +11,66 @@ import {setData} from 'src/actions/editor.js'
 import moment from 'moment'
 
 let HelDatePicker = React.createClass({
-  getInitialState: function() {
-    return {
-      date: this.props.defaultValue,
-    }
-  },
+    getInitialState: function() {
+        return {
+            date: this.props.defaultValue,
+        }
+    },
 
-  propTypes: {
-    defaultValue: PropTypes.object,
-    name: PropTypes.string.isRequired,
-    onBlur: PropTypes.func,
-  },
+    propTypes: {
+        defaultValue: PropTypes.object,
+        name: PropTypes.string.isRequired,
+        onBlur: PropTypes.func,
+    },
 
-  componentDidMount: function () {
-    this.props.onChange('date', this.state.date)
-  },
+    componentDidMount: function () {
+        this.props.onChange('date', this.state.date)
+    },
 
-  handleChange: function (date) {
-    if (date._pf.nullInput) {
-      this.setState({
-        date: undefined,
-      })
-      this.props.onChange('date', undefined)
-    } else if (date.isValid()) {
-      this.setState({
-        date: date,
-      })
-      this.props.onChange('date', date)
-    }
-  },
+    handleChange: function (date) {
+        if (date._pf.nullInput) {
+            this.setState({
+                date: undefined,
+            })
+            this.props.onChange('date', undefined)
+        } else if (date.isValid()) {
+            this.setState({
+                date: date,
+            })
+            this.props.onChange('date', date)
+        }
+    },
 
-  handleBlur: function () {
-    if(typeof this.props.onBlur === 'function') {
-      this.props.onBlur()
-    }
-  },
-  componentWillReceiveProps(nextProps) {
-    if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
-      if (moment(nextProps.defaultValue).isValid()) {
-        this.setState({date: nextProps.defaultValue})
-      }
-    }
-  },
-  render: function () {
-    return (
-      <div className='hel-text-field'>
-        <DatePicker
-          placeholderText='pp.kk.vvvv'
-          selected={this.state.date}
-          autoOk={true}
-          name={this.props.name}
-          onChange={this.handleChange}
-          onBlur={this.handleBlur}
-          locale="fi"
-        />
-      </div>
+    handleBlur: function () {
+        if(typeof this.props.onBlur === 'function') {
+            this.props.onBlur()
+        }
+    },
+    componentWillReceiveProps(nextProps) {
+        if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
+            if (moment(nextProps.defaultValue).isValid()) {
+                this.setState({date: nextProps.defaultValue})
+            }
+        }
+    },
+    render: function () {
+        return (
+            <div className='hel-text-field'>
+                <DatePicker
+                    placeholderText='pp.kk.vvvv'
+                    selected={this.state.date}
+                    autoOk={true}
+                    name={this.props.name}
+                    onChange={this.handleChange}
+                    onBlur={this.handleBlur}
+                    locale="fi"
+                />
+            </div>
 
-    )
-  },
+        )
+    },
 });
 
 export default connect((state) => ({
-  editor: state.editor,
+    editor: state.editor,
 }))(HelDatePicker)
