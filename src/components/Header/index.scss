@@ -1,4 +1,5 @@
 $header-bar-height: 56px;
+$navbarIconPaddingLeft: 5px;
 
 .mui-toolbar {
     color: #ffffff;
@@ -71,6 +72,11 @@ $header-bar-height: 56px;
 
     .info-icon {
         padding-left: 15px;
+    }
+    .navbar-links {
+        svg {
+            padding-left: $navbarIconPaddingLeft;
+        }
     }
 }
 

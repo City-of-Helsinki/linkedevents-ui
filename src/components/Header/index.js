@@ -40,7 +40,7 @@ class HeaderBar extends React.Component {
                         <div className="title-text">Linked Events</div>
                     </Link>
                 </div>
-                <div style={{float: 'left'}}>
+                <div style={{float: 'left'}} className="navbar-links">
                     <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.dispatch(push('/'))}><FormattedMessage id="organization-events"/><List/></Button>
                     <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.dispatch(push('/search'))}><FormattedMessage id="search-events"/><Search/></Button>
                     <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.dispatch(push('/event/create/new'))}><FormattedMessage id="create-event"/><Add/></Button>
