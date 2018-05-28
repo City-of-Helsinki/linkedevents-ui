@@ -34,22 +34,21 @@ class HeaderBar extends React.Component {
 
         return (
             <Toolbar className="mui-toolbar">
-                <div style={{float: 'left'}}>
+                <div>
                     <Link to="/" className="title">
                         <img className="title-image" src={cityOfHelsinkiLogo} alt="City Of Helsinki" />
                         <div className="title-text">Linked Events</div>
                     </Link>
                 </div>
-                <div style={{float: 'left'}}>
+                <div className="navbar-links">
                     <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.dispatch(push('/'))}><FormattedMessage id="organization-events"/><List/></Button>
                     <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.dispatch(push('/search'))}><FormattedMessage id="search-events"/><Search/></Button>
                     <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.dispatch(push('/event/create/new'))}><FormattedMessage id="create-event"/><Add/></Button>
                 </div>
-                <div style={{float: 'right'}}>
+                <div>
                     <Button className="mui-flat-button" style={{...buttonStyle,...verticalAlignMiddle}} onClick={() => this.props.dispatch(push('/help'))}><HelpOutline/></Button>
                     {loginButton}
                 </div>
-                <div className="clearfix"/>
             </Toolbar>
         )
     }
