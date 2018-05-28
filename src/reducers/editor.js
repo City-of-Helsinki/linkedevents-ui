@@ -180,6 +180,17 @@ function update(state = initialState, action) {
         for (const offer of offers) {
             offer.is_free = action.isFree
         }
+
+        if (action.isFree === true) {
+            // Event is free so we can clear the offers key from state store
+            // this prevents validation errors on possibly already entered offer fields
+            return updater(state, {
+                values: {
+                    $unset: ['offers']
+                }
+            })
+        }
+
         return updater(state, {
             values: {
                 offers: {
@@ -210,7 +221,8 @@ function update(state = initialState, action) {
         // localStorage.setItem('EDITOR_VALUES', JSON.stringify(newValues))
 
         return Object.assign({}, state, {
-            values: newValues
+            values: newValues,
+            contentLanguages: getContentLanguages(newValues),
         })
     }
 
@@ -264,8 +276,7 @@ function update(state = initialState, action) {
         let newValues = Object.assign({}, mapAPIDataToUIFormat(action.event))
 
         return Object.assign({}, state, {
-            values: newValues,
-            contentLanguages: getContentLanguages(action.event),
+            values: newValues
         })
     }
 

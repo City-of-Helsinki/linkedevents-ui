@@ -12,6 +12,18 @@ class API {
             {
               value: 'en',
               label: 'in-en'
+            },
+            {
+              value: 'ru',
+              label: 'in-ru'
+            },
+            {
+              value: 'zh',
+              label: 'in-zh'
+            },
+            {
+                value: 'ar',
+                label: 'in-ar'
             }
         ]
     }

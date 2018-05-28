@@ -8,30 +8,22 @@ import {FormattedMessage} from 'react-intl'
 import {Button} from 'material-ui'
 
 import {fetchEventDetails} from 'src/actions/events.js'
+import { setFlashMsg } from '../../actions/app'
 
-import {pushPath} from 'redux-simple-router'
-
-import { getStringWithLocale } from 'src/utils/locale'
-
-import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
-import {setData} from 'src/actions/editor.js'
+import { push } from 'react-router-redux'
 
 class EventCreated extends React.Component {
 
     componentWillMount() {
-        if(this.props.params.action !== 'delete') {
-            this.props.dispatch(fetchEventDetails(this.props.params.eventId, this.props.user))
-        }
-    }
-
-    goToEvent() {
-        if(this.props.events.event) {
-            this.props.dispatch(pushPath(`/event/${this.props.events.event.id}`))
+        if(this.props.match.params.action !== 'delete') {
+            let headerTranslationId= this.getEventHeaderTranslationId()
+            this.props.dispatch(setFlashMsg(headerTranslationId, 'success'))
+            this.props.dispatch(push(`/event/${this.props.match.params.eventId}`))
         }
     }
 
     goToBrowsing() {
-        this.props.dispatch(pushPath(`/`))
+        this.props.dispatch(push(`/`))
     }
 
     getActionButtons() {
@@ -39,66 +31,47 @@ class EventCreated extends React.Component {
             height: '72px',
             margin: '0 10px'
         }
-        let label
-        if(this.props.params.action !== 'delete') {
-            if(this.props.events.event.super_event) {
-                label = "Siirry ensimmäiseen tapahtumaan"
-            } else {
-                label = "Siirry tapahtumaan"
-            }
-            return (
-                <div className="actions">
-                    <Button raised onClick={e => this.goToEvent(e)} style={buttonStyle} color="accent">{label}</Button>
-                </div>
-            )
-        } else {
-            return (
-                <div className="actions">
-                    <Button raised onClick={e => this.goToBrowsing(e)} style={buttonStyle} color="accent">Palaa takaisin tapahtumiin</Button>
-                </div>
-            )
+
+        return (
+            <div className="actions">
+                <Button raised onClick={e => this.goToBrowsing(e)} style={buttonStyle} color="accent">Palaa takaisin tapahtumiin</Button>
+            </div>
+        )
+    }
+
+    getEventHeaderTranslationId() {
+        let event = this.props.events.event
+        let headerTranslationId = 'event-creation-default-success' 
+
+        if(this.props.match.params.action === 'update') {
+            headerTranslationId = 'event-creation-update-success'
+        } else if(this.props.match.params.action === 'savedraft') {
+            headerTranslationId = 'event-creation-savedraft-success'
+        }  else if(this.props.match.params.action === 'savepublic') {
+            headerTranslationId = 'event-creation-savepublic-success'
+        } else if(this.props.match.params.action === 'create' && typeof event.super_event === 'object') {
+            headerTranslationId = 'event-creation-multipleevents-success'
+        } else if(this.props.match.params.action === 'create') {
+            headerTranslationId = 'event-creation-create-success'
+        } else if(this.props.match.params.action === 'delete') {
+            headerTranslationId = 'event-creation-delete-success'
+        } else if(this.props.match.params.action === 'cancel') {
+            headerTranslationId = 'event-creation-cancel-success'
+        } else if(this.props.match.params.action === 'publish') {
+            headerTranslationId = 'event-creation-publish-success'
         }
 
+        return headerTranslationId
     }
 
     render() {
-
-        let event = this.props.events.event
-
-        // User can edit event
-        let userCanEdit = false
-
-        if(event && this.props.user) {
-            userCanEdit = true
-        }
-
-        let headerText = "Tapahtuma luotiin onnistuneesti!"
-        let eventName = getStringWithLocale(this.props, 'events.event.name')
-
-        if(this.props.params.action === 'update') {
-            headerText = "Tapahtuma päivitettiin onnistuneesti!"
-        } else if(this.props.params.action === 'savedraft') {
-            headerText = "Luonnoksen tallennus onnistui!"
-        }  else if(this.props.params.action === 'savepublic') {
-            headerText = "Julkaistun tapahtuman tallennus onnistui!"
-        } else if(this.props.params.action === 'create' && typeof event.super_event === 'object') {
-            headerText = "Tapahtumat tallennettiin!"
-        } else if(this.props.params.action === 'create') {
-            headerText = "Tapahtuma tallennettiin!"
-        } else if(this.props.params.action === 'delete') {
-            headerText = "Tapahtuma poistettiin!"
-        } else if(this.props.params.action === 'cancel') {
-            headerText = "Tapahtuma peruttiin!"
-        } else if(this.props.params.action === 'publish') {
-            headerText = "Tapahtuma julkaistiin onnistuneesti!"
-        }
-
-        if(this.props.params.action === 'delete' || event) {
+        if(this.props.match.params.action === 'delete') {
+            let headerTranslationId= this.getEventHeaderTranslationId()
             return (
                 <div className="event-page">
                     <div className="container header">
                         <h1>
-                            {headerText}
+                            <FormattedMessage id={`${headerTranslationId}`} />
                         </h1>
                         { this.getActionButtons() }
                     </div>

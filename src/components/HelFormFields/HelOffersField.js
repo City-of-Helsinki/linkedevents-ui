@@ -24,9 +24,14 @@ class HelOffersField extends React.Component {
 
     constructor(props) {
       super(props);
+      let isFreeEvent = true
+      if (this.props.defaultValue && this.props.defaultValue.length > 0) {
+        isFreeEvent = false //we have length in defaultvalue array so we have prices -> not a free event.
+      }
+
       this.state = {
           values: this.props.defaultValue,
-          isFree: true
+          isFree: isFreeEvent
       };
   }
 
@@ -65,7 +70,7 @@ class HelOffersField extends React.Component {
     generateOffers(offers) {
         const newOffers = []
         for (const key in offers) {
-            if (offers.hasOwnProperty(key) && !(offers.length === 1 && this.state.isFree)) {
+            if (offers.hasOwnProperty(key) && !this.state.isFree) {
                 newOffers.push(
                     <NewOffer
                         key={key}

@@ -43,7 +43,7 @@ let MultiLanguageValue = (props) => {
     }
 
     // Use a separate array to ensure correct field order
-    let langOptions = ['fi', 'sv', 'en']
+    let langOptions = ['fi', 'sv', 'en', 'ru', 'zh', 'ar']
     let elements = []
 
     _.each(langOptions, (key) => {

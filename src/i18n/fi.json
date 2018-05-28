@@ -27,6 +27,9 @@
     "in-fi": "suomeksi",
     "in-en": "englanniksi",
     "in-sv": "ruotsiksi",
+    "in-ru": "venäjäksi",
+    "in-zh": "kiinaksi",
+    "in-ar": "arabiaksi",
 
     "no-value": "-kenttää ei ole täytetty.",
 
@@ -123,7 +126,7 @@
     "ruotsi": "ruotsi",
     "suomi": "suomi",
 
-    "validation-isUrl": "Tarkista URL osoitteen kirjoitusmuoto",
+    "validation-isUrl": "Kirjoita URL osoite kokonaisena ja oikeassa muodossa (http://...)",
     "validation-isTime": "Kirjoita aika oikeassa muodossa HH.mm tai HH",
     "validation-isDate": "Kirjoita päivämäärä muodossa pp.kk.vvvv tai p.k.vvvv",
     "validation-atLeastOne": "Valitse vähintään yksi kategoria",
@@ -149,6 +152,16 @@
     "authorization-required": "Kirjaudu sisään tapahtuman lähettämiseksi.",
     "event-posted": "Tapahtuma lähetettiin onnistuneesti!",
     "no-connection": "Ei yhteyttä palvelimelle!",
+
+    "event-creation-default-success": "Tapahtuma luotiin onnistuneesti!",
+    "event-creation-update-success": "Tapahtuma päivitettiin onnistuneesti!",
+    "event-creation-savedraft-success": "Luonnoksen tallennus onnistui!",
+    "event-creation-savepublic-success": "Julkaistun tapahtuman tallennus onnistui!",
+    "event-creation-multipleevents-success": "Tapahtumat tallennettiin!",
+    "event-creation-create-success": "Tapahtuma tallennettiin!",
+    "event-creation-delete-success": "Tapahtuma poistettiin!",
+    "event-creation-cancel-success": "Tapahtuma peruttiin!",
+    "event-creation-publish-success": "Tapahtuma julkaistiin onnistuneesti!",
 
     "image-creation-success": "Kuva luotiin onnistuneesti!",
     "image-creation-error": "Virhe kuvaa luodessa.",

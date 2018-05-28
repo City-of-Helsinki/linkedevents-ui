@@ -8,7 +8,7 @@ let wasErrors = false
 
 export default (store) => {
 
-    const { editor, routing } = store.getState()
+    const { editor, router } = store.getState()
     const dispatch = store.dispatch
 
     let errorCount = _.keys(editor.validationErrors).length;
@@ -31,7 +31,7 @@ export default (store) => {
     if(wasErrors === true) {
         if(errorCount === 0) {
             wasErrors = false
-            if((routing.path.indexOf('/event/create/') > -1 || routing.path.indexOf('/event/update/') > -1)
+            if((router.location.pathname.indexOf('/event/create/') > -1 || router.location.pathname.indexOf('/event/update/') > -1)
                 && editor.validationStatus === constants.VALIDATION_STATUS.RESOLVE) {
                 dispatch(setFlashMsg('no-validation-errors', 'success'))
             } else {

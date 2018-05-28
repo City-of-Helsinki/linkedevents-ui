@@ -15,12 +15,13 @@ let engine = new Bloodhound({
         return tokens;
     },
     prefetch: {
-        url: appSettings.api_base + "/place/?page_size=10000",
+        // page size of 100 is the maximum in the api anyway
+        url: appSettings.api_base + "/place/?page_size=100",
         filter: (places) => {
             // Map the remote source JSON array to a JavaScript object array
             return $.map(places.data, (place) => {
                 return {
-                    value: place.name.fi,
+                    value: place.name ? place.name.fi : '',
                     id: place.id,
                     street_address: place.street_address ? place.street_address.fi : ''
                 }

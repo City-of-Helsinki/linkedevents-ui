@@ -1,6 +1,7 @@
 import constants from '../constants.js'
 import fetch from 'isomorphic-fetch'
 import _ from 'lodash'
+import { resetUserEventsFetching } from './userEvents'
 
 // Handled by the user reducer
 export function receiveUserData(data) {
@@ -41,8 +42,12 @@ export function retrieveUserFromSession() {
                 }
                 return fetch(`${appSettings.api_base}/user/${user.username}/`, settings).then((response) => {
                     return response.json()
-                }).then((organizationJSON) => {
-                    let mergedUser = Object.assign({}, user, { organization: _.get(organizationJSON, 'organization', null) })
+                }).then((userJSON) => {
+                    let mergedUser = Object.assign({}, user, {
+                        organization: _.get(userJSON, 'organization', null),
+                        adminOrganizations: _.get(userJSON, 'admin_organizations', null),
+                        organizationMemberships: _.get(userJSON, 'organization_memberships', null)
+                    })
 
                     saveUserToLocalStorage(mergedUser)
                     return dispatch(receiveUserData(mergedUser))
@@ -83,5 +88,6 @@ export function logout() {
       fetch('/auth/logout', {method: 'POST', credentials: 'same-origin'}) // Fire-and-forget
       localStorage.removeItem('user')
       dispatch(clearUserData())
+      dispatch(resetUserEventsFetching())
   };
 }
