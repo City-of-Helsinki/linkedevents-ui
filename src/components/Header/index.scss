@@ -6,7 +6,8 @@ $navbarIconPaddingLeft: 5px;
     background-color: #006cbc;
     height: auto !important;
     min-height: $header-bar-height;
-
+    display: flex;
+    justify-content: space-between;
     a {
         color: inherit;
 
