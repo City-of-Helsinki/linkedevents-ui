@@ -1,0 +1,22 @@
+{
+    "extends": [
+      "plugin:react/recommended",
+      "eslint:recommended",
+      "plugin:import/errors",
+      "plugin:import/warnings"
+    ],
+    "parser": "babel-eslint",
+    "rules": {
+      "comma-dangle": [2, "always-multiline"],
+      "eol-last": [2, "always"],
+      "indent": [2, 2, {"SwitchCase":1}],
+      "quotes": [2, "single", {"avoidEscape": true, "allowTemplateLiterals": true}],
+      "object-curly-spacing": [2, "never"],
+      "space-infix-ops": "error",
+      "import/no-unresolved": [2, {"commonjs": true, "amd": true}],
+      "import/named": 2,
+      "import/namespace": 2,
+      "import/default": 2,
+      "import/export": 2
+    }
+}

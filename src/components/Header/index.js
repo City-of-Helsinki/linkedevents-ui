@@ -23,9 +23,6 @@ import cityOfHelsinkiLogo from 'src/assets/images/helsinki-coat-of-arms-white.pn
 class HeaderBar extends React.Component {
 
     render() {
-        let buttonStyle = { color: '#ffffff' }
-        let verticalAlignMiddle = { verticalAlign: 'middle' }
-
         // NOTE: mockup for login button functionality
         let loginButton = <Button style={buttonStyle} onClick={() => this.props.dispatch(login())}><FormattedMessage id="login"/></Button>
         if(this.props.user) {
@@ -41,9 +38,15 @@ class HeaderBar extends React.Component {
                     </Link>
                 </div>
                 <div className="navbar-links">
-                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.dispatch(push('/'))}><FormattedMessage id="organization-events"/><List/></Button>
-                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.dispatch(push('/search'))}><FormattedMessage id="search-events"/><Search/></Button>
-                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.dispatch(push('/event/create/new'))}><FormattedMessage id="create-event"/><Add/></Button>
+                    <Link to="/">
+                        <FormattedMessage id="organization-events"/><List/>
+                    </Link>
+                    <Link to="/search">
+                        <FormattedMessage id="search-events"/><Search/>
+                    </Link>
+                    <Link to="/event/create/new">
+                        <FormattedMessage id="create-event"/><Add/>
+                    </Link>
                 </div>
                 <div>
                     <Button className="mui-flat-button" style={{...buttonStyle,...verticalAlignMiddle}} onClick={() => this.props.dispatch(push('/help'))}><HelpOutline/></Button>
