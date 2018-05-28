@@ -7,11 +7,11 @@ import app from './app.js'
 import userEvents from './userEvents.js'
 
 export default {
-    events: events,
-    subEvents: subEvents,
-    user: user,
-    editor: editor,
-    images: images,
-    app: app,
-    userEvents: userEvents
+  events: events,
+  subEvents: subEvents,
+  user: user,
+  editor: editor,
+  images: images,
+  app: app,
+  userEvents: userEvents,
 }

@@ -10,65 +10,65 @@ import {setData} from 'src/actions/editor.js'
 
 let HelCheckbox = React.createClass({
 
-    contextTypes: {
-        intl: PropTypes.object,
-        dispatch: PropTypes.func
-    },
+  contextTypes: {
+    intl: PropTypes.object,
+    dispatch: PropTypes.func,
+  },
 
-    propTypes: {
-        name: PropTypes.string
-    },
+  propTypes: {
+    name: PropTypes.string,
+  },
 
-    handleCheck: function (event) {
-        let newValue = event.target.checked
+  handleCheck: function (event) {
+    let newValue = event.target.checked
 
-        if(this.props.name) {
-            let obj = {}
-            obj[this.props.name] = newValue
-            this.context.dispatch(setData(obj))
-        }
-
-        if(typeof this.props.onChange === 'function') {
-            this.props.onChange(event, newValue)
-        }
-    },
-
-    getValidationErrors: function() {
-        return []
-    },
-
-    noValidationErrors: function() {
-        return true
-    },
-
-    getValue: function() {
-        return this.refs.checkbox.getChecked()
-    },
-
-    render: function () {
-        let { required, label } = this.props
-
-        if(required) {
-            if(typeof label === 'string') {
-                label += ' *'
-            }
-            if(typeof label === 'object') {
-                label = (<span>{label} *</span>)
-            }
-        }
-
-        return (
-            <Input
-                ref="checkbox"
-                type="checkbox"
-                label={label}
-                name={this.props.name}
-                groupClassName="hel-checkbox"
-                onChange={this.handleCheck}
-                checked={this.props.defaultChecked}
-                />
-        )
+    if(this.props.name) {
+      let obj = {}
+      obj[this.props.name] = newValue
+      this.context.dispatch(setData(obj))
     }
+
+    if(typeof this.props.onChange === 'function') {
+      this.props.onChange(event, newValue)
+    }
+  },
+
+  getValidationErrors: function() {
+    return []
+  },
+
+  noValidationErrors: function() {
+    return true
+  },
+
+  getValue: function() {
+    return this.refs.checkbox.getChecked()
+  },
+
+  render: function () {
+    let {required, label} = this.props
+
+    if(required) {
+      if(typeof label === 'string') {
+        label += ' *'
+      }
+      if(typeof label === 'object') {
+        label = (<span>{label} *</span>)
+      }
+    }
+
+    return (
+      <Input
+        ref="checkbox"
+        type="checkbox"
+        label={label}
+        name={this.props.name}
+        groupClassName="hel-checkbox"
+        onChange={this.handleCheck}
+        checked={this.props.defaultChecked}
+      />
+    )
+  },
 });
 
 export default HelCheckbox

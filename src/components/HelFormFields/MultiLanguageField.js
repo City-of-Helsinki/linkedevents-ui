@@ -3,7 +3,7 @@ import './MultiLanguageField.scss'
 import PropTypes from 'prop-types';
 
 import React from 'react'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import {FormattedMessage, injectIntl} from 'react-intl'
 import HelTextField from './HelTextField'
 
 import ValidationPopover from 'src/components/ValidationPopover'
@@ -19,123 +19,123 @@ import {setData} from 'src/actions/editor.js'
 
 class MultiLanguageField extends React.Component {
 
-    constructor(props) {
-        super(props)
-        let defaultValue = props.defaultValue || {}
-        this.state = {
-            value: defaultValue
-        }
+  constructor(props) {
+    super(props)
+    let defaultValue = props.defaultValue || {}
+    this.state = {
+      value: defaultValue,
     }
+  }
 
     static contextTypes = {
-        intl: PropTypes.object,
-        dispatch: PropTypes.func
+      intl: PropTypes.object,
+      dispatch: PropTypes.func,
     };
 
     onChange(e,value,lang) {
-        this.setState({value: this.getValue()})
+      this.setState({value: this.getValue()})
 
-        if(typeof this.props.onChange === 'function') {
-            this.props.onChange(event, this.getValue())
-        }
+      if(typeof this.props.onChange === 'function') {
+        this.props.onChange(event, this.getValue())
+      }
     }
 
     onBlur(e,value) {
-        this.setState({value: this.getValue()})
+      this.setState({value: this.getValue()})
 
-        if(this.props.name) {
-            let obj = {}
-            obj[this.props.name] = this.getValue()
-            if(this.noValidationErrors() || this.props.forceApplyToStore) {
-                this.context.dispatch(setData(obj))
-            }
-
-            if (this.props.setDirtyState) {
-                this.props.setDirtyState()
-            }
+      if(this.props.name) {
+        let obj = {}
+        obj[this.props.name] = this.getValue()
+        if(this.noValidationErrors() || this.props.forceApplyToStore) {
+          this.context.dispatch(setData(obj))
         }
 
-        if(typeof this.props.onBlur === 'function') {
-            this.props.onBlur(e, this.getValue())
+        if (this.props.setDirtyState) {
+          this.props.setDirtyState()
         }
+      }
+
+      if(typeof this.props.onBlur === 'function') {
+        this.props.onBlur(e, this.getValue())
+      }
     }
 
     getValue() {
-        let langs = _.map(this.refs, (ref, key) => key)
-        let values = _.map(this.refs, ref => ref.getValue())
+      let langs = _.map(this.refs, (ref, key) => key)
+      let values = _.map(this.refs, ref => ref.getValue())
 
-        let valueObj = _.zipObject(langs, values);
+      let valueObj = _.zipObject(langs, values);
 
-        return valueObj
+      return valueObj
     }
 
     noValidationErrors() {
-        let errors = _.map(this.refs, elem => elem.getValidationErrors().length)
-        errors = errors.filter(errorCount => (errorCount > 0))
+      let errors = _.map(this.refs, elem => elem.getValidationErrors().length)
+      errors = errors.filter(errorCount => (errorCount > 0))
 
-        return (errors.length === 0)
+      return (errors.length === 0)
     }
 
     componentWillReceiveProps(nextProps) {
-        if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
-            this.setState({ value: nextProps.defaultValue || {} })
-        }
-        this.forceUpdate()
+      if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
+        this.setState({value: nextProps.defaultValue || {}})
+      }
+      this.forceUpdate()
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        return !(_.isEqual(nextState, this.state)) ||
+      return !(_.isEqual(nextState, this.state)) ||
                 !(_.isEqual(nextProps.languages, this.props.languages)) ||
                 !(_.isEqual(nextProps.disabled, this.props.disabled))
     }
 
     render() {
-        let props = this.props
-        // Set default language to fi if no languages are selected
-        let langs = props.languages
+      let props = this.props
+      // Set default language to fi if no languages are selected
+      let langs = props.languages
 
-        if(langs.length === 0) {
-            langs = ['fi']
-        }
+      if(langs.length === 0) {
+        langs = ['fi']
+      }
 
-        let textInputs = []
+      let textInputs = []
 
-        if(langs.length === 1) {
-            let label = this.context.intl.formatMessage({id: props.label}) + ' (' + this.context.intl.formatMessage({id: `in-${langs[0]}`}) + ')'
-            return (
-                <div style={{position:'relative'}} key={`${props.name}_${langs[0]}`}>
-                    <HelTextField required={this.props.required}
-                        defaultValue={this.state.value[langs[0]]}
-                        label={label}
-                        ref={langs[0]}
-                        onChange={(e,v) => this.onChange(e,v,langs[0])}
-                        onBlur={(e,v) => this.onBlur(e,v)}
-                        disabled={this.props.disabled}
-                        validations={this.props.validations}
-                        validationErrors={this.props.validationErrors}
-                        index={this.props.index}
-                        multiLine={this.props.multiLine} />
-                </div>
-            )
-        } else {
-            textInputs = langs.map((lang, index) => {
-                let value = this.state.value[lang]
-                return (
-                    <div key={`${props.name}_${lang}`}>
-                        <HelTextField multiLine={this.props.multiLine} required={this.props.required} defaultValue={value} ref={lang} label={this.context.intl.formatMessage({id: `in-${lang}`})} onChange={(e,v) => this.onChange(e,v,lang)} onBlur={(e,v) => this.onBlur(e,v)} disabled={this.props.disabled} validations={this.props.validations}/>
-                    </div>
-                )
-            },this)
-        }
-
+      if(langs.length === 1) {
+        let label = this.context.intl.formatMessage({id: props.label}) + ' (' + this.context.intl.formatMessage({id: `in-${langs[0]}`}) + ')'
         return (
-            <div className="multi-field">
-                <div className="indented">
-                    <label><FormattedMessage id={`${props.label}`} /><ValidationPopover validationErrors={this.props.validationErrors} index={this.props.index} /></label>
-                    {textInputs}
-                </div>
-            </div>
+          <div style={{position:'relative'}} key={`${props.name}_${langs[0]}`}>
+            <HelTextField required={this.props.required}
+              defaultValue={this.state.value[langs[0]]}
+              label={label}
+              ref={langs[0]}
+              onChange={(e,v) => this.onChange(e,v,langs[0])}
+              onBlur={(e,v) => this.onBlur(e,v)}
+              disabled={this.props.disabled}
+              validations={this.props.validations}
+              validationErrors={this.props.validationErrors}
+              index={this.props.index}
+              multiLine={this.props.multiLine} />
+          </div>
         )
+      } else {
+        textInputs = langs.map((lang, index) => {
+          let value = this.state.value[lang]
+          return (
+            <div key={`${props.name}_${lang}`}>
+              <HelTextField multiLine={this.props.multiLine} required={this.props.required} defaultValue={value} ref={lang} label={this.context.intl.formatMessage({id: `in-${lang}`})} onChange={(e,v) => this.onChange(e,v,lang)} onBlur={(e,v) => this.onBlur(e,v)} disabled={this.props.disabled} validations={this.props.validations}/>
+            </div>
+          )
+        },this)
+      }
+
+      return (
+        <div className="multi-field">
+          <div className="indented">
+            <label><FormattedMessage id={`${props.label}`} /><ValidationPopover validationErrors={this.props.validationErrors} index={this.props.index} /></label>
+            {textInputs}
+          </div>
+        </div>
+      )
     }
 
 }
