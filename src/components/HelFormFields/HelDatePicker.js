@@ -11,8 +11,9 @@ import {setData} from 'src/actions/editor.js'
 import moment from 'moment'
 
 class HelDatePicker extends React.Component {
-    getInitialState() {
-        return {
+    constructor(props) {
+        super(props)
+        this.state = {
             date: this.props.defaultValue,
         }
     }

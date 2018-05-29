@@ -16,20 +16,21 @@ import ValidationPopover from 'src/components/ValidationPopover'
 import moment from 'moment'
 
 class HelDateTimeField extends React.Component {
-
-    getInitialState(){
+    constructor(props) {
+        super(props)
+        
         let defaultValue = this.props.defaultValue || null
         if(moment(defaultValue).isValid()) {
             defaultValue = moment(defaultValue).tz('Europe/Helsinki');
-            return {
+            this.state = {
                 date: defaultValue,
                 time: defaultValue.format('HH.mm'),
             }
-        }
-
-        return {
-            date: null,
-            time: null,
+        } else {
+            this.state = {
+                date: null,
+                time: null,
+            }
         }
     }
 

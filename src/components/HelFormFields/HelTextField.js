@@ -12,8 +12,9 @@ import validationRules from 'src/validation/validationRules.js';
 import ValidationPopover from 'src/components/ValidationPopover'
 
 class HelTextField extends React.Component {
-    getInitialState(){
-        return {
+    constructor(props) {
+        super(props)
+        this.state = {
             error: null,
             value: this.props.defaultValue || '',
         }
