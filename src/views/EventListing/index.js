@@ -1,12 +1,13 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {FormattedMessage} from 'react-intl'
+import PropTypes from 'prop-types'
 
 import FilterableEventTable from 'src/components/FilterableEventTable'
 import EventGrid from 'src/components/EventGrid'
 import SearchBar from 'src/components/SearchBar'
 
-import {fetchUserEvents} from 'src/actions/userEvents'
+import {fetchUserEvents as fetchEvent} from 'src/actions/userEvents'
 import {login, logout} from 'src/actions/user.js'
 
 class EventListing extends React.Component {
@@ -25,8 +26,9 @@ class EventListing extends React.Component {
     }
 
     fetchEvents() {
-        if (this.props.user) {
-            this.props.dispatch(fetchUserEvents(this.props.user, this.props.events.sortBy, this.props.events.sortOrder, this.props.events.paginationPage))
+        const {user, events: {sortBy, sortOrder, paginationPage}, fetchUserEvents} = this.props
+        if (user) {
+            fetchUserEvents(user, sortBy, sortOrder, paginationPage)
         }
     }
 
@@ -42,7 +44,7 @@ class EventListing extends React.Component {
                 <div className="container">
                     {header}
                     <p>
-                        <a style={{cursor: 'pointer'}} onClick={() => this.props.dispatch(login())}>
+                        <a style={{cursor: 'pointer'}} onClick={() => this.props.login()}>
                             <FormattedMessage id="login" />
                         </a>
                         {' '}<FormattedMessage id="organization-events-prompt" /></p>
@@ -59,9 +61,23 @@ class EventListing extends React.Component {
     }
 }
 
-export default connect((state) => ({
+EventListing.propTypes = {
+    events: PropTypes.array,
+    fetchUserEvents: PropTypes.func,
+    user: PropTypes.object,
+    login: PropTypes.func,
+}
+
+const mapStateToProps = (state) => ({
     events: state.userEvents,
     user: state.user,
     organization: state.organization,
     apiErrorMsg: state.events.apiErrorMsg,
-}))(EventListing);
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    login: () => dispatch(login()),
+    fetchUserEvents: (user, sortBy, sortOrder, paginationPage) => dispatch(fetchEvent(user, sortBy, sortOrder, paginationPage)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventListing);

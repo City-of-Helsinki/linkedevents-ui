@@ -22,9 +22,9 @@ export const Help = () => {
                     </ul>
                 </ul>
 
-                <p>Kaupungin tapahtumakalenteri: <a href="http://www.hel.fi/tapahtumat" target="_blank">hel.fi/tapahtumat</a>.</p>
-                <p>Linked Events -rajapinta: <a href="http://api.hel.fi/linkedevents" target="_blank">api.hel.fi/linkedevents</a>.</p>
-                <p>Rajapinnan kehittäjäsivu: <a href="https://dev.hel.fi/projects/linked-events/" target="_blank">dev.hel.fi/projects/linked-events</a><br/></p>
+                <p>Kaupungin tapahtumakalenteri: <a href="http://www.hel.fi/tapahtumat" rel='noopener noreferrer' target="_blank">hel.fi/tapahtumat</a>.</p>
+                <p>Linked Events -rajapinta: <a href="http://api.hel.fi/linkedevents" rel='noopener noreferrer' target="_blank">api.hel.fi/linkedevents</a>.</p>
+                <p>Rajapinnan kehittäjäsivu: <a href="https://dev.hel.fi/projects/linked-events/" rel='noopener noreferrer' target="_blank">dev.hel.fi/projects/linked-events</a><br/></p>
 
                 <p>Rajapinnan palvelupäällikkö on Aleksi Salonen (@hel.fi) ja tekninen kehityspäällikkö Riku Oja (@hel.fi).</p>
             </div>
@@ -50,7 +50,7 @@ export const Help = () => {
 
                 <p>5.1 <strong>Täytä tiedot niin laajasti ja tarkasti kuin mahdollista.</strong> Lomakkeen ohjetekstit avustavat täyttämisessä.</p>
 
-                <p>5.2 <strong>Pyri aina löytämään tapahtumalle kuva.</strong> Kuvalle voi merkitä käyttöoikeuden CC 4.0 BY (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">ks. selitys</a>) tai "käyttö vain tapahtuman yhteydessä". Joitakin vapaasti käytettäviä kuvituskuvia löytyy osoitteesta <a href="http://www.hel.fi/tapahtumakuvat" target="_blank">hel.fi/tapahtumakuvat</a>.</p>
+                <p>5.2 <strong>Pyri aina löytämään tapahtumalle kuva.</strong> Kuvalle voi merkitä käyttöoikeuden CC 4.0 BY (<a href="https://creativecommons.org/licenses/by/4.0/" rel='noopener noreferrer' target="_blank">ks. selitys</a>) tai {`"käyttö vain tapahtuman yhteydessä"`}. Joitakin vapaasti käytettäviä kuvituskuvia löytyy osoitteesta <a href="http://www.hel.fi/tapahtumakuvat" rel='noopener noreferrer' target="_blank">hel.fi/tapahtumakuvat</a>.</p>
 
                 <p><strong>Muokkaa kuva ennen syöttöä verkkoon sopivaksi</strong> ja 3:2-vaakakuvasuhteeseen, esim. 1200X800px. Olennaista on, että tiedostokoko pysyy kohtuullisena myös mobiilikäyttöön eli mieluiten alle 200 kilotavun (kt).</p>
 
@@ -58,7 +58,7 @@ export const Help = () => {
 
                 <p>5.4 <strong>Tapahtuman paikka</strong> valitaan kaupungin toimipisterekisterin paikoista. Osoite- ja muut tiedot haetaan siis automaattisesti, kun oikea paikka löytyy. Jos haluat lisätä uuden toimipisteen, ota yhteyttä <a href="mailto:aleksi.salonen@hel.fi">aleksi.salonen@hel.fi</a>.</p>
 
-                <p>5.5 <strong>Tapahtuman luokittelu asiasanoilla on tärkeää</strong>, jotta eri sovellusten käyttäjät löytävät tapahtuman suuresta tapahtumamassasta. Valitse useampi asiasana ja suosi niitä, joita on käytetty useissa tapahtumissa. Asiasanat (<a href="https://finto.fi/yso/fi/" target="_blank">ks. YSO-sanasto</a>) löytyvät useimmiten monikkomuodossa, esim. kirjat, perheet, näytelmät ja maalaukset.</p>
+                <p>5.5 <strong>Tapahtuman luokittelu asiasanoilla on tärkeää</strong>, jotta eri sovellusten käyttäjät löytävät tapahtuman suuresta tapahtumamassasta. Valitse useampi asiasana ja suosi niitä, joita on käytetty useissa tapahtumissa. Asiasanat (<a href="https://finto.fi/yso/fi/" rel='noopener noreferrer' target="_blank">ks. YSO-sanasto</a>) löytyvät useimmiten monikkomuodossa, esim. kirjat, perheet, näytelmät ja maalaukset.</p>
 
                 <p>5.6 <strong>Pääkategoriat ja kohderyhmät</strong> ovat ensijaisesti hel.fi-sivustoa varten, mutta ne näkyvät myös muille rajapinnan hyödyntäjille.</p>
 
@@ -68,7 +68,7 @@ export const Help = () => {
 
                 <p>6. <strong>Virhetilanteissa</strong> voi lähettää raportin liittymän vasemmasta laidasta löytyvän ikonin kautta. Virheviestiä voi tehostaa lähettämällä sen erikseen myös osoitteeseen <a href="mailto:aleksi.salonen@hel.fi">aleksi.salonen@hel.fi</a>. Jälkimmäiseen osoitteeseen voi lisäksi lähettää parannusideoita käyttöliittymään tai kysyä neuvoa.</p>
 
-                <p>7. <strong>Uuden tapahtuman tietojen pohjana voi käyttää vanhaa</strong>, avaamalla tapahtuman ja valitsemalla "Kopioi uuden tapahtuman pohjaksi". Omat tapahtumat löytyvät helposti Tapahtumien hallinnasta ja niihin on muokkausoikeus.</p>
+                <p>7. <strong>Uuden tapahtuman tietojen pohjana voi käyttää vanhaa</strong>, avaamalla tapahtuman ja valitsemalla {`"Kopioi uuden tapahtuman pohjaksi"`}. Omat tapahtumat löytyvät helposti Tapahtumien hallinnasta ja niihin on muokkausoikeus.</p>
             </div>
         </div>
     )
