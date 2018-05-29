@@ -13,9 +13,9 @@ import Well from 'react-bootstrap/lib/Well'
 
 import {injectIntl, FormattedMessage} from 'react-intl'
 
-import {retrieveUserFromSession} from 'src/actions/user'
-import {fetchKeywordSets, fetchLanguages} from 'src/actions/editor.js'
-import {clearFlashMsg, cancelAction, doAction} from 'src/actions/app.js'
+import {retrieveUserFromSession as retrieveUserFromSessionAction} from 'src/actions/user'
+import {fetchKeywordSets as fetchKeywordSetsAction, fetchLanguages as fetchLanguagesAction} from 'src/actions/editor.js'
+import {cancelAction, doAction} from 'src/actions/app.js'
 
 import {MuiThemeProvider} from 'material-ui/styles'
 import {HelTheme} from 'src/themes/hel'
@@ -25,6 +25,11 @@ class App extends React.Component {
 
     static propTypes = {
         children: PropTypes.node,
+        fetchKeywordSets: PropTypes.func,
+        fetchLanguages: PropTypes.func,
+        cancel: PropTypes.func,
+        do: PropTypes.func,
+        retrieveUserFromSession: PropTypes.func,
     };
 
     static childContextTypes = {
@@ -47,11 +52,11 @@ class App extends React.Component {
 
     componentWillMount() {
         // Prefetch editor related hel.fi categories and event languages
-        this.props.dispatch(fetchKeywordSets())
-        this.props.dispatch(fetchLanguages())
+        this.props.fetchKeywordSets()
+        this.props.fetchLanguages()
 
         // Fetch userdata
-        return this.props.dispatch(retrieveUserFromSession())
+        return this.props.retrieveUserFromSession()
     }
 
     render() {
@@ -116,7 +121,7 @@ class App extends React.Component {
                     <div className="content">
                         {this.props.children}
                     </div>
-                    <Notifications flashMsg={this.props.app.flashMsg} dispatch={this.props.dispatch} />
+                    <Notifications flashMsg={this.props.app.flashMsg} />
                     <Modal show={(!!this.props.app.confirmAction)} dialogClassName="custom-modal" onHide={e => this.props.dispatch(cancelAction())}>
                         <Modal.Header closeButton>
                         </Modal.Header>
@@ -126,8 +131,17 @@ class App extends React.Component {
                             <div dangerouslySetInnerHTML={getMarkup()}/>
                         </Modal.Body>
                         <Modal.Footer>
-                            <MaterialButton style={buttonStyle} onClick={e => this.props.dispatch(cancelAction())}><FormattedMessage id="cancel" /></MaterialButton>
-                            <MaterialButton style={useWarningButtonStyle ? warningButtonStyle : buttonStyle} onClick={e => this.props.dispatch(doAction(this.props.app.confirmAction.data))}><FormattedMessage id={actionButtonLabel} /></MaterialButton>
+                            <MaterialButton 
+                                style={buttonStyle} 
+                                onClick={e => this.props.cancel()}>
+                                <FormattedMessage id="cancel" />
+                            </MaterialButton>
+
+                            <MaterialButton 
+                                style={useWarningButtonStyle ? warningButtonStyle : buttonStyle} 
+                                onClick={e => this.props.do(this.props.app.confirmAction.data)}>
+                                <FormattedMessage id={actionButtonLabel} />
+                            </MaterialButton>
                         </Modal.Footer>
                     </Modal>
                 </div>
@@ -135,8 +149,6 @@ class App extends React.Component {
         )
     }
 }
-
-const InjectedApp = injectIntl(App)
 
 App.propTypes = {
     intl: PropTypes.object,
@@ -152,6 +164,11 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-
+    fetchKeywordSets: () => dispatch(fetchKeywordSetsAction()),
+    fetchLanguages:() => dispatch(fetchLanguagesAction()),
+    retrieveUserFromSession: () => dispatch(retrieveUserFromSessionAction()),
+    do: (data) => dispatch(doAction(data)),
+    cancel: () => dispatch(cancelAction()),
 })
+
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(App))

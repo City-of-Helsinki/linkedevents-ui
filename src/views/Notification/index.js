@@ -57,10 +57,8 @@ Notifications.propTypes = {
     clearFlashMsg: PropTypes.func,
 }
 
-const mapStateToProps = {}
-
 const mapDisPatchToProps = (dispatch) => ({
     clearFlashMsg: () => dispatch(clearFlashMsgAction()),
 }) 
 
-export default connect(mapStateToProps, mapDisPatchToProps)(Notifications)
+export default connect(null, mapDisPatchToProps)(Notifications)
