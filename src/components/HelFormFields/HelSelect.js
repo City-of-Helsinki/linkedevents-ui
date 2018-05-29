@@ -64,4 +64,13 @@ class HelSelect extends React.Component {
     }
 }
 
+HelSelect.propTypes = {
+    name: PropTypes.string,
+    setDirtyState: PropTypes.func,
+    dataSource: PropTypes.string,
+    resource: PropTypes.string,
+    legend: PropTypes.string,
+    selectedValues: PropTypes.array,
+}
+
 export default HelSelect

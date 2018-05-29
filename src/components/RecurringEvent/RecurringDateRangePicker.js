@@ -62,4 +62,13 @@ class RecurringDateRangePicker extends React.Component {
 RecurringDateRangePicker.contextTypes = {
     dispatch: PropTypes.func,
 };
+
+RecurringDateRangePicker.propTypes = {
+    defaultValue: PropTypes.string,
+    name: PropTypes.string,
+    onChange: PropTypes.func,
+    label: PropTypes.string,
+    validationErrors: PropTypes.array,
+}
+
 export default RecurringDateRangePicker

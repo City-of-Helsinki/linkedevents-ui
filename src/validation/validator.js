@@ -61,7 +61,7 @@ function runValidationWithSettings(values, languages, settings) {
     _.each(settings, (validations, key) => {
     // Returns an array of validation errors (array of nulls if validation passed)
         let errors = validations.map(validation => {
-            if (key === 'offer_description' || key === 'price' || key === 'info_url') {
+            if (key === 'offer_description' || key === 'price' || key === 'info_url') {
                 return validateCollection(valuesWithLanguages, key, validation, 'offers')
             }
             return validationFn[validation](valuesWithLanguages, values[key]) ? null : validation

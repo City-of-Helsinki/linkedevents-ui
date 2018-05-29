@@ -7,8 +7,8 @@ import FilterableEventTable from 'src/components/FilterableEventTable'
 import EventGrid from 'src/components/EventGrid'
 import SearchBar from 'src/components/SearchBar'
 
-import {fetchUserEvents as fetchEvent} from 'src/actions/userEvents'
-import {login, logout} from 'src/actions/user.js'
+import {fetchUserEvents as fetchUserEventsAction} from 'src/actions/userEvents'
+import {login as loginAction} from 'src/actions/user.js'
 
 class EventListing extends React.Component {
     constructor(props) {
@@ -62,7 +62,7 @@ class EventListing extends React.Component {
 }
 
 EventListing.propTypes = {
-    events: PropTypes.array,
+    events: PropTypes.object,
     fetchUserEvents: PropTypes.func,
     user: PropTypes.object,
     login: PropTypes.func,
@@ -76,8 +76,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    login: () => dispatch(login()),
-    fetchUserEvents: (user, sortBy, sortOrder, paginationPage) => dispatch(fetchEvent(user, sortBy, sortOrder, paginationPage)),
+    login: () => dispatch(loginAction()),
+    fetchUserEvents: (user, sortBy, sortOrder, paginationPage) => dispatch(fetchUserEventsAction(user, sortBy, sortOrder, paginationPage)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventListing);

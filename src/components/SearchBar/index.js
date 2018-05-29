@@ -1,6 +1,7 @@
 require('!style-loader!css-loader!sass-loader!./index.scss');
 
 import moment from 'moment'
+import PropTypes from 'prop-types'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -86,6 +87,9 @@ class SearchBar extends React.Component {
             </form>
         )
     }
+}
+SearchBar.propTypes = {
+    onFormSubmit: PropTypes.func,
 }
 
 export default connect()(SearchBar)

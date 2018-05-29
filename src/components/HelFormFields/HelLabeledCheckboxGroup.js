@@ -11,18 +11,8 @@ import {setData} from 'src/actions/editor.js'
 import ValidationPopover from 'src/components/ValidationPopover'
 
 // NOTE: Not using ES6 classes because of the needed mixins
-let HelLabeledCheckboxGroup = React.createClass({
-
-    contextTypes: {
-        intl: PropTypes.object,
-        dispatch: PropTypes.func,
-    },
-
-    propTypes: {
-        name: PropTypes.string,
-    },
-
-    handleChange: function() {
+class HelLabeledCheckboxGroup extends React.Component {
+    handleChange() {
         let checked = _.filter(this.refs, (ref) => (ref.getChecked()))
         let checkedNames = _.map(checked, (checkbox) => (checkbox.props.value) )
 
@@ -39,17 +29,17 @@ let HelLabeledCheckboxGroup = React.createClass({
         if (this.props.setDirtyState) {
             this.props.setDirtyState()
         }
-    },
+    }
 
-    shouldComponentUpdate: function(nextProps) {
+    shouldComponentUpdate(nextProps) {
         if(_.isEqual(nextProps.selectedValues, this.props.selectedValues)) {
             //return false;
         }
 
         return true;
-    },
+    }
 
-    render: function() {
+    render() {
         let self = this
         let checkboxes = this.props.options.map((item, index) => {
             let selectedValues = this.props.selectedValues || []
@@ -87,7 +77,23 @@ let HelLabeledCheckboxGroup = React.createClass({
                 {checkboxes}
             </fieldset>
         )
-    },
-});
+    }
+}
+
+HelLabeledCheckboxGroup.contextTypes = {
+    intl: PropTypes.object,
+    dispatch: PropTypes.func,
+}
+
+HelLabeledCheckboxGroup.propTypes = {
+    name: PropTypes.string,
+    onChange: PropTypes.func,
+    setDirtyState: PropTypes.func,
+    selectedValues: PropTypes.array,
+    options: PropTypes.array,
+    itemClassName: PropTypes.string,
+    groupLabel: PropTypes.string,
+    validationErrors: PropTypes.array,
+}
 
 export default HelLabeledCheckboxGroup

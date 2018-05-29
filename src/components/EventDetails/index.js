@@ -2,6 +2,7 @@ import './index.scss'
 
 import moment from 'moment'
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import {injectIntl, FormattedMessage} from 'react-intl'
 import {getStringWithLocale} from 'src/utils/locale'
@@ -9,7 +10,7 @@ import {getStringWithLocale} from 'src/utils/locale'
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
 
 let NoValue = (props) => {
-    let header = props.labelKey ? (<span>'<FormattedMessage id={`${props.labelKey}`} />'&nbsp;</span>) : null
+    let header = props.labelKey ? (<span><FormattedMessage id={`${props.labelKey}`} />&nbsp;</span>) : null
     return (
         <div className="no-value">
             {header}
@@ -286,6 +287,25 @@ class EventDetails extends React.Component {
             </div>
         )
     }
+}
+
+NoValue.propTypes = {
+    labelKey: PropTypes.number,
+} 
+
+CheckedValue.propTypes = {
+    checked: PropTypes.bool,
+    labelKey: PropTypes.number,
+    label: PropTypes.string,
+}
+
+OptionGroup.propTypes = {
+    values: PropTypes.array,
+    labelKey: PropTypes.number,
+}
+
+FormHeader.propTypes = {
+    children: PropTypes.element,
 }
 
 export default injectIntl(EventDetails)

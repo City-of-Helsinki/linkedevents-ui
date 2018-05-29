@@ -24,7 +24,9 @@
       "import/default": 2,
       "import/export": 2,
       "no-unused-vars": 0,
-      "no-useless-escape": 0
+      "no-useless-escape": 0,
+      "react/no-string-refs": 0,
+      "react/no-deprecated": 0
       },
     "env": {
       "amd": true,

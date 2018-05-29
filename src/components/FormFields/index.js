@@ -40,11 +40,20 @@ let FormHeader = (props) => (
     </div>
 )
 
+FormHeader.propTypes = {
+    children: PropTypes.element,
+}
+
 let SideField = (props) => (
     <div className="side-field col-sm-5 col-sm-push-1">
         { props.children }
     </div>
 )
+
+SideField.propTypes = {
+    children: PropTypes.element,
+}
+
 
 /*
 let updateEventHidden = function(eventData) {
@@ -298,7 +307,7 @@ class FormFields extends React.Component {
                     </div>
                     <SideField>
                         <div className="tip">
-                            <p>Merkitse onko tapahtuma maksuton. Syötä maksulliselle tapahtumalle hinta muodossa "5€".</p>
+                            <p>Merkitse onko tapahtuma maksuton. Syötä maksulliselle tapahtumalle hinta muodossa {`"5€"`}.</p>
                             <p>Jos tapahtumalla on useita hintoja, klikkaa Lisää uusi hintatieto ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.</p>
                         </div>
                     </SideField>
@@ -362,6 +371,11 @@ class FormFields extends React.Component {
             </div>
         )
     }
+}
+
+FormFields.propTypes = {
+    editor: PropTypes.object,
+    setDirtyState: PropTypes.func,
 }
 
 export default FormFields

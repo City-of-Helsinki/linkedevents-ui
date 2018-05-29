@@ -10,24 +10,18 @@ import {setData} from 'src/actions/editor.js'
 
 import moment from 'moment'
 
-let HelDatePicker = React.createClass({
-    getInitialState: function() {
+class HelDatePicker extends React.Component {
+    getInitialState() {
         return {
             date: this.props.defaultValue,
         }
-    },
-
-    propTypes: {
-        defaultValue: PropTypes.object,
-        name: PropTypes.string.isRequired,
-        onBlur: PropTypes.func,
-    },
-
-    componentDidMount: function () {
+    }
+    
+    componentDidMount() {
         this.props.onChange('date', this.state.date)
-    },
+    }
 
-    handleChange: function (date) {
+    handleChange(date) {
         if (date._pf.nullInput) {
             this.setState({
                 date: undefined,
@@ -39,21 +33,22 @@ let HelDatePicker = React.createClass({
             })
             this.props.onChange('date', date)
         }
-    },
+    }
 
-    handleBlur: function () {
+    handleBlur() {
         if(typeof this.props.onBlur === 'function') {
             this.props.onBlur()
         }
-    },
+    }
+
     componentWillReceiveProps(nextProps) {
         if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
             if (moment(nextProps.defaultValue).isValid()) {
                 this.setState({date: nextProps.defaultValue})
             }
         }
-    },
-    render: function () {
+    }
+    render() {
         return (
             <div className='hel-text-field'>
                 <DatePicker
@@ -68,8 +63,15 @@ let HelDatePicker = React.createClass({
             </div>
 
         )
-    },
-});
+    }
+}
+
+HelDatePicker.propTypes = {
+    defaultValue: PropTypes.object,
+    name: PropTypes.string.isRequired,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func,
+}
 
 export default connect((state) => ({
     editor: state.editor,

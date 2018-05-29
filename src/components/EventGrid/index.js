@@ -2,6 +2,7 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import moment from 'moment'
+import PropTypes from 'prop-types'
 
 import defaultThumbnail from 'src/assets/images/helsinki-coat-of-arms-white.png'
 
@@ -62,6 +63,14 @@ let EventGrid = (props) => {
             {gridItems}
         </div>
     )
+}
+
+EventItem.propTypes = {
+    event: PropTypes.object,
+}
+
+EventGrid.propTypes = {
+    events: PropTypes.array,
 }
 
 export default connect()(EventGrid)

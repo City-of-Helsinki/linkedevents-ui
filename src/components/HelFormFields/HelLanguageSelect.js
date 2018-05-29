@@ -1,12 +1,13 @@
 // Group of checkboxes that output an array on change
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import {FormattedMessage} from 'react-intl'
 
 import Input from 'react-bootstrap/lib/Input'
 
 import {connect} from 'react-redux'
-import {setLanguages} from 'src/actions/editor.js'
+import {setLanguages as setLanguageAction} from 'src/actions/editor.js'
 
 import _ from 'lodash'
 
@@ -20,7 +21,7 @@ class HelLanguageSelect extends React.Component {
         let checked = _.filter(this.refs, (ref) => (ref.getChecked()))
         let checkedNames = _.map(checked, (checkbox) => (checkbox.props.name) )
 
-        this.props.dispatch(setLanguages(checkedNames))
+        this.props.setLanguages(checkedNames)
 
         if(typeof this.props.onChange === 'function') {
             this.props.onChange(checkedNames)
@@ -51,4 +52,15 @@ class HelLanguageSelect extends React.Component {
     }
 }
 
-export default connect()(HelLanguageSelect)
+HelLanguageSelect.propTypes = {
+    setLanguages: PropTypes.func,
+    onChange: PropTypes.func,
+    options: PropTypes.array,
+    checked: PropTypes.bool,
+}
+
+const mapDispatchToProps = (dispatch) => ({
+    setLanguages: (langs) => dispatch(setLanguageAction(langs)),
+})
+
+export default connect(null, mapDispatchToProps)(HelLanguageSelect)

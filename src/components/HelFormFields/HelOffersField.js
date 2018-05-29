@@ -114,4 +114,10 @@ class HelOffersField extends React.Component {
     }
 }
 
+HelOffersField.propTypes = {
+    defaultValue: PropTypes.array,
+    validationErrors: PropTypes.array,
+    languages: PropTypes.array,
+}
+
 export default HelOffersField

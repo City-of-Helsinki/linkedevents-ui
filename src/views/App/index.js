@@ -7,64 +7,19 @@ import React from 'react'
 import {connect} from 'react-redux'
 
 import Headerbar from 'src/components/Header'
-import Snackbar from 'material-ui/Snackbar';
 import MaterialButton from 'material-ui/Button';
 import Modal from 'react-bootstrap/lib/Modal';
-import Button from 'react-bootstrap/lib/Button';
 import Well from 'react-bootstrap/lib/Well'
 
-import {injectIntl} from 'react-intl'
+import {injectIntl, FormattedMessage} from 'react-intl'
 
 import {retrieveUserFromSession} from 'src/actions/user'
 import {fetchKeywordSets, fetchLanguages} from 'src/actions/editor.js'
 import {clearFlashMsg, cancelAction, doAction} from 'src/actions/app.js'
-import {FormattedMessage} from 'react-intl'
 
-// Material-ui theming
 import {MuiThemeProvider} from 'material-ui/styles'
 import {HelTheme} from 'src/themes/hel'
-
-class Notifications extends React.Component {
-
-    shouldComponentUpdate(nextProps) {
-        return !_.isEqual(nextProps, this.props)
-    }
-
-    render() {
-        let flashMsg = (<span/>)
-        let sticky =  this.props.flashMsg && this.props.flashMsg.sticky
-
-        if(this.props.flashMsg && this.props.flashMsg.data.response && this.props.flashMsg.data.response.status == 400) {
-            flashMsg = _.values(_.omit(this.props.flashMsg.data, ['apiErrorMsg', 'response'])).join(' ')
-            sticky = true
-        }
-        else if(this.props.flashMsg && this.props.flashMsg.msg && this.props.flashMsg.msg.length) {
-            flashMsg = (<FormattedMessage id={this.props.flashMsg.msg} />)
-        }
-
-        let duration = sticky ? null : 7000
-        let closeFn = sticky ? function() {} : () => this.props.dispatch(clearFlashMsg())
-
-        let actionLabel = this.props.flashMsg && this.props.flashMsg.action && this.props.flashMsg.action.label
-        let actionFn = this.props.flashMsg && this.props.flashMsg.action && this.props.flashMsg.action.fn
-
-        let actionButton = null
-        if (actionLabel && actionFn) {
-            actionButton = <Button key="snackActionButton" onClick={actionFn}>{actionLabel}</Button>
-        }
-
-        return (
-            <Snackbar
-                className="notification-bar"
-                open={(!!this.props.flashMsg)}
-                message={flashMsg}
-                autoHideDuration={duration}
-                onRequestClose={closeFn}
-                action={[actionButton]}
-            />
-        )
-    }
-}
+import Notifications from '../Notification'
 
 class App extends React.Component {
 
@@ -181,8 +136,22 @@ class App extends React.Component {
     }
 }
 
-export default connect((state) => ({
+const InjectedApp = injectIntl(App)
+
+App.propTypes = {
+    intl: PropTypes.object,
+    app: PropTypes.object,
+    user: PropTypes.object,
+    dispatch: PropTypes.func,
+}
+
+const mapStateToProps = (state) => ({
     editor: state.editor,
     user: state.user,
     app: state.app,
-}))(injectIntl(App))
+})
+
+const mapDispatchToProps = (dispatch) => ({
+
+})
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(App))

@@ -32,6 +32,22 @@ class MultiLanguageField extends React.Component {
         dispatch: PropTypes.func,
     };
 
+    static propTypes = {
+        defaultValue: PropTypes.string,
+        onChange: PropTypes.func,
+        name: PropTypes.string,
+        forceApplyToStore: PropTypes.func,
+        setDirtyState: PropTypes.func,
+        onBlur: PropTypes.func,
+        languages: PropTypes.array,
+        disabled: PropTypes.bool,
+        required: PropTypes.bool,
+        validations: PropTypes.array,
+        validationErrors: PropTypes.array,
+        index: PropTypes.number,
+        multiLine: PropTypes.string,
+    }
+    
     onChange(e,value,lang) {
         this.setState({value: this.getValue()})
 

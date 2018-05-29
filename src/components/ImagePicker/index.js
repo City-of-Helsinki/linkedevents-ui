@@ -1,6 +1,8 @@
 import '!style-loader!css-loader!sass-loader!./index.scss'
 
 import React from 'react';
+import PropTypes from 'prop-types'
+
 import {FormattedMessage, injectIntl} from 'react-intl'
 import Modal from 'react-bootstrap/lib/Modal';
 import {Button} from 'material-ui'
@@ -153,9 +155,18 @@ class ImagePicker extends React.Component {
         )
     }
 }
+ImagePicker.propTypes = {
+    editor: PropTypes.object,
+    user: PropTypes.object,
+    images: PropTypes.object,
+    children: PropTypes.element,
+    dispatch: PropTypes.func,
+}
 
-export default connect((state) =>({
+const mapStateToProps = (state) => ({
     user: state.user,
     editor: state.editor,
     images: state.images,
-}))(injectIntl(ImagePicker))
+})
+
+export default connect(mapStateToProps)(injectIntl(ImagePicker))

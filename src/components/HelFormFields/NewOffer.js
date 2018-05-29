@@ -14,6 +14,10 @@ class NewOffer extends React.Component {
         dispatch: PropTypes.func,
     };
 
+    static propTypes = {
+        validationErrors: PropTypes.array,
+    }
+
     componentDidUpdate(prevProps) {
         if (prevProps.isFree !== this.props.isFree) {
             this.onBlur()

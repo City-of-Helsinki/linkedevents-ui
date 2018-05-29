@@ -1,9 +1,11 @@
 import '!style-loader!css-loader!sass-loader!./index.scss'
 
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import {FormattedMessage, injectIntl} from 'react-intl'
 import {connect} from 'react-redux'
-import {selectImage} from 'src/actions/userImages'
+import {selectImage as selectImageAction} from 'src/actions/userImages'
 import ImageEdit from '../ImageEdit'
 
 class ImageThumbnail extends React.Component {
@@ -16,7 +18,7 @@ class ImageThumbnail extends React.Component {
     }
 
     selectThis() {
-        this.props.dispatch(selectImage(this.props.data))
+        this.props.selectImage(this.props.data)
     }
 
     render() {
@@ -58,5 +60,15 @@ class ImageThumbnail extends React.Component {
         )
     }
 }
+ImageThumbnail.propTypes = {
+    data: PropTypes.object,
+    selected: PropTypes.bool,
+    empty: PropTypes.bool,
+    url: PropTypes.string,
+    selectImage: PropTypes.func,
+}
 
+const mapDispatchToProps = (dispatch) => ({
+    selectImage: (data) => dispatch(selectImageAction(data)),
+})
 export default connect()(injectIntl(ImageThumbnail))

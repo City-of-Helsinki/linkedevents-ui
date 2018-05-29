@@ -10,7 +10,7 @@ import EventGrid from 'src/components/EventGrid'
 import SearchBar from 'src/components/SearchBar'
 import Loader from 'react-loader'
 
-import {fetchEvents} from 'src/actions/events'
+import {fetchEvents as fetchEventsAction} from 'src/actions/events'
 
 
 class SearchPage extends React.Component {
@@ -68,7 +68,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchEvents: (searchQuery, startDate, endDate) => dispatch(fetchEvents(searchQuery, startDate, endDate)),
+        fetchEvents: (searchQuery, startDate, endDate) => dispatch(fetchEventsAction(searchQuery, startDate, endDate)),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);

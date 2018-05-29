@@ -27,6 +27,12 @@ class RecurringEvent extends React.Component {
         dispatch: PropTypes.func,
     }
 
+    static propTypes = {
+        values: PropTypes.object,
+        toggle: PropTypes.func,
+        validationErrors: PropTypes.array,
+    }
+
     constructor (props) {
         super(props)
         this.onChange = this.onChange.bind(this)

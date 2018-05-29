@@ -120,6 +120,15 @@ class HelAutoComplete extends React.Component {
     }
 }
 
-
+HelAutoComplete.propTypes = {
+    dataSource: PropTypes.string,
+    resource: PropTypes.string,
+    name: PropTypes.string,
+    setDirtyState: PropTypes.func,
+    onSelection: PropTypes.func,
+    defaultValue: PropTypes.object,
+    validationErrors: PropTypes.array,
+    placeholder: PropTypes.string,
+}
 
 export default HelAutoComplete

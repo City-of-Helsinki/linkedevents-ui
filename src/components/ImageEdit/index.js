@@ -1,10 +1,11 @@
 import '!style-loader!css-loader!sass-loader!./index.scss'
 
 import React from 'react';
+import PropTypes from 'prop-types'
 import {injectIntl} from 'react-intl'
 import Modal from 'react-bootstrap/lib/Modal';
 import {Button} from 'material-ui'
-import {postImage, deleteImage} from 'src/actions/userImages.js'
+import {postImage as postImageAction} from 'src/actions/userImages.js'
 import {connect} from 'react-redux'
 import FormFields from '../FormFields'
 import HelTextField from '../HelFormFields/HelTextField'
@@ -14,10 +15,10 @@ class ImageEdit extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            updateExisting: this.props.updateExisting || false,
-            name: this.props.defaultName || '',
-            photographerName: this.props.defaultPhotographerName || '',
-            license: this.props.license || 'cc_by',
+            updateExisting: this.props.updateExisting || false,
+            name: this.props.defaultName || '',
+            photographerName: this.props.defaultPhotographerName || '',
+            license: this.props.license || 'cc_by',
         }
     }
 
@@ -33,12 +34,10 @@ class ImageEdit extends React.Component {
         data.append('name', this.state.name)
         data.append('photographer_name', this.state.photographerName)
         data.append('license', this.state.license)
-        this.props.dispatch(
-            postImage(
-                data,
-                this.props.user,
-                this.state.updateExisting ? this.props.id : null
-            )
+        this.props.postImage(
+            data,
+            this.props.user,
+            this.state.updateExisting ? this.props.id : null
         )
         this.props.close()
     }
@@ -106,9 +105,26 @@ class ImageEdit extends React.Component {
         )
     }
 }
+ImageEdit.propTypes = {
+    updateExisting: PropTypes.bool,
+    defaultName: PropTypes.string,
+    defaultPhotographerName: PropTypes.string,
+    license: PropTypes.string,
+    imageFile: PropTypes.string,
+    thumbnailUrl: PropTypes.string,
+    postImage: PropTypes.string,
+    user: PropTypes.object,
+    id: PropTypes.number,
+    close: PropTypes.func,
+}
 
-export default connect((state) =>({
+const mapStateToProps = (state) => ({
     user: state.user,
     editor: state.editor,
     images: state.images,
-}))(injectIntl(ImageEdit))
+})
+const mapDispatchToProps = (dispatch) => ({
+    postImage: (data, user, id) => dispatch(postImageAction(data, user, id)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(ImageEdit))

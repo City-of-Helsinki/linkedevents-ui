@@ -1,10 +1,11 @@
 require('!style-loader!css-loader!sass-loader!./index.scss')
 
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import {connect} from 'react-redux'
 import {push} from 'react-router-redux'
-import {login, logout} from 'src/actions/user.js'
+import {login as loginAction, logout as logoutAction} from 'src/actions/user.js'
 
 import {FormattedMessage} from 'react-intl'
 
@@ -27,9 +28,9 @@ class HeaderBar extends React.Component {
         let verticalAlignMiddle = {verticalAlign: 'middle'}
 
         // NOTE: mockup for login button functionality
-        let loginButton = <Button style={buttonStyle} onClick={() => this.props.dispatch(login())}><FormattedMessage id="login"/></Button>
+        let loginButton = <Button style={buttonStyle} onClick={() => this.props.login()}><FormattedMessage id="login"/></Button>
         if(this.props.user) {
-            loginButton = <Button style={buttonStyle} onClick={() => this.props.dispatch(logout())}>{this.props.user.displayName}</Button>
+            loginButton = <Button style={buttonStyle} onClick={() => this.props.logout()}>{this.props.user.displayName}</Button>
         }
 
         return (
@@ -41,12 +42,12 @@ class HeaderBar extends React.Component {
                     </Link>
                 </div>
                 <div className="navbar-links">
-                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.dispatch(push('/'))}><FormattedMessage id="organization-events"/><List/></Button>
-                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.dispatch(push('/search'))}><FormattedMessage id="search-events"/><Search/></Button>
-                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.dispatch(push('/event/create/new'))}><FormattedMessage id="create-event"/><Add/></Button>
+                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.routerPush('/')}><FormattedMessage id="organization-events"/><List/></Button>
+                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.routerPush('/search')}><FormattedMessage id="search-events"/><Search/></Button>
+                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.routerPush('/event/create/new')}><FormattedMessage id="create-event"/><Add/></Button>
                 </div>
                 <div>
-                    <Button className="mui-flat-button" style={{...buttonStyle,...verticalAlignMiddle}} onClick={() => this.props.dispatch(push('/help'))}><HelpOutline/></Button>
+                    <Button className="mui-flat-button" style={{...buttonStyle,...verticalAlignMiddle}} onClick={() => this.props.routerPush('/help')}><HelpOutline/></Button>
                     {loginButton}
                 </div>
             </Toolbar>
@@ -55,6 +56,20 @@ class HeaderBar extends React.Component {
 }
 
 // Adds dispatch to this.props for calling actions, add user from store to props
-export default connect((state) => ({
+HeaderBar.propTypes = {
+    user: PropTypes.object,
+    login: PropTypes.func,
+    logout: PropTypes.func,
+    routerPush: PropTypes.func,
+}
+
+const mapStateToProps = (state) => ({
     user: state.user,
-}))(HeaderBar)
+})
+const mapDispatchToProps = (dispatch) => ({
+    login: () => dispatch(loginAction()),
+    logout: () => dispatch(logoutAction()),
+    routerPush: () => dispatch(push()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderBar)

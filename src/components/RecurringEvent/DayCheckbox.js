@@ -20,6 +20,7 @@ const DayCheckbox = ({day, onChange, defaultChecked}) => {
 DayCheckbox.propTypes = {
     day: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
+    defaultChecked: PropTypes.bool,
 }
 
 export default DayCheckbox;

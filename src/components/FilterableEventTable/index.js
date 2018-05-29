@@ -144,7 +144,7 @@ class FilterableEventTable extends React.Component {
 
         let results = null
         const {getNextPage} = this.props;
-        if (this.props.events.length > 0 || this.props.fetchComplete === false) {
+        if (this.props.events.length > 0 || this.props.fetchComplete === false) {
             const progressStyle = {
                 marginTop: '20px',
                 marginLeft: '60px',
@@ -152,7 +152,16 @@ class FilterableEventTable extends React.Component {
 
             results = (
                 <div>
-                    <EventTable events={this.props.events} getNextPage={getNextPage} filterText={''} sortBy={this.props.sortBy} sortOrder={this.props.sortOrder} user={this.props.user} count={this.props.count} paginationPage={this.props.paginationPage}/>
+                    <EventTable 
+                        events={this.props.events} 
+                        getNextPage={getNextPage} 
+                        filterText={''} 
+                        sortBy={this.props.sortBy} 
+                        sortOrder={this.props.sortOrder} 
+                        user={this.props.user} 
+                        count={this.props.count} 
+                        paginationPage={this.props.paginationPage}
+                    />
                     {this.props.fetchComplete === false &&
                         <span><CircularProgress style={progressStyle}/></span>
                     }
@@ -187,6 +196,20 @@ class FilterableEventTable extends React.Component {
         )
     }
 
+}
+
+FilterableEventTable.propTypes = {
+    changeSortOrder: PropTypes.func,
+    getNextPage: PropTypes.func,
+    changePaginationPage: PropTypes.func,
+    events: PropTypes.array,
+    fetchComplete: PropTypes.bool,
+    sortBy: PropTypes.func,
+    sortOrder: PropTypes.string,
+    user: PropTypes.object,
+    count: PropTypes.number,
+    paginationPage: PropTypes.number,
+    apiErrorMsg: PropTypes.string,
 }
 
 const mapDispatchToProps = (dispatch) => {

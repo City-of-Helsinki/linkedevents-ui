@@ -2,7 +2,7 @@ import '!style-loader!css-loader!sass-loader!./index.scss'
 
 import React from 'react'
 
-export const Help = () => {
+const Help = () => {
     return (
         <div className="container help-page">
             <div id="short">

@@ -8,6 +8,8 @@ if(window && !window.Intl) {
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {Route} from 'react-router'
+import PropTypes from 'prop-types'
+
 import {Link, withRouter} from 'react-router-dom'
 import createHistory from 'history/createBrowserHistory' //'history/createHashHistory'
 
@@ -96,19 +98,18 @@ ReactDOM.render(
     document.getElementById('content')
 )
 
-var DebugReporterModal = React.createClass({
-
-    getInitialState: function() {
+class DebugReporterModal extends React.Component {
+    getInitialState() {
         return {value: ''};
-    },
+    }
 
-    handleChange: function(event) {
+    handleChange(event) {
         this.setState({value: event.target.value});
-    },
+    }
 
-    report: function () {
+    report() {
         this.props.send_report(this.state.value);
-    },
+    }
 
     render() {
         return <div id="debugreporterform">
@@ -131,23 +132,28 @@ var DebugReporterModal = React.createClass({
                 </Modal.Footer>
             </Modal>
         </div>
-    },
+    }
+}
 
-});
+DebugReporterModal.propTypes = {
+    send_report: PropTypes.func,
+    showModal: PropTypes.bool,
+    close: PropTypes.func,
+}
 
-var DebugHelper = React.createClass({
+class DebugHelper extends React.Component {
 
     getInitialState() {
         return {reporting: false};
-    },
+    }
 
     show_reportform() {
         this.setState({reporting: true})
-    },
+    }
 
     close_reportform() {
         this.setState({reporting: false})
-    },
+    }
 
     serialize_state(reportmsg) {
         window.ARG.debug_message = reportmsg;
@@ -159,7 +165,7 @@ var DebugHelper = React.createClass({
             () => alert('Raportti lähetetty, kiitoksia'),
             100);
 
-    },
+    }
 
     render() {
         return <div>
@@ -170,13 +176,13 @@ var DebugHelper = React.createClass({
                         <i className="material-icons">feedback</i>
                     </Button>
                 </div>
-                <div id="slide">Jos tapahtumien hallinnassa tai syöttölomakkeen toiminnassa on virhe, klikkaa "raportoi virhe"&#x2011;nappia,
+                <div id="slide">Jos tapahtumien hallinnassa tai syöttölomakkeen toiminnassa on virhe, klikkaa {`"raportoi virhe"`}&#x2011;nappia,
                     niin saamme virhetilanteesta tiedon ja voimme tutkia asiaa.</div>
             </div>
         </div>
-    },
+    }
 
-});
+}
 
 ReactDOM.render(
     <div>

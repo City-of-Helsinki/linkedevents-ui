@@ -43,13 +43,9 @@ function update(state = initialState, action) {
             else {
                 return state
             }
-            break
-
             // Logout
         case constants.CLEAR_USERDATA:
             return null
-            break
-
         default:
             return state
     }

@@ -1,5 +1,4 @@
 
-// styles
 import '!style-loader!css-loader!sass-loader!./index.scss'
 import 'style-loader!vendor/stylesheets/typeahead.css'
 
@@ -12,8 +11,6 @@ import moment from 'moment'
 
 import {Button} from 'material-ui'
 import Tooltip from 'material-ui/Tooltip'
-
-// Material-ui Icons
 import Close from 'material-ui-icons/Close'
 
 import {getStringWithLocale} from 'src/utils/locale'
@@ -33,9 +30,8 @@ var sentinel = true;
 
 import FormFields from 'src/components/FormFields'
 
-// === code ===
-//
-//
+/* eslint-disable */
+// TODO: fix this file with new React
 
 var EditorPage = React.createClass({
     mixins: [ Lifecycle ],

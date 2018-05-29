@@ -1,7 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types'
+
 import {get as getIfExists} from 'lodash'
 import {connect} from 'react-redux'
-import {fetchUserImages} from 'src/actions/userImages'
+import {fetchUserImages as fetchUserImagesAction} from 'src/actions/userImages'
 import ImageThumbnail from '../ImageThumbnail'
 
 class ImageGalleryGrid extends React.Component {
@@ -23,7 +25,7 @@ class ImageGalleryGrid extends React.Component {
 
     fetchImages() {
         if (this.props.user) {
-            this.props.dispatch(fetchUserImages(this.props.user, 1000));
+            this.props.fetchUserImages(this.props.user, 1000);
         }
     }
 
@@ -62,4 +64,14 @@ class ImageGalleryGrid extends React.Component {
     }
 }
 
+ImageGalleryGrid.propTypes = {
+    images: PropTypes.object,
+    user: PropTypes.object,
+    editor: PropTypes.object,
+    fetchUserImages: PropTypes.func,
+}
+
+const mapDispatchToProps = (dispatch) => ({
+    fetchUserImages: (user, amount) => dispatch(fetchUserImagesAction(user, amount)),
+})
 export default connect()(ImageGalleryGrid)
