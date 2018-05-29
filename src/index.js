@@ -99,8 +99,9 @@ ReactDOM.render(
 )
 
 class DebugReporterModal extends React.Component {
-    getInitialState() {
-        return {value: ''};
+    constructor(props) {
+        super(props);
+        this.state = {value: ''}
     }
 
     handleChange(event) {
@@ -142,9 +143,9 @@ DebugReporterModal.propTypes = {
 }
 
 class DebugHelper extends React.Component {
-
-    getInitialState() {
-        return {reporting: false};
+    constructor(props) {
+        super(props);
+        this.state = {reporting: false}
     }
 
     show_reportform() {
