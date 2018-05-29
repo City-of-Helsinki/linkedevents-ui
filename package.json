@@ -47,7 +47,7 @@
     "passport": "^0.3.2",
     "passport-helsinki": "https://github.com/City-of-Helsinki/passport-helsinki.git",
     "progress": "^1.1.8",
-    "prop-types": "^15.5.4",
+    "prop-types": "^15.6.1",
     "raven-js": "^2.3.0",
     "react": "^15.3.0",
     "react-addons-pure-render-mixin": "^15.6.2",

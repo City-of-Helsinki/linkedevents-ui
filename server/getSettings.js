@@ -9,7 +9,7 @@ const defaults = {
     // helsinkiTargetApp: 'linkedevents-ui',
 }
 
-const configKeys = ["port", "publicUrl", "helsinkiAuthId", "helsinkiAuthSecret", "helsinkiTargetApp", "sessionSecret"];
+const configKeys = ['port', 'publicUrl', 'helsinkiAuthId', 'helsinkiAuthSecret', 'helsinkiTargetApp', 'sessionSecret'];
 
 export default function getOptions() {
     const nconf = require('nconf');
