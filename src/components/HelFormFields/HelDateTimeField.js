@@ -32,6 +32,12 @@ class HelDateTimeField extends React.Component {
                 time: null,
             }
         }
+
+        this.onChange = this.onChange.bind(this)
+        this.onBlur = this.onBlur.bind(this)
+        this.getDateTimeFromFields = this.getDateTimeFromFields.bind(this)
+        this.parseValueFromString = this.parseValueFromString.bind(this)
+        this.getValidationErrors = this.getValidationErrors.bind(this)
     }
 
     onChange(type, value) {

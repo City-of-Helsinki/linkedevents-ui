@@ -109,7 +109,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     setFlashMsg: (id, status) => dispatch(setFlashMsgAction(id, status)),
-    routerPush: () => () => dispatch(push()),
+    routerPush: (url) => dispatch(push(url)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventCreated)

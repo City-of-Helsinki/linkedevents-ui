@@ -149,7 +149,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     fetchEventDetails: (eventId, user) => dispatch(fetchEventDetailsAction(eventId, user)),
-    routerPush: () => dispatch(push()),
+    routerPush: (url) => dispatch(push(url)),
     replaceData: (formData) => dispatch(replaceDataAction(formData)),
 })
 

@@ -59,6 +59,24 @@ class EditorPage extends React.Component {
             disabled: false,
             isDirty: false,
         }
+
+        this.routerWillLeave = this.routerWillLeave.bind(this)
+        this.setDirtyState = this.setDirtyState.bind(this)
+        this.enableButton = this.enableButton.bind(this)
+        this.disableButton = this.disableButton.bind(this)
+        this.getDeleteButton = this.getDeleteButton.bind(this)
+        this.eventExists = this.eventExists.bind(this)
+        this.getCancelButton = this.getCancelButton.bind(this)
+        this.getSaveButtons = this.getSaveButtons.bind(this)
+        this.getActionButtons = this.getActionButtons.bind(this)
+        this.clearForm = this.clearForm.bind(this)
+        this.getWarningMarkup = this.getWarningMarkup.bind(this)
+        this.saveAsDraft = this.saveAsDraft.bind(this)
+        this.saveAsPublished = this.saveAsPublished.bind(this)
+        this.confirmDelete = this.confirmDelete.bind(this)
+        this.deleteEvents = this.deleteEvents.bind(this)
+        this.deleteSubEvent = this.deleteSubEvent.bind(this)
+        this.confirmCancel = this.confirmCancel.bind(this)
     }
 
     componentWillMount() {

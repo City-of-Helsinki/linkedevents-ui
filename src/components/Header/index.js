@@ -69,7 +69,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     login: () => dispatch(loginAction()),
     logout: () => dispatch(logoutAction()),
-    routerPush: () => dispatch(push()),
+    routerPush: (url) => dispatch(push(url)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderBar)
