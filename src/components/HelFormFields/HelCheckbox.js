@@ -9,6 +9,13 @@ import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
 
 class HelCheckbox extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.handleCheck = this.handleCheck.bind(this)
+        this.getValue = this.getValue.bind(this)
+    }
+    
     handleCheck (event) {
         let newValue = event.target.checked
 

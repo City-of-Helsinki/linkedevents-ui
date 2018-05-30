@@ -12,6 +12,12 @@ import ValidationPopover from 'src/components/ValidationPopover'
 
 // NOTE: Not using ES6 classes because of the needed mixins
 class HelLabeledCheckboxGroup extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.handleChange = this.handleChange.bind(this)
+    }
+    
     handleChange() {
         let checked = _.filter(this.refs, (ref) => (ref.getChecked()))
         let checkedNames = _.map(checked, (checkbox) => (checkbox.props.value) )

@@ -8,6 +8,12 @@ import moment from 'moment'
 
 class HelTimePicker extends React.Component {
 
+    constructor(props) {
+        super(props)
+
+        this.handleChange = this.handleChange.bind(this)
+        this.handleBlur = this.handleBlur.bind(this)
+    }
     static propTypes = {
         name: PropTypes.string.isRequired,
         onBlur: PropTypes.func.isRequired,

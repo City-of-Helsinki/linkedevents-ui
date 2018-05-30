@@ -102,6 +102,9 @@ class DebugReporterModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {value: ''}
+
+        this.handleChange = this.handleChange.bind(this)
+        this.report = this.report.bind(this)
     }
 
     handleChange(event) {
@@ -109,7 +112,7 @@ class DebugReporterModal extends React.Component {
     }
 
     report() {
-        this.props.send_report(this.state.value);
+        this.props.sendReport(this.state.value);
     }
 
     render() {
@@ -137,7 +140,7 @@ class DebugReporterModal extends React.Component {
 }
 
 DebugReporterModal.propTypes = {
-    send_report: PropTypes.func,
+    sendReport: PropTypes.func,
     showModal: PropTypes.bool,
     close: PropTypes.func,
 }
@@ -146,20 +149,24 @@ class DebugHelper extends React.Component {
     constructor(props) {
         super(props);
         this.state = {reporting: false}
+
+        this.showReportForm = this.showReportForm.bind(this)
+        this.closeReportForm = this.closeReportForm.bind(this)
+        this.serializeState = this.serializeState.bind(this)
     }
 
-    show_reportform() {
+    showReportForm() {
         this.setState({reporting: true})
     }
 
-    close_reportform() {
+    closeReportForm() {
         this.setState({reporting: false})
     }
 
-    serialize_state(reportmsg) {
+    serializeState(reportmsg) {
         window.ARG.debug_message = reportmsg;
         window.ARG.commit_hash = appSettings.commit_hash;
-        this.close_reportform();
+        this.closeReportForm();
         report(JSON.stringify(window.ARG));
 
         window.setTimeout(
@@ -170,10 +177,10 @@ class DebugHelper extends React.Component {
 
     render() {
         return <div>
-            <DebugReporterModal showModal={this.state.reporting} close={this.close_reportform} send_report={this.serialize_state} />
+            <DebugReporterModal showModal={this.state.reporting} close={this.closeReportForm} sendReport={this.serializeState} />
             <div id="debughelper">
                 <div id="debughelper_container">
-                    <Button bsSize="large" onClick={this.show_reportform}>
+                    <Button bsSize="large" onClick={this.showReportForm}>
                         <i className="material-icons">feedback</i>
                     </Button>
                 </div>

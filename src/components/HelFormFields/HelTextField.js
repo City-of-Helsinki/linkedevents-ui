@@ -18,6 +18,16 @@ class HelTextField extends React.Component {
             error: null,
             value: this.props.defaultValue || '',
         }
+
+        this.getValue = this.getValue.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+        this.handleBlur = this.handleBlur.bind(this)
+        this.helpText = this.helpText.bind(this)
+        this.recalculateHeight = this.recalculateHeight.bind(this)
+        this.getValidationErrors = this.getValidationErrors.bind(this)
+        this.noValidationErrors = this.noValidationErrors.bind(this)
+        this.setValidationErrorsToState = this.setValidationErrorsToState.bind(this)
+        this.validationState = this.validationState.bind(this)
     }
 
     static contextTypes = {

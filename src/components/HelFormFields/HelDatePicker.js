@@ -16,6 +16,10 @@ class HelDatePicker extends React.Component {
         this.state = {
             date: this.props.defaultValue,
         }
+
+        this.handleChange = this.handleChange.bind(this)
+        this.handleBlur = this.handleBlur.bind(this)
+        
     }
     
     componentDidMount() {
