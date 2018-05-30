@@ -32,7 +32,6 @@ class HeaderBar extends React.Component {
         if(this.props.user) {
             loginButton = <Button style={buttonStyle} onClick={() => this.props.logout()}>{this.props.user.displayName}</Button>
         }
-
         return (
             <Toolbar className="mui-toolbar">
                 <div>
