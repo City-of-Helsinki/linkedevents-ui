@@ -3,7 +3,7 @@ import moment from 'moment';
 import { includes } from 'lodash';
 
 import constants from '../constants'
-import {mapUIDataToAPIFormat} from 'src/utils/formDataMapping.js'
+import {mapUIDataToAPIFormat, removeTimePartFromIsoDate} from 'src/utils/formDataMapping.js'
 
 import { push } from 'react-router-redux'
 import { setFlashMsg, confirmAction } from './app'
@@ -135,6 +135,17 @@ export function validateFor(publicationStatus) {
     }
 }
 
+function removeTimePartIfWholeDayEvent(event) {
+    // mapUIDataToAPIFormat
+    if (event.isWholeDayEvent) {
+        event.start_time = removeTimePartFromIsoDate(event.start_time)
+        event.end_time = removeTimePartFromIsoDate(event.end_time)
+        return event
+    } else {
+        return event
+    }
+}
+
 /**
  * Send form values data. A UI to API data mapping is done before sending the values
  * @param  {[type]} formValues              [description]
@@ -207,13 +218,19 @@ export function sendData(formValues, contentLanguages, user, updateExisting = fa
             let endDates = [];
             for(const key in subEvents) {
                 if(subEvents.hasOwnProperty(key)) {
-                    endDates.push(moment(subEvents[key].end_time))
+                    if (!subEvents[key].isWholeDayEvent) {
+                        endDates.push(moment(subEvents[key].end_time))
+                    } else {
+                        //Whole day event, time part is removed
+                        endDates.push(moment(removeTimePartFromIsoDate(subEvents[key].end_time)))
+                    }
+
                 }
             }
             let newSubEvents = Object.assign({}, {[0]: {start_time: data.start_time, end_time: data.end_time}});
             for(const key in subEvents) {
                 if(subEvents.hasOwnProperty(key)) {
-                    newSubEvents = Object.assign({}, newSubEvents, {[key+1]: subEvents[key]});
+                    newSubEvents = Object.assign({}, newSubEvents, {[key+1]: removeTimePartIfWholeDayEvent(subEvents[key])});
                 }
             }
             data.end_time = moment.tz(moment.max(endDates), 'Europe/Helsinki').utc().toISOString();
@@ -259,6 +276,7 @@ export function sendData(formValues, contentLanguages, user, updateExisting = fa
         if(user) {
              token = user.token
         }
+
         // Set publication status for editor values. This is used by the validation to determine
         // which set of rules to use
         dispatch(validateFor(publicationStatus))

@@ -109,6 +109,11 @@ class FormFields extends React.Component {
         let endTime
         let subEventKeys = Object.keys(this.props.editor.values.sub_events)
         let key = subEventKeys.length > 0 ? Math.max.apply(null, subEventKeys)+1 : 1
+        let previousEventWasWholeDay = false
+        if (subEventKeys.length === 0 && this.props.editor.values.hasOwnProperty('isWholeDayEvent')) {
+            previousEventWasWholeDay = this.props.editor.values.isWholeDayEvent
+        }
+
         if (_.keys(this.props.editor.values.sub_events).length) {
             const subEvents = this.props.editor.values.sub_events
             const startDates = []
@@ -117,6 +122,7 @@ class FormFields extends React.Component {
                 if (subEvents.hasOwnProperty(key)) {
                     startDates.push(moment(subEvents[key].start_time))
                     endDates.push(moment(subEvents[key].end_time))
+                    previousEventWasWholeDay = subEvents[key].isWholeDayEvent
                 }
             }
             startTime = moment.max(startDates)
@@ -127,7 +133,8 @@ class FormFields extends React.Component {
         }
         obj[key] = {
             start_time: moment.tz(startTime.add(1, 'weeks'), 'Europe/Helsinki').utc().toISOString(),
-            end_time: moment.tz(endTime.add(1, 'weeks'), 'Europe/Helsinki').utc().toISOString()
+            end_time: moment.tz(endTime.add(1, 'weeks'), 'Europe/Helsinki').utc().toISOString(),
+            isWholeDayEvent: previousEventWasWholeDay
         }
         this.context.dispatch(setEventData(obj, key))
     }
@@ -228,10 +235,10 @@ class FormFields extends React.Component {
                     <div className="col-sm-6">
                         <div className="row">
                             <div className="col-xs-12 col-md-6">
-                                <HelDateTimeField validationErrors={validationErrors['start_time']} defaultValue={values['start_time']} ref="start_time" name="start_time" label="event-starting-datetime" setDirtyState={this.props.setDirtyState} />
+                                <HelDateTimeField validationErrors={validationErrors['start_time']} defaultValue={values['start_time']} ref="start_time" name="start_time" label="event-starting-datetime" setDirtyState={this.props.setDirtyState} showWholeDayEventSwitch isWholeDayEvent={values['isWholeDayEvent']}/>
                             </div>
                             <div className="col-xs-12 col-md-6">
-                                <HelDateTimeField validationErrors={validationErrors['end_time']} defaultValue={values['end_time']} ref="end_time" name="end_time" label="event-ending-datetime" setDirtyState={this.props.setDirtyState} />
+                                <HelDateTimeField validationErrors={validationErrors['end_time']} defaultValue={values['end_time']} ref="end_time" name="end_time" label="event-ending-datetime" setDirtyState={this.props.setDirtyState} isWholeDayEvent={values['isWholeDayEvent']}/>
                             </div>
                         </div>
                         <div className={"new-events " + (this.state.showNewEvents ? 'show' : 'hidden')}>

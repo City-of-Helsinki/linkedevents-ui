@@ -59,6 +59,7 @@
     "event-datetime-fields-header": "Tapahtuman ajankohdat",
     "event-starting-datetime": "Tapahtuma alkaa",
     "event-ending-datetime": "Tapahtuma päättyy",
+    "event-whole-day-event": "Koko päivän tapahtuma",
     "event-add-new-occasion": "Lisää uusi ajankohta",
     "event-add-recurring": "Toistuva tapahtuma",
     "event-add-price": "Lisää uusi hintatieto",
