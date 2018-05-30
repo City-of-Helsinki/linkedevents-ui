@@ -33,10 +33,10 @@ class MultiLanguageField extends React.Component {
     };
 
     static propTypes = {
-        defaultValue: PropTypes.string,
+        defaultValue: PropTypes.object,
         onChange: PropTypes.func,
         name: PropTypes.string,
-        forceApplyToStore: PropTypes.func,
+        forceApplyToStore: PropTypes.bool,
         setDirtyState: PropTypes.func,
         onBlur: PropTypes.func,
         languages: PropTypes.array,
@@ -45,7 +45,7 @@ class MultiLanguageField extends React.Component {
         validations: PropTypes.array,
         validationErrors: PropTypes.array,
         index: PropTypes.number,
-        multiLine: PropTypes.string,
+        multiLine: PropTypes.bool,
     }
     
     onChange(e,value,lang) {

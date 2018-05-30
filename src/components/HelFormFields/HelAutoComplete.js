@@ -107,7 +107,7 @@ class HelAutoComplete extends React.Component {
                 <div >
                     <Input
                         type="text"
-                        value={values.id}
+                        value={values.id ? values.id : ''}
                         label={this.context.intl.formatMessage({id: 'event-location-id'})}
                         ref="text"
                         groupClassName="hel-text-field"

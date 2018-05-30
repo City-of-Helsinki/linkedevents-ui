@@ -56,7 +56,7 @@ HelLanguageSelect.propTypes = {
     setLanguages: PropTypes.func,
     onChange: PropTypes.func,
     options: PropTypes.array,
-    checked: PropTypes.bool,
+    checked: PropTypes.array,
 }
 
 const mapDispatchToProps = (dispatch) => ({

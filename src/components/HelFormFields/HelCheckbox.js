@@ -77,7 +77,7 @@ HelCheckbox.propTypes = {
     name: PropTypes.string,
     onChange: PropTypes.func,
     required: PropTypes.bool,
-    label: PropTypes.string,
+    label: PropTypes.object,
     defaultChecked: PropTypes.bool,
 }
 

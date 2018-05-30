@@ -51,7 +51,10 @@ let SideField = (props) => (
 )
 
 SideField.propTypes = {
-    children: PropTypes.element,
+    children: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object,
+    ]),
 }
 
 
