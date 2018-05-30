@@ -18,19 +18,7 @@ import moment from 'moment'
 const HelDateTimeField = React.createClass({
 
     getInitialState: function() {
-        let defaultValue = this.props.defaultValue || null
-        if(moment(defaultValue).isValid()) {
-            defaultValue = moment(defaultValue).tz('Europe/Helsinki');
-            return {
-                date: defaultValue,
-                time: defaultValue.format('HH.mm')
-            }
-        }
-
-        return {
-            date: null,
-            time: null
-        }
+        return this.parseValueFromString(this.props.defaultValue)
     },
 
     propTypes: {
@@ -103,18 +91,24 @@ const HelDateTimeField = React.createClass({
 
     // Parses date time object from datetime string
     parseValueFromString: function(string) {
-        let newValue = string || null
+        let newValue = string || ''
+        let isWholeDayEvent = false
+        if (!newValue.includes('T')) {
+            isWholeDayEvent = true
+        }
 
         if(moment(newValue).isValid()) {
             newValue = moment(newValue).tz('Europe/Helsinki');
             return {
                 date: newValue,
-                time: newValue.format('H.mm')
+                time: newValue.format('H.mm'),
+                isWholeDayEvent
             }
         } else {
             return {
                 date: null,
-                time: null
+                time: null,
+                isWholeDayEvent
             }
         }
     },
@@ -138,11 +132,16 @@ const HelDateTimeField = React.createClass({
     },
 
     componentWillReceiveProps: function(nextProps) {
-        if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
-            if (moment(nextProps.defaultValue).isValid()) {
-                const value = this.parseValueFromString(nextProps.defaultValue)
-                this.setState({date: value.date, time: value.time})
+        if (moment(nextProps.defaultValue).isValid()) {
+            const value = this.parseValueFromString(nextProps.defaultValue)
+            let isWholeDayEvent = false
+            if (nextProps.isWholeDayEvent === undefined) {
+                isWholeDayEvent = value.isWholeDayEvent
+            } else {
+                // props override parsing from string
+                isWholeDayEvent = nextProps.isWholeDayEvent
             }
+            this.setState({date: value.date, time: value.time, isWholeDayEvent})
         }
     },
 
@@ -168,11 +167,11 @@ const HelDateTimeField = React.createClass({
                 <div className="indented">
                     <label style={{position: 'relative'}}><FormattedMessage id={`${this.props.label}`} /> <ValidationPopover validationErrors={this.props.validationErrors} /></label>
                     <HelDatePicker ref="date" name={this.props.name} defaultValue={this.state.date} validations={['isDate']} placeholder="pp.kk.vvvv" onChange={this.onChange} onBlur={this.onBlur} label={<FormattedMessage id="date" />} />
-                    {!this.props.isWholeDayEvent &&
+                    {!this.state.isWholeDayEvent &&
                     <HelTimePicker ref="time" name={this.props.name} defaultValue={this.state.time} validations={['isTime']} placeholder="hh.mm" onChange={this.onChange} onBlur={this.onBlur} label={<FormattedMessage id="time" />} />
                     }
                     {!!this.props.showWholeDayEventSwitch === true &&
-                       <HelCheckbox defaultChecked={this.props.isWholeDayEvent} label={<FormattedMessage id="event-whole-day-event"/>} onChange={(e,v) => this.setIsWholeDayEvent(e,v)}/>
+                       <HelCheckbox defaultChecked={this.state.isWholeDayEvent} label={<FormattedMessage id="event-whole-day-event"/>} onChange={(e,v) => this.setIsWholeDayEvent(e,v)}/>
                     }
                 </div>
             </div>
