@@ -1,5 +1,5 @@
 import constants from '../constants'
-import { map, sortBy, omit, get as getIfExists } from 'lodash'
+import {map, sortBy, omit, get as getIfExists} from 'lodash'
 import updater from 'immutability-helper';
 
 import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
@@ -8,7 +8,7 @@ import getContentLanguages from 'src/utils/language'
 import {doValidations} from 'src/validation/validator.js'
 
 let editorValues = {
-    sub_events: {}
+    sub_events: {},
 }
 let languages = {}
 let keywordSets = {}
@@ -30,7 +30,7 @@ const initialState = {
     keywordSets: keywordSets,
     validationErrors: {},
     validateFor: null,
-    isSending: false
+    isSending: false,
 }
 
 function clearEventDataFromLocalStorage() {
@@ -46,10 +46,10 @@ function update(state = initialState, action) {
                 values: {
                     sub_events: {
                         [action.key]: {
-                            $set: action.values[action.key]
-                        }
-                    }
-                }
+                            $set: action.values[action.key],
+                        },
+                    },
+                },
             });
             newValues = newValues.values
         } else if (action.offer) {
@@ -57,10 +57,10 @@ function update(state = initialState, action) {
                 values: {
                     offers: {
                         [action.key]: {
-                            $set: action.values[action.key]
-                        }
-                    }
-                }
+                            $set: action.values[action.key],
+                        },
+                    },
+                },
             });
             newValues = newValues.values
         } else {
@@ -81,28 +81,28 @@ function update(state = initialState, action) {
                 values: {
                     sub_events: {
                         [action.key]: {
-                            $set: newValues.sub_events[action.key]
-                        }
-                    }
+                            $set: newValues.sub_events[action.key],
+                        },
+                    },
                 },
-                validationErrors: {$set: validationErrors}
+                validationErrors: {$set: validationErrors},
             });
         } else if (action.offer) {
             return updater(state, {
                 values: {
                     offers: {
                         [action.key]: {
-                            $set: newValues.offers[action.key]
-                        }
-                    }
+                            $set: newValues.offers[action.key],
+                        },
+                    },
                 },
-                validationErrors: {$set: validationErrors}
+                validationErrors: {$set: validationErrors},
             });
         }
 
         return Object.assign({}, state, {
             values: newValues,
-            validationErrors: validationErrors
+            validationErrors: validationErrors,
         })
     }
 
@@ -111,10 +111,10 @@ function update(state = initialState, action) {
             values: {
                 sub_events: {
                     [action.eventKey]: {
-                        [action.property]: { $set: action.value }
-                    }
-                }
-            }
+                        [action.property]: {$set: action.value},
+                    },
+                },
+            },
         })
     }
 
@@ -124,9 +124,9 @@ function update(state = initialState, action) {
         return updater(state, {
             values: {
                 sub_events: {
-                    $set: newSubEvents
-                }
-            }
+                    $set: newSubEvents,
+                },
+            },
         });
     }
 
@@ -141,9 +141,9 @@ function update(state = initialState, action) {
         return updater(state, {
             values: {
                 sub_events: {
-                    $set: subEventsObject
-                }
-            }
+                    $set: subEventsObject,
+                },
+            },
         });
     }
 
@@ -156,9 +156,9 @@ function update(state = initialState, action) {
         return updater(state, {
             values: {
                 offers: {
-                    $set: offersItems
-                }
-            }
+                    $set: offersItems,
+                },
+            },
         })
     }
 
@@ -169,9 +169,9 @@ function update(state = initialState, action) {
         return updater(state, {
             values: {
                 offers: {
-                    $set: offers
-                }
-            }
+                    $set: offers,
+                },
+            },
         });
     }
 
@@ -186,35 +186,35 @@ function update(state = initialState, action) {
             // this prevents validation errors on possibly already entered offer fields
             return updater(state, {
                 values: {
-                    $unset: ['offers']
-                }
+                    $unset: ['offers'],
+                },
             })
         }
 
         return updater(state, {
             values: {
                 offers: {
-                    $set: offers
-                }
-            }
+                    $set: offers,
+                },
+            },
         })
     }
 
     if (action.type === constants.EDITOR_SETLANGUAGES) {
         return Object.assign({}, state, {
-            contentLanguages: action.languages
+            contentLanguages: action.languages,
         });
     }
 
     if (action.type === constants.VALIDATE_FOR) {
         return Object.assign({}, state, {
-            validateFor: action.validateFor
+            validateFor: action.validateFor,
         })
     }
 
     if (action.type === constants.EDITOR_REPLACEDATA) {
 
-        // Replace new values to existing values
+    // Replace new values to existing values
         let newValues = Object.assign({}, action.values)
 
         // Local storage saving disabled for now
@@ -233,13 +233,13 @@ function update(state = initialState, action) {
             values: editorValues,
             validationErrors: {},
             validateFor: null,
-            validationStatus: constants.VALIDATION_STATUS.CLEARED
+            validationStatus: constants.VALIDATION_STATUS.CLEARED,
         })
     }
 
     if (action.type === constants.EDITOR_SENDDATA) {
         return Object.assign({}, state, {
-            isSending: true
+            isSending: true,
         })
     }
 
@@ -250,25 +250,25 @@ function update(state = initialState, action) {
             createdEvent: action.data.event,
             createdAt: action.data.createdAt,
             values: editorValues,
-            isSending: false
+            isSending: false,
         })
     }
 
     if (action.type === constants.EDITOR_SENDDATA_ERROR) {
         return Object.assign({}, state, {
-            isSending: false
+            isSending: false,
         })
     }
 
     if (action.type === constants.EDITOR_RECEIVE_KEYWORDSETS) {
         return Object.assign({}, state, {
-            keywordSets: action.keywordSets
+            keywordSets: action.keywordSets,
         })
     }
 
     if (action.type === constants.EDITOR_RECEIVE_LANGUAGES) {
         return Object.assign({}, state, {
-            languages: action.languages
+            languages: action.languages,
         })
     }
 
@@ -276,7 +276,7 @@ function update(state = initialState, action) {
         let newValues = Object.assign({}, mapAPIDataToUIFormat(action.event))
 
         return Object.assign({}, state, {
-            values: newValues
+            values: newValues,
         })
     }
 
@@ -285,7 +285,7 @@ function update(state = initialState, action) {
         // Merge new values to existing values
         let newValues = Object.assign({}, state.values, {image: newVal})
         return Object.assign({}, state, {
-            values: newValues
+            values: newValues,
         })
     }
 
@@ -293,7 +293,7 @@ function update(state = initialState, action) {
         return Object.assign({}, state, {
             validationErrors: action.errors,
             validationStatus: constants.VALIDATION_STATUS.RESOLVE,
-            isSending: false
+            isSending: false,
         })
     }
 

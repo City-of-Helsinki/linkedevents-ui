@@ -13,5 +13,5 @@ export default {
     editor: editor,
     images: images,
     app: app,
-    userEvents: userEvents
+    userEvents: userEvents,
 }

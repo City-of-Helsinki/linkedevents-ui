@@ -2,12 +2,12 @@
 
 import path from 'path'
 import bodyParser from 'body-parser'
-import express from 'express'
 import cookieParser from 'cookie-parser'
 import cookieSession from 'cookie-session'
 
 import getSettings from './getSettings'
-import { getPassport, addAuth } from './auth'
+import express from 'express'
+import {getPassport, addAuth} from './auth'
 
 import webpack from 'webpack'
 import webpackMiddleware from 'webpack-dev-middleware'

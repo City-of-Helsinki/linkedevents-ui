@@ -1,10 +1,11 @@
 import React from 'react'
 import Popover from 'react-bootstrap/lib/Popover'
-import "./index.scss";
+import './index.scss';
+import PropTypes from 'prop-types'
 
 import {FormattedMessage} from 'react-intl'
 
-export default (props) => {
+const ValidationPopover =  (props) => {
     let errorMsg = null
 
     if(props.validationErrors && props.validationErrors[0]) {
@@ -28,12 +29,20 @@ export default (props) => {
 
     let classNames = 'validation-error-popover'
     if(props.small) {
-        classNames += " small"
+        classNames += ' small'
     }
 
     return (
         <Popover className={classNames} id="validation" {...props}>
-              { errorMsg }
+            { errorMsg }
         </Popover>
     )
 }
+
+ValidationPopover.propTypes = {
+    validationErrors: PropTypes.array,
+    index: PropTypes.number,
+    small: PropTypes.bool,
+}
+
+export default ValidationPopover

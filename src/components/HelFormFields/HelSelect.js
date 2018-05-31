@@ -14,7 +14,7 @@ class HelSelect extends React.Component {
 
     static contextTypes = {
         intl: PropTypes.object,
-        dispatch: PropTypes.func
+        dispatch: PropTypes.func,
     };
 
     onChange(value) {
@@ -35,10 +35,10 @@ class HelSelect extends React.Component {
                 return _.map(json.data, (item) => ({
                     label: item.name.fi, // TODO: use locale
                     value: `/v1/${this.props.resource}/${item.id}/`,
-                    n_events: item.n_events
+                    n_events: item.n_events,
                 }));
             }).then((json) => {
-                return { options: json };
+                return {options: json};
             })
     }
 
@@ -62,6 +62,15 @@ class HelSelect extends React.Component {
             </div>
         )
     }
+}
+
+HelSelect.propTypes = {
+    name: PropTypes.string,
+    setDirtyState: PropTypes.func,
+    dataSource: PropTypes.string,
+    resource: PropTypes.string,
+    legend: PropTypes.string,
+    selectedValues: PropTypes.array,
 }
 
 export default HelSelect

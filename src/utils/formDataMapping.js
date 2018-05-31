@@ -3,12 +3,12 @@ import constants from 'src/constants.js'
 import moment from 'moment'
 import 'moment-timezone'
 
-import { getStringWithLocale } from './locale'
+import {getStringWithLocale} from './locale'
 import {mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
 
 export {
     mapUIDataToAPIFormat,
-    mapAPIDataToUIFormat
+    mapAPIDataToUIFormat,
 }
 
 // hel.fi audience keywords that correspond to YSO audience keywords need to be posted also for now
@@ -27,14 +27,14 @@ function _addHelFiAudienceKeywords(original_audiences) {
     let audiences = _.clone(original_audiences)
 
     const audienceIds = _.map(audiences, function(audience) {
-        // parse keyword ID from keyword URL
+    // parse keyword ID from keyword URL
         return audience.slice(_.lastIndexOf(audience, '/', audience.length - 2) + 1, -1)
     })
 
     // iterate hel.fi keywords
     _.forOwn(helFiYsoAudienceMapping, function(ysoIDs, helFiID) {
 
-        // check that every YSO keyword for the current hel.fi keyword is selected
+    // check that every YSO keyword for the current hel.fi keyword is selected
         const containsEveryYso = _.every(ysoIDs, function(ysoID) {
             return _.contains(audienceIds, ysoID)
         })
@@ -48,7 +48,7 @@ function _addHelFiAudienceKeywords(original_audiences) {
 function _nullifyEmptyStrings(multiLangObject) {
     _.forOwn(multiLangObject, function(value, language) {
 
-        // do not send empty strings to the backend, as this will set the null language field to non-null
+    // do not send empty strings to the backend, as this will set the null language field to non-null
         if (value === '') {
             multiLangObject[language] = null
         }
@@ -86,7 +86,7 @@ function mapUIDataToAPIFormat(values) {
 
     // Image data
     if(values.image) {
-        // obj.image = { '@id': `/v0.1/image/${values.image_id}/`}
+    // obj.image = { '@id': `/v0.1/image/${values.image_id}/`}
         obj.image = values.image
     }
 
@@ -97,22 +97,22 @@ function mapUIDataToAPIFormat(values) {
     if(values.offers && values.offers.length && !values.offers[0].is_free) {
         obj.offers = values.offers
     } else {
-        obj.offers = [{ is_free: true }]
+        obj.offers = [{is_free: true}]
     }
 
     // Keywords, audience, languages
     if(values.keywords && values.keywords.length !== undefined) {
-        obj.keywords = _.map(values.keywords, (item) => ({ '@id': item.value }))
+        obj.keywords = _.map(values.keywords, (item) => ({'@id': item.value}))
     }
 
     if(values.hel_main && values.hel_main.length !== undefined) {
         obj.keywords = obj.keywords || []
-        obj.keywords = obj.keywords.concat(_.map(values.hel_main, (item) => ({ '@id': item })))
+        obj.keywords = obj.keywords.concat(_.map(values.hel_main, (item) => ({'@id': item})))
     }
 
     if(values.audience && values.audience.length !== undefined) {
         const audiences = _addHelFiAudienceKeywords(values.audience)
-        obj.audience = _.map(audiences, (item) => ({ '@id': item }))
+        obj.audience = _.map(audiences, (item) => ({'@id': item}))
     }
 
     if(values.in_language) {
@@ -128,7 +128,7 @@ function mapUIDataToAPIFormat(values) {
             obj.external_links.push({
                 name: field,
                 link: values[field],
-                language: 'fi' // TODO: Which languages here?
+                language: 'fi', // TODO: Which languages here?
             })
         }
     })
@@ -195,7 +195,7 @@ function mapAPIDataToUIFormat(values) {
     obj.hel_main = _.map(hel_main_items, (item) => { return item['@id'] })
 
     // Keywords, audience, languages
-    obj.keywords = _.map(keywords, (item) => ({ value: item['@id'], label: (getStringWithLocale(item, 'name') || item['id']) }))
+    obj.keywords = _.map(keywords, (item) => ({value: item['@id'], label: (getStringWithLocale(item, 'name') || item['id'])}))
 
     // Filter somehow the hel_main keyword values from keywords
     // obj.keywords = _.filter(obj.keywords, (item) => {

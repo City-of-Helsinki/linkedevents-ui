@@ -2,28 +2,28 @@ require('!style-loader!css-loader!sass-loader!./index.scss');
 
 import PropTypes from 'prop-types';
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
+import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
 import moment from 'moment'
-import { sortBy, reverse } from 'lodash'
-import { Table, TableHead, TableBody, TableFooter, TableRow, TableCell, TableSortLabel, TablePagination, CircularProgress } from 'material-ui'
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
+import {sortBy, reverse} from 'lodash'
+import {Table, TableHead, TableBody, TableFooter, TableRow, TableCell, TableSortLabel, TablePagination, CircularProgress} from 'material-ui'
+import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles'
 
 import SearchBar from 'src/components/SearchBar'
-import { fetchEvents } from 'src/actions/events.js'
-import { setUserEventsSortOrder, fetchUserEvents } from 'src/actions/userEvents.js'
+import {fetchEvents} from 'src/actions/events.js'
+import {setUserEventsSortOrder, fetchUserEvents} from 'src/actions/userEvents.js'
 import constants from 'src/constants'
 
 class FilterableEventTable extends React.Component {
     static contextTypes = {
         intl: PropTypes.object,
-        dispatch: PropTypes.func
+        dispatch: PropTypes.func,
     };
 
     constructor(props) {
         super(props)
         this.state = {
-            apiErrorMsg: ''
+            apiErrorMsg: '',
         }
     }
 
@@ -50,7 +50,7 @@ class FilterableEventTable extends React.Component {
                 name = '<event>'
             }
 
-            let url = "/event/" + e.id;
+            let url = '/event/' + e.id;
 
             // Add necessary badges
             let nameColumn = null
@@ -128,12 +128,12 @@ class FilterableEventTable extends React.Component {
                         <TableFooter>
                             <TableRow>
                                 <TablePagination
-                                count={rowsCount}
-                                rowsPerPage={rowsPerPage}
-                                rowsPerPageOptions = {[]}
-                                page={paginationPage}
-                                onChangePage={(event, newPage) => this.props.changePaginationPage(props.sortBy, props.sortOrder, newPage, props.user)}
-                                labelDisplayedRows={ ({ from, to, count }) => {  return `${from}-${to} / ${count}` }  }
+                                    count={rowsCount}
+                                    rowsPerPage={rowsPerPage}
+                                    rowsPerPageOptions = {[]}
+                                    page={paginationPage}
+                                    onChangePage={(event, newPage) => this.props.changePaginationPage(props.sortBy, props.sortOrder, newPage, props.user)}
+                                    labelDisplayedRows={ ({from, to, count}) => {  return `${from}-${to} / ${count}` }  }
                                 />
                             </TableRow>
                         </TableFooter>
@@ -143,16 +143,25 @@ class FilterableEventTable extends React.Component {
         }
 
         let results = null
-        const { getNextPage } = this.props;
-        if (this.props.events.length > 0 || this.props.fetchComplete === false) {
+        const {getNextPage} = this.props;
+        if (this.props.events.length > 0 || this.props.fetchComplete === false) {
             const progressStyle = {
                 marginTop: '20px',
-                marginLeft: '60px'
+                marginLeft: '60px',
             }
 
             results = (
                 <div>
-                    <EventTable events={this.props.events} getNextPage={getNextPage} filterText={''} sortBy={this.props.sortBy} sortOrder={this.props.sortOrder} user={this.props.user} count={this.props.count} paginationPage={this.props.paginationPage}/>
+                    <EventTable 
+                        events={this.props.events} 
+                        getNextPage={getNextPage} 
+                        filterText={''} 
+                        sortBy={this.props.sortBy} 
+                        sortOrder={this.props.sortOrder} 
+                        user={this.props.user} 
+                        count={this.props.count} 
+                        paginationPage={this.props.paginationPage}
+                    />
                     {this.props.fetchComplete === false &&
                         <span><CircularProgress style={progressStyle}/></span>
                     }
@@ -162,13 +171,13 @@ class FilterableEventTable extends React.Component {
             results = (
                 <span>
                 Yhtäkään muokattavaa tapahtumaa ei löytynyt.
-            </span>
+                </span>
             )
         }
 
         let err = ''
         let errorStyle = {
-            color: 'red !important'
+            color: 'red !important',
         }
 
         if (this.props.apiErrorMsg.length > 0) {
@@ -180,13 +189,27 @@ class FilterableEventTable extends React.Component {
         }
 
         return (
-            <div style={{ padding: '0em 2em 0.5em 0em'}} >
+            <div style={{padding: '0em 2em 0.5em 0em'}} >
                 {err}
                 {results}
             </div>
         )
     }
 
+}
+
+FilterableEventTable.propTypes = {
+    changeSortOrder: PropTypes.func,
+    getNextPage: PropTypes.func,
+    changePaginationPage: PropTypes.func,
+    events: PropTypes.array,
+    fetchComplete: PropTypes.bool,
+    sortBy: PropTypes.func,
+    sortOrder: PropTypes.string,
+    user: PropTypes.object,
+    count: PropTypes.number,
+    paginationPage: PropTypes.number,
+    apiErrorMsg: PropTypes.string,
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -221,8 +244,8 @@ const mapDispatchToProps = (dispatch) => {
         changePaginationPage: (sortBy, order, paginationPage, user) => {
             dispatch(setUserEventsSortOrder(sortBy, order, paginationPage))
             dispatch(fetchUserEvents(user, sortBy, order, paginationPage))
-        }
+        },
     }
-  }
+}
 
 export default connect(null, mapDispatchToProps)(FilterableEventTable)

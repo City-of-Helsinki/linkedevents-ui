@@ -1,18 +1,22 @@
 import PropTypes from 'prop-types';
 import React from 'react'
-import { Button } from 'material-ui'
+import {Button} from 'material-ui'
 
 import MultiLanguageField from 'src/components/HelFormFields/MultiLanguageField.js'
 import ValidationPopover from 'src/components/ValidationPopover'
-import { setOfferData, deleteOffer } from 'src/actions/editor.js'
+import {setOfferData, deleteOffer} from 'src/actions/editor.js'
 // Material-ui Icons
 import Delete from 'material-ui-icons/Delete'
-import { FormattedMessage } from 'react-intl'
+import {FormattedMessage} from 'react-intl'
 
 class NewOffer extends React.Component {
     static contextTypes = {
-        dispatch: PropTypes.func
+        dispatch: PropTypes.func,
     };
+
+    static propTypes = {
+        validationErrors: PropTypes.array,
+    }
 
     componentDidUpdate(prevProps) {
         if (prevProps.isFree !== this.props.isFree) {
@@ -22,11 +26,11 @@ class NewOffer extends React.Component {
 
     onBlur(e) {
         if(this.props.offerKey) {
-//            if(this.noValidationErrors()) {
-                let obj = {}
-                obj[this.props.offerKey] = this.buildObject()
-                this.context.dispatch(setOfferData(obj, this.props.offerKey))
-//            }
+        //            if(this.noValidationErrors()) {
+            let obj = {}
+            obj[this.props.offerKey] = this.buildObject()
+            this.context.dispatch(setOfferData(obj, this.props.offerKey))
+        //            }
         }
     }
 
@@ -41,7 +45,7 @@ class NewOffer extends React.Component {
         // Unwrap connect and injectIntl
         const pairs = _.map(this.refs, (ref, key) => ({
             key: key,
-            value: ref.getValue()
+            value: ref.getValue(),
         }))
         for (const key in this.props.defaultValue) {
             pairs.forEach((pair) => {
@@ -68,14 +72,14 @@ class NewOffer extends React.Component {
     }
 
     render() {
-        const { offerKey, defaultValue, isFree, languages } = this.props
+        const {offerKey, defaultValue, isFree, languages} = this.props
         const buttonStyles = {
-            width: "42px",
-            minWidth: "42px",
-            height: "36px",
-            position: "absolute",
-            left: "-55px",
-            top: "0"
+            width: '42px',
+            minWidth: '42px',
+            height: '36px',
+            position: 'absolute',
+            left: '-55px',
+            top: '0',
         }
         return (
             <div key={offerKey} className="offer-fields" style={{'position': 'relative'}}>
@@ -97,7 +101,7 @@ NewOffer.propTypes = {
     isFree: PropTypes.bool,
     languages: PropTypes.array,
     offerKey: PropTypes.string.isRequired,
-    defaultValue: PropTypes.object
+    defaultValue: PropTypes.object,
 }
 
 export default NewOffer;

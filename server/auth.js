@@ -11,7 +11,7 @@ export function getPassport(settings) {
     const helsinkiStrategy = new HelsinkiStrategy({
         clientID: settings.helsinkiAuthId,
         clientSecret: settings.helsinkiAuthSecret,
-        callbackURL: settings.publicUrl + '/auth/login/helsinki/return'
+        callbackURL: settings.publicUrl + '/auth/login/helsinki/return',
     }, (accessToken, refreshToken, profile, done) => {
         debug('access token:', accessToken)
         debug('refresh token:', refreshToken)

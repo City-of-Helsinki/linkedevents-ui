@@ -1,16 +1,18 @@
 import '!style-loader!css-loader!sass-loader!./index.scss'
 
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl'
+import PropTypes from 'prop-types'
+
+import {FormattedMessage, injectIntl} from 'react-intl'
 import Modal from 'react-bootstrap/lib/Modal';
-import { Button } from 'material-ui'
-import { deleteImage } from 'src/actions/userImages.js'
-import { connect } from 'react-redux'
-import { get as getIfExists, isEmpty } from 'lodash'
+import {Button} from 'material-ui'
+import {deleteImage} from 'src/actions/userImages.js'
+import {connect} from 'react-redux'
+import {get as getIfExists, isEmpty} from 'lodash'
 import ImageEdit from '../ImageEdit'
 import ImageGalleryGrid from '../ImageGalleryGrid'
-import { confirmAction } from 'src/actions/app.js'
-import { getStringWithLocale } from 'src/utils/locale'
+import {confirmAction} from 'src/actions/app.js'
+import {getStringWithLocale} from 'src/utils/locale'
 
 class ImagePicker extends React.Component {
 
@@ -26,7 +28,7 @@ class ImagePicker extends React.Component {
             open: false,
             edit: false,
             imageFile: null,
-            thumbnailUrl: null
+            thumbnailUrl: null,
         }
     }
 
@@ -57,7 +59,7 @@ class ImagePicker extends React.Component {
                     'delete',
                     {
                         action: e => this.props.dispatch(deleteImage(selectedImage, this.props.user)),
-                        additionalMsg: selectedImage.name
+                        additionalMsg: selectedImage.name,
                     }
                 )
             )
@@ -65,10 +67,10 @@ class ImagePicker extends React.Component {
     }
 
     closeGalleryModal() {
-        this.setState({ open: false })
+        this.setState({open: false})
     }
     openGalleryModal() {
-        this.setState({ open: true })
+        this.setState({open: true})
     }
 
     render() {
@@ -91,32 +93,32 @@ class ImagePicker extends React.Component {
                     onHide={() => this.closeGalleryModal()}
                     aria-labelledby="ModalHeader"
                     width="600px"
-                 >
+                >
                     <Modal.Header>
                         <Button
                             raised
                             onClick={() => this.closeGalleryModal()}
-                            style={{float:"right",lineHeight:"1.5",height:"36px"}}
+                            style={{float:'right',lineHeight:'1.5',height:'36px'}}
                             color="primary"><FormattedMessage id="ready"/>
                         </Button>
 
                         <Modal.Title id='ModalHeader'><FormattedMessage id="new-image" /></Modal.Title>
                         <br />
-                        <input onChange={(e) => this.handleUpload(e)} style={{ display: 'none' }} type="file" ref={(ref) => this.hiddenFileInput = ref} />
+                        <input onChange={(e) => this.handleUpload(e)} style={{display: 'none'}} type="file" ref={(ref) => this.hiddenFileInput = ref} />
                         <Button
                             raised
                             onClick={() => this.clickHiddenUploadInput()}
                             color="primary"
-                            style={{margin:"0 0 15px 0",lineHeight:"1.5",height:"36px"}}><FormattedMessage id="upload-image" />
+                            style={{margin:'0 0 15px 0',lineHeight:'1.5',height:'36px'}}><FormattedMessage id="upload-image" />
                         </Button>
                         <br />
                         <FormattedMessage id="use-external-image-url" />
                         <br />
-                        <input id="externalImageURL" onSubmit={this.handleExternalImageSave} placeholder={"URL"} ref={(ref) => this.externalImageURL = ref} />
+                        <input id="externalImageURL" onSubmit={this.handleExternalImageSave} placeholder={'URL'} ref={(ref) => this.externalImageURL = ref} />
                         <Button
                             raised
                             onClick={() => this.handleExternalImageSave()}
-                            style={{margin:"0 0 0 10px",lineHeight:"1.5",height:"36px"}}>OK</Button>
+                            style={{margin:'0 0 0 10px',lineHeight:'1.5',height:'36px'}}>OK</Button>
                     </Modal.Header>
                     <Modal.Body>
                         <Modal.Title id='ModalBodyTitle'><FormattedMessage id="use-existing-image"/></Modal.Title>
@@ -128,13 +130,13 @@ class ImagePicker extends React.Component {
                             raised
                             onClick={() => this.handleDelete()}
                             primary={false}
-                            style={{margin:"0 10px 0 0",lineHeight:"1.5",height:"36px"}}
+                            style={{margin:'0 10px 0 0',lineHeight:'1.5',height:'36px'}}
                             disabled={isEmpty(this.props.editor.values.image)}><FormattedMessage id="delete"/>
                         </Button>
                         <Button
                             raised
                             onClick={() => this.closeGalleryModal()}
-                            style={{lineHeight:"1.5",height:"36px"}}
+                            style={{lineHeight:'1.5',height:'36px'}}
                             color="primary"><FormattedMessage id="ready"/>
                         </Button>
                     </Modal.Footer>
@@ -153,9 +155,18 @@ class ImagePicker extends React.Component {
         )
     }
 }
+ImagePicker.propTypes = {
+    editor: PropTypes.object,
+    user: PropTypes.object,
+    images: PropTypes.object,
+    children: PropTypes.element,
+    dispatch: PropTypes.func,
+}
 
-export default connect((state) =>({
+const mapStateToProps = (state) => ({
     user: state.user,
     editor: state.editor,
-    images: state.images
-}))(injectIntl(ImagePicker))
+    images: state.images,
+})
+
+export default connect(mapStateToProps)(injectIntl(ImagePicker))

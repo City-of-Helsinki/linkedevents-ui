@@ -1,7 +1,8 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
+import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
 import moment from 'moment'
+import PropTypes from 'prop-types'
 
 import defaultThumbnail from 'src/assets/images/helsinki-coat-of-arms-white.png'
 
@@ -18,11 +19,11 @@ let EventItem = (props) => {
         props.event.headline.fi || props.event.headline.en || props.event.headline.sv
     )
 
-    let url = "/event/" + encodeURIComponent(props.event['id']) + '/'
+    let url = '/event/' + encodeURIComponent(props.event['id']) + '/'
 
     const image = props.event.images.length > 0 ? props.event.images[0].url : defaultThumbnail
     let thumbnailStyle = {
-        backgroundImage: 'url(' + image + ')'
+        backgroundImage: 'url(' + image + ')',
     }
 
     const getDay = props.event.start_time;
@@ -62,6 +63,14 @@ let EventGrid = (props) => {
             {gridItems}
         </div>
     )
+}
+
+EventItem.propTypes = {
+    event: PropTypes.object,
+}
+
+EventGrid.propTypes = {
+    events: PropTypes.array,
 }
 
 export default connect()(EventGrid)

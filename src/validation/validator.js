@@ -11,7 +11,7 @@ const draftValidations = {
     info_url: ['isUrl'],
     extlink_facebook: ['isUrl'],
     extlink_twitter: ['isUrl'],
-    extlink_instagram: ['isUrl']
+    extlink_instagram: ['isUrl'],
 }
 
 // Validations for published event
@@ -55,13 +55,13 @@ function runValidationWithSettings(values, languages, settings) {
 
     // Add content languages to values to have them available in the validations
     const valuesWithLanguages = Object.assign({}, values, {
-        _contentLanguages: languages
+        _contentLanguages: languages,
     })
 
     _.each(settings, (validations, key) => {
-        // Returns an array of validation errors (array of nulls if validation passed)
+    // Returns an array of validation errors (array of nulls if validation passed)
         let errors = validations.map(validation => {
-            if (key === 'offer_description' || key === 'price' || key === 'info_url') {
+            if (key === 'offer_description' || key === 'price' || key === 'info_url') {
                 return validateCollection(valuesWithLanguages, key, validation, 'offers')
             }
             return validationFn[validation](valuesWithLanguages, values[key]) ? null : validation
@@ -84,7 +84,7 @@ function validateCollection(values, key, validationRule, type) {
     let validations = []
     for (const index in valueByType) {
         if (!validationFn[validationRule](values, valueByType[index], targetKey)) {
-          validations.push({ key: index, validation: validationRule })
+            validations.push({key: index, validation: validationRule})
         }
     }
     return validations.length ? validations : null

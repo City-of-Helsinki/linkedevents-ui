@@ -2,7 +2,7 @@ require('!style-loader!css-loader!sass-loader!./index.scss')
 import PropTypes from 'prop-types';
 import React from 'react'
 
-import { FormattedMessage, injectIntl } from 'react-intl'
+import {FormattedMessage, injectIntl} from 'react-intl'
 import CopyToClipboard from 'react-copy-to-clipboard'
 
 import ImagePicker from 'src/components/ImagePicker'
@@ -16,11 +16,11 @@ import {
     HelSelect,
     HelOffersField,
     HelDatePicker,
-    NewEvent
+    NewEvent,
 } from 'src/components/HelFormFields'
 import RecurringEvent from 'src/components/RecurringEvent'
 
-import { Button } from 'material-ui'
+import {Button} from 'material-ui'
 // Material-ui Icons
 import Add from 'material-ui-icons/Add'
 import Autorenew from 'material-ui-icons/Autorenew'
@@ -40,11 +40,23 @@ let FormHeader = (props) => (
     </div>
 )
 
+FormHeader.propTypes = {
+    children: PropTypes.element,
+}
+
 let SideField = (props) => (
     <div className="side-field col-sm-5 col-sm-push-1">
         { props.children }
     </div>
 )
+
+SideField.propTypes = {
+    children: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object,
+    ]),
+}
+
 
 /*
 let updateEventHidden = function(eventData) {
@@ -76,15 +88,15 @@ class FormFields extends React.Component {
         intl: PropTypes.object,
         dispatch: PropTypes.func,
         showNewEvents: PropTypes.bool,
-        showRecurringEvent: PropTypes.bool
+        showRecurringEvent: PropTypes.bool,
     };
 
     constructor(props) {
-      super(props);
-      this.state = {
-          showNewEvents: true,
-          showRecurringEvent: false
-      };
+        super(props);
+        this.state = {
+            showNewEvents: true,
+            showRecurringEvent: false,
+        };
     }
 
     componentWillReceiveProps() {
@@ -108,7 +120,7 @@ class FormFields extends React.Component {
         let startTime
         let endTime
         let subEventKeys = Object.keys(this.props.editor.values.sub_events)
-        let key = subEventKeys.length > 0 ? Math.max.apply(null, subEventKeys)+1 : 1
+        let key = subEventKeys.length > 0 ? Math.max.apply(null, subEventKeys) + 1 : 1
         if (_.keys(this.props.editor.values.sub_events).length) {
             const subEvents = this.props.editor.values.sub_events
             const startDates = []
@@ -127,7 +139,7 @@ class FormFields extends React.Component {
         }
         obj[key] = {
             start_time: moment.tz(startTime.add(1, 'weeks'), 'Europe/Helsinki').utc().toISOString(),
-            end_time: moment.tz(endTime.add(1, 'weeks'), 'Europe/Helsinki').utc().toISOString()
+            end_time: moment.tz(endTime.add(1, 'weeks'), 'Europe/Helsinki').utc().toISOString(),
         }
         this.context.dispatch(setEventData(obj, key))
     }
@@ -162,9 +174,9 @@ class FormFields extends React.Component {
     }
 
     trimmedDescription() {
-        let descriptions = Object.assign({}, this.props.editor.values["description"])
+        let descriptions = Object.assign({}, this.props.editor.values['description'])
         for (const lang in descriptions) {
-            descriptions[lang] = descriptions[lang].replace(/<\/p><p>/gi, "\n\n").replace(/<br\s*[\/]?>/gi, "\n").replace(/<p>/g, '').replace(/<\/p>/g, '')
+            descriptions[lang] = descriptions[lang].replace(/<\/p><p>/gi, '\n\n').replace(/<br\s*[\/]?>/gi, '\n').replace(/<p>/g, '').replace(/<\/p>/g, '')
         }
         return descriptions
     }
@@ -186,7 +198,7 @@ class FormFields extends React.Component {
             }
 
         }
-        const { values, validationErrors, contentLanguages } = this.props.editor
+        const {values, validationErrors, contentLanguages} = this.props.editor
         const newEvents = this.generateNewEventFields(this.props.editor.values.sub_events);
         return (
             <div>
@@ -209,11 +221,11 @@ class FormFields extends React.Component {
 
                 <div className="row">
                     <div className="col-sm-6">
-                        <MultiLanguageField required={true} multiLine={false} label="event-headline" ref="name" name="name" validationErrors={validationErrors["name"]} defaultValue={values["name"]} languages={this.props.editor.contentLanguages} setDirtyState={this.props.setDirtyState} />
-                        <MultiLanguageField required={true} multiLine={true} label="event-short-description" ref="short_description" name="short_description" validationErrors={validationErrors["short_description"]} defaultValue={values["short_description"]} languages={this.props.editor.contentLanguages} validations={['shortString']} setDirtyState={this.props.setDirtyState} forceApplyToStore />
-                        <MultiLanguageField required={true} multiLine={true} label="event-description" ref="description" name="description" validationErrors={validationErrors["description"]} defaultValue={this.trimmedDescription()} languages={this.props.editor.contentLanguages} validations={['longString']} setDirtyState={this.props.setDirtyState} />
-                        <MultiLanguageField required={false} multiLine={false} label="event-info-url" ref="info_url" name="info_url" validationErrors={validationErrors["info_url"]} defaultValue={values["info_url"]} languages={this.props.editor.contentLanguages} validations={['isUrl']} setDirtyState={this.props.setDirtyState} forceApplyToStore />
-                        <MultiLanguageField required={false} multiLine={false} label="event-provider-input" ref="provider" name="provider" validationErrors={validationErrors["provider"]} defaultValue={values["provider"]} languages={this.props.editor.contentLanguages} setDirtyState={this.props.setDirtyState} />
+                        <MultiLanguageField required={true} multiLine={false} label="event-headline" ref="name" name="name" validationErrors={validationErrors['name']} defaultValue={values['name']} languages={this.props.editor.contentLanguages} setDirtyState={this.props.setDirtyState} />
+                        <MultiLanguageField required={true} multiLine={true} label="event-short-description" ref="short_description" name="short_description" validationErrors={validationErrors['short_description']} defaultValue={values['short_description']} languages={this.props.editor.contentLanguages} validations={['shortString']} setDirtyState={this.props.setDirtyState} forceApplyToStore />
+                        <MultiLanguageField required={true} multiLine={true} label="event-description" ref="description" name="description" validationErrors={validationErrors['description']} defaultValue={this.trimmedDescription()} languages={this.props.editor.contentLanguages} validations={['longString']} setDirtyState={this.props.setDirtyState} />
+                        <MultiLanguageField required={false} multiLine={false} label="event-info-url" ref="info_url" name="info_url" validationErrors={validationErrors['info_url']} defaultValue={values['info_url']} languages={this.props.editor.contentLanguages} validations={['isUrl']} setDirtyState={this.props.setDirtyState} forceApplyToStore />
+                        <MultiLanguageField required={false} multiLine={false} label="event-provider-input" ref="provider" name="provider" validationErrors={validationErrors['provider']} defaultValue={values['provider']} languages={this.props.editor.contentLanguages} setDirtyState={this.props.setDirtyState} />
                     </div>
                     <SideField>
                         <label><FormattedMessage id="event-image"/></label>
@@ -234,7 +246,7 @@ class FormFields extends React.Component {
                                 <HelDateTimeField validationErrors={validationErrors['end_time']} defaultValue={values['end_time']} ref="end_time" name="end_time" label="event-ending-datetime" setDirtyState={this.props.setDirtyState} />
                             </div>
                         </div>
-                        <div className={"new-events " + (this.state.showNewEvents ? 'show' : 'hidden')}>
+                        <div className={'new-events ' + (this.state.showNewEvents ? 'show' : 'hidden')}>
                             { newEvents }
                         </div>
                         { this.state.showRecurringEvent &&
@@ -245,13 +257,13 @@ class FormFields extends React.Component {
                             style={buttonStyle}
                             color="primary"
                             onClick={ () => this.addNewEventDialog() }
-                            ><Add/> <FormattedMessage id="event-add-new-occasion" /></Button>
+                        ><Add/> <FormattedMessage id="event-add-new-occasion" /></Button>
                         <Button
                             raised
                             style={buttonStyle}
                             color={getAddRecurringEventButtonColor(this.state.showRecurringEvent)}
                             onClick={ () => this.showRecurringEventDialog() }
-                            ><Autorenew/> <FormattedMessage id="event-add-recurring" /></Button>
+                        ><Autorenew/> <FormattedMessage id="event-add-recurring" /></Button>
                     </div>
                     <SideField>
                         <div className="tip">
@@ -274,11 +286,11 @@ class FormFields extends React.Component {
                             resource="place"
                             required={true}
                             validationErrors={validationErrors['location']} defaultValue={values['location']}
-                            placeholder={this.context.intl.formatMessage({ id: "event-location" })}
+                            placeholder={this.context.intl.formatMessage({id: 'event-location'})}
                             setDirtyState={this.props.setDirtyState}
                         />
-                        <CopyToClipboard text={values['location'] ? values['location'].id : ''}><button className="clipboard-copy-button" title={this.context.intl.formatMessage({id: "copy-to-clipboard"})}><i className="material-icons">&#xE14D;</i></button></CopyToClipboard>
-                        <MultiLanguageField multiLine={true} label="event-location-additional-info" ref="location_extra_info" name="location_extra_info" validationErrors={validationErrors["location_extra_info"]} defaultValue={values["location_extra_info"]} languages={this.props.editor.contentLanguages} setDirtyState={this.props.setDirtyState} />
+                        <CopyToClipboard text={values['location'] ? values['location'].id : ''}><button className="clipboard-copy-button" title={this.context.intl.formatMessage({id: 'copy-to-clipboard'})}><i className="material-icons">&#xE14D;</i></button></CopyToClipboard>
+                        <MultiLanguageField multiLine={true} label="event-location-additional-info" ref="location_extra_info" name="location_extra_info" validationErrors={validationErrors['location_extra_info']} defaultValue={values['location_extra_info']} languages={this.props.editor.contentLanguages} setDirtyState={this.props.setDirtyState} />
                     </div>
                     <SideField>
                         <div className="tip">
@@ -294,11 +306,11 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6">
-                        <HelOffersField ref="offers" name="offers" validationErrors={validationErrors} defaultValue={values["offers"]} languages={this.props.editor.contentLanguages} setDirtyState={this.props.setDirtyState} />
+                        <HelOffersField ref="offers" name="offers" validationErrors={validationErrors} defaultValue={values['offers']} languages={this.props.editor.contentLanguages} setDirtyState={this.props.setDirtyState} />
                     </div>
                     <SideField>
                         <div className="tip">
-                            <p>Merkitse onko tapahtuma maksuton. Syötä maksulliselle tapahtumalle hinta muodossa "5€".</p>
+                            <p>Merkitse onko tapahtuma maksuton. Syötä maksulliselle tapahtumalle hinta muodossa {`"5€"`}.</p>
                             <p>Jos tapahtumalla on useita hintoja, klikkaa Lisää uusi hintatieto ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.</p>
                         </div>
                     </SideField>
@@ -320,8 +332,8 @@ class FormFields extends React.Component {
                     <FormattedMessage id="event-categorization" />
                 </FormHeader>
                 <div className="row keyword-row">
-                    <HelSelect selectedValues={values['keywords']} legend={"Tapahtuman asiasanat"} ref="keywords" name="keywords" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?show_all_keywords=1&data_source=yso&text=`} validationErrors={validationErrors['keywords']} setDirtyState={this.props.setDirtyState} />
-                    <CopyToClipboard text={values['keywords'] ? this.getKeywords(values['keywords']) : ''}><button className="clipboard-copy-button" title={this.context.intl.formatMessage({id: "copy-to-clipboard"})}><i className="material-icons">&#xE14D;</i></button></CopyToClipboard>
+                    <HelSelect selectedValues={values['keywords']} legend={'Tapahtuman asiasanat'} ref="keywords" name="keywords" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?show_all_keywords=1&data_source=yso&text=`} validationErrors={validationErrors['keywords']} setDirtyState={this.props.setDirtyState} />
+                    <CopyToClipboard text={values['keywords'] ? this.getKeywords(values['keywords']) : ''}><button className="clipboard-copy-button" title={this.context.intl.formatMessage({id: 'copy-to-clipboard'})}><i className="material-icons">&#xE14D;</i></button></CopyToClipboard>
                     <SideField><p className="tip">Liitä tapahtumaan vähintään yksi asiasana, joka kuvaa tapahtuman teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta.</p></SideField>
                     <HelLabeledCheckboxGroup
                         groupLabel={<FormattedMessage id="hel-main-categories"/>}
@@ -362,6 +374,11 @@ class FormFields extends React.Component {
             </div>
         )
     }
+}
+
+FormFields.propTypes = {
+    editor: PropTypes.object,
+    setDirtyState: PropTypes.func,
 }
 
 export default FormFields

@@ -2,14 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react'
 import HelDateTimeField from 'src/components/HelFormFields/HelDateTimeField.js'
 import './NewEvent.scss'
-import { Button } from 'material-ui'
+import {Button} from 'material-ui'
 import {connect} from 'react-redux'
-import { deleteSubEvent } from 'src/actions/editor.js'
+import {deleteSubEvent} from 'src/actions/editor.js'
 // Material-ui Icons
 import Delete from 'material-ui-icons/Delete'
 class NewEvent extends React.Component {
     static contextTypes = {
-        dispatch: PropTypes.func
+        dispatch: PropTypes.func,
     };
 
     deleteSubEvent() {
@@ -17,12 +17,12 @@ class NewEvent extends React.Component {
     }
     render() {
         const buttonStyles = {
-            width: "42px",
-            minWidth: "42px",
-            height: "36px",
-            position: "absolute",
-            left: "-30px",
-            top: "25px"
+            width: '42px',
+            minWidth: '42px',
+            height: '36px',
+            position: 'absolute',
+            left: '-30px',
+            top: '25px',
         }
         return (
             <div className="new-events">
@@ -60,7 +60,7 @@ class NewEvent extends React.Component {
 
 NewEvent.propTypes = {
     event: PropTypes.object.isRequired,
-    eventKey: PropTypes.string.isRequired
+    eventKey: PropTypes.string.isRequired,
 }
 
 export default NewEvent;

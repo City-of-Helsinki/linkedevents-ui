@@ -10,67 +10,74 @@ import {setData} from 'src/actions/editor.js'
 
 import moment from 'moment'
 
-let HelDatePicker = React.createClass({
-    getInitialState: function() {
-        return {
-            date: this.props.defaultValue
+class HelDatePicker extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            date: this.props.defaultValue,
         }
-    },
 
-    propTypes: {
-        defaultValue: PropTypes.object,
-        name: PropTypes.string.isRequired,
-        onBlur: PropTypes.func
-    },
-
-    componentDidMount: function () {
+        this.handleChange = this.handleChange.bind(this)
+        this.handleBlur = this.handleBlur.bind(this)
+        
+    }
+    
+    componentDidMount() {
         this.props.onChange('date', this.state.date)
-    },
+    }
 
-    handleChange: function (date) {
+    handleChange(date) {
         if (date._pf.nullInput) {
             this.setState({
-              date: undefined
+                date: undefined,
             })
             this.props.onChange('date', undefined)
         } else if (date.isValid()) {
             this.setState({
-              date: date
+                date: date,
             })
             this.props.onChange('date', date)
         }
-    },
+    }
 
-    handleBlur: function () {
+    handleBlur() {
         if(typeof this.props.onBlur === 'function') {
             this.props.onBlur()
         }
-    },
+    }
+
     componentWillReceiveProps(nextProps) {
         if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
             if (moment(nextProps.defaultValue).isValid()) {
                 this.setState({date: nextProps.defaultValue})
             }
         }
-    },
-    render: function () {
+    }
+    render() {
         return (
-          <div className='hel-text-field'>
-            <DatePicker
-                placeholderText='pp.kk.vvvv'
-                selected={this.state.date}
-                autoOk={true}
-                name={this.props.name}
-                onChange={this.handleChange}
-                onBlur={this.handleBlur}
-                locale="fi"
-            />
-          </div>
+            <div className='hel-text-field'>
+                <DatePicker
+                    placeholderText='pp.kk.vvvv'
+                    selected={this.state.date}
+                    autoOk={true}
+                    name={this.props.name}
+                    onChange={this.handleChange}
+                    onBlur={this.handleBlur}
+                    locale="fi"
+                />
+            </div>
 
         )
     }
-});
+}
+
+HelDatePicker.propTypes = {
+    defaultValue: PropTypes.object,
+    name: PropTypes.string.isRequired,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func,
+}
 
 export default connect((state) => ({
-    editor: state.editor
+    editor: state.editor,
 }))(HelDatePicker)

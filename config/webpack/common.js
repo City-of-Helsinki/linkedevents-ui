@@ -5,8 +5,8 @@ const SRC = path.resolve(ROOT, 'src');
 const common = {
     paths: {
         ROOT,
-        SRC
-    }
+        SRC,
+    },
 }
 
 module.exports = common

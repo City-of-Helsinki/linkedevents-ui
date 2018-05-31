@@ -1,15 +1,16 @@
 import '!style-loader!css-loader!sass-loader!./index.scss'
 
 import React from 'react'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import {FormattedMessage} from 'react-intl'
+import PropTypes from 'prop-types';
 
 import FilterableEventTable from 'src/components/FilterableEventTable'
 import EventGrid from 'src/components/EventGrid'
 import SearchBar from 'src/components/SearchBar'
 import Loader from 'react-loader'
 
-import { fetchEvents } from 'src/actions/events'
+import {fetchEvents as fetchEventsAction} from 'src/actions/events'
 
 
 class SearchPage extends React.Component {
@@ -23,7 +24,7 @@ class SearchPage extends React.Component {
             return
         }
         else {
-            this.props.dispatch(fetchEvents(searchQuery, startDate, endDate))
+            this.props.fetchEvents(searchQuery, startDate, endDate)
             this.setState({searchExecuted: true})
         }
     }
@@ -51,8 +52,23 @@ class SearchPage extends React.Component {
     }
 }
 
-export default connect((state) => ({
-    events: state.events.items,
-    isFetching: state.events.isFetching,
-    apiErrorMsg: state.events.apiErrorMsg
-}))(SearchPage);
+SearchPage.propTypes = {
+    isFetching: PropTypes.bool,
+    fetchEvents: PropTypes.func,
+    events: PropTypes.array,
+}
+
+const mapStateToProps = (state) => {
+    return {
+        events: state.events.items,
+        isFetching: state.events.isFetching,
+        apiErrorMsg: state.events.apiErrorMsg,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchEvents: (searchQuery, startDate, endDate) => dispatch(fetchEventsAction(searchQuery, startDate, endDate)),
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);

@@ -1,16 +1,16 @@
-import { createAction } from 'redux-actions'
+import {createAction} from 'redux-actions'
 // import fetch from 'isomorphic-fetch'
 import $ from 'jquery' // how do i the same thing in fetch?!? horrible docs
 import constants from '../constants'
-import { setData } from './editor'
-import { setFlashMsg } from './app'
-import { get as getIfExists } from 'lodash'
+import {setData} from './editor'
+import {setFlashMsg} from './app'
+import {get as getIfExists} from 'lodash'
 
 
 export function selectImage(image) {
     return {
         type: constants.SELECT_IMAGE_BY_ID,
-        img: image
+        img: image,
     }
 }
 
@@ -22,24 +22,24 @@ function makeRequest(organization, pg_size) {
     return $.getJSON(url);
 }
 
-function getRequestBaseSettings(user, method = "POST", imageId = null) {
-    let token = user ? user.token : ""
+function getRequestBaseSettings(user, method = 'POST', imageId = null) {
+    let token = user ? user.token : ''
 
-    let url = appSettings.api_base + "/image/"
+    let url = appSettings.api_base + '/image/'
     if (imageId) {
-        url += imageId + "/"
+        url += imageId + '/'
     }
 
     return {
-        "async": true,
-        "crossDomain": true,
-        "url": url,
-        "method": method,
-        "headers": {
-            "authorization": 'JWT ' + token,
-            "accept": "application/json",
+        'async': true,
+        'crossDomain': true,
+        'url': url,
+        'method': method,
+        'headers': {
+            'authorization': 'JWT ' + token,
+            'accept': 'application/json',
         },
-        "processData": false
+        'processData': false,
     }
 
 }
@@ -68,25 +68,25 @@ export function receiveUserImages(response) {
 export function receiveUserImagesFail(response) {
     return {
         type: constants.RECEIVE_IMAGES_ERROR,
-        items: []
+        items: [],
     }
 }
 
 export function postImage(formData, user, imageId = null) {
     return (dispatch) => {
         const requestContentSettings = {
-            "mimeType": "multipart/form-data",
-            "contentType": false,
-            "data": formData
+            'mimeType': 'multipart/form-data',
+            'contentType': false,
+            'data': formData,
         }
 
-        const baseSettings = imageId ? getRequestBaseSettings(user, "PUT", imageId) : getRequestBaseSettings(user)
+        const baseSettings = imageId ? getRequestBaseSettings(user, 'PUT', imageId) : getRequestBaseSettings(user)
 
         let settings = Object.assign({}, baseSettings, requestContentSettings)
         return $.ajax(settings).done(response => {
             //if we POST form-data, jquery won't parse the response
             let resp = response
-            if(typeof(response) == "string") {
+            if(typeof(response) == 'string') {
                 resp = JSON.parse(response)
             }
 
@@ -107,20 +107,20 @@ export function postImage(formData, user, imageId = null) {
 export function imageUploadFailed(json) {
     return {
         type: constants.IMAGE_UPLOAD_ERROR,
-        data: json
+        data: json,
     }
 }
 
 export function imageUploadComplete(json) {
     return {
         type: constants.IMAGE_UPLOAD_SUCCESS,
-        data: json
+        data: json,
     }
 }
 
 export function deleteImage(selectedImage, user) {
     return (dispatch) => {
-        const settings = getRequestBaseSettings(user, "DELETE", selectedImage.id)
+        const settings = getRequestBaseSettings(user, 'DELETE', selectedImage.id)
         return $.ajax(settings).done(response => {
 
             // update form image value
