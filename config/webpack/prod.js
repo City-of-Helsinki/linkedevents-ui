@@ -69,6 +69,12 @@ const config = {
     },
     module: {
         rules: [
+            {
+                test: /\.(js|jsx)?$/, 
+                exclude: /node_modules/, 
+                enforce: 'pre',
+                use: ['babel-loader', 'eslint-loader'],
+            },
             {test: /\.(js|jsx)?$/, exclude: /node_modules/, loader: 'babel-loader'},
             {test: /\.scss$/, use: [{loader: 'style-loader'}, {loader: 'css-loader'}, {loader: 'sass-loader'}]},
             {test: /\.css$/, use: ['style-loader', 'css-loader']},

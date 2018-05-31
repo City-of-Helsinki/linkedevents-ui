@@ -217,7 +217,7 @@ class EventDetails extends React.Component {
 
         return (
             <div>
-                <ImageValue labelKey="event-image" value={props.values['image']}/>
+                <ImageValue labelKey="event-image" value={props.values["image"]}/>
                 <FormHeader>
                     { props.intl.formatMessage({id: 'event-description-fields-header'}) }
                 </FormHeader>
