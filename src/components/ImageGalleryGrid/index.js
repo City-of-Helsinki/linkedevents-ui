@@ -74,4 +74,4 @@ ImageGalleryGrid.propTypes = {
 const mapDispatchToProps = (dispatch) => ({
     fetchUserImages: (user, amount) => dispatch(fetchUserImagesAction(user, amount)),
 })
-export default connect()(ImageGalleryGrid)
+export default connect(null, mapDispatchToProps)(ImageGalleryGrid)
