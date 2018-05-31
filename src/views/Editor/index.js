@@ -95,12 +95,6 @@ class EditorPage extends React.Component {
         this.props.setValidationErrors({})
     }
 
-    routerWillLeave(nextLocation) {
-        if (this.state.isDirty) {
-            return 'Muutoksiasi ei ole tallennettu.\n\nOletko varma että haluat jatkaa?'
-        }
-    }
-
     setDirtyState() {
         if (!this.state.isDirty) {
             this.setState({isDirty: true})

@@ -13,7 +13,7 @@ import Tooltip from 'material-ui/Tooltip'
 import {push} from 'react-router-redux'
 
 import {fetchEventDetails as fetchEventDetailsAction} from 'src/actions/events.js'
-import {replaceData as replaceDataAction, sendData} from 'src/actions/editor.js'
+import {replaceData as replaceDataAction} from 'src/actions/editor.js'
 
 import {getStringWithLocale} from 'src/utils/locale'
 import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
