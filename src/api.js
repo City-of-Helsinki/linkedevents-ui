@@ -18,7 +18,7 @@ class API {
                 label: 'in-ru',
             },
             {
-                value: 'zh',
+                value: 'zh_hans',
                 label: 'in-zh',
             },
             {
