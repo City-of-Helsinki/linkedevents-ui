@@ -8,7 +8,7 @@ const gitRevisionPlugin = new GitRevisionPlugin();
 const jsonConfigKeys = ['api_base', 'local_storage_user_expiry_time', 'nocache', 'raven_id', 'commit_hash'];
 const templateConfigKeys = ['LE_PRODUCTION_INSTANCE', 'APP_MODE'];
 
-nconf.env({ parseValues: true, whitelist: jsonConfigKeys.concat(templateConfigKeys)});
+nconf.env({parseValues: true, whitelist: jsonConfigKeys.concat(templateConfigKeys)});
 nconf.defaults({
     'LE_PRODUCTION_INSTANCE': '#',
     'APP_MODE': process.env.NODE_ENV,

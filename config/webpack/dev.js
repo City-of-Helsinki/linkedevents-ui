@@ -8,21 +8,6 @@ nconf.file({file: 'config_dev.json'})
 
 const publicUrl = nconf.get('publicUrl')
 
-const indexTemplate = jade.compileFile(path.join(common.paths.SRC, 'index.jade'), {pretty: true})
-
-// We only want a subset of the read variables in configJson passed
-// to template. Nconf only allows for fetching one variable or all
-var configJson = {};
-for (var key of jsonConfigKeys) {
-    configJson[key] = nconf.get(key);
-}
-
-const indexHtml = indexTemplate({
-    APP_MODE: nconf.get('APP_MODE'),
-    LE_PRODUCTION_INSTANCE: nconf.get('LE_PRODUCTION_INSTANCE'),
-    configJson: JSON.stringify(configJson),
-})
-
 export default {
     context: path.join(common.paths.ROOT, '/src'),
     entry: [
@@ -33,6 +18,7 @@ export default {
     output: {
         path: common.paths.ROOT + '/dist',
         filename: '[name].js',
+        publicPath: `${publicUrl}/scripts/`,
     },
     devtool: 'cheap-module-eval-source-map',
     resolve: {
@@ -70,5 +56,5 @@ export default {
             jQuery: 'jquery',
             'window.jQuery': 'jquery',
         }),
-    ]
+    ],
 };

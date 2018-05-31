@@ -3,18 +3,12 @@ const indexTemplate = require('../../server/renderIndexTemplate')
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
+const common = require('./common')
 
 // There are defined in common.js as well, but that is not available without
 // transpilation, which is not done for webpack configuration file
 const path = require('path');
-const ROOT = path.resolve(__dirname, '../..');
-const SRC = path.resolve(ROOT, 'src');
-const common = {
-    paths: {
-        ROOT,
-        SRC,
-    },
-};
+
 
 const ASSET_PATH = '/'
 
@@ -58,7 +52,7 @@ const config = {
     plugins: [
         //new webpack.HotModuleReplacementPlugin(),
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': '"production"',
+            'process.env.NODE_ENV': 'production',
         }),
         new webpack.ProvidePlugin({
             $: 'jquery',
@@ -67,9 +61,9 @@ const config = {
         }),
         new HtmlWebpackPlugin({
             inject: true,
-            templateContent: indexTemplate
-        })
-    ]
+            templateContent: indexTemplate,
+        }),
+    ],
 };
 
 module.exports = config;
