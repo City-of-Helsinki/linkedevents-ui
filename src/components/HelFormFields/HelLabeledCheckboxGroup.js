@@ -11,18 +11,14 @@ import {setData} from 'src/actions/editor.js'
 import ValidationPopover from 'src/components/ValidationPopover'
 
 // NOTE: Not using ES6 classes because of the needed mixins
-let HelLabeledCheckboxGroup = React.createClass({
+class HelLabeledCheckboxGroup extends React.Component {
+    constructor(props) {
+        super(props)
 
-    contextTypes: {
-        intl: PropTypes.object,
-        dispatch: PropTypes.func
-    },
-
-    propTypes: {
-        name: PropTypes.string,
-    },
-
-    handleChange: function() {
+        this.handleChange = this.handleChange.bind(this)
+    }
+    
+    handleChange() {
         let checked = _.filter(this.refs, (ref) => (ref.getChecked()))
         let checkedNames = _.map(checked, (checkbox) => (checkbox.props.value) )
 
@@ -39,17 +35,17 @@ let HelLabeledCheckboxGroup = React.createClass({
         if (this.props.setDirtyState) {
             this.props.setDirtyState()
         }
-    },
+    }
 
-    shouldComponentUpdate: function(nextProps) {
+    shouldComponentUpdate(nextProps) {
         if(_.isEqual(nextProps.selectedValues, this.props.selectedValues)) {
             //return false;
         }
 
         return true;
-    },
+    }
 
-    render: function() {
+    render() {
         let self = this
         let checkboxes = this.props.options.map((item, index) => {
             let selectedValues = this.props.selectedValues || []
@@ -62,12 +58,12 @@ let HelLabeledCheckboxGroup = React.createClass({
                         groupClassName="hel-checkbox"
                         label={item.label}
                         value={item.value}
-                        name={this.props.name+'.'+item.value}
+                        name={this.props.name + '.' + item.value}
                         ref={index}
                         checked={checked}
                         defaultChecked={checked}
                         onChange={self.handleChange}
-                        />
+                    />
                 </span>
             )
         },this)
@@ -75,9 +71,9 @@ let HelLabeledCheckboxGroup = React.createClass({
         // view half-width checkboxes in two columns
         let left_column = checkboxes
         let right_column = []
-        if(this.props.itemClassName == "col-lg-6") {
-            left_column = checkboxes.slice(0, Math.floor(checkboxes.length/2)+1)
-            right_column = checkboxes.slice(Math.floor(checkboxes.length/2)+1, checkboxes.length)
+        if(this.props.itemClassName == 'col-lg-6') {
+            left_column = checkboxes.slice(0, Math.floor(checkboxes.length / 2) + 1)
+            right_column = checkboxes.slice(Math.floor(checkboxes.length / 2) + 1, checkboxes.length)
         }
         checkboxes = [<div className="left_column" key="1">{left_column}</div>, <div className="right_column" key="2">{right_column}</div>]
 
@@ -88,6 +84,22 @@ let HelLabeledCheckboxGroup = React.createClass({
             </fieldset>
         )
     }
-});
+}
+
+HelLabeledCheckboxGroup.contextTypes = {
+    intl: PropTypes.object,
+    dispatch: PropTypes.func,
+}
+
+HelLabeledCheckboxGroup.propTypes = {
+    name: PropTypes.string,
+    onChange: PropTypes.func,
+    setDirtyState: PropTypes.func,
+    selectedValues: PropTypes.array,
+    options: PropTypes.array,
+    itemClassName: PropTypes.string,
+    groupLabel: PropTypes.object,
+    validationErrors: PropTypes.array,
+}
 
 export default HelLabeledCheckboxGroup

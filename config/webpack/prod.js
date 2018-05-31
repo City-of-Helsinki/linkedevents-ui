@@ -12,17 +12,17 @@ const SRC = path.resolve(ROOT, 'src');
 const common = {
     paths: {
         ROOT,
-        SRC
-    }
+        SRC,
+    },
 };
 
 // Values capsulated as JSON object in the template, for consumption by JS
-const jsonConfigKeys = ["api_base", "local_storage_user_expiry_time", "nocache", "raven_id", "commit_hash"];
+const jsonConfigKeys = ['api_base', 'local_storage_user_expiry_time', 'nocache', 'raven_id', 'commit_hash'];
 // Values interpolated through the JADE templates as it sees fit
-const templateConfigKeys = ["LE_PRODUCTION_INSTANCE", "APP_MODE"];
+const templateConfigKeys = ['LE_PRODUCTION_INSTANCE', 'APP_MODE'];
 // Values used within this configuration thing
 // Currently the only thing here is not meaningful for dev at all
-const configConfigKeys = ["ASSET_PATH"];
+const configConfigKeys = ['ASSET_PATH'];
 
 nconf.env(jsonConfigKeys.concat(templateConfigKeys).concat(configConfigKeys));
 nconf.defaults({
@@ -35,7 +35,7 @@ nconf.use('memory');
 nconf.set('commit_hash', new GitRevisionPlugin().commithash());
 nconf.required(jsonConfigKeys.concat(templateConfigKeys));
 
-const indexTemplate = jade.compileFile(path.join(common.paths.SRC, 'index.jade'), { pretty: true });
+const indexTemplate = jade.compileFile(path.join(common.paths.SRC, 'index.jade'), {pretty: true});
 
 // We only want a subset of the read variables in configJson passed
 // to template. Nconf only allows for fetching one variable or all
@@ -47,7 +47,7 @@ for (var key of jsonConfigKeys) {
 const indexHtml = indexTemplate({
     APP_MODE: nconf.get('APP_MODE'),
     LE_PRODUCTION_INSTANCE: nconf.get('LE_PRODUCTION_INSTANCE'),
-    configJson: JSON.stringify(configJson)
+    configJson: JSON.stringify(configJson),
 });
 
 const config = {
@@ -55,47 +55,53 @@ const config = {
     entry: [
         //'webpack-hot-middleware/client',
         'babel-polyfill',
-        path.join(common.paths.SRC, '/index.js')
+        path.join(common.paths.SRC, '/index.js'),
     ],
     output: {
         publicPath: nconf.get('ASSET_PATH'),
         path: common.paths.ROOT + '/dist',
-        filename: '[name].[chunkhash].js'
+        filename: '[name].[chunkhash].js',
     },
     devtool: 'source-map',
     resolve: {
         modules: [common.paths.ROOT, 'node_modules'],
-        extensions: ['.', '.webpack.js', '.web.js', '.jsx', '.js']
+        extensions: ['.', '.webpack.js', '.web.js', '.jsx', '.js'],
     },
     module: {
         rules: [
-            {test: /\.(js|jsx)?$/, exclude: /node_modules/, loader: 'babel-loader' },
-            {test: /\.scss$/, use: [{ loader: "style-loader"}, { loader: "css-loader"}, { loader: "sass-loader"}]},
+            {
+                test: /\.(js|jsx)?$/, 
+                exclude: /node_modules/, 
+                enforce: 'pre',
+                use: ['babel-loader', 'eslint-loader'],
+            },
+            {test: /\.(js|jsx)?$/, exclude: /node_modules/, loader: 'babel-loader'},
+            {test: /\.scss$/, use: [{loader: 'style-loader'}, {loader: 'css-loader'}, {loader: 'sass-loader'}]},
             {test: /\.css$/, use: ['style-loader', 'css-loader']},
             {test: /\.jade$/, loader: 'jade-loader'},
-            {test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=10000&mimetype=application/font-woff"},
-            {test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=10000&mimetype=application/font-woff"},
-            {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=10000&mimetype=application/octet-stream"},
-            {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader"},
-            {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=10000&mimetype=image/svg+xml"},
-            {test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192'}
-        ]
+            {test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff'},
+            {test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff'},
+            {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=application/octet-stream'},
+            {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader'},
+            {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=image/svg+xml'},
+            {test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192'},
+        ],
     },
     plugins: [
         //new webpack.HotModuleReplacementPlugin(),
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': '"production"'
+            'process.env.NODE_ENV': '"production"',
         }),
         new webpack.ProvidePlugin({
-            $: "jquery",
-            jQuery: "jquery",
-            "window.jQuery": "jquery"
+            $: 'jquery',
+            jQuery: 'jquery',
+            'window.jQuery': 'jquery',
         }),
         new HtmlWebpackPlugin({
             inject: true,
-            templateContent: indexHtml
-        })
-    ]
+            templateContent: indexHtml,
+        }),
+    ],
 };
 
 module.exports = config;

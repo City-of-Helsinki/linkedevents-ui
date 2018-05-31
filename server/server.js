@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser'
 import cookieSession from 'cookie-session'
 import getSettings from './getSettings'
 import express from 'express'
-import { getPassport, addAuth } from './auth'
+import {getPassport, addAuth} from './auth'
 
 import webpack from 'webpack'
 import webpackMiddleware from 'webpack-dev-middleware'

@@ -1,10 +1,11 @@
 require('!style-loader!css-loader!sass-loader!./index.scss');
 
 import moment from 'moment'
+import PropTypes from 'prop-types'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 
 import HelDatePicker from '../HelFormFields/HelDatePicker'
 import Button from 'react-bootstrap/lib/Button.js'
@@ -17,13 +18,13 @@ class SearchBar extends React.Component {
         this.state = {
             searchQuery: '',
             startDate: moment(),
-            endDate: null
+            endDate: null,
         }
     }
 
     handleStringChange(event) {
         this.setState({
-            searchQuery: event.target.value
+            searchQuery: event.target.value,
         })
     }
 
@@ -71,7 +72,7 @@ class SearchBar extends React.Component {
                         ref="searchQueryInput"
                         groupClassName="text-field"
                         autoFocus
-                        />
+                    />
                 </div>
                 <div className="col-sm-4 col-xs-12">
                     <Button style={{height: '72px'}}
@@ -86,6 +87,9 @@ class SearchBar extends React.Component {
             </form>
         )
     }
+}
+SearchBar.propTypes = {
+    onFormSubmit: PropTypes.func,
 }
 
 export default connect()(SearchBar)

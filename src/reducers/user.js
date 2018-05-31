@@ -15,7 +15,7 @@ function tryFetchingUserFromLocalStorage() {
     }
 
     if(user && typeof user === 'object' && user.id && user.token && user.displayName && user.localStorageExpires) {
-        // Check expire Date
+    // Check expire Date
         let date = new Date(user.localStorageExpires)
         if (Date.now() > date) {
             localStorage.removeItem('user')
@@ -32,7 +32,7 @@ let initialState = tryFetchingUserFromLocalStorage()
 
 function update(state = initialState, action) {
     switch(action.type) {
-        // Login
+    // Login
         case constants.RECEIVE_USERDATA:
 
             if(action.payload && action.payload.id) {
@@ -43,15 +43,11 @@ function update(state = initialState, action) {
             else {
                 return state
             }
-        break
-
-        // Logout
+            // Logout
         case constants.CLEAR_USERDATA:
             return null
-        break
-
         default:
-        return state
+            return state
     }
 }
 

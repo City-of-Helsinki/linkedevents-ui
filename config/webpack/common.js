@@ -5,6 +5,6 @@ const SRC = path.resolve(ROOT, 'src');
 export default {
     paths: {
         ROOT,
-        SRC
-    }
+        SRC,
+    },
 }

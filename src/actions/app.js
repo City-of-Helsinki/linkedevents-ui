@@ -7,13 +7,13 @@ export function setFlashMsg(msg, style = 'message', data = {}) {
         msg: msg,
         style: style,
         data: data,
-        sticky: data.sticky
+        sticky: data.sticky,
     }
 }
 
 export function clearFlashMsg() {
     return {
-        type: constants.APP_CLEAR_FLASHMSG
+        type: constants.APP_CLEAR_FLASHMSG,
     }
 }
 
@@ -28,7 +28,7 @@ export function confirmAction(msg, style = 'warning', actionButtonLabel, data = 
         msg: msg,
         style: style,
         actionButtonLabel: actionButtonLabel,
-        data: data
+        data: data,
     }
 }
 
@@ -38,12 +38,12 @@ export function doAction(data) {
     }
 
     return {
-        type: constants.APP_DO_ACTION
+        type: constants.APP_DO_ACTION,
     }
 }
 
 export function cancelAction() {
     return {
-        type: constants.APP_CANCEL_ACTION
+        type: constants.APP_CANCEL_ACTION,
     }
 }

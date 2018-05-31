@@ -3,7 +3,7 @@ import './MultiLanguageField.scss'
 import PropTypes from 'prop-types';
 
 import React from 'react'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import {FormattedMessage, injectIntl} from 'react-intl'
 import HelTextField from './HelTextField'
 
 import ValidationPopover from 'src/components/ValidationPopover'
@@ -23,15 +23,31 @@ class MultiLanguageField extends React.Component {
         super(props)
         let defaultValue = props.defaultValue || {}
         this.state = {
-            value: defaultValue
+            value: defaultValue,
         }
     }
 
     static contextTypes = {
         intl: PropTypes.object,
-        dispatch: PropTypes.func
+        dispatch: PropTypes.func,
     };
 
+    static propTypes = {
+        defaultValue: PropTypes.object,
+        onChange: PropTypes.func,
+        name: PropTypes.string,
+        forceApplyToStore: PropTypes.bool,
+        setDirtyState: PropTypes.func,
+        onBlur: PropTypes.func,
+        languages: PropTypes.array,
+        disabled: PropTypes.bool,
+        required: PropTypes.bool,
+        validations: PropTypes.array,
+        validationErrors: PropTypes.array,
+        index: PropTypes.number,
+        multiLine: PropTypes.bool,
+    }
+    
     onChange(e,value,lang) {
         this.setState({value: this.getValue()})
 
@@ -78,7 +94,7 @@ class MultiLanguageField extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
-            this.setState({ value: nextProps.defaultValue || {} })
+            this.setState({value: nextProps.defaultValue || {}})
         }
         this.forceUpdate()
     }

@@ -1,14 +1,14 @@
 import fetch from 'isomorphic-fetch'
 import moment from 'moment';
-import { includes } from 'lodash';
+import {includes} from 'lodash';
 
 import constants from '../constants'
 import {mapUIDataToAPIFormat} from 'src/utils/formDataMapping.js'
 
-import { push } from 'react-router-redux'
-import { setFlashMsg, confirmAction } from './app'
+import {push} from 'react-router-redux'
+import {setFlashMsg, confirmAction} from './app'
 
-import { doValidations } from 'src/validation/validator.js'
+import {doValidations} from 'src/validation/validator.js'
 
 /**
  * Set editor form data
@@ -17,7 +17,7 @@ import { doValidations } from 'src/validation/validator.js'
 export function setData(values) {
     return {
         type: constants.EDITOR_SETDATA,
-        values
+        values,
     }
 }
 
@@ -26,58 +26,58 @@ export function updateSubEvent(value, property, eventKey) {
         type: constants.EDITOR_UPDATE_SUB_EVENT,
         value,
         property,
-        eventKey
+        eventKey,
     }
 }
 export function deleteSubEvent(event) {
     return {
         type: constants.EDITOR_DELETE_SUB_EVENT,
-        event
+        event,
     }
 }
 export function sortSubEvents() {
     return {
-        type: constants.EDITOR_SORT_SUB_EVENTS
+        type: constants.EDITOR_SORT_SUB_EVENTS,
     }
 }
 export function setEventData(values, key) {
     return {
-       type: constants.EDITOR_SETDATA,
-       key,
-       values,
-       event: true
+        type: constants.EDITOR_SETDATA,
+        key,
+        values,
+        event: true,
     }
 }
 export function setOfferData(values, key) {
     return {
-       type: constants.EDITOR_SETDATA,
-       key,
-       values,
-       offer: true
+        type: constants.EDITOR_SETDATA,
+        key,
+        values,
+        offer: true,
     }
 }
 export function addOffer(values) {
     return {
         type: constants.EDITOR_ADD_OFFER,
-        values
+        values,
     }
 }
 export function deleteOffer(offerKey) {
     return {
         type: constants.EDITOR_DELETE_OFFER,
-        offerKey
+        offerKey,
     }
 }
 export function setFreeOffers(isFree) {
     return {
         type: constants.EDITOR_SET_FREE_OFFERS,
-        isFree
+        isFree,
     }
 }
 export function setLanguages(languages) {
     return {
         type: constants.EDITOR_SETLANGUAGES,
-        languages: languages
+        languages: languages,
     }
 }
 
@@ -87,14 +87,14 @@ export function setLanguages(languages) {
  */
 export function replaceData(formValues) {
     return (dispatch) => {
-        // Run validations
-        // let validationErrors = doValidations(formValues)
+    // Run validations
+    // let validationErrors = doValidations(formValues)
         dispatch(validateFor(null))
         dispatch(setValidationErrors({}))
 
         dispatch({
             type: constants.EDITOR_REPLACEDATA,
-            values: formValues
+            values: formValues,
         })
     }
 }
@@ -104,7 +104,7 @@ export function replaceData(formValues) {
  */
 export function clearData() {
     return {
-        type: constants.EDITOR_CLEARDATA
+        type: constants.EDITOR_CLEARDATA,
     }
 }
 
@@ -116,7 +116,7 @@ export function setValidationErrors(errors) {
     return (dispatch) => {
         dispatch({
             type: constants.SET_VALIDATION_ERRORS,
-            errors: errors
+            errors: errors,
         })
     }
 }
@@ -125,12 +125,12 @@ export function validateFor(publicationStatus) {
     if(publicationStatus === constants.PUBLICATION_STATUS.PUBLIC || publicationStatus === constants.PUBLICATION_STATUS.DRAFT) {
         return {
             type: constants.VALIDATE_FOR,
-            validateFor: publicationStatus
+            validateFor: publicationStatus,
         }
     } else {
         return {
             type: constants.VALIDATE_FOR,
-            validateFor: null
+            validateFor: null,
         }
     }
 }
@@ -148,7 +148,7 @@ const multiLanguageFields = ['name', 'description', 'short_description', 'provid
 
 export function sendData(formValues, contentLanguages, user, updateExisting = false, publicationStatus) {
     const prepareFormValues = (formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch) => {
-        dispatch({ type: constants.EDITOR_SENDDATA })
+        dispatch({type: constants.EDITOR_SENDDATA})
         let recurring = false;
         if(formValues.sub_events) {
             recurring = _.keys(formValues.sub_events).length > 0
@@ -181,7 +181,7 @@ export function sendData(formValues, contentLanguages, user, updateExisting = fa
         const descriptionTexts = formValues.description
         for (const lang in formValues.description) {
             if (formValues.description[lang]) {
-                const desc = formValues.description[lang].replace(/\n\n/g, "</p><p>").replace(/\n/g, "<br/>")
+                const desc = formValues.description[lang].replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br/>')
                 if (desc.indexOf('<p>') === 0 && desc.substr(desc.length - 4) === '</p>') {
                     descriptionTexts[lang] = desc
                 } else {
@@ -193,7 +193,7 @@ export function sendData(formValues, contentLanguages, user, updateExisting = fa
         if (formValues.audience && includes(formValues.audience, `${appSettings.api_base}/keyword/helsinki:aflfbat76e/`)) {
             const specialDescription = '<p>Tapahtuma on tarkoitettu vain eläkeläisille ja työttömille, joilla on <a href="https://www.hel.fi/sote/fi/palvelut/palvelukuvaus?id=3252" target="_blank">palvelukeskuskortti</a>.</p>'
             if (formValues.description && formValues.description.fi && descriptionTexts.fi) {
-                if (!includes(formValues.description.fi, "https://www.hel.fi/sote/fi/palvelut/palvelukuvaus?id=3252")) { // Don't repeat insertion
+                if (!includes(formValues.description.fi, 'https://www.hel.fi/sote/fi/palvelut/palvelukuvaus?id=3252')) { // Don't repeat insertion
                     descriptionTexts.fi = specialDescription + formValues.description.fi
                 }
             } else {
@@ -201,7 +201,7 @@ export function sendData(formValues, contentLanguages, user, updateExisting = fa
             }
         }
 
-        let data = Object.assign({}, formValues, multiLanguageValues, { publication_status: publicationStatus, description: descriptionTexts  })
+        let data = Object.assign({}, formValues, multiLanguageValues, {publication_status: publicationStatus, description: descriptionTexts})
         if (recurring) {
             const subEvents = data.sub_events
             let endDates = [];
@@ -213,12 +213,12 @@ export function sendData(formValues, contentLanguages, user, updateExisting = fa
             let newSubEvents = Object.assign({}, {[0]: {start_time: data.start_time, end_time: data.end_time}});
             for(const key in subEvents) {
                 if(subEvents.hasOwnProperty(key)) {
-                    newSubEvents = Object.assign({}, newSubEvents, {[key+1]: subEvents[key]});
+                    newSubEvents = Object.assign({}, newSubEvents, {[key + 1]: subEvents[key]});
                 }
             }
             data.end_time = moment.tz(moment.max(endDates), 'Europe/Helsinki').utc().toISOString();
             formValues.sub_events = newSubEvents
-            data = Object.assign({}, data, { super_event_type: "recurring" })
+            data = Object.assign({}, data, {super_event_type: 'recurring'})
         }
         return mapUIDataToAPIFormat(data)
     }
@@ -257,7 +257,7 @@ export function sendData(formValues, contentLanguages, user, updateExisting = fa
 
         let token = ''
         if(user) {
-             token = user.token
+            token = user.token
         }
         // Set publication status for editor values. This is used by the validation to determine
         // which set of rules to use
@@ -269,7 +269,7 @@ export function sendData(formValues, contentLanguages, user, updateExisting = fa
                 'Content-Type': 'application/json',
                 'Authorization': 'JWT ' + token,
             },
-            body: JSON.stringify(preparedFormValues)
+            body: JSON.stringify(preparedFormValues),
         }).then(response => {
             //console.log('Received', response)
             let jsonPromise = response.json()
@@ -283,9 +283,9 @@ export function sendData(formValues, contentLanguages, user, updateExisting = fa
                 if(json.publication_status === constants.PUBLICATION_STATUS.PUBLIC && json.publication_status !== formValues.publication_status) {
                     actionName = 'publish'
                 } else if ( json.publication_status === constants.PUBLICATION_STATUS.PUBLIC ) {
-                    actionName ='savepublic'
+                    actionName = 'savepublic'
                 } else if ( json.publication_status === constants.PUBLICATION_STATUS.DRAFT ) {
-                    actionName ='savedraft'
+                    actionName = 'savedraft'
                 }
 
                 if(response.status === 200 || response.status === 201) {
@@ -316,9 +316,9 @@ export function sendData(formValues, contentLanguages, user, updateExisting = fa
                 }
             })
         })
-        .catch(e => {
-            // Error happened while fetching ajax (connection or javascript)
-        })
+            .catch(e => {
+                // Error happened while fetching ajax (connection or javascript)
+            })
     }
 }
 
@@ -330,7 +330,7 @@ export function sendDataComplete(json, action) {
             dispatch({
                 type: constants.EDITOR_SENDDATA_ERROR,
                 data: json,
-                action: action
+                action: action,
             })
         }
         else {
@@ -338,7 +338,7 @@ export function sendDataComplete(json, action) {
             dispatch({
                 type: constants.EDITOR_SENDDATA_SUCCESS,
                 createdAt: Date.now(),
-                data: json
+                data: json,
             })
         }
     }
@@ -347,7 +347,7 @@ export function sendDataComplete(json, action) {
 export function sendRecurringData(formValues, contentLanguages, user, updateExisting = false, publicationStatus, superEventId) {
     return (dispatch) => {
         const subEvents = Object.assign({}, formValues.sub_events)
-        const baseEvent = Object.assign({}, formValues, { sub_events: {}, super_event: {'@id': superEventId}})
+        const baseEvent = Object.assign({}, formValues, {sub_events: {}, super_event: {'@id': superEventId}})
         const newValues = []
         for (const key in subEvents) {
             if (subEvents.hasOwnProperty(key)) {
@@ -374,14 +374,14 @@ export function fetchKeywordSets() {
             }
             return response.json()
         })
-        .then(json => {
-            if(json) {
-                return dispatch(receiveKeywordSets(json))
-            }
-        })
-        .catch(e => {
-            // Error happened while fetching ajax (connection or javascript)
-        })
+            .then(json => {
+                if(json) {
+                    return dispatch(receiveKeywordSets(json))
+                }
+            })
+            .catch(e => {
+                // Error happened while fetching ajax (connection or javascript)
+            })
     }
 }
 
@@ -391,7 +391,7 @@ export function receiveKeywordSets(json) {
 
     return {
         type: constants.EDITOR_RECEIVE_KEYWORDSETS,
-        keywordSets: json.data
+        keywordSets: json.data,
     }
 }
 
@@ -409,14 +409,14 @@ export function fetchLanguages() {
                 return response.json()
             }
         })
-        .then(json => {
-            if(json) {
-                return dispatch(receiveLanguages(json))
-            }
-        })
-        .catch(e => {
-            // Error happened while fetching ajax (connection or javascript)
-        })
+            .then(json => {
+                if(json) {
+                    return dispatch(receiveLanguages(json))
+                }
+            })
+            .catch(e => {
+                // Error happened while fetching ajax (connection or javascript)
+            })
     }
 }
 
@@ -426,7 +426,7 @@ export function receiveLanguages(json) {
 
     return {
         type: constants.EDITOR_RECEIVE_LANGUAGES,
-        languages: json.data
+        languages: json.data,
     }
 }
 
@@ -441,13 +441,13 @@ export function fetchEventForEditing(eventID, user = {}) {
     let options = {
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
+            'Content-Type': 'application/json',
+        },
     }
 
     if(user && user.token) {
         Object.assign(options.headers, {
-            'Authorization': 'JWT ' + user.token
+            'Authorization': 'JWT ' + user.token,
         })
     }
 
@@ -465,7 +465,7 @@ export function fetchEventForEditing(eventID, user = {}) {
 export function receiveEventForEditing(json) {
     return {
         type: constants.RECEIVE_EVENT_FOR_EDITING,
-        event: json
+        event: json,
     }
 }
 
@@ -476,10 +476,10 @@ export function cancelEvent(eventId, user, values) {
 
         let token = ''
         if(user) {
-             token = user.token
+            token = user.token
         }
 
-        let data = Object.assign({}, values, { event_status: constants.EVENT_STATUS.CANCELLED })
+        let data = Object.assign({}, values, {event_status: constants.EVENT_STATUS.CANCELLED})
 
         return fetch(url, {
             method: 'PUT',
@@ -488,7 +488,7 @@ export function cancelEvent(eventId, user, values) {
                 'Content-Type': 'application/json',
                 'Authorization': 'JWT ' + token,
             },
-            body: JSON.stringify(mapUIDataToAPIFormat(data))
+            body: JSON.stringify(mapUIDataToAPIFormat(data)),
         }).then(response => {
             //console.log('Received', response)
             let jsonPromise = response.json()
@@ -517,9 +517,9 @@ export function cancelEvent(eventId, user, values) {
                 }
             })
         })
-        .catch(e => {
-            // Error happened while fetching ajax (connection or javascript)
-        })
+            .catch(e => {
+                // Error happened while fetching ajax (connection or javascript)
+            })
     }
 }
 
@@ -529,7 +529,7 @@ export function deleteEvent(eventID, user, values) {
 
     let token = ''
     if(user) {
-         token = user.token
+        token = user.token
     }
 
     return (dispatch) => {
@@ -539,7 +539,7 @@ export function deleteEvent(eventID, user, values) {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'Authorization': 'JWT ' + token,
-            }
+            },
         }).then(response => {
 
             if(response.status === 200 || response.status === 201 || response.status === 203 || response.status === 204) {
@@ -566,9 +566,9 @@ export function deleteEvent(eventID, user, values) {
             }
 
         })
-        .catch(e => {
-            // Error happened while fetching ajax (connection or javascript)
-        })
+            .catch(e => {
+                // Error happened while fetching ajax (connection or javascript)
+            })
     }
 }
 
@@ -577,6 +577,6 @@ export function eventDeleted(values, error) {
     return {
         type: constants.EVENT_DELETED,
         values: values,
-        error: error
+        error: error,
     }
 }

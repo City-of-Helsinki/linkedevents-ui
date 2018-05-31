@@ -1,13 +1,13 @@
 let Colors = require('material-ui/colors')
 let Spacing = require('material-ui/styles/spacing')
-import { createMuiTheme } from 'material-ui/styles'
+import {createMuiTheme} from 'material-ui/styles'
 import blue from 'material-ui/colors/blue'
 import cyan from 'material-ui/colors/cyan'
 
 let helCyan = {
     ...cyan,
     A200: '#00bcd4',
-  }
+}
 
 let helRawStyle = {
     spacing: Spacing,
@@ -35,8 +35,8 @@ let helRawStyle = {
                 lineHeight: '36px',
                 raisedAccent: {
                     color: blue,
-                }
-           },
+                },
+            },
         },
         MuiInput: {
             root: {
@@ -45,14 +45,14 @@ let helRawStyle = {
                 floatingLabelColor: Colors.black,
                 backgroundColor: '#ffffff',
                 disabled: {
-                    color: Colors.darkBlack300
+                    color: Colors.darkBlack300,
                 },
                 error: {
-                    color: Colors.red500
+                    color: Colors.red500,
                 },
                 focused: {
-                    color: Colors.cyan500
-                }
+                    color: Colors.cyan500,
+                },
             },
         },
         MuiToolbar: {
@@ -124,5 +124,5 @@ headerTheme.mixins.toolbar.menuHoverColor = '#ffffff'
 
 export {
     helTheme as HelTheme,
-    headerTheme as HeaderTheme
+    headerTheme as HeaderTheme,
 }

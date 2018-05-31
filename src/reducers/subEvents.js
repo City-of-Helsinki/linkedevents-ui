@@ -4,7 +4,7 @@ const initialState = {
     isFetching: false,
     fetchComplete: false,
     items: [],
-    error: null
+    error: null,
 }
 
 function update(state = initialState, action) {
@@ -13,7 +13,7 @@ function update(state = initialState, action) {
             isFetching: true,
             fetchComplete: false,
             items: [],
-            error: null
+            error: null,
         })
     }
 
@@ -22,7 +22,7 @@ function update(state = initialState, action) {
             isFetching: false,
             fetchComplete: true,
             items: action.events,
-            error: null
+            error: null,
         });
     }
 
@@ -31,7 +31,7 @@ function update(state = initialState, action) {
             isFetching: false,
             fetchComplete: false,
             items: [],
-            error: action.error
+            error: action.error,
         });
     }
 

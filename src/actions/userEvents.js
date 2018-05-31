@@ -1,11 +1,11 @@
-import { createAction } from 'redux-actions';
+import {createAction} from 'redux-actions';
 import fetch from 'isomorphic-fetch'
-import { receiveEvents } from './events'
+import {receiveEvents} from './events'
 import constants from '../constants'
 
 import authedFetch from 'src/utils/authedFetch'
 
-import { setFlashMsg } from './app'
+import {setFlashMsg} from './app'
 
 function makeRequest(user = {}, sortBy, sortOrder, paginationPage, dispatch) {
     const {organization} = user
@@ -25,7 +25,7 @@ function makeRequest(user = {}, sortBy, sortOrder, paginationPage, dispatch) {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-        }
+        },
     }
 
     return authedFetch(url, options, user, dispatch);
@@ -38,7 +38,7 @@ export function receiveUserEvents(json) {
         type: constants.RECEIVE_USER_EVENTS,
         items: json.data,
         receivedAt: Date.now(),
-        count: json.meta.count
+        count: json.meta.count,
     }
 }
 
@@ -46,13 +46,13 @@ export function receiveUserEventsError(error) {
     return {
         type: constants.RECEIVE_USER_EVENTS_ERROR,
         error: error,
-        items: []
+        items: [],
     }
 }
 
 export function resetUserEventsFetching() {
     return {
-        type: constants.RESET_USER_EVENTS_FETCHING
+        type: constants.RESET_USER_EVENTS_FETCHING,
     }
 }
 
@@ -62,14 +62,14 @@ export function fetchUserEvents(user, sortBy, sortOrder, paginationPage) {
         makeRequest(user, sortBy, sortOrder, paginationPage, dispatch).then(function (response) {
             if (response.status >= 400) {
                 dispatch(receiveUserEventsError({
-                    error: 'API Error ' + response.status
+                    error: 'API Error ' + response.status,
                 }));
             }
             response.json().then(json => dispatch(receiveUserEvents(json)));
         })
-        .catch(e => {
-            // Error happened while fetching ajax (connection or javascript)
-        });
+            .catch(e => {
+                // Error happened while fetching ajax (connection or javascript)
+            });
     }
 }
 
@@ -78,6 +78,6 @@ export function setUserEventsSortOrder(sortBy, sortOrder, paginationPage) {
         type: constants.SET_USER_EVENTS_SORTORDER,
         sortBy: sortBy,
         sortOrder: sortOrder,
-        paginationPage: paginationPage
+        paginationPage: paginationPage,
     }
 }

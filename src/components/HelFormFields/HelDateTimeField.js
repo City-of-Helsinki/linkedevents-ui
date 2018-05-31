@@ -8,55 +8,49 @@ import HelTimePicker from './HelTimePicker.js'
 import {connect} from 'react-redux'
 import {setData, updateSubEvent} from 'src/actions/editor.js'
 
-import { FormattedMessage } from 'react-intl'
+import {FormattedMessage} from 'react-intl'
 
 import validationRules from 'src/validation/validationRules.js';
 import ValidationPopover from 'src/components/ValidationPopover'
 
 import moment from 'moment'
 
-const HelDateTimeField = React.createClass({
-
-    getInitialState: function() {
+class HelDateTimeField extends React.Component {
+    constructor(props) {
+        super(props)
+        
         let defaultValue = this.props.defaultValue || null
         if(moment(defaultValue).isValid()) {
             defaultValue = moment(defaultValue).tz('Europe/Helsinki');
-            return {
+            this.state = {
                 date: defaultValue,
-                time: defaultValue.format('HH.mm')
+                time: defaultValue.format('HH.mm'),
+            }
+        } else {
+            this.state = {
+                date: null,
+                time: null,
             }
         }
 
-        return {
-            date: null,
-            time: null
-        }
-    },
+        this.onChange = this.onChange.bind(this)
+        this.onBlur = this.onBlur.bind(this)
+    }
 
-    propTypes: {
-        name: PropTypes.string.isRequired,
-        eventKey: PropTypes.string
-    },
-
-    contextTypes: {
-        intl: PropTypes.object,
-        dispatch: PropTypes.func
-    },
-
-    onChange: function(type, value) {
+    onChange(type, value) {
         this.setState({
-            [type]: value
+            [type]: value,
         })
-    },
+    }
 
-    onBlur: function(type, value) {
+    onBlur(type, value) {
 
         if(this.state.date && this.state.time) {
             const date = moment.tz(this.state.date, 'Europe/Helsinki').format('YYYY-MM-DD')
             const time = this.state.time
             let errors = [
                 this.getValidationErrors('isTime', time),
-                this.getValidationErrors('isDate', date)
+                this.getValidationErrors('isDate', date),
             ]
 
             // Filter out empty lists
@@ -79,9 +73,9 @@ const HelDateTimeField = React.createClass({
                 }
             }
         }
-    },
+    }
 
-    getDateTimeFromFields: function(date, time) {
+    getDateTimeFromFields(date, time) {
         if(!date || !time) {
             return undefined
         }
@@ -95,36 +89,36 @@ const HelDateTimeField = React.createClass({
             }
         }
 
-        let newDateTime = date+'T'+newTime;
+        let newDateTime = date + 'T' + newTime;
         const dateTime = moment.tz(newDateTime, 'Europe/Helsinki').utc().toISOString()
         return dateTime;
-    },
+    }
 
     // Parses date time object from datetime string
-    parseValueFromString: function(string) {
+    parseValueFromString(string) {
         let newValue = string || null
 
         if(moment(newValue).isValid()) {
             newValue = moment(newValue).tz('Europe/Helsinki');
             return {
                 date: newValue,
-                time: newValue.format('H.mm')
+                time: newValue.format('H.mm'),
             }
         } else {
             return {
                 date: null,
-                time: null
+                time: null,
             }
         }
-    },
+    }
 
-    getValidationErrors: function(type, value) {
+    getValidationErrors(type, value) {
         if(value && type) {
             let validations;
             if(typeof validationRules[type] === 'function') {
                 validations =  [{
                     rule: type,
-                    passed: validationRules[type](null, value)
+                    passed: validationRules[type](null, value),
                 }]
             }
             validations = validations.filter(i => (i.passed === false))
@@ -134,23 +128,23 @@ const HelDateTimeField = React.createClass({
         }
 
         return []
-    },
+    }
 
-    componentWillReceiveProps: function(nextProps) {
+    componentWillReceiveProps(nextProps) {
         if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
             if (moment(nextProps.defaultValue).isValid()) {
                 const value = this.parseValueFromString(nextProps.defaultValue)
                 this.setState({date: value.date, time: value.time})
             }
         }
-    },
+    }
 
     // Update only if the state has changed
-    shouldComponentUpdate: function(nextProps, nextState) {
+    shouldComponentUpdate(nextProps, nextState) {
         return true
-    },
+    }
 
-    render: function () {
+    render () {
         return (
             <div className="multi-field">
                 <div className="indented">
@@ -161,6 +155,19 @@ const HelDateTimeField = React.createClass({
             </div>
         )
     }
-});
+}
 
+HelDateTimeField.propTypes = {
+    name: PropTypes.string.isRequired,
+    eventKey: PropTypes.string,
+    defaultValue: PropTypes.string,
+    setDirtyState: PropTypes.func,
+    label: PropTypes.string,
+    validationErrors: PropTypes.array,
+}
+
+HelDateTimeField.contextTypes = {
+    intl: PropTypes.object,
+    dispatch: PropTypes.func,
+}
 export default HelDateTimeField

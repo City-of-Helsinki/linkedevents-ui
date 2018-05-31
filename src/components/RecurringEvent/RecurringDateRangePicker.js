@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react'
 import HelDatePicker from 'src/components/HelFormFields/HelDatePicker.js'
-import { FormattedMessage } from 'react-intl'
+import {FormattedMessage} from 'react-intl'
 
 import validationRules from 'src/validation/validationRules.js';
 import ValidationPopover from 'src/components/ValidationPopover'
@@ -14,7 +14,7 @@ class RecurringDateRangePicker extends React.Component {
         this.onChange = this.onChange.bind(this)
         this.state = {
             date: this.props.defaultValue,
-            name: this.props.name
+            name: this.props.name,
         }
     }
 
@@ -30,7 +30,7 @@ class RecurringDateRangePicker extends React.Component {
             if(typeof validationRules[type] === 'function') {
                 validations =  [{
                     rule: type,
-                    passed: validationRules[type](null, value)
+                    passed: validationRules[type](null, value),
                 }]
             }
             validations = validations.filter(i => (i.passed === false))
@@ -60,6 +60,15 @@ class RecurringDateRangePicker extends React.Component {
     }
 }
 RecurringDateRangePicker.contextTypes = {
-    dispatch: PropTypes.func
+    dispatch: PropTypes.func,
 };
+
+RecurringDateRangePicker.propTypes = {
+    defaultValue: PropTypes.string,
+    name: PropTypes.string,
+    onChange: PropTypes.func,
+    label: PropTypes.string,
+    validationErrors: PropTypes.array,
+}
+
 export default RecurringDateRangePicker

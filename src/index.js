@@ -7,14 +7,16 @@ if(window && !window.Intl) {
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Route } from 'react-router'
-import { Link, withRouter } from 'react-router-dom'
+import {Route} from 'react-router'
+import PropTypes from 'prop-types'
+
+import {Link, withRouter} from 'react-router-dom'
 import createHistory from 'history/createBrowserHistory' //'history/createHashHistory'
 
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
-import { Provider, connect } from 'react-redux'
+import {createStore, combineReducers, applyMiddleware, compose} from 'redux'
+import {Provider, connect} from 'react-redux'
 
-import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
+import {ConnectedRouter, routerReducer, routerMiddleware, push} from 'react-router-redux'
 
 import thunk from 'redux-thunk'
 
@@ -54,7 +56,7 @@ injectTapEventPlugin()
 const history = createHistory()
 
 const allReducers = combineReducers(Object.assign({}, reducers, {
-  router: routerReducer
+    router: routerReducer,
 }))
 
 const allMiddlewares = compose(
@@ -96,19 +98,22 @@ ReactDOM.render(
     document.getElementById('content')
 )
 
-var DebugReporterModal = React.createClass({
+class DebugReporterModal extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {value: ''}
 
-    getInitialState: function() {
-        return {value: ''};
-    },
+        this.handleChange = this.handleChange.bind(this)
+        this.report = this.report.bind(this)
+    }
 
-    handleChange: function(event) {
+    handleChange(event) {
         this.setState({value: event.target.value});
-    },
+    }
 
-    report: function () {
-        this.props.send_report(this.state.value);
-    },
+    report() {
+        this.props.sendReport(this.state.value);
+    }
 
     render() {
         return <div id="debugreporterform">
@@ -132,51 +137,60 @@ var DebugReporterModal = React.createClass({
             </Modal>
         </div>
     }
+}
 
-});
+DebugReporterModal.propTypes = {
+    sendReport: PropTypes.func,
+    showModal: PropTypes.bool,
+    close: PropTypes.func,
+}
 
-var DebugHelper = React.createClass({
+class DebugHelper extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {reporting: false}
 
-    getInitialState() {
-        return {reporting: false};
-    },
+        this.showReportForm = this.showReportForm.bind(this)
+        this.closeReportForm = this.closeReportForm.bind(this)
+        this.serializeState = this.serializeState.bind(this)
+    }
 
-    show_reportform() {
+    showReportForm() {
         this.setState({reporting: true})
-    },
+    }
 
-    close_reportform() {
+    closeReportForm() {
         this.setState({reporting: false})
-    },
+    }
 
-    serialize_state(reportmsg) {
+    serializeState(reportmsg) {
         window.ARG.debug_message = reportmsg;
         window.ARG.commit_hash = appSettings.commit_hash;
-        this.close_reportform();
+        this.closeReportForm();
         report(JSON.stringify(window.ARG));
 
         window.setTimeout(
-            () => alert("Raportti lähetetty, kiitoksia"),
+            () => alert('Raportti lähetetty, kiitoksia'),
             100);
 
-    },
+    }
 
     render() {
         return <div>
-            <DebugReporterModal showModal={this.state.reporting} close={this.close_reportform} send_report={this.serialize_state} />
+            <DebugReporterModal showModal={this.state.reporting} close={this.closeReportForm} sendReport={this.serializeState} />
             <div id="debughelper">
                 <div id="debughelper_container">
-                    <Button bsSize="large" onClick={this.show_reportform}>
+                    <Button bsSize="large" onClick={this.showReportForm}>
                         <i className="material-icons">feedback</i>
                     </Button>
                 </div>
-                <div id="slide">Jos tapahtumien hallinnassa tai syöttölomakkeen toiminnassa on virhe, klikkaa "raportoi virhe"&#x2011;nappia,
+                <div id="slide">Jos tapahtumien hallinnassa tai syöttölomakkeen toiminnassa on virhe, klikkaa {`"raportoi virhe"`}&#x2011;nappia,
                     niin saamme virhetilanteesta tiedon ja voimme tutkia asiaa.</div>
             </div>
         </div>
     }
 
-});
+}
 
 ReactDOM.render(
     <div>

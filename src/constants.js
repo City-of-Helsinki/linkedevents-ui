@@ -60,18 +60,38 @@ const constants = {
         SCHEDULED: 'EventScheduled',
         CANCELLED: 'EventCancelled',
         POSTPONED: 'EventPostponed',
-        RESCHEDULED: 'EventRescheduled'
+        RESCHEDULED: 'EventRescheduled',
     },
 
     PUBLICATION_STATUS: {
         DRAFT: 'draft',
-        PUBLIC: 'public'
+        PUBLIC: 'public',
     },
 
     VALIDATION_STATUS: {
         CLEARED: 'cleared', // When form is cleared we also clear validation errors and set this status
-        RESOLVE: 'resolve' // When form has validation errors and user is on editor page
-    }
+        RESOLVE: 'resolve', // When form has validation errors and user is on editor page
+    },
+
+    EVENT_CREATION: {
+        CREATE: 'create',
+        DELETE: 'delete',
+        CANCEL: 'cancel',
+        PUBLISH: 'publish',
+        UPDATE: 'update',
+        SUCCESS: 'success',
+        SAVE_DRAFT: 'savedraft',
+        SAVE_PUBLIC: 'savepublic',
+        CREATE_SUCCESS: 'event-creation-create-success',
+        DELETE_SUCCESS: 'event-creation-delete-success',
+        CANCEL_SUCCESS: 'event-creation-cancel-success',
+        PUBLISH_SUCCESS: 'event-creation-publish-success',
+        MULTIPLE_EVENTS_SUCCESS: 'event-creation-multipleevents-success',
+        SAVE_PUBLIC_SUCCESS: 'event-creation-savepublic-success',
+        SAVE_DRAFT_SUCCESS: 'event-creation-savedraft-success',
+        DEFAULT_SUCCESS: 'event-creation-default-success',
+        UPDATE_SUCCESS: 'event-creation-update-success',
+    },
 }
 
 export default constants

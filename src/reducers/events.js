@@ -6,7 +6,7 @@ const initialState = {
     fetchComplete: false,
     items: [],
     eventError: null,
-    eventsError: null
+    eventsError: null,
 }
 
 function update(state = initialState, action) {
@@ -14,7 +14,7 @@ function update(state = initialState, action) {
         return Object.assign({}, state, {
             isFetching: false,
             fetchComplete: true,
-            items: action.items
+            items: action.items,
         });
     }
 
@@ -23,7 +23,7 @@ function update(state = initialState, action) {
             isFetching: false,
             fetchComplete: true,
             event: action.event,
-            eventError: null
+            eventError: null,
         });
     }
 
@@ -32,7 +32,7 @@ function update(state = initialState, action) {
             isFetching: false,
             fetchComplete: false,
             event: null,
-            eventError: action.error
+            eventError: action.error,
         });
     }
 
@@ -40,7 +40,7 @@ function update(state = initialState, action) {
         return Object.assign({}, state, {
             isFetching: true,
             fetchComplete: false,
-            items: []
+            items: [],
         });
     }
 
@@ -49,7 +49,7 @@ function update(state = initialState, action) {
             isFetching: true,
             fetchComplete: false,
             eventError: null,
-            event: null
+            event: null,
         });
     }
 
