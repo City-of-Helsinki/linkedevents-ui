@@ -13,7 +13,6 @@ class HelCheckbox extends React.Component {
         super(props)
 
         this.handleCheck = this.handleCheck.bind(this)
-        this.getValue = this.getValue.bind(this)
     }
     
     handleCheck (event) {
