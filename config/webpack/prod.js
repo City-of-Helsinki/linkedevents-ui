@@ -1,4 +1,4 @@
-import indexTemplate from '../../server/renderIndexTemplate'
+const indexTemplate = require('../../server/renderIndexTemplate')
 
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');

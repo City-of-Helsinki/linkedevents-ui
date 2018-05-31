@@ -1,8 +1,8 @@
-import nconf from 'nconf'
-import jade from 'jade'
-import GitRevisionPlugin from 'git-revision-webpack-plugin';
-import path from 'path';
-import common from '../config/webpack/common.js'
+const nconf = require('nconf')
+const jade = require('jade')
+const GitRevisionPlugin = require('git-revision-webpack-plugin')
+const path = require('path')
+const common = require('../config/webpack/common')
 
 const gitRevisionPlugin = new GitRevisionPlugin();
 const jsonConfigKeys = ['api_base', 'local_storage_user_expiry_time', 'nocache', 'raven_id', 'commit_hash'];
@@ -20,7 +20,7 @@ nconf.set('commit_hash', gitRevisionPlugin.commithash());
 nconf.required(jsonConfigKeys.concat(templateConfigKeys));
 
 
-const indexTemplate = jade.compileFile(path.join(common.paths.SRC, 'index.jade'), { pretty: true })
+const compiledTemplate = jade.compileFile(path.join(common.paths.SRC, 'index.jade'), { pretty: true })
 
 // We only want a subset of the read variables in configJson passed
 // to template. Nconf only allows for fetching one variable or all
@@ -29,8 +29,10 @@ for (var key of jsonConfigKeys) {
     configJson[key] = nconf.get(key);
 }
 
-export default indexTemplate({
+const indexTemplate = compiledTemplate({
     APP_MODE: nconf.get('APP_MODE'),
     LE_PRODUCTION_INSTANCE: nconf.get('LE_PRODUCTION_INSTANCE'),
     configJson: JSON.stringify(configJson),
 })
+
+module.exports = indexTemplate

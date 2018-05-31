@@ -37,12 +37,6 @@ if(process.env.NODE_ENV !== 'development') {
     app.use(webpackHotMiddleware(compiler));
 }
 
-app.get('*', (req, res) => {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/html')   
-    res.end(indexTemplate)
-} )
-
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieSession({name: 's', secret: settings.sessionSecret, maxAge: 86400 * 1000}));
@@ -50,6 +44,12 @@ app.use(cookieSession({name: 's', secret: settings.sessionSecret, maxAge: 86400 
 app.use(passport.initialize());
 app.use(passport.session());
 addAuth(app, passport, settings);
+
+app.get('*', (req, res) => {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/html')   
+    res.end(indexTemplate)
+})
 
 console.log('Starting server at port', settings.port);
 app.listen(settings.port);
