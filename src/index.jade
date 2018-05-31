@@ -28,3 +28,6 @@ html.no-js
             #content
         div
             #debughelper
+        if NODE_ENV == 'development'
+            script(src="/scripts/main.js", type="text/javascript")
+        

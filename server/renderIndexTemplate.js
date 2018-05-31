@@ -31,5 +31,6 @@ for (var key of jsonConfigKeys) {
 export default indexTemplate({
     APP_MODE: nconf.get('APP_MODE'),
     LE_PRODUCTION_INSTANCE: nconf.get('LE_PRODUCTION_INSTANCE'),
-    configJson: JSON.stringify(configJson)
+    configJson: JSON.stringify(configJson),
+    NODE_ENV: process.env.NODE_ENV,
 })

@@ -2,7 +2,11 @@ import path from 'path';
 import common from './common.js';
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import nconf from 'nconf'
 
+nconf.file({file: 'config_dev.json'})
+
+const publicUrl = nconf.get('publicUrl')
 
 export default {
     context: path.join(common.paths.ROOT, '/src'),
@@ -13,7 +17,8 @@ export default {
     ],
     output: {
         path: common.paths.ROOT + '/dist',
-        filename: '[name].js'
+        filename: '[name].js',
+        publicPath: `${publicUrl}/scripts/`
     },
     devtool: 'cheap-module-eval-source-map',
     resolve: {
@@ -45,6 +50,5 @@ export default {
             jQuery: "jquery",
             "window.jQuery": "jquery"
         }),
-        new HtmlWebpackPlugin()
     ]
 };

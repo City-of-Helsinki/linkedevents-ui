@@ -7,18 +7,17 @@ import cookieParser from 'cookie-parser'
 import cookieSession from 'cookie-session'
 
 import getSettings from './getSettings'
-import indexTemplate from './renderIndexTemplate'
 import { getPassport, addAuth } from './auth'
 
 import webpack from 'webpack'
 import webpackMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import config from '../config/webpack/dev.js'
+import indexTemplate from './renderIndexTemplate'
 
 const settings = getSettings()
 const app = express()
 const passport = getPassport(settings)
-const router = express.Router()
 
 if(process.env.NODE_ENV !== 'development') {
     app.use('/', express.static(path.resolve(__dirname, '..', 'dist')));
@@ -27,11 +26,18 @@ if(process.env.NODE_ENV !== 'development') {
     });
 } else {
     const compiler = webpack(config)
-    app.use(webpackMiddleware(compiler));
+    app.use(webpackMiddleware(compiler, {
+        publicPath: config.output.publicPath,
+        stats: {
+            colors: true,
+            assets: false,
+            modules: false,
+        },
+    }));
     app.use(webpackHotMiddleware(compiler));
 }
 
-router.get('/', (req, res, next) => {
+app.get('*', (req, res) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html')   
     res.end(indexTemplate)
