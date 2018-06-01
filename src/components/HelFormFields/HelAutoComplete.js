@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react'
 
-import Input from 'react-bootstrap/lib/Input.js'
+import {FormControl} from 'react-bootstrap'
 import Select from 'react-select'
 
 import Typeahead from 'src/typeahead.js'
@@ -105,7 +105,7 @@ class HelAutoComplete extends React.Component {
                     />
                 </div>
                 <div >
-                    <Input
+                    <FormControl
                         type="text"
                         value={values.id ? values.id : ''}
                         label={this.context.intl.formatMessage({id: 'event-location-id'})}
