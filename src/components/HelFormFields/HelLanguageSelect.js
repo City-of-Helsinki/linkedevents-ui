@@ -4,7 +4,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {FormattedMessage} from 'react-intl'
 
-import Input from 'react-bootstrap/lib/Input'
+import {Checkbox} from 'react-bootstrap'
 
 import {connect} from 'react-redux'
 import {setLanguages as setLanguageAction} from 'src/actions/editor.js'
@@ -31,7 +31,7 @@ class HelLanguageSelect extends React.Component {
     render() {
         let checkboxes = this.props.options.map((item, index) => {
             let checked = this.props.checked && (this.props.checked.indexOf(item.value) > -1)
-            return (<Input
+            return (<Checkbox
                 type="checkbox"
                 style={{width: 'auto'}}
                 groupClassName="hel-checkbox inline"

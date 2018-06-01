@@ -3,7 +3,7 @@ import './HelTextField.scss'
 import PropTypes from 'prop-types';
 
 import React from 'react'
-import Input from 'react-bootstrap/lib/Input.js'
+import {FormControl} from 'react-bootstrap'
 import {setData} from 'src/actions/editor.js'
 
 import {injectIntl} from 'react-intl'
@@ -178,7 +178,7 @@ class HelTextField extends React.Component {
 
         return (
             <span style={{position: 'relative'}}>
-                <Input
+                <FormControl
                     type={type}
                     value={this.state.value}
                     label={label}

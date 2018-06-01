@@ -3,7 +3,7 @@ import './HelCheckbox.scss'
 import PropTypes from 'prop-types';
 
 import React from 'react'
-import Input from 'react-bootstrap/lib/Input.js'
+import {Checkbox} from 'react-bootstrap'
 
 import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
@@ -54,7 +54,7 @@ class HelCheckbox extends React.Component {
         }
 
         return (
-            <Input
+            <Checkbox
                 ref="checkbox"
                 type="checkbox"
                 label={label}

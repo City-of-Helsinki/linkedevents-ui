@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
-import Input from 'react-bootstrap/lib/Input'
+import {Checkbox} from 'react-bootstrap'
 
 import _ from 'lodash'
 
@@ -53,7 +53,7 @@ class HelLabeledCheckboxGroup extends React.Component {
 
             return (
                 <span key={index} className={(this.props.itemClassName || '')}>
-                    <Input
+                    <Checkbox
                         type="checkbox"
                         groupClassName="hel-checkbox"
                         label={item.label}
