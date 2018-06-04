@@ -8,8 +8,7 @@ import ReactDOM from 'react-dom'
 import {connect} from 'react-redux'
 
 import HelDatePicker from '../HelFormFields/HelDatePicker'
-import Button from 'react-bootstrap/lib/Button.js'
-import {FormControl} from 'react-bootstrap'
+import {Button, FormControl} from 'react-bootstrap'
 
 class SearchBar extends React.Component {
 

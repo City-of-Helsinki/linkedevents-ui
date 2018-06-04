@@ -56,7 +56,6 @@ class HelCheckbox extends React.Component {
         return (
             <Checkbox
                 ref="checkbox"
-                type="checkbox"
                 label={label}
                 name={this.props.name}
                 groupClassName="hel-checkbox"
