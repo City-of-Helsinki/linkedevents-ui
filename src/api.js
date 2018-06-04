@@ -19,7 +19,7 @@ class API {
             },
             {
                 value: 'zh_hans',
-                label: 'in-zh',
+                label: 'in-zh_hans',
             },
             {
                 value: 'ar',
