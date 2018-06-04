@@ -29,7 +29,7 @@ class HelTextField extends React.Component {
     }
 
     getValue() {
-        return this.refs.text.getValue()
+        return this.refs.text.value
     }
 
     componentWillReceiveProps(nextProps) {
@@ -42,15 +42,16 @@ class HelTextField extends React.Component {
     }
 
     handleChange(event) {
+        console.log(this.refs)
         this.setState({
-            value: this.refs.text.getValue(),
+            value: this.refs.text.value,
         })
 
         this.recalculateHeight()
         this.setValidationErrorsToState()
 
         if(typeof this.props.onChange === 'function') {
-            this.props.onChange(event, this.refs.text.getValue())
+            this.props.onChange(event, this.refs.text.value)
         }
     }
 
@@ -81,7 +82,7 @@ class HelTextField extends React.Component {
             !this.props.name.includes('time') ||
             this.props.name && this.props.forceApplyToStore) {
             let obj = {}
-            obj[this.props.name] = this.refs.text.getValue()
+            obj[this.props.name] = this.refs.text.text
             this.context.dispatch(setData(obj))
             if (this.props.setDirtyState) {
                 this.props.setDirtyState()
@@ -89,7 +90,7 @@ class HelTextField extends React.Component {
         }
 
         if(typeof this.props.onBlur === 'function') {
-            this.props.onBlur(event, this.refs.text.getValue())
+            this.props.onBlur(event, this.refs.text.value)
         }
     }
 
@@ -106,12 +107,12 @@ class HelTextField extends React.Component {
     }
 
     getValidationErrors() {
-        if(this.refs.text && this.refs.text.getValue() && this.props.validations && this.props.validations.length) {
+        if(this.refs.text && this.refs.text.value && this.props.validations && this.props.validations.length) {
             let validations = this.props.validations.map(item => {
                 if(typeof validationRules[item] === 'function') {
                     return {
                         rule: item,
-                        passed: validationRules[item](null, this.refs.text.getValue()),
+                        passed: validationRules[item](null, this.refs.text.value),
                     }
                 } else {
                     return {
