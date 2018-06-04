@@ -18,7 +18,7 @@ let helRawStyle = {
         primary2Color: Colors.cyan700,
         primary3Color: Colors.gray700,
         accent1Color: '#48a3e7',
-        accent2Color: '#0072c6',
+        accent2Color: '#1B914A',
         accent3Color: Colors.grey500,
         textColor: Colors.black,
         alternateTextColor: Colors.white,
@@ -57,17 +57,17 @@ let helRawStyle = {
         },
         MuiToolbar: {
             root: {
-                backgroundColor: '#0072c6',
+                backgroundColor: '#1B914A',
             },
         },
         MuiSnackbar: {
             root: {
-                backgroundColor: '#0072c6',
+                backgroundColor: '#1B914A',
             },
         },
         MuiSnackbarContent: {
             root: {
-                backgroundColor: '#0072c6',
+                backgroundColor: '#1B914A',
             },
         },
         MuiTable: {
