@@ -38,7 +38,7 @@ class HelCheckbox extends React.Component {
     }
 
     getValue() {
-        return this.refs.checkbox.getChecked()
+        return this.checkboxRef.value
     }
 
     render() {
@@ -55,13 +55,14 @@ class HelCheckbox extends React.Component {
 
         return (
             <Checkbox
-                ref="checkbox"
-                label={label}
+                inputRef={ref => this.checkboxRef = ref}
                 name={this.props.name}
-                groupClassName="hel-checkbox"
+                className="hel-checkbox"
                 onChange={this.handleCheck}
                 checked={this.props.defaultChecked}
-            />
+            >
+                {label}
+            </Checkbox>
         )
     }
 }

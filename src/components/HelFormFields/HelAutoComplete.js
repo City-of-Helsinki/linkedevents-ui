@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react'
 
-import {FormControl} from 'react-bootstrap'
+import {FormControl, ControlLabel} from 'react-bootstrap'
 import Select from 'react-select'
 
 import Typeahead from 'src/typeahead.js'
@@ -105,13 +105,15 @@ class HelAutoComplete extends React.Component {
                     />
                 </div>
                 <div >
+                    <ControlLabel className="hel-label">
+                        {this.context.intl.formatMessage({id: 'event-location-id'})}
+                    </ControlLabel>
+                    
                     <FormControl
                         type="text"
                         value={values.id ? values.id : ''}
-                        label={this.context.intl.formatMessage({id: 'event-location-id'})}
                         ref="text"
-                        groupClassName="hel-text-field"
-                        labelClassName="hel-label"
+                        className="hel-text-field"
                         disabled
                     />
                 </div>

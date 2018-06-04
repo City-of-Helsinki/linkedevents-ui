@@ -54,15 +54,13 @@ class HelLabeledCheckboxGroup extends React.Component {
             return (
                 <span key={index} className={(this.props.itemClassName || '')}>
                     <Checkbox
-                        groupClassName="hel-checkbox"
-                        label={item.label}
+                        className="hel-checkbox"
                         value={item.value}
                         name={this.props.name + '.' + item.value}
                         ref={index}
                         checked={checked}
-                        defaultChecked={checked}
                         onChange={self.handleChange}
-                    />
+                    >{item.label}</Checkbox>
                 </span>
             )
         },this)
