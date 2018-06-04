@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom'
 import {connect} from 'react-redux'
 
 import HelDatePicker from '../HelFormFields/HelDatePicker'
-import {Button, FormControl} from 'react-bootstrap'
+import {Button, FormControl, ControlLabel} from 'react-bootstrap'
 
 class SearchBar extends React.Component {
 
@@ -63,15 +63,18 @@ class SearchBar extends React.Component {
                     />
                 </div>
                 <div className="col-sm-8 col-xs-12">
-                    <FormControl
-                        type="text"
-                        placeholder="Tapahtuman nimi tai paikka"
-                        label="Tapahtuman nimi tai paikka"
-                        onChange={ (e) => this.handleStringChange(e) }
-                        ref="searchQueryInput"
-                        className="text-field"
-                        autoFocus
-                    />
+                    <div className="text-field">
+                        <ControlLabel>
+                            Tapahtuman nimi tai paikka
+                        </ControlLabel>
+                        <FormControl
+                            type="text"
+                            placeholder="Tapahtuman nimi tai paikka"
+                            onChange={ (e) => this.handleStringChange(e) }
+                            ref="searchQueryInput"
+                            autoFocus
+                        />
+                    </div>
                 </div>
                 <div className="col-sm-4 col-xs-12">
                     <Button style={{height: '72px'}}

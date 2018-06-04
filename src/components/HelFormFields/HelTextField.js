@@ -176,23 +176,23 @@ class HelTextField extends React.Component {
 
         return (
             <span style={{position: 'relative'}}>
-                <ControlLabel className="hel-label relative">{label}</ControlLabel>
-                <FormControl
-                    type={type}
-                    value={this.state.value}
-                    placeholder={this.props.placeholder}
-                    // help="Validation is based on string length."
-                    // bsStyle={this.validationState()} // TODO: Check glyph styling, now it shows success for empty values
-                    // hasFeedback
-                    inputRef={ref => this.inputRef = ref}
-                    className={groupClassName}
-                    onChange={this.handleChange}
-                    onBlur={this.handleBlur}
-                    name={this.props.name}
-                    rows="1"
-                    disabled={this.props.disabled}
-                />
-                <HelpBlock>{this.helpText()}</HelpBlock>
+                <div className={groupClassName}>
+                    <ControlLabel className="hel-label relative">{label}</ControlLabel>
+                    <FormControl
+                        type={type}
+                        value={this.state.value}
+                        placeholder={this.props.placeholder}
+                        // bsStyle={this.validationState()} // TODO: Check glyph styling, now it shows success for empty values
+                        // hasFeedback
+                        inputRef={ref => this.inputRef = ref}
+                        onChange={this.handleChange}
+                        onBlur={this.handleBlur}
+                        name={this.props.name}
+                        rows="1"
+                        disabled={this.props.disabled}
+                    />
+                    <HelpBlock>{this.helpText()}</HelpBlock>
+                </div>
             </span>
         )
     }
