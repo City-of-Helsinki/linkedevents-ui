@@ -20,7 +20,6 @@ class HelLanguageSelect extends React.Component {
     onChange(e) {
         let checked = _.filter(this.refs, (ref) => (ref.getChecked()))
         let checkedNames = _.map(checked, (checkbox) => (checkbox.props.name) )
-
         this.props.setLanguages(checkedNames)
 
         if(typeof this.props.onChange === 'function') {
@@ -32,16 +31,16 @@ class HelLanguageSelect extends React.Component {
         let checkboxes = this.props.options.map((item, index) => {
             let checked = this.props.checked && (this.props.checked.indexOf(item.value) > -1)
             return (<Checkbox
-                type="checkbox"
                 style={{width: 'auto'}}
-                groupClassName="hel-checkbox inline"
+                className="hel-checkbox inline"
                 ref={index}
                 key={index}
-                label={<FormattedMessage id={item.label} />}
                 name={item.value}
                 checked={checked}
                 onChange={e => this.onChange(e)}
-            />)
+            >
+                <FormattedMessage id={item.label} />
+            </Checkbox>)
         })
 
         return (

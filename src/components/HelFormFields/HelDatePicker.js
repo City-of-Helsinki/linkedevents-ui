@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react'
 import HelTextField from './HelTextField.js'
-import DatePicker from 'react-datepicker/dist/react-datepicker.js'
+import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import './HelDatePicker.scss'
 

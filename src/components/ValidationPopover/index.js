@@ -1,5 +1,5 @@
 import React from 'react'
-import Popover from 'react-bootstrap/lib/Popover'
+import {Popover} from 'react-bootstrap'
 import './index.scss';
 import PropTypes from 'prop-types'
 
