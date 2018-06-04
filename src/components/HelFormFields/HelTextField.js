@@ -1,9 +1,8 @@
 import './HelTextField.scss'
 
 import PropTypes from 'prop-types';
-
 import React from 'react'
-import {FormControl} from 'react-bootstrap'
+import {FormControl, ControlLabel, HelpBlock} from 'react-bootstrap'
 import {setData} from 'src/actions/editor.js'
 
 import {injectIntl} from 'react-intl'
@@ -29,7 +28,7 @@ class HelTextField extends React.Component {
     }
 
     getValue() {
-        return this.refs.text.value
+        return this.inputRef.value
     }
 
     componentWillReceiveProps(nextProps) {
@@ -42,16 +41,15 @@ class HelTextField extends React.Component {
     }
 
     handleChange(event) {
-        console.log(this.refs)
         this.setState({
-            value: this.refs.text.value,
+            value: this.inputRef.value,
         })
 
         this.recalculateHeight()
         this.setValidationErrorsToState()
 
         if(typeof this.props.onChange === 'function') {
-            this.props.onChange(event, this.refs.text.value)
+            this.props.onChange(event, this.inputRef.value)
         }
     }
 
@@ -82,7 +80,7 @@ class HelTextField extends React.Component {
             !this.props.name.includes('time') ||
             this.props.name && this.props.forceApplyToStore) {
             let obj = {}
-            obj[this.props.name] = this.refs.text.text
+            obj[this.props.name] = this.inputRef.text
             this.context.dispatch(setData(obj))
             if (this.props.setDirtyState) {
                 this.props.setDirtyState()
@@ -90,7 +88,7 @@ class HelTextField extends React.Component {
         }
 
         if(typeof this.props.onBlur === 'function') {
-            this.props.onBlur(event, this.refs.text.value)
+            this.props.onBlur(event, this.inputRef.value)
         }
     }
 
@@ -101,18 +99,17 @@ class HelTextField extends React.Component {
 
     recalculateHeight() {
         if(this.props.multiLine) {
-            this.refs.text.getInputDOMNode().style.height = 0;
-            this.refs.text.getInputDOMNode().style.height = this.refs.text.getInputDOMNode().scrollHeight + 2 + 'px';
+            this.inputRef.height = this.inputRef.scrollHeight + 2 + 'px';
         }
     }
 
     getValidationErrors() {
-        if(this.refs.text && this.refs.text.value && this.props.validations && this.props.validations.length) {
+        if(this.inputRef && this.inputRef.value && this.props.validations && this.props.validations.length) {
             let validations = this.props.validations.map(item => {
                 if(typeof validationRules[item] === 'function') {
                     return {
                         rule: item,
-                        passed: validationRules[item](null, this.refs.text.value),
+                        passed: validationRules[item](null, this.inputRef.value),
                     }
                 } else {
                     return {
@@ -179,24 +176,23 @@ class HelTextField extends React.Component {
 
         return (
             <span style={{position: 'relative'}}>
+                <ControlLabel className="hel-label relative">{label}</ControlLabel>
                 <FormControl
                     type={type}
                     value={this.state.value}
-                    label={label}
                     placeholder={this.props.placeholder}
                     // help="Validation is based on string length."
                     // bsStyle={this.validationState()} // TODO: Check glyph styling, now it shows success for empty values
-                    hasFeedback
-                    ref="text"
-                    groupClassName={groupClassName}
-                    labelClassName="hel-label relative"
+                    // hasFeedback
+                    inputRef={ref => this.inputRef = ref}
+                    className={groupClassName}
                     onChange={this.handleChange}
                     onBlur={this.handleBlur}
                     name={this.props.name}
                     rows="1"
-                    help={this.helpText()}
                     disabled={this.props.disabled}
                 />
+                <HelpBlock>{this.helpText()}</HelpBlock>
             </span>
         )
     }

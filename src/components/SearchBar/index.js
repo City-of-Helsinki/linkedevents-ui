@@ -69,7 +69,7 @@ class SearchBar extends React.Component {
                         label="Tapahtuman nimi tai paikka"
                         onChange={ (e) => this.handleStringChange(e) }
                         ref="searchQueryInput"
-                        groupClassName="text-field"
+                        className="text-field"
                         autoFocus
                     />
                 </div>
