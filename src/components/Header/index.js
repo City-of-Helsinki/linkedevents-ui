@@ -30,7 +30,7 @@ class HeaderBar extends React.Component {
         let navstyle = {
             width: '100%',
             display: 'grid',
-            'grid-template-columns': '50% 50%',
+            'grid-template-columns': '20% 60% 20%',
         }
         let verticalAlignMiddle = {verticalAlign: 'middle'}
 
@@ -56,9 +56,9 @@ class HeaderBar extends React.Component {
                     <div className="navbar-links">
                         <Button className="mui-flat-button" style={buttonStyle2} onClick={() => this.props.routerPush('/')}><FormattedMessage id="organization-events"/><List/></Button>
                         <Button className="mui-flat-button" style={buttonStyle2} onClick={() => this.props.routerPush('/search')}><FormattedMessage id="search-events"/><Search/></Button>
-                        <Button className="mui-flat-button" style={{...buttonStyle2,...verticalAlignMiddle}} onClick={() => this.props.routerPush('/help')}><HelpOutline/></Button>
-                        <Button className="mui-flat-button" style={buttonStyle2} onClick={() => this.props.routerPush('/event/create/new')}><FormattedMessage id="create-event"/><Add/></Button>
+                        <Button className="mui-flat-button" style={{...buttonStyle2,...verticalAlignMiddle}} onClick={() => this.props.routerPush('/help')}><HelpOutline/> HelpOutline</Button>
                     </div>
+                    <Button className="mui-flat-button" style={buttonStyle2} onClick={() => this.props.routerPush('/event/create/new')}><FormattedMessage id="create-event"/><Add/></Button>
                 </div>
             </div>
         )

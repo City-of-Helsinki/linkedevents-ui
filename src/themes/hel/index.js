@@ -4,6 +4,7 @@ import {createMuiTheme} from 'material-ui/styles'
 import green from 'material-ui/colors/green'
 import cyan from 'material-ui/colors/cyan'
 
+
 let helCyan = {
     ...cyan,
     A200: '#00bcd4',
@@ -58,17 +59,17 @@ let helRawStyle = {
         },
         MuiToolbar: {
             root: {
-                backgroundColor: '#1B914A',
+                backgroundColor: '#009246',
             },
         },
         MuiSnackbar: {
             root: {
-                backgroundColor: '#1B914A',
+                backgroundColor: '#009246',
             },
         },
         MuiSnackbarContent: {
             root: {
-                backgroundColor: '#1B914A',
+                backgroundColor: '#009246',
             },
         },
         MuiTable: {
@@ -117,7 +118,7 @@ let helTheme = createMuiTheme(helRawStyle)
 let headerTheme = createMuiTheme(helHeaderRawStyle)
 
 // Override specific component styles
-headerTheme.mixins.toolbar.backgroundColor = '#0072c6'
+headerTheme.mixins.toolbar.backgroundColor = '#009246'
 headerTheme.mixins.toolbar.height = 56
 headerTheme.mixins.toolbar.titleFontSize = 20
 headerTheme.mixins.toolbar.iconColor = '#ffffff'
