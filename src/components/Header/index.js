@@ -16,40 +16,51 @@ import List from 'material-ui-icons/List'
 import Search from 'material-ui-icons/Search'
 import Add from 'material-ui-icons/Add'
 import HelpOutline from 'material-ui-icons/HelpOutline'
+import Person from 'material-ui-icons/Person'
 
 import {Link} from 'react-router-dom'
 
-import cityOfHelsinkiLogo from 'src/assets/images/helsinki-coat-of-arms-white.png'
+import cityOfHelsinkiLogo from 'src/assets/images/helsinki-logo.1.svg'
 
 class HeaderBar extends React.Component {
 
     render() {
         let buttonStyle = {color: '#ffffff'}
+        let buttonStyle2 = {color: '#000000'}
+        let navstyle = {
+            width: '100%',
+            display: 'grid',
+            'grid-template-columns': '50% 50%',
+        }
         let verticalAlignMiddle = {verticalAlign: 'middle'}
 
         // NOTE: mockup for login button functionality
-        let loginButton = <Button style={buttonStyle} onClick={() => this.props.login()}><FormattedMessage id="login"/></Button>
+        let loginButton = <Button style={buttonStyle} onClick={() => this.props.login()}><Person/><FormattedMessage id="login"/></Button>
         if(this.props.user) {
             loginButton = <Button style={buttonStyle} onClick={() => this.props.logout()}>{this.props.user.displayName}</Button>
         }
         return (
-            <Toolbar className="mui-toolbar">
-                <div>
-                    <Link to="/" className="title">
-                        <img className="title-image" src={cityOfHelsinkiLogo} alt="City Of Helsinki" />
-                        <div className="title-text">Linked Events</div>
-                    </Link>
+            <div>
+                <Toolbar className="mui-toolbar">
+                    <div>
+                        <Link to="/" className="title">
+                            <img className="title-image" src={cityOfHelsinkiLogo} alt="City Of Helsinki" />
+                        </Link>
+                    </div>
+                    <div>
+                        {loginButton}
+                    </div>
+                </Toolbar>
+                <div className="navlinksHolder" style={navstyle}>
+                    <div className="title-text" style={{'justify-self': 'center', color:'#1B914A', fontWeight:700, alignSelf:'center'}}>Linked Courses</div>
+                    <div className="navbar-links">
+                        <Button className="mui-flat-button" style={buttonStyle2} onClick={() => this.props.routerPush('/')}><FormattedMessage id="organization-events"/><List/></Button>
+                        <Button className="mui-flat-button" style={buttonStyle2} onClick={() => this.props.routerPush('/search')}><FormattedMessage id="search-events"/><Search/></Button>
+                        <Button className="mui-flat-button" style={{...buttonStyle2,...verticalAlignMiddle}} onClick={() => this.props.routerPush('/help')}><HelpOutline/></Button>
+                        <Button className="mui-flat-button" style={buttonStyle2} onClick={() => this.props.routerPush('/event/create/new')}><FormattedMessage id="create-event"/><Add/></Button>
+                    </div>
                 </div>
-                <div className="navbar-links">
-                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.routerPush('/')}><FormattedMessage id="organization-events"/><List/></Button>
-                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.routerPush('/search')}><FormattedMessage id="search-events"/><Search/></Button>
-                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.routerPush('/event/create/new')}><FormattedMessage id="create-event"/><Add/></Button>
-                </div>
-                <div>
-                    <Button className="mui-flat-button" style={{...buttonStyle,...verticalAlignMiddle}} onClick={() => this.props.routerPush('/help')}><HelpOutline/></Button>
-                    {loginButton}
-                </div>
-            </Toolbar>
+            </div>
         )
     }
 }
