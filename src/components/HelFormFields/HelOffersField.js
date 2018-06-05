@@ -35,13 +35,13 @@ class HelOffersField extends React.Component {
         };
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         if (this.props.defaultValue && this.props.defaultValue.length) {
             this.setState({values: this.props.defaultValue})
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.defaultValue && nextProps.defaultValue !== this.state.values) {
             this.setState({values: nextProps.defaultValue})
         }

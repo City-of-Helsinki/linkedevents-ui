@@ -3,7 +3,7 @@ import '!style-loader!css-loader!sass-loader!./index.scss'
 import React from 'react';
 import PropTypes from 'prop-types'
 import {injectIntl} from 'react-intl'
-import Modal from 'react-bootstrap/lib/Modal';
+import {Modal} from 'react-bootstrap';
 import {Button} from 'material-ui'
 import {postImage as postImageAction} from 'src/actions/userImages.js'
 import {connect} from 'react-redux'
@@ -110,9 +110,9 @@ ImageEdit.propTypes = {
     defaultName: PropTypes.string,
     defaultPhotographerName: PropTypes.string,
     license: PropTypes.string,
-    imageFile: PropTypes.string,
+    imageFile: PropTypes.object,
     thumbnailUrl: PropTypes.string,
-    postImage: PropTypes.string,
+    postImage: PropTypes.func,
     user: PropTypes.object,
     id: PropTypes.number,
     close: PropTypes.func,

@@ -44,14 +44,7 @@ import Validator from './actors/validator'
 // JA addition
 import Serializer from './actors/serializer';
 import {report} from './utils/raven_reporter';
-import Modal from 'react-bootstrap/lib/Modal';
-import Button from 'react-bootstrap/lib/Button';
-import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-
-// Initialize tap event plugin
-import injectTapEventPlugin from 'react-tap-event-plugin'
-
-injectTapEventPlugin()
+import {Modal, Button, Glyphicon} from 'react-bootstrap';
 
 const history = createHistory()
 

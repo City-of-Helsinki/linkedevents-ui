@@ -1,9 +1,8 @@
 import './HelTextField.scss'
 
 import PropTypes from 'prop-types';
-
 import React from 'react'
-import Input from 'react-bootstrap/lib/Input.js'
+import {FormControl, ControlLabel, HelpBlock} from 'react-bootstrap'
 import {setData} from 'src/actions/editor.js'
 
 import {injectIntl} from 'react-intl'
@@ -29,10 +28,10 @@ class HelTextField extends React.Component {
     }
 
     getValue() {
-        return this.refs.text.getValue()
+        return this.inputRef.value
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if(!(_.isEqual(nextProps.defaultValue, this.props.defaultValue))) {
             // Bootstrap or React textarea has a bug where null value gets interpreted
             // as uncontrolled, so no updates are done
@@ -43,14 +42,14 @@ class HelTextField extends React.Component {
 
     handleChange(event) {
         this.setState({
-            value: this.refs.text.getValue(),
+            value: this.inputRef.value,
         })
 
         this.recalculateHeight()
         this.setValidationErrorsToState()
 
         if(typeof this.props.onChange === 'function') {
-            this.props.onChange(event, this.refs.text.getValue())
+            this.props.onChange(event, this.inputRef.value)
         }
     }
 
@@ -81,7 +80,7 @@ class HelTextField extends React.Component {
             !this.props.name.includes('time') ||
             this.props.name && this.props.forceApplyToStore) {
             let obj = {}
-            obj[this.props.name] = this.refs.text.getValue()
+            obj[this.props.name] = this.inputRef.value
             this.context.dispatch(setData(obj))
             if (this.props.setDirtyState) {
                 this.props.setDirtyState()
@@ -89,7 +88,7 @@ class HelTextField extends React.Component {
         }
 
         if(typeof this.props.onBlur === 'function') {
-            this.props.onBlur(event, this.refs.text.getValue())
+            this.props.onBlur(event, this.inputRef.value)
         }
     }
 
@@ -100,18 +99,17 @@ class HelTextField extends React.Component {
 
     recalculateHeight() {
         if(this.props.multiLine) {
-            this.refs.text.getInputDOMNode().style.height = 0;
-            this.refs.text.getInputDOMNode().style.height = this.refs.text.getInputDOMNode().scrollHeight + 2 + 'px';
+            this.inputRef.height = this.inputRef.scrollHeight + 2 + 'px';
         }
     }
 
     getValidationErrors() {
-        if(this.refs.text && this.refs.text.getValue() && this.props.validations && this.props.validations.length) {
+        if(this.inputRef && this.inputRef.value && this.props.validations && this.props.validations.length) {
             let validations = this.props.validations.map(item => {
                 if(typeof validationRules[item] === 'function') {
                     return {
                         rule: item,
-                        passed: validationRules[item](null, this.refs.text.getValue()),
+                        passed: validationRules[item](null, this.inputRef.value),
                     }
                 } else {
                     return {
@@ -161,7 +159,7 @@ class HelTextField extends React.Component {
             requiredElem = (<span>*</span>)
         }
 
-        label = (<span style={{position: 'relative'}}>{label} {requiredElem} <ValidationPopover small validationErrors={this.props.validationErrors} index={this.props.index} /></span>)
+        label = (<span style={{position: 'relative'}}>{label} {requiredElem} <ValidationPopover small={true} validationErrors={this.props.validationErrors} index={this.props.index} /></span>)
 
         let groupClassName = 'hel-text-field'
         if(this.props.disabled) {
@@ -178,24 +176,22 @@ class HelTextField extends React.Component {
 
         return (
             <span style={{position: 'relative'}}>
-                <Input
-                    type={type}
-                    value={this.state.value}
-                    label={label}
-                    placeholder={this.props.placeholder}
-                    // help="Validation is based on string length."
-                    // bsStyle={this.validationState()} // TODO: Check glyph styling, now it shows success for empty values
-                    hasFeedback
-                    ref="text"
-                    groupClassName={groupClassName}
-                    labelClassName="hel-label relative"
-                    onChange={this.handleChange}
-                    onBlur={this.handleBlur}
-                    name={this.props.name}
-                    rows="1"
-                    help={this.helpText()}
-                    disabled={this.props.disabled}
-                />
+                <div className={groupClassName}>
+                    <ControlLabel className="hel-label relative">{label}</ControlLabel>
+                    <FormControl
+                        type={type}
+                        value={this.state.value}
+                        placeholder={this.props.placeholder}
+                        // bsStyle={this.validationState()} // TODO: Check glyph styling, now it shows success for empty values
+                        inputRef={ref => this.inputRef = ref}
+                        onChange={this.handleChange}
+                        onBlur={this.handleBlur}
+                        name={this.props.name}
+                        rows="1"
+                        disabled={this.props.disabled}
+                    />
+                    <HelpBlock>{this.helpText()}</HelpBlock>
+                </div>
             </span>
         )
     }
@@ -217,7 +213,7 @@ HelTextField.propTypes = {
         PropTypes.object,
     ]),
     validationErrors: PropTypes.array,
-    index: PropTypes.number,
+    index: PropTypes.string,
     disabled: PropTypes.bool,
     type: PropTypes.string,
 }

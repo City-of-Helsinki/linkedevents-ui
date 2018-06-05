@@ -3,7 +3,7 @@ import './HelCheckbox.scss'
 import PropTypes from 'prop-types';
 
 import React from 'react'
-import Input from 'react-bootstrap/lib/Input.js'
+import {Checkbox} from 'react-bootstrap'
 
 import {connect} from 'react-redux'
 import {setData} from 'src/actions/editor.js'
@@ -38,7 +38,7 @@ class HelCheckbox extends React.Component {
     }
 
     getValue() {
-        return this.refs.checkbox.getChecked()
+        return this.checkboxRef.value
     }
 
     render() {
@@ -54,15 +54,15 @@ class HelCheckbox extends React.Component {
         }
 
         return (
-            <Input
-                ref="checkbox"
-                type="checkbox"
-                label={label}
+            <Checkbox
+                inputRef={ref => this.checkboxRef = ref}
                 name={this.props.name}
-                groupClassName="hel-checkbox"
+                className="hel-checkbox"
                 onChange={this.handleCheck}
                 checked={this.props.defaultChecked}
-            />
+            >
+                {label}
+            </Checkbox>
         )
     }
 }
