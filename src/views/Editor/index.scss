@@ -1,3 +1,4 @@
+$languageCheckboxInitialWidth: 30%;
 .editor-page {
 
     font-weight: 300;
@@ -42,24 +43,18 @@
             line-height: 1.5;
         }
 
-        .spread-evenly,
-        .spread-right {
-            flex-wrap: wrap;
-            height: 100%;
-        }
-
-        .hel-checkbox {
-            display: inline-block;
-            margin-right: 16px;
-        }
-
         .language-selection {
             height: 100%;
             width: 100%;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            .hel-checkbox {
+                flex-basis: $languageCheckboxInitialWidth;
 
-            label {
-                font-size: 20px;
-                padding-right: 30px;
+                label {
+                    font-size: 20px;
+                }
             }
         }
     }
