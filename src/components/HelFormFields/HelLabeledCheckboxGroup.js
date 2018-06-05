@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
-import Input from 'react-bootstrap/lib/Input'
+import {Checkbox} from 'react-bootstrap'
 
 import _ from 'lodash'
 
@@ -19,8 +19,16 @@ class HelLabeledCheckboxGroup extends React.Component {
     }
     
     handleChange() {
-        let checked = _.filter(this.refs, (ref) => (ref.getChecked()))
-        let checkedNames = _.map(checked, (checkbox) => (checkbox.props.value) )
+        const {options} = this.props
+
+        let checked = options.reduce((ac, op, index) => {
+            if(this[`checkRef${index}`].checked) {
+                ac.push(this[`checkRef${index}`]) 
+            }
+            return ac
+        }, [])
+
+        let checkedNames = _.map(checked, (checkbox) => (checkbox.value) )
 
         if(this.props.name) {
             let obj = {}
@@ -53,17 +61,14 @@ class HelLabeledCheckboxGroup extends React.Component {
 
             return (
                 <span key={index} className={(this.props.itemClassName || '')}>
-                    <Input
-                        type="checkbox"
-                        groupClassName="hel-checkbox"
-                        label={item.label}
+                    <Checkbox
+                        className="hel-checkbox"
                         value={item.value}
                         name={this.props.name + '.' + item.value}
-                        ref={index}
+                        inputRef={ref => this[`checkRef${index}`] = ref}
                         checked={checked}
-                        defaultChecked={checked}
                         onChange={self.handleChange}
-                    />
+                    >{item.label}</Checkbox>
                 </span>
             )
         },this)

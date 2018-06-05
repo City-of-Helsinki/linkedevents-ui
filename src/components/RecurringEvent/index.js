@@ -219,7 +219,7 @@ class RecurringEvent extends React.Component {
         }
         return dayElements
     }
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         if(this.props.values.start_time) {
             let newDays = Object.assign({}, this.state.daysSelected)
             for(const key in newDays) {
@@ -264,8 +264,8 @@ class RecurringEvent extends React.Component {
                     <div>
                         <span className="dates-label">
                             Toistopäivät
-                            <ValidationPopover small validationErrors={(this.state.errors.atLeastOneIsTrue ? ['atLeastOneIsTrue'] : '')} />
-                            <ValidationPopover small validationErrors={(this.state.errors.daysWithinInterval ? ['daysWithinInterval'] : '')} />
+                            <ValidationPopover small={true} validationErrors={(this.state.errors.atLeastOneIsTrue ? ['atLeastOneIsTrue'] : '')} />
+                            <ValidationPopover small={true} validationErrors={(this.state.errors.daysWithinInterval ? ['daysWithinInterval'] : '')} />
                         </span>
                     </div>
                     { days }
@@ -290,11 +290,11 @@ class RecurringEvent extends React.Component {
                         />
                     </div>
                     <div className="col-xs-6 multi-field recurring-times">
-                        <span className="label-wrapper"><FormattedMessage id="repetition-start-time" /><ValidationPopover small validationErrors={(this.state.errors.isTime ? ['isTime'] : '')} /></span>
+                        <span className="label-wrapper"><FormattedMessage id="repetition-start-time" /><ValidationPopover small={true} validationErrors={(this.state.errors.isTime ? ['isTime'] : '')} /></span>
                         <RecurringTimePicker name="recurringStartTime" time={this.state.recurringStartTime} onChange={this.onTimeChange} onBlur={this.onTimeChange} />
                     </div>
                     <div className="col-xs-6 multi-field recurring-times">
-                        <span className="label-wrapper"><FormattedMessage id="repetition-end-time" /><ValidationPopover small validationErrors={(this.state.errors.isTime ? ['isTime'] : '')} /></span>
+                        <span className="label-wrapper"><FormattedMessage id="repetition-end-time" /><ValidationPopover small={true} validationErrors={(this.state.errors.isTime ? ['isTime'] : '')} /></span>
                         <RecurringTimePicker name="recurringEndTime" time={this.state.recurringEndTime} onChange={this.onTimeChange} onBlur={this.onTimeChange} />
                     </div>
                     <div className="col-xs-12">

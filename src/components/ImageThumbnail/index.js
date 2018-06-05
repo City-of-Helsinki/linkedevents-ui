@@ -15,6 +15,8 @@ class ImageThumbnail extends React.Component {
         this.state = {
             edit: false,
         }
+
+        this.selectThis = this.selectThis.bind(this)
     }
 
     selectThis() {
@@ -28,7 +30,7 @@ class ImageThumbnail extends React.Component {
         if(this.props.empty) {
             classname += ' no-image'
             return (
-                <div className="col-md-3 col-xs-12" onClick={() => this.selectThis()} id={this.props.data.id}>
+                <div className="col-md-3 col-xs-12" onClick={this.selectThis} id={this.props.data.id}>
                     <div className={classname}>
                         <div className="thumbnail" style={{backgroundColor: 'lightgray'}} />
                         <div className="no-image-text"><FormattedMessage id="no-image" /></div>
@@ -40,7 +42,7 @@ class ImageThumbnail extends React.Component {
         let bgStyle = {backgroundImage: 'url(' + this.props.url + ')'}
 
         return (
-            <div className="col-md-3 col-xs-12" onClick={() => this.selectThis()} id={this.props.data.id}>
+            <div className="col-md-3 col-xs-12" onClick={this.selectThis} id={this.props.data.id}>
                 <div className={classname}>
                     <div className="thumbnail" style={bgStyle} />
                     <div className="name edit-image" onClick={() => this.setState({edit: true})}>{this.props.data.name || 'Edit image'}<i className="material-icons edit-icon">&#xE869;</i></div>
@@ -71,4 +73,4 @@ ImageThumbnail.propTypes = {
 const mapDispatchToProps = (dispatch) => ({
     selectImage: (data) => dispatch(selectImageAction(data)),
 })
-export default connect()(injectIntl(ImageThumbnail))
+export default connect(null, mapDispatchToProps)(injectIntl(ImageThumbnail))

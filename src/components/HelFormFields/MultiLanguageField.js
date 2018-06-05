@@ -44,7 +44,7 @@ class MultiLanguageField extends React.Component {
         required: PropTypes.bool,
         validations: PropTypes.array,
         validationErrors: PropTypes.array,
-        index: PropTypes.number,
+        index: PropTypes.string,
         multiLine: PropTypes.bool,
     }
     
@@ -92,7 +92,7 @@ class MultiLanguageField extends React.Component {
         return (errors.length === 0)
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
             this.setState({value: nextProps.defaultValue || {}})
         }

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react'
 
-import Input from 'react-bootstrap/lib/Input.js'
+import {FormControl, ControlLabel} from 'react-bootstrap'
 import Select from 'react-select'
 
 import Typeahead from 'src/typeahead.js'
@@ -92,7 +92,7 @@ class HelAutoComplete extends React.Component {
         return (
             <span>
                 <div className="hel-select">
-                    <span className="legend" style={{position: 'relative', width: 'auto'}}>Paikka <ValidationPopover small validationErrors={this.props.validationErrors} /></span>
+                    <span className="legend" style={{position: 'relative', width: 'auto'}}>Paikka <ValidationPopover small={true} validationErrors={this.props.validationErrors} /></span>
                     <Select.Async
                         placeholder={this.props.placeholder}
                         value={ {label: values.name.fi, value: values.id} }
@@ -104,14 +104,15 @@ class HelAutoComplete extends React.Component {
                         optionRenderer={this.optionRenderer}
                     />
                 </div>
-                <div >
-                    <Input
+                <div className="hel-text-field">
+                    <ControlLabel className="hel-label">
+                        {this.context.intl.formatMessage({id: 'event-location-id'})}
+                    </ControlLabel>
+
+                    <FormControl
                         type="text"
                         value={values.id ? values.id : ''}
-                        label={this.context.intl.formatMessage({id: 'event-location-id'})}
                         ref="text"
-                        groupClassName="hel-text-field"
-                        labelClassName="hel-label"
                         disabled
                     />
                 </div>

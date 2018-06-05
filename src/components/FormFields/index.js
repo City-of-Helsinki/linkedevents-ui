@@ -99,7 +99,7 @@ class FormFields extends React.Component {
         };
     }
 
-    componentWillReceiveProps() {
+    UNSAFE_componentWillReceiveProps() {
         this.forceUpdate()
     }
 

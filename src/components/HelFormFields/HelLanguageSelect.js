@@ -4,7 +4,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {FormattedMessage} from 'react-intl'
 
-import Input from 'react-bootstrap/lib/Input'
+import {Checkbox} from 'react-bootstrap'
 
 import {connect} from 'react-redux'
 import {setLanguages as setLanguageAction} from 'src/actions/editor.js'
@@ -15,12 +15,21 @@ class HelLanguageSelect extends React.Component {
 
     constructor(props) {
         super(props)
+
+        this.onChange = this.onChange.bind(this)
     }
 
     onChange(e) {
-        let checked = _.filter(this.refs, (ref) => (ref.getChecked()))
-        let checkedNames = _.map(checked, (checkbox) => (checkbox.props.name) )
+        const {options} = this.props
 
+        let checked = options.reduce((ac, op, index) => {
+            if(this[`checkRef${index}`].checked) {
+                ac.push(this[`checkRef${index}`]) 
+            }
+            return ac
+        }, [])
+
+        let checkedNames = _.map(checked, (checkbox) => (checkbox.name) )
         this.props.setLanguages(checkedNames)
 
         if(typeof this.props.onChange === 'function') {
@@ -31,17 +40,17 @@ class HelLanguageSelect extends React.Component {
     render() {
         let checkboxes = this.props.options.map((item, index) => {
             let checked = this.props.checked && (this.props.checked.indexOf(item.value) > -1)
-            return (<Input
-                type="checkbox"
+            return (<Checkbox
                 style={{width: 'auto'}}
-                groupClassName="hel-checkbox inline"
-                ref={index}
+                className="hel-checkbox inline"
+                inputRef={ref => this[`checkRef${index}`] = ref}
                 key={index}
-                label={<FormattedMessage id={item.label} />}
                 name={item.value}
                 checked={checked}
-                onChange={e => this.onChange(e)}
-            />)
+                onChange={this.onChange}
+            >
+                <FormattedMessage id={item.label} />
+            </Checkbox>)
         })
 
         return (

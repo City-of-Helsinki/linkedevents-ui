@@ -13,7 +13,7 @@ import CONSTANTS from '../../constants'
 
 class EventCreated extends React.Component {
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         const {match, setFlashMsg, routerPush} = this.props
         if(match.params.action !== CONSTANTS.EVENT_CREATION.UPDATE) {
             let headerTranslationId = this.getEventHeaderTranslationId()
