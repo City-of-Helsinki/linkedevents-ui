@@ -46,11 +46,6 @@ import Serializer from './actors/serializer';
 import {report} from './utils/raven_reporter';
 import {Modal, Button, Glyphicon} from 'react-bootstrap';
 
-// Initialize tap event plugin
-import injectTapEventPlugin from 'react-tap-event-plugin'
-
-injectTapEventPlugin()
-
 const history = createHistory()
 
 const allReducers = combineReducers(Object.assign({}, reducers, {

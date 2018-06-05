@@ -31,7 +31,7 @@ class HelTextField extends React.Component {
         return this.inputRef.value
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if(!(_.isEqual(nextProps.defaultValue, this.props.defaultValue))) {
             // Bootstrap or React textarea has a bug where null value gets interpreted
             // as uncontrolled, so no updates are done

@@ -49,7 +49,7 @@ class App extends React.Component {
         }
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         // Prefetch editor related hel.fi categories and event languages
         this.props.fetchKeywordSets()
         this.props.fetchLanguages()
