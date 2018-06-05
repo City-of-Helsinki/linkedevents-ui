@@ -204,7 +204,7 @@ FilterableEventTable.propTypes = {
     changePaginationPage: PropTypes.func,
     events: PropTypes.array,
     fetchComplete: PropTypes.bool,
-    sortBy: PropTypes.func,
+    sortBy: PropTypes.string,
     sortOrder: PropTypes.string,
     user: PropTypes.object,
     count: PropTypes.number,
