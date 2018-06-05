@@ -1,4 +1,3 @@
-// Use Formsy React validation rules as a base https://github.com/christianalfoni/formsy-react
 
 import moment from 'moment'
 import {includes} from 'lodash';

@@ -129,7 +129,7 @@ class ImagePicker extends React.Component {
                         <Button
                             raised
                             onClick={() => this.handleDelete()}
-                            primary={false}
+                            primary={'false'}
                             style={{margin:'0 10px 0 0',lineHeight:'1.5',height:'36px'}}
                             disabled={isEmpty(this.props.editor.values.image)}><FormattedMessage id="delete"/>
                         </Button>

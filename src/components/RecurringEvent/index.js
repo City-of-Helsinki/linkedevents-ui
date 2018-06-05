@@ -219,7 +219,7 @@ class RecurringEvent extends React.Component {
         }
         return dayElements
     }
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         if(this.props.values.start_time) {
             let newDays = Object.assign({}, this.state.daysSelected)
             for(const key in newDays) {

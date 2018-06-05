@@ -46,7 +46,7 @@ class HelDatePicker extends React.Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
             if (moment(nextProps.defaultValue).isValid()) {
                 this.setState({date: nextProps.defaultValue})

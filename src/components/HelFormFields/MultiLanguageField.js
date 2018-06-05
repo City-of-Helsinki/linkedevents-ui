@@ -92,7 +92,7 @@ class MultiLanguageField extends React.Component {
         return (errors.length === 0)
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
             this.setState({value: nextProps.defaultValue || {}})
         }
