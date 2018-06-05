@@ -80,7 +80,7 @@ class HelTextField extends React.Component {
             !this.props.name.includes('time') ||
             this.props.name && this.props.forceApplyToStore) {
             let obj = {}
-            obj[this.props.name] = this.inputRef.text
+            obj[this.props.name] = this.inputRef.value
             this.context.dispatch(setData(obj))
             if (this.props.setDirtyState) {
                 this.props.setDirtyState()
@@ -183,7 +183,6 @@ class HelTextField extends React.Component {
                         value={this.state.value}
                         placeholder={this.props.placeholder}
                         // bsStyle={this.validationState()} // TODO: Check glyph styling, now it shows success for empty values
-                        // hasFeedback
                         inputRef={ref => this.inputRef = ref}
                         onChange={this.handleChange}
                         onBlur={this.handleBlur}
