@@ -1,3 +1,13 @@
-.offer-fields:not(:first-of-type) {
-    margin-top: 3rem;
+$offerBtnHeight: 64px;
+$offerBtnMargin: 10px 0;
+
+.offers-field {
+    &:not(:first-of-type) {
+        margin-top: 3rem;
+    }
+    button {
+        height: $offerBtnHeight;
+        margin: $offerBtnMargin;
+        width: 100%;   
+    }
 }

@@ -209,9 +209,10 @@ class FormFields extends React.Component {
                         </label>
                     </div>
                     <div className="col-xl-8 col-sm-12">
-                        <div className="spread-evenly">
-                            <HelLanguageSelect options={API.eventInfoLanguages()} checked={contentLanguages} />
-                        </div>
+                        <HelLanguageSelect 
+                            options={API.eventInfoLanguages()} 
+                            checked={contentLanguages}
+                        />
                     </div>
                 </div>
 

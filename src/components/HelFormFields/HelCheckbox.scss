@@ -8,9 +8,13 @@
     }
 
     label {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        justify-content: flex-start;
+
         input {
             position: relative;
-            top: -2px;
         }
 
         span {
