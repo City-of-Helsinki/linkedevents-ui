@@ -15,6 +15,8 @@ class HelLanguageSelect extends React.Component {
 
     constructor(props) {
         super(props)
+
+        this.onChange = this.onChange.bind(this)
     }
 
     onChange(e) {
@@ -45,7 +47,7 @@ class HelLanguageSelect extends React.Component {
                 key={index}
                 name={item.value}
                 checked={checked}
-                onChange={e => this.onChange(e)}
+                onChange={this.onChange}
             >
                 <FormattedMessage id={item.label} />
             </Checkbox>)

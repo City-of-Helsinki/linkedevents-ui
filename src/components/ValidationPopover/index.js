@@ -40,8 +40,8 @@ const ValidationPopover =  (props) => {
 }
 
 ValidationPopover.propTypes = {
-    validationErrors: PropTypes.array,
-    index: PropTypes.number,
+    validationErrors: PropTypes.object,
+    index: PropTypes.string,
     small: PropTypes.bool,
 }
 
