@@ -159,7 +159,7 @@ class HelTextField extends React.Component {
             requiredElem = (<span>*</span>)
         }
 
-        label = (<span style={{position: 'relative'}}>{label} {requiredElem} <ValidationPopover small validationErrors={this.props.validationErrors} index={this.props.index} /></span>)
+        label = (<span style={{position: 'relative'}}>{label} {requiredElem} <ValidationPopover small={true} validationErrors={this.props.validationErrors} index={this.props.index} /></span>)
 
         let groupClassName = 'hel-text-field'
         if(this.props.disabled) {
