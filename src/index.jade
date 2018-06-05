@@ -28,3 +28,6 @@ html.no-js
             #content
         div
             #debughelper
+        if APP_MODE == 'development'
+            script(src="/scripts/main.js", type="text/javascript")
+        
