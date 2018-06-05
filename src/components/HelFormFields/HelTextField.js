@@ -214,7 +214,7 @@ HelTextField.propTypes = {
         PropTypes.object,
     ]),
     validationErrors: PropTypes.array,
-    index: PropTypes.number,
+    index: PropTypes.string,
     disabled: PropTypes.bool,
     type: PropTypes.string,
 }

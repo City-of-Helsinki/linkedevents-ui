@@ -104,16 +104,15 @@ class HelAutoComplete extends React.Component {
                         optionRenderer={this.optionRenderer}
                     />
                 </div>
-                <div >
+                <div className="hel-text-field">
                     <ControlLabel className="hel-label">
                         {this.context.intl.formatMessage({id: 'event-location-id'})}
                     </ControlLabel>
-                    
+
                     <FormControl
                         type="text"
                         value={values.id ? values.id : ''}
                         ref="text"
-                        className="hel-text-field"
                         disabled
                     />
                 </div>
