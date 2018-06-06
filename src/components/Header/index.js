@@ -20,7 +20,7 @@ import Person from 'material-ui-icons/Person'
 
 import {Link} from 'react-router-dom'
 
-import cityOfHelsinkiLogo from 'src/assets/images/helsinki-logo.1.svg'
+import cityOfHelsinkiLogo from 'src/assets/images/helsinki-logo.svg'
 
 class HeaderBar extends React.Component {
 
