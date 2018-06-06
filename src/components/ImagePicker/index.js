@@ -67,10 +67,10 @@ class ImagePicker extends React.Component {
     }
 
     closeGalleryModal() {
-        this.setState({open: false})
+        this.setState({open: !this.state.open})
     }
     openGalleryModal() {
-        this.setState({open: true})
+        this.setState({open: !this.state.open})
     }
 
     render() {
@@ -89,7 +89,7 @@ class ImagePicker extends React.Component {
 
                 <Modal
                     id="image-modal"
-                    show={this.state.open}
+                    show={this.state.open ? true : false }
                     onHide={() => this.closeGalleryModal()}
                     aria-labelledby="ModalHeader"
                     width="600px"
