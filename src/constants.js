@@ -93,12 +93,12 @@ const constants = {
         UPDATE_SUCCESS: 'event-creation-update-success',
     },
 
-    DEFAULT_CHARACTER_LIMIT: 400,
     VALIDATION_RULES: {
         IS_URL: 'isUrl',
         IS_DATE: 'isDate',
         IS_TIME: 'isTime',
         LONG_STRING:'longString',
+        MEDIUM_STRING: 'mediumString',
         SHORT_STRING: 'shortString',
         HAS_PRICE: 'hasPrice',
         REQUIRE_MULTI: 'requiredMulti',
@@ -111,6 +111,12 @@ const constants = {
         AT_LEAST_ONE: 'atLeastOne',
         IS_MORE_THAN_ONE: 'isMoreThanOne',
         AT_LEAST_ONE_IS_TRUE: 'atLeastOneIsTrue',
+    },
+
+    CHARACTER_LIMIT: {
+        SHORT_STRING: 160,
+        MEDIUM_STRING: 400,
+        LONG_STRING: 5000,
     },
 }
 

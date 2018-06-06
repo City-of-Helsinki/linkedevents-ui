@@ -1,6 +1,6 @@
 import CONSTANTS from '../constants'
 import validationFn from './validationRules'
-
+import {getCharacterLimitByRule} from '../utils/helpers'
 const {
     VALIDATION_RULES,
     PUBLICATION_STATUS,
@@ -13,6 +13,7 @@ const draftValidations = {
     end_time: [VALIDATION_RULES.AFTER_START_TIME, VALIDATION_RULES.IN_THE_FUTURE],
     price: [VALIDATION_RULES.HAS_PRICE],
     short_description: [VALIDATION_RULES.SHORT_STRING],
+    medium_description: [VALIDATION_RULES.MEDIUM_STRING],
     description: [VALIDATION_RULES.LONG_STRING],
     info_url: [VALIDATION_RULES.IS_URL],
     extlink_facebook: [VALIDATION_RULES.IS_URL],
