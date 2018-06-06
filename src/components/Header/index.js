@@ -26,7 +26,7 @@ class HeaderBar extends React.Component {
 
     render() {
         let buttonStyle = {color: '#ffffff'}
-        let buttonStyle2 = {color: '#000000'}
+        let buttonStyleLayerTwo = {color: '#000000'}
         let navstyle = {
             width: '100%',
             display: 'grid',
@@ -52,13 +52,13 @@ class HeaderBar extends React.Component {
                     </div>
                 </Toolbar>
                 <div className="navlinksHolder" style={navstyle}>
-                    <div className="title-text" style={{'justify-self': 'center', color:'#1B914A', fontWeight:700, alignSelf:'center'}}>Linked Courses</div>
+                    <div className="title-text" style={{'justify-self': 'center', color:'#1B914A', fontWeight:700, alignSelf:'center', cursor:'pointer'}} onClick={() => this.props.routerPush('/')}>Linked Courses</div>
                     <div className="navbar-links">
-                        <Button className="mui-flat-button" style={buttonStyle2} onClick={() => this.props.routerPush('/')}><FormattedMessage id="organization-events"/><List/></Button>
-                        <Button className="mui-flat-button" style={buttonStyle2} onClick={() => this.props.routerPush('/search')}><FormattedMessage id="search-events"/><Search/></Button>
-                        <Button className="mui-flat-button" style={{...buttonStyle2,...verticalAlignMiddle}} onClick={() => this.props.routerPush('/help')}><HelpOutline/> HelpOutline</Button>
+                        <Button className="mui-flat-button" style={buttonStyleLayerTwo} onClick={() => this.props.routerPush('/')}><FormattedMessage id="organization-course"/><List/></Button>
+                        <Button className="mui-flat-button" style={buttonStyleLayerTwo} onClick={() => this.props.routerPush('/search')}><FormattedMessage id="search-course"/><Search/></Button>
+                        <Button className="mui-flat-button" style={{...buttonStyleLayerTwo,...verticalAlignMiddle}} onClick={() => this.props.routerPush('/help')}><HelpOutline/> <FormattedMessage id="more-info-course"/></Button>
                     </div>
-                    <Button className="mui-flat-button" style={buttonStyle2} onClick={() => this.props.routerPush('/event/create/new')}><FormattedMessage id="create-event"/><Add/></Button>
+                    <Button className="mui-flat-button" style={buttonStyleLayerTwo} onClick={() => this.props.routerPush('/event/create/new')}><FormattedMessage id="create-course"/><Add/></Button>
                 </div>
             </div>
         )
