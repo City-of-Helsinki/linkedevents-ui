@@ -101,7 +101,7 @@ const constants = {
         LONG_STRING:'longString',
         SHORT_STRING: 'shortString',
         HAS_PRICE: 'hasPrice',
-        REQUIRE_MULTI: 'requireMulti',
+        REQUIRE_MULTI: 'requiredMulti',
         AFTER_START_TIME: 'afterStartTime',
         IN_THE_FUTURE: 'inTheFuture',
         DAY_WITHIN_INTERVAL: 'daysWithinInterval',

@@ -106,7 +106,7 @@ class NewOffer extends React.Component {
                     ref="info_url" 
                     label="event-purchase-link" 
                     languages={languages} 
-                    onBlur={e => this.onBlur(e)} validations={VALIDATION_RULES.IS_URL} 
+                    onBlur={e => this.onBlur(e)} validations={[VALIDATION_RULES.IS_URL]} 
                     validationErrors={this.props.validationErrors['info_url']} 
                     index={this.props.offerKey}
                 />

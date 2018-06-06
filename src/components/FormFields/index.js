@@ -331,7 +331,7 @@ class FormFields extends React.Component {
                             label="event-location-additional-info" 
                             ref="location_extra_info" 
                             name="location_extra_info" 
-                            validationErrors={validationErrors[VALIDATION_RULES.SHORT_STRING]}
+                            validationErrors={validationErrors['location_extra_info']}
                             validations={[VALIDATION_RULES.SHORT_STRING]} 
                             defaultValue={values['location_extra_info']} 
                             languages={this.props.editor.contentLanguages} 
