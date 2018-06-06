@@ -20,8 +20,10 @@ nconf.overrides({
 const allKeys = serverConfigKeys.concat(templateConfigKeys, clientConfigKeys);
 nconf.env(allKeys);
 
-// Read config_dev.json. Will not overwrite configs from env.
-nconf.file({file: path.join(paths.ROOT, 'config_dev.json')});
+// Read config_dev.json if in development-mode. Will not overwrite configs from env.
+if (process.env.NODE_ENV === 'development') {
+    nconf.file({file: path.join(paths.ROOT, 'config_dev.json')});
+}
 
 // Defaults, fall back to these if they are not found in any of the previous sources
 nconf.defaults({
