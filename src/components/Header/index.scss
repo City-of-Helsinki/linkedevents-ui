@@ -1,13 +1,19 @@
+@import '../../assets/colors';
 $header-bar-height: 56px;
 $navbarIconPaddingLeft: 5px;
 
 .mui-toolbar {
-    color: #ffffff;
-    background-color: #1B914A;
+    color: $hel-white;
+    background-color:$hel-tram;
     height: auto !important;
     min-height: $header-bar-height;
     display: flex;
     justify-content: space-between;
+
+button{
+    color: $hel-white;
+}
+
     a {
         color: inherit;
 
@@ -25,13 +31,6 @@ $navbarIconPaddingLeft: 5px;
         padding-left: 30px;
         white-space: nowrap;
 
-        .title-text {
-            display: inline-block;
-            white-space: nowrap;
-            line-height: $header-bar-height;
-            padding-left: 16px;
-        }
-
         .title-image {
             display: inline-block;
             height: 48px;
@@ -41,7 +40,7 @@ $navbarIconPaddingLeft: 5px;
 
     .mui-flat-button {
         background-color: transparent;
-        color: #ffffff;
+        color: $hel-white;
         outline: none;
 
         margin-left: 6px !important;
@@ -52,14 +51,8 @@ $navbarIconPaddingLeft: 5px;
         }
 
         &:hover {
-            background-color: rgba(255,255,255,0.1);
+            background-color:$hel-light;
         }
-    }
-
-    .navlinksHolder{
-        width: 100%;
-        padding-left: 28%;
-        color: #ffffff;
     }
 
     .toolbar-actions {
@@ -68,25 +61,54 @@ $navbarIconPaddingLeft: 5px;
 
         height: $header-bar-height;
 
-        .mui-flat-button {
-            margin-left: 2px !important;
-            margin-right: 2px !important;
-        }
     }
 
     .clearfix {
         clear: both;
     }
+}
 
-    .info-icon {
-        padding-left: 15px;
+.navlinksHolder{
+    padding-left: 5%;
+    margin: auto;
+    width: 100%;
+    color: $hel-white;
+    display: flex;
+
+    .title-text {
+        display: inline-block;
+        white-space: nowrap;
+        line-height: $header-bar-height;
+        flex-basis: 20%;
+        color:$hel-tram;
+        font-weight: 500;
+        align-self: center;
+        cursor: pointer;
     }
+
     .navbar-links {
+        flex-basis: 60%;
         svg {
             padding-left: $navbarIconPaddingLeft;
         }
     }
+
+    .mui-flat-button {
+        color: $hel-black !important;
+        margin-left: 2px !important;
+        margin-right: 2px !important;
+
+        &:hover {
+            background-color: $hel-light;
+        }
+    }
+
+    .navbar-links-two{
+        flex-basis: 20%;
+        padding-left: 5%;
+    }
 }
+
 
 @media (max-width: 800px) {
     .mui-toolbar {

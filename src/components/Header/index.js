@@ -25,19 +25,10 @@ import cityOfHelsinkiLogo from 'src/assets/images/helsinki-logo.1.svg'
 class HeaderBar extends React.Component {
 
     render() {
-        let buttonStyle = {color: '#ffffff'}
-        let buttonStyleLayerTwo = {color: '#000000'}
-        let navstyle = {
-            width: '100%',
-            display: 'grid',
-            'grid-template-columns': '20% 60% 20%',
-        }
-        let verticalAlignMiddle = {verticalAlign: 'middle'}
-
         // NOTE: mockup for login button functionality
-        let loginButton = <Button style={buttonStyle} onClick={() => this.props.login()}><Person/><FormattedMessage id="login"/></Button>
+        let loginButton = <Button onClick={() => this.props.login()}><Person/><FormattedMessage id="login"/></Button>
         if(this.props.user) {
-            loginButton = <Button style={buttonStyle} onClick={() => this.props.logout()}>{this.props.user.displayName}</Button>
+            loginButton = <Button onClick={() => this.props.logout()}>{this.props.user.displayName}</Button>
         }
         return (
             <div>
@@ -51,14 +42,16 @@ class HeaderBar extends React.Component {
                         {loginButton}
                     </div>
                 </Toolbar>
-                <div className="navlinksHolder" style={navstyle}>
-                    <div className="title-text" style={{'justify-self': 'center', color:'#1B914A', fontWeight:700, alignSelf:'center', cursor:'pointer'}} onClick={() => this.props.routerPush('/')}>Linked Courses</div>
+                <div className="navlinksHolder" >
+                    <div className="title-text" onClick={() => this.props.routerPush('/')}>Linked Courses</div>
                     <div className="navbar-links">
-                        <Button className="mui-flat-button" style={buttonStyleLayerTwo} onClick={() => this.props.routerPush('/')}><FormattedMessage id="organization-course"/><List/></Button>
-                        <Button className="mui-flat-button" style={buttonStyleLayerTwo} onClick={() => this.props.routerPush('/search')}><FormattedMessage id="search-course"/><Search/></Button>
-                        <Button className="mui-flat-button" style={{...buttonStyleLayerTwo,...verticalAlignMiddle}} onClick={() => this.props.routerPush('/help')}><HelpOutline/> <FormattedMessage id="more-info-course"/></Button>
+                        <Button className="mui-flat-button" onClick={() => this.props.routerPush('/')}><FormattedMessage id="organization-course"/><List/></Button>
+                        <Button className="mui-flat-button" onClick={() => this.props.routerPush('/search')}><FormattedMessage id="search-course"/><Search/></Button>
+                        <Button className="mui-flat-button" onClick={() => this.props.routerPush('/help')}><HelpOutline/> <FormattedMessage id="more-info-course"/></Button>
                     </div>
-                    <Button className="mui-flat-button" style={buttonStyleLayerTwo} onClick={() => this.props.routerPush('/event/create/new')}><FormattedMessage id="create-course"/><Add/></Button>
+                    <div className="navbar-links-two">
+                        <Button className="mui-flat-button" onClick={() => this.props.routerPush('/event/create/new')}><FormattedMessage id="create-course"/><Add/></Button>
+                    </div>
                 </div>
             </div>
         )
