@@ -19,10 +19,19 @@ const settings = getSettings()
 const app = express()
 const passport = getPassport(settings)
 
+
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(cookieSession({name: 's', secret: settings.sessionSecret, maxAge: 86400 * 1000}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+addAuth(app, passport, settings);
+
 if(process.env.NODE_ENV !== 'development') {
     app.use('/', express.static(path.resolve(__dirname, '..', 'dist')));
-    app.get('/', function (req, res) {
-        res.sendfile(path.resolve(__dirname, '..', 'dist'));
+    app.get('*', function (req, res) {
+        res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
     });
 } else {
     const compiler = webpack(config)
@@ -35,21 +44,12 @@ if(process.env.NODE_ENV !== 'development') {
         },
     }));
     app.use(webpackHotMiddleware(compiler));
+
+    app.get('*', (req, res) => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'text/html')   
+        res.end(indexTemplate)
+    })
 }
-
-app.use(cookieParser());
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(cookieSession({name: 's', secret: settings.sessionSecret, maxAge: 86400 * 1000}));
-
-app.use(passport.initialize());
-app.use(passport.session());
-addAuth(app, passport, settings);
-
-app.get('*', (req, res) => {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/html')   
-    res.end(indexTemplate)
-})
-
 console.log('Starting server at port', settings.port);
 app.listen(settings.port);
