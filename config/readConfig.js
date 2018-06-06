@@ -18,11 +18,11 @@ nconf.overrides({
 
 // Read values from env, all known config-keys are whitelisted
 const allKeys = serverConfigKeys.concat(templateConfigKeys, clientConfigKeys);
-nconf.env(allKeys);
+nconf.env({whitelist: allKeys, parseValues: true});
 
 // Read config_dev.json if in development-mode. Will not overwrite configs from env.
 if (process.env.NODE_ENV === 'development') {
-    nconf.file({file: path.join(paths.ROOT, 'config_dev.json')});
+    nconf.file({file: path.join(paths.ROOT, 'config_dev.json'), parseValues: true});
 }
 
 // Defaults, fall back to these if they are not found in any of the previous sources
