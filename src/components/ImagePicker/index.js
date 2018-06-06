@@ -68,7 +68,6 @@ class ImagePicker extends React.Component {
 
     closeGalleryModal() {
         this.setState({open: !this.state.open})
-        console.log(this.state.open);
     }
     openGalleryModal() {
         this.setState({open: !this.state.open})
