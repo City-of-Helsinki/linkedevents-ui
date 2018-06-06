@@ -6,6 +6,8 @@ import {connect} from 'react-redux'
 
 import moment from 'moment'
 
+import CONSTANTS from '../../constants'
+
 class HelTimePicker extends React.Component {
 
     constructor(props) {
@@ -32,7 +34,7 @@ class HelTimePicker extends React.Component {
     render() {
         return (
             <HelTextField
-                validations={['isTime']}
+                validations={[CONSTANTS.VALIDATION_RULES.IS_TIME]}
                 placeholder='hh.mm'
                 name={this.props.name}
                 onChange={this.handleChange}

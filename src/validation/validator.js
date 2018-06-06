@@ -1,33 +1,39 @@
-import constants from '../constants'
+import CONSTANTS from '../constants'
 import validationFn from './validationRules'
+
+const {
+    VALIDATION_RULES,
+    PUBLICATION_STATUS,
+} = CONSTANTS
+
 
 // Validations for draft
 const draftValidations = {
-    name: ['requiredMulti'],
-    end_time: ['afterStartTime', 'inTheFuture'],
-    price: ['hasPrice'],
-    short_description: ['shortString'],
-    description: ['longString'],
-    info_url: ['isUrl'],
-    extlink_facebook: ['isUrl'],
-    extlink_twitter: ['isUrl'],
-    extlink_instagram: ['isUrl'],
+    name: [VALIDATION_RULES.REQUIRE_MULTI],
+    end_time: [VALIDATION_RULES.AFTER_START_TIME, VALIDATION_RULES.IN_THE_FUTURE],
+    price: [VALIDATION_RULES.HAS_PRICE],
+    short_description: [VALIDATION_RULES.SHORT_STRING],
+    description: [VALIDATION_RULES.LONG_STRING],
+    info_url: [VALIDATION_RULES.IS_URL],
+    extlink_facebook: [VALIDATION_RULES.IS_URL],
+    extlink_twitter: [VALIDATION_RULES.IS_URL],
+    extlink_instagram: [VALIDATION_RULES.IS_URL],
 }
 
 // Validations for published event
 const publicValidations = {
-    name: ['requiredMulti', 'requiredInContentLanguages'],
-    location: ['requiredAtId'],
-    hel_main: ['atLeastOne'],
-    start_time: ['requiredString'], // Datetime is saved as ISO string
-    end_time: ['afterStartTime', 'inTheFuture'],
-    price: ['hasPrice'],
-    short_description: ['requiredMulti', 'requiredInContentLanguages', 'shortString'],
-    description: ['requiredMulti', 'requiredInContentLanguages', 'longString'],
-    info_url: ['isUrl'],
-    extlink_facebook: ['isUrl'],
-    extlink_twitter: ['isUrl'],
-    extlink_instagram: ['isUrl'],
+    name: [VALIDATION_RULES.REQUIRE_MULTI, VALIDATION_RULES.REQUIRED_IN_CONTENT_LANGUAGE],
+    location: [VALIDATION_RULES.REQUIRE_AT_ID],
+    hel_main: [VALIDATION_RULES.AT_LEAST_ONE],
+    start_time: [VALIDATION_RULES.REQUIRED_STRING], // Datetime is saved as ISO string
+    end_time: [VALIDATION_RULES.AFTER_START_TIME, VALIDATION_RULES.IN_THE_FUTURE],
+    price: [VALIDATION_RULES.HAS_PRICE],
+    short_description: [VALIDATION_RULES.REQUIRE_MULTI, VALIDATION_RULES.REQUIRED_IN_CONTENT_LANGUAGE, VALIDATION_RULES.SHORT_STRING],
+    description: [VALIDATION_RULES.REQUIRE_MULTI, VALIDATION_RULES.REQUIRED_IN_CONTENT_LANGUAGE, VALIDATION_RULES.LONG_STRING],
+    info_url: [VALIDATION_RULES.IS_URL],
+    extlink_facebook: [VALIDATION_RULES.IS_URL],
+    extlink_twitter: [VALIDATION_RULES.IS_URL],
+    extlink_instagram: [VALIDATION_RULES.IS_URL],
 }
 
 /**
@@ -36,12 +42,12 @@ const publicValidations = {
  */
 export function doValidations(values, languages, validateFor) {
     // Public validations
-    if(validateFor === constants.PUBLICATION_STATUS.PUBLIC) {
+    if(validateFor === PUBLICATION_STATUS.PUBLIC) {
         return runValidationWithSettings(values, languages, publicValidations)
     }
 
     // Do draft validations
-    else if (validateFor === constants.PUBLICATION_STATUS.DRAFT) {
+    else if (validateFor === PUBLICATION_STATUS.DRAFT) {
         return runValidationWithSettings(values, languages, draftValidations)
     }
 

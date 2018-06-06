@@ -92,6 +92,26 @@ const constants = {
         DEFAULT_SUCCESS: 'event-creation-default-success',
         UPDATE_SUCCESS: 'event-creation-update-success',
     },
+
+    DEFAULT_CHARACTER_LIMIT: 400,
+    VALIDATION_RULES: {
+        IS_URL: 'isUrl',
+        IS_DATE: 'isDate',
+        IS_TIME: 'isTime',
+        LONG_STRING:'longString',
+        SHORT_STRING: 'shortString',
+        HAS_PRICE: 'hasPrice',
+        REQUIRE_MULTI: 'requireMulti',
+        AFTER_START_TIME: 'afterStartTime',
+        IN_THE_FUTURE: 'inTheFuture',
+        DAY_WITHIN_INTERVAL: 'daysWithinInterval',
+        REQUIRED_IN_CONTENT_LANGUAGE: 'requiredInContentLanguages',
+        REQUIRED_STRING: 'requiredString',
+        REQUIRE_AT_ID: 'requiredAtId',
+        AT_LEAST_ONE: 'atLeastOne',
+        IS_MORE_THAN_ONE: 'isMoreThanOne',
+        AT_LEAST_ONE_IS_TRUE: 'atLeastOneIsTrue',
+    },
 }
 
 export default constants

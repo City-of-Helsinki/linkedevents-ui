@@ -1,19 +1,19 @@
 import PropTypes from 'prop-types';
 import React from 'react'
-import HelTextField from './HelTextField.js'
-import HelDatePicker from './HelDatePicker.js'
-import HelTimePicker from './HelTimePicker.js'
+import moment from 'moment'
 
-
-import {connect} from 'react-redux'
-import {setData, updateSubEvent} from 'src/actions/editor.js'
+import HelTextField from './HelTextField'
+import HelDatePicker from './HelDatePicker'
+import HelTimePicker from './HelTimePicker'
 
 import {FormattedMessage} from 'react-intl'
+import {connect} from 'react-redux'
+import {setData, updateSubEvent} from 'src/actions/editor'
 
-import validationRules from 'src/validation/validationRules.js';
+import validationRules from 'src/validation/validationRules';
 import ValidationPopover from 'src/components/ValidationPopover'
 
-import moment from 'moment'
+import CONSTANTS from '../../constants'
 
 class HelDateTimeField extends React.Component {
     constructor(props) {
@@ -49,8 +49,8 @@ class HelDateTimeField extends React.Component {
             const date = moment.tz(this.state.date, 'Europe/Helsinki').format('YYYY-MM-DD')
             const time = this.state.time
             let errors = [
-                this.getValidationErrors('isTime', time),
-                this.getValidationErrors('isDate', date),
+                this.getValidationErrors(CONSTANTS.VALIDATION_RULES.IS_TIME, time),
+                this.getValidationErrors(CONSTANTS.VALIDATION_RULES.IS_DATE, date),
             ]
 
             // Filter out empty lists
@@ -149,8 +149,8 @@ class HelDateTimeField extends React.Component {
             <div className="multi-field">
                 <div className="indented">
                     <label style={{position: 'relative'}}><FormattedMessage id={`${this.props.label}`} /> <ValidationPopover validationErrors={this.props.validationErrors} /></label>
-                    <HelDatePicker ref="date" name={this.props.name} defaultValue={this.state.date} validations={['isDate']} placeholder="pp.kk.vvvv" onChange={this.onChange} onBlur={this.onBlur} label={<FormattedMessage id="date" />} />
-                    <HelTimePicker ref="time" name={this.props.name} defaultValue={this.state.time} validations={['isTime']} placeholder="hh.mm" onChange={this.onChange} onBlur={this.onBlur} label={<FormattedMessage id="time" />} />
+                    <HelDatePicker ref="date" name={this.props.name} defaultValue={this.state.date} validations={[CONSTANTS.VALIDATION_RULES.IS_DATE]} placeholder="pp.kk.vvvv" onChange={this.onChange} onBlur={this.onBlur} label={<FormattedMessage id="date" />} />
+                    <HelTimePicker ref="time" name={this.props.name} defaultValue={this.state.time} validations={[CONSTANTS.VALIDATION_RULES.IS_TIME]} placeholder="hh.mm" onChange={this.onChange} onBlur={this.onBlur} label={<FormattedMessage id="time" />} />
                 </div>
             </div>
         )

@@ -88,7 +88,6 @@ export function setLanguages(languages) {
 export function replaceData(formValues) {
     return (dispatch) => {
     // Run validations
-    // let validationErrors = doValidations(formValues)
         dispatch(validateFor(null))
         dispatch(setValidationErrors({}))
 
