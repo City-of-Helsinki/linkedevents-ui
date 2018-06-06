@@ -80,8 +80,5 @@
     "hel-fi-main-categories": "Hel.fi main categories",
 
     "search-no-results": "No results",
-    "copy-to-clipboard": "Copy to clipboard",
-
-    "validation-amountOfCharacterNumberLeft": "You have {charNum} character left",
-    "validation-characterLimitExceed":"Your input is too long, please remove {charNum} character to proceed"
+    "copy-to-clipboard": "Copy to clipboard"
 }

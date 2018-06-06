@@ -18,7 +18,6 @@ class HelTextField extends React.Component {
         this.state = {
             error: null,
             value: this.props.defaultValue || '',
-            characterCount: 0,
         }
 
         this.handleChange = this.handleChange.bind(this)
@@ -44,11 +43,8 @@ class HelTextField extends React.Component {
     }
 
     handleChange(event) {
-        const {characterLimit} = this.props
-
         this.setState({
             value: this.inputRef.value,
-            characterCount: characterLimit ? (characterLimit - this.inputRef.value) : 0,
         })
 
         this.recalculateHeight()
@@ -61,24 +57,27 @@ class HelTextField extends React.Component {
 
     helpText() {
         const {VALIDATION_RULES} = CONSTANTS
-
+        
+        let msg = this.context.intl.formatMessage({id: 'validation-stringLengthCounter'})
+        let longmsg = this.context.intl.formatMessage({id: 'validation-longStringLengthCounter'})
+        let urlmsg = this.context.intl.formatMessage({id: 'validation-isUrl'})
+        let isShortString = _.find(this.props.validations, i => i === VALIDATION_RULES.SHORT_STRING)
+        let isLongString = _.find(this.props.validations, i => i === VALIDATION_RULES.LONG_STRING)
         let isUrl = _.find(this.props.validations, i => i === VALIDATION_RULES.IS_URL)
 
-        if (isUrl) {
-            let urlmsg = this.context.intl.formatMessage({id: 'validation-isUrl'})
+        if (isShortString) {
+            return !this.state.error && isShortString
+                ? '' + (160 - this.state.value.length.toString()) + msg
+                : this.state.error
+        } else if (isLongString) {
+            return !this.state.error && isLongString
+                ? '' + (this.state.value.length.toString()) + longmsg
+                : this.state.error
+        } else if (isUrl === true) {
             return this.state.error
                 ? urlmsg
                 : this.state.error
         }
-        // if (isShortString === true) {
-        //     return !this.state.error && isShortString
-        //         ? '' + (160 - this.state.value.length.toString()) + msg
-        //         : this.state.error
-        // } else if (isLongString === true) {
-        //     return !this.state.error && isLongString
-        //         ? '' + (this.state.value.length.toString()) + longmsg
-        //         : this.state.error
-        // } else 
     }
     handleBlur(event) {
     // Apply changes to store if no validation errors, or the props 'forceApplyToStore' is defined
@@ -222,7 +221,6 @@ HelTextField.propTypes = {
     index: PropTypes.string,
     disabled: PropTypes.bool,
     type: PropTypes.string,
-    characterLimit: PropTypes.number,
 }
 
 export default HelTextField

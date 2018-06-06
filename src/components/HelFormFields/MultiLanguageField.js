@@ -39,7 +39,6 @@ class MultiLanguageField extends React.Component {
         validationErrors: PropTypes.array,
         index: PropTypes.string,
         multiLine: PropTypes.bool,
-        characterLimit: PropTypes.number,
     }
     
     onChange(e,value,lang) {
@@ -124,7 +123,6 @@ class MultiLanguageField extends React.Component {
                         validations={this.props.validations}
                         validationErrors={this.props.validationErrors}
                         index={this.props.index}
-                        characterLimit={this.props.characterLimit}
                         multiLine={this.props.multiLine} />
                 </div>
             )
@@ -142,7 +140,6 @@ class MultiLanguageField extends React.Component {
                             onBlur={(e,v) => this.onBlur(e,v)} 
                             disabled={this.props.disabled} 
                             validations={this.props.validations}
-                            characterLimit={this.props.characterLimit}
                         />
                     </div>
                 )
