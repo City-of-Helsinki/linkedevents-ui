@@ -56,4 +56,17 @@ function getConfig(keys) {
     }, {});
 }
 
-module.exports = getConfig
+function ensureConfigExists(keys) {
+    if (!Array.isArray(keys)) {
+        keys = [keys];
+    }
+    nconf.required(keys);
+}
+
+module.exports = {
+    readConfig: getConfig,
+    ensureConfigExists: ensureConfigExists,
+    serverConfigKeys: serverConfigKeys,
+    templateConfigKeys: templateConfigKeys,
+    clientConfigKeys: clientConfigKeys,
+};
