@@ -1,4 +1,5 @@
 import CONSTANTS from '../constants'
+import ToggleCheckBoxOutlineBlank from 'material-ui/SvgIcon';
 
 const {VALIDATION_RULES, CHARACTER_LIMIT} = CONSTANTS
 /**
@@ -22,9 +23,12 @@ export const getCharacterLimitByRule = (ruleName) => {
 
 /**
  * Check if text input is reaching the limit
+ * @param  {object || string } value
+ * @param  {int} limit
  * @return {boolean} validation status
  */
-export function textLimitValidator(values, value, limit) {
+
+export function textLimitValidator(value, limit) {
     if(typeof value === 'object') {
         let hasOneOverLimit = false
         _.each(value, item => {

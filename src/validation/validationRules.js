@@ -200,13 +200,13 @@ var validations = {
         return false
     },
     shortString: function shortString(values, value) {
-        return textLimitValidator(values, value, CONSTANT.CHARACTER_LIMIT.SHORT_STRING)
+        return textLimitValidator(value, CONSTANT.CHARACTER_LIMIT.SHORT_STRING)
     },
     mediumString: function mediumString(values, value) {
-        return textLimitValidator(values, value, CONSTANT.CHARACTER_LIMIT.MEDIUM_STRING)
+        return textLimitValidator(value, CONSTANT.CHARACTER_LIMIT.MEDIUM_STRING)
     },
     longString: function longString(values, value) {
-        return textLimitValidator(values, value, CONSTANT.CHARACTER_LIMIT.LONG_STRING)
+        return textLimitValidator(value, CONSTANT.CHARACTER_LIMIT.LONG_STRING)
     },
     requiredInContentLanguages: function requiredInContentLanguages(values, value) {
         if (typeof value !== 'object') {
