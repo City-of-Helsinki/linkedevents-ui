@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react'
-//import HelTextField from './HelTextField.js'
+import HelTextField from './HelTextField.js'
 import HelDatePicker from './HelDatePicker.js'
 import HelTimePicker from './HelTimePicker.js'
 
