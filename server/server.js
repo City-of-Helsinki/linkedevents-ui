@@ -13,7 +13,6 @@ import webpack from 'webpack'
 import webpackMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import config from '../config/webpack/dev.js'
-import indexTemplate from './renderIndexTemplate'
 
 const settings = getSettings()
 const app = express()
@@ -34,6 +33,7 @@ if(process.env.NODE_ENV !== 'development') {
         res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
     });
 } else {
+    const indexTemplate = require('./renderIndexTemplate');
     const compiler = webpack(config)
     app.use(webpackMiddleware(compiler, {
         publicPath: config.output.publicPath,
@@ -44,7 +44,7 @@ if(process.env.NODE_ENV !== 'development') {
         },
     }));
     app.use(webpackHotMiddleware(compiler));
-
+    
     app.get('*', (req, res) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/html')   
