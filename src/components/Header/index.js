@@ -45,12 +45,12 @@ class HeaderBar extends React.Component {
                 <div className="navlinksHolder" >
                     <div className="title-text" onClick={() => this.props.routerPush('/')}>Linked Courses</div>
                     <div className="navbar-links">
-                        <Button className="mui-flat-button" onClick={() => this.props.routerPush('/')}><FormattedMessage id="organization-course"/><List/></Button>
-                        <Button className="mui-flat-button" onClick={() => this.props.routerPush('/search')}><FormattedMessage id="search-course"/><Search/></Button>
-                        <Button className="mui-flat-button" onClick={() => this.props.routerPush('/help')}><HelpOutline/> <FormattedMessage id="more-info-course"/></Button>
+                        <Button className="mui-flat-button" onClick={() => this.props.routerPush('/')}><FormattedMessage id="organization-course"/></Button>
+                        <Button className="mui-flat-button" onClick={() => this.props.routerPush('/search')}><FormattedMessage id="search-course"/></Button>
+                        <Button className="mui-flat-button" onClick={() => this.props.routerPush('/help')}> <FormattedMessage id="more-info-course"/></Button>
                     </div>
                     <div className="navbar-links-two">
-                        <Button className="mui-flat-button" onClick={() => this.props.routerPush('/event/create/new')}><FormattedMessage id="create-course"/><Add/></Button>
+                        <Button className="mui-flat-add-button" onClick={() => this.props.routerPush('/event/create/new')}><Add/><FormattedMessage id="create-course"/></Button>
                     </div>
                 </div>
             </div>

@@ -41,7 +41,7 @@ class SearchPage extends React.Component {
     render() {
         return (
             <div className="container">
-                <h1><FormattedMessage id="search-events"/></h1>
+                <h1><FormattedMessage id="search-course"/></h1>
                 <p><FormattedMessage id="search-events-description"/></p>
                 <SearchBar onFormSubmit={ (query, start, end) => this.searchEvents(query, start, end) }/>
                 <Loader loaded={!this.props.isFetching} scale={3}>

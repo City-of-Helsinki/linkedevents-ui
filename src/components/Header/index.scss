@@ -69,21 +69,25 @@ button{
 }
 
 .navlinksHolder{
-    padding-left: 5%;
     margin: auto;
     width: 100%;
     color: $hel-white;
     display: flex;
 
     .title-text {
+        padding-left: 2%;
         display: inline-block;
         white-space: nowrap;
         line-height: $header-bar-height;
         flex-basis: 20%;
         color:$hel-tram;
-        font-weight: 500;
+        font-weight: 700;
         align-self: center;
         cursor: pointer;
+
+        @media screen and (max-width:1280px){
+            padding-left: 5%;
+        }
     }
 
     .navbar-links {
@@ -95,8 +99,10 @@ button{
 
     .mui-flat-button {
         color: $hel-black !important;
-        margin-left: 2px !important;
-        margin-right: 2px !important;
+        margin-left: 6px !important;
+        margin-right: 6px !important;
+        outline: none;
+        font-weight: 600;
 
         &:hover {
             background-color: $hel-light;
@@ -105,7 +111,22 @@ button{
 
     .navbar-links-two{
         flex-basis: 20%;
-        padding-left: 5%;
+        padding-left: 13%;
+        button{
+            color:$hel-tram ;
+            margin-left: 6px !important;
+            margin-right: 6px !important;
+            outline: none;
+            font-weight: 600;
+    
+            &:hover {
+                background-color: $hel-light;
+            }
+        }
+
+        @media screen and (max-width:1280px){
+            padding-left: 5%;
+        }
     }
 }
 
