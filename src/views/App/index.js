@@ -8,8 +8,7 @@ import {connect} from 'react-redux'
 
 import Headerbar from 'src/components/Header'
 import MaterialButton from 'material-ui/Button';
-import Modal from 'react-bootstrap/lib/Modal';
-import Well from 'react-bootstrap/lib/Well'
+import {Modal, Well} from 'react-bootstrap';
 
 import {injectIntl, FormattedMessage} from 'react-intl'
 
@@ -50,7 +49,7 @@ class App extends React.Component {
         }
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         // Prefetch editor related hel.fi categories and event languages
         this.props.fetchKeywordSets()
         this.props.fetchLanguages()

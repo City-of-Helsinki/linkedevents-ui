@@ -1,8 +1,8 @@
-// Use Formsy React validation rules as a base https://github.com/christianalfoni/formsy-react
 
 import moment from 'moment'
 import {includes} from 'lodash';
-
+import CONSTANT from '../constants'
+import {textLimitValidator} from '../utils/helpers'
 /**
  * Notice that all the validation functions follow the Formsy's parameter setup (values, value)
  * where values are all the form valus and value the tested field value
@@ -200,24 +200,13 @@ var validations = {
         return false
     },
     shortString: function shortString(values, value) {
-        if(typeof value === 'object') {
-            let hasOneOver160 = false
-            _.each(value, item => {
-                if(item.length > 160) {
-                    hasOneOver160 = true
-                }
-            })
-            return !hasOneOver160
-
-        } else if(typeof value === 'string') {
-            if(value.length > 160) {
-                return false
-            }
-        }
-        return true
+        return textLimitValidator(value, CONSTANT.CHARACTER_LIMIT.SHORT_STRING)
     },
-    longString: function longString() {
-        return true
+    mediumString: function mediumString(values, value) {
+        return textLimitValidator(value, CONSTANT.CHARACTER_LIMIT.MEDIUM_STRING)
+    },
+    longString: function longString(values, value) {
+        return textLimitValidator(value, CONSTANT.CHARACTER_LIMIT.LONG_STRING)
     },
     requiredInContentLanguages: function requiredInContentLanguages(values, value) {
         if (typeof value !== 'object') {

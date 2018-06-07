@@ -4,6 +4,7 @@ import path from 'path'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import cookieSession from 'cookie-session'
+
 import getSettings from './getSettings'
 import express from 'express'
 import {getPassport, addAuth} from './auth'
@@ -12,6 +13,7 @@ import webpack from 'webpack'
 import webpackMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import config from '../config/webpack/dev.js'
+import indexTemplate from './renderIndexTemplate'
 
 const settings = getSettings()
 const app = express()
@@ -24,7 +26,14 @@ if(process.env.NODE_ENV !== 'development') {
     });
 } else {
     const compiler = webpack(config)
-    app.use(webpackMiddleware(compiler));
+    app.use(webpackMiddleware(compiler, {
+        publicPath: config.output.publicPath,
+        stats: {
+            colors: true,
+            assets: false,
+            modules: false,
+        },
+    }));
     app.use(webpackHotMiddleware(compiler));
 }
 
@@ -35,6 +44,12 @@ app.use(cookieSession({name: 's', secret: settings.sessionSecret, maxAge: 86400 
 app.use(passport.initialize());
 app.use(passport.session());
 addAuth(app, passport, settings);
+
+app.get('*', (req, res) => {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/html')   
+    res.end(indexTemplate)
+})
 
 console.log('Starting server at port', settings.port);
 app.listen(settings.port);

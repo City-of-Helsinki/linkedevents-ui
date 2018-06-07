@@ -2,9 +2,11 @@ const path = require('path');
 const ROOT = path.resolve(__dirname, '../..');
 const SRC = path.resolve(ROOT, 'src');
 
-export default {
+const common = {
     paths: {
         ROOT,
         SRC,
     },
 }
+
+module.exports = common

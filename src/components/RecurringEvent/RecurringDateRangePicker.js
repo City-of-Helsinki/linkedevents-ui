@@ -8,6 +8,8 @@ import ValidationPopover from 'src/components/ValidationPopover'
 
 import moment from 'moment'
 
+import CONSTANTS from '../../constants'
+
 class RecurringDateRangePicker extends React.Component {
     constructor(props) {
         super(props);
@@ -42,7 +44,7 @@ class RecurringDateRangePicker extends React.Component {
         return []
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
             if (moment(nextProps.defaultValue).isValid()) {
                 this.setState({date: moment(nextProps.defaultValue).tz('Europe/Helsinki')})
@@ -54,7 +56,7 @@ class RecurringDateRangePicker extends React.Component {
         return (
             <div className="col-sm-6 indented">
                 <label style={{position: 'relative'}}><FormattedMessage id={`${this.props.label}`} /> <ValidationPopover validationErrors={this.props.validationErrors} /></label>
-                <HelDatePicker ref="date" name={this.props.name} defaultValue={this.state.date} validations={['isDate']} placeholder="pp.kk.vvvv" onChange={this.onChange} onBlur={this.onBlur} label={<FormattedMessage id="date" />} />
+                <HelDatePicker ref="date" name={this.props.name} defaultValue={this.state.date} validations={[CONSTANTS.VALIDATION_RULES.IS_DATE]} placeholder="pp.kk.vvvv" onChange={this.onChange} onBlur={this.onBlur} label={<FormattedMessage id="date" />} />
             </div>
         )
     }

@@ -110,24 +110,6 @@ header {
     float: right;
 }
 
-.spread-evenly {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    align-content: center;
-    justify-content: space-around;
-}
-
-.spread-right {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    align-content: center;
-    justify-content: flex-end;
-}
-
 .padded {
     padding: 0.5rem 0.5rem;
 }

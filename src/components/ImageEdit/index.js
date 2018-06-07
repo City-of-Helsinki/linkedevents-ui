@@ -2,13 +2,17 @@ import '!style-loader!css-loader!sass-loader!./index.scss'
 
 import React from 'react';
 import PropTypes from 'prop-types'
-import {injectIntl} from 'react-intl'
-import Modal from 'react-bootstrap/lib/Modal';
+import {injectIntl, FormattedMessage} from 'react-intl'
+import {Modal} from 'react-bootstrap';
 import {Button} from 'material-ui'
-import {postImage as postImageAction} from 'src/actions/userImages.js'
 import {connect} from 'react-redux'
+
 import FormFields from '../FormFields'
 import HelTextField from '../HelFormFields/HelTextField'
+
+import CONSTANTS from '../../constants' 
+import {postImage as postImageAction} from 'src/actions/userImages'
+
 
 class ImageEdit extends React.Component {
 
@@ -66,11 +70,13 @@ class ImageEdit extends React.Component {
                     <form onSubmit={() => this.handleImagePost()} className="row">
                         <div className="col-sm-8 edit-form">
                             <div className="hel-text-field">
-                                <label className="hel-label">Kuvateksti (korkeintaan 160 merkkiä)</label>
+                                <label className="hel-label">
+                                    <FormattedMessage id={'image-caption-limit'} values={{limit:CONSTANTS.CHARACTER_LIMIT.SHORT_STRING}}/>
+                                </label>
                                 <HelTextField
                                     onChange={(e) => this.handleTextChange(e, 'name')}
                                     defaultValue={this.state.name}
-                                    validations={['shortString']}
+                                    validations={[CONSTANTS.VALIDATION_RULES.SHORT_STRING]}
                                 />
                             </div>
                             <div className="hel-text-field">
@@ -110,9 +116,9 @@ ImageEdit.propTypes = {
     defaultName: PropTypes.string,
     defaultPhotographerName: PropTypes.string,
     license: PropTypes.string,
-    imageFile: PropTypes.string,
+    imageFile: PropTypes.object,
     thumbnailUrl: PropTypes.string,
-    postImage: PropTypes.string,
+    postImage: PropTypes.func,
     user: PropTypes.object,
     id: PropTypes.number,
     close: PropTypes.func,

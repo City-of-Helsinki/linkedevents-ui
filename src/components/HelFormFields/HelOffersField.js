@@ -35,13 +35,13 @@ class HelOffersField extends React.Component {
         };
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         if (this.props.defaultValue && this.props.defaultValue.length) {
             this.setState({values: this.props.defaultValue})
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.defaultValue && nextProps.defaultValue !== this.state.values) {
             this.setState({values: nextProps.defaultValue})
         }
@@ -87,12 +87,6 @@ class HelOffersField extends React.Component {
     }
 
     render() {
-        let buttonStyle = {
-            height: '64px',
-            width: '100%',
-            margin: '10px 5px',
-            display: 'block',
-        }
         const offerDetails = this.generateOffers(this.props.defaultValue)
 
         return (
@@ -103,7 +97,6 @@ class HelOffersField extends React.Component {
                 </div>
                 <Button
                     raised
-                    style={buttonStyle}
                     color="primary"
                     disabled={this.state.isFree}
                     onClick={ () => this.addNewOffer() }>

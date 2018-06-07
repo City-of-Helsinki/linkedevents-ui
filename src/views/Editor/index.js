@@ -64,7 +64,7 @@ class EditorPage extends React.Component {
         this.clearForm = this.clearForm.bind(this)
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         if(this.props.match.params.action === 'update' && this.props.match.params.eventId) {
             this.props.fetchEventForEditing(this.props.match.params.eventId, this.props.user)
             this.props.fetchSubEvents(this.props.match.params.eventId, this.props.user)
@@ -75,7 +75,7 @@ class EditorPage extends React.Component {
         window.addEventListener('beforeunload', this.handler)
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
     // Check if we are changing the editing mode on fly
     // (happens when jumping from update event page to create event page)
     // Clear page or fetch new eventdata accordingly

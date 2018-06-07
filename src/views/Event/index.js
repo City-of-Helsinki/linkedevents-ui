@@ -23,7 +23,7 @@ import constants from 'src/constants'
 
 class EventPage extends React.Component {
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         const {match, fetchEventDetails, user} = this.props
 
         fetchEventDetails(match.params.eventId, user)

@@ -5,6 +5,9 @@
     "edit-event": "Muokkaa tapahtumaa",
     "search-events": "Etsi tapahtumia",
     "search-events-description": "Katsele kaikkia Linked Eventsin tapahtumia.",
+    "pick-time-range": "Etsi vain ajalta",
+    "event-name-or-place": "Tapahtuman nimi tai paikka",
+    "search-event-button": "Hae tapahtumia",
     "lang-fi": "Suomi",
     "lang-en": "Englanti",
     "lang-sv": "Ruotsi",
@@ -28,7 +31,7 @@
     "in-en": "englanniksi",
     "in-sv": "ruotsiksi",
     "in-ru": "venäjäksi",
-    "in-zh": "kiinaksi",
+    "in-zh_hans": "kiinaksi",
     "in-ar": "arabiaksi",
 
     "no-value": "-kenttää ei ole täytetty.",
@@ -134,9 +137,8 @@
     "validation-requiredString": "Tämä kenttä vaaditaan",
     "validation-afterStartTime": "Päättymisajan pitää olla alkamisaikaa myöhemmin",
     "validation-inTheFuture": "Tapahtuman pitää olla tulevaisuudessa",
-    "validation-shortString": "Tämä kenttä voi olla korkeintaan 160 merkkiä pitkä",
-    "validation-longString": "Tämä kenttä voi olla korkeintaan 5000 merkkiä pitkä",
-    "validation-stringLengthCounter": " merkkiä jäljellä",
+    "validation-stringLimitReached": "Tämä kenttä voi olla korkeintaan {limit} merkkiä pitkä",
+    "validation-stringLengthCounter": "{counter} merkkiä jäljellä",
     "validation-longStringLengthCounter": " merkkiä käytetty",
     "validation-requiredInContentLanguages": "Tämä kenttä vaaditaan kaikilla valituilla kielillä",
     "validation-offerIsFreeOrHasPrice": "Maksullinen tapahtuma vaatii hinnan kaikilla valituilla kielillä",
@@ -171,5 +173,7 @@
     "confirm-image-delete": "Varmista kuvan poistaminen",
 
     "search-no-results": "Ei tuloksia",
-    "copy-to-clipboard": "Kopioi leikepöydälle"
+    "copy-to-clipboard": "Kopioi leikepöydälle",
+
+    "image-caption-limit": "Kuvateksti (korkeintaan {limit} merkkiä)"
 }

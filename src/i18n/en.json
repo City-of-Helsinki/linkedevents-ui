@@ -3,6 +3,10 @@
     "logout": "Logout",
     "create-event": "Create event",
     "search-events": "Search events",
+    "search-events-description": "Search events description",
+    "pick-time-range": "Pick time range",
+    "event-name-or-place": "Event name or place",
+    "search-event-button": "Search for events",
     "lang-fi": "Finnish",
     "lang-en": "English",
     "lang-sv": "Swedish",
@@ -74,6 +78,7 @@
 
     "event-categorization": "Categorization",
     "hel-fi-main-categories": "Hel.fi main categories",
+
     "search-no-results": "No results",
     "copy-to-clipboard": "Copy to clipboard"
 }

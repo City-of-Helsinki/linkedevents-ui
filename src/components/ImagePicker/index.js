@@ -76,9 +76,9 @@ class ImagePicker extends React.Component {
     render() {
         let bgStyle = {backgroundImage: 'url(' + getIfExists(this.props.editor.values, 'image.url', '') + ')'}
         return (
-            <div className="image-picker" onClick={() => this.openGalleryModal()}>
+            <div className="image-picker">
                 <div>
-                    <div className="img-preview" style={bgStyle} />
+                    <div className="img-preview" style={bgStyle} onClick={() => this.openGalleryModal()}/>
                     <div>
                         <i className="material-icons">&#xE2C6;</i>
                     </div>
@@ -129,7 +129,7 @@ class ImagePicker extends React.Component {
                         <Button
                             raised
                             onClick={() => this.handleDelete()}
-                            primary={false}
+                            primary={'false'}
                             style={{margin:'0 10px 0 0',lineHeight:'1.5',height:'36px'}}
                             disabled={isEmpty(this.props.editor.values.image)}><FormattedMessage id="delete"/>
                         </Button>
