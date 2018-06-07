@@ -1,5 +1,4 @@
 import CONSTANTS from '../constants'
-import ToggleCheckBoxOutlineBlank from 'material-ui/SvgIcon';
 
 const {VALIDATION_RULES, CHARACTER_LIMIT} = CONSTANTS
 /**
