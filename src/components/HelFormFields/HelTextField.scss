@@ -1,3 +1,5 @@
+@import '../../assets/colors';
+
 .hel-text-field {
     position: relative;
     width: 100%;
@@ -37,7 +39,7 @@
 
         &:focus {
             outline: 0;
-            border-color: rgba(0, 188, 212, 1);
+            border-color: $hel-black;
         }
 
         &[disabled] {

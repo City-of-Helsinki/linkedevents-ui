@@ -1,3 +1,4 @@
+@import '../../assets/colors';
 $search-bar-height: 72px;
 
 .search-bar {
@@ -54,7 +55,7 @@ $search-bar-height: 72px;
 
             &:focus {
                 outline: 0;
-                border-color: rgba(0, 188, 212, 1);
+                border-color: $hel-black;
             }
         }
 
