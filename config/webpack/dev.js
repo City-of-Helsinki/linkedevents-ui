@@ -2,7 +2,7 @@ import path from 'path';
 import common from './common.js';
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import readConfig from '../readConfig';
+import {readConfig} from '../appConfig';
 
 const publicUrl = readConfig('publicUrl')
 

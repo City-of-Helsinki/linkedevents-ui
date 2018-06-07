@@ -1,6 +1,8 @@
-const readConfig = require('../config/readConfig');
+const appConfig = require('../config/appConfig');
 const configKeys = ['port', 'publicUrl', 'helsinkiAuthId', 'helsinkiAuthSecret', 'helsinkiTargetApp', 'sessionSecret'];
 
+appConfig.ensureConfigExists(configKeys);
+
 export default function getOptions() {
-    return readConfig(configKeys);
+    return appConfig.readConfig(configKeys);
 }

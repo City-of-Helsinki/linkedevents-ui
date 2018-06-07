@@ -1,14 +1,17 @@
-const indexTemplate = require('../../server/renderIndexTemplate')
-
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
-const common = require('./common')
+const common = require('./common');
+const appConfig = require('../appConfig');
 
 // There are defined in common.js as well, but that is not available without
 // transpilation, which is not done for webpack configuration file
 const path = require('path');
 
+const required = appConfig.clientConfigKeys.concat(appConfig.templateConfigKeys);
+appConfig.ensureConfigExists(required);
+
+const indexTemplate = require('../../server/renderIndexTemplate')
 
 const ASSET_PATH = '/'
 

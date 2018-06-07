@@ -1,7 +1,7 @@
 const jade = require('jade')
 const path = require('path')
 const common = require('../config/webpack/common')
-const readConfig = require('../config/readConfig')
+const readConfig = require('../config/appConfig').readConfig;
 
 const compiledTemplate = jade.compileFile(path.join(common.paths.SRC, 'index.jade'), {pretty: true})
 
