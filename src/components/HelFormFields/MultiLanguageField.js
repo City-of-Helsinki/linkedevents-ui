@@ -8,14 +8,7 @@ import HelTextField from './HelTextField'
 
 import ValidationPopover from 'src/components/ValidationPopover'
 
-import {setData} from 'src/actions/editor.js'
-
-// A text component for multiple language inputs. Outputs linked events language field format
-// field = {
-//     fi: 'nimi',
-//     sv: 'namn',
-//     en: 'name'
-// }
+import {setData} from 'src/actions/editor'
 
 class MultiLanguageField extends React.Component {
 
@@ -138,7 +131,16 @@ class MultiLanguageField extends React.Component {
                 let value = this.state.value[lang]
                 return (
                     <div key={`${props.name}_${lang}`}>
-                        <HelTextField multiLine={this.props.multiLine} required={this.props.required} defaultValue={value} ref={lang} label={this.context.intl.formatMessage({id: `in-${lang}`})} onChange={(e,v) => this.onChange(e,v,lang)} onBlur={(e,v) => this.onBlur(e,v)} disabled={this.props.disabled} validations={this.props.validations}/>
+                        <HelTextField 
+                            multiLine={this.props.multiLine} 
+                            required={this.props.required} 
+                            defaultValue={value} ref={lang} 
+                            label={this.context.intl.formatMessage({id: `in-${lang}`})} 
+                            onChange={(e,v) => this.onChange(e,v,lang)} 
+                            onBlur={(e,v) => this.onBlur(e,v)} 
+                            disabled={this.props.disabled} 
+                            validations={this.props.validations}
+                        />
                     </div>
                 )
             },this)

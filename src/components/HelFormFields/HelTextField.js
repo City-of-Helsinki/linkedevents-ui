@@ -7,8 +7,10 @@ import {setData} from 'src/actions/editor.js'
 
 import {injectIntl} from 'react-intl'
 
-import validationRules from 'src/validation/validationRules.js';
+import validationRules from 'src/validation/validationRules';
 import ValidationPopover from 'src/components/ValidationPopover'
+
+import CONSTANTS from '../../constants'
 
 class HelTextField extends React.Component {
     constructor(props) {
@@ -25,6 +27,34 @@ class HelTextField extends React.Component {
     static contextTypes = {
         intl: PropTypes.object,
         dispatch: PropTypes.func,
+    }
+
+    getStringLengthValidationText() {
+        const {VALIDATION_RULES, CHARACTER_LIMIT} = CONSTANTS
+
+        let isShortString = _.find(this.props.validations, i => i === VALIDATION_RULES.SHORT_STRING)
+        let isMediumString = _.find(this.props.validations, i => i === VALIDATION_RULES.MEDIUM_STRING)
+        let isLongString = _.find(this.props.validations, i => i === VALIDATION_RULES.LONG_STRING)
+        
+        let limit
+        if (!this.state.error && (isShortString || isMediumString || isLongString)) {
+            if(isShortString) {
+                limit = CONSTANTS.CHARACTER_LIMIT.SHORT_STRING
+            }
+            else if(isMediumString) {
+                limit = CONSTANTS.CHARACTER_LIMIT.MEDIUM_STRING
+            } 
+            else if(isLongString) {
+                limit = CONSTANTS.CHARACTER_LIMIT.LONG_STRING
+            }
+            
+            const diff =  limit - this.state.value.length.toString()
+            
+            if(diff >= 0) {
+                return this.context.intl.formatMessage({id: 'validation-stringLengthCounter'}, {counter: diff})
+            }
+        }
+        return this.state.error
     }
 
     getValue() {
@@ -54,21 +84,14 @@ class HelTextField extends React.Component {
     }
 
     helpText() {
-        let msg = this.context.intl.formatMessage({id: 'validation-stringLengthCounter'})
-        let longmsg = this.context.intl.formatMessage({id: 'validation-longStringLengthCounter'})
-        let isShortString = _.findIndex(this.props.validations, i => i === 'shortString') !== -1;
-        let isLongString = _.findIndex(this.props.validations, i => i === 'longString') !== -1;
-        let isUrl = _.findIndex(this.props.validations, i => i === 'isUrl') !== -1;
-        if (isShortString === true) {
-            return !this.state.error && isShortString
-                ? '' + (160 - this.state.value.length.toString()) + msg
-                : this.state.error
-        } else if (isLongString === true) {
-            return !this.state.error && isLongString
-                ? '' + (this.state.value.length.toString()) + longmsg
-                : this.state.error
-        } else if (isUrl === true) {
-            let urlmsg = this.context.intl.formatMessage({id: 'validation-isUrl'})
+        const {VALIDATION_RULES} = CONSTANTS
+
+        let urlmsg = this.context.intl.formatMessage({id: 'validation-isUrl'})
+        let isUrl = _.find(this.props.validations, i => i === VALIDATION_RULES.IS_URL)
+
+        const stringLengthMessage = this.getStringLengthValidationText()
+        if(stringLengthMessage) return stringLengthMessage
+        else if (isUrl) {
             return this.state.error
                 ? urlmsg
                 : this.state.error
@@ -134,9 +157,27 @@ class HelTextField extends React.Component {
     }
 
     setValidationErrorsToState() {
+        const {VALIDATION_RULES, CHARACTER_LIMIT} = CONSTANTS
+
         let errors = this.getValidationErrors()
+
         if(errors.length > 0) {
-            this.setState({error: this.context.intl.formatMessage({id: `validation-${errors[0].rule}`})})
+            let limit
+
+            switch (errors[0].rule) {
+                case VALIDATION_RULES.SHORT_STRING:
+                    limit = CHARACTER_LIMIT.SHORT_STRING
+                    break;
+                case VALIDATION_RULES.MEDIUM_STRING:
+                    limit = CHARACTER_LIMIT.MEDIUM_STRING
+                    break;
+                case VALIDATION_RULES.LONG_STRING:
+                    limit = CHARACTER_LIMIT.LONG_STRING
+                    break;
+            }
+            
+            return limit ? this.setState({error: this.context.intl.formatMessage({id: `validation-stringLimitReached`}, {limit})}) :
+                this.setState({error: this.context.intl.formatMessage({id: `validation-${errors[0].rule}`})}) 
         }
         else {
             this.setState({error: null})

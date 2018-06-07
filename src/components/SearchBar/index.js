@@ -11,6 +11,8 @@ import {FormattedMessage, injectIntl} from 'react-intl'
 import HelDatePicker from '../HelFormFields/HelDatePicker'
 import {Button, FormControl, ControlLabel} from 'react-bootstrap'
 
+import CONSTANTS from '../../constants'
+
 class SearchBar extends React.Component {
 
     constructor(props) {
@@ -38,6 +40,7 @@ class SearchBar extends React.Component {
     }
 
     render() {
+        const {VALIDATION_RULES} = CONSTANTS
         return (
             <form onSubmit={ (e) => this.handleSubmit(e) } className="row search-bar">
                 <div className="col-sm-2 time-label">
@@ -47,7 +50,7 @@ class SearchBar extends React.Component {
                     <HelDatePicker
                         ref="date"
                         name="startDate"
-                        validations={['isDate']}
+                        validations={[VALIDATION_RULES.IS_DATE]}
                         placeholder="pp.kk.vvvv"
                         onChange={(date, value) => this.handleDateChange('startDate', date, value)}
                         onBlur={() => null}
@@ -57,7 +60,7 @@ class SearchBar extends React.Component {
                     <HelDatePicker
                         ref="date"
                         name="endDate"
-                        validations={['isDate']}
+                        validations={[VALIDATION_RULES.IS_DATE]}
                         placeholder="pp.kk.vvvv"
                         onChange={(date, value) => this.handleDateChange('endDate', date, value)}
                         onBlur={() => null}
