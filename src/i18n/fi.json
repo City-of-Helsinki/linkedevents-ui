@@ -2,6 +2,7 @@
     "login": "Kirjaudu sisään",
     "logout": "Kirjaudu ulos",
     "create-course": "Lisää Kurssi",
+    "create-event": "Lisää Kurssi",
     "edit-event": "Muokkaa tapahtumaa",
     "search-course": "Selaa Kursseja",
     "more-info-course": "Lisätietoja",
