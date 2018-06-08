@@ -1,6 +1,6 @@
 import CONSTANTS from '../constants'
 
-const {LOCALE, LOCALE_ACTIONS} = CONSTANTS
+const {LOCALE_ACTIONS} = CONSTANTS
 
 export function setLocale(locale) {
     return {
