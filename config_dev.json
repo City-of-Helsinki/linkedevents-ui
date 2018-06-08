@@ -1,11 +1,11 @@
 {
-    "api_base": "https://api.hel.fi/linkedevents-test/v1",
-    "local_storage_user_expiry_time": 48,
-    "helsinkiAuthId": "replace-me-with-real-auth-id-for-authentication-to-work",
-    "helsinkiAuthSecret": "replace-me-with-real-auth-secret-for-authentication-to-work",
-    "helsinkiTargetApp": "replace-me-with-real-target-app-for-authentication-to-work",
-    "nocache": true,
-    "raven_id": false,
-    "publicUrl": "http://localhost:8080",
-    "sessionSecret": "dev-secret-do-not-use-in-production"
+   "api_base": "https://api.hel.fi/linkedevents-test/v1",
+   "local_storage_user_expiry_time": 48,
+   "helsinkiAuthId": "IwRDxhN1uZOQZO2ns6QSbSPoMJRt23sU6QeSvoBg",
+   "helsinkiAuthSecret": "2EIjvQpNk5cXaqV4eoRKMAopnphznOFiWgAZENH3zdkFENSYIkNIgZvfI2gNXZ9LOT0aJ2RRw8z7zPNx3k7K1tVGnpn97fS7",
+   "helsinkiTargetApp": "NWOWjp8ik6YuvyGHSX26BgkL34FBKvQyHuSWlaSM",
+   "nocache": true,
+   "raven_id": false,
+   "publicUrl": "http://localhost:8080",
+   "sessionSecret": "jFaWjOqsqvSIDEtHRbDlYU9gPvdnIr"
 }

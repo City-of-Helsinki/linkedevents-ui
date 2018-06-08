@@ -12,8 +12,10 @@ import {Modal, Well} from 'react-bootstrap';
 
 import {injectIntl, FormattedMessage} from 'react-intl'
 
-import {fetchKeywordSets as fetchKeywordSetsAction} from 'src/actions/editor.js'
-import {cancelAction, doAction} from 'src/actions/app.js'
+import {fetchLanguages as fetchLanguagesAction, fetchKeywordSets as fetchKeywordSetsAction} from '../../actions/editor'
+import {retrieveUserFromSession as retrieveUserFromSessionAction} from '../../actions/user'
+
+import {cancelAction, doAction} from 'src/actions/app'
 
 import {MuiThemeProvider} from 'material-ui/styles'
 import {HelTheme} from 'src/themes/hel'
@@ -43,8 +45,14 @@ class App extends React.Component {
     }
 
     UNSAFE_componentWillMount() {
+        // fetch Hel.fi languages
+        this.props.fetchLanguages()
+
         // Prefetch editor related hel.fi categories
         this.props.fetchKeywordSets()
+
+        // Fetch userdata
+        this.props.retrieveUserFromSession()
     }
 
     render() {
@@ -143,6 +151,8 @@ App.propTypes = {
     app: PropTypes.object,
     user: PropTypes.object,
     dispatch: PropTypes.func,
+    fetchLanguages: PropTypes.func,
+    retrieveUserFromSession: PropTypes.func,
 }
 
 const mapStateToProps = (state) => ({
@@ -153,6 +163,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     fetchKeywordSets: () => dispatch(fetchKeywordSetsAction()),
+    fetchLanguages:() => dispatch(fetchLanguagesAction()),
+    retrieveUserFromSession: () => dispatch(retrieveUserFromSessionAction()),
     do: (data) => dispatch(doAction(data)),
     cancel: () => dispatch(cancelAction()),
 })

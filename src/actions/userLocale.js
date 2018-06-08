@@ -9,8 +9,8 @@ export function setLocale(locale) {
     }
 }
 
-export function getLocale() {
+export function resetLocale() {
     return {
-        type: LOCALE_ACTIONS.LOCALE_GET,
+        type: LOCALE_ACTIONS.LOCALE_RESET,
     }
 }
