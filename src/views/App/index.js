@@ -12,8 +12,7 @@ import {Modal, Well} from 'react-bootstrap';
 
 import {injectIntl, FormattedMessage} from 'react-intl'
 
-import {retrieveUserFromSession as retrieveUserFromSessionAction} from 'src/actions/user'
-import {fetchKeywordSets as fetchKeywordSetsAction, fetchLanguages as fetchLanguagesAction} from 'src/actions/editor.js'
+import {fetchKeywordSets as fetchKeywordSetsAction} from 'src/actions/editor.js'
 import {cancelAction, doAction} from 'src/actions/app.js'
 
 import {MuiThemeProvider} from 'material-ui/styles'
@@ -25,37 +24,27 @@ class App extends React.Component {
     static propTypes = {
         children: PropTypes.node,
         fetchKeywordSets: PropTypes.func,
-        fetchLanguages: PropTypes.func,
         cancel: PropTypes.func,
         do: PropTypes.func,
-        retrieveUserFromSession: PropTypes.func,
     };
 
     static childContextTypes = {
         muiTheme: PropTypes.object,
         intl: PropTypes.object,
         dispatch: PropTypes.func,
-        // language: React.PropTypes.object,
-        // user: React.PropTypes.object
     };
 
     getChildContext() {
         return {
             muiTheme: HelTheme,
-            //language: this.props.language,
-            //user: this.state.user
             dispatch: this.props.dispatch,
             intl: this.props.intl,
         }
     }
 
     UNSAFE_componentWillMount() {
-        // Prefetch editor related hel.fi categories and event languages
+        // Prefetch editor related hel.fi categories
         this.props.fetchKeywordSets()
-        this.props.fetchLanguages()
-
-        // Fetch userdata
-        return this.props.retrieveUserFromSession()
     }
 
     render() {
@@ -164,8 +153,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     fetchKeywordSets: () => dispatch(fetchKeywordSetsAction()),
-    fetchLanguages:() => dispatch(fetchLanguagesAction()),
-    retrieveUserFromSession: () => dispatch(retrieveUserFromSessionAction()),
     do: (data) => dispatch(doAction(data)),
     cancel: () => dispatch(cancelAction()),
 })

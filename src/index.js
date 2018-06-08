@@ -1,9 +1,3 @@
-import Intl from 'intl'
-
-
-if(window && !window.Intl) {
-    window.Intl = Intl
-}
 
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -22,13 +16,6 @@ import thunk from 'redux-thunk'
 
 import reducers from './reducers'
 
-// Translations
-import {IntlProvider, addLocaleData} from 'react-intl';
-import fiLocaleData from 'react-intl/locale-data/fi';
-
-import translations from 'src/i18n';
-import moment from 'moment'
-
 // Views
 import App from './views/App'
 import Editor from './views/Editor'
@@ -46,6 +33,9 @@ import Serializer from './actors/serializer';
 import {report} from './utils/raven_reporter';
 import {Modal, Button, Glyphicon} from 'react-bootstrap';
 
+// translation 
+import IntlProviderWrapper from './components/IntlProviderWrapper'
+
 const history = createHistory()
 
 const allReducers = combineReducers(Object.assign({}, reducers, {
@@ -60,8 +50,7 @@ const allMiddlewares = compose(
 
 const store = createStore(allReducers, allMiddlewares)
 
-let locale = 'fi'
-moment.locale(locale)
+
 
 // Setup actor for validation. Actor is a viewless component which can listen to store changes
 // and send new actions accordingly. Bind the store as this for function
@@ -70,12 +59,11 @@ store.subscribe(_.bind(Validator, null, store))
 // JA: Serializing state for debugging
 store.subscribe(_.bind(Serializer, null, store));
 
-addLocaleData(fiLocaleData);
 const LayoutContainer = withRouter(connect()(App));
 
 ReactDOM.render(
     <Provider store={store}>
-        <IntlProvider locale={locale} messages={translations[locale] || {}}>
+        <IntlProviderWrapper>
             <ConnectedRouter history={history}>
                 <LayoutContainer>
                     <Route exact path="/" component={EventListing}/>
@@ -86,7 +74,7 @@ ReactDOM.render(
                     <Route exact path="/help" component={Help}/>
                 </LayoutContainer>
             </ConnectedRouter>
-        </IntlProvider>
+        </IntlProviderWrapper>
     </Provider>,
     document.getElementById('content')
 )
