@@ -25,35 +25,38 @@ import cityOfHelsinkiLogo from 'src/assets/images/helsinki-logo.svg'
 class HeaderBar extends React.Component {
 
     render() {
-        // NOTE: mockup for login button functionality
-        let loginButton = <Button onClick={() => this.props.login()}><Person/><FormattedMessage id="login"/></Button>
-        if(this.props.user) {
-            loginButton = <Button onClick={() => this.props.logout()}>{this.props.user.displayName}</Button>
-        }
+        const {user, routerPush, logout, login} = this.props 
+
         return (
-            <div>
-                <Toolbar className="mui-toolbar">
-                    <div>
-                        <Link to="/" className="title">
-                            <img className="title-image" src={cityOfHelsinkiLogo} alt="City Of Helsinki" />
+            <Toolbar className="main-navbar">
+                <div className="helsinki-bar">
+                    <div className="helsinki-bar__logo">
+                        <Link to="/">
+                            <img src={cityOfHelsinkiLogo} alt="City Of Helsinki" />
                         </Link>
                     </div>
-                    <div>
-                        {loginButton}
-                    </div>
-                </Toolbar>
-                <div className="navlinksHolder" >
-                    <div className="title-text" onClick={() => this.props.routerPush('/')}>Linked Courses</div>
-                    <div className="navbar-links">
-                        <Button className="mui-flat-button" onClick={() => this.props.routerPush('/')}><FormattedMessage id="organization-course"/></Button>
-                        <Button className="mui-flat-button" onClick={() => this.props.routerPush('/search')}><FormattedMessage id="search-course"/></Button>
-                        <Button className="mui-flat-button" onClick={() => this.props.routerPush('/help')}> <FormattedMessage id="more-info-course"/></Button>
-                    </div>
-                    <div className="navbar-links-two">
-                        <Button className="mui-flat-add-button" onClick={() => this.props.routerPush('/event/create/new')}><Add/><FormattedMessage id="create-course"/></Button>
+                    <div className="helsinki-bar__login-button">
+                        {user ? 
+                            <Button onClick={() => logout()}>{user.displayName}</Button> :
+                            <Button onClick={() => login()}><Person/><FormattedMessage id="login"/></Button>}
                     </div>
                 </div>
-            </div>
+
+                <div className="linked-courses-bar" >
+                    <div className="linked-courses-bar__logo" onClick={() => routerPush('/')}>Linked Courses</div>
+                    <div className="linked-courses-bar__links">
+                        <Button onClick={() => routerPush('/')}><FormattedMessage id="organization-course"/></Button>
+                        <Button onClick={() => routerPush('/search')}><FormattedMessage id="search-course"/></Button>
+                        <Button onClick={() => routerPush('/help')}> <FormattedMessage id="more-info-course"/></Button>
+                    </div>
+                    <div className="navbar-links-two">
+                        <Button onClick={() => routerPush('/event/create/new')}>
+                            <Add/>
+                            <FormattedMessage id="create-course"/>
+                        </Button>
+                    </div>
+                </div>
+            </Toolbar>
         )
     }
 }
