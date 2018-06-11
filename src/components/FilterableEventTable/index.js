@@ -13,6 +13,7 @@ import SearchBar from 'src/components/SearchBar'
 import {fetchEvents} from 'src/actions/events.js'
 import {setUserEventsSortOrder, fetchUserEvents} from 'src/actions/userEvents.js'
 import constants from 'src/constants'
+import {FormattedDate, FormattedRelative} from 'react-intl'
 
 class FilterableEventTable extends React.Component {
     static contextTypes = {
@@ -29,10 +30,10 @@ class FilterableEventTable extends React.Component {
 
     render() {
         let dateFormat = function(timeStr) {
-            return timeStr ? moment(timeStr).format('ll') : ''
+            return timeStr ? <FormattedDate value={timeStr} month="short" day="numeric" year="numeric"/> : ''
         }
         let dateTimeFormat = function(timeStr) {
-            return timeStr ? moment(timeStr).calendar() : ''
+            return timeStr ? <FormattedRelative value={timeStr} /> : ''
         }
 
         let EventRow = (props) => {
@@ -247,5 +248,6 @@ const mapDispatchToProps = (dispatch) => {
         },
     }
 }
-
-export default connect(null, mapDispatchToProps)(FilterableEventTable)
+const mapStateToProps = () => ({})
+// TODO: if leave null, react-intl not refresh. Replace this with better React context
+export default connect(mapStateToProps, mapDispatchToProps)(FilterableEventTable)

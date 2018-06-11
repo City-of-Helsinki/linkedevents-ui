@@ -99,6 +99,11 @@ legend {
         border-bottom: 1px solid #999;
         padding: 0 1rem;
         width: 100%;
+        span {
+            &:first-child {
+                padding-right: 5px;
+            }
+        }
     }
 }
 

@@ -4,7 +4,7 @@ import moment from 'moment'
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import {injectIntl, FormattedMessage} from 'react-intl'
+import {injectIntl, FormattedMessage, FormattedDate, FormattedTime} from 'react-intl'
 import {getStringWithLocale} from 'src/utils/locale'
 
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
@@ -146,7 +146,20 @@ let DateTime = (props) => {
         let time = moment(props.value).tz('Europe/Helsinki');
         let value = ''
         if(time.isValid()) {
-            value = time.format('dddd D.M.YYYY H.mm')
+            value = <div>
+                <FormattedDate 
+                    value={time}
+                    year="numeric"
+                    month="short"
+                    day="numeric"
+                    weekday="long"
+                /> 
+                <FormattedTime 
+                    value={time}
+                    hour="numeric"
+                    minute="2-digit"
+                />
+            </div>
         }
         return (
             <div className="single-value-field">
@@ -290,22 +303,22 @@ class EventDetails extends React.Component {
 }
 
 NoValue.propTypes = {
-    labelKey: PropTypes.number,
+    labelKey: PropTypes.string,
 } 
 
 CheckedValue.propTypes = {
     checked: PropTypes.bool,
-    labelKey: PropTypes.number,
+    labelKey: PropTypes.string,
     label: PropTypes.string,
 }
 
 OptionGroup.propTypes = {
     values: PropTypes.array,
-    labelKey: PropTypes.number,
+    labelKey: PropTypes.string,
 }
 
 FormHeader.propTypes = {
-    children: PropTypes.element,
+    children: PropTypes.string,
 }
 
 export default injectIntl(EventDetails)

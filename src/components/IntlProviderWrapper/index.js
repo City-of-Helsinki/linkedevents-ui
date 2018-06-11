@@ -6,9 +6,10 @@ import PropTypes from 'prop-types'
 import {IntlProvider, addLocaleData} from 'react-intl';
 
 import fiLocaleData from 'react-intl/locale-data/fi';
-// import enLocaleData from 'react-intl/locale-data/en';
+import enLocaleData from 'react-intl/locale-data/en';
+
 // import svLocaleData from 'react-intl/locale-data/sv';
-// TODO: enable this when translation sheet for en and sv is finished
+// TODO: enable this when translation sheet and sv is finished
 
 import translations from 'src/i18n';
 
@@ -17,20 +18,13 @@ import {setLocale as setLocaleAction, resetLocale as resetLocaleAction} from '..
 
 import Intl from 'intl'
 
-
 if(window && !window.Intl) {
     window.Intl = Intl
 }
 
-addLocaleData([...fiLocaleData])
+addLocaleData([...fiLocaleData, ...enLocaleData])
 
 class IntlProviderWrapper extends Component {
-    componentDidMount() {
-        const {userLocale: {locale}} = this.props
-        
-        moment.locale(locale)
-    }
-
     render() {
         const {user, userLocale: {locale}} = this.props
         

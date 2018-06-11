@@ -136,7 +136,7 @@ EventPage.propTypes = {
     match: PropTypes.object,
     fetchEventDetails: PropTypes.func,
     user: PropTypes.object,
-    events: PropTypes.array,
+    events: PropTypes.object,
     replaceData: PropTypes.func,
     routerPush: PropTypes.func,
 }

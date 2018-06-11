@@ -74,4 +74,6 @@ ImageGalleryGrid.propTypes = {
 const mapDispatchToProps = (dispatch) => ({
     fetchUserImages: (user, amount) => dispatch(fetchUserImagesAction(user, amount)),
 })
-export default connect(null, mapDispatchToProps)(ImageGalleryGrid)
+const mapStateToProps = () => ({})
+// TODO: if leave null, react-intl not refresh. Replace this with better React context
+export default connect(mapStateToProps, mapDispatchToProps)(ImageGalleryGrid)
