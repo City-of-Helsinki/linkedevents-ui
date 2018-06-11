@@ -21,6 +21,13 @@
     "confirm-cancel": "Cancel event",
     "delete": "Delete",
     "confirm": "Confirm",
+    "draft": "Draft",
+    "cancelled": "Cancelled",
+
+    "event-sort-title": "Title",
+    "event-sort-starttime": "Event starts",
+    "event-sort-endtime": "Event ends",
+    "event-sort-last-modified": "Last modified",
 
     "ready": "Ready",
     "clear-form": "Clear form",
@@ -47,6 +54,7 @@
     "organization-events": "Manage events",
     "organization-events-prompt": "to manage events.",
     "organization-events-description": "Browse and edit drafts and published events of your organization.",
+    "organization-events-no-results": "No editable events found.",
    
     "event-image": "Event image (click to change)",
     "new-image": "Add a new image",
