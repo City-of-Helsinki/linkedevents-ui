@@ -1,4 +1,5 @@
 @import "fonts";
+@import "colors";
 
 // Box shadow shim for bootstrap
 @mixin box-shadow($left:0, $top:2px, $blur:2px, $color:#000, $inset:"") {
@@ -50,7 +51,7 @@ html, body {
 
     background-color: #f7f7f7;
 
-    font: normal normal normal 18px/1.2 "Roboto", "Helvetica Neue", "Segoe UI", Calibri, sans-serif;
+    font: normal normal normal 18px/1.2 "HelsinkiGrotesk", "Helvetica Neue", "Segoe UI", Calibri, sans-serif;
 }
 
 .material-icons {
@@ -65,7 +66,7 @@ html, body {
 }
 
 h1,h2,h3 {
-    font-family: "KarbidComp", "Roboto", "Helvetica Neue", "Segoe UI", Calibri, sans-serif;
+    font-family: "HelsinkiGrotesk", "Roboto", "Helvetica Neue", "Segoe UI", Calibri, sans-serif;
 }
 
 h1 {

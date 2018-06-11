@@ -1,13 +1,23 @@
-$header-bar-height: 56px;
-$navbarIconPaddingLeft: 5px;
+@import '../../assets/colors';
 
-.mui-toolbar {
-    color: #ffffff;
-    background-color: #006cbc;
-    height: auto !important;
-    min-height: $header-bar-height;
-    display: flex;
-    justify-content: space-between;
+$helsinkiBarHeight: 64px;
+$headerBarHeight: 128px;
+$helsinkiLogoPaddingLeft: 30px;
+$helsinkiLogoHeight: 36px;
+$linkFontSize: 16px;
+$linkCoursesTextSize: 19px;
+$logoPaddingRight: 32px;
+$addCoursePadding: 6px 12px;
+
+.main-navbar {
+    height: $headerBarHeight !important;
+
+    button {
+        color: $hel-white;
+        font-weight: bold;
+        font-size: $linkFontSize;
+    }
+
     a {
         color: inherit;
 
@@ -17,80 +27,57 @@ $navbarIconPaddingLeft: 5px;
             color: inherit;
         }
     }
+    
+    .helsinki-bar {
+        height: $helsinkiBarHeight;
+        width: 100%;
+        display: flex;
+        background: $hel-tram;
+        justify-content: space-between;
+        align-items: center;
 
-    .title {
-        display: inline-block;
-        min-height: $header-bar-height;
-
-        padding-left: 30px;
-        white-space: nowrap;
-
-        .title-text {
-            display: inline-block;
+        &__logo {
+            height: $helsinkiLogoHeight;
             white-space: nowrap;
-            line-height: $header-bar-height;
-            padding-left: 16px;
-        }
 
-        .title-image {
-            display: inline-block;
-            height: 48px;
-            width: auto;
+            img {
+                height: $helsinkiLogoHeight;
+            }
         }
     }
 
-    .mui-flat-button {
-        background-color: transparent;
-        color: #ffffff;
+    .linked-courses-bar {
+        height: $helsinkiBarHeight;
+        width: 100%;
+        display: flex;
+        background: $hel-white;
+        align-items: center;
 
-        margin-left: 6px !important;
-        margin-right: 6px !important;
-
-        &:nth-of-type(1) {
-            margin-left: 18px;
+        &__logo {
+            padding-right: $logoPaddingRight;
+            span {
+                font-size: $linkCoursesTextSize;
+                font-weight: bold;
+                color: $hel-tram;   
+            }
         }
 
-        &:hover {
-            background-color: rgba(255,255,255,0.1);
-        }
-    }
+        &__links {
+            display: flex;
+            flex-grow: 1;
+            justify-content: space-between;
+            
+            &__list {
+                button {
+                    color: black;
+                }
+            }
 
-    .toolbar-actions {
-        display: inline-block;
-        margin: 0px 2px;
-
-        height: $header-bar-height;
-
-        .mui-flat-button {
-            margin-left: 2px !important;
-            margin-right: 2px !important;
-        }
-    }
-
-    .clearfix {
-        clear: both;
-    }
-
-    .info-icon {
-        padding-left: 15px;
-    }
-    .navbar-links {
-        svg {
-            padding-left: $navbarIconPaddingLeft;
-        }
-    }
-}
-
-@media (max-width: 800px) {
-    .mui-toolbar {
-        padding: 0 !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .mui-flat-button {
-        &:nth-of-type(1) {
-            margin-left: 4px !important;
+            &__create-courses {
+                color: $hel-tram;
+                border: 2px solid $hel-tram;
+                padding: $addCoursePadding;
+            }
         }
     }
 }

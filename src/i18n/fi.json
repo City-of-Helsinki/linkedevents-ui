@@ -3,7 +3,6 @@
     "logout": "Kirjaudu ulos",
     "create-event": "Lisää uusi tapahtuma",
     "edit-event": "Muokkaa tapahtumaa",
-    "search-events": "Etsi tapahtumia",
     "search-events-description": "Katsele kaikkia Linked Eventsin tapahtumia.",
     "pick-time-range": "Etsi vain ajalta",
     "event-name-or-place": "Tapahtuman nimi tai paikka",
@@ -43,7 +42,6 @@
     "event-info-url": "Kotisivu",
     "event-provider": "Tapahtuman järjestäjä",
     "event-provider-input": "Tapahtuman järjestäjä (jos eri kuin syöttäjän organisaatio)",
-
     "organization-events": "Tapahtumien hallinta",
     "organization-events-prompt": "muokataksesi tapahtumia.",
     "organization-events-description": "Selaa ja muokkaa oman organisaatiosi julkisia tapahtumia sekä luonnoksia. Voit lisätä uuden tapahtuman yläpalkista.",
@@ -175,5 +173,11 @@
     "search-no-results": "Ei tuloksia",
     "copy-to-clipboard": "Kopioi leikepöydälle",
 
-    "image-caption-limit": "Kuvateksti (korkeintaan {limit} merkkiä)"
+    "image-caption-limit": "Kuvateksti (korkeintaan {limit} merkkiä)",
+
+    "link-courses": "Linkkurssit",
+    "create-course": "Lisää Kurssi",
+    "search-course": "Selaa Kursseja",
+    "more-info": "Lisätietoja",
+    "course-management": "Kurssien hallinta"
 }

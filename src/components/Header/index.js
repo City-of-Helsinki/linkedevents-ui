@@ -16,41 +16,47 @@ import List from 'material-ui-icons/List'
 import Search from 'material-ui-icons/Search'
 import Add from 'material-ui-icons/Add'
 import HelpOutline from 'material-ui-icons/HelpOutline'
+import Person from 'material-ui-icons/Person'
 
 import {Link} from 'react-router-dom'
 
-import cityOfHelsinkiLogo from 'src/assets/images/helsinki-coat-of-arms-white.png'
+import cityOfHelsinkiLogo from 'src/assets/images/helsinki-logo.svg'
 
 class HeaderBar extends React.Component {
 
     render() {
-        let buttonStyle = {color: '#ffffff'}
-        let verticalAlignMiddle = {verticalAlign: 'middle'}
-
-        // NOTE: mockup for login button functionality
-        let loginButton = <Button style={buttonStyle} onClick={() => this.props.login()}><FormattedMessage id="login"/></Button>
-        if(this.props.user) {
-            loginButton = <Button style={buttonStyle} onClick={() => this.props.logout()}>{this.props.user.displayName}</Button>
-        }
+        const {user, routerPush, logout, login} = this.props 
 
         return (
-            <Toolbar className="mui-toolbar">
-                <div>
-                    <Link to="/" className="title">
-                        <img className="title-image" src={cityOfHelsinkiLogo} alt="City Of Helsinki" />
-                        <div className="title-text">Linked Events</div>
-                    </Link>
-                </div>
-                <div className="navbar-links">
-                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.routerPush('/')}><FormattedMessage id="organization-events"/><List/></Button>
-                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.routerPush('/search')}><FormattedMessage id="search-events"/><Search/></Button>
-                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.routerPush('/event/create/new')}><FormattedMessage id="create-event"/><Add/></Button>
-                </div>
-                <div>
-                    <Button className="mui-flat-button" style={{...buttonStyle,...verticalAlignMiddle}} onClick={() => this.props.routerPush('/help')}><HelpOutline/></Button>
-                    {loginButton}
-                </div>
-            </Toolbar>
+            <div className="main-navbar">
+                <Toolbar className="helsinki-bar">
+                    <div className="helsinki-bar__logo">
+                        <Link to="/">
+                            <img src={cityOfHelsinkiLogo} alt="City Of Helsinki" />
+                        </Link>
+                    </div>
+                    <div className="helsinki-bar__login-button">
+                        {user ? 
+                            <Button onClick={() => logout()}>{user.displayName}</Button> :
+                            <Button onClick={() => login()}><Person/><FormattedMessage id="login"/></Button>}
+                    </div>
+                </Toolbar>
+                
+                <Toolbar className="linked-courses-bar">
+                    <div className="linked-courses-bar__logo" onClick={() => routerPush('/')}><FormattedMessage id="link-courses" /></div>
+                    <div className="linked-courses-bar__links">
+                        <div className="linked-courses-bar__links__list">
+                            <Button onClick={() => routerPush('/')}><FormattedMessage id="course-management"/></Button>
+                            <Button onClick={() => routerPush('/search')}><FormattedMessage id="search-course"/></Button>
+                            <Button onClick={() => routerPush('/help')}> <FormattedMessage id="more-info"/></Button>
+                        </div>
+                        <Button className="linked-courses-bar__links__create-courses" onClick={() => routerPush('/event/create/new')}>
+                            <Add/>
+                            <FormattedMessage id="create-course"/>
+                        </Button>
+                    </div>
+                </Toolbar>
+            </div>
         )
     }
 }

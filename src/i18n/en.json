@@ -1,8 +1,6 @@
 {
     "login": "Login",
     "logout": "Logout",
-    "create-event": "Create event",
-    "search-events": "Search events",
     "search-events-description": "Search events description",
     "pick-time-range": "Pick time range",
     "event-name-or-place": "Event name or place",
@@ -14,7 +12,7 @@
     "submit": "Submit",
     "cancel": "Cancel",
     "save": "Save",
-
+    
     "ready": "Ready",
     "event-presented-in-languages": "This event will be presented in following languages.",
 
@@ -80,5 +78,11 @@
     "hel-fi-main-categories": "Hel.fi main categories",
 
     "search-no-results": "No results",
-    "copy-to-clipboard": "Copy to clipboard"
+    "copy-to-clipboard": "Copy to clipboard",
+
+    "link-courses": "Link Courses",
+    "create-course": "Create course",
+    "search-course": "Search course",
+    "more-info": "More info",
+    "course-management": "Course management"
 }
