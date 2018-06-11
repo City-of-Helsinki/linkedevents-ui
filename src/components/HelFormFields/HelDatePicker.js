@@ -57,7 +57,7 @@ class HelDatePicker extends React.Component {
         return (
             <div className='hel-text-field'>
                 <DatePicker
-                    placeholderText='pp.kk.vvvv'
+                    placeholderText={this.props.placeholder}
                     selected={this.state.date}
                     autoOk={true}
                     name={this.props.name}
@@ -76,6 +76,7 @@ HelDatePicker.propTypes = {
     name: PropTypes.string.isRequired,
     onBlur: PropTypes.func,
     onChange: PropTypes.func,
+    placeholder: PropTypes.string,
 }
 
 export default connect((state) => ({

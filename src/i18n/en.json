@@ -5,7 +5,7 @@
     "edit-event": "Edit event",
     "copy-event-to-draft": "Copy to draft",
     "search-events": "Search events",
-    "search-events-description": "Search events description",
+    "search-events-description": "View all events on Linked Events.",
     "pick-time-range": "Pick time range",
     "event-name-or-place": "Event name or place",
     "search-event-button": "Search for events",
@@ -161,6 +161,7 @@
     "confirm-image-delete": "Confirm image deletion",
 
     "search-no-results": "No results",
+    "search-date-placeholder": "dd.mm.yyyy",
     "copy-to-clipboard": "Copy to clipboard",
 
     "hel-keywords": "Keywords",

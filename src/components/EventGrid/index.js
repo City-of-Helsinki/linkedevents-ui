@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import moment from 'moment'
 import PropTypes from 'prop-types'
+import {FormattedMessage} from 'react-intl';
 
 import defaultThumbnail from 'src/assets/images/helsinki-coat-of-arms-white.png'
 
@@ -33,7 +34,7 @@ let EventItem = (props) => {
     let cancelled = props.event.event_status === constants.EVENT_STATUS.CANCELLED
     let cancelledBadge = null
     if (cancelled) {
-        cancelledBadge = (<span className="label label-danger search-badge">PERUUTETTU</span>)
+        cancelledBadge = (<span className="label label-danger search-badge"><FormattedMessage id="cancelled"/></span>)
     }
 
     return (
