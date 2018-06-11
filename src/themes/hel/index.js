@@ -1,13 +1,15 @@
 let Colors = require('material-ui/colors')
 let Spacing = require('material-ui/styles/spacing')
 import {createMuiTheme} from 'material-ui/styles'
-import green from 'material-ui/colors/green'
-import cyan from 'material-ui/colors/cyan'
 
 
-let helCyan = {
-    ...cyan,
+const {green, cyan} = Colors
+
+
+let helColor = {
+    cyan,
     A200: '#00bcd4',
+    helTram: '#009246',
 }
 
 let helRawStyle = {
@@ -16,11 +18,11 @@ let helRawStyle = {
     fontFamily: 'Roboto, sans-serif',
     palette: {
         primary: green,
-        secondary: helCyan,
+        secondary: cyan,
         primary2Color: Colors.cyan700,
         primary3Color: Colors.gray700,
         accent1Color: '#48a3e7',
-        accent2Color: '#1B914A',
+        accent2Color: '#0072c6',
         accent3Color: Colors.grey500,
         textColor: Colors.black,
         alternateTextColor: Colors.white,
@@ -59,17 +61,17 @@ let helRawStyle = {
         },
         MuiToolbar: {
             root: {
-                backgroundColor: '#009246',
+                backgroundColor: helColor.helTram,
             },
         },
         MuiSnackbar: {
             root: {
-                backgroundColor: '#009246',
+                backgroundColor: helColor.helTram,
             },
         },
         MuiSnackbarContent: {
             root: {
-                backgroundColor: '#009246',
+                backgroundColor: helColor.helTram,
             },
         },
         MuiTable: {
@@ -118,7 +120,7 @@ let helTheme = createMuiTheme(helRawStyle)
 let headerTheme = createMuiTheme(helHeaderRawStyle)
 
 // Override specific component styles
-headerTheme.mixins.toolbar.backgroundColor = '#009246'
+headerTheme.mixins.toolbar.backgroundColor = helColor.helTram
 headerTheme.mixins.toolbar.height = 56
 headerTheme.mixins.toolbar.titleFontSize = 20
 headerTheme.mixins.toolbar.iconColor = '#ffffff'

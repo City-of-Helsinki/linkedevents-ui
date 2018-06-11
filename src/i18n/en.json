@@ -1,16 +1,10 @@
 {
     "login": "Login",
     "logout": "Logout",
-    "link-courses": "Link Courses",
-    "create-course": "Add New Course",
-    "search-course": "Search Courses",
     "search-events-description": "Search events description",
     "pick-time-range": "Pick time range",
     "event-name-or-place": "Event name or place",
     "search-event-button": "Search for events",
-    "organization-course": "Course Management",
-    "organization-events": "Course Management",
-    "more-info-course": "More Info",
     "lang-fi": "Finnish",
     "lang-en": "English",
     "lang-sv": "Swedish",
@@ -84,5 +78,11 @@
     "hel-fi-main-categories": "Hel.fi main categories",
 
     "search-no-results": "No results",
-    "copy-to-clipboard": "Copy to clipboard"
+    "copy-to-clipboard": "Copy to clipboard",
+
+    "link-courses": "Link Courses",
+    "create-course": "Create course",
+    "search-course": "Search course",
+    "more-info": "More info",
+    "course-management": "Course management"
 }

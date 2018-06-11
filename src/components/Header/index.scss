@@ -2,7 +2,6 @@
 
 $helsinkiBarHeight: 64px;
 $headerBarHeight: 128px;
-$navbarIconPaddingLeft: 5px;
 $helsinkiLogoPaddingLeft: 30px;
 $helsinkiLogoHeight: 36px;
 $linkFontSize: 16px;
@@ -16,7 +15,7 @@ $addCoursePadding: 6px 12px;
     button {
         color: $hel-white;
         font-weight: bold;
-        font-size: 16px;
+        font-size: $linkFontSize;
     }
 
     a {
@@ -64,14 +63,16 @@ $addCoursePadding: 6px 12px;
         }
 
         &__links {
-            button {
-                &:not(:last-child) {
-                    color: black;
-                }
-            }
             display: flex;
             flex-grow: 1;
             justify-content: space-between;
+            
+            &__list {
+                button {
+                    color: black;
+                }
+            }
+
             &__create-courses {
                 color: $hel-tram;
                 border: 2px solid $hel-tram;
