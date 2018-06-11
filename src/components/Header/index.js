@@ -28,8 +28,8 @@ class HeaderBar extends React.Component {
         const {user, routerPush, logout, login} = this.props 
 
         return (
-            <Toolbar className="main-navbar">
-                <div className="helsinki-bar">
+            <div className="main-navbar">
+                <Toolbar className="helsinki-bar">
                     <div className="helsinki-bar__logo">
                         <Link to="/">
                             <img src={cityOfHelsinkiLogo} alt="City Of Helsinki" />
@@ -40,10 +40,10 @@ class HeaderBar extends React.Component {
                             <Button onClick={() => logout()}>{user.displayName}</Button> :
                             <Button onClick={() => login()}><Person/><FormattedMessage id="login"/></Button>}
                     </div>
-                </div>
-
-                <div className="linked-courses-bar" >
-                    <div className="linked-courses-bar__logo" onClick={() => routerPush('/')}>Linked Courses</div>
+                </Toolbar>
+                
+                <Toolbar className="linked-courses-bar">
+                    <div className="linked-courses-bar__logo" onClick={() => routerPush('/')}><FormattedMessage id="link-courses" /></div>
                     <div className="linked-courses-bar__links">
                         <Button onClick={() => routerPush('/')}><FormattedMessage id="organization-course"/></Button>
                         <Button onClick={() => routerPush('/search')}><FormattedMessage id="search-course"/></Button>
@@ -55,8 +55,8 @@ class HeaderBar extends React.Component {
                             <FormattedMessage id="create-course"/>
                         </Button>
                     </div>
-                </div>
-            </Toolbar>
+                </Toolbar>
+            </div>
         )
     }
 }

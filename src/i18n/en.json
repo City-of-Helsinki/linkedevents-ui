@@ -1,6 +1,7 @@
 {
     "login": "Login",
     "logout": "Logout",
+    "link-courses": "Link Courses",
     "create-course": "Add New Course",
     "search-course": "Search Courses",
     "search-events-description": "Search events description",

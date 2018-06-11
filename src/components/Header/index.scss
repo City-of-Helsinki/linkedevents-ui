@@ -1,15 +1,18 @@
 @import '../../assets/colors';
-$headerBarHeight: 100px;
+$helsinkiBarHeight: 64px;
+$headerBarHeight: 128px;
 $navbarIconPaddingLeft: 5px;
 $helsinkiLogoPaddingLeft: 30px;
 $helsinkiLogoHeight: 36px;
-$helsinkiBarHeight: 64px;
 
 .main-navbar {
-    color: $hel-white;
     height: $headerBarHeight !important;
-    flex-direction: row;
-    flex-wrap: wrap;
+
+    button {
+        color: $hel-white;
+        font-weight: bold;
+        font-size: 16px;
+    }
 
     a {
         color: inherit;
@@ -40,6 +43,11 @@ $helsinkiBarHeight: 64px;
     }
 
     .linked-courses-bar {
-    
+        height: $helsinkiBarHeight;
+        width: 100%;
+        display: flex;
+        background: $hel-white;
+        justify-content: space-between;
+        align-items: center;
     }
 }
