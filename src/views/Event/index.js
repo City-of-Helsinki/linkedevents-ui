@@ -71,25 +71,25 @@ class EventPage extends React.Component {
         let draftClass = event.publication_status == constants.PUBLICATION_STATUS.DRAFT ? 'event-page draft' : 'event-page'
         let draftBadge = null
         if (event.publication_status === constants.PUBLICATION_STATUS.DRAFT) {
-            draftBadge = (<span style={{marginRight:'0.5em'}} className="label label-warning">LUONNOS</span>)
+            draftBadge = (<span style={{marginRight:'0.5em'}} className="label label-warning text-uppercase"><FormattedMessage id="draft"/></span>)
         }
         let cancelledClass = event.publication_status == constants.EVENT_STATUS.CANCELLED ? 'event-page cancelled' : 'event-page'
         let cancelledBadge = null
         if (event.event_status === constants.EVENT_STATUS.CANCELLED) {
-            cancelledBadge = (<span style={{marginRight:'0.5em'}} className="label label-danger">PERUUTETTU</span>)
+            cancelledBadge = (<span style={{marginRight:'0.5em'}} className="label label-danger text-uppercase"><FormattedMessage id="cancelled"/></span>)
         }
 
         if(this.props.events.eventError) {
             return (
                 <header className="container header">
                     <h3>
-                        <div>Tapahtumaa ei löytynyt tai sinulla ei ole oikeuksia katsella sitä.</div>
+                        <div><FormattedMessage id="event-page-error"/></div>
                     </h3>
                 </header>
             )
         }
 
-        const editEventButton = <Button raised onClick={e => this.editEvent(e)} disabled={!eventIsEditable} style={buttonStyle} color="primary">Muokkaa tapahtumaa</Button>
+        const editEventButton = <Button raised onClick={e => this.editEvent(e)} disabled={!eventIsEditable} style={buttonStyle} color="primary"><FormattedMessage id="edit-event"/></Button>
 
         if(event && event.name) {
             return (
@@ -110,7 +110,7 @@ class EventPage extends React.Component {
                                     </Tooltip>
                                 }
 
-                                <Button raised onClick={e => this.copyAsTemplate(e)} style={buttonStyle} color="accent">Kopioi uuden tapahtuman pohjaksi</Button>
+                                <Button raised onClick={e => this.copyAsTemplate(e)} style={buttonStyle} color="accent"><FormattedMessage id="copy-event-to-draft"/></Button>
                             </div>
                         </div>
                     </div>
@@ -124,7 +124,7 @@ class EventPage extends React.Component {
             return (
                 <header className="container header">
                     <h3>
-                        <div>Ladataan tapahtumaa...</div>
+                        <div><FormattedMessage id="event-page-loading"/></div>
                     </h3>
                 </header>
             )

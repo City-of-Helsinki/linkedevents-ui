@@ -3,6 +3,7 @@
     "logout": "Kirjaudu ulos",
     "create-event": "Lisää uusi tapahtuma",
     "edit-event": "Muokkaa tapahtumaa",
+    "copy-event-to-draft": "Kopioi uuden tapahtuman pohjaksi",
     "search-events": "Etsi tapahtumia",
     "search-events-description": "Katsele kaikkia Linked Eventsin tapahtumia.",
     "pick-time-range": "Etsi vain ajalta",
@@ -28,6 +29,9 @@
     "event-sort-starttime": "Tapahtuma alkaa",
     "event-sort-endtime": "Tapahtuma päättyy",
     "event-sort-last-modified": "Muokattu viimeksi",
+
+    "event-page-error": "Tapahtumaa ei löytynyt tai sinulla ei ole oikeuksia katsella sitä.",
+    "event-page-loading": "Ladataan tapahtumaa...",
     
     "ready": "Valmis",
     "clear-form": "Tyhjennä kentät",
@@ -110,8 +114,6 @@
 
     "event-categorization": "Tapahtuman luokittelu",
 
-    "hel-main-categories": "Hel.fi-pääkategoriat",
-
     "hel-event-languages": "Tapahtuman kielet",
 
     "validation-isUrl": "Kirjoita URL osoite kokonaisena ja oikeassa muodossa (http://...)",
@@ -160,6 +162,10 @@
 
     "search-no-results": "Ei tuloksia",
     "copy-to-clipboard": "Kopioi leikepöydälle",
+
+    "hel-keywords": "Avainsanat",
+    "hel-target-groups": "Kohderyhmät",
+    "hel-main-categories": "Hel.fi-pääkategoriat",
 
     "image-caption-limit": "Kuvateksti (korkeintaan {limit} merkkiä)"
 }

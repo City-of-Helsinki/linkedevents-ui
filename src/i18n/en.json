@@ -3,6 +3,7 @@
     "logout": "Logout",
     "create-event": "Create event",
     "edit-event": "Edit event",
+    "copy-event-to-draft": "Copy to draft",
     "search-events": "Search events",
     "search-events-description": "Search events description",
     "pick-time-range": "Pick time range",
@@ -29,6 +30,9 @@
     "event-sort-endtime": "Event ends",
     "event-sort-last-modified": "Last modified",
 
+    "event-page-error": "Event not found or you don't have the permission to view it.",
+    "event-page-loading": "Loading event...",
+
     "ready": "Ready",
     "clear-form": "Clear form",
 
@@ -41,7 +45,7 @@
     "in-zh_hans": "In Chinese",
     "in-ar": "In Arabic",
 
-    "no-value": "-the field is empty.",
+    "no-value": "-field is empty.",
     
     "event-description-fields-header": "Event description",
     "event-headline": "Title",
@@ -110,8 +114,6 @@
 
     "event-categorization": "Categorization",
 
-    "hel-main-categories": "Hel.fi main categories",
-
     "hel-event-languages": "Event languages",
 
     "validation-isUrl": "Enter the URL in correct format (http://...)",
@@ -160,6 +162,10 @@
 
     "search-no-results": "No results",
     "copy-to-clipboard": "Copy to clipboard",
+
+    "hel-keywords": "Keywords",
+    "hel-target-groups": "Target groups",
+    "hel-main-categories": "Hel.fi main categories",
 
     "image-caption-limit": "Caption (maximum {limit} characters)"
 }
