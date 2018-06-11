@@ -45,12 +45,12 @@ class HeaderBar extends React.Component {
                 <Toolbar className="linked-courses-bar">
                     <div className="linked-courses-bar__logo" onClick={() => routerPush('/')}><FormattedMessage id="link-courses" /></div>
                     <div className="linked-courses-bar__links">
-                        <Button onClick={() => routerPush('/')}><FormattedMessage id="organization-course"/></Button>
-                        <Button onClick={() => routerPush('/search')}><FormattedMessage id="search-course"/></Button>
-                        <Button onClick={() => routerPush('/help')}> <FormattedMessage id="more-info-course"/></Button>
-                    </div>
-                    <div className="navbar-links-two">
-                        <Button onClick={() => routerPush('/event/create/new')}>
+                        <div>
+                            <Button onClick={() => routerPush('/')}><FormattedMessage id="organization-course"/></Button>
+                            <Button onClick={() => routerPush('/search')}><FormattedMessage id="search-course"/></Button>
+                            <Button onClick={() => routerPush('/help')}> <FormattedMessage id="more-info-course"/></Button>
+                        </div>
+                        <Button className="linked-courses-bar__links__create-courses" onClick={() => routerPush('/event/create/new')}>
                             <Add/>
                             <FormattedMessage id="create-course"/>
                         </Button>
