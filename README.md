@@ -20,6 +20,8 @@ Linked Events API. It exposes many capabilities of the API including:
 
 ## Configuration
 
+Copy the contents of `config_dev.json.example` to `config_dev.json`.
+
 `config_dev.json` contains partially working settings giving you read only
 access to our test API. If you have your own API and/or authentication
 credentials you can change the relevant settings therein.
