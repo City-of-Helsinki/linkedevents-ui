@@ -2,11 +2,9 @@ import path from 'path';
 import common from './common.js';
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import nconf from 'nconf'
+import {readConfig} from '../appConfig';
 
-nconf.file({file: 'config_dev.json'})
-
-const publicUrl = nconf.get('publicUrl')
+const publicUrl = readConfig('publicUrl')
 
 export default {
     context: path.join(common.paths.ROOT, '/src'),

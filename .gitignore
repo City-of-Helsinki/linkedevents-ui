@@ -6,3 +6,4 @@ npm-debug.log
 .idea
 server.config
 yarn-error.log
+config_dev.json
