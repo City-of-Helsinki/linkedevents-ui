@@ -109,7 +109,10 @@ class HelOffersField extends React.Component {
 
 HelOffersField.propTypes = {
     defaultValue: PropTypes.array,
-    validationErrors: PropTypes.object,
+    validationErrors: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object,
+    ]),
     languages: PropTypes.array,
 }
 

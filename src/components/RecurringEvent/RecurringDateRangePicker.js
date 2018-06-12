@@ -66,11 +66,14 @@ RecurringDateRangePicker.contextTypes = {
 };
 
 RecurringDateRangePicker.propTypes = {
-    defaultValue: PropTypes.string,
+    defaultValue: PropTypes.object,
     name: PropTypes.string,
     onChange: PropTypes.func,
     label: PropTypes.string,
-    validationErrors: PropTypes.array,
+    validationErrors: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object,
+    ]),
 }
 
 export default RecurringDateRangePicker
