@@ -175,5 +175,8 @@
     "search-no-results": "Ei tuloksia",
     "copy-to-clipboard": "Kopioi leikepöydälle",
 
-    "image-caption-limit": "Kuvateksti (korkeintaan {limit} merkkiä)"
+    "image-caption-limit": "Kuvateksti (korkeintaan {limit} merkkiä)",
+
+    "add-more": "Lisää kerrat",
+    "play-date-label": "Toistopäivät"
 }
