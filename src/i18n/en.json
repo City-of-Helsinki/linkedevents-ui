@@ -15,6 +15,7 @@
     "welcome": "Welcome",
     "submit": "Submit",
     "cancel": "Cancel",
+    "delete-event": "Delete event",
     "cancel-event": "Cancel event",
     "save": "Save",
     "confirm-action-header": "Confirm",
@@ -142,6 +143,13 @@
     "event-posted": "Event submitted!",
     "no-connection": "No connection to the server!",
 
+    "event-action-save-new": "Publish event",
+    "event-action-save-new-active": "Publishing event",
+    "event-action-save-existing": "Save changes to published event",
+    "event-action-save-existing-active": "Saving changes",
+    "event-action-save-multiple": "Publish events",
+    "event-action-save-multiple-active": "Publishing events",
+
     "event-creation-default-success": "Event created!",
     "event-creation-update-success": "Event updated!",
     "event-creation-savedraft-success": "Draft saved!",
@@ -167,6 +175,10 @@
     "hel-keywords": "Keywords",
     "hel-target-groups": "Target groups",
     "hel-main-categories": "Hel.fi main categories",
+
+    "editor-delete-subevents-warning": "The following subevents will be deleted:",
+    "editor-delete-warning": "WARNING: This action will delete the event permanently. You may cancel or postpone the event if needed.",
+    "editor-sentinel-alert": "You can view the form, but you don't have the permission to publish or edit events. You are not logged in or your login has expired.",
 
     "image-caption-limit": "Caption (maximum {limit} characters)"
 }

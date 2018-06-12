@@ -15,6 +15,7 @@
     "welcome": "Tervetuloa",
     "submit": "Lähetä",
     "cancel": "Kumoa",
+    "delete-event": "Poista tapahtuma",
     "cancel-event": "Peruuta tapahtuma",
     "save": "Tallenna",
     "confirm-action-header": "Varmista toiminto",
@@ -142,6 +143,13 @@
     "event-posted": "Tapahtuma lähetettiin onnistuneesti!",
     "no-connection": "Ei yhteyttä palvelimelle!",
 
+    "event-action-save-new": "Julkaise tapahtuma",
+    "event-action-save-new-active": "Julkaistaan tapahtumaa",
+    "event-action-save-existing": "Tallenna muutokset julkaistuun tapahtumaan",
+    "event-action-save-existing-active": "Tallennetaan muutoksia",
+    "event-action-save-multiple": "Julkaise tapahtumat",
+    "event-action-save-multiple-active": "Julkaistaan tapahtumia",
+
     "event-creation-default-success": "Tapahtuma luotiin onnistuneesti!",
     "event-creation-update-success": "Tapahtuma päivitettiin onnistuneesti!",
     "event-creation-savedraft-success": "Luonnoksen tallennus onnistui!",
@@ -167,6 +175,10 @@
     "hel-keywords": "Avainsanat",
     "hel-target-groups": "Kohderyhmät",
     "hel-main-categories": "Hel.fi-pääkategoriat",
+
+    "editor-delete-subevents-warning": "Poistaessasi tämän tapahtuman myös seuraavat alitapahtumat poistetaan:",
+    "editor-delete-warning": "VAROITUS: Tämä toiminto poistaa tapahtuman lopullisesti. Voit tarvittaessa myös perua tapahtuman tai lykätä sitä.",
+    "editor-sentinel-alert": "Voit katsella lomaketta, mutta sinulla ei ole oikeuksia julkaista tai muokata tapahtumia. Et ole kirjautunut sisään tai kirjautumisesi on vanhentunut.",
 
     "image-caption-limit": "Kuvateksti (korkeintaan {limit} merkkiä)"
 }
