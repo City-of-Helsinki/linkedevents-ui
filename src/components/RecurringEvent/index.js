@@ -246,13 +246,6 @@ class RecurringEvent extends React.Component {
         const {validationErrors, values} = this.props
 
         const VALIDATION_RULES = CONSTANTS.VALIDATION_RULES
-        const buttonStyle = {
-            height: '64px',
-            width: '100%',
-            margin: '10px 5px',
-            display: 'flex',
-        }
-        // TODO: Remove this buttonStyle inline
 
         const days = this.generateCheckboxes(this.state.daysSelected)
         return (
@@ -338,6 +331,7 @@ class RecurringEvent extends React.Component {
                     <Row>
                         <Col xs={12}>
                             <MaterialButton
+                                className="base-material-btn"
                                 raised
                                 color="primary"
                                 onClick={() => this.generateEvents(this.state)}><Add/><FormattedMessage id="add-more"/>

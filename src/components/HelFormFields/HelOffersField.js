@@ -99,6 +99,7 @@ class HelOffersField extends React.Component {
                     raised
                     color="primary"
                     disabled={this.state.isFree}
+                    className="base-material-btn"
                     onClick={ () => this.addNewOffer() }>
                     <FormattedMessage id="event-add-price" />
                 </Button>

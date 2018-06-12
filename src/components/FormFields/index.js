@@ -162,11 +162,7 @@ class FormFields extends React.Component {
         let helMainOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helfi:topics')
         let helTargetOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helsinki:audiences')
         let helEventLangOptions = mapLanguagesSetToForm(this.props.editor.languages)
-        let buttonStyle = {
-            height: '64px',
-            width: '100%',
-            margin: '10px 5px',
-        }
+
         const getAddRecurringEventButtonColor = (showRecurringEvent) => {
             if (showRecurringEvent == true) {
                 return 'secondary'
@@ -290,13 +286,13 @@ class FormFields extends React.Component {
                         }
                         <Button
                             raised
-                            style={buttonStyle}
+                            className="base-material-btn"
                             color="primary"
                             onClick={ () => this.addNewEventDialog() }
                         ><Add/> <FormattedMessage id="event-add-new-occasion" /></Button>
                         <Button
                             raised
-                            style={buttonStyle}
+                            className="base-material-btn"
                             color={getAddRecurringEventButtonColor(this.state.showRecurringEvent)}
                             onClick={ () => this.showRecurringEventDialog() }
                         ><Autorenew/> <FormattedMessage id="event-add-recurring" /></Button>
