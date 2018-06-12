@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react'
-import HelDatePicker from 'src/components/HelFormFields/HelDatePicker.js'
+import HelDatePicker from 'src/components/HelFormFields/HelDatePicker'
 import {FormattedMessage} from 'react-intl'
 
-import validationRules from 'src/validation/validationRules.js';
+import validationRules from 'src/validation/validationRules';
 import ValidationPopover from 'src/components/ValidationPopover'
 
 import moment from 'moment'
+import {Col} from 'react-bootstrap'
 
 import CONSTANTS from '../../constants'
 
@@ -54,10 +55,10 @@ class RecurringDateRangePicker extends React.Component {
 
     render () {
         return (
-            <div className="col-sm-6 indented">
-                <label style={{position: 'relative'}}><FormattedMessage id={`${this.props.label}`} /> <ValidationPopover validationErrors={this.props.validationErrors} /></label>
+            <Col xs={12} sm={6}>
+                <label><FormattedMessage id={`${this.props.label}`} /> <ValidationPopover validationErrors={this.props.validationErrors} /></label>
                 <HelDatePicker ref="date" name={this.props.name} defaultValue={this.state.date} validations={[CONSTANTS.VALIDATION_RULES.IS_DATE]} placeholder="pp.kk.vvvv" onChange={this.onChange} onBlur={this.onBlur} label={<FormattedMessage id="date" />} />
-            </div>
+            </Col>
         )
     }
 }

@@ -80,5 +80,8 @@
     "hel-fi-main-categories": "Hel.fi main categories",
 
     "search-no-results": "No results",
-    "copy-to-clipboard": "Copy to clipboard"
+    "copy-to-clipboard": "Copy to clipboard",
+    
+    "add-more": "Add more",
+    "play-date-label": "Play date"
 }
