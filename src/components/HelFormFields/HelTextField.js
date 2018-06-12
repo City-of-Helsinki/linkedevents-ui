@@ -241,7 +241,10 @@ class HelTextField extends React.Component {
 HelTextField.propTypes = {
     name: PropTypes.string,
     placeholder: PropTypes.string,
-    defaultValue: PropTypes.string,
+    defaultValue: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+    ]),
     onChange: PropTypes.func,
     validations: PropTypes.array,
     forceApplyToStore: PropTypes.bool,
@@ -253,7 +256,10 @@ HelTextField.propTypes = {
         PropTypes.string,
         PropTypes.object,
     ]),
-    validationErrors: PropTypes.array,
+    validationErrors: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object,
+    ]),
     index: PropTypes.string,
     disabled: PropTypes.bool,
     type: PropTypes.string,

@@ -128,7 +128,10 @@ HelAutoComplete.propTypes = {
     setDirtyState: PropTypes.func,
     onSelection: PropTypes.func,
     defaultValue: PropTypes.object,
-    validationErrors: PropTypes.array,
+    validationErrors: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object,
+    ]),
     placeholder: PropTypes.string,
 }
 

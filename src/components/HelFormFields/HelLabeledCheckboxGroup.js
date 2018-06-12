@@ -104,7 +104,10 @@ HelLabeledCheckboxGroup.propTypes = {
     options: PropTypes.array,
     itemClassName: PropTypes.string,
     groupLabel: PropTypes.object,
-    validationErrors: PropTypes.array,
+    validationErrors: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object,
+    ]),
 }
 
 export default HelLabeledCheckboxGroup
