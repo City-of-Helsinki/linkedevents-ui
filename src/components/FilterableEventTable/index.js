@@ -8,13 +8,12 @@ import moment from 'moment'
 import {sortBy, reverse} from 'lodash'
 import {Table, TableHead, TableBody, TableFooter, TableRow, TableCell, TableSortLabel, TablePagination, CircularProgress} from 'material-ui'
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles'
-import {FormattedMessage, FormattedTime} from 'react-intl';
+import {FormattedMessage, FormattedTime, FormattedDate, FormattedRelative} from 'react-intl';
 
 import SearchBar from 'src/components/SearchBar'
 import {fetchEvents} from 'src/actions/events.js'
 import {setUserEventsSortOrder, fetchUserEvents} from 'src/actions/userEvents.js'
 import constants from 'src/constants'
-import {FormattedDate, FormattedRelative} from 'react-intl'
 
 class FilterableEventTable extends React.Component {
     static contextTypes = {
