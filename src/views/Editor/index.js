@@ -114,18 +114,10 @@ class EditorPage extends React.Component {
     }
 
     getDeleteButton(disabled = false) {
-        let buttonStyle = {
-            height: '64px',
-            margin: '0 10px',
-            color: '#ffffff',
-        }
-
         if(this.props.match.params.action === 'update') {
             return (
                 <Button
                     raised
-                    color="accent"
-                    style={buttonStyle}
                     disabled={disabled}
                     onClick={ (e) => this.confirmDelete(e) }>Poista tapahtuma</Button>
             )
@@ -150,18 +142,10 @@ class EditorPage extends React.Component {
     }
 
     getCancelButton(disabled = false) {
-        let buttonStyle = {
-            height: '64px',
-            margin: '0 10px',
-            color: '#ffffff',
-        }
-
         if(this.eventExists()) {
             return (
                 <Button
                     raised
-                    color="accent"
-                    style={buttonStyle}
                     disabled={disabled}
                     onClick={ (e) => this.confirmCancel(e) }>Peruuta tapahtuma</Button>
             )
@@ -171,10 +155,7 @@ class EditorPage extends React.Component {
     }
 
     getSaveButtons(disabled = false) {
-        let buttonStyle = {
-            height: '64px',
-            margin: '0 10px',
-        }
+
         let eventExists = this.eventExists()
         let labelText = this.props.editor.isSending ?
             (eventExists ? 'Tallennetaan muutoksia' : 'Julkaistaan tapahtumaa')
@@ -186,7 +167,6 @@ class EditorPage extends React.Component {
         return (
             <Button
                 raised
-                style={buttonStyle}
                 color="primary"
                 disabled={disabled}
                 onClick={ (e) => this.saveAsPublished(e) }
@@ -294,11 +274,6 @@ class EditorPage extends React.Component {
     render() {
         var sharedProps = {
             disabled: this.state.disabled,
-        }
-
-        let buttonStyle = {
-            height: '64px',
-            margin: '0 5px',
         }
 
         let headerTextId = (this.props.match.params.action === 'update') ? 'edit-event' : 'create-event'

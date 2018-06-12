@@ -53,11 +53,6 @@ class EventPage extends React.Component {
 
     render() {
         const user = this.props.user
-        let buttonStyle = {
-            height: '64px',
-            marginRight: '10px',
-            color: '#ffffff',
-        }
 
         let event = mapAPIDataToUIFormat(this.props.events.event)
 
@@ -89,7 +84,7 @@ class EventPage extends React.Component {
             )
         }
 
-        const editEventButton = <Button raised onClick={e => this.editEvent(e)} disabled={!eventIsEditable} style={buttonStyle} color="primary">Muokkaa tapahtumaa</Button>
+        const editEventButton = <Button raised onClick={e => this.editEvent(e)} disabled={!eventIsEditable} color="primary">Muokkaa tapahtumaa</Button>
 
         if(event && event.name) {
             return (
@@ -102,16 +97,14 @@ class EventPage extends React.Component {
                         </h1>
                     </header>
                     <div className="container">
-                        <div className="col-sm-12">
-                            <div className="col-sm-12 actions">
-                                {eventIsEditable ? editEventButton :
-                                    <Tooltip title={eventEditabilityExplanation}>
-                                        <span>{editEventButton}</span>
-                                    </Tooltip>
-                                }
+                        <div className="event-actions">
+                            {eventIsEditable ? editEventButton :
+                                <Tooltip title={eventEditabilityExplanation}>
+                                    <span>{editEventButton}</span>
+                                </Tooltip>
+                            }
 
-                                <Button raised onClick={e => this.copyAsTemplate(e)} style={buttonStyle} color="accent">Kopioi uuden tapahtuman pohjaksi</Button>
-                            </div>
+                            <Button raised onClick={e => this.copyAsTemplate(e)} color="accent">Kopioi uuden tapahtuman pohjaksi</Button>
                         </div>
                     </div>
                     <div className="container">

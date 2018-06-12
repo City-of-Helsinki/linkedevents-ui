@@ -1,4 +1,6 @@
 $languageCheckboxInitialWidth: 30%;
+$actionBtnMargin: 0 10px;
+$actionBtnHeight: 64px;
 
 .editor-page {
 
@@ -129,6 +131,12 @@ $languageCheckboxInitialWidth: 30%;
             display: flex;
             flex-direction: row;
             justify-content: space-between;
+
+            button {                
+                margin: $actionBtnMargin;
+                color: white;
+                height: $actionBtnHeight;
+            }
         }
     }
 }

@@ -1,3 +1,12 @@
+$buttonActionHeight: 64px;
+$buttonActionMargin: 10px;
+
+.event-actions {
+    button {
+        height: $buttonActionHeight;
+        margin-right: $buttonActionMargin;
+    }
+}
 .event-page {
 
     .container {
