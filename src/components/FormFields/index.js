@@ -2,7 +2,7 @@ require('!style-loader!css-loader!sass-loader!./index.scss')
 import PropTypes from 'prop-types';
 import React from 'react'
 
-import {FormattedMessage, injectIntl} from 'react-intl'
+import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 import CopyToClipboard from 'react-copy-to-clipboard'
 
 import ImagePicker from 'src/components/ImagePicker'
@@ -303,10 +303,10 @@ class FormFields extends React.Component {
                     </div>
                     <SideField>
                         <div className="tip">
-                            <p>Kirjoita tapahtuman alkamispäivä ja myös alkamisaika, jos tapahtuma alkaa tiettyyn kellonaikaan.</p>
-                            <p>Kirjoita myös päättymispäivä sekä päättymisaika, jos tapahtuma päättyy tiettyyn kellonaikaan.</p>
-                            <p>Jos tapahtuma järjestetään useamman kerran, voit lisätä tapahtumalle uusia ajankohtia. Jos tapahtuma toistuu säännöllisesti, voit lisätä kaikki ajankohdat kerralla valitsemalla Toistuva tapahtuma.</p>
-                            <p>Ylimääräisen ajankohdan voit poistaa valitsemalla ajankohdan vieressä olevan roskakorisymbolin.</p>
+                            <p><FormattedMessage id="editor-tip-time-start"/></p>
+                            <p><FormattedMessage id="editor-tip-time-end"/></p>
+                            <p><FormattedMessage id="editor-tip-time-multi"/></p>
+                            <p><FormattedMessage id="editor-tip-time-delete"/></p>
                         </div>
                     </SideField>
                 </div>
@@ -317,11 +317,14 @@ class FormFields extends React.Component {
                 <div className="row location-row">
                     <div className="col-sm-6">
                         <HelAutoComplete
-                            ref="location" name="location"
+                            ref="location"
+                            name="location"
                             dataSource={`${appSettings.api_base}/place/?show_all_places=1&text=`}
                             resource="place"
                             required={true}
-                            validationErrors={validationErrors['location']} defaultValue={values['location']}
+                            validationErrors={validationErrors['location']}
+                            defaultValue={values['location']}
+                            label={this.context.intl.formatMessage({id: 'event-location'})}
                             placeholder={this.context.intl.formatMessage({id: 'event-location'})}
                             setDirtyState={this.props.setDirtyState}
                         />
@@ -340,9 +343,9 @@ class FormFields extends React.Component {
                     </div>
                     <SideField>
                         <div className="tip">
-                            <p>Aloita kirjoittamaan kenttään tapahtumapaikan nimen alkua ja valitse oikea paikka alle ilmestyvästä listasta.</p>
-                            <p>Jos tapahtumapaikka löytyy listasta, osoitetta ja sijaintia ei tarvitse kuvailla tarkemmin. Voit kuitenkin laittaa lisätietoja tapahtuman löytämiseksi, kuten kerrosnumero tai muu tarkempi sijainti.</p>
-                            <p>Jos tapahtumapaikkaa ei löydy listasta, valitse tapahtumapaikaksi Helsinki ja kirjoita tarkempi paikka tai osoite lisätietokenttään.</p>
+                            <p><FormattedMessage id="editor-tip-location"/></p>
+                            <p><FormattedMessage id="editor-tip-location-extra"/></p>
+                            <p><FormattedMessage id="editor-tip-location-not-found"/></p>
                         </div>
                     </SideField>
                 </div>
@@ -356,8 +359,8 @@ class FormFields extends React.Component {
                     </div>
                     <SideField>
                         <div className="tip">
-                            <p>Merkitse onko tapahtuma maksuton. Syötä maksulliselle tapahtumalle hinta muodossa {`"5€"`}.</p>
-                            <p>Jos tapahtumalla on useita hintoja, klikkaa Lisää uusi hintatieto ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.</p>
+                            <p><FormattedMessage id="editor-tip-price"/></p>
+                            <p><FormattedMessage id="editor-tip-price-multi"/></p>
                         </div>
                     </SideField>
                 </div>
@@ -371,16 +374,16 @@ class FormFields extends React.Component {
                         <HelTextField validations={[VALIDATION_RULES.IS_URL]} ref="extlink_twitter" name="extlink_twitter" label={<FormattedMessage id="twitter-url"/>} validationErrors={validationErrors['extlink_twitter']} defaultValue={values['extlink_twitter']} setDirtyState={this.props.setDirtyState} forceApplyToStore />
                         <HelTextField validations={[VALIDATION_RULES.IS_URL]} ref="extlink_instagram" name="extlink_instagram" label={<FormattedMessage id="instagram-url"/>} validationErrors={validationErrors['extlink_instagram']} defaultValue={values['extlink_instagram']} setDirtyState={this.props.setDirtyState} forceApplyToStore />
                     </div>
-                    <SideField><p className="tip">Lisää linkki tapahtuman tai sen järjestäjän some-sivulle.</p></SideField>
+                    <SideField><p className="tip"><FormattedMessage id="editor-tip-social-media"/></p></SideField>
                 </div>
 
                 <FormHeader>
                     <FormattedMessage id="event-categorization" />
                 </FormHeader>
                 <div className="row keyword-row">
-                    <HelSelect selectedValues={values['keywords']} legend={'Tapahtuman asiasanat'} ref="keywords" name="keywords" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?show_all_keywords=1&data_source=yso&text=`} validationErrors={validationErrors['keywords']} setDirtyState={this.props.setDirtyState} />
+                    <HelSelect selectedValues={values['keywords']} legend={this.context.intl.formatMessage({id: 'event-keywords'})} ref="keywords" name="keywords" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?show_all_keywords=1&data_source=yso&text=`} validationErrors={validationErrors['keywords']} setDirtyState={this.props.setDirtyState} />
                     <CopyToClipboard text={values['keywords'] ? this.getKeywords(values['keywords']) : ''}><button className="clipboard-copy-button" title={this.context.intl.formatMessage({id: 'copy-to-clipboard'})}><i className="material-icons">&#xE14D;</i></button></CopyToClipboard>
-                    <SideField><p className="tip">Liitä tapahtumaan vähintään yksi asiasana, joka kuvaa tapahtuman teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta.</p></SideField>
+                    <SideField><p className="tip"><FormattedMessage id="editor-tip-keywords"/></p></SideField>
                     <HelLabeledCheckboxGroup
                         groupLabel={<FormattedMessage id="hel-main-categories"/>}
                         selectedValues={values['hel_main']}
@@ -391,7 +394,7 @@ class FormFields extends React.Component {
                         options={helMainOptions}
                         setDirtyState={this.props.setDirtyState}
                     />
-                    <SideField><p className="tip">Valitse vähintään yksi pääkategoria.</p></SideField>
+                    <SideField><p className="tip"><FormattedMessage id="editor-tip-hel-main-category"/></p></SideField>
                 </div>
                 <div className="row">
                     <HelLabeledCheckboxGroup
@@ -404,7 +407,7 @@ class FormFields extends React.Component {
                         options={helTargetOptions}
                         setDirtyState={this.props.setDirtyState}
                     />
-                    <SideField><p className="tip">Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään.</p></SideField>
+                    <SideField><p className="tip"><FormattedMessage id="editor-tip-hel-target-group"/></p></SideField>
                     <HelLabeledCheckboxGroup
                         groupLabel={<FormattedMessage id="hel-event-languages"/>}
                         selectedValues={values['in_language']}
@@ -415,7 +418,7 @@ class FormFields extends React.Component {
                         options={helEventLangOptions}
                         setDirtyState={this.props.setDirtyState}
                     />
-                    <SideField><p className="tip">Kielet, joita tapahtumassa käytetään.</p></SideField>
+                    <SideField><p className="tip"><FormattedMessage id="editor-tip-event-languages"/></p></SideField>
                 </div>
             </div>
         )

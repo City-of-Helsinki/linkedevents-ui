@@ -114,6 +114,7 @@
     "instagram-url": "Instagram (url)",
 
     "event-categorization": "Tapahtuman luokittelu",
+    "event-keywords": "Tapahtuman asiasanat",
 
     "hel-event-languages": "Tapahtuman kielet",
 
@@ -138,6 +139,7 @@
 
     "server-error": "Virhe palvelimella.",
     "validation-error": "Lomakkeessa on virheitä. Tarkasta lomake.",
+    "validation-error-goto-error": "Siirry virheeseen",
     "no-validation-errors": "Lomake täytetty oikein!",
     "authorization-required": "Kirjaudu sisään tapahtuman lähettämiseksi.",
     "event-posted": "Tapahtuma lähetettiin onnistuneesti!",
@@ -179,6 +181,21 @@
     "editor-delete-subevents-warning": "Poistaessasi tämän tapahtuman myös seuraavat alitapahtumat poistetaan:",
     "editor-delete-warning": "VAROITUS: Tämä toiminto poistaa tapahtuman lopullisesti. Voit tarvittaessa myös perua tapahtuman tai lykätä sitä.",
     "editor-sentinel-alert": "Voit katsella lomaketta, mutta sinulla ei ole oikeuksia julkaista tai muokata tapahtumia. Et ole kirjautunut sisään tai kirjautumisesi on vanhentunut.",
+    
+    "editor-tip-time-start": "Kirjoita tapahtuman alkamispäivä ja myös alkamisaika, jos tapahtuma alkaa tiettyyn kellonaikaan.",
+    "editor-tip-time-end": "Kirjoita myös päättymispäivä sekä päättymisaika, jos tapahtuma päättyy tiettyyn kellonaikaan.",
+    "editor-tip-time-multi": "Jos tapahtuma järjestetään useamman kerran, voit lisätä tapahtumalle uusia ajankohtia. Jos tapahtuma toistuu säännöllisesti, voit lisätä kaikki ajankohdat kerralla valitsemalla Toistuva tapahtuma.",
+    "editor-tip-time-delete": "Ylimääräisen ajankohdan voit poistaa valitsemalla ajankohdan vieressä olevan roskakorisymbolin.",
+    "editor-tip-location": "Aloita kirjoittamaan kenttään tapahtumapaikan nimen alkua ja valitse oikea paikka alle ilmestyvästä listasta.",
+    "editor-tip-location-extra": "Jos tapahtumapaikka löytyy listasta, osoitetta ja sijaintia ei tarvitse kuvailla tarkemmin. Voit kuitenkin laittaa lisätietoja tapahtuman löytämiseksi, kuten kerrosnumero tai muu tarkempi sijainti.",
+    "editor-tip-location-not-found": "Jos tapahtumapaikkaa ei löydy listasta, valitse tapahtumapaikaksi Helsinki ja kirjoita tarkempi paikka tai osoite lisätietokenttään.",
+    "editor-tip-price": "Merkitse onko tapahtuma maksuton. Syötä maksulliselle tapahtumalle hinta muodossa \"5€\".",
+    "editor-tip-price-multi": "Jos tapahtumalla on useita hintoja, klikkaa Lisää uusi hintatieto ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.",
+    "editor-tip-social-media": "Lisää linkki tapahtuman tai sen järjestäjän some-sivulle.",
+    "editor-tip-keywords": "Liitä tapahtumaan vähintään yksi asiasana, joka kuvaa tapahtuman teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta.",
+    "editor-tip-hel-main-category": "Valitse vähintään yksi pääkategoria.",
+    "editor-tip-hel-target-group": "Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään.",
+    "editor-tip-event-languages": "Kielet, joita tapahtumassa käytetään.",
 
     "image-caption-limit": "Kuvateksti (korkeintaan {limit} merkkiä)"
 }

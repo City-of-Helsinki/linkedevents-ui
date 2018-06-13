@@ -31,7 +31,15 @@ class Notifications extends React.Component {
         let duration = isSticky ? null : 7000
         let closeFn = isSticky ? function() {} : () => clearFlashMsg()
 
-        let actionLabel = flashMsg && flashMsg.action && flashMsg.action.label
+        let actionLabel
+        if (flashMsg && flashMsg.action) {
+            if (flashMsg.action.label) {
+                actionLabel = flashMsg.action.label
+            } else if (flashMsg.action.labelId) {
+                actionLabel = <FormattedMessage id={flashMsg.action.labelId}/>
+            }
+        }
+
         let actionFn = flashMsg && flashMsg.action && flashMsg.action.fn
 
         let actionButton = null

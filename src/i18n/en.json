@@ -114,6 +114,7 @@
     "instagram-url": "Instagram (url)",
 
     "event-categorization": "Categorization",
+    "event-keywords": "Keywords",
 
     "hel-event-languages": "Event languages",
 
@@ -138,6 +139,7 @@
 
     "server-error": "Server error.",
     "validation-error": "There are errors on the form. Please check the form.",
+    "validation-error-goto-error": "Go to error",
     "no-validation-errors": "The form does not have any errors!",
     "authorization-required": "Login to submit the event.",
     "event-posted": "Event submitted!",
@@ -179,6 +181,21 @@
     "editor-delete-subevents-warning": "The following subevents will be deleted:",
     "editor-delete-warning": "WARNING: This action will delete the event permanently. You may cancel or postpone the event if needed.",
     "editor-sentinel-alert": "You can view the form, but you don't have the permission to publish or edit events. You are not logged in or your login has expired.",
+
+    "editor-tip-time-start": "Enter the start date of the event and also the start time if the event starts at a specific time.",
+    "editor-tip-time-end": "Also enter the end date and end time if the event ends at a specific time.",
+    "editor-tip-time-multi": "If the event is held more than once, you can add new times to the event. If the event repeats regularly, you can add all times at once by selecting Recurring event.",
+    "editor-tip-time-delete": "To delete an extra time, select the trash bin next to the time.",
+    "editor-tip-location": "Start typing the beginning of the name of the venue and then choose the correct place from the emerging list.",
+    "editor-tip-location-extra": "If an event location is found in the list, the address and location doesn't need not be described more closely. However, you can add more information to find the event, such as a floor number or other more accurate location.",
+    "editor-tip-location-not-found": "If you can not find a venue from the list, choose Helsinki as your venue and enter a more detailed place or address in the additional information box.",
+    "editor-tip-price": "Check if the event is free of charge. If there is a fee enter it like \"5€\".",
+    "editor-tip-price-multi": "If the event has many prices, click Add new price and enter the name of each price group (eg Children) in the Price information field.",
+    "editor-tip-social-media": "Add link to the events or its organizers social media page.",
+    "editor-tip-keywords": "Add at least one keyword that describes the theme of the event. Start typing the word and then select a keyword from the list.",
+    "editor-tip-hel-main-category": "Select at least one main category.",
+    "editor-tip-hel-target-group": "If the event does not have a specific target group, don't select anything.",
+    "editor-tip-event-languages": "Languages used in the event.",
 
     "image-caption-limit": "Caption (maximum {limit} characters)"
 }
