@@ -103,9 +103,7 @@ class EventPage extends React.Component {
                                     <span>{editEventButton}</span>
                                 </Tooltip>
                             }
-
-                                <Button raised onClick={e => this.copyAsTemplate(e)} color="accent"><FormattedMessage id="copy-event-to-draft"/></Button>
-                            </div>
+                            <Button raised onClick={e => this.copyAsTemplate(e)} color="accent"><FormattedMessage id="copy-event-to-draft"/></Button>
                         </div>
                     </div>
                     <div className="container">
