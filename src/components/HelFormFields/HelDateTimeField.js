@@ -163,7 +163,10 @@ HelDateTimeField.propTypes = {
     defaultValue: PropTypes.string,
     setDirtyState: PropTypes.func,
     label: PropTypes.string,
-    validationErrors: PropTypes.array,
+    validationErrors: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object,
+    ]),
 }
 
 HelDateTimeField.contextTypes = {

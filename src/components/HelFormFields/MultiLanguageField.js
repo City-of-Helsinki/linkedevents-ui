@@ -36,7 +36,10 @@ class MultiLanguageField extends React.Component {
         disabled: PropTypes.bool,
         required: PropTypes.bool,
         validations: PropTypes.array,
-        validationErrors: PropTypes.array,
+        validationErrors: PropTypes.oneOfType([
+            PropTypes.array,
+            PropTypes.object,
+        ]),
         index: PropTypes.string,
         multiLine: PropTypes.bool,
     }

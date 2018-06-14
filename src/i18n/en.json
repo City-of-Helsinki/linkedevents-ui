@@ -197,5 +197,8 @@
     "editor-tip-hel-target-group": "If the event does not have a specific target group, don't select anything.",
     "editor-tip-event-languages": "Languages used in the event.",
 
-    "image-caption-limit": "Caption (maximum {limit} characters)"
+    "image-caption-limit": "Caption (maximum {limit} characters)",
+    
+    "add-more": "Add more",
+    "play-date-label": "Play date"
 }
