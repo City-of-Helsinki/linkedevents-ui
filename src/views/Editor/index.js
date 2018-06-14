@@ -5,7 +5,7 @@ import 'style-loader!vendor/stylesheets/typeahead.css'
 import React from 'react'
 import Loader from 'react-loader'
 import {connect} from 'react-redux'
-import {FormattedMessage} from 'react-intl'
+import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 
@@ -119,7 +119,7 @@ class EditorPage extends React.Component {
                 <Button
                     raised
                     disabled={disabled}
-                    onClick={ (e) => this.confirmDelete(e) }>Poista tapahtuma</Button>
+                    onClick={ (e) => this.confirmDelete(e) }><FormattedMessage id="delete-event"/></Button>
             )
         }
     }
@@ -147,7 +147,7 @@ class EditorPage extends React.Component {
                 <Button
                     raised
                     disabled={disabled}
-                    onClick={ (e) => this.confirmCancel(e) }>Peruuta tapahtuma</Button>
+                    onClick={ (e) => this.confirmCancel(e) }><FormattedMessage id="cancel-event"/></Button>
             )
         } else {
             return null
@@ -157,11 +157,11 @@ class EditorPage extends React.Component {
     getSaveButtons(disabled = false) {
 
         let eventExists = this.eventExists()
-        let labelText = this.props.editor.isSending ?
-            (eventExists ? 'Tallennetaan muutoksia' : 'Julkaistaan tapahtumaa')
-            : (eventExists ? 'Tallenna muutokset julkaistuun tapahtumaan' : 'Julkaise tapahtuma')
+        let labelTextId = this.props.editor.isSending ?
+            (eventExists ? 'event-action-save-existing-active' : 'event-action-save-new-active')
+            : (eventExists ? 'event-action-save-existing' : 'event-action-save-new')
         if (_.keys(this.props.editor.values.sub_events).length > 0) {
-            labelText = this.props.editor.isSending ? 'Julkaistaan tapahtumia' : 'Julkaise tapahtumat'
+            labelTextId = this.props.editor.isSending ? 'event-action-save-multiple-active' : 'event-action-save-multiple'
         }
 
         return (
@@ -170,7 +170,7 @@ class EditorPage extends React.Component {
                 color="primary"
                 disabled={disabled}
                 onClick={ (e) => this.saveAsPublished(e) }
-            >{labelText}</Button>
+            ><FormattedMessage id={labelTextId}/></Button>
         )
     }
 
@@ -205,14 +205,14 @@ class EditorPage extends React.Component {
     }
 
     getWarningMarkup() {
-        let warningText = 'VAROITUS: Tämä toiminto poistaa tapahtuman lopullisesti. Voit tarvittaessa myös perua tapahtuman tai lykätä sitä.<br/>'
+        let warningText = this.props.intl.formatMessage('editor-delete-warning') + '<br/>'
         let subEventWarning = ''
         if (this.props.subEvents.items && this.props.subEvents.items.length) {
             const subEventNames = []
             for (const subEvent of this.props.subEvents.items) {
                 subEventNames.push(`</br><strong>${subEvent.name.fi}</strong> (${moment(subEvent.start_time).format('DD.MM.YYYY')})`)
             }
-            subEventWarning = '</br>Poistaessasi tämän tapahtuman myös seuraavat alitapahtumat poistetaan:</br>' + subEventNames
+            subEventWarning = `</br>${this.props.intl.formatMessage('editor-delete-subevents-warning')}</br>${subEventNames}`
         }
         return warningText + subEventWarning
     }
@@ -294,7 +294,7 @@ class EditorPage extends React.Component {
         setTimeout(
             ()=>
             {if (this.props.user && !this.props.user.organization && sentinel) {
-                alert('Voit katsella lomaketta, mutta sinulla ei ole oikeuksia julkaista tai muokata tapahtumia. Et ole kirjautunut sisään tai kirjautumisesi on vanhentunut.')
+                alert(this.props.intl.formatMessage('editor-sentinel-alert'));
                 sentinel = false;
             }
             }, 1000);
@@ -358,5 +358,6 @@ EditorPage.propTypes = {
     confirm: PropTypes.func,
     deleteEvent: PropTypes.func,
     cancelEvent: PropTypes.func,
+    intl: intlShape.isRequired,
 }
-export default connect(mapStateToProps, mapDispatchToProps)(EditorPage)
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(EditorPage))

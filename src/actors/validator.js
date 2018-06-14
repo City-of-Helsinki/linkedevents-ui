@@ -8,7 +8,7 @@ let wasErrors = false
 
 export default (store) => {
 
-    const {editor, router} = store.getState()
+    const {editor, router, userLocale: {locale}} = store.getState()
     const dispatch = store.dispatch
 
     let errorCount = _.keys(editor.validationErrors).length;
@@ -17,7 +17,7 @@ export default (store) => {
         wasErrors = true
 
         let action = {
-            label: 'Siirry virheeseen',
+            labelId: 'validation-error-goto-error',
             fn: () => {
                 let top = (window.scrollY || window.pageYOffset)
                 let popovers = document.getElementsByClassName('validation-error-popover')

@@ -48,6 +48,10 @@ $buttonActionMargin: 10px;
     );
 }
 
+.text-uppercase {
+    text-transform: uppercase;
+}
+
 @media (max-width: 480px) {
     .actions {
         margin: 0;

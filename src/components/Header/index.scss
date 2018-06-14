@@ -1,5 +1,6 @@
 $header-bar-height: 56px;
 $navbarIconPaddingLeft: 5px;
+$languageIconMarginRight: 10px;
 
 .mui-toolbar {
     color: #ffffff;
@@ -77,6 +78,28 @@ $navbarIconPaddingLeft: 5px;
     .navbar-links {
         svg {
             padding-left: $navbarIconPaddingLeft;
+        }
+    }
+    .navbar-right {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        
+        .language-selector {
+            display: flex;
+            align-items: center;
+
+            .language-icon {
+                margin-right: $languageIconMarginRight;
+            }
+            .language-select-box {
+                background-color: transparent;
+                color: white;
+                text-transform: uppercase;
+                &::before{
+                    display: none;
+                }
+            }
         }
     }
 }

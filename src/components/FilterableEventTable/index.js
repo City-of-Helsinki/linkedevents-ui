@@ -8,6 +8,7 @@ import moment from 'moment'
 import {sortBy, reverse} from 'lodash'
 import {Table, TableHead, TableBody, TableFooter, TableRow, TableCell, TableSortLabel, TablePagination, CircularProgress} from 'material-ui'
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles'
+import {FormattedMessage, FormattedTime, FormattedDate, FormattedRelative} from 'react-intl';
 
 import SearchBar from 'src/components/SearchBar'
 import {fetchEvents} from 'src/actions/events.js'
@@ -29,10 +30,10 @@ class FilterableEventTable extends React.Component {
 
     render() {
         let dateFormat = function(timeStr) {
-            return timeStr ? moment(timeStr).format('ll') : ''
+            return timeStr ? <FormattedDate value={timeStr} month="short" day="numeric" year="numeric"/> : ''
         }
         let dateTimeFormat = function(timeStr) {
-            return timeStr ? moment(timeStr).calendar() : ''
+            return timeStr ? <FormattedRelative value={timeStr} /> : ''
         }
 
         let EventRow = (props) => {
@@ -61,9 +62,9 @@ class FilterableEventTable extends React.Component {
             // let cancelledClass = cancelled ? 'cancelled-row' : ''
             let cancelledClass = null
             if (draft) {
-                nameColumn = (<TableCell className={draftClass}><span className="label label-warning">LUONNOS</span> <Link to={url}>{name}</Link></TableCell>)
+                nameColumn = (<TableCell className={draftClass}><span className="label label-warning text-uppercase"><FormattedMessage id="draft"/></span> <Link to={url}>{name}</Link></TableCell>)
             } else if (cancelled) {
-                nameColumn = (<TableCell className={cancelledClass}><span className="label label-danger">PERUUTETTU</span> <Link to={url}>{name}</Link></TableCell>)
+                nameColumn = (<TableCell className={cancelledClass}><span className="label label-danger text-uppercase"><FormattedMessage id="cancelled"/></span> <Link to={url}>{name}</Link></TableCell>)
             } else {
                 nameColumn = (<TableCell><Link to={url}>{name}</Link></TableCell>)
             }
@@ -110,16 +111,16 @@ class FilterableEventTable extends React.Component {
                     <TableHead>
                         <TableRow>
                             <TableCell key="otsikko">
-                                <TableSortLabel active={props.sortBy === 'name'} direction={props.sortBy === 'name' && props.sortOrder} onClick={() => this.props.changeSortOrder('name', props.sortBy, props.sortOrder, props.paginationPage, props.user)}>Otsikko</TableSortLabel>
+                                <TableSortLabel active={props.sortBy === 'name'} direction={props.sortBy === 'name' && props.sortOrder} onClick={() => this.props.changeSortOrder('name', props.sortBy, props.sortOrder, props.paginationPage, props.user)}><FormattedMessage id="event-sort-title"/></TableSortLabel>
                             </TableCell>
                             <TableCell key="alkaa">
-                                <TableSortLabel active={props.sortBy === 'start_time'} direction={props.sortBy === 'start_time' && props.sortOrder} onClick={() => this.props.changeSortOrder('start_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}>Tapahtuma alkaa</TableSortLabel>
+                                <TableSortLabel active={props.sortBy === 'start_time'} direction={props.sortBy === 'start_time' && props.sortOrder} onClick={() => this.props.changeSortOrder('start_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}><FormattedMessage id="event-sort-starttime"/></TableSortLabel>
                             </TableCell>
                             <TableCell key="päättyy">
-                                <TableSortLabel active={props.sortBy === 'end_time'} direction={props.sortBy === 'end_time' && props.sortOrder} onClick={() => this.props.changeSortOrder('end_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}>Tapahtuma päättyy</TableSortLabel>
+                                <TableSortLabel active={props.sortBy === 'end_time'} direction={props.sortBy === 'end_time' && props.sortOrder} onClick={() => this.props.changeSortOrder('end_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}><FormattedMessage id="event-sort-endtime"/></TableSortLabel>
                             </TableCell>
                             <TableCell key="muokattu">
-                                <TableSortLabel active={props.sortBy === 'last_modified_time'} direction={props.sortBy === 'last_modified_time' && props.sortOrder} onClick={() => this.props.changeSortOrder('last_modified_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}>Muokattu viimeksi</TableSortLabel>
+                                <TableSortLabel active={props.sortBy === 'last_modified_time'} direction={props.sortBy === 'last_modified_time' && props.sortOrder} onClick={() => this.props.changeSortOrder('last_modified_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}><FormattedMessage id="event-sort-last-modified"/></TableSortLabel>
                             </TableCell>
                         </TableRow>
                     </TableHead>
@@ -168,11 +169,7 @@ class FilterableEventTable extends React.Component {
                 </div>
             )
         } else {
-            results = (
-                <span>
-                Yhtäkään muokattavaa tapahtumaa ei löytynyt.
-                </span>
-            )
+            results = <FormattedMessage id="organization-events-no-results"/>
         }
 
         let err = ''
@@ -183,7 +180,7 @@ class FilterableEventTable extends React.Component {
         if (this.props.apiErrorMsg.length > 0) {
             err = (
                 <span style={errorStyle}>
-                    Error connecting to server.
+                    <FormattedMessage id="server-error"/>
                 </span>
             )
         }
@@ -247,5 +244,6 @@ const mapDispatchToProps = (dispatch) => {
         },
     }
 }
-
-export default connect(null, mapDispatchToProps)(FilterableEventTable)
+const mapStateToProps = () => ({})
+// TODO: if leave null, react-intl not refresh. Replace this with better React context
+export default connect(mapStateToProps, mapDispatchToProps)(FilterableEventTable)

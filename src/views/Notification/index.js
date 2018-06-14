@@ -31,7 +31,15 @@ class Notifications extends React.Component {
         let duration = isSticky ? null : 7000
         let closeFn = isSticky ? function() {} : () => clearFlashMsg()
 
-        let actionLabel = flashMsg && flashMsg.action && flashMsg.action.label
+        let actionLabel
+        if (flashMsg && flashMsg.action) {
+            if (flashMsg.action.label) {
+                actionLabel = flashMsg.action.label
+            } else if (flashMsg.action.labelId) {
+                actionLabel = <FormattedMessage id={flashMsg.action.labelId}/>
+            }
+        }
+
         let actionFn = flashMsg && flashMsg.action && flashMsg.action.fn
 
         let actionButton = null
@@ -60,5 +68,6 @@ Notifications.propTypes = {
 const mapDisPatchToProps = (dispatch) => ({
     clearFlashMsg: () => dispatch(clearFlashMsgAction()),
 }) 
-
-export default connect(null, mapDisPatchToProps)(Notifications)
+const mapStateToProps = () => ({})
+// TODO: if leave null, react-intl not refresh. Replace this with better React context
+export default connect(mapStateToProps, mapDisPatchToProps)(Notifications)
