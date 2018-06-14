@@ -27,12 +27,7 @@ class HelDatePicker extends React.Component {
     }
 
     handleChange(date) {
-        if (date._pf.nullInput) {
-            this.setState({
-                date: undefined,
-            })
-            this.props.onChange('date', undefined)
-        } else if (date.isValid()) {
+        if (date.isValid()) {
             this.setState({
                 date: date,
             })
