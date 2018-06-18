@@ -212,7 +212,7 @@ class HelTextField extends React.Component {
         if(this.props.type) {
             type = this.props.type
         } else {
-            type = this.props.multiLine ? 'textarea' : 'text'
+            type = this.props.multiLine ? 'textarea' : 'input'
         }
 
         return (
@@ -220,10 +220,9 @@ class HelTextField extends React.Component {
                 <div className={groupClassName}>
                     <ControlLabel className="hel-label relative">{label}</ControlLabel>
                     <FormControl
-                        type={type}
+                        componentClass={type}
                         value={this.state.value}
                         placeholder={this.props.placeholder}
-                        // bsStyle={this.validationState()} // TODO: Check glyph styling, now it shows success for empty values
                         inputRef={ref => this.inputRef = ref}
                         onChange={this.handleChange}
                         onBlur={this.handleBlur}

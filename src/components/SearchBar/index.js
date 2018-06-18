@@ -72,7 +72,6 @@ class SearchBar extends React.Component {
                             <FormattedMessage id="event-name-or-place"/>
                         </ControlLabel>
                         <FormControl
-                            type="text"
                             placeholder={this.props.intl.formatMessage({id: 'event-name-or-place'})}
                             onChange={ (e) => this.handleStringChange(e) }
                             ref="searchQueryInput"
