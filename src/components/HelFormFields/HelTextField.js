@@ -2,7 +2,6 @@ import './HelTextField.scss'
 
 import PropTypes from 'prop-types';
 import React from 'react'
-import ReactDOM from 'react-dom'
 
 import {FormControl, ControlLabel, HelpBlock} from 'react-bootstrap'
 import {setData} from 'src/actions/editor.js'
@@ -124,8 +123,7 @@ class HelTextField extends React.Component {
 
     recalculateHeight() {
         if(this.props.multiLine) {
-            const input = ReactDOM.findDOMNode(this.inputRef)    // eslint-disable-line
-            input.style.height = input.scrollHeight + 2 + 'px';
+            this.inputRef.style.height = this.inputRef.scrollHeight + 2 + 'px';
         }
     }
 
