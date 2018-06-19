@@ -2,6 +2,7 @@ import './HelTextField.scss'
 
 import PropTypes from 'prop-types';
 import React from 'react'
+
 import {FormControl, ControlLabel, HelpBlock} from 'react-bootstrap'
 import {setData} from 'src/actions/editor.js'
 
@@ -122,7 +123,7 @@ class HelTextField extends React.Component {
 
     recalculateHeight() {
         if(this.props.multiLine) {
-            this.inputRef.height = this.inputRef.scrollHeight + 2 + 'px';
+            this.inputRef.style.height = this.inputRef.scrollHeight + 2 + 'px';
         }
     }
 
@@ -212,7 +213,7 @@ class HelTextField extends React.Component {
         if(this.props.type) {
             type = this.props.type
         } else {
-            type = this.props.multiLine ? 'textarea' : 'text'
+            type = this.props.multiLine ? 'textarea' : 'input'
         }
 
         return (
@@ -220,10 +221,9 @@ class HelTextField extends React.Component {
                 <div className={groupClassName}>
                     <ControlLabel className="hel-label relative">{label}</ControlLabel>
                     <FormControl
-                        type={type}
+                        componentClass={type}
                         value={this.state.value}
                         placeholder={this.props.placeholder}
-                        // bsStyle={this.validationState()} // TODO: Check glyph styling, now it shows success for empty values
                         inputRef={ref => this.inputRef = ref}
                         onChange={this.handleChange}
                         onBlur={this.handleBlur}

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react'
-import HelTextField from 'src/components/HelFormFields/HelTextField.js'
+import HelTextField from 'src/components/HelFormFields/HelTextField'
 import RecurringDateRangePicker from './RecurringDateRangePicker'
 import RecurringTimePicker from './RecurringTimePicker'
 import {FormattedMessage} from 'react-intl'

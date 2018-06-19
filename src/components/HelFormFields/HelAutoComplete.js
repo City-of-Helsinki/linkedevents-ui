@@ -110,7 +110,6 @@ class HelAutoComplete extends React.Component {
                     </ControlLabel>
 
                     <FormControl
-                        type="text"
                         value={values.id ? values.id : ''}
                         ref="text"
                         disabled
