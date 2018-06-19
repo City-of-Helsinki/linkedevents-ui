@@ -294,7 +294,7 @@ class EditorPage extends React.Component {
         setTimeout(
             ()=>
             {if (this.props.user && !this.props.user.organization && sentinel) {
-                alert(this.props.intl.formatMessage('editor-sentinel-alert'));
+                alert(this.props.intl.formatMessage({id:'editor-sentinel-alert'}));
                 sentinel = false;
             }
             }, 1000);
