@@ -123,6 +123,7 @@ class HelTextField extends React.Component {
 
     recalculateHeight() {
         if(this.props.multiLine) {
+            this.inputRef.style.height = 0
             this.inputRef.style.height = this.inputRef.scrollHeight + 2 + 'px';
         }
     }
