@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react'
 import moment from 'moment'
 
-import HelTextField from './HelTextField'
 import HelDatePicker from './HelDatePicker'
 import HelTimePicker from './HelTimePicker'
 
@@ -163,7 +162,10 @@ HelDateTimeField.propTypes = {
     defaultValue: PropTypes.string,
     setDirtyState: PropTypes.func,
     label: PropTypes.string,
-    validationErrors: PropTypes.array,
+    validationErrors: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object,
+    ]),
 }
 
 HelDateTimeField.contextTypes = {

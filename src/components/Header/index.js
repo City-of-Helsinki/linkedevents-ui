@@ -5,27 +5,36 @@ import PropTypes from 'prop-types'
 
 import {connect} from 'react-redux'
 import {push} from 'react-router-redux'
+
 import {login as loginAction, logout as logoutAction} from 'src/actions/user.js'
+import {setLocale as setLocaleAction} from 'src/actions/userLocale'
 
 import {FormattedMessage} from 'react-intl'
 
 // Material-ui Components
-import {Toolbar, Button, FontIcon} from 'material-ui'
+import {Toolbar, Button, FontIcon, Select, MenuItem} from 'material-ui'
 // Material-ui Icons
 import List from 'material-ui-icons/List'
 import Search from 'material-ui-icons/Search'
 import Add from 'material-ui-icons/Add'
+import Language from 'material-ui-icons/Language'
 import HelpOutline from 'material-ui-icons/HelpOutline'
 import Person from 'material-ui-icons/Person'
 
 import {Link} from 'react-router-dom'
+import CONSTANTS from '../../constants'
 
 import cityOfHelsinkiLogo from 'src/assets/images/helsinki-logo.svg'
 
 class HeaderBar extends React.Component {
 
+    changeLanguage = (e) => {
+        this.props.setLocale(e.target.value)
+    }
+
     render() {
         const {user, routerPush, logout, login} = this.props 
+        const languages = CONSTANTS.APPLICATION_SUPPORT_TRANSLATION
 
         return (
             <div className="main-navbar">
@@ -36,6 +45,24 @@ class HeaderBar extends React.Component {
                         </Link>
                     </div>
                     <div className="helsinki-bar__login-button">
+                        <div className="helsinki-bar__language-button">
+                            <div className="language-selector">
+                                <Language className="language-icon"/>
+                                <Select
+                                    className="language-select-box"
+                                    value={this.props.userLocale.locale}
+                                    onChange={this.changeLanguage}
+                                >
+                                    {languages.map((lang, index) => (
+                                        <MenuItem 
+                                            value={lang} 
+                                            key={index}>
+                                            {lang}
+                                        </MenuItem>
+                                    ))}
+                                </Select> 
+                            </div>  
+                        </div>
                         {user ? 
                             <Button onClick={() => logout()}>{user.displayName}</Button> :
                             <Button onClick={() => login()}><Person/><FormattedMessage id="login"/></Button>}
@@ -67,15 +94,20 @@ HeaderBar.propTypes = {
     login: PropTypes.func,
     logout: PropTypes.func,
     routerPush: PropTypes.func,
+    userLocale: PropTypes.object,
+    setLocale: PropTypes.func,
 }
 
 const mapStateToProps = (state) => ({
     user: state.user,
+    userLocale: state.userLocale,
 })
+
 const mapDispatchToProps = (dispatch) => ({
     login: () => dispatch(loginAction()),
     logout: () => dispatch(logoutAction()),
     routerPush: (url) => dispatch(push(url)),
+    setLocale: (locale) => dispatch(setLocaleAction(locale)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderBar)

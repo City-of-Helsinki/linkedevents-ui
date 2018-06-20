@@ -17,7 +17,10 @@ class NewOffer extends React.Component {
     };
 
     static propTypes = {
-        validationErrors: PropTypes.array,
+        validationErrors: PropTypes.oneOfType([
+            PropTypes.array,
+            PropTypes.object,
+        ]),
     }
 
     componentDidUpdate(prevProps) {

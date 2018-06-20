@@ -52,6 +52,17 @@ const constants = {
     IMAGE_UPLOAD_SUCCESS: 'IMAGE_UPLOAD_SUCCESS',
     IMAGE_UPLOAD_ERROR: 'IMAGE_UPLOAD_ERROR',
 
+    DEFAULT_LOCALE: 'fi',
+
+    APPLICATION_SUPPORT_TRANSLATION: ['fi', 'en'],
+    // currently there is only finnish translation in i18n
+
+    // Locale actions
+    LOCALE_ACTIONS: {
+        LOCALE_SET: 'LOCALE_SET',
+        LOCALE_RESET: 'LOCALE_RESET',
+    },
+    
     // Local storage keys
     EDITOR_VALUES: 'EDITOR_VALUES',
 

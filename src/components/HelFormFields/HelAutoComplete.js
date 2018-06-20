@@ -92,7 +92,7 @@ class HelAutoComplete extends React.Component {
         return (
             <span>
                 <div className="hel-select">
-                    <span className="legend" style={{position: 'relative', width: 'auto'}}>Paikka <ValidationPopover small={true} validationErrors={this.props.validationErrors} /></span>
+                    <span className="legend" style={{position: 'relative', width: 'auto'}}>{this.props.legend} <ValidationPopover small={true} validationErrors={this.props.validationErrors} /></span>
                     <Select.Async
                         placeholder={this.props.placeholder}
                         value={ {label: values.name.fi, value: values.id} }
@@ -110,7 +110,6 @@ class HelAutoComplete extends React.Component {
                     </ControlLabel>
 
                     <FormControl
-                        type="text"
                         value={values.id ? values.id : ''}
                         ref="text"
                         disabled
@@ -128,8 +127,12 @@ HelAutoComplete.propTypes = {
     setDirtyState: PropTypes.func,
     onSelection: PropTypes.func,
     defaultValue: PropTypes.object,
-    validationErrors: PropTypes.array,
+    validationErrors: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object,
+    ]),
     placeholder: PropTypes.string,
+    legend: PropTypes.string,
 }
 
 export default HelAutoComplete

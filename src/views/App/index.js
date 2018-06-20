@@ -12,9 +12,10 @@ import {Modal, Well} from 'react-bootstrap';
 
 import {injectIntl, FormattedMessage} from 'react-intl'
 
-import {retrieveUserFromSession as retrieveUserFromSessionAction} from 'src/actions/user'
-import {fetchKeywordSets as fetchKeywordSetsAction, fetchLanguages as fetchLanguagesAction} from 'src/actions/editor.js'
-import {cancelAction, doAction} from 'src/actions/app.js'
+import {fetchLanguages as fetchLanguagesAction, fetchKeywordSets as fetchKeywordSetsAction} from '../../actions/editor'
+import {retrieveUserFromSession as retrieveUserFromSessionAction} from '../../actions/user'
+
+import {cancelAction, doAction} from 'src/actions/app'
 
 import {MuiThemeProvider} from 'material-ui/styles'
 import {HelTheme} from 'src/themes/hel'
@@ -25,37 +26,33 @@ class App extends React.Component {
     static propTypes = {
         children: PropTypes.node,
         fetchKeywordSets: PropTypes.func,
-        fetchLanguages: PropTypes.func,
         cancel: PropTypes.func,
         do: PropTypes.func,
-        retrieveUserFromSession: PropTypes.func,
     };
 
     static childContextTypes = {
         muiTheme: PropTypes.object,
         intl: PropTypes.object,
         dispatch: PropTypes.func,
-        // language: React.PropTypes.object,
-        // user: React.PropTypes.object
     };
 
     getChildContext() {
         return {
             muiTheme: HelTheme,
-            //language: this.props.language,
-            //user: this.state.user
             dispatch: this.props.dispatch,
             intl: this.props.intl,
         }
     }
 
     UNSAFE_componentWillMount() {
-        // Prefetch editor related hel.fi categories and event languages
-        this.props.fetchKeywordSets()
+        // fetch Hel.fi languages
         this.props.fetchLanguages()
 
+        // Prefetch editor related hel.fi categories
+        this.props.fetchKeywordSets()
+
         // Fetch userdata
-        return this.props.retrieveUserFromSession()
+        this.props.retrieveUserFromSession()
     }
 
     render() {
@@ -154,6 +151,8 @@ App.propTypes = {
     app: PropTypes.object,
     user: PropTypes.object,
     dispatch: PropTypes.func,
+    fetchLanguages: PropTypes.func,
+    retrieveUserFromSession: PropTypes.func,
 }
 
 const mapStateToProps = (state) => ({

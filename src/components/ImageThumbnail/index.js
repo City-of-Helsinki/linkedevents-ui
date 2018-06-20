@@ -73,4 +73,7 @@ ImageThumbnail.propTypes = {
 const mapDispatchToProps = (dispatch) => ({
     selectImage: (data) => dispatch(selectImageAction(data)),
 })
-export default connect(null, mapDispatchToProps)(injectIntl(ImageThumbnail))
+
+const mapStateToProps = () => ({})
+// TODO: if leave null, react-intl not refresh. Replace this with better React context
+export default connect(mapStateToProps, mapDispatchToProps)(ImageThumbnail)

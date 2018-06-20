@@ -51,7 +51,7 @@ class SearchBar extends React.Component {
                         ref="date"
                         name="startDate"
                         validations={[VALIDATION_RULES.IS_DATE]}
-                        placeholder="pp.kk.vvvv"
+                        placeholder={this.props.intl.formatMessage({id: 'search-date-placeholder'})}
                         onChange={(date, value) => this.handleDateChange('startDate', date, value)}
                         onBlur={() => null}
                     />
@@ -61,7 +61,7 @@ class SearchBar extends React.Component {
                         ref="date"
                         name="endDate"
                         validations={[VALIDATION_RULES.IS_DATE]}
-                        placeholder="pp.kk.vvvv"
+                        placeholder={this.props.intl.formatMessage({id: 'search-date-placeholder'})}
                         onChange={(date, value) => this.handleDateChange('endDate', date, value)}
                         onBlur={() => null}
                     />
@@ -72,7 +72,6 @@ class SearchBar extends React.Component {
                             <FormattedMessage id="event-name-or-place"/>
                         </ControlLabel>
                         <FormControl
-                            type="text"
                             placeholder={this.props.intl.formatMessage({id: 'event-name-or-place'})}
                             onChange={ (e) => this.handleStringChange(e) }
                             ref="searchQueryInput"

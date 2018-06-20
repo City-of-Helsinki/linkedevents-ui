@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react'
-import HelTextField from './HelTextField.js'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import './HelDatePicker.scss'
@@ -27,12 +26,7 @@ class HelDatePicker extends React.Component {
     }
 
     handleChange(date) {
-        if (date._pf.nullInput) {
-            this.setState({
-                date: undefined,
-            })
-            this.props.onChange('date', undefined)
-        } else if (date.isValid()) {
+        if (date.isValid()) {
             this.setState({
                 date: date,
             })
@@ -57,7 +51,7 @@ class HelDatePicker extends React.Component {
         return (
             <div className='hel-text-field'>
                 <DatePicker
-                    placeholderText='pp.kk.vvvv'
+                    placeholderText={this.props.placeholder}
                     selected={this.state.date}
                     autoOk={true}
                     name={this.props.name}
@@ -76,6 +70,7 @@ HelDatePicker.propTypes = {
     name: PropTypes.string.isRequired,
     onBlur: PropTypes.func,
     onChange: PropTypes.func,
+    placeholder: PropTypes.string,
 }
 
 export default connect((state) => ({

@@ -3,6 +3,8 @@
     "logout": "Kirjaudu ulos",
     "create-event": "Lisää uusi tapahtuma",
     "edit-event": "Muokkaa tapahtumaa",
+    "copy-event-to-draft": "Kopioi uuden tapahtuman pohjaksi",
+    "search-events": "Etsi tapahtumia",
     "search-events-description": "Katsele kaikkia Linked Eventsin tapahtumia.",
     "pick-time-range": "Etsi vain ajalta",
     "event-name-or-place": "Tapahtuman nimi tai paikka",
@@ -13,6 +15,7 @@
     "welcome": "Tervetuloa",
     "submit": "Lähetä",
     "cancel": "Kumoa",
+    "delete-event": "Poista tapahtuma",
     "cancel-event": "Peruuta tapahtuma",
     "save": "Tallenna",
     "confirm-action-header": "Varmista toiminto",
@@ -20,21 +23,31 @@
     "confirm-cancel": "Varmista tapahtuman peruminen",
     "delete": "Poista",
     "confirm": "Suorita",
+    "draft": "Luonnos",
+    "cancelled": "Peruutettu",
 
+    "event-sort-title": "Otsikko",
+    "event-sort-starttime": "Tapahtuma alkaa",
+    "event-sort-endtime": "Tapahtuma päättyy",
+    "event-sort-last-modified": "Muokattu viimeksi",
+
+    "event-page-error": "Tapahtumaa ei löytynyt tai sinulla ei ole oikeuksia katsella sitä.",
+    "event-page-loading": "Ladataan tapahtumaa...",
+    
     "ready": "Valmis",
     "clear-form": "Tyhjennä kentät",
-
+    
     "event-presented-in-languages": "Tapahtumatiedot syötetään",
-
+    
     "in-fi": "suomeksi",
     "in-en": "englanniksi",
     "in-sv": "ruotsiksi",
     "in-ru": "venäjäksi",
     "in-zh_hans": "kiinaksi",
     "in-ar": "arabiaksi",
-
+    
     "no-value": "-kenttää ei ole täytetty.",
-
+    
     "event-description-fields-header": "Tapahtuman kuvaus",
     "event-headline": "Otsikko",
     "event-short-description": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
@@ -45,6 +58,7 @@
     "organization-events": "Tapahtumien hallinta",
     "organization-events-prompt": "muokataksesi tapahtumia.",
     "organization-events-description": "Selaa ja muokkaa oman organisaatiosi julkisia tapahtumia sekä luonnoksia. Voit lisätä uuden tapahtuman yläpalkista.",
+    "organization-events-no-results": "Yhtäkään muokattavaa tapahtumaa ei löytynyt.",
 
     "event-image": "Tapahtuman kuva (klikkaa vaihtaaksesi)",
     "new-image": "Lisää uusi kuva",
@@ -99,32 +113,9 @@
     "instagram-url": "Instagram (url)",
 
     "event-categorization": "Tapahtuman luokittelu",
-
-    "hel-main-categories": "Hel.fi-pääkategoriat",
-    "asuminen-ja-ymparisto": "Asuminen ja ympäristö",
-    "kulttuuri-ja-vapaa-aika": "Kulttuuri ja vapaa-aika",
-    "paivahoito-ja-koulutus": "Päivähoito ja koulutus",
-    "liikenne-ja-kartat": "Liikenne ja kartat",
-    "sosiaali-ja-terveyspalvelut": "Sosiaali- ja terveyspalvelut",
-    "kaupunki-ja-hallinto": "Kaupunki ja hallinto",
-    "hel-keywords": "Avainsanat",
-    "hel-target-groups": "Kohderyhmät",
-    "all": "Ei erityistä kohderyhmää",
-    "yhdistykset": "Yhdistykset",
-    "yrittajat": "Yrittäjät",
-    "maahanmuuttajat": "Maahanmuuttajat",
-    "vanhukset": "Vanhukset",
-    "vammaiset": "Vammaiset",
-    "nuoret": "Nuoret",
-    "lapset-ja-lapsiperheet": "Lapset ja lapsiperheet",
+    "event-keywords": "Tapahtuman asiasanat",
 
     "hel-event-languages": "Tapahtuman kielet",
-    "venaja": "venäjä",
-    "ranska": "ranska",
-    "saksa": "saksa",
-    "englanti": "englanti",
-    "ruotsi": "ruotsi",
-    "suomi": "suomi",
 
     "validation-isUrl": "Kirjoita URL osoite kokonaisena ja oikeassa muodossa (http://...)",
     "validation-isTime": "Kirjoita aika oikeassa muodossa HH.mm tai HH",
@@ -147,10 +138,18 @@
 
     "server-error": "Virhe palvelimella.",
     "validation-error": "Lomakkeessa on virheitä. Tarkasta lomake.",
+    "validation-error-goto-error": "Siirry virheeseen",
     "no-validation-errors": "Lomake täytetty oikein!",
     "authorization-required": "Kirjaudu sisään tapahtuman lähettämiseksi.",
     "event-posted": "Tapahtuma lähetettiin onnistuneesti!",
     "no-connection": "Ei yhteyttä palvelimelle!",
+
+    "event-action-save-new": "Julkaise tapahtuma",
+    "event-action-save-new-active": "Julkaistaan tapahtumaa",
+    "event-action-save-existing": "Tallenna muutokset julkaistuun tapahtumaan",
+    "event-action-save-existing-active": "Tallennetaan muutoksia",
+    "event-action-save-multiple": "Julkaise tapahtumat",
+    "event-action-save-multiple-active": "Julkaistaan tapahtumia",
 
     "event-creation-default-success": "Tapahtuma luotiin onnistuneesti!",
     "event-creation-update-success": "Tapahtuma päivitettiin onnistuneesti!",
@@ -171,10 +170,37 @@
     "confirm-image-delete": "Varmista kuvan poistaminen",
 
     "search-no-results": "Ei tuloksia",
+    "search-date-placeholder": "pp.kk.vvvv",
     "copy-to-clipboard": "Kopioi leikepöydälle",
 
-    "image-caption-limit": "Kuvateksti (korkeintaan {limit} merkkiä)",
+    "hel-keywords": "Avainsanat",
+    "hel-target-groups": "Kohderyhmät",
+    "hel-main-categories": "Hel.fi-pääkategoriat",
 
+    "editor-delete-subevents-warning": "Poistaessasi tämän tapahtuman myös seuraavat alitapahtumat poistetaan:",
+    "editor-delete-warning": "VAROITUS: Tämä toiminto poistaa tapahtuman lopullisesti. Voit tarvittaessa myös perua tapahtuman tai lykätä sitä.",
+    "editor-sentinel-alert": "Voit katsella lomaketta, mutta sinulla ei ole oikeuksia julkaista tai muokata tapahtumia. Et ole kirjautunut sisään tai kirjautumisesi on vanhentunut.",
+    
+    "editor-tip-time-start": "Kirjoita tapahtuman alkamispäivä ja myös alkamisaika, jos tapahtuma alkaa tiettyyn kellonaikaan.",
+    "editor-tip-time-end": "Kirjoita myös päättymispäivä sekä päättymisaika, jos tapahtuma päättyy tiettyyn kellonaikaan.",
+    "editor-tip-time-multi": "Jos tapahtuma järjestetään useamman kerran, voit lisätä tapahtumalle uusia ajankohtia. Jos tapahtuma toistuu säännöllisesti, voit lisätä kaikki ajankohdat kerralla valitsemalla Toistuva tapahtuma.",
+    "editor-tip-time-delete": "Ylimääräisen ajankohdan voit poistaa valitsemalla ajankohdan vieressä olevan roskakorisymbolin.",
+    "editor-tip-location": "Aloita kirjoittamaan kenttään tapahtumapaikan nimen alkua ja valitse oikea paikka alle ilmestyvästä listasta.",
+    "editor-tip-location-extra": "Jos tapahtumapaikka löytyy listasta, osoitetta ja sijaintia ei tarvitse kuvailla tarkemmin. Voit kuitenkin laittaa lisätietoja tapahtuman löytämiseksi, kuten kerrosnumero tai muu tarkempi sijainti.",
+    "editor-tip-location-not-found": "Jos tapahtumapaikkaa ei löydy listasta, valitse tapahtumapaikaksi Helsinki ja kirjoita tarkempi paikka tai osoite lisätietokenttään.",
+    "editor-tip-price": "Merkitse onko tapahtuma maksuton. Syötä maksulliselle tapahtumalle hinta muodossa \"5€\".",
+    "editor-tip-price-multi": "Jos tapahtumalla on useita hintoja, klikkaa Lisää uusi hintatieto ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.",
+    "editor-tip-social-media": "Lisää linkki tapahtuman tai sen järjestäjän some-sivulle.",
+    "editor-tip-keywords": "Liitä tapahtumaan vähintään yksi asiasana, joka kuvaa tapahtuman teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta.",
+    "editor-tip-hel-main-category": "Valitse vähintään yksi pääkategoria.",
+    "editor-tip-hel-target-group": "Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään.",
+    "editor-tip-event-languages": "Kielet, joita tapahtumassa käytetään.",
+
+    "image-caption-limit": "Kuvateksti (korkeintaan {limit} merkkiä)",
+    
+    "add-more": "Lisää kerrat",
+    "play-date-label": "Toistopäivät",
+    
     "link-courses": "Linkkurssit",
     "create-course": "Lisää Kurssi",
     "search-course": "Selaa Kursseja",

@@ -99,6 +99,7 @@ class HelOffersField extends React.Component {
                     raised
                     color="primary"
                     disabled={this.state.isFree}
+                    className="base-material-btn"
                     onClick={ () => this.addNewOffer() }>
                     <FormattedMessage id="event-add-price" />
                 </Button>
@@ -109,7 +110,10 @@ class HelOffersField extends React.Component {
 
 HelOffersField.propTypes = {
     defaultValue: PropTypes.array,
-    validationErrors: PropTypes.object,
+    validationErrors: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object,
+    ]),
     languages: PropTypes.array,
 }
 

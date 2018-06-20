@@ -8,6 +8,7 @@ $linkFontSize: 16px;
 $linkCoursesTextSize: 19px;
 $logoPaddingRight: 32px;
 $addCoursePadding: 6px 12px;
+$languageMarginRight: 10px;
 
 .main-navbar {
     height: $headerBarHeight !important;
@@ -42,6 +43,34 @@ $addCoursePadding: 6px 12px;
 
             img {
                 height: $helsinkiLogoHeight;
+            }
+        }
+
+        &__login-button {
+            display: flex;
+            flex-direction: row;
+        }
+
+        &__language-button {
+            margin-right: $languageMarginRight;
+            display: flex;
+            align-items: center;
+
+            .language-selector {
+                display: flex;
+                align-items: center;
+    
+                .language-icon {
+                    margin-right: $languageMarginRight;
+                }
+                .language-select-box {
+                    background-color: transparent;
+                    color: white;
+                    text-transform: uppercase;
+                    &::before{
+                        display: none;
+                    }
+                }
             }
         }
     }

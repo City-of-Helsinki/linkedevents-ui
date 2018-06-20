@@ -53,11 +53,6 @@ class EventPage extends React.Component {
 
     render() {
         const user = this.props.user
-        let buttonStyle = {
-            height: '64px',
-            marginRight: '10px',
-            color: '#ffffff',
-        }
 
         let event = mapAPIDataToUIFormat(this.props.events.event)
 
@@ -71,25 +66,25 @@ class EventPage extends React.Component {
         let draftClass = event.publication_status == constants.PUBLICATION_STATUS.DRAFT ? 'event-page draft' : 'event-page'
         let draftBadge = null
         if (event.publication_status === constants.PUBLICATION_STATUS.DRAFT) {
-            draftBadge = (<span style={{marginRight:'0.5em'}} className="label label-warning">LUONNOS</span>)
+            draftBadge = (<span style={{marginRight:'0.5em'}} className="label label-warning text-uppercase"><FormattedMessage id="draft"/></span>)
         }
         let cancelledClass = event.publication_status == constants.EVENT_STATUS.CANCELLED ? 'event-page cancelled' : 'event-page'
         let cancelledBadge = null
         if (event.event_status === constants.EVENT_STATUS.CANCELLED) {
-            cancelledBadge = (<span style={{marginRight:'0.5em'}} className="label label-danger">PERUUTETTU</span>)
+            cancelledBadge = (<span style={{marginRight:'0.5em'}} className="label label-danger text-uppercase"><FormattedMessage id="cancelled"/></span>)
         }
 
         if(this.props.events.eventError) {
             return (
                 <header className="container header">
                     <h3>
-                        <div>Tapahtumaa ei löytynyt tai sinulla ei ole oikeuksia katsella sitä.</div>
+                        <div><FormattedMessage id="event-page-error"/></div>
                     </h3>
                 </header>
             )
         }
 
-        const editEventButton = <Button raised onClick={e => this.editEvent(e)} disabled={!eventIsEditable} style={buttonStyle} color="primary">Muokkaa tapahtumaa</Button>
+        const editEventButton = <Button raised onClick={e => this.editEvent(e)} disabled={!eventIsEditable} color="primary"><FormattedMessage id="edit-event"/></Button>
 
         if(event && event.name) {
             return (
@@ -102,16 +97,13 @@ class EventPage extends React.Component {
                         </h1>
                     </header>
                     <div className="container">
-                        <div className="col-sm-12">
-                            <div className="col-sm-12 actions">
-                                {eventIsEditable ? editEventButton :
-                                    <Tooltip title={eventEditabilityExplanation}>
-                                        <span>{editEventButton}</span>
-                                    </Tooltip>
-                                }
-
-                                <Button raised onClick={e => this.copyAsTemplate(e)} style={buttonStyle} color="accent">Kopioi uuden tapahtuman pohjaksi</Button>
-                            </div>
+                        <div className="event-actions">
+                            {eventIsEditable ? editEventButton :
+                                <Tooltip title={eventEditabilityExplanation}>
+                                    <span>{editEventButton}</span>
+                                </Tooltip>
+                            }
+                            <Button raised onClick={e => this.copyAsTemplate(e)} color="accent"><FormattedMessage id="copy-event-to-draft"/></Button>
                         </div>
                     </div>
                     <div className="container">
@@ -124,7 +116,7 @@ class EventPage extends React.Component {
             return (
                 <header className="container header">
                     <h3>
-                        <div>Ladataan tapahtumaa...</div>
+                        <div><FormattedMessage id="event-page-loading"/></div>
                     </h3>
                 </header>
             )
@@ -136,7 +128,7 @@ EventPage.propTypes = {
     match: PropTypes.object,
     fetchEventDetails: PropTypes.func,
     user: PropTypes.object,
-    events: PropTypes.array,
+    events: PropTypes.object,
     replaceData: PropTypes.func,
     routerPush: PropTypes.func,
 }

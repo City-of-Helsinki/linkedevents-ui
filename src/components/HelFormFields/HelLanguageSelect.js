@@ -72,4 +72,6 @@ const mapDispatchToProps = (dispatch) => ({
     setLanguages: (langs) => dispatch(setLanguageAction(langs)),
 })
 
-export default connect(null, mapDispatchToProps)(HelLanguageSelect)
+const mapStateToProps = () => ({})
+// TODO: if leave null, react-intl not refresh. Replace this with better React context
+export default connect(mapStateToProps, mapDispatchToProps)(HelLanguageSelect)
