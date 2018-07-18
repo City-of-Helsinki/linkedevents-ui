@@ -122,6 +122,10 @@
     "audience-min-age": "Minimum age",
     "audience-max-age": "Maximum age",
 
+    "enrolment-time": "Enrolment time",
+    "enrolment-start-time": "Enrolment starts",
+    "enrolment-end-time": "Enrolment ends",
+
     "validation-isUrl": "Enter the URL in correct format (http://...)",
     "validation-isTime": "Enter the time in the correct format HH.mm or HH",
     "validation-isDate": "Enter the date in the correct format dd.mm.yyyy or d.m.yyyy",

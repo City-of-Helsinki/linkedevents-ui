@@ -148,6 +148,13 @@ function mapUIDataToAPIFormat(values) {
         obj.audience_max_age = parseInt(values.audience_max_age, 10)
     }
 
+    if (values.enrolment_start_time) {
+        obj.enrolment_start_time = values.enrolment_start_time
+    }
+    if (values.enrolment_end_time) {
+        obj.enrolment_end_time = values.enrolment_end_time
+    }
+
     return obj
 
     /*
