@@ -117,6 +117,10 @@
 
     "hel-event-languages": "Tapahtuman kielet",
 
+    "audience-age-restrictions": "Ikärajoitukset",
+    "audience-min-age": "Alaikäraja",
+    "audience-max-age": "Yläikäraja",
+
     "validation-isUrl": "Kirjoita URL osoite kokonaisena ja oikeassa muodossa (http://...)",
     "validation-isTime": "Kirjoita aika oikeassa muodossa HH.mm tai HH",
     "validation-isDate": "Kirjoita päivämäärä muodossa pp.kk.vvvv tai p.k.vvvv",

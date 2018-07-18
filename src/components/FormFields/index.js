@@ -416,6 +416,16 @@ class FormFields extends React.Component {
                     />
                     <SideField><p className="tip"><FormattedMessage id="editor-tip-event-languages"/></p></SideField>
                 </div>
+
+                <FormHeader>
+                    <FormattedMessage id="audience-age-restrictions"/>
+                </FormHeader>
+                <div className="row">
+                    <div className="col-sm-12">
+                        <HelTextField ref="audience_min_age" name="audience_min_age" label={<FormattedMessage id="audience-min-age"/>} validationErrors={validationErrors['audience_min_age']} defaultValue={values['audience_min_age']} setDirtyState={this.props.setDirtyState} />
+                        <HelTextField ref="audience_max_age" name="audience_max_age" label={<FormattedMessage id="audience-max-age"/>} validationErrors={validationErrors['audience_max_age']} defaultValue={values['audience_max_age']} setDirtyState={this.props.setDirtyState} />
+                    </div>
+                </div>
             </div>
         )
     }

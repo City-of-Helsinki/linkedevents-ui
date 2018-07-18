@@ -141,6 +141,13 @@ function mapUIDataToAPIFormat(values) {
         obj.end_time = values.end_time
     }
 
+    if (values.audience_min_age) {
+        obj.audience_min_age = parseInt(values.audience_min_age, 10)
+    }
+    if (values.audience_max_age) {
+        obj.audience_max_age = parseInt(values.audience_max_age, 10)
+    }
+
     return obj
 
     /*
