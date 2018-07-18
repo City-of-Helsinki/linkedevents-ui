@@ -438,6 +438,16 @@ class FormFields extends React.Component {
                         <HelDateTimeField validationErrors={validationErrors['enrolment_end_time']} defaultValue={values['enrolment_end_time']} ref="enrolment_end_time" name="enrolment_end_time" label="enrolment-end-time" setDirtyState={this.props.setDirtyState} />
                     </div>
                 </div>
+
+                <FormHeader>
+                    <FormattedMessage id="attendee-capacity"/>
+                </FormHeader>
+                <div className="row">
+                    <div className="col-sm-12">
+                        <HelTextField ref="minimum_attendee_capacity" name="minimum_attendee_capacity" label={<FormattedMessage id="minimum-attendee-capacity"/>} validationErrors={validationErrors['minimum_attendee_capacity']} defaultValue={values['minimum_attendee_capacity']} setDirtyState={this.props.setDirtyState} />
+                        <HelTextField ref="maximum_attendee_capacity" name="maximum_attendee_capacity" label={<FormattedMessage id="maximum-attendee-capacity"/>} validationErrors={validationErrors['maximum_attendee_capacity']} defaultValue={values['maximum_attendee_capacity']} setDirtyState={this.props.setDirtyState} />
+                    </div>
+                </div>
             </div>
         )
     }

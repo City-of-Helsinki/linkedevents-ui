@@ -155,6 +155,13 @@ function mapUIDataToAPIFormat(values) {
         obj.enrolment_end_time = values.enrolment_end_time
     }
 
+    if (values.minimum_attendee_capacity) {
+        obj.minimum_attendee_capacity = parseInt(values.minimum_attendee_capacity, 10)
+    }
+    if (values.maximum_attendee_capacity) {
+        obj.maximum_attendee_capacity = parseInt(values.maximum_attendee_capacity, 10)
+    }
+
     return obj
 
     /*
