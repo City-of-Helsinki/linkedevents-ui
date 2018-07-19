@@ -422,8 +422,25 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-12">
-                        <HelTextField ref="audience_min_age" name="audience_min_age" label={<FormattedMessage id="audience-min-age"/>} validationErrors={validationErrors['audience_min_age']} defaultValue={values['audience_min_age']} setDirtyState={this.props.setDirtyState} />
-                        <HelTextField ref="audience_max_age" name="audience_max_age" label={<FormattedMessage id="audience-max-age"/>} validationErrors={validationErrors['audience_max_age']} defaultValue={values['audience_max_age']} setDirtyState={this.props.setDirtyState} />
+                        <HelTextField 
+                            ref="audience_min_age" 
+                            name="audience_min_age" 
+                            label={<FormattedMessage id="audience-min-age"/>} 
+                            validationErrors={validationErrors['audience_min_age']} 
+                            defaultValue={values['audience_min_age']} 
+                            setDirtyState={this.props.setDirtyState} 
+                            required={true}
+                        />
+
+                        <HelTextField 
+                            ref="audience_max_age" 
+                            name="audience_max_age" 
+                            label={<FormattedMessage id="audience-max-age"/>} 
+                            validationErrors={validationErrors['audience_max_age']} 
+                            defaultValue={values['audience_max_age']} 
+                            setDirtyState={this.props.setDirtyState} 
+                            required={true}
+                        />
                     </div>
                 </div>
 
@@ -432,10 +449,24 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6 col-md-4">
-                        <HelDateTimeField validationErrors={validationErrors['enrolment_start_time']} defaultValue={values['enrolment_start_time']} ref="enrolment_start_time" name="enrolment_start_time" label="enrolment-start-time" setDirtyState={this.props.setDirtyState} />
+                        <HelDateTimeField 
+                            validationErrors={validationErrors['enrolment_start_time']} 
+                            defaultValue={values['enrolment_start_time']} 
+                            ref="enrolment_start_time" 
+                            name="enrolment_start_time" 
+                            label="enrolment-start-time" 
+                            setDirtyState={this.props.setDirtyState} 
+                        />
                     </div>
                     <div className="col-sm-6 col-md-4">
-                        <HelDateTimeField validationErrors={validationErrors['enrolment_end_time']} defaultValue={values['enrolment_end_time']} ref="enrolment_end_time" name="enrolment_end_time" label="enrolment-end-time" setDirtyState={this.props.setDirtyState} />
+                        <HelDateTimeField 
+                            validationErrors={validationErrors['enrolment_end_time']} 
+                            defaultValue={values['enrolment_end_time']} 
+                            ref="enrolment_end_time" 
+                            name="enrolment_end_time" 
+                            label="enrolment-end-time" 
+                            setDirtyState={this.props.setDirtyState} 
+                        />
                     </div>
                 </div>
 
@@ -444,8 +475,25 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-12">
-                        <HelTextField ref="minimum_attendee_capacity" name="minimum_attendee_capacity" label={<FormattedMessage id="minimum-attendee-capacity"/>} validationErrors={validationErrors['minimum_attendee_capacity']} defaultValue={values['minimum_attendee_capacity']} setDirtyState={this.props.setDirtyState} />
-                        <HelTextField ref="maximum_attendee_capacity" name="maximum_attendee_capacity" label={<FormattedMessage id="maximum-attendee-capacity"/>} validationErrors={validationErrors['maximum_attendee_capacity']} defaultValue={values['maximum_attendee_capacity']} setDirtyState={this.props.setDirtyState} />
+                        <HelTextField 
+                            ref="minimum_attendee_capacity" 
+                            name="minimum_attendee_capacity" 
+                            label={<FormattedMessage id="minimum-attendee-capacity"/>}
+                            validationErrors={validationErrors['minimum_attendee_capacity']} 
+                            defaultValue={values['minimum_attendee_capacity']} 
+                            setDirtyState={this.props.setDirtyState} 
+                            required={true}
+                        />
+
+                        <HelTextField 
+                            ref="maximum_attendee_capacity" 
+                            name="maximum_attendee_capacity" 
+                            label={<FormattedMessage id="maximum-attendee-capacity"/>} 
+                            validationErrors={validationErrors['maximum_attendee_capacity']} 
+                            defaultValue={values['maximum_attendee_capacity']} 
+                            setDirtyState={this.props.setDirtyState} 
+                            required={true}
+                        />
                     </div>
                 </div>
             </div>
