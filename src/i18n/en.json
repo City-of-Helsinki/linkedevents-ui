@@ -118,10 +118,24 @@
 
     "hel-event-languages": "Event languages",
 
+    "audience-age-restrictions": "Age restrictions",
+    "audience-min-age": "Minimum age",
+    "audience-max-age": "Maximum age",
+
+    "enrolment-time": "Enrolment time",
+    "enrolment-start-time": "Enrolment starts",
+    "enrolment-end-time": "Enrolment ends",
+
+    "attendee-capacity": "Attendee capacity",
+    "minimum-attendee-capacity": "Minimum attendees",
+    "maximum-attendee-capacity": "Maximum attendees",
+
     "validation-isUrl": "Enter the URL in correct format (http://...)",
     "validation-isTime": "Enter the time in the correct format HH.mm or HH",
     "validation-isDate": "Enter the date in the correct format dd.mm.yyyy or d.m.yyyy",
+    "validation-isInt": "The input need to be number",
     "validation-atLeastOne": "At least one category must be selected",
+    "validation-required": "This field is required",
     "validation-requiredMulti": "This field is required",
     "validation-requiredAtId": "This field is required",
     "validation-requiredString": "This field is required",
