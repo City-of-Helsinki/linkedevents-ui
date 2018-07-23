@@ -1,4 +1,4 @@
-
+---
 sudo: required
 
 services:
@@ -32,4 +32,4 @@ script:
 after_success:
   - npm run codecov
   - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-  ./deploy/containerize.sh
+  - ./deploy/containerize.sh
