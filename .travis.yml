@@ -1,3 +1,9 @@
+
+sudo: required
+
+services:
+  - docker
+
 language: node_js
 node_js:
   - "lts/*"
@@ -25,3 +31,5 @@ script:
 
 after_success:
   - npm run codecov
+  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+  ./deploy/containerize.sh
