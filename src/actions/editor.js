@@ -180,7 +180,7 @@ export function sendData(formValues, contentLanguages, user, updateExisting = fa
         const descriptionTexts = formValues.description
         for (const lang in formValues.description) {
             if (formValues.description[lang]) {
-                const desc = formValues.description[lang].replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br/>')
+                const desc = formValues.description[lang].replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br/>').replace(/&/g, '&amp;')
                 if (desc.indexOf('<p>') === 0 && desc.substr(desc.length - 4) === '</p>') {
                     descriptionTexts[lang] = desc
                 } else {
