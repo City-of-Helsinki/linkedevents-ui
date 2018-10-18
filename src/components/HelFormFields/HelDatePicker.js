@@ -26,7 +26,7 @@ class HelDatePicker extends React.Component {
     }
 
     handleChange(date) {
-        if (date.isValid()) {
+        if (date && date.isValid()) {
             this.setState({
                 date: date,
             })
