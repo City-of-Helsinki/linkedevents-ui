@@ -26,12 +26,11 @@ class HelDatePicker extends React.Component {
     }
 
     handleChange(date) {
-        if (date && date.isValid()) {
-            this.setState({
-                date: date,
-            })
-            this.props.onChange('date', date)
-        }
+        // the component should empty when desired
+        this.setState({
+            date: date,
+        })
+        this.props.onChange('date', date)
     }
 
     handleBlur() {
@@ -42,9 +41,10 @@ class HelDatePicker extends React.Component {
 
     UNSAFE_componentWillReceiveProps(nextProps) {
         if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
-            if (moment(nextProps.defaultValue).isValid()) {
-                this.setState({date: nextProps.defaultValue})
-            }
+            // Bootstrap or React textarea has a bug where null value gets interpreted
+            // as uncontrolled, so no updates are done
+            this.setState({date: nextProps.defaultValue ? nextProps.defaultValue : ''})
+            //}
         }
     }
     render() {
