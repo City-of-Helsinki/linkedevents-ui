@@ -85,9 +85,9 @@ function mapUIDataToAPIFormat(values) {
     obj.location_extra_info = _nullifyEmptyStrings(values.location_extra_info)
 
     // Image data
-    if(values.image) {
-    // obj.image = { '@id': `/v0.1/image/${values.image_id}/`}
-        obj.image = values.image
+    obj.images = []
+    if(values.image && !_.isEmpty(values.image)) {
+        obj.images[0] = values.image
     }
 
     // Price data
