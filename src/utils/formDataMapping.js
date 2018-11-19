@@ -36,7 +36,7 @@ function _addHelFiAudienceKeywords(original_audiences) {
 
     // check that every YSO keyword for the current hel.fi keyword is selected
         const containsEveryYso = _.every(ysoIDs, function(ysoID) {
-            return _.contains(audienceIds, ysoID)
+            return _.includes(audienceIds, ysoID)
         })
         if (containsEveryYso) {
             audiences.push(`${appSettings.api_base}/keyword/` + helFiID + '/')
@@ -215,7 +215,7 @@ function mapAPIDataToUIFormat(values) {
     if(values.external_links) {
         let externalLinkFields = ['extlink_facebook', 'extlink_twitter', 'extlink_instagram']
         externalLinkFields.forEach(item => {
-            let extlink = _.findWhere(values.external_links, {name: item})
+            let extlink = _.find(values.external_links, {name: item})
             if(extlink) {
                 obj[item] = extlink.link
             }
