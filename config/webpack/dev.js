@@ -55,4 +55,5 @@ export default {
             'window.jQuery': 'jquery',
         }),
     ],
+    mode: 'development',
 };
