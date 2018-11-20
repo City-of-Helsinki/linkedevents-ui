@@ -33,7 +33,7 @@ class NewEvent extends React.Component {
                                 ref="start_time"
                                 name="start_time"
                                 label="event-starting-datetime"
-                                defaultValue={this.props.event.start_time}
+                                //defaultValue={this.props.event.start_time}
                                 eventKey={this.props.eventKey}
                             />
                         </div>
@@ -42,7 +42,7 @@ class NewEvent extends React.Component {
                                 ref="end_time"
                                 name="end_time"
                                 label="event-ending-datetime"
-                                defaultValue={this.props.event.end_time}
+                                //defaultValue={this.props.event.end_time}
                                 eventKey={this.props.eventKey}
                             />
                         </div>
