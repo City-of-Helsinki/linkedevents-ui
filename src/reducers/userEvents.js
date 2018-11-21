@@ -9,7 +9,7 @@ const initialState = {
     sortBy: 'last_modified_time',
     sortOrder: 'desc',
     count: null,
-    paginationPage: 0
+    paginationPage: 0,
 }
 
 function update(state = initialState, action) {
@@ -18,7 +18,7 @@ function update(state = initialState, action) {
             isFetching: true,
             fetchComplete: false,
             items: [],
-            error: null
+            error: null,
         })
     }
 
@@ -28,7 +28,7 @@ function update(state = initialState, action) {
             fetchComplete: true,
             items: action.items,
             error: null,
-            count: action.count
+            count: action.count,
         });
     }
 
@@ -38,7 +38,7 @@ function update(state = initialState, action) {
             fetchComplete: false,
             items: [],
             error: null,
-            count: null
+            count: null,
         });
     }
 
@@ -47,7 +47,7 @@ function update(state = initialState, action) {
             isFetching: false,
             fetchComplete: false,
             items: [],
-            error: action.error
+            error: action.error,
         });
     }
 
@@ -55,7 +55,7 @@ function update(state = initialState, action) {
         return Object.assign({}, state, {
             sortBy: action.sortBy,
             sortOrder: action.sortOrder,
-            paginationPage: action.paginationPage
+            paginationPage: action.paginationPage,
         });
     }
 

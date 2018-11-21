@@ -2,37 +2,38 @@ require('!style-loader!css-loader!sass-loader!./index.scss');
 
 import PropTypes from 'prop-types';
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
+import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
 import moment from 'moment'
-import { sortBy, reverse } from 'lodash'
-import { Table, TableHead, TableBody, TableFooter, TableRow, TableCell, TableSortLabel, TablePagination, CircularProgress } from 'material-ui'
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
+import {sortBy, reverse} from 'lodash'
+import {Table, TableHead, TableBody, TableFooter, TableRow, TableCell, TableSortLabel, TablePagination, CircularProgress} from 'material-ui'
+import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles'
+import {FormattedMessage, FormattedTime, FormattedDate, FormattedRelative} from 'react-intl';
 
 import SearchBar from '../SearchBar'
-import { fetchEvents } from '../../actions/events'
-import { setUserEventsSortOrder, fetchUserEvents } from '../../actions/userEvents'
+import {fetchEvents} from '../../actions/events'
+import {setUserEventsSortOrder, fetchUserEvents} from '../../actions/userEvents'
 import constants from '../../constants'
 
 class FilterableEventTable extends React.Component {
     static contextTypes = {
         intl: PropTypes.object,
-        dispatch: PropTypes.func
+        dispatch: PropTypes.func,
     };
 
     constructor(props) {
         super(props)
         this.state = {
-            apiErrorMsg: ''
+            apiErrorMsg: '',
         }
     }
 
     render() {
         let dateFormat = function(timeStr) {
-            return timeStr ? moment(timeStr).format('ll') : ''
+            return timeStr ? <FormattedDate value={timeStr} month="short" day="numeric" year="numeric"/> : ''
         }
         let dateTimeFormat = function(timeStr) {
-            return timeStr ? moment(timeStr).calendar() : ''
+            return timeStr ? <FormattedRelative value={timeStr} /> : ''
         }
 
         let EventRow = (props) => {
@@ -50,7 +51,7 @@ class FilterableEventTable extends React.Component {
                 name = '<event>'
             }
 
-            let url = "/event/" + e.id;
+            let url = '/event/' + e.id;
 
             // Add necessary badges
             let nameColumn = null
@@ -61,9 +62,9 @@ class FilterableEventTable extends React.Component {
             // let cancelledClass = cancelled ? 'cancelled-row' : ''
             let cancelledClass = null
             if (draft) {
-                nameColumn = (<TableCell className={draftClass}><span className="label label-warning">LUONNOS</span> <Link to={url}>{name}</Link></TableCell>)
+                nameColumn = (<TableCell className={draftClass}><span className="label label-warning text-uppercase"><FormattedMessage id="draft"/></span> <Link to={url}>{name}</Link></TableCell>)
             } else if (cancelled) {
-                nameColumn = (<TableCell className={cancelledClass}><span className="label label-danger">PERUUTETTU</span> <Link to={url}>{name}</Link></TableCell>)
+                nameColumn = (<TableCell className={cancelledClass}><span className="label label-danger text-uppercase"><FormattedMessage id="cancelled"/></span> <Link to={url}>{name}</Link></TableCell>)
             } else {
                 nameColumn = (<TableCell><Link to={url}>{name}</Link></TableCell>)
             }
@@ -110,16 +111,16 @@ class FilterableEventTable extends React.Component {
                     <TableHead>
                         <TableRow>
                             <TableCell key="otsikko">
-                                <TableSortLabel active={props.sortBy === 'name'} direction={props.sortBy === 'name' ? props.sortOrder : null} onClick={() => this.props.changeSortOrder('name', props.sortBy, props.sortOrder, props.paginationPage, props.user)}>Otsikko</TableSortLabel>
+                                <TableSortLabel active={props.sortBy === 'name'} direction={props.sortBy === 'name' && props.sortOrder} onClick={() => this.props.changeSortOrder('name', props.sortBy, props.sortOrder, props.paginationPage, props.user)}><FormattedMessage id="event-sort-title"/></TableSortLabel>
                             </TableCell>
                             <TableCell key="alkaa">
-                                <TableSortLabel active={props.sortBy === 'start_time'} direction={props.sortBy === 'start_time' ? props.sortOrder : null} onClick={() => this.props.changeSortOrder('start_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}>Tapahtuma alkaa</TableSortLabel>
+                                <TableSortLabel active={props.sortBy === 'start_time'} direction={props.sortBy === 'start_time' && props.sortOrder} onClick={() => this.props.changeSortOrder('start_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}><FormattedMessage id="event-sort-starttime"/></TableSortLabel>
                             </TableCell>
                             <TableCell key="päättyy">
-                                <TableSortLabel active={props.sortBy === 'end_time'} direction={props.sortBy === 'end_time' ? props.sortOrder : null} onClick={() => this.props.changeSortOrder('end_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}>Tapahtuma päättyy</TableSortLabel>
+                                <TableSortLabel active={props.sortBy === 'end_time'} direction={props.sortBy === 'end_time' && props.sortOrder} onClick={() => this.props.changeSortOrder('end_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}><FormattedMessage id="event-sort-endtime"/></TableSortLabel>
                             </TableCell>
                             <TableCell key="muokattu">
-                                <TableSortLabel active={props.sortBy === 'last_modified_time'} direction={props.sortBy === 'last_modified_time' && props.sortOrder} onClick={() => this.props.changeSortOrder('last_modified_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}>Muokattu viimeksi</TableSortLabel>
+                                <TableSortLabel active={props.sortBy === 'last_modified_time'} direction={props.sortBy === 'last_modified_time' && props.sortOrder} onClick={() => this.props.changeSortOrder('last_modified_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}><FormattedMessage id="event-sort-last-modified"/></TableSortLabel>
                             </TableCell>
                         </TableRow>
                     </TableHead>
@@ -128,12 +129,12 @@ class FilterableEventTable extends React.Component {
                         <TableFooter>
                             <TableRow>
                                 <TablePagination
-                                count={rowsCount !== null ? rowsCount : 0}
-                                rowsPerPage={rowsPerPage}
-                                rowsPerPageOptions = {[]}
-                                page={paginationPage}
-                                onChangePage={(event, newPage) => this.props.changePaginationPage(props.sortBy, props.sortOrder, newPage, props.user)}
-                                labelDisplayedRows={ ({ from, to, count }) => {  return `${from}-${to} / ${count}` }  }
+                                    count={rowsCount !== null ? rowsCount : 0}
+                                    rowsPerPage={rowsPerPage}
+                                    rowsPerPageOptions = {[]}
+                                    page={paginationPage}
+                                    onChangePage={(event, newPage) => this.props.changePaginationPage(props.sortBy, props.sortOrder, newPage, props.user)}
+                                    labelDisplayedRows={ ({from, to, count}) => {  return `${from}-${to} / ${count}` }  }
                                 />
                             </TableRow>
                         </TableFooter>
@@ -143,50 +144,69 @@ class FilterableEventTable extends React.Component {
         }
 
         let results = null
-        const { getNextPage } = this.props;
-        if (this.props.events.length > 0 || this.props.fetchComplete === false) {
+        const {getNextPage} = this.props;
+        if (this.props.events.length > 0 || this.props.fetchComplete === false) {
             const progressStyle = {
                 marginTop: '20px',
-                marginLeft: '60px'
+                marginLeft: '60px',
             }
 
             results = (
                 <div>
-                    <EventTable events={this.props.events} getNextPage={getNextPage} filterText={''} sortBy={this.props.sortBy} sortOrder={this.props.sortOrder} user={this.props.user} count={this.props.count} paginationPage={this.props.paginationPage}/>
+                    <EventTable 
+                        events={this.props.events} 
+                        getNextPage={getNextPage} 
+                        filterText={''} 
+                        sortBy={this.props.sortBy} 
+                        sortOrder={this.props.sortOrder} 
+                        user={this.props.user} 
+                        count={this.props.count} 
+                        paginationPage={this.props.paginationPage}
+                    />
                     {this.props.fetchComplete === false &&
                         <span><CircularProgress style={progressStyle}/></span>
                     }
                 </div>
             )
         } else {
-            results = (
-                <span>
-                Yhtäkään muokattavaa tapahtumaa ei löytynyt.
-            </span>
-            )
+            results = <FormattedMessage id="organization-events-no-results"/>
         }
 
         let err = ''
         let errorStyle = {
-            color: 'red !important'
+            color: 'red !important',
         }
 
         if (this.props.apiErrorMsg.length > 0) {
             err = (
                 <span style={errorStyle}>
-                    Error connecting to server.
+                    <FormattedMessage id="server-error"/>
                 </span>
             )
         }
 
         return (
-            <div style={{ padding: '0em 2em 0.5em 0em'}} >
+            <div style={{padding: '0em 2em 0.5em 0em'}} >
                 {err}
                 {results}
             </div>
         )
     }
 
+}
+
+FilterableEventTable.propTypes = {
+    changeSortOrder: PropTypes.func,
+    getNextPage: PropTypes.func,
+    changePaginationPage: PropTypes.func,
+    events: PropTypes.array,
+    fetchComplete: PropTypes.bool,
+    sortBy: PropTypes.string,
+    sortOrder: PropTypes.string,
+    user: PropTypes.object,
+    count: PropTypes.number,
+    paginationPage: PropTypes.number,
+    apiErrorMsg: PropTypes.string,
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -221,8 +241,9 @@ const mapDispatchToProps = (dispatch) => {
         changePaginationPage: (sortBy, order, paginationPage, user) => {
             dispatch(setUserEventsSortOrder(sortBy, order, paginationPage))
             dispatch(fetchUserEvents(user, sortBy, order, paginationPage))
-        }
+        },
     }
-  }
-
-export default connect(null, mapDispatchToProps)(FilterableEventTable)
+}
+const mapStateToProps = () => ({})
+// TODO: if leave null, react-intl not refresh. Replace this with better React context
+export default connect(mapStateToProps, mapDispatchToProps)(FilterableEventTable)

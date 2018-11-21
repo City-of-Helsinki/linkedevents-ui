@@ -1,14 +1,14 @@
 // Validator actor which listens to validation changes and sets flash message if validation errors are cleared.
 // Subscribes for store changes in src/index.js
 
-import { setFlashMsg, clearFlashMsg } from '../actions/app'
-import constants from '../constants'
+import {setFlashMsg, clearFlashMsg} from 'src/actions/app'
+import constants from 'src/constants'
 
 let wasErrors = false
 
 export default (store) => {
 
-    const { editor, router } = store.getState()
+    const {editor, router, userLocale: {locale}} = store.getState()
     const dispatch = store.dispatch
 
     let errorCount = _.keys(editor.validationErrors).length;
@@ -17,15 +17,15 @@ export default (store) => {
         wasErrors = true
 
         let action = {
-            label: 'Siirry virheeseen',
+            labelId: 'validation-error-goto-error',
             fn: () => {
                 let top = (window.scrollY || window.pageYOffset)
                 let popovers = document.getElementsByClassName('validation-error-popover')
-                if(popovers[0]) { window.scrollTo(0, top+popovers[0].getBoundingClientRect().top-16) }
-            }
+                if(popovers[0]) { window.scrollTo(0, top + popovers[0].getBoundingClientRect().top - 16) }
+            },
         }
 
-        dispatch(setFlashMsg('validation-error', 'error', { sticky: true, action: action }))
+        dispatch(setFlashMsg('validation-error', 'error', {sticky: true, action: action}))
     }
 
     if(wasErrors === true) {

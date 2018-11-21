@@ -1,21 +1,22 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-import { FormattedMessage, injectIntl } from 'react-intl'
+import {FormattedMessage, injectIntl} from 'react-intl'
 
 import {connect} from 'react-redux'
-import { setData } from '../../actions/editor'
+import {setData} from '../../actions/editor'
 
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
 
 import {
     HelDateTimeField,
-    HelDatePicker
+    HelDatePicker,
 } from 'src/components/HelFormFields'
 
 class EventOccasion extends React.Component {
 
     render() {
-        const { values, validationErrors, contentLanguages } = this.props.editor
+        const {values, validationErrors, contentLanguages} = this.props.editor
         return (
             <div className="row">
                 <div className="col-xs-12 col-md-6">
@@ -27,6 +28,14 @@ class EventOccasion extends React.Component {
             </div>
         )
     }
+}
+
+EventOccasion.propTypes = {
+    editor: PropTypes.shape({
+        contentLanguages: PropTypes.any,
+        values: PropTypes.object,
+        validationErrors: PropTypes.object,
+    }).isRequired,
 }
 
 export default EventOccasion

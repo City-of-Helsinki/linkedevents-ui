@@ -3,19 +3,12 @@ import './MultiLanguageField.scss'
 import PropTypes from 'prop-types';
 
 import React from 'react'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import {FormattedMessage, injectIntl} from 'react-intl'
 import HelTextField from './HelTextField'
 
 import ValidationPopover from '../ValidationPopover'
 
-import { setData } from '../../actions/editor'
-
-// A text component for multiple language inputs. Outputs linked events language field format
-// field = {
-//     fi: 'nimi',
-//     sv: 'namn',
-//     en: 'name'
-// }
+import {setData} from 'src/actions/editor'
 
 class MultiLanguageField extends React.Component {
 
@@ -23,15 +16,34 @@ class MultiLanguageField extends React.Component {
         super(props)
         let defaultValue = props.defaultValue || {}
         this.state = {
-            value: defaultValue
+            value: defaultValue,
         }
     }
 
     static contextTypes = {
         intl: PropTypes.object,
-        dispatch: PropTypes.func
+        dispatch: PropTypes.func,
     };
 
+    static propTypes = {
+        defaultValue: PropTypes.object,
+        onChange: PropTypes.func,
+        name: PropTypes.string,
+        forceApplyToStore: PropTypes.bool,
+        setDirtyState: PropTypes.func,
+        onBlur: PropTypes.func,
+        languages: PropTypes.array,
+        disabled: PropTypes.bool,
+        required: PropTypes.bool,
+        validations: PropTypes.array,
+        validationErrors: PropTypes.oneOfType([
+            PropTypes.array,
+            PropTypes.object,
+        ]),
+        index: PropTypes.string,
+        multiLine: PropTypes.bool,
+    }
+    
     onChange(e,value,lang) {
         this.setState({value: this.getValue()})
 
@@ -56,7 +68,7 @@ class MultiLanguageField extends React.Component {
         }
 
         if(typeof this.props.onBlur === 'function') {
-            this.props.onBlur(event, this.getValue())
+            this.props.onBlur(e, this.getValue())
         }
     }
 
@@ -76,9 +88,9 @@ class MultiLanguageField extends React.Component {
         return (errors.length === 0)
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
-            this.setState({ value: nextProps.defaultValue || {} })
+            this.setState({value: nextProps.defaultValue || {}})
         }
         this.forceUpdate()
     }
@@ -122,7 +134,16 @@ class MultiLanguageField extends React.Component {
                 let value = this.state.value[lang]
                 return (
                     <div key={`${props.name}_${lang}`}>
-                        <HelTextField multiLine={this.props.multiLine} required={this.props.required} defaultValue={value} ref={lang} label={this.context.intl.formatMessage({id: `in-${lang}`})} onChange={(e,v) => this.onChange(e,v,lang)} onBlur={(e,v) => this.onBlur(e,v)} disabled={this.props.disabled} validations={this.props.validations}/>
+                        <HelTextField 
+                            multiLine={this.props.multiLine} 
+                            required={this.props.required} 
+                            defaultValue={value} ref={lang} 
+                            label={this.context.intl.formatMessage({id: `in-${lang}`})} 
+                            onChange={(e,v) => this.onChange(e,v,lang)} 
+                            onBlur={(e,v) => this.onBlur(e,v)} 
+                            disabled={this.props.disabled} 
+                            validations={this.props.validations}
+                        />
                     </div>
                 )
             },this)

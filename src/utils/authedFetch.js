@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch'
-import { login, logout } from '../actions/user'
+import {login, logout} from '../actions/user'
 
 export default function(url, settings, user, dispatch) {
 
@@ -10,8 +10,8 @@ export default function(url, settings, user, dispatch) {
         if(user && user.token) {
             options = Object.assign({}, settings, {
                 headers: {
-                    'Authorization': 'JWT ' + user.token
-                }
+                    'Authorization': 'JWT ' + user.token,
+                },
             })
         }
 

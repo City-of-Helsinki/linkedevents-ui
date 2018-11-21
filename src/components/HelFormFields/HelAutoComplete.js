@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react'
 
-import Input from 'react-bootstrap/lib/Input.js'
+import {FormControl, ControlLabel} from 'react-bootstrap'
 import Select from 'react-select'
 
 import Typeahead from '../../typeahead'
 
 import {connect} from 'react-redux'
-import { setData } from '../../actions/editor'
+import {setData} from '../../actions/editor'
 
 import ValidationPopover from '../ValidationPopover'
 
@@ -15,13 +15,13 @@ class HelAutoComplete extends React.Component {
 
     static contextTypes = {
         intl: PropTypes.object,
-        dispatch: PropTypes.func
+        dispatch: PropTypes.func,
     };
 
     constructor(props) {
         super(props)
 
-        this.state = { isLoading: false }
+        this.state = {isLoading: false}
     }
 
     getOptions(input) {
@@ -37,12 +37,12 @@ class HelAutoComplete extends React.Component {
                         label: item.name.fi, // TODO: use locale
                         '@id': `/v1/${this.props.resource}/${item.id}/`,
                         id: item.id,
-                        n_events: item.n_events
+                        n_events: item.n_events,
                     }
                 })
             }).then((json) => {
                 self.setState({isLoading: false})
-                return { options: json }
+                return {options: json}
             })
     }
 
@@ -58,9 +58,9 @@ class HelAutoComplete extends React.Component {
         // Do action to save form state to storage
         let obj = {}
         obj[this.props.name] = {
-            name: { fi: val.label },
+            name: {fi: val.label},
             id: val.value,
-            '@id': val['@id']
+            '@id': val['@id'],
         }
 
         this.context.dispatch(setData(obj))
@@ -82,7 +82,7 @@ class HelAutoComplete extends React.Component {
 
         let values = {
             id: null,
-            name: {}
+            name: {},
         }
 
         if(typeof this.props.defaultValue === 'object' && this.props.defaultValue !== null) {
@@ -92,7 +92,7 @@ class HelAutoComplete extends React.Component {
         return (
             <span>
                 <div className="hel-select">
-                    <span className="legend" style={{ position: 'relative', width: 'auto' }}>Paikka <ValidationPopover small validationErrors={this.props.validationErrors} /></span>
+                    <span className="legend" style={{position: 'relative', width: 'auto'}}>{this.props.legend} <ValidationPopover small={true} validationErrors={this.props.validationErrors} /></span>
                     <Select.Async
                         placeholder={this.props.placeholder}
                         value={ {label: values.name.fi, value: values.id} }
@@ -104,14 +104,14 @@ class HelAutoComplete extends React.Component {
                         optionRenderer={this.optionRenderer}
                     />
                 </div>
-                <div >
-                    <Input
-                        type="text"
-                        value={values.id}
-                        label={this.context.intl.formatMessage({ id: "event-location-id" })}
+                <div className="hel-text-field">
+                    <ControlLabel className="hel-label">
+                        {this.context.intl.formatMessage({id: 'event-location-id'})}
+                    </ControlLabel>
+
+                    <FormControl
+                        value={values.id ? values.id : ''}
                         ref="text"
-                        groupClassName="hel-text-field"
-                        labelClassName="hel-label"
                         disabled
                     />
                 </div>
@@ -120,6 +120,19 @@ class HelAutoComplete extends React.Component {
     }
 }
 
-
+HelAutoComplete.propTypes = {
+    dataSource: PropTypes.string,
+    resource: PropTypes.string,
+    name: PropTypes.string,
+    setDirtyState: PropTypes.func,
+    onSelection: PropTypes.func,
+    defaultValue: PropTypes.object,
+    validationErrors: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object,
+    ]),
+    placeholder: PropTypes.string,
+    legend: PropTypes.string,
+}
 
 export default HelAutoComplete

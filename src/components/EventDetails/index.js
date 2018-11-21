@@ -2,14 +2,15 @@ import './index.scss'
 
 import moment from 'moment'
 import React from 'react'
+import PropTypes from 'prop-types'
 
-import {injectIntl, FormattedMessage} from 'react-intl'
-import { getStringWithLocale } from 'src/utils/locale'
+import {injectIntl, FormattedMessage, FormattedDate, FormattedTime} from 'react-intl'
+import {getStringWithLocale} from 'src/utils/locale'
 
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
 
 let NoValue = (props) => {
-    let header = props.labelKey ? (<span>'<FormattedMessage id={`${props.labelKey}`} />'&nbsp;</span>) : null
+    let header = props.labelKey ? (<span><FormattedMessage id={`${props.labelKey}`} />&nbsp;</span>) : null
     return (
         <div className="no-value">
             {header}
@@ -37,18 +38,18 @@ let MultiLanguageValue = (props) => {
     let count = (_.keys(value)).length
 
     // Determine column size depending on the amount of language options
-    let colClass = "col-md-12"
+    let colClass = 'col-md-12'
     if(count > 1) {
-        colClass = (count === 2) ? "col-md-6" : "col-md-4"
+        colClass = (count === 2) ? 'col-md-6' : 'col-md-4'
     }
 
     // Use a separate array to ensure correct field order
-    let langOptions = ['fi', 'sv', 'en']
+    let langOptions = ['fi', 'sv', 'en', 'ru', 'zh_hans', 'ar']
     let elements = []
 
     _.each(langOptions, (key) => {
         let val = value[key]
-        const createHTML = () => ({ __html: val })
+        const createHTML = () => ({__html: val})
 
         if(val) {
             elements.push(<div className={colClass} key={key}><div className={`in-${key} indented`}><label className="language"><FormattedMessage id={`in-${key}`} /></label><div dangerouslySetInnerHTML={createHTML()}/></div></div>)
@@ -103,14 +104,14 @@ let TextValue = (props) => {
 let ImageValue = (props) => {
     if(props.value !== undefined && props.value instanceof Object) {
         return (
-        <div className="row">
-            <legend className="col-xs-12"><img src={props.value.url} className="event-image"/></legend>
-        </div>
+            <div className="row">
+                <legend className="col-xs-12"><img src={props.value.url} className="event-image"/></legend>
+            </div>
         )
     } else {
         return (
             <FormHeader>
-                    <FormattedMessage id="no-image"/>
+                <FormattedMessage id="no-image"/>
             </FormHeader>
         )
     }
@@ -145,7 +146,20 @@ let DateTime = (props) => {
         let time = moment(props.value).tz('Europe/Helsinki');
         let value = ''
         if(time.isValid()) {
-            value = time.format('dddd D.M.YYYY H.mm')
+            value = <div>
+                <FormattedDate 
+                    value={time}
+                    year="numeric"
+                    month="short"
+                    day="numeric"
+                    weekday="long"
+                /> 
+                <FormattedTime 
+                    value={time}
+                    hour="numeric"
+                    minute="2-digit"
+                />
+            </div>
         }
         return (
             <div className="single-value-field">
@@ -175,7 +189,7 @@ let FormHeader = (props) => (
 
 
 let OffersValue = (props) => {
-    const { offers } = props.values
+    const {offers} = props.values
     if (offers && offers[0] && typeof offers[0] === 'object') {
         const offersValueList = []
         for (const key in props.values.offers) {
@@ -216,22 +230,22 @@ class EventDetails extends React.Component {
 
         return (
             <div>
-                <ImageValue labelKey="event-image" value={props.values["image"]}/>
+                <ImageValue labelKey="event-image" value={props.values['image']}/>
                 <FormHeader>
-                    { props.intl.formatMessage({id: "event-description-fields-header"}) }
+                    { props.intl.formatMessage({id: 'event-description-fields-header'}) }
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-12">
-                        <MultiLanguageValue labelKey="event-headline" value={props.values["name"]} />
-                        <MultiLanguageValue labelKey="event-short-description" value={props.values["short_description"]}/>
-                        <MultiLanguageValue labelKey="event-description" value={props.values["description"]} />
-                        <MultiLanguageValue labelKey="event-info-url" value={props.values["info_url"]} />
-                        <MultiLanguageValue labelKey="event-provider" value={props.values["provider"]} />
+                        <MultiLanguageValue labelKey="event-headline" value={props.values['name']} />
+                        <MultiLanguageValue labelKey="event-short-description" value={props.values['short_description']}/>
+                        <MultiLanguageValue labelKey="event-description" value={props.values['description']} />
+                        <MultiLanguageValue labelKey="event-info-url" value={props.values['info_url']} />
+                        <MultiLanguageValue labelKey="event-provider" value={props.values['provider']} />
                     </div>
                 </div>
 
                 <FormHeader>
-                    { props.intl.formatMessage({id: "event-datetime-fields-header"}) }
+                    { props.intl.formatMessage({id: 'event-datetime-fields-header'}) }
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-12">
@@ -241,18 +255,18 @@ class EventDetails extends React.Component {
                 </div>
 
                 <FormHeader>
-                    { props.intl.formatMessage({id: "event-location-fields-header"}) }
+                    { props.intl.formatMessage({id: 'event-location-fields-header'}) }
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-12">
                         <MultiLanguageValue labelKey="event-location" value={props.values.location.name} />
                         <TextValue labelKey="event-location-id" value={props.values.location.id} />
-                        <MultiLanguageValue labelKey="event-location-additional-info" value={props.values["location_extra_info"]} />
+                        <MultiLanguageValue labelKey="event-location-additional-info" value={props.values['location_extra_info']} />
                     </div>
                 </div>
 
                 <FormHeader>
-                    { props.intl.formatMessage({id: "event-price-fields-header"}) }
+                    { props.intl.formatMessage({id: 'event-price-fields-header'}) }
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-12">
@@ -261,7 +275,7 @@ class EventDetails extends React.Component {
                 </div>
 
                 <FormHeader>
-                    { props.intl.formatMessage({id: "event-social-media-fields-header"}) }
+                    { props.intl.formatMessage({id: 'event-social-media-fields-header'}) }
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-12">
@@ -272,7 +286,7 @@ class EventDetails extends React.Component {
                 </div>
 
                 <FormHeader>
-                    { props.intl.formatMessage({id: "event-categorization"}) }
+                    { props.intl.formatMessage({id: 'event-categorization'}) }
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-12">
@@ -286,6 +300,25 @@ class EventDetails extends React.Component {
             </div>
         )
     }
+}
+
+NoValue.propTypes = {
+    labelKey: PropTypes.string,
+} 
+
+CheckedValue.propTypes = {
+    checked: PropTypes.bool,
+    labelKey: PropTypes.string,
+    label: PropTypes.string,
+}
+
+OptionGroup.propTypes = {
+    values: PropTypes.array,
+    labelKey: PropTypes.string,
+}
+
+FormHeader.propTypes = {
+    children: PropTypes.string,
 }
 
 export default injectIntl(EventDetails)

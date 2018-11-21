@@ -1,20 +1,20 @@
 import constants from '../constants.js'
 import fetch from 'isomorphic-fetch'
 import _ from 'lodash'
-import { resetUserEventsFetching } from './userEvents'
+import {resetUserEventsFetching} from './userEvents'
 
 // Handled by the user reducer
 export function receiveUserData(data) {
     return {
         type: constants.RECEIVE_USERDATA,
-        payload: data
+        payload: data,
     }
 }
 
 // Handled by the user reducer
 export function clearUserData() {
     return {
-        type: constants.CLEAR_USERDATA
+        type: constants.CLEAR_USERDATA,
     }
 }
 
@@ -37,8 +37,8 @@ export function retrieveUserFromSession() {
             if(user.token) {
                 const settings = {
                     headers: {
-                        'Authorization': 'JWT ' + user.token
-                    }
+                        'Authorization': 'JWT ' + user.token,
+                    },
                 }
                 return fetch(`${appSettings.api_base}/user/${user.username}/`, settings).then((response) => {
                     return response.json()
@@ -46,7 +46,7 @@ export function retrieveUserFromSession() {
                     let mergedUser = Object.assign({}, user, {
                         organization: _.get(userJSON, 'organization', null),
                         adminOrganizations: _.get(userJSON, 'admin_organizations', null),
-                        organizationMemberships: _.get(userJSON, 'organization_memberships', null)
+                        organizationMemberships: _.get(userJSON, 'organization_memberships', null),
                     })
 
                     saveUserToLocalStorage(mergedUser)
@@ -60,34 +60,34 @@ export function retrieveUserFromSession() {
 }
 
 export function login() {
-  return (dispatch) => {
-    return new Promise((resolve) => {
-      if (typeof window === 'undefined') {  // Not in DOM? Just try to get an user then and see how that goes.
-        return resolve(true);
-      }
-      const loginPopup = window.open(
-        '/auth/login/helsinki',
-        'kkLoginWindow',
-        'location,scrollbars=on,width=720,height=600'
-      );
-      const wait = function wait() {
-        if (loginPopup.closed) { // Is our login popup gone?
-          return resolve(true);
-        }
-        setTimeout(wait, 500); // Try again in a bit...
-      };
-      wait();
-    }).then(() => {
-      return dispatch(retrieveUserFromSession());
-    });
-  };
+    return (dispatch) => {
+        return new Promise((resolve) => {
+            if (typeof window === 'undefined') {  // Not in DOM? Just try to get an user then and see how that goes.
+                return resolve(true);
+            }
+            const loginPopup = window.open(
+                '/auth/login/helsinki',
+                'kkLoginWindow',
+                'location,scrollbars=on,width=720,height=600'
+            );
+            const wait = function wait() {
+                if (loginPopup.closed) { // Is our login popup gone?
+                    return resolve(true);
+                }
+                setTimeout(wait, 500); // Try again in a bit...
+            };
+            wait();
+        }).then(() => {
+            return dispatch(retrieveUserFromSession());
+        });
+    };
 }
 
 export function logout() {
-  return (dispatch) => {
-      fetch('/auth/logout', {method: 'POST', credentials: 'same-origin'}) // Fire-and-forget
-      localStorage.removeItem('user')
-      dispatch(clearUserData())
-      dispatch(resetUserEventsFetching())
-  };
+    return (dispatch) => {
+        fetch('/auth/logout', {method: 'POST', credentials: 'same-origin'}) // Fire-and-forget
+        localStorage.removeItem('user')
+        dispatch(clearUserData())
+        dispatch(resetUserEventsFetching())
+    };
 }

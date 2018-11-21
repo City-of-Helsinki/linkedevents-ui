@@ -1,7 +1,9 @@
 import React from 'react';
-import { get as getIfExists } from 'lodash'
-import { connect } from 'react-redux'
-import { fetchUserImages } from '../../actions/userImages'
+import PropTypes from 'prop-types'
+
+import {get as getIfExists} from 'lodash'
+import {connect} from 'react-redux'
+import {fetchUserImages as fetchUserImagesAction} from 'src/actions/userImages'
 import ImageThumbnail from '../ImageThumbnail'
 
 class ImageGalleryGrid extends React.Component {
@@ -14,7 +16,7 @@ class ImageGalleryGrid extends React.Component {
     }
 
     componentDidUpdate() {
-        const { fetchComplete, isFetching } = this.props.images
+        const {fetchComplete, isFetching} = this.props.images
         if (fetchComplete || isFetching) {
             return;
         }
@@ -23,12 +25,12 @@ class ImageGalleryGrid extends React.Component {
 
     fetchImages() {
         if (this.props.user) {
-            this.props.dispatch(fetchUserImages(this.props.user, 1000));
+            this.props.fetchUserImages(this.props.user, 1000);
         }
     }
 
     render() {
-        // save the id of the selected image of this event (or editor values)
+    // save the id of the selected image of this event (or editor values)
         let selected_id = getIfExists(this.props.editor.values, 'image.id', null)
 
         // show latest modified at top
@@ -62,4 +64,16 @@ class ImageGalleryGrid extends React.Component {
     }
 }
 
-export default connect()(ImageGalleryGrid)
+ImageGalleryGrid.propTypes = {
+    images: PropTypes.object,
+    user: PropTypes.object,
+    editor: PropTypes.object,
+    fetchUserImages: PropTypes.func,
+}
+
+const mapDispatchToProps = (dispatch) => ({
+    fetchUserImages: (user, amount) => dispatch(fetchUserImagesAction(user, amount)),
+})
+const mapStateToProps = () => ({})
+// TODO: if leave null, react-intl not refresh. Replace this with better React context
+export default connect(mapStateToProps, mapDispatchToProps)(ImageGalleryGrid)

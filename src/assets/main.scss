@@ -1,4 +1,5 @@
 @import "fonts";
+@import "button";
 
 // Box shadow shim for bootstrap
 @mixin box-shadow($left:0, $top:2px, $blur:2px, $color:#000, $inset:"") {
@@ -108,24 +109,6 @@ header {
 
 .pull-right {
     float: right;
-}
-
-.spread-evenly {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    align-content: center;
-    justify-content: space-around;
-}
-
-.spread-right {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    align-content: center;
-    justify-content: flex-end;
 }
 
 .padded {

@@ -2,7 +2,7 @@ import constants from '../constants'
 import fetch from 'isomorphic-fetch'
 import authedFetch from '../utils/authedFetch'
 
-import { setFlashMsg } from './app'
+import {setFlashMsg} from './app'
 
 function makeRequest(query, startDate, endDate) {
     var url = `${appSettings.api_base}/search/?type=event&q=${encodeURI(query)}&page_size=100`;
@@ -21,14 +21,14 @@ function makeRequest(query, startDate, endDate) {
     return fetch(url).then(function(response) {
         if (response.status >= 400) {
             return {
-                apiErrorMsg: 'API error from server'
+                apiErrorMsg: 'API error from server',
             }
         }
         return response.json()
     })
-    .catch(e => {
-        // Error happened while fetching ajax (connection or javascript)
-    })
+        .catch(e => {
+            // Error happened while fetching ajax (connection or javascript)
+        })
 }
 
 export function receiveEvents(json) {
@@ -36,21 +36,21 @@ export function receiveEvents(json) {
         return {
             type: constants.RECEIVE_EVENTS_ERROR,
             apiErrorMsg: json.apiErrorMsg,
-            items: []
+            items: [],
         }
     }
     else {
         return {
             type: constants.RECEIVE_EVENTS,
             items: json.data,
-            receivedAt: Date.now()
+            receivedAt: Date.now(),
         }
     }
 }
 
 export function startFetchingEvents() {
     return {
-        type: constants.REQUEST_EVENTS
+        type: constants.REQUEST_EVENTS,
     }
 }
 
@@ -66,20 +66,20 @@ export function fetchEvents(query, startDate, endDate) {
 export function receiveEventDetails(json) {
     return {
         type: constants.RECEIVE_EVENT_DETAILS,
-        event: json
+        event: json,
     }
 }
 
 export function receiveEventDetailsError(error) {
     return {
         type: constants.RECEIVE_EVENT_DETAILS_ERROR,
-        error: error
+        error: error,
     }
 }
 
 export function startFetchingEventDetails() {
     return {
-        type: constants.REQUEST_EVENT
+        type: constants.REQUEST_EVENT,
     }
 }
 
@@ -93,8 +93,8 @@ export function fetchEventDetails(eventID, user = {}) {
     let options = {
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
+            'Content-Type': 'application/json',
+        },
     }
 
     return (dispatch) => {
@@ -104,7 +104,7 @@ export function fetchEventDetails(eventID, user = {}) {
             .then(response => {
                 if (response.status >= 400) {
                     return {
-                        apiErrorMsg: 'API error from server'
+                        apiErrorMsg: 'API error from server',
                     }
                 }
                 return response.json()

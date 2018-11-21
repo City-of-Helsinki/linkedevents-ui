@@ -1,11 +1,11 @@
-import events from './events.js'
-import subEvents from './subEvents.js'
-import user from './user.js'
-import editor from './editor.js'
-import images from './images.js'
-import app from './app.js'
-import userEvents from './userEvents.js'
-
+import events from './events'
+import subEvents from './subEvents'
+import user from './user'
+import editor from './editor'
+import images from './images'
+import app from './app'
+import userEvents from './userEvents'
+import userLocale from './userLocale'
 export default {
     events: events,
     subEvents: subEvents,
@@ -13,5 +13,6 @@ export default {
     editor: editor,
     images: images,
     app: app,
-    userEvents: userEvents
+    userEvents: userEvents,
+    userLocale: userLocale,
 }

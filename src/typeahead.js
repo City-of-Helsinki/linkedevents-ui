@@ -1,10 +1,9 @@
 import $ from 'jquery'
-import jQuery from 'jquery';
 import Bloodhound from 'typeahead.js/dist/bloodhound.min.js'
 
 if (typeof appSettings == 'undefined') {
     // This function is needed for Jest tests because prefetch is evaluated before Jest test inits appSettings
-    global.appSettings = { api_base: ''}
+    global.appSettings = {api_base: ''}
 }
 
 let engine = new Bloodhound({
@@ -20,19 +19,20 @@ let engine = new Bloodhound({
         return tokens;
     },
     prefetch: {
-        url: appSettings.api_base + "/place/?page_size=10000",
+    // page size of 100 is the maximum in the api anyway
+        url: appSettings.api_base + '/place/?page_size=100',
         filter: (places) => {
             // Map the remote source JSON array to a JavaScript object array
             return $.map(places.data, (place) => {
                 return {
-                    value: place.name.fi,
+                    value: place.name ? place.name.fi : '',
                     id: place.id,
-                    street_address: place.street_address ? place.street_address.fi : ''
+                    street_address: place.street_address ? place.street_address.fi : '',
                 }
             });
         },
-        ttl: 10000
-    }
+        ttl: 10000,
+    },
     // NOTE: remote is not used
     // remote: {
     //     url: appSettings.api_base + "/place/?q=%QUERY",
@@ -71,5 +71,5 @@ export default {
             callback(matches);
             return;
         };
-    }
+    },
 }

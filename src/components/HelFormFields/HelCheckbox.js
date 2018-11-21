@@ -3,23 +3,19 @@ import './HelCheckbox.scss'
 import PropTypes from 'prop-types';
 
 import React from 'react'
-import Input from 'react-bootstrap/lib/Input.js'
+import {Checkbox} from 'react-bootstrap'
 
 import {connect} from 'react-redux'
-import { setData } from '../../actions/editor'
+import {setData} from '../../actions/editor'
 
-let HelCheckbox = React.createClass({
+class HelCheckbox extends React.Component {
+    constructor(props) {
+        super(props)
 
-    contextTypes: {
-        intl: PropTypes.object,
-        dispatch: PropTypes.func
-    },
-
-    propTypes: {
-        name: PropTypes.string
-    },
-
-    handleCheck: function (event) {
+        this.handleCheck = this.handleCheck.bind(this)
+    }
+    
+    handleCheck (event) {
         let newValue = event.target.checked
 
         if(this.props.name) {
@@ -31,22 +27,22 @@ let HelCheckbox = React.createClass({
         if(typeof this.props.onChange === 'function') {
             this.props.onChange(event, newValue)
         }
-    },
+    }
 
-    getValidationErrors: function() {
+    getValidationErrors() {
         return []
-    },
+    }
 
-    noValidationErrors: function() {
+    noValidationErrors() {
         return true
-    },
+    }
 
-    getValue: function() {
-        return this.refs.checkbox.getChecked()
-    },
+    getValue() {
+        return this.checkboxRef.value
+    }
 
-    render: function () {
-        let { required, label } = this.props
+    render() {
+        let {required, label} = this.props
 
         if(required) {
             if(typeof label === 'string') {
@@ -58,17 +54,30 @@ let HelCheckbox = React.createClass({
         }
 
         return (
-            <Input
-                ref="checkbox"
-                type="checkbox"
-                label={label}
+            <Checkbox
+                inputRef={ref => this.checkboxRef = ref}
                 name={this.props.name}
-                groupClassName="hel-checkbox"
+                className="hel-checkbox"
                 onChange={this.handleCheck}
                 checked={this.props.defaultChecked}
-                />
+            >
+                {label}
+            </Checkbox>
         )
     }
-});
+}
+
+HelCheckbox.contextTypes = {
+    intl: PropTypes.object,
+    dispatch: PropTypes.func,
+}
+
+HelCheckbox.propTypes = {
+    name: PropTypes.string,
+    onChange: PropTypes.func,
+    required: PropTypes.bool,
+    label: PropTypes.object,
+    defaultChecked: PropTypes.bool,
+}
 
 export default HelCheckbox

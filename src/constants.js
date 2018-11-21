@@ -52,6 +52,17 @@ const constants = {
     IMAGE_UPLOAD_SUCCESS: 'IMAGE_UPLOAD_SUCCESS',
     IMAGE_UPLOAD_ERROR: 'IMAGE_UPLOAD_ERROR',
 
+    DEFAULT_LOCALE: 'fi',
+
+    APPLICATION_SUPPORT_TRANSLATION: ['fi', 'en'],
+    // currently there is only finnish translation in i18n
+
+    // Locale actions
+    LOCALE_ACTIONS: {
+        LOCALE_SET: 'LOCALE_SET',
+        LOCALE_RESET: 'LOCALE_RESET',
+    },
+    
     // Local storage keys
     EDITOR_VALUES: 'EDITOR_VALUES',
 
@@ -60,18 +71,64 @@ const constants = {
         SCHEDULED: 'EventScheduled',
         CANCELLED: 'EventCancelled',
         POSTPONED: 'EventPostponed',
-        RESCHEDULED: 'EventRescheduled'
+        RESCHEDULED: 'EventRescheduled',
     },
 
     PUBLICATION_STATUS: {
         DRAFT: 'draft',
-        PUBLIC: 'public'
+        PUBLIC: 'public',
     },
 
     VALIDATION_STATUS: {
         CLEARED: 'cleared', // When form is cleared we also clear validation errors and set this status
-        RESOLVE: 'resolve' // When form has validation errors and user is on editor page
-    }
+        RESOLVE: 'resolve', // When form has validation errors and user is on editor page
+    },
+
+    EVENT_CREATION: {
+        CREATE: 'create',
+        DELETE: 'delete',
+        CANCEL: 'cancel',
+        PUBLISH: 'publish',
+        UPDATE: 'update',
+        SUCCESS: 'success',
+        SAVE_DRAFT: 'savedraft',
+        SAVE_PUBLIC: 'savepublic',
+        CREATE_SUCCESS: 'event-creation-create-success',
+        DELETE_SUCCESS: 'event-creation-delete-success',
+        CANCEL_SUCCESS: 'event-creation-cancel-success',
+        PUBLISH_SUCCESS: 'event-creation-publish-success',
+        MULTIPLE_EVENTS_SUCCESS: 'event-creation-multipleevents-success',
+        SAVE_PUBLIC_SUCCESS: 'event-creation-savepublic-success',
+        SAVE_DRAFT_SUCCESS: 'event-creation-savedraft-success',
+        DEFAULT_SUCCESS: 'event-creation-default-success',
+        UPDATE_SUCCESS: 'event-creation-update-success',
+    },
+
+    VALIDATION_RULES: {
+        IS_URL: 'isUrl',
+        IS_DATE: 'isDate',
+        IS_TIME: 'isTime',
+        LONG_STRING:'longString',
+        MEDIUM_STRING: 'mediumString',
+        SHORT_STRING: 'shortString',
+        HAS_PRICE: 'hasPrice',
+        REQUIRE_MULTI: 'requiredMulti',
+        AFTER_START_TIME: 'afterStartTime',
+        IN_THE_FUTURE: 'inTheFuture',
+        DAY_WITHIN_INTERVAL: 'daysWithinInterval',
+        REQUIRED_IN_CONTENT_LANGUAGE: 'requiredInContentLanguages',
+        REQUIRED_STRING: 'requiredString',
+        REQUIRE_AT_ID: 'requiredAtId',
+        AT_LEAST_ONE: 'atLeastOne',
+        IS_MORE_THAN_ONE: 'isMoreThanOne',
+        AT_LEAST_ONE_IS_TRUE: 'atLeastOneIsTrue',
+    },
+
+    CHARACTER_LIMIT: {
+        SHORT_STRING: 160,
+        MEDIUM_STRING: 400,
+        LONG_STRING: 5000,
+    },
 }
 
 export default constants

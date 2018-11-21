@@ -4,9 +4,10 @@ import path from 'path'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import cookieSession from 'cookie-session'
+
 import getSettings from './getSettings'
 import express from 'express'
-import { getPassport, addAuth } from './auth'
+import {getPassport, addAuth} from './auth'
 
 import webpack from 'webpack'
 import webpackMiddleware from 'webpack-dev-middleware'
@@ -17,16 +18,6 @@ const settings = getSettings()
 const app = express()
 const passport = getPassport(settings)
 
-if(process.env.NODE_ENV !== 'development') {
-    app.use('/', express.static(path.resolve(__dirname, '..', 'dist')));
-    app.get('/', function (req, res) {
-        res.sendfile(path.resolve(__dirname, '..', 'dist'));
-    });
-} else {
-    const compiler = webpack(config)
-    app.use(webpackMiddleware(compiler));
-    app.use(webpackHotMiddleware(compiler));
-}
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -36,5 +27,29 @@ app.use(passport.initialize());
 app.use(passport.session());
 addAuth(app, passport, settings);
 
+if(process.env.NODE_ENV !== 'development') {
+    app.use('/', express.static(path.resolve(__dirname, '..', 'dist')));
+    app.get('*', function (req, res) {
+        res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
+    });
+} else {
+    const indexTemplate = require('./renderIndexTemplate');
+    const compiler = webpack(config)
+    app.use(webpackMiddleware(compiler, {
+        publicPath: config.output.publicPath,
+        stats: {
+            colors: true,
+            assets: false,
+            modules: false,
+        },
+    }));
+    app.use(webpackHotMiddleware(compiler));
+    
+    app.get('*', (req, res) => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'text/html')   
+        res.end(indexTemplate)
+    })
+}
 console.log('Starting server at port', settings.port);
 app.listen(settings.port);

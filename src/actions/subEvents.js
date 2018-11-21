@@ -1,4 +1,4 @@
-import { createAction } from 'redux-actions';
+import {createAction} from 'redux-actions';
 // import fetch from 'isomorphic-fetch'
 
 import authedFetch from '../utils/authedFetch'
@@ -11,7 +11,7 @@ function makeRequest(superEventID, user = {}, dispatch) {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-        }
+        },
     }
 
     return authedFetch(url, options, user, dispatch);
@@ -22,14 +22,14 @@ export const startFetching = createAction(constants.REQUEST_SUB_EVENTS);
 export function receiveSubEvents(json) {
     return {
         type: constants.RECEIVE_SUB_EVENTS,
-        events: json.data
+        events: json.data,
     }
 }
 
 export function receiveSubEventsError(error) {
     return {
         type: constants.RECEIVE_SUB_EVENTS_ERROR,
-        error: error
+        error: error,
     }
 }
 
@@ -39,13 +39,13 @@ export function fetchSubEvents(user, superEventID) {
         makeRequest(user, superEventID, dispatch).then(function (response) {
             if (response.status >= 400) {
                 dispatch(receiveSubEventsError({
-                    error: 'API Error ' + response.status
+                    error: 'API Error ' + response.status,
                 }));
             }
             response.json().then(json => dispatch(receiveSubEvents(json)));
         })
-        .catch(e => {
-            // Error happened while fetching ajax (connection or javascript)
-        });
+            .catch(e => {
+                // Error happened while fetching ajax (connection or javascript)
+            });
     }
 }

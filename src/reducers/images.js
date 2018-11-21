@@ -5,7 +5,7 @@ const initialState = {
     isFetching: false,
     fetchComplete: false,
     items: [],
-    selected: {}
+    selected: {},
 }
 
 function update(state = initialState, action) {
@@ -13,7 +13,7 @@ function update(state = initialState, action) {
         return Object.assign({}, state, {
             isFetching: false,
             fetchComplete: true,
-            items: action.items
+            items: action.items,
         });
     }
 
@@ -36,7 +36,7 @@ function update(state = initialState, action) {
     if(action.type === constants.IMAGE_UPLOAD_SUCCESS) {
         return Object.assign({}, state, {
             selected: action.data,
-            fetchComplete: false
+            fetchComplete: false,
         })
     }
 

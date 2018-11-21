@@ -2,61 +2,57 @@ import '!style-loader!css-loader!sass-loader!./index.scss'
 
 import React from 'react'
 import {connect} from 'react-redux'
-import {sendData} from 'src/actions/editor.js'
-
 import EventDetails from 'src/components/EventDetails'
+import moment from 'moment'
+import PropTypes from 'prop-types'
 
 import {FormattedMessage} from 'react-intl'
 
 import {Button} from 'material-ui'
 import Tooltip from 'material-ui/Tooltip'
+import {push} from 'react-router-redux'
 
-import {fetchEventDetails} from 'src/actions/events.js'
-
-import { push } from 'react-router-redux'
+import {fetchEventDetails as fetchEventDetailsAction} from 'src/actions/events.js'
+import {replaceData as replaceDataAction} from 'src/actions/editor.js'
 
 import {getStringWithLocale} from 'src/utils/locale'
 import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
-import {replaceData} from 'src/actions/editor.js'
 import {checkEventEditability} from 'src/utils/checkEventEditability.js'
 
 import constants from 'src/constants'
 
-import moment from 'moment'
-
 class EventPage extends React.Component {
 
-    componentWillMount() {
-        this.props.dispatch(fetchEventDetails(this.props.match.params.eventId, this.props.user))
+    UNSAFE_componentWillMount() {
+        const {match, fetchEventDetails, user} = this.props
+
+        fetchEventDetails(match.params.eventId, user)
     }
 
     copyAsTemplate() {
-        if(this.props.events.event) {
-            let formData = mapAPIDataToUIFormat(this.props.events.event)
+        const {events:{event}, replaceData, routerPush} = this.props
+        if(event) {
+            let formData = mapAPIDataToUIFormat(event)
             formData.id = undefined
             delete formData.id
 
-            this.props.dispatch(replaceData(formData))
-            this.props.dispatch(push(`/event/create/new`))
+            replaceData(formData)
+            routerPush(`/event/create/new`)
         }
     }
 
     editEvent() {
-        if(this.props.events.event) {
-            let formData = mapAPIDataToUIFormat(this.props.events.event)
+        const {events:{event}, replaceData, routerPush} = this.props
+        if(event) {
+            let formData = mapAPIDataToUIFormat(event)
 
-            this.props.dispatch(replaceData(formData))
-            this.props.dispatch(push(`/event/update/${this.props.events.event.id}`))
+            replaceData(formData)            
+            routerPush(`/event/update/${event.id}`)
         }
     }
 
     render() {
         const user = this.props.user
-        let buttonStyle = {
-            height: '64px',
-            marginRight: '10px',
-            color: '#ffffff',
-        }
 
         let event = mapAPIDataToUIFormat(this.props.events.event)
 
@@ -67,28 +63,28 @@ class EventPage extends React.Component {
         let {eventIsEditable, eventEditabilityExplanation} = checkEventEditability(user, event)
 
         // Add necessary badges
-        let draftClass = event.publication_status == constants.PUBLICATION_STATUS.DRAFT ? "event-page draft" : "event-page"
+        let draftClass = event.publication_status == constants.PUBLICATION_STATUS.DRAFT ? 'event-page draft' : 'event-page'
         let draftBadge = null
         if (event.publication_status === constants.PUBLICATION_STATUS.DRAFT) {
-            draftBadge = (<span style={{marginRight:'0.5em'}} className="label label-warning">LUONNOS</span>)
+            draftBadge = (<span style={{marginRight:'0.5em'}} className="label label-warning text-uppercase"><FormattedMessage id="draft"/></span>)
         }
-        let cancelledClass = event.publication_status == constants.EVENT_STATUS.CANCELLED ? "event-page cancelled" : "event-page"
+        let cancelledClass = event.publication_status == constants.EVENT_STATUS.CANCELLED ? 'event-page cancelled' : 'event-page'
         let cancelledBadge = null
         if (event.event_status === constants.EVENT_STATUS.CANCELLED) {
-            cancelledBadge = (<span style={{marginRight:'0.5em'}} className="label label-danger">PERUUTETTU</span>)
+            cancelledBadge = (<span style={{marginRight:'0.5em'}} className="label label-danger text-uppercase"><FormattedMessage id="cancelled"/></span>)
         }
 
         if(this.props.events.eventError) {
             return (
                 <header className="container header">
                     <h3>
-                        <div>Tapahtumaa ei löytynyt tai sinulla ei ole oikeuksia katsella sitä.</div>
+                        <div><FormattedMessage id="event-page-error"/></div>
                     </h3>
                 </header>
             )
         }
 
-        const editEventButton = <Button raised onClick={e => this.editEvent(e)} disabled={!eventIsEditable} style={buttonStyle} color="primary">Muokkaa tapahtumaa</Button>
+        const editEventButton = <Button raised onClick={e => this.editEvent(e)} disabled={!eventIsEditable} color="primary"><FormattedMessage id="edit-event"/></Button>
 
         if(event && event.name) {
             return (
@@ -101,16 +97,13 @@ class EventPage extends React.Component {
                         </h1>
                     </header>
                     <div className="container">
-                        <div className="col-sm-12">
-                            <div className="col-sm-12 actions">
-                                {eventIsEditable ? editEventButton :
-                                    <Tooltip title={eventEditabilityExplanation}>
-                                        <span>{editEventButton}</span>
-                                    </Tooltip>
-                                }
-
-                                <Button raised onClick={e => this.copyAsTemplate(e)} style={buttonStyle} color="accent">Kopioi uuden tapahtuman pohjaksi</Button>
-                            </div>
+                        <div className="event-actions">
+                            {eventIsEditable ? editEventButton :
+                                <Tooltip title={eventEditabilityExplanation}>
+                                    <span>{editEventButton}</span>
+                                </Tooltip>
+                            }
+                            <Button raised onClick={e => this.copyAsTemplate(e)} color="accent"><FormattedMessage id="copy-event-to-draft"/></Button>
                         </div>
                     </div>
                     <div className="container">
@@ -123,7 +116,7 @@ class EventPage extends React.Component {
             return (
                 <header className="container header">
                     <h3>
-                        <div>Ladataan tapahtumaa...</div>
+                        <div><FormattedMessage id="event-page-loading"/></div>
                     </h3>
                 </header>
             )
@@ -131,8 +124,25 @@ class EventPage extends React.Component {
     }
 }
 
-export default connect(state => ({
+EventPage.propTypes = {
+    match: PropTypes.object,
+    fetchEventDetails: PropTypes.func,
+    user: PropTypes.object,
+    events: PropTypes.object,
+    replaceData: PropTypes.func,
+    routerPush: PropTypes.func,
+}
+
+const mapStateToProps = (state) => ({
     events: state.events,
     routing: state.routing,
-    user: state.user
-}))(EventPage)
+    user: state.user,
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    fetchEventDetails: (eventId, user) => dispatch(fetchEventDetailsAction(eventId, user)),
+    routerPush: (url) => dispatch(push(url)),
+    replaceData: (formData) => dispatch(replaceDataAction(formData)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventPage)

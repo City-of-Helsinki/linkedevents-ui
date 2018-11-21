@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react'
 
-import { FormattedMessage, injectIntl } from 'react-intl'
+import {FormattedMessage, injectIntl} from 'react-intl'
 import MultiLanguageField from './MultiLanguageField'
 import HelCheckbox from './HelCheckbox'
 import NewOffer from './NewOffer'
 import './HelOffersField.scss'
 
-import { Button } from 'material-ui'
+import {Button} from 'material-ui'
 
 import {connect} from 'react-redux'
-import { addOffer, setOfferData, setFreeOffers } from '../../actions/editor'
+import {addOffer, setOfferData, setFreeOffers} from 'src/actions/editor.js'
 
 
 import ValidationPopover from '../ValidationPopover'
@@ -19,50 +19,50 @@ class HelOffersField extends React.Component {
 
     static contextTypes = {
         intl: PropTypes.object,
-        dispatch: PropTypes.func
+        dispatch: PropTypes.func,
     };
 
     constructor(props) {
-      super(props);
-      let isFreeEvent = true
-      if (this.props.defaultValue && this.props.defaultValue.length > 0) {
-        isFreeEvent = false //we have length in defaultvalue array so we have prices -> not a free event.
-      }
+        super(props);
+        let isFreeEvent = true
+        if (this.props.defaultValue && this.props.defaultValue.length > 0) {
+            isFreeEvent = false //we have length in defaultvalue array so we have prices -> not a free event.
+        }
 
-      this.state = {
-          values: this.props.defaultValue,
-          isFree: isFreeEvent
-      };
-  }
+        this.state = {
+            values: this.props.defaultValue,
+            isFree: isFreeEvent,
+        };
+    }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         if (this.props.defaultValue && this.props.defaultValue.length) {
-            this.setState({ values: this.props.defaultValue })
+            this.setState({values: this.props.defaultValue})
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.defaultValue && nextProps.defaultValue !== this.state.values) {
-            this.setState({ values: nextProps.defaultValue })
+            this.setState({values: nextProps.defaultValue})
         }
         if (nextProps.defaultValue && nextProps.defaultValue[0] && this.state.isFree !== nextProps.defaultValue[0].is_free) {
-            this.setState({ isFree: nextProps.defaultValue[0].is_free })
+            this.setState({isFree: nextProps.defaultValue[0].is_free})
         }
     }
 
     setIsFree(e, value) {
         if (!this.props.defaultValue || !this.props.defaultValue.length) {
             this.addNewOffer()
-            this.context.dispatch(setOfferData({ '0': { is_free: !this.state.isFree } }, 0))
+            this.context.dispatch(setOfferData({'0': {is_free: !this.state.isFree}}, 0))
         } else {
             this.context.dispatch(setFreeOffers(!this.state.isFree))
         }
-        this.setState({ isFree: !this.state.isFree })
+        this.setState({isFree: !this.state.isFree})
     }
 
     addNewOffer() {
         const obj = {
-            is_free: this.state.isFree
+            is_free: this.state.isFree,
         }
         this.context.dispatch(addOffer(obj))
     }
@@ -87,12 +87,6 @@ class HelOffersField extends React.Component {
     }
 
     render() {
-        let buttonStyle = {
-            height: '64px',
-            width: '100%',
-            margin: '10px 5px',
-            display: 'block'
-        }
         const offerDetails = this.generateOffers(this.props.defaultValue)
 
         return (
@@ -103,15 +97,24 @@ class HelOffersField extends React.Component {
                 </div>
                 <Button
                     raised
-                    style={buttonStyle}
                     color="primary"
                     disabled={this.state.isFree}
+                    className="base-material-btn"
                     onClick={ () => this.addNewOffer() }>
                     <FormattedMessage id="event-add-price" />
                 </Button>
             </div>
         )
     }
+}
+
+HelOffersField.propTypes = {
+    defaultValue: PropTypes.array,
+    validationErrors: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object,
+    ]),
+    languages: PropTypes.array,
 }
 
 export default HelOffersField

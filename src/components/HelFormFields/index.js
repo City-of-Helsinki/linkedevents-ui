@@ -19,5 +19,5 @@ export {
     HelSelect,
     HelDateTimeField,
     HelOffersField,
-    NewEvent
+    NewEvent,
 }

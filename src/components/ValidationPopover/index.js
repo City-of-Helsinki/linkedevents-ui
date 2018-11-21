@@ -1,39 +1,64 @@
 import React from 'react'
-import Popover from 'react-bootstrap/lib/Popover'
-import "./index.scss";
+import {Popover} from 'react-bootstrap'
+import './index.scss';
+import PropTypes from 'prop-types'
 
 import {FormattedMessage} from 'react-intl'
 
-export default (props) => {
+import {getCharacterLimitByRule} from '../../utils/helpers'
+
+const ValidationPopover =  ({validationErrors, index, small, ...rest}) => {
     let errorMsg = null
 
-    if(props.validationErrors && props.validationErrors[0]) {
+    if(validationErrors && validationErrors[0]) {
         let errorText = null
-        if (typeof props.validationErrors[0] === 'object') {
-            for (const object in props.validationErrors[0]) {
-                if (props.validationErrors[0][object].key === props.index) {
-                    errorText = `validation-${props.validationErrors[0][object].validation}`
+        let textLimit = null 
+        if (typeof validationErrors[0] === 'object') {
+            for (const object in validationErrors[0]) {
+                if (validationErrors[0][object].key === index) {
+                    errorText = `validation-${validationErrors[0][object].validation}`
+
+                    // check if validation is text limiter
+                    textLimit = getCharacterLimitByRule(validationErrors[0][object].validation)
+                    if(textLimit) {
+                        errorText = `validation-stringLimitReached`
+                    }
                 }
             }
         } else {
-            errorText = `validation-${props.validationErrors[0]}`
+            errorText = `validation-${validationErrors[0]}`
+            textLimit = getCharacterLimitByRule(validationErrors[0])
+            if(textLimit) {
+                errorText = `validation-stringLimitReached`
+            }
         }
         if (errorText === null) {
             return (<span></span>)
         }
-        errorMsg = (<FormattedMessage className="msg" id={errorText}/>)
+        errorMsg = (<FormattedMessage className="msg" id={errorText} values={{limit: textLimit}}/>)
     } else {
         return (<span></span>)
     }
 
     let classNames = 'validation-error-popover'
-    if(props.small) {
-        classNames += " small"
+    if(small) {
+        classNames += ' small'
     }
 
     return (
-        <Popover className={classNames} id="validation" {...props}>
-              { errorMsg }
+        <Popover className={classNames} id="validation" {...rest}>
+            { errorMsg }
         </Popover>
     )
 }
+
+ValidationPopover.propTypes = {
+    validationErrors: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object,
+    ]),
+    index: PropTypes.string,
+    small: PropTypes.bool,
+}
+
+export default ValidationPopover

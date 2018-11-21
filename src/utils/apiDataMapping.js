@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { getStringWithLocale } from './locale'
+import {getStringWithLocale} from './locale'
 
 export function mapKeywordSetToForm(keywordSets, id, locale = 'fi') {
     let keywordSet = _.findWhere(keywordSets, {'id': id})
@@ -10,7 +10,7 @@ export function mapKeywordSetToForm(keywordSets, id, locale = 'fi') {
             label = label.split([' ('])[0]
             return {
                 value: item['@id'],
-                label: label
+                label: label,
             }
         })
     }
@@ -26,7 +26,7 @@ export function mapLanguagesSetToForm(set, locale = 'fi') {
             let label = getStringWithLocale(item, 'name', locale, item.id)
             return {
                 value: item['@id'],
-                label: label
+                label: label,
             }
         })
     }
