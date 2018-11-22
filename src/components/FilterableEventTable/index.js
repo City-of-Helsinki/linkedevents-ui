@@ -105,7 +105,7 @@ class FilterableEventTable extends React.Component {
             let rowsPerPage = 100
             let rowsCount = props.count
             let paginationPage = props.paginationPage
-
+            console.log(props.sortBy)
             return (
                 <Table className="event-table">
                     <TableHead>

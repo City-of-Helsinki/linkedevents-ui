@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {FormattedMessage} from 'react-intl'
 import PropTypes from 'prop-types'
 
-import FilterableEventTable from '../../components/FilterableEventTable'
+import FilterableEventTable from 'src/components/FilterableEventTable'
 import EventGrid from '../../components/EventGrid'
 import SearchBar from '../../components/SearchBar'
 

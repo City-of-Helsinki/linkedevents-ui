@@ -73,6 +73,7 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.3",
+    "babel-jest": "^23.6.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-react-transform": "^3.0.0",
@@ -84,6 +85,8 @@
     "coffee-loader": "^0.7.2",
     "coffee-script": "^1.10.0",
     "css-loader": "^0.28.7",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.7.0",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-react": "^7.8.2",
     "file-loader": "^0.8.5",
@@ -96,7 +99,6 @@
     "json-loader": "^0.5.4",
     "morgan": "^1.6.1",
     "node-sass": "^4.7.2",
-    "react-test-renderer": "^15.6.2",
     "react-transform-hmr": "^1.0.4",
     "redux-mock-store": "^1.4.0",
     "sass-loader": "^6.0.6",
@@ -108,6 +110,10 @@
   },
   "license": "MIT",
   "jest": {
+    "setupTestFrameworkScriptFile": "<rootDir>src/setupTests.js",
+    "testEnvironment": "jsdom",
+    "moduleFileExtensions": ["js", "jsx", "json"],
+    "moduleDirectories": ["<rootDir>", "node_modules"],
     "moduleNameMapper": {
       "^.+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"
     }
