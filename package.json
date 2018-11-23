@@ -10,7 +10,8 @@
     "build": "NODE_ENV=production webpack -p --config config/webpack/prod.js",
     "testing": "NODE_ENV=production APP_MODE=testing webpack -p --config config/webpack/prod.js",
     "test": "jest",
-    "lint:fix": "eslint -c .eslintrc src/**/*.{js,jsx}?\\(x\\) --fix"
+    "lint:fix": "eslint -c .eslintrc src/**/*.{js,jsx}?\\(x\\) --fix",
+    "lint":  "eslint -c .eslintrc src/**/*.{js,jsx}?\\(x\\)"
   },
   "engines": {
     "node": ">=8"
@@ -87,6 +88,7 @@
     "css-loader": "^0.28.7",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
+    "enzyme-to-json": "^3.3.4",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-react": "^7.8.2",
     "file-loader": "^0.8.5",
@@ -112,10 +114,20 @@
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>src/setupTests.js",
     "testEnvironment": "jsdom",
-    "moduleFileExtensions": ["js", "jsx", "json"],
-    "moduleDirectories": ["<rootDir>", "node_modules"],
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json"
+    ],
+    "moduleDirectories": [
+      "<rootDir>",
+      "node_modules"
+    ],
     "moduleNameMapper": {
       "^.+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"
-    }
+    },
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   }
 }

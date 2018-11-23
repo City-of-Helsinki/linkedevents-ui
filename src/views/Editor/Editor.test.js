@@ -1,7 +1,8 @@
 import configureStore from 'redux-mock-store'
 import React from 'react'
 import thunk from 'redux-thunk'
-import {shallow} from 'enzyme'
+import {shallow, mount} from 'enzyme'
+import renderer from 'react-test-renderer'
 
 import testReduxIntWrapper from '__mocks__/testReduxIntWrapper'
 import Editor from './index'
@@ -29,8 +30,20 @@ const initialStoreExistingEvent = {
     editor: mockEditorExistingEvent,
 }
 
+/*
+    jest snapshot has node as null by default,
+    so Component that relies on elementRef will fail tests,
+    we mock the node here
+*/
+const mockNodeForRefInEditor = (element) => {
+    return {style: {}};
+};
+
 describe('Editor Snapshot', () => {
     let store;
+    const options = {
+        createNodeMock: mockNodeForRefInEditor,
+    };
 
     it('should render view correctly when new event', () => {
         store = mockStore(initialStoreNewEvent)
@@ -43,8 +56,10 @@ describe('Editor Snapshot', () => {
             },
         } // Props which are added to component
         const componentToTest = <Editor {...componentProps} />
-        const wrapper = shallow(testReduxIntWrapper(store, componentToTest))
-
+        const wrapper = renderer.create(
+            testReduxIntWrapper(store, componentToTest),
+            options
+        )
         expect(wrapper).toMatchSnapshot()
     })
 
@@ -59,9 +74,10 @@ describe('Editor Snapshot', () => {
             },
         } // Props which are added to component
         const componentToTest = <Editor {...componentProps} />
-        const wrapper = shallow(testReduxIntWrapper(store, componentToTest))
-
+        const wrapper = renderer.create(
+            testReduxIntWrapper(store, componentToTest),
+            options
+        )
         expect(wrapper).toMatchSnapshot()
-
     })
 })

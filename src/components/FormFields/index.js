@@ -5,7 +5,7 @@ import React from 'react'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 import CopyToClipboard from 'react-copy-to-clipboard'
 
-import ImagePicker from '../ImagePicker'
+import ImagePickerForm from '../ImagePicker'
 import {
     HelAutoComplete,
     MultiLanguageField,
@@ -261,7 +261,7 @@ class FormFields extends React.Component {
                     </div>
                     <SideField>
                         <label><FormattedMessage id="event-image"/></label>
-                        <ImagePicker label="image-preview" name="image" />
+                        <ImagePickerForm label="image-preview" name="image" />
                     </SideField>
                 </div>
 

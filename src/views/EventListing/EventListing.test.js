@@ -2,9 +2,10 @@ import configureStore from 'redux-mock-store'
 import React from 'react'
 import thunk from 'redux-thunk'
 import {shallow} from 'enzyme'
+import renderer from 'react-test-renderer'
 
 import testReduxIntWrapper from '../../../__mocks__/testReduxIntWrapper'
-import EventListing from './index'
+import ConnectedEventListing, {EventListing} from './index'
 import {mockUserEvents} from '__mocks__/mockData';
 
 const mockStore = configureStore([thunk])
@@ -41,14 +42,25 @@ const initialStore = {
 describe('EventListing Snapshot', () => {
     let store;
 
-    beforeEach(() => {
-        store = mockStore(initialStore)
+    it('should render view by default', () => {
+        const componentProps = {
+            fetchUserEvents: jest.fn(),
+            login: jest.fn(),
+            events: {},
+            user: {},
+        };
+        const wrapper = shallow(<EventListing {...componentProps} />);
+        expect(wrapper).toMatchSnapshot();
     })
 
     it('should render view correctly', () => {
-        const componentProps = {} // Props which are added to component
-        const componentToTest = <EventListing {...componentProps} />
-        const wrapper = shallow(testReduxIntWrapper(store, componentToTest))
+        store = mockStore(initialStore)
+        const componentProps = {
+            fetchUserEvents: jest.fn(),
+            login: jest.fn(),
+        } // Props which are added to component
+        const componentToTest = <ConnectedEventListing {...componentProps} />
+        const wrapper = renderer.create(testReduxIntWrapper(store, componentToTest))
 
         expect(wrapper).toMatchSnapshot()
     })

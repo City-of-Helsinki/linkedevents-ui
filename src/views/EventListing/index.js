@@ -10,7 +10,7 @@ import SearchBar from '../../components/SearchBar'
 import {fetchUserEvents as fetchUserEventsAction} from 'src/actions/userEvents'
 import {login as loginAction} from 'src/actions/user.js'
 
-class EventListing extends React.Component {
+export class EventListing extends React.Component {
     constructor(props) {
         super(props)
     }

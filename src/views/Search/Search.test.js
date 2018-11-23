@@ -1,6 +1,6 @@
 import configureStore from 'redux-mock-store'
 import React from 'react'
-import {shallow} from 'enzyme'
+import renderer from 'react-test-renderer'
 import thunk from 'redux-thunk'
 
 import testReduxIntWrapper from '../../../__mocks__/testReduxIntWrapper'
@@ -33,7 +33,7 @@ describe('Search Snapshot', () => {
         } // Props which are added to component
         store = mockStore(initialStore);
         const componentToTest = <Search {...componentProps} />
-        const wrapper = shallow(testReduxIntWrapper(store, componentToTest));
+        const wrapper = renderer.create(testReduxIntWrapper(store, componentToTest));
 
         expect(wrapper).toMatchSnapshot()
 
