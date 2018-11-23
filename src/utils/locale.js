@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import {get} from 'lodash'
 
 /**
  * A safe getter for multi language field
@@ -12,7 +12,7 @@ import _ from 'lodash'
  * @return {string}        language string
  */
 export function getStringWithLocale(obj, fieldpath = '', locale = 'fi', defaultValue = '') {
-    let field = _.get(obj, fieldpath, {})
+    let field = get(obj, fieldpath, {})
 
     if(typeof field === 'object' && field) {
         return field[locale] || field.fi || field.sv || field.en || defaultValue
