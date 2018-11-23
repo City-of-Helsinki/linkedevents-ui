@@ -39,7 +39,7 @@ var sentinel = true;
 
 import FormFields from '../../components/FormFields'
 
-class EditorPage extends React.Component {
+export class EditorPage extends React.Component {
     constructor(props) {
         super(props)
         

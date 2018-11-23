@@ -1,397 +1,2688 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Editor Snapshot should render view correctly when editing existing event 1`] = `
-<IntlProvider
-  locale="fi"
-  messages={
-    Object {
-      "add-more": "Lisää kerrat",
-      "authorization-required": "Kirjaudu sisään tapahtuman lähettämiseksi.",
-      "cancel": "Kumoa",
-      "cancel-event": "Peruuta tapahtuma",
-      "cancelled": "Peruutettu",
-      "choose-image": "Lisää tapahtumalle kuva tai valitse kuvapankista",
-      "clear-form": "Tyhjennä kentät",
-      "confirm": "Suorita",
-      "confirm-action-header": "Varmista toiminto",
-      "confirm-cancel": "Varmista tapahtuman peruminen",
-      "confirm-delete": "Varmista tapahtuman poistaminen",
-      "confirm-image-delete": "Varmista kuvan poistaminen",
-      "copy-event-to-draft": "Kopioi uuden tapahtuman pohjaksi",
-      "copy-to-clipboard": "Kopioi leikepöydälle",
-      "create-event": "Lisää uusi tapahtuma",
-      "date": "Päivämäärä",
-      "delete": "Poista",
-      "delete-event": "Poista tapahtuma",
-      "draft": "Luonnos",
-      "edit-event": "Muokkaa tapahtumaa",
-      "editor-delete-subevents-warning": "Poistaessasi tämän tapahtuman myös seuraavat alitapahtumat poistetaan:",
-      "editor-delete-warning": "VAROITUS: Tämä toiminto poistaa tapahtuman lopullisesti. Voit tarvittaessa myös perua tapahtuman tai lykätä sitä.",
-      "editor-sentinel-alert": "Voit katsella lomaketta, mutta sinulla ei ole oikeuksia julkaista tai muokata tapahtumia. Et ole kirjautunut sisään tai kirjautumisesi on vanhentunut.",
-      "editor-tip-event-languages": "Kielet, joita tapahtumassa käytetään.",
-      "editor-tip-hel-main-category": "Valitse vähintään yksi pääkategoria.",
-      "editor-tip-hel-target-group": "Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään.",
-      "editor-tip-keywords": "Liitä tapahtumaan vähintään yksi asiasana, joka kuvaa tapahtuman teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta.",
-      "editor-tip-location": "Aloita kirjoittamaan kenttään tapahtumapaikan nimen alkua ja valitse oikea paikka alle ilmestyvästä listasta.",
-      "editor-tip-location-extra": "Jos tapahtumapaikka löytyy listasta, osoitetta ja sijaintia ei tarvitse kuvailla tarkemmin. Voit kuitenkin laittaa lisätietoja tapahtuman löytämiseksi, kuten kerrosnumero tai muu tarkempi sijainti.",
-      "editor-tip-location-not-found": "Jos tapahtumapaikkaa ei löydy listasta, valitse tapahtumapaikaksi Helsinki ja kirjoita tarkempi paikka tai osoite lisätietokenttään.",
-      "editor-tip-price": "Merkitse onko tapahtuma maksuton. Syötä maksulliselle tapahtumalle hinta muodossa \\"5€\\".",
-      "editor-tip-price-multi": "Jos tapahtumalla on useita hintoja, klikkaa Lisää uusi hintatieto ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.",
-      "editor-tip-social-media": "Lisää linkki tapahtuman tai sen järjestäjän some-sivulle.",
-      "editor-tip-time-delete": "Ylimääräisen ajankohdan voit poistaa valitsemalla ajankohdan vieressä olevan roskakorisymbolin.",
-      "editor-tip-time-end": "Kirjoita myös päättymispäivä sekä päättymisaika, jos tapahtuma päättyy tiettyyn kellonaikaan.",
-      "editor-tip-time-multi": "Jos tapahtuma järjestetään useamman kerran, voit lisätä tapahtumalle uusia ajankohtia. Jos tapahtuma toistuu säännöllisesti, voit lisätä kaikki ajankohdat kerralla valitsemalla Toistuva tapahtuma.",
-      "editor-tip-time-start": "Kirjoita tapahtuman alkamispäivä ja myös alkamisaika, jos tapahtuma alkaa tiettyyn kellonaikaan.",
-      "event-action-save-existing": "Tallenna muutokset julkaistuun tapahtumaan",
-      "event-action-save-existing-active": "Tallennetaan muutoksia",
-      "event-action-save-multiple": "Julkaise tapahtumat",
-      "event-action-save-multiple-active": "Julkaistaan tapahtumia",
-      "event-action-save-new": "Julkaise tapahtuma",
-      "event-action-save-new-active": "Julkaistaan tapahtumaa",
-      "event-add-new-occasion": "Lisää uusi ajankohta",
-      "event-add-price": "Lisää uusi hintatieto",
-      "event-add-recurring": "Toistuva tapahtuma",
-      "event-categorization": "Tapahtuman luokittelu",
-      "event-creation-cancel-success": "Tapahtuma peruttiin!",
-      "event-creation-create-success": "Tapahtuma tallennettiin!",
-      "event-creation-default-success": "Tapahtuma luotiin onnistuneesti!",
-      "event-creation-delete-success": "Tapahtuma poistettiin!",
-      "event-creation-multipleevents-success": "Tapahtumat tallennettiin!",
-      "event-creation-publish-success": "Tapahtuma julkaistiin onnistuneesti!",
-      "event-creation-savedraft-success": "Luonnoksen tallennus onnistui!",
-      "event-creation-savepublic-success": "Julkaistun tapahtuman tallennus onnistui!",
-      "event-creation-update-success": "Tapahtuma päivitettiin onnistuneesti!",
-      "event-datetime-fields-header": "Tapahtuman ajankohdat",
-      "event-description": "Kuvaus",
-      "event-description-fields-header": "Tapahtuman kuvaus",
-      "event-ending-datetime": "Tapahtuma päättyy",
-      "event-headline": "Otsikko",
-      "event-image": "Tapahtuman kuva (klikkaa vaihtaaksesi)",
-      "event-info-url": "Kotisivu",
-      "event-is-free": "Tapahtuma on maksuton",
-      "event-keywords": "Tapahtuman asiasanat",
-      "event-location": "Paikka",
-      "event-location-additional-info": "Paikan lisätiedot",
-      "event-location-fields-header": "Tapahtumapaikka",
-      "event-location-id": "Paikan ID",
-      "event-name-or-place": "Tapahtuman nimi tai paikka",
-      "event-page-error": "Tapahtumaa ei löytynyt tai sinulla ei ole oikeuksia katsella sitä.",
-      "event-page-loading": "Ladataan tapahtumaa...",
-      "event-posted": "Tapahtuma lähetettiin onnistuneesti!",
-      "event-presented-in-languages": "Tapahtumatiedot syötetään",
-      "event-price": "Hinta",
-      "event-price-fields-header": "Hintatiedot",
-      "event-price-info": "Hintatietojen kuvaus",
-      "event-provider": "Tapahtuman järjestäjä",
-      "event-provider-input": "Tapahtuman järjestäjä (jos eri kuin syöttäjän organisaatio)",
-      "event-purchase-link": "Linkki lipunmyyntiin/ilmoittautumiseen",
-      "event-short-description": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
-      "event-social-media-fields-header": "Tapahtuma sosiaalisessa mediassa",
-      "event-sort-endtime": "Tapahtuma päättyy",
-      "event-sort-last-modified": "Muokattu viimeksi",
-      "event-sort-starttime": "Tapahtuma alkaa",
-      "event-sort-title": "Otsikko",
-      "event-starting-datetime": "Tapahtuma alkaa",
-      "external-url-here": "Kuvan URL",
-      "facebook-url": "Facebook (url)",
-      "friday": "perjantai",
-      "hel-event-languages": "Tapahtuman kielet",
-      "hel-keywords": "Avainsanat",
-      "hel-main-categories": "Hel.fi-pääkategoriat",
-      "hel-target-groups": "Kohderyhmät",
-      "image-caption-limit": "Kuvateksti (korkeintaan {limit} merkkiä)",
-      "image-creation-error": "Virhe kuvaa luodessa.",
-      "image-creation-success": "Kuva luotiin onnistuneesti!",
-      "image-deletion-error": "Virhe kuvaa poistettaessa.",
-      "image-deletion-success": "Kuva poistettiin onnistuneesti!",
-      "image-update-error": "Virhe kuvaa päivittäessä.",
-      "image-update-success": "Kuvan tiedot päivitettiin onnistuneesti!",
-      "in-ar": "arabiaksi",
-      "in-en": "englanniksi",
-      "in-fi": "suomeksi",
-      "in-ru": "venäjäksi",
-      "in-sv": "ruotsiksi",
-      "in-zh_hans": "kiinaksi",
-      "instagram-url": "Instagram (url)",
-      "is-free": "Maksuton",
-      "lang-en": "Englanti",
-      "lang-fi": "Suomi",
-      "lang-sv": "Ruotsi",
-      "login": "Kirjaudu sisään",
-      "logout": "Kirjaudu ulos",
-      "monday": "maanantai",
-      "new-image": "Lisää uusi kuva",
-      "no-connection": "Ei yhteyttä palvelimelle!",
-      "no-image": "Tapahtumalla ei ole kuvaa",
-      "no-validation-errors": "Lomake täytetty oikein!",
-      "no-value": "-kenttää ei ole täytetty.",
-      "or": "tai",
-      "organization-events": "Tapahtumien hallinta",
-      "organization-events-description": "Selaa ja muokkaa oman organisaatiosi julkisia tapahtumia sekä luonnoksia. Voit lisätä uuden tapahtuman yläpalkista.",
-      "organization-events-no-results": "Yhtäkään muokattavaa tapahtumaa ei löytynyt.",
-      "organization-events-prompt": "muokataksesi tapahtumia.",
-      "organization-images": "Organisaation kuvat",
-      "pick-time-range": "Etsi vain ajalta",
-      "play-date-label": "Toistopäivät",
-      "ready": "Valmis",
-      "repeated": "Toistetaan ",
-      "repetition-begin": "Toistuminen alkaa",
-      "repetition-end": "Toistuminen päättyy",
-      "repetition-end-time": "Tapahtumien loppuaika",
-      "repetition-interval": " viikon välein.",
-      "repetition-interval-label": "Toistoväli",
-      "repetition-start-time": "Tapahtumien alkuaika",
-      "saturday": "lauantai",
-      "save": "Tallenna",
-      "search-date-placeholder": "pp.kk.vvvv",
-      "search-event-button": "Hae tapahtumia",
-      "search-events": "Etsi tapahtumia",
-      "search-events-description": "Katsele kaikkia Linked Eventsin tapahtumia.",
-      "search-no-results": "Ei tuloksia",
-      "server-error": "Virhe palvelimella.",
-      "submit": "Lähetä",
-      "sunday": "sunnuntai",
-      "thursday": "torstai",
-      "time": "Aika",
-      "tuesday": "tiistai",
-      "twitter-url": "Twitter (url)",
-      "upload-image": "Lataa kuva kovalevyltäsi",
-      "use-existing-image": "Käytä järjestelmässä olemassaolevaa kuvaa",
-      "use-external-image-url": "tai syötä ulkoisen kuvan osoite:",
-      "validation-afterStartTime": "Päättymisajan pitää olla alkamisaikaa myöhemmin",
-      "validation-atLeastOne": "Valitse vähintään yksi kategoria",
-      "validation-atLeastOneIsTrue": "Valitse vähintään yksi toistopäivä",
-      "validation-daysWithinInterval": "Yksi tai useampi valituista päivistä ei esiinny toistovälillä",
-      "validation-error": "Lomakkeessa on virheitä. Tarkasta lomake.",
-      "validation-error-goto-error": "Siirry virheeseen",
-      "validation-hasPrice": "Hintatietoja puuttuu",
-      "validation-inTheFuture": "Tapahtuman pitää olla tulevaisuudessa",
-      "validation-isDate": "Kirjoita päivämäärä muodossa pp.kk.vvvv tai p.k.vvvv",
-      "validation-isMoreThanOne": "Toistovälin tulee olla vähintään 1 viikko",
-      "validation-isTime": "Kirjoita aika oikeassa muodossa HH.mm tai HH",
-      "validation-isUrl": "Kirjoita URL osoite kokonaisena ja oikeassa muodossa (http://...)",
-      "validation-longStringLengthCounter": " merkkiä käytetty",
-      "validation-offerIsFreeOrHasPrice": "Maksullinen tapahtuma vaatii hinnan kaikilla valituilla kielillä",
-      "validation-requiredAtId": "Tämä kenttä vaaditaan",
-      "validation-requiredInContentLanguages": "Tämä kenttä vaaditaan kaikilla valituilla kielillä",
-      "validation-requiredMulti": "Tämä kenttä vaaditaan",
-      "validation-requiredString": "Tämä kenttä vaaditaan",
-      "validation-stringLengthCounter": "{counter} merkkiä jäljellä",
-      "validation-stringLimitReached": "Tämä kenttä voi olla korkeintaan {limit} merkkiä pitkä",
-      "wednesday": "keskiviikko",
-      "welcome": "Tervetuloa",
-    }
-  }
+exports[`Editor Snapshot should render view correctly when creating new event from existing one 1`] = `
+<div
+  className="editor-page"
 >
-  <MemoryRouter>
-    <Connect(InjectIntl(EditorPage))
-      match={
+  <div
+    className="container header"
+  >
+    <h1>
+      <FormattedMessage
+        id="create-event"
+        values={Object {}}
+      />
+    </h1>
+    <span
+      className="controls"
+    >
+      <WithStyles(Button)
+        className="pull-right"
+        color="primary"
+        onClick={[Function]}
+        raised={true}
+      >
+        <FormattedMessage
+          id="clear-form"
+          values={Object {}}
+        />
+         
+        <pure(Close) />
+      </WithStyles(Button)>
+    </span>
+  </div>
+  <div
+    className="container"
+  >
+    <FormFields
+      action="create"
+      editor={
         Object {
-          "params": Object {
-            "action": "update",
-            "eventId": "helsinki:afqxukccli",
+          "contentLanguages": Array [
+            "fi",
+            "sv",
+          ],
+          "isSending": false,
+          "keywordSets": Array [
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/keyword_set/helfi:topics/",
+              "@type": "KeywordSet",
+              "created_time": "2015-01-13T12:00:00Z",
+              "data_source": "helfi",
+              "id": "helfi:topics",
+              "image": null,
+              "keywords": Array [
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:11/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:11",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 63,
+                  "name": Object {
+                    "en": "Daycare and education",
+                    "fi": "Päivähoito ja koulutus",
+                    "sv": "Dagvård och utbildning",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:13/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:13",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 139,
+                  "name": Object {
+                    "en": "Housing and environment",
+                    "fi": "Asuminen ja ympäristö",
+                    "sv": "Boende och miljö",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:12/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:12",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 496,
+                  "name": Object {
+                    "en": "Culture and leisure",
+                    "fi": "Kulttuuri ja vapaa-aika",
+                    "sv": "Kultur och fritid",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:8/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:8",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 43,
+                  "name": Object {
+                    "en": "City administration",
+                    "fi": "Kaupunki ja hallinto",
+                    "sv": "Staden och förvaltning",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:9/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:9",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 152,
+                  "name": Object {
+                    "en": "Social services and health care",
+                    "fi": "Sosiaali- ja terveyspalvelut",
+                    "sv": "Social- och hälsovård",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:10/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:10",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 151,
+                  "name": Object {
+                    "en": "Maps and transport",
+                    "fi": "Liikenne ja kartat",
+                    "sv": "Kartor och trafik",
+                  },
+                  "publisher": null,
+                },
+              ],
+              "last_modified_time": "2015-01-13T12:00:00Z",
+              "name": Object {
+                "en": "www.hel.fi themes",
+                "fi": "www.hel.fi-aihepiirit",
+                "sv": "www.hel.fi-teman",
+              },
+              "organization": null,
+              "usage": "keyword",
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/keyword_set/helfi:audiences/",
+              "@type": "KeywordSet",
+              "created_time": null,
+              "data_source": "helfi",
+              "id": "helfi:audiences",
+              "image": null,
+              "keywords": Array [
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:5/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:5",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 76,
+                  "name": Object {
+                    "en": "Elderly",
+                    "fi": "Vanhukset",
+                    "sv": "Äldre",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:1/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:1",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 142,
+                  "name": Object {
+                    "en": "Children and families",
+                    "fi": "Lapset ja lapsiperheet",
+                    "sv": "Barn och barnfamiljer",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:3/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:3",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 67,
+                  "name": Object {
+                    "en": "Immigrants",
+                    "fi": "Maahanmuuttajat",
+                    "sv": "Invandrare",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:7/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:7",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 9,
+                  "name": Object {
+                    "en": "Associations",
+                    "fi": "Yhdistykset",
+                    "sv": "Föreningar",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:4/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:4",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 9,
+                  "name": Object {
+                    "en": "Disabled",
+                    "fi": "Vammaiset",
+                    "sv": "Funktionshindrade",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:2/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:2",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 98,
+                  "name": Object {
+                    "en": "Youth",
+                    "fi": "Nuoret",
+                    "sv": "Unga",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:6/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:6",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 8,
+                  "name": Object {
+                    "en": "Entrepreneurs",
+                    "fi": "Yritykset",
+                    "sv": "Företagare",
+                  },
+                  "publisher": null,
+                },
+              ],
+              "last_modified_time": null,
+              "name": Object {
+                "en": "www.hel.fi resident groups",
+                "fi": "www.hel.fi-kohderyhmät",
+                "sv": "www.hel.fi-invånargrupper",
+              },
+              "organization": null,
+              "usage": "audience",
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/keyword_set/helsinki:audiences/",
+              "@type": "KeywordSet",
+              "created_time": null,
+              "data_source": "helsinki",
+              "id": "helsinki:audiences",
+              "image": null,
+              "keywords": Array [
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p7179/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "funktionshindrade",
+                    "monivammaiset",
+                    "multihandikappade",
+                    "invalidit",
+                    "invalider",
+                    "personer med handikapp",
+                    "people with disabilities",
+                    "personer med funktionshinder",
+                  ],
+                  "created_time": "2014-06-23T11:37:28.866000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p7179",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:42:43.882641Z",
+                  "n_events": 10,
+                  "name": Object {
+                    "en": "disabled people",
+                    "fi": "vammaiset",
+                    "sv": "handikappade",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p4354/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "spädbarn",
+                    "lapset",
+                    "imeväisikäiset",
+                    "barn",
+                  ],
+                  "created_time": "2014-06-23T11:37:27.705000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p4354",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:42:54.041059Z",
+                  "n_events": 18597,
+                  "name": Object {
+                    "en": "children (age groups)",
+                    "fi": "lapset (ikäryhmät)",
+                    "sv": "barn (åldersgrupper)",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p13050/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2014-06-23T11:37:23.969000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p13050",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:42:42.446458Z",
+                  "n_events": 199,
+                  "name": Object {
+                    "en": "families with children",
+                    "fi": "lapsiperheet",
+                    "sv": "barnfamiljer",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p6165/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "immigranter",
+                    "immigrantit",
+                  ],
+                  "created_time": "2014-06-23T11:37:28.630000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p6165",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:42:31.057402Z",
+                  "n_events": 7494,
+                  "name": Object {
+                    "en": "immigrants",
+                    "fi": "maahanmuuttajat",
+                    "sv": "invandrare",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p11617/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "tonåringar",
+                    "nuoriso",
+                    "teini-ikäiset",
+                    "unga",
+                  ],
+                  "created_time": "2014-06-23T11:37:27.563000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p11617",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:43:00.842671Z",
+                  "n_events": 12983,
+                  "name": Object {
+                    "en": "young people",
+                    "fi": "nuoret",
+                    "sv": "ungdomar",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p3128/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "businesses",
+                    "affärsföretag",
+                    "liikeyritykset",
+                  ],
+                  "created_time": "2014-06-23T11:37:24.651000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p3128",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:42:58.508500Z",
+                  "n_events": 8,
+                  "name": Object {
+                    "en": "enterprises",
+                    "fi": "yritykset",
+                    "sv": "företag",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p1393/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "seurat -- järjestötoiminta",
+                    "yhdistykset",
+                  ],
+                  "created_time": "2014-06-23T11:37:27.364000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p1393",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:42:36.625794Z",
+                  "n_events": 9,
+                  "name": Object {
+                    "en": "associations",
+                    "fi": "järjestöt",
+                    "sv": "föreningar",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p2434/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "ikäihmiset",
+                    "ikä-ihmiset",
+                    "gamlingar",
+                  ],
+                  "created_time": "2014-06-23T11:37:30.235000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p2434",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:43:05.106064Z",
+                  "n_events": 4286,
+                  "name": Object {
+                    "en": "elderly",
+                    "fi": "vanhukset",
+                    "sv": "åldringar",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p12297/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "mentalvårdsklienter",
+                    "klienter inom psykisk rehabilitering",
+                    "psykiska rehabiliteringspatienter",
+                  ],
+                  "created_time": "2014-06-23T11:37:29.472000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p12297",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:43:12.305002Z",
+                  "n_events": 0,
+                  "name": Object {
+                    "en": "patients in psychiatric rehabilitation",
+                    "fi": "mielenterveyskuntoutujat",
+                    "sv": "klienter i psykisk rehabilitering",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p23886/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "rehabiliterade missbrukare",
+                    "klienter i missbrukarvård",
+                    "klienter i missbruksvård",
+                    "klienter i missbruksrehabilitering",
+                    "rehabiliteringspatienter (missbruk)",
+                  ],
+                  "created_time": "2014-06-23T11:37:30.575000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p23886",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:42:53.995580Z",
+                  "n_events": 8,
+                  "name": Object {
+                    "en": "substance abuse rehabilitation patients",
+                    "fi": "päihdekuntoutujat",
+                    "sv": "klienter i missbrukarrehabilitering",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helsinki:aflfbatkwe/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": null,
+                  "data_source": "helsinki",
+                  "deprecated": false,
+                  "id": "helsinki:aflfbatkwe",
+                  "image": null,
+                  "last_modified_time": "2017-03-17T13:12:38.921627Z",
+                  "n_events": 0,
+                  "name": Object {
+                    "fi": "omaishoitoperheet",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helsinki:aflfbat76e/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": null,
+                  "data_source": "helsinki",
+                  "deprecated": false,
+                  "id": "helsinki:aflfbat76e",
+                  "image": null,
+                  "last_modified_time": "2017-03-17T13:12:38.926826Z",
+                  "n_events": 0,
+                  "name": Object {
+                    "fi": "palvelukeskuskortti",
+                  },
+                  "publisher": null,
+                },
+              ],
+              "last_modified_time": "2017-03-17T13:12:38.934562Z",
+              "name": Object {
+                "en": "Helsinki audiences",
+                "fi": "Helsinki kohderyhmät",
+                "sv": "Helsingfors invånargrupper",
+              },
+              "organization": null,
+              "usage": "audience",
+            },
+          ],
+          "languages": Array [
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/en/",
+              "@type": "Language",
+              "id": "en",
+              "name": Object {
+                "fi": "englanti",
+              },
+              "translation_available": true,
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/sv/",
+              "@type": "Language",
+              "id": "sv",
+              "name": Object {
+                "fi": "ruotsi",
+              },
+              "translation_available": true,
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/fi/",
+              "@type": "Language",
+              "id": "fi",
+              "name": Object {
+                "fi": "suomi",
+              },
+              "translation_available": true,
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/ru/",
+              "@type": "Language",
+              "id": "ru",
+              "name": Object {
+                "fi": "venäjä",
+              },
+              "translation_available": false,
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/et/",
+              "@type": "Language",
+              "id": "et",
+              "name": Object {
+                "fi": "viro",
+              },
+              "translation_available": false,
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/fr/",
+              "@type": "Language",
+              "id": "fr",
+              "name": Object {
+                "fi": "ranska",
+              },
+              "translation_available": false,
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/so/",
+              "@type": "Language",
+              "id": "so",
+              "name": Object {
+                "fi": "somali",
+              },
+              "translation_available": false,
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/es/",
+              "@type": "Language",
+              "id": "es",
+              "name": Object {
+                "fi": "espanja",
+              },
+              "translation_available": false,
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/tr/",
+              "@type": "Language",
+              "id": "tr",
+              "name": Object {
+                "fi": "turkki",
+              },
+              "translation_available": false,
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/zh/",
+              "@type": "Language",
+              "id": "zh",
+              "name": Object {
+                "fi": "kiina",
+              },
+              "translation_available": false,
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/fa/",
+              "@type": "Language",
+              "id": "fa",
+              "name": Object {
+                "fi": "persia",
+              },
+              "translation_available": false,
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/ar/",
+              "@type": "Language",
+              "id": "ar",
+              "name": Object {
+                "fi": "arabia",
+              },
+              "translation_available": false,
+            },
+          ],
+          "validateFor": null,
+          "validationErrors": Object {},
+          "validationStatus": "resolve",
+          "values": Object {
+            "audience": Array [
+              "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:2/",
+              "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p11617/",
+              "https://api.hel.fi/linkedevents-test/v1/keyword/helsinki:aflfbatkwe/",
+            ],
+            "description": Object {
+              "fi": "<p>Kuvaus suomeksi</p>",
+              "sv": "<p>Kuvaus ruotsiksi</p>",
+            },
+            "end_time": "2038-02-12T15:18:00Z",
+            "event_status": "EventScheduled",
+            "extlink_facebook": "http://kasvokirja.fi",
+            "extlink_instagram": "http://instataan.com",
+            "extlink_twitter": "http://twiitti.fi",
+            "hel_main": Array [
+              "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:12/",
+              "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:13/",
+            ],
+            "id": "helsinki:afqxukccli",
+            "in_language": Array [
+              "https://api.hel.fi/linkedevents-test/v1/language/fi/",
+              "https://api.hel.fi/linkedevents-test/v1/language/sv/",
+            ],
+            "info_url": Object {
+              "fi": "http://foo.fi",
+              "sv": "http://bar.sv",
+            },
+            "keywords": Array [
+              Object {
+                "label": "kulttuuritapahtumat",
+                "value": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p360/",
+              },
+              Object {
+                "label": "retkeily",
+                "value": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p1103/",
+              },
+            ],
+            "location": Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/place/matko:587/",
+              "@type": "Place",
+              "address_country": null,
+              "address_locality": null,
+              "address_region": null,
+              "contact_type": null,
+              "created_time": null,
+              "custom_data": null,
+              "data_source": "matko",
+              "deleted": false,
+              "description": Object {
+                "en": "The crypt of the church was originally a cellar where the heating devices and firewood storage were located. The facility with its earth floor was renovated in the 1972-73 in accordance with architect Tarja Salmio-Toiviainen's plan. The heart of the crypt is a small chapel. Concerts and exhibitions, and in summer Café Krypta.",
+                "fi": "Tuomiokirkon krypta rakennettiin alun perin kirkon kellariksi, jossa sijaitsivat kirkon lämmityslaitteet ja halkovarastot. Maalattiainen kellari oli tyhjillään yli sata vuotta. Krypta remontoitiin vuosina 1972-73 arkkitehti Tarja Salmio-Toiviaisen suunnitelmien mukaan ja otettiin sen jälkeen toiminnalliseen käyttöön. Sen sydän on pieni kappeli. Krypta toimii seurakunnan hartaus- ja kokoontumispaikkana, ja siellä järjestetään myös konsertteja ja näyttelyitä. Kesäisin kryptassa toimii Café Krypta.",
+                "sv": "Domkyrkans krypta var ursprungligen Domkyrkans källare där man bl.a. förvarade veden som kyrkan värmdes med. Källaren med jordgolv stod sedan tom i nästan hundra år. Åren 1972-73 renoverades den grundligt enligt arkitekt Tarja Salmio-Toiviainens ritningar efter vilket den togs i bruk i församlingen. Dess hjärta är ett litet kapell. Förutom utrymme för församlingen, ordnas här konserter och utställningar. Sommartid Café Krypta. I Domkyrkans krypta anordnas evenemang och utställningar.",
+              },
+              "divisions": Array [
+                Object {
+                  "municipality": "Helsinki",
+                  "name": Object {
+                    "fi": "Kruununhaka",
+                    "sv": "Kronohagen",
+                  },
+                  "ocd_id": "ocd-division/country:fi/kunta:helsinki/osa-alue:kruununhaka",
+                  "type": "sub_district",
+                },
+                Object {
+                  "municipality": "Helsinki",
+                  "name": Object {
+                    "fi": "Vironniemi",
+                    "sv": "Estnäs",
+                  },
+                  "ocd_id": "ocd-division/country:fi/kunta:helsinki/peruspiiri:vironniemi",
+                  "type": "district",
+                },
+                Object {
+                  "municipality": "Helsinki",
+                  "name": Object {
+                    "fi": "Kruununhaka",
+                    "sv": "Kronohagen",
+                  },
+                  "ocd_id": "ocd-division/country:fi/kunta:helsinki/kaupunginosa:kruununhaka",
+                  "type": "neighborhood",
+                },
+                Object {
+                  "municipality": null,
+                  "name": Object {
+                    "fi": "Helsinki",
+                    "sv": "Helsingfors",
+                  },
+                  "ocd_id": "ocd-division/country:fi/kunta:helsinki",
+                  "type": "muni",
+                },
+              ],
+              "email": null,
+              "id": "matko:587",
+              "image": null,
+              "info_url": Object {
+                "en": "http://www.helsinginseurakunnat.fi/seurakunnat/tuomiokirkkoseurakunta/touristinformation.html",
+                "fi": "http://www.helsinginseurakunnat.fi/seurakunnat/tuomiokirkkoseurakunta/yhteystiedot_0/kirkot/tuomiokirkko/tuomiokirkonkrypta.html",
+                "sv": "http://www.helsinginseurakunnat.fi/seurakunnat/tuomiokirkkoseurakunta/touristinformation.html",
+              },
+              "last_modified_time": "2017-09-04T14:05:13.317545Z",
+              "n_events": 0,
+              "name": Object {
+                "en": "The Cathedral Crypt",
+                "fi": "Tuomiokirkon krypta",
+                "sv": "Domkyrkans krypta",
+              },
+              "parent": null,
+              "position": Object {
+                "coordinates": Array [
+                  24.9521506,
+                  60.1707042,
+                ],
+                "type": "Point",
+              },
+              "post_office_box_num": null,
+              "postal_code": null,
+              "publisher": "ytj:0586977-6",
+              "replaced_by": null,
+              "street_address": null,
+              "telephone": null,
+            },
+            "location_extra_info": Object {
+              "fi": "Kryptassa tapahtuu",
+              "sv": "Det händer på kryptan",
+            },
+            "name": Object {
+              "fi": "ExampleEventForUnitTests_otsikkofi",
+              "sv": "ExampleEventForUnitTests_otsikkosv",
+            },
+            "offers": Array [
+              Object {
+                "description": Object {
+                  "fi": "hintasuomeksi",
+                  "sv": "hintaruotsiksi",
+                },
+                "info_url": Object {
+                  "fi": "http://kryptatapahtuma.fi",
+                  "sv": "http://kryptatapahtuma.sv",
+                },
+                "is_free": false,
+                "price": Object {
+                  "fi": "110 euroa",
+                  "sv": "10000 kronor",
+                },
+              },
+            ],
+            "organization": "ahjo:02100",
+            "provider": Object {
+              "fi": "Järkkäri",
+              "sv": "Jårkkari",
+            },
+            "publication_status": "public",
+            "short_description": Object {
+              "fi": "Lyhyt suomeksi",
+              "sv": "En kort beskrivning",
+            },
+            "start_time": "2038-02-12T13:16:00Z",
+            "sub_events": Object {},
           },
         }
       }
+      setDirtyState={[Function]}
     />
-  </MemoryRouter>
-</IntlProvider>
+  </div>
+  <div
+    className="editor-action-buttons"
+  >
+    <div
+      className="container"
+    >
+      <div
+        className="row"
+      >
+        <Component
+          component="div"
+          loaded={true}
+          loadedClassName="loadedContent"
+          parentClassName="loader"
+          scale={1}
+        />
+        <div>
+          <div
+            className="actions"
+          >
+            <div />
+            <WithStyles(Button)
+              color="primary"
+              disabled={false}
+              onClick={[Function]}
+              raised={true}
+            >
+              <FormattedMessage
+                id="event-action-save-new"
+                values={Object {}}
+              />
+            </WithStyles(Button)>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Editor Snapshot should render view correctly when editing existing event 1`] = `
+<div
+  className="editor-page"
+>
+  <div
+    className="container header"
+  >
+    <h1>
+      <FormattedMessage
+        id="edit-event"
+        values={Object {}}
+      />
+    </h1>
+    <span
+      className="controls"
+    >
+      <WithStyles(Button)
+        className="pull-right"
+        color="primary"
+        onClick={[Function]}
+        raised={true}
+      >
+        <FormattedMessage
+          id="clear-form"
+          values={Object {}}
+        />
+         
+        <pure(Close) />
+      </WithStyles(Button)>
+    </span>
+  </div>
+  <div
+    className="container"
+  >
+    <FormFields
+      action="update"
+      editor={
+        Object {
+          "contentLanguages": Array [
+            "fi",
+            "sv",
+          ],
+          "isSending": false,
+          "keywordSets": Array [
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/keyword_set/helfi:topics/",
+              "@type": "KeywordSet",
+              "created_time": "2015-01-13T12:00:00Z",
+              "data_source": "helfi",
+              "id": "helfi:topics",
+              "image": null,
+              "keywords": Array [
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:11/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:11",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 63,
+                  "name": Object {
+                    "en": "Daycare and education",
+                    "fi": "Päivähoito ja koulutus",
+                    "sv": "Dagvård och utbildning",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:13/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:13",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 139,
+                  "name": Object {
+                    "en": "Housing and environment",
+                    "fi": "Asuminen ja ympäristö",
+                    "sv": "Boende och miljö",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:12/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:12",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 496,
+                  "name": Object {
+                    "en": "Culture and leisure",
+                    "fi": "Kulttuuri ja vapaa-aika",
+                    "sv": "Kultur och fritid",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:8/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:8",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 43,
+                  "name": Object {
+                    "en": "City administration",
+                    "fi": "Kaupunki ja hallinto",
+                    "sv": "Staden och förvaltning",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:9/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:9",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 152,
+                  "name": Object {
+                    "en": "Social services and health care",
+                    "fi": "Sosiaali- ja terveyspalvelut",
+                    "sv": "Social- och hälsovård",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:10/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:10",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 151,
+                  "name": Object {
+                    "en": "Maps and transport",
+                    "fi": "Liikenne ja kartat",
+                    "sv": "Kartor och trafik",
+                  },
+                  "publisher": null,
+                },
+              ],
+              "last_modified_time": "2015-01-13T12:00:00Z",
+              "name": Object {
+                "en": "www.hel.fi themes",
+                "fi": "www.hel.fi-aihepiirit",
+                "sv": "www.hel.fi-teman",
+              },
+              "organization": null,
+              "usage": "keyword",
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/keyword_set/helfi:audiences/",
+              "@type": "KeywordSet",
+              "created_time": null,
+              "data_source": "helfi",
+              "id": "helfi:audiences",
+              "image": null,
+              "keywords": Array [
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:5/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:5",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 76,
+                  "name": Object {
+                    "en": "Elderly",
+                    "fi": "Vanhukset",
+                    "sv": "Äldre",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:1/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:1",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 142,
+                  "name": Object {
+                    "en": "Children and families",
+                    "fi": "Lapset ja lapsiperheet",
+                    "sv": "Barn och barnfamiljer",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:3/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:3",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 67,
+                  "name": Object {
+                    "en": "Immigrants",
+                    "fi": "Maahanmuuttajat",
+                    "sv": "Invandrare",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:7/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:7",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 9,
+                  "name": Object {
+                    "en": "Associations",
+                    "fi": "Yhdistykset",
+                    "sv": "Föreningar",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:4/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:4",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 9,
+                  "name": Object {
+                    "en": "Disabled",
+                    "fi": "Vammaiset",
+                    "sv": "Funktionshindrade",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:2/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:2",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 98,
+                  "name": Object {
+                    "en": "Youth",
+                    "fi": "Nuoret",
+                    "sv": "Unga",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:6/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:6",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 8,
+                  "name": Object {
+                    "en": "Entrepreneurs",
+                    "fi": "Yritykset",
+                    "sv": "Företagare",
+                  },
+                  "publisher": null,
+                },
+              ],
+              "last_modified_time": null,
+              "name": Object {
+                "en": "www.hel.fi resident groups",
+                "fi": "www.hel.fi-kohderyhmät",
+                "sv": "www.hel.fi-invånargrupper",
+              },
+              "organization": null,
+              "usage": "audience",
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/keyword_set/helsinki:audiences/",
+              "@type": "KeywordSet",
+              "created_time": null,
+              "data_source": "helsinki",
+              "id": "helsinki:audiences",
+              "image": null,
+              "keywords": Array [
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p7179/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "funktionshindrade",
+                    "monivammaiset",
+                    "multihandikappade",
+                    "invalidit",
+                    "invalider",
+                    "personer med handikapp",
+                    "people with disabilities",
+                    "personer med funktionshinder",
+                  ],
+                  "created_time": "2014-06-23T11:37:28.866000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p7179",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:42:43.882641Z",
+                  "n_events": 10,
+                  "name": Object {
+                    "en": "disabled people",
+                    "fi": "vammaiset",
+                    "sv": "handikappade",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p4354/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "spädbarn",
+                    "lapset",
+                    "imeväisikäiset",
+                    "barn",
+                  ],
+                  "created_time": "2014-06-23T11:37:27.705000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p4354",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:42:54.041059Z",
+                  "n_events": 18597,
+                  "name": Object {
+                    "en": "children (age groups)",
+                    "fi": "lapset (ikäryhmät)",
+                    "sv": "barn (åldersgrupper)",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p13050/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2014-06-23T11:37:23.969000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p13050",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:42:42.446458Z",
+                  "n_events": 199,
+                  "name": Object {
+                    "en": "families with children",
+                    "fi": "lapsiperheet",
+                    "sv": "barnfamiljer",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p6165/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "immigranter",
+                    "immigrantit",
+                  ],
+                  "created_time": "2014-06-23T11:37:28.630000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p6165",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:42:31.057402Z",
+                  "n_events": 7494,
+                  "name": Object {
+                    "en": "immigrants",
+                    "fi": "maahanmuuttajat",
+                    "sv": "invandrare",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p11617/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "tonåringar",
+                    "nuoriso",
+                    "teini-ikäiset",
+                    "unga",
+                  ],
+                  "created_time": "2014-06-23T11:37:27.563000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p11617",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:43:00.842671Z",
+                  "n_events": 12983,
+                  "name": Object {
+                    "en": "young people",
+                    "fi": "nuoret",
+                    "sv": "ungdomar",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p3128/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "businesses",
+                    "affärsföretag",
+                    "liikeyritykset",
+                  ],
+                  "created_time": "2014-06-23T11:37:24.651000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p3128",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:42:58.508500Z",
+                  "n_events": 8,
+                  "name": Object {
+                    "en": "enterprises",
+                    "fi": "yritykset",
+                    "sv": "företag",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p1393/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "seurat -- järjestötoiminta",
+                    "yhdistykset",
+                  ],
+                  "created_time": "2014-06-23T11:37:27.364000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p1393",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:42:36.625794Z",
+                  "n_events": 9,
+                  "name": Object {
+                    "en": "associations",
+                    "fi": "järjestöt",
+                    "sv": "föreningar",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p2434/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "ikäihmiset",
+                    "ikä-ihmiset",
+                    "gamlingar",
+                  ],
+                  "created_time": "2014-06-23T11:37:30.235000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p2434",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:43:05.106064Z",
+                  "n_events": 4286,
+                  "name": Object {
+                    "en": "elderly",
+                    "fi": "vanhukset",
+                    "sv": "åldringar",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p12297/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "mentalvårdsklienter",
+                    "klienter inom psykisk rehabilitering",
+                    "psykiska rehabiliteringspatienter",
+                  ],
+                  "created_time": "2014-06-23T11:37:29.472000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p12297",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:43:12.305002Z",
+                  "n_events": 0,
+                  "name": Object {
+                    "en": "patients in psychiatric rehabilitation",
+                    "fi": "mielenterveyskuntoutujat",
+                    "sv": "klienter i psykisk rehabilitering",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p23886/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "rehabiliterade missbrukare",
+                    "klienter i missbrukarvård",
+                    "klienter i missbruksvård",
+                    "klienter i missbruksrehabilitering",
+                    "rehabiliteringspatienter (missbruk)",
+                  ],
+                  "created_time": "2014-06-23T11:37:30.575000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p23886",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:42:53.995580Z",
+                  "n_events": 8,
+                  "name": Object {
+                    "en": "substance abuse rehabilitation patients",
+                    "fi": "päihdekuntoutujat",
+                    "sv": "klienter i missbrukarrehabilitering",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helsinki:aflfbatkwe/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": null,
+                  "data_source": "helsinki",
+                  "deprecated": false,
+                  "id": "helsinki:aflfbatkwe",
+                  "image": null,
+                  "last_modified_time": "2017-03-17T13:12:38.921627Z",
+                  "n_events": 0,
+                  "name": Object {
+                    "fi": "omaishoitoperheet",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helsinki:aflfbat76e/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": null,
+                  "data_source": "helsinki",
+                  "deprecated": false,
+                  "id": "helsinki:aflfbat76e",
+                  "image": null,
+                  "last_modified_time": "2017-03-17T13:12:38.926826Z",
+                  "n_events": 0,
+                  "name": Object {
+                    "fi": "palvelukeskuskortti",
+                  },
+                  "publisher": null,
+                },
+              ],
+              "last_modified_time": "2017-03-17T13:12:38.934562Z",
+              "name": Object {
+                "en": "Helsinki audiences",
+                "fi": "Helsinki kohderyhmät",
+                "sv": "Helsingfors invånargrupper",
+              },
+              "organization": null,
+              "usage": "audience",
+            },
+          ],
+          "languages": Array [
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/en/",
+              "@type": "Language",
+              "id": "en",
+              "name": Object {
+                "fi": "englanti",
+              },
+              "translation_available": true,
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/sv/",
+              "@type": "Language",
+              "id": "sv",
+              "name": Object {
+                "fi": "ruotsi",
+              },
+              "translation_available": true,
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/fi/",
+              "@type": "Language",
+              "id": "fi",
+              "name": Object {
+                "fi": "suomi",
+              },
+              "translation_available": true,
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/ru/",
+              "@type": "Language",
+              "id": "ru",
+              "name": Object {
+                "fi": "venäjä",
+              },
+              "translation_available": false,
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/et/",
+              "@type": "Language",
+              "id": "et",
+              "name": Object {
+                "fi": "viro",
+              },
+              "translation_available": false,
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/fr/",
+              "@type": "Language",
+              "id": "fr",
+              "name": Object {
+                "fi": "ranska",
+              },
+              "translation_available": false,
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/so/",
+              "@type": "Language",
+              "id": "so",
+              "name": Object {
+                "fi": "somali",
+              },
+              "translation_available": false,
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/es/",
+              "@type": "Language",
+              "id": "es",
+              "name": Object {
+                "fi": "espanja",
+              },
+              "translation_available": false,
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/tr/",
+              "@type": "Language",
+              "id": "tr",
+              "name": Object {
+                "fi": "turkki",
+              },
+              "translation_available": false,
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/zh/",
+              "@type": "Language",
+              "id": "zh",
+              "name": Object {
+                "fi": "kiina",
+              },
+              "translation_available": false,
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/fa/",
+              "@type": "Language",
+              "id": "fa",
+              "name": Object {
+                "fi": "persia",
+              },
+              "translation_available": false,
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/ar/",
+              "@type": "Language",
+              "id": "ar",
+              "name": Object {
+                "fi": "arabia",
+              },
+              "translation_available": false,
+            },
+          ],
+          "validateFor": null,
+          "validationErrors": Object {},
+          "validationStatus": "resolve",
+          "values": Object {
+            "audience": Array [
+              "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:2/",
+              "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p11617/",
+              "https://api.hel.fi/linkedevents-test/v1/keyword/helsinki:aflfbatkwe/",
+            ],
+            "description": Object {
+              "fi": "<p>Kuvaus suomeksi</p>",
+              "sv": "<p>Kuvaus ruotsiksi</p>",
+            },
+            "end_time": "2038-02-12T15:18:00Z",
+            "event_status": "EventScheduled",
+            "extlink_facebook": "http://kasvokirja.fi",
+            "extlink_instagram": "http://instataan.com",
+            "extlink_twitter": "http://twiitti.fi",
+            "hel_main": Array [
+              "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:12/",
+              "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:13/",
+            ],
+            "id": "helsinki:afqxukccli",
+            "in_language": Array [
+              "https://api.hel.fi/linkedevents-test/v1/language/fi/",
+              "https://api.hel.fi/linkedevents-test/v1/language/sv/",
+            ],
+            "info_url": Object {
+              "fi": "http://foo.fi",
+              "sv": "http://bar.sv",
+            },
+            "keywords": Array [
+              Object {
+                "label": "kulttuuritapahtumat",
+                "value": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p360/",
+              },
+              Object {
+                "label": "retkeily",
+                "value": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p1103/",
+              },
+            ],
+            "location": Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/place/matko:587/",
+              "@type": "Place",
+              "address_country": null,
+              "address_locality": null,
+              "address_region": null,
+              "contact_type": null,
+              "created_time": null,
+              "custom_data": null,
+              "data_source": "matko",
+              "deleted": false,
+              "description": Object {
+                "en": "The crypt of the church was originally a cellar where the heating devices and firewood storage were located. The facility with its earth floor was renovated in the 1972-73 in accordance with architect Tarja Salmio-Toiviainen's plan. The heart of the crypt is a small chapel. Concerts and exhibitions, and in summer Café Krypta.",
+                "fi": "Tuomiokirkon krypta rakennettiin alun perin kirkon kellariksi, jossa sijaitsivat kirkon lämmityslaitteet ja halkovarastot. Maalattiainen kellari oli tyhjillään yli sata vuotta. Krypta remontoitiin vuosina 1972-73 arkkitehti Tarja Salmio-Toiviaisen suunnitelmien mukaan ja otettiin sen jälkeen toiminnalliseen käyttöön. Sen sydän on pieni kappeli. Krypta toimii seurakunnan hartaus- ja kokoontumispaikkana, ja siellä järjestetään myös konsertteja ja näyttelyitä. Kesäisin kryptassa toimii Café Krypta.",
+                "sv": "Domkyrkans krypta var ursprungligen Domkyrkans källare där man bl.a. förvarade veden som kyrkan värmdes med. Källaren med jordgolv stod sedan tom i nästan hundra år. Åren 1972-73 renoverades den grundligt enligt arkitekt Tarja Salmio-Toiviainens ritningar efter vilket den togs i bruk i församlingen. Dess hjärta är ett litet kapell. Förutom utrymme för församlingen, ordnas här konserter och utställningar. Sommartid Café Krypta. I Domkyrkans krypta anordnas evenemang och utställningar.",
+              },
+              "divisions": Array [
+                Object {
+                  "municipality": "Helsinki",
+                  "name": Object {
+                    "fi": "Kruununhaka",
+                    "sv": "Kronohagen",
+                  },
+                  "ocd_id": "ocd-division/country:fi/kunta:helsinki/osa-alue:kruununhaka",
+                  "type": "sub_district",
+                },
+                Object {
+                  "municipality": "Helsinki",
+                  "name": Object {
+                    "fi": "Vironniemi",
+                    "sv": "Estnäs",
+                  },
+                  "ocd_id": "ocd-division/country:fi/kunta:helsinki/peruspiiri:vironniemi",
+                  "type": "district",
+                },
+                Object {
+                  "municipality": "Helsinki",
+                  "name": Object {
+                    "fi": "Kruununhaka",
+                    "sv": "Kronohagen",
+                  },
+                  "ocd_id": "ocd-division/country:fi/kunta:helsinki/kaupunginosa:kruununhaka",
+                  "type": "neighborhood",
+                },
+                Object {
+                  "municipality": null,
+                  "name": Object {
+                    "fi": "Helsinki",
+                    "sv": "Helsingfors",
+                  },
+                  "ocd_id": "ocd-division/country:fi/kunta:helsinki",
+                  "type": "muni",
+                },
+              ],
+              "email": null,
+              "id": "matko:587",
+              "image": null,
+              "info_url": Object {
+                "en": "http://www.helsinginseurakunnat.fi/seurakunnat/tuomiokirkkoseurakunta/touristinformation.html",
+                "fi": "http://www.helsinginseurakunnat.fi/seurakunnat/tuomiokirkkoseurakunta/yhteystiedot_0/kirkot/tuomiokirkko/tuomiokirkonkrypta.html",
+                "sv": "http://www.helsinginseurakunnat.fi/seurakunnat/tuomiokirkkoseurakunta/touristinformation.html",
+              },
+              "last_modified_time": "2017-09-04T14:05:13.317545Z",
+              "n_events": 0,
+              "name": Object {
+                "en": "The Cathedral Crypt",
+                "fi": "Tuomiokirkon krypta",
+                "sv": "Domkyrkans krypta",
+              },
+              "parent": null,
+              "position": Object {
+                "coordinates": Array [
+                  24.9521506,
+                  60.1707042,
+                ],
+                "type": "Point",
+              },
+              "post_office_box_num": null,
+              "postal_code": null,
+              "publisher": "ytj:0586977-6",
+              "replaced_by": null,
+              "street_address": null,
+              "telephone": null,
+            },
+            "location_extra_info": Object {
+              "fi": "Kryptassa tapahtuu",
+              "sv": "Det händer på kryptan",
+            },
+            "name": Object {
+              "fi": "ExampleEventForUnitTests_otsikkofi",
+              "sv": "ExampleEventForUnitTests_otsikkosv",
+            },
+            "offers": Array [
+              Object {
+                "description": Object {
+                  "fi": "hintasuomeksi",
+                  "sv": "hintaruotsiksi",
+                },
+                "info_url": Object {
+                  "fi": "http://kryptatapahtuma.fi",
+                  "sv": "http://kryptatapahtuma.sv",
+                },
+                "is_free": false,
+                "price": Object {
+                  "fi": "110 euroa",
+                  "sv": "10000 kronor",
+                },
+              },
+            ],
+            "organization": "ahjo:02100",
+            "provider": Object {
+              "fi": "Järkkäri",
+              "sv": "Jårkkari",
+            },
+            "publication_status": "public",
+            "short_description": Object {
+              "fi": "Lyhyt suomeksi",
+              "sv": "En kort beskrivning",
+            },
+            "start_time": "2038-02-12T13:16:00Z",
+            "sub_events": Object {},
+          },
+        }
+      }
+      setDirtyState={[Function]}
+    />
+  </div>
+  <div
+    className="editor-action-buttons"
+  >
+    <div
+      className="container"
+    >
+      <div
+        className="row"
+      >
+        <Component
+          component="div"
+          loaded={true}
+          loadedClassName="loadedContent"
+          parentClassName="loader"
+          scale={1}
+        />
+        <div>
+          <div
+            className="actions"
+          >
+            <div>
+              <WithStyles(Button)
+                disabled={false}
+                onClick={[Function]}
+                raised={true}
+              >
+                <FormattedMessage
+                  id="delete-event"
+                  values={Object {}}
+                />
+              </WithStyles(Button)>
+              <WithStyles(Button)
+                disabled={false}
+                onClick={[Function]}
+                raised={true}
+              >
+                <FormattedMessage
+                  id="cancel-event"
+                  values={Object {}}
+                />
+              </WithStyles(Button)>
+            </div>
+            <WithStyles(Button)
+              color="primary"
+              disabled={false}
+              onClick={[Function]}
+              raised={true}
+            >
+              <FormattedMessage
+                id="event-action-save-existing"
+                values={Object {}}
+              />
+            </WithStyles(Button)>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 `;
 
 exports[`Editor Snapshot should render view correctly when new event 1`] = `
-<IntlProvider
-  locale="fi"
-  messages={
-    Object {
-      "add-more": "Lisää kerrat",
-      "authorization-required": "Kirjaudu sisään tapahtuman lähettämiseksi.",
-      "cancel": "Kumoa",
-      "cancel-event": "Peruuta tapahtuma",
-      "cancelled": "Peruutettu",
-      "choose-image": "Lisää tapahtumalle kuva tai valitse kuvapankista",
-      "clear-form": "Tyhjennä kentät",
-      "confirm": "Suorita",
-      "confirm-action-header": "Varmista toiminto",
-      "confirm-cancel": "Varmista tapahtuman peruminen",
-      "confirm-delete": "Varmista tapahtuman poistaminen",
-      "confirm-image-delete": "Varmista kuvan poistaminen",
-      "copy-event-to-draft": "Kopioi uuden tapahtuman pohjaksi",
-      "copy-to-clipboard": "Kopioi leikepöydälle",
-      "create-event": "Lisää uusi tapahtuma",
-      "date": "Päivämäärä",
-      "delete": "Poista",
-      "delete-event": "Poista tapahtuma",
-      "draft": "Luonnos",
-      "edit-event": "Muokkaa tapahtumaa",
-      "editor-delete-subevents-warning": "Poistaessasi tämän tapahtuman myös seuraavat alitapahtumat poistetaan:",
-      "editor-delete-warning": "VAROITUS: Tämä toiminto poistaa tapahtuman lopullisesti. Voit tarvittaessa myös perua tapahtuman tai lykätä sitä.",
-      "editor-sentinel-alert": "Voit katsella lomaketta, mutta sinulla ei ole oikeuksia julkaista tai muokata tapahtumia. Et ole kirjautunut sisään tai kirjautumisesi on vanhentunut.",
-      "editor-tip-event-languages": "Kielet, joita tapahtumassa käytetään.",
-      "editor-tip-hel-main-category": "Valitse vähintään yksi pääkategoria.",
-      "editor-tip-hel-target-group": "Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään.",
-      "editor-tip-keywords": "Liitä tapahtumaan vähintään yksi asiasana, joka kuvaa tapahtuman teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta.",
-      "editor-tip-location": "Aloita kirjoittamaan kenttään tapahtumapaikan nimen alkua ja valitse oikea paikka alle ilmestyvästä listasta.",
-      "editor-tip-location-extra": "Jos tapahtumapaikka löytyy listasta, osoitetta ja sijaintia ei tarvitse kuvailla tarkemmin. Voit kuitenkin laittaa lisätietoja tapahtuman löytämiseksi, kuten kerrosnumero tai muu tarkempi sijainti.",
-      "editor-tip-location-not-found": "Jos tapahtumapaikkaa ei löydy listasta, valitse tapahtumapaikaksi Helsinki ja kirjoita tarkempi paikka tai osoite lisätietokenttään.",
-      "editor-tip-price": "Merkitse onko tapahtuma maksuton. Syötä maksulliselle tapahtumalle hinta muodossa \\"5€\\".",
-      "editor-tip-price-multi": "Jos tapahtumalla on useita hintoja, klikkaa Lisää uusi hintatieto ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.",
-      "editor-tip-social-media": "Lisää linkki tapahtuman tai sen järjestäjän some-sivulle.",
-      "editor-tip-time-delete": "Ylimääräisen ajankohdan voit poistaa valitsemalla ajankohdan vieressä olevan roskakorisymbolin.",
-      "editor-tip-time-end": "Kirjoita myös päättymispäivä sekä päättymisaika, jos tapahtuma päättyy tiettyyn kellonaikaan.",
-      "editor-tip-time-multi": "Jos tapahtuma järjestetään useamman kerran, voit lisätä tapahtumalle uusia ajankohtia. Jos tapahtuma toistuu säännöllisesti, voit lisätä kaikki ajankohdat kerralla valitsemalla Toistuva tapahtuma.",
-      "editor-tip-time-start": "Kirjoita tapahtuman alkamispäivä ja myös alkamisaika, jos tapahtuma alkaa tiettyyn kellonaikaan.",
-      "event-action-save-existing": "Tallenna muutokset julkaistuun tapahtumaan",
-      "event-action-save-existing-active": "Tallennetaan muutoksia",
-      "event-action-save-multiple": "Julkaise tapahtumat",
-      "event-action-save-multiple-active": "Julkaistaan tapahtumia",
-      "event-action-save-new": "Julkaise tapahtuma",
-      "event-action-save-new-active": "Julkaistaan tapahtumaa",
-      "event-add-new-occasion": "Lisää uusi ajankohta",
-      "event-add-price": "Lisää uusi hintatieto",
-      "event-add-recurring": "Toistuva tapahtuma",
-      "event-categorization": "Tapahtuman luokittelu",
-      "event-creation-cancel-success": "Tapahtuma peruttiin!",
-      "event-creation-create-success": "Tapahtuma tallennettiin!",
-      "event-creation-default-success": "Tapahtuma luotiin onnistuneesti!",
-      "event-creation-delete-success": "Tapahtuma poistettiin!",
-      "event-creation-multipleevents-success": "Tapahtumat tallennettiin!",
-      "event-creation-publish-success": "Tapahtuma julkaistiin onnistuneesti!",
-      "event-creation-savedraft-success": "Luonnoksen tallennus onnistui!",
-      "event-creation-savepublic-success": "Julkaistun tapahtuman tallennus onnistui!",
-      "event-creation-update-success": "Tapahtuma päivitettiin onnistuneesti!",
-      "event-datetime-fields-header": "Tapahtuman ajankohdat",
-      "event-description": "Kuvaus",
-      "event-description-fields-header": "Tapahtuman kuvaus",
-      "event-ending-datetime": "Tapahtuma päättyy",
-      "event-headline": "Otsikko",
-      "event-image": "Tapahtuman kuva (klikkaa vaihtaaksesi)",
-      "event-info-url": "Kotisivu",
-      "event-is-free": "Tapahtuma on maksuton",
-      "event-keywords": "Tapahtuman asiasanat",
-      "event-location": "Paikka",
-      "event-location-additional-info": "Paikan lisätiedot",
-      "event-location-fields-header": "Tapahtumapaikka",
-      "event-location-id": "Paikan ID",
-      "event-name-or-place": "Tapahtuman nimi tai paikka",
-      "event-page-error": "Tapahtumaa ei löytynyt tai sinulla ei ole oikeuksia katsella sitä.",
-      "event-page-loading": "Ladataan tapahtumaa...",
-      "event-posted": "Tapahtuma lähetettiin onnistuneesti!",
-      "event-presented-in-languages": "Tapahtumatiedot syötetään",
-      "event-price": "Hinta",
-      "event-price-fields-header": "Hintatiedot",
-      "event-price-info": "Hintatietojen kuvaus",
-      "event-provider": "Tapahtuman järjestäjä",
-      "event-provider-input": "Tapahtuman järjestäjä (jos eri kuin syöttäjän organisaatio)",
-      "event-purchase-link": "Linkki lipunmyyntiin/ilmoittautumiseen",
-      "event-short-description": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
-      "event-social-media-fields-header": "Tapahtuma sosiaalisessa mediassa",
-      "event-sort-endtime": "Tapahtuma päättyy",
-      "event-sort-last-modified": "Muokattu viimeksi",
-      "event-sort-starttime": "Tapahtuma alkaa",
-      "event-sort-title": "Otsikko",
-      "event-starting-datetime": "Tapahtuma alkaa",
-      "external-url-here": "Kuvan URL",
-      "facebook-url": "Facebook (url)",
-      "friday": "perjantai",
-      "hel-event-languages": "Tapahtuman kielet",
-      "hel-keywords": "Avainsanat",
-      "hel-main-categories": "Hel.fi-pääkategoriat",
-      "hel-target-groups": "Kohderyhmät",
-      "image-caption-limit": "Kuvateksti (korkeintaan {limit} merkkiä)",
-      "image-creation-error": "Virhe kuvaa luodessa.",
-      "image-creation-success": "Kuva luotiin onnistuneesti!",
-      "image-deletion-error": "Virhe kuvaa poistettaessa.",
-      "image-deletion-success": "Kuva poistettiin onnistuneesti!",
-      "image-update-error": "Virhe kuvaa päivittäessä.",
-      "image-update-success": "Kuvan tiedot päivitettiin onnistuneesti!",
-      "in-ar": "arabiaksi",
-      "in-en": "englanniksi",
-      "in-fi": "suomeksi",
-      "in-ru": "venäjäksi",
-      "in-sv": "ruotsiksi",
-      "in-zh_hans": "kiinaksi",
-      "instagram-url": "Instagram (url)",
-      "is-free": "Maksuton",
-      "lang-en": "Englanti",
-      "lang-fi": "Suomi",
-      "lang-sv": "Ruotsi",
-      "login": "Kirjaudu sisään",
-      "logout": "Kirjaudu ulos",
-      "monday": "maanantai",
-      "new-image": "Lisää uusi kuva",
-      "no-connection": "Ei yhteyttä palvelimelle!",
-      "no-image": "Tapahtumalla ei ole kuvaa",
-      "no-validation-errors": "Lomake täytetty oikein!",
-      "no-value": "-kenttää ei ole täytetty.",
-      "or": "tai",
-      "organization-events": "Tapahtumien hallinta",
-      "organization-events-description": "Selaa ja muokkaa oman organisaatiosi julkisia tapahtumia sekä luonnoksia. Voit lisätä uuden tapahtuman yläpalkista.",
-      "organization-events-no-results": "Yhtäkään muokattavaa tapahtumaa ei löytynyt.",
-      "organization-events-prompt": "muokataksesi tapahtumia.",
-      "organization-images": "Organisaation kuvat",
-      "pick-time-range": "Etsi vain ajalta",
-      "play-date-label": "Toistopäivät",
-      "ready": "Valmis",
-      "repeated": "Toistetaan ",
-      "repetition-begin": "Toistuminen alkaa",
-      "repetition-end": "Toistuminen päättyy",
-      "repetition-end-time": "Tapahtumien loppuaika",
-      "repetition-interval": " viikon välein.",
-      "repetition-interval-label": "Toistoväli",
-      "repetition-start-time": "Tapahtumien alkuaika",
-      "saturday": "lauantai",
-      "save": "Tallenna",
-      "search-date-placeholder": "pp.kk.vvvv",
-      "search-event-button": "Hae tapahtumia",
-      "search-events": "Etsi tapahtumia",
-      "search-events-description": "Katsele kaikkia Linked Eventsin tapahtumia.",
-      "search-no-results": "Ei tuloksia",
-      "server-error": "Virhe palvelimella.",
-      "submit": "Lähetä",
-      "sunday": "sunnuntai",
-      "thursday": "torstai",
-      "time": "Aika",
-      "tuesday": "tiistai",
-      "twitter-url": "Twitter (url)",
-      "upload-image": "Lataa kuva kovalevyltäsi",
-      "use-existing-image": "Käytä järjestelmässä olemassaolevaa kuvaa",
-      "use-external-image-url": "tai syötä ulkoisen kuvan osoite:",
-      "validation-afterStartTime": "Päättymisajan pitää olla alkamisaikaa myöhemmin",
-      "validation-atLeastOne": "Valitse vähintään yksi kategoria",
-      "validation-atLeastOneIsTrue": "Valitse vähintään yksi toistopäivä",
-      "validation-daysWithinInterval": "Yksi tai useampi valituista päivistä ei esiinny toistovälillä",
-      "validation-error": "Lomakkeessa on virheitä. Tarkasta lomake.",
-      "validation-error-goto-error": "Siirry virheeseen",
-      "validation-hasPrice": "Hintatietoja puuttuu",
-      "validation-inTheFuture": "Tapahtuman pitää olla tulevaisuudessa",
-      "validation-isDate": "Kirjoita päivämäärä muodossa pp.kk.vvvv tai p.k.vvvv",
-      "validation-isMoreThanOne": "Toistovälin tulee olla vähintään 1 viikko",
-      "validation-isTime": "Kirjoita aika oikeassa muodossa HH.mm tai HH",
-      "validation-isUrl": "Kirjoita URL osoite kokonaisena ja oikeassa muodossa (http://...)",
-      "validation-longStringLengthCounter": " merkkiä käytetty",
-      "validation-offerIsFreeOrHasPrice": "Maksullinen tapahtuma vaatii hinnan kaikilla valituilla kielillä",
-      "validation-requiredAtId": "Tämä kenttä vaaditaan",
-      "validation-requiredInContentLanguages": "Tämä kenttä vaaditaan kaikilla valituilla kielillä",
-      "validation-requiredMulti": "Tämä kenttä vaaditaan",
-      "validation-requiredString": "Tämä kenttä vaaditaan",
-      "validation-stringLengthCounter": "{counter} merkkiä jäljellä",
-      "validation-stringLimitReached": "Tämä kenttä voi olla korkeintaan {limit} merkkiä pitkä",
-      "wednesday": "keskiviikko",
-      "welcome": "Tervetuloa",
-    }
-  }
+<div
+  className="editor-page"
 >
-  <MemoryRouter>
-    <Connect(InjectIntl(EditorPage))
-      match={
+  <div
+    className="container header"
+  >
+    <h1>
+      <FormattedMessage
+        id="create-event"
+        values={Object {}}
+      />
+    </h1>
+    <span
+      className="controls"
+    >
+      <WithStyles(Button)
+        className="pull-right"
+        color="primary"
+        onClick={[Function]}
+        raised={true}
+      >
+        <FormattedMessage
+          id="clear-form"
+          values={Object {}}
+        />
+         
+        <pure(Close) />
+      </WithStyles(Button)>
+    </span>
+  </div>
+  <div
+    className="container"
+  >
+    <FormFields
+      action="create"
+      editor={
         Object {
-          "params": Object {
-            "action": "create",
-            "eventId": "new?_k=dn954b",
+          "contentLanguages": Array [
+            "fi",
+          ],
+          "isSending": false,
+          "keywordSets": Array [
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/keyword_set/helfi:topics/",
+              "@type": "KeywordSet",
+              "created_time": "2015-01-13T12:00:00Z",
+              "data_source": "helfi",
+              "id": "helfi:topics",
+              "image": null,
+              "keywords": Array [
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:11/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:11",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 63,
+                  "name": Object {
+                    "en": "Daycare and education",
+                    "fi": "Päivähoito ja koulutus",
+                    "sv": "Dagvård och utbildning",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:13/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:13",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 139,
+                  "name": Object {
+                    "en": "Housing and environment",
+                    "fi": "Asuminen ja ympäristö",
+                    "sv": "Boende och miljö",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:12/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:12",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 496,
+                  "name": Object {
+                    "en": "Culture and leisure",
+                    "fi": "Kulttuuri ja vapaa-aika",
+                    "sv": "Kultur och fritid",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:8/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:8",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 43,
+                  "name": Object {
+                    "en": "City administration",
+                    "fi": "Kaupunki ja hallinto",
+                    "sv": "Staden och förvaltning",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:9/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:9",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 152,
+                  "name": Object {
+                    "en": "Social services and health care",
+                    "fi": "Sosiaali- ja terveyspalvelut",
+                    "sv": "Social- och hälsovård",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:10/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:10",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 151,
+                  "name": Object {
+                    "en": "Maps and transport",
+                    "fi": "Liikenne ja kartat",
+                    "sv": "Kartor och trafik",
+                  },
+                  "publisher": null,
+                },
+              ],
+              "last_modified_time": "2015-01-13T12:00:00Z",
+              "name": Object {
+                "en": "www.hel.fi themes",
+                "fi": "www.hel.fi-aihepiirit",
+                "sv": "www.hel.fi-teman",
+              },
+              "organization": null,
+              "usage": "keyword",
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/keyword_set/helfi:audiences/",
+              "@type": "KeywordSet",
+              "created_time": null,
+              "data_source": "helfi",
+              "id": "helfi:audiences",
+              "image": null,
+              "keywords": Array [
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:5/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:5",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 76,
+                  "name": Object {
+                    "en": "Elderly",
+                    "fi": "Vanhukset",
+                    "sv": "Äldre",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:1/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:1",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 142,
+                  "name": Object {
+                    "en": "Children and families",
+                    "fi": "Lapset ja lapsiperheet",
+                    "sv": "Barn och barnfamiljer",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:3/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:3",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 67,
+                  "name": Object {
+                    "en": "Immigrants",
+                    "fi": "Maahanmuuttajat",
+                    "sv": "Invandrare",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:7/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:7",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 9,
+                  "name": Object {
+                    "en": "Associations",
+                    "fi": "Yhdistykset",
+                    "sv": "Föreningar",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:4/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:4",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 9,
+                  "name": Object {
+                    "en": "Disabled",
+                    "fi": "Vammaiset",
+                    "sv": "Funktionshindrade",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:2/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:2",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 98,
+                  "name": Object {
+                    "en": "Youth",
+                    "fi": "Nuoret",
+                    "sv": "Unga",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:6/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2015-01-13T12:00:00Z",
+                  "data_source": "helfi",
+                  "deprecated": false,
+                  "id": "helfi:6",
+                  "image": null,
+                  "last_modified_time": "2015-01-13T12:00:00Z",
+                  "n_events": 8,
+                  "name": Object {
+                    "en": "Entrepreneurs",
+                    "fi": "Yritykset",
+                    "sv": "Företagare",
+                  },
+                  "publisher": null,
+                },
+              ],
+              "last_modified_time": null,
+              "name": Object {
+                "en": "www.hel.fi resident groups",
+                "fi": "www.hel.fi-kohderyhmät",
+                "sv": "www.hel.fi-invånargrupper",
+              },
+              "organization": null,
+              "usage": "audience",
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/keyword_set/helsinki:audiences/",
+              "@type": "KeywordSet",
+              "created_time": null,
+              "data_source": "helsinki",
+              "id": "helsinki:audiences",
+              "image": null,
+              "keywords": Array [
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p7179/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "funktionshindrade",
+                    "monivammaiset",
+                    "multihandikappade",
+                    "invalidit",
+                    "invalider",
+                    "personer med handikapp",
+                    "people with disabilities",
+                    "personer med funktionshinder",
+                  ],
+                  "created_time": "2014-06-23T11:37:28.866000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p7179",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:42:43.882641Z",
+                  "n_events": 10,
+                  "name": Object {
+                    "en": "disabled people",
+                    "fi": "vammaiset",
+                    "sv": "handikappade",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p4354/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "spädbarn",
+                    "lapset",
+                    "imeväisikäiset",
+                    "barn",
+                  ],
+                  "created_time": "2014-06-23T11:37:27.705000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p4354",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:42:54.041059Z",
+                  "n_events": 18597,
+                  "name": Object {
+                    "en": "children (age groups)",
+                    "fi": "lapset (ikäryhmät)",
+                    "sv": "barn (åldersgrupper)",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p13050/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": "2014-06-23T11:37:23.969000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p13050",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:42:42.446458Z",
+                  "n_events": 199,
+                  "name": Object {
+                    "en": "families with children",
+                    "fi": "lapsiperheet",
+                    "sv": "barnfamiljer",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p6165/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "immigranter",
+                    "immigrantit",
+                  ],
+                  "created_time": "2014-06-23T11:37:28.630000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p6165",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:42:31.057402Z",
+                  "n_events": 7494,
+                  "name": Object {
+                    "en": "immigrants",
+                    "fi": "maahanmuuttajat",
+                    "sv": "invandrare",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p11617/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "tonåringar",
+                    "nuoriso",
+                    "teini-ikäiset",
+                    "unga",
+                  ],
+                  "created_time": "2014-06-23T11:37:27.563000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p11617",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:43:00.842671Z",
+                  "n_events": 12983,
+                  "name": Object {
+                    "en": "young people",
+                    "fi": "nuoret",
+                    "sv": "ungdomar",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p3128/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "businesses",
+                    "affärsföretag",
+                    "liikeyritykset",
+                  ],
+                  "created_time": "2014-06-23T11:37:24.651000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p3128",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:42:58.508500Z",
+                  "n_events": 8,
+                  "name": Object {
+                    "en": "enterprises",
+                    "fi": "yritykset",
+                    "sv": "företag",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p1393/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "seurat -- järjestötoiminta",
+                    "yhdistykset",
+                  ],
+                  "created_time": "2014-06-23T11:37:27.364000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p1393",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:42:36.625794Z",
+                  "n_events": 9,
+                  "name": Object {
+                    "en": "associations",
+                    "fi": "järjestöt",
+                    "sv": "föreningar",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p2434/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "ikäihmiset",
+                    "ikä-ihmiset",
+                    "gamlingar",
+                  ],
+                  "created_time": "2014-06-23T11:37:30.235000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p2434",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:43:05.106064Z",
+                  "n_events": 4286,
+                  "name": Object {
+                    "en": "elderly",
+                    "fi": "vanhukset",
+                    "sv": "åldringar",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p12297/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "mentalvårdsklienter",
+                    "klienter inom psykisk rehabilitering",
+                    "psykiska rehabiliteringspatienter",
+                  ],
+                  "created_time": "2014-06-23T11:37:29.472000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p12297",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:43:12.305002Z",
+                  "n_events": 0,
+                  "name": Object {
+                    "en": "patients in psychiatric rehabilitation",
+                    "fi": "mielenterveyskuntoutujat",
+                    "sv": "klienter i psykisk rehabilitering",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/yso:p23886/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [
+                    "rehabiliterade missbrukare",
+                    "klienter i missbrukarvård",
+                    "klienter i missbruksvård",
+                    "klienter i missbruksrehabilitering",
+                    "rehabiliteringspatienter (missbruk)",
+                  ],
+                  "created_time": "2014-06-23T11:37:30.575000Z",
+                  "data_source": "yso",
+                  "deprecated": false,
+                  "id": "yso:p23886",
+                  "image": null,
+                  "last_modified_time": "2017-09-05T14:42:53.995580Z",
+                  "n_events": 8,
+                  "name": Object {
+                    "en": "substance abuse rehabilitation patients",
+                    "fi": "päihdekuntoutujat",
+                    "sv": "klienter i missbrukarrehabilitering",
+                  },
+                  "publisher": "hy:kansalliskirjasto",
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helsinki:aflfbatkwe/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": null,
+                  "data_source": "helsinki",
+                  "deprecated": false,
+                  "id": "helsinki:aflfbatkwe",
+                  "image": null,
+                  "last_modified_time": "2017-03-17T13:12:38.921627Z",
+                  "n_events": 0,
+                  "name": Object {
+                    "fi": "omaishoitoperheet",
+                  },
+                  "publisher": null,
+                },
+                Object {
+                  "@context": "http://schema.org",
+                  "@id": "https://api.hel.fi/linkedevents-test/v1/keyword/helsinki:aflfbat76e/",
+                  "@type": "Keyword",
+                  "aggregate": false,
+                  "alt_labels": Array [],
+                  "created_time": null,
+                  "data_source": "helsinki",
+                  "deprecated": false,
+                  "id": "helsinki:aflfbat76e",
+                  "image": null,
+                  "last_modified_time": "2017-03-17T13:12:38.926826Z",
+                  "n_events": 0,
+                  "name": Object {
+                    "fi": "palvelukeskuskortti",
+                  },
+                  "publisher": null,
+                },
+              ],
+              "last_modified_time": "2017-03-17T13:12:38.934562Z",
+              "name": Object {
+                "en": "Helsinki audiences",
+                "fi": "Helsinki kohderyhmät",
+                "sv": "Helsingfors invånargrupper",
+              },
+              "organization": null,
+              "usage": "audience",
+            },
+          ],
+          "languages": Array [
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/en/",
+              "@type": "Language",
+              "id": "en",
+              "name": Object {
+                "fi": "englanti",
+              },
+              "translation_available": true,
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/sv/",
+              "@type": "Language",
+              "id": "sv",
+              "name": Object {
+                "fi": "ruotsi",
+              },
+              "translation_available": true,
+            },
+            Object {
+              "@context": "http://schema.org",
+              "@id": "https://api.hel.fi/linkedevents-test/v1/language/fi/",
+              "@type": "Language",
+              "id": "fi",
+              "name": Object {
+                "fi": "suomi",
+              },
+              "translation_available": true,
+            },
+          ],
+          "validateFor": null,
+          "validationErrors": Object {},
+          "values": Object {
+            "sub_events": Object {},
           },
         }
       }
+      setDirtyState={[Function]}
     />
-  </MemoryRouter>
-</IntlProvider>
+  </div>
+  <div
+    className="editor-action-buttons"
+  >
+    <div
+      className="container"
+    >
+      <div
+        className="row"
+      >
+        <Component
+          component="div"
+          loaded={true}
+          loadedClassName="loadedContent"
+          parentClassName="loader"
+          scale={1}
+        />
+        <div>
+          <div
+            className="actions"
+          >
+            <div />
+            <WithStyles(Button)
+              color="primary"
+              disabled={false}
+              onClick={[Function]}
+              raised={true}
+            >
+              <FormattedMessage
+                id="event-action-save-new"
+                values={Object {}}
+              />
+            </WithStyles(Button)>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 `;
