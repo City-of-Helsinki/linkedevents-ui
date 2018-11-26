@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import {clone, map, lastIndexOf, forOwn, every, includes, isEmpty, cloneDeep, remove} from 'lodash'
 import constants from 'src/constants.js'
 import moment from 'moment'
 import 'moment-timezone'
@@ -24,19 +24,19 @@ const helFiYsoAudienceMapping = {
 }
 
 function _addHelFiAudienceKeywords(original_audiences) {
-    let audiences = _.clone(original_audiences)
+    let audiences = clone(original_audiences)
 
-    const audienceIds = _.map(audiences, function(audience) {
+    const audienceIds = map(audiences, function(audience) {
     // parse keyword ID from keyword URL
-        return audience.slice(_.lastIndexOf(audience, '/', audience.length - 2) + 1, -1)
+        return audience.slice(lastIndexOf(audience, '/', audience.length - 2) + 1, -1)
     })
 
     // iterate hel.fi keywords
-    _.forOwn(helFiYsoAudienceMapping, function(ysoIDs, helFiID) {
+    forOwn(helFiYsoAudienceMapping, function(ysoIDs, helFiID) {
 
     // check that every YSO keyword for the current hel.fi keyword is selected
-        const containsEveryYso = _.every(ysoIDs, function(ysoID) {
-            return _.contains(audienceIds, ysoID)
+        const containsEveryYso = every(ysoIDs, function(ysoID) {
+            return includes(audienceIds, ysoID)
         })
         if (containsEveryYso) {
             audiences.push(`${appSettings.api_base}/keyword/` + helFiID + '/')
@@ -46,7 +46,7 @@ function _addHelFiAudienceKeywords(original_audiences) {
 }
 
 function _nullifyEmptyStrings(multiLangObject) {
-    _.forOwn(multiLangObject, function(value, language) {
+    forOwn(multiLangObject, function(value, language) {
 
     // do not send empty strings to the backend, as this will set the null language field to non-null
         if (value === '') {
@@ -86,7 +86,7 @@ function mapUIDataToAPIFormat(values) {
 
     // Image data
     obj.images = []
-    if(values.image && !_.isEmpty(values.image)) {
+    if(values.image && !isEmpty(values.image)) {
         obj.images[0] = values.image
     }
 
@@ -102,17 +102,17 @@ function mapUIDataToAPIFormat(values) {
 
     // Keywords, audience, languages
     if(values.keywords && values.keywords.length !== undefined) {
-        obj.keywords = _.map(values.keywords, (item) => ({'@id': item.value}))
+        obj.keywords = map(values.keywords, (item) => ({'@id': item.value}))
     }
 
     if(values.hel_main && values.hel_main.length !== undefined) {
         obj.keywords = obj.keywords || []
-        obj.keywords = obj.keywords.concat(_.map(values.hel_main, (item) => ({'@id': item})))
+        obj.keywords = obj.keywords.concat(map(values.hel_main, (item) => ({'@id': item})))
     }
 
     if(values.audience && values.audience.length !== undefined) {
         const audiences = _addHelFiAudienceKeywords(values.audience)
-        obj.audience = _.map(audiences, (item) => ({'@id': item}))
+        obj.audience = map(audiences, (item) => ({'@id': item}))
     }
 
     if(values.in_language) {
@@ -186,36 +186,36 @@ function mapAPIDataToUIFormat(values) {
 
     // TODO: Filter hel_main categories from keywords, non-hel_main categories from hel_main
     //
-    let keywords = _.cloneDeep(values.keywords)
+    let keywords = cloneDeep(values.keywords)
 
-    let hel_main_items = _.remove(keywords, item => {
+    let hel_main_items = remove(keywords, item => {
         return (item.id.indexOf('helfi:') > -1)
     })
 
-    obj.hel_main = _.map(hel_main_items, (item) => { return item['@id'] })
+    obj.hel_main = map(hel_main_items, (item) => { return item['@id'] })
 
     // Keywords, audience, languages
-    obj.keywords = _.map(keywords, (item) => ({value: item['@id'], label: (getStringWithLocale(item, 'name') || item['id'])}))
+    obj.keywords = map(keywords, (item) => ({value: item['@id'], label: (getStringWithLocale(item, 'name') || item['id'])}))
 
     // Filter somehow the hel_main keyword values from keywords
-    // obj.keywords = _.filter(obj.keywords, (item) => {
+    // obj.keywords = filter(obj.keywords, (item) => {
     //     console.log(obj.hel_main.indexOf(item.value) === -1)
     //     return (obj.hel_main.indexOf(item.value) === -1)
     // });
 
     if(values.audience) {
-        obj.audience = _.map(values.audience, item => item['@id'])
+        obj.audience = map(values.audience, item => item['@id'])
     }
 
     if(values.in_language) {
-        obj.in_language = _.map(values.in_language, lang => lang['@id'])
+        obj.in_language = map(values.in_language, lang => lang['@id'])
     }
 
     // External links
     if(values.external_links) {
         let externalLinkFields = ['extlink_facebook', 'extlink_twitter', 'extlink_instagram']
         externalLinkFields.forEach(item => {
-            let extlink = _.findWhere(values.external_links, {name: item})
+            let extlink = find(values.external_links, {name: item})
             if(extlink) {
                 obj[item] = extlink.link
             }

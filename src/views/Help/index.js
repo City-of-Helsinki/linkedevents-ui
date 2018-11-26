@@ -10,8 +10,8 @@ const Help = () => {
                 <ul>
                     <li>Tapahtumatiedot näkyvät useissa eri sovelluksissa – myös muissa kuin kaupungin omissa.</li>
                     <li>Tapahtumia saa syöttää kaupungin luvalla. Niiden ei tarvitse olla kaupungin järjestämiä.</li> 
-                    <li>Tapahtumalle voi antaa useita päivämääriä. Tapahtumia voi myös kopioida.</li>
-                    
+                    <li>Tapahtumalle voi antaa useita päivämääriä. Tapahtumasarjalle luodaan automaattisesti ylätapahtuma.</li>
+                    <li>Tapahtumia voi myös kopioida, perua ja poistaa.</li>
                     <li>Huolella syötetyt tiedot helpottavat tapahtuman löytämistä:</li>
                     <ul>
                         <li>Eri yhteyksissä ymmärrettävät otsikko, lyhyt kuvaus ja kuvaus.</li>
