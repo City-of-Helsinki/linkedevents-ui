@@ -4,55 +4,23 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import './HelDatePicker.scss'
 
-import {connect} from 'react-redux'
-import {setData} from 'src/actions/editor.js'
-
-import moment from 'moment'
-
 class HelDatePicker extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            date: this.props.defaultValue,
-        }
-
-        this.handleChange = this.handleChange.bind(this)
-        this.handleBlur = this.handleBlur.bind(this)
-        
-    }
-    
-    componentDidMount() {
-        this.props.onChange('date', this.state.date)
-    }
-
-    handleChange(date) {
-        // the component should empty when desired
-        this.setState({
-            date: date,
-        })
+    handleChange = (date) => {
         this.props.onChange('date', date)
     }
 
-    handleBlur() {
+    handleBlur = () => {
         if(typeof this.props.onBlur === 'function') {
             this.props.onBlur()
         }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
-        if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
-            // Bootstrap or React textarea has a bug where null value gets interpreted
-            // as uncontrolled, so no updates are done
-            this.setState({date: nextProps.defaultValue ? nextProps.defaultValue : ''})
-            //}
-        }
-    }
     render() {
         return (
             <div className='hel-text-field'>
                 <DatePicker
                     placeholderText={this.props.placeholder}
-                    selected={this.state.date}
+                    selected={this.props.defaultValue}
                     autoOk={true}
                     name={this.props.name}
                     onChange={this.handleChange}
@@ -73,6 +41,4 @@ HelDatePicker.propTypes = {
     placeholder: PropTypes.string,
 }
 
-export default connect((state) => ({
-    editor: state.editor,
-}))(HelDatePicker)
+export default HelDatePicker
