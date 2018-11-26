@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import {map, filter, keys} from 'lodash'
 import API from 'src/api'
 
 // TODO: configure somewhere properly.
@@ -7,7 +7,7 @@ const SKIP_FIELDS = new Set(['location', 'keywords', 'audience', 'languages']);
 // Enumerate all the property names
 // of an object recursively.
 function* propertyNames(obj, parent) {
-    for (let name of _.keys(obj)) {
+    for (let name of keys(obj)) {
         let val = obj[name];
         if (val instanceof Object && !SKIP_FIELDS.has(name)) {
             yield* propertyNames(val);
@@ -24,7 +24,7 @@ export default function getContentLanguages(event) {
     if (!event) {
         return [];
     }
-    const orderedLanguages = _.map(API.eventInfoLanguages(), l => l.value);
+    const orderedLanguages = map(API.eventInfoLanguages(), l => l.value);
     const languages = new Set(orderedLanguages);
     let foundLanguages = new Set();
     for (let name of propertyNames(event)) {
@@ -35,5 +35,5 @@ export default function getContentLanguages(event) {
             foundLanguages.add(name);
         }
     }
-    return _.filter(orderedLanguages, l => foundLanguages.has(l));
+    return filter(orderedLanguages, l => foundLanguages.has(l));
 }

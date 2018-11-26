@@ -9,7 +9,7 @@ import {Checkbox} from 'react-bootstrap'
 import {connect} from 'react-redux'
 import {setLanguages as setLanguageAction} from 'src/actions/editor.js'
 
-import _ from 'lodash'
+import {map} from 'lodash'
 
 class HelLanguageSelect extends React.Component {
 
@@ -29,7 +29,7 @@ class HelLanguageSelect extends React.Component {
             return ac
         }, [])
 
-        let checkedNames = _.map(checked, (checkbox) => (checkbox.name) )
+        let checkedNames = map(checked, (checkbox) => (checkbox.name) )
         this.props.setLanguages(checkedNames)
 
         if(typeof this.props.onChange === 'function') {
