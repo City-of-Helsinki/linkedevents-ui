@@ -1,6 +1,5 @@
 import {Passport} from 'passport'
 import HelsinkiStrategy from 'passport-helsinki'
-import merge from 'lodash/object/merge'
 import _debug from 'debug'
 
 const debug = _debug('auth')
