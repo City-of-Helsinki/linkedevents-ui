@@ -22,7 +22,7 @@ install:
 
 script:
   - yarn run lint
-  - yarn run test
+  - yarn run test:ci
   - yarn run build
 
 after_success:
