@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch'
-import {login, logout} from 'src/actions/user.js'
+import {login, logout} from '../actions/user'
 
 export default function(url, settings, user, dispatch) {
 

@@ -4,7 +4,7 @@ import moment from 'moment'
 import 'moment-timezone'
 
 import {getStringWithLocale} from './locale'
-import {mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
+import {mapLanguagesSetToForm} from './apiDataMapping'
 
 export {
     mapUIDataToAPIFormat,

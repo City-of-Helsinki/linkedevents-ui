@@ -3,7 +3,7 @@ import fetch from 'isomorphic-fetch'
 import {receiveEvents} from './events'
 import constants from '../constants'
 
-import authedFetch from 'src/utils/authedFetch'
+import authedFetch from '../utils/authedFetch'
 
 import {setFlashMsg} from './app'
 

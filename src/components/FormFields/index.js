@@ -5,7 +5,7 @@ import React from 'react'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 import CopyToClipboard from 'react-copy-to-clipboard'
 
-import ImagePicker from 'src/components/ImagePicker'
+import ImagePickerForm from '../ImagePicker'
 import {
     HelAutoComplete,
     MultiLanguageField,
@@ -25,14 +25,14 @@ import {Button} from 'material-ui'
 import Add from 'material-ui-icons/Add'
 import Autorenew from 'material-ui-icons/Autorenew'
 
-import {mapKeywordSetToForm, mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
+import {mapKeywordSetToForm, mapLanguagesSetToForm} from '../../utils/apiDataMapping'
 import {connect} from 'react-redux'
 
-import {setEventData} from 'src/actions/editor.js'
+import {setEventData} from '../../actions/editor'
 
 import moment from 'moment'
 
-import API from 'src/api.js'
+import API from '../../api'
 
 import CONSTANTS from '../../constants'
 
@@ -261,7 +261,7 @@ class FormFields extends React.Component {
                     </div>
                     <SideField>
                         <label><FormattedMessage id="event-image"/></label>
-                        <ImagePicker label="image-preview" name="image" />
+                        <ImagePickerForm label="image-preview" name="image" />
                     </SideField>
                 </div>
 

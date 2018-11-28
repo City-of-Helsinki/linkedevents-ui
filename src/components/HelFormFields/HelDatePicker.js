@@ -5,7 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import './HelDatePicker.scss'
 
 import {connect} from 'react-redux'
-import {setData} from 'src/actions/editor.js'
+import {setData} from '../../actions/editor'
 
 import moment from 'moment'
 

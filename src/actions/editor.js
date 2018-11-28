@@ -3,7 +3,7 @@ import moment from 'moment';
 import {includes} from 'lodash';
 
 import constants from '../constants'
-import {mapUIDataToAPIFormat} from 'src/utils/formDataMapping.js'
+import {mapUIDataToAPIFormat} from '../utils/formDataMapping'
 
 import {push} from 'react-router-redux'
 import {setFlashMsg, confirmAction} from './app'
