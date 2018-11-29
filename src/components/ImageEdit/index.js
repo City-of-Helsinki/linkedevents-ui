@@ -13,7 +13,6 @@ import HelTextField from '../HelFormFields/HelTextField'
 import CONSTANTS from '../../constants' 
 import {postImage as postImageAction} from 'src/actions/userImages'
 
-
 class ImageEdit extends React.Component {
 
     constructor(props) {

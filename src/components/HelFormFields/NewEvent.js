@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react'
-import HelDateTimeField from 'src/components/HelFormFields/HelDateTimeField.js'
+import HelDateTimeField from '../HelFormFields/HelDateTimeField'
 import './NewEvent.scss'
 import {Button} from 'material-ui'
 import {connect} from 'react-redux'

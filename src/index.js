@@ -23,7 +23,7 @@ import Search from './views/Search'
 import Help from './views/Help'
 import Event from './views/Event'
 import EventCreated from './views/EventCreated'
-import EventListing from './views/EventListing'
+import EventListingPage from './views/EventListing'
 
 // Actors
 import Validator from './actors/validator'
@@ -66,7 +66,7 @@ ReactDOM.render(
         <IntlProviderWrapper>
             <ConnectedRouter history={history}>
                 <LayoutContainer>
-                    <Route exact path="/" component={EventListing}/>
+                    <Route exact path="/" component={EventListingPage}/>
                     <Route exact path="/event/:eventId" component={Event}/>
                     <Route exact path="/event/:action/:eventId" component={Editor}/>
                     <Route exact path="/event/done/:action/:eventId" component={EventCreated}/>

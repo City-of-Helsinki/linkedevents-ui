@@ -4,12 +4,12 @@ import React from 'react'
 import {FormControl, ControlLabel} from 'react-bootstrap'
 import Select from 'react-select'
 
-import Typeahead from 'src/typeahead.js'
+import Typeahead from '../../typeahead'
 
 import {connect} from 'react-redux'
-import {setData} from 'src/actions/editor.js'
+import {setData} from '../../actions/editor'
 
-import ValidationPopover from 'src/components/ValidationPopover'
+import ValidationPopover from '../ValidationPopover'
 
 class HelAutoComplete extends React.Component {
 

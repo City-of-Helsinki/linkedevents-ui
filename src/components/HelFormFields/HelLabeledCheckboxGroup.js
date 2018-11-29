@@ -6,9 +6,9 @@ import {Checkbox} from 'react-bootstrap'
 import {map, isEqual} from 'lodash'
 
 import {connect} from 'react-redux'
-import {setData} from 'src/actions/editor.js'
+import {setData} from '../../actions/editor'
 
-import ValidationPopover from 'src/components/ValidationPopover'
+import ValidationPopover from '../ValidationPopover'
 
 // NOTE: Not using ES6 classes because of the needed mixins
 class HelLabeledCheckboxGroup extends React.Component {

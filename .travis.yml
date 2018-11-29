@@ -21,6 +21,8 @@ install:
   - yarn
 
 script:
+  - yarn run lint
+  - yarn run test:ci
   - yarn run build
 
 after_success:

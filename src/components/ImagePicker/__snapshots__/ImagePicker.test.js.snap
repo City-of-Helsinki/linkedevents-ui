@@ -1,0 +1,245 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Image add form ImagePicker component should render correctly with data 1`] = `
+<div
+  className="image-picker"
+>
+  <div>
+    <div
+      className="img-preview"
+      onClick={[Function]}
+      style={
+        Object {
+          "backgroundImage": "url()",
+        }
+      }
+    />
+    <div>
+      <i
+        className="material-icons"
+      >
+        
+      </i>
+    </div>
+    <label>
+      <span>
+        Lisää tapahtumalle kuva tai valitse kuvapankista
+      </span>
+    </label>
+  </div>
+</div>
+`;
+
+exports[`Image add form ImagePicker component should render view by default 1`] = `
+<div
+  className="image-picker"
+>
+  <div>
+    <div
+      className="img-preview"
+      onClick={[Function]}
+      style={
+        Object {
+          "backgroundImage": "url()",
+        }
+      }
+    />
+    <div>
+      <i
+        className="material-icons"
+      >
+        
+      </i>
+    </div>
+    <label>
+      <FormattedMessage
+        id="choose-image"
+        values={Object {}}
+      />
+    </label>
+  </div>
+  <Modal
+    animation={true}
+    aria-labelledby="ModalHeader"
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    id="image-modal"
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[Function]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={false}
+    width="600px"
+  >
+    <ModalHeader
+      bsClass="modal-header"
+      closeButton={false}
+      closeLabel="Close"
+    >
+      <WithStyles(Button)
+        color="primary"
+        onClick={[Function]}
+        raised={true}
+        style={
+          Object {
+            "float": "right",
+            "height": "36px",
+            "lineHeight": "1.5",
+          }
+        }
+      >
+        <FormattedMessage
+          id="ready"
+          values={Object {}}
+        />
+      </WithStyles(Button)>
+      <ModalTitle
+        bsClass="modal-title"
+        componentClass="h4"
+        id="ModalHeader"
+      >
+        <FormattedMessage
+          id="new-image"
+          values={Object {}}
+        />
+      </ModalTitle>
+      <br />
+      <input
+        onChange={[Function]}
+        style={
+          Object {
+            "display": "none",
+          }
+        }
+        type="file"
+      />
+      <WithStyles(Button)
+        color="primary"
+        onClick={[Function]}
+        raised={true}
+        style={
+          Object {
+            "height": "36px",
+            "lineHeight": "1.5",
+            "margin": "0 0 15px 0",
+          }
+        }
+      >
+        <FormattedMessage
+          id="upload-image"
+          values={Object {}}
+        />
+      </WithStyles(Button)>
+      <br />
+      <FormattedMessage
+        id="use-external-image-url"
+        values={Object {}}
+      />
+      <br />
+      <input
+        id="externalImageURL"
+        onSubmit={[Function]}
+        placeholder="URL"
+      />
+      <WithStyles(Button)
+        onClick={[Function]}
+        raised={true}
+        style={
+          Object {
+            "height": "36px",
+            "lineHeight": "1.5",
+            "margin": "0 0 0 10px",
+          }
+        }
+      >
+        OK
+      </WithStyles(Button)>
+    </ModalHeader>
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <ModalTitle
+        bsClass="modal-title"
+        componentClass="h4"
+        id="ModalBodyTitle"
+      >
+        <FormattedMessage
+          id="use-existing-image"
+          values={Object {}}
+        />
+      </ModalTitle>
+      <Connect(ImageGalleryGrid)
+        editor={
+          Object {
+            "values": Object {},
+          }
+        }
+        images={Object {}}
+        user={Object {}}
+      />
+      <div
+        style={
+          Object {
+            "clear": "both",
+          }
+        }
+      />
+    </ModalBody>
+    <ModalFooter
+      bsClass="modal-footer"
+      componentClass="div"
+    >
+      <WithStyles(Button)
+        disabled={true}
+        onClick={[Function]}
+        primary="false"
+        raised={true}
+        style={
+          Object {
+            "height": "36px",
+            "lineHeight": "1.5",
+            "margin": "0 10px 0 0",
+          }
+        }
+      >
+        <FormattedMessage
+          id="delete"
+          values={Object {}}
+        />
+      </WithStyles(Button)>
+      <WithStyles(Button)
+        color="primary"
+        onClick={[Function]}
+        raised={true}
+        style={
+          Object {
+            "height": "36px",
+            "lineHeight": "1.5",
+          }
+        }
+      >
+        <FormattedMessage
+          id="ready"
+          values={Object {}}
+        />
+      </WithStyles(Button)>
+    </ModalFooter>
+  </Modal>
+</div>
+`;

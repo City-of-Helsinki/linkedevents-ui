@@ -23,7 +23,7 @@ import HelpOutline from 'material-ui-icons/HelpOutline'
 import {Link} from 'react-router-dom'
 import CONSTANTS from '../../constants'
 
-import cityOfHelsinkiLogo from 'src/assets/images/helsinki-coat-of-arms-white.png'
+import cityOfHelsinkiLogo from '../../assets/images/helsinki-coat-of-arms-white.png'
 
 class HeaderBar extends React.Component {
 

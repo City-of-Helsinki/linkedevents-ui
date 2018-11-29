@@ -10,10 +10,10 @@ import {Table, TableHead, TableBody, TableFooter, TableRow, TableCell, TableSort
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles'
 import {FormattedMessage, FormattedTime, FormattedDate, FormattedRelative} from 'react-intl';
 
-import SearchBar from 'src/components/SearchBar'
-import {fetchEvents} from 'src/actions/events.js'
-import {setUserEventsSortOrder, fetchUserEvents} from 'src/actions/userEvents.js'
-import constants from 'src/constants'
+import SearchBar from '../SearchBar'
+import {fetchEvents} from '../../actions/events'
+import {setUserEventsSortOrder, fetchUserEvents} from '../../actions/userEvents'
+import constants from '../../constants'
 
 class FilterableEventTable extends React.Component {
     static contextTypes = {
@@ -100,12 +100,12 @@ class FilterableEventTable extends React.Component {
         let EventTable = (props) => {
 
             let rows = props.events.map(function(event) {
-                return (<EventRow event={event} key={event.id} />)
+                return (<EventRow event={event} key={event['@id']} />)
             })
             let rowsPerPage = 100
             let rowsCount = props.count
             let paginationPage = props.paginationPage
-
+            
             return (
                 <Table className="event-table">
                     <TableHead>
@@ -129,7 +129,7 @@ class FilterableEventTable extends React.Component {
                         <TableFooter>
                             <TableRow>
                                 <TablePagination
-                                    count={rowsCount}
+                                    count={rowsCount !== null ? rowsCount : 0}
                                     rowsPerPage={rowsPerPage}
                                     rowsPerPageOptions = {[]}
                                     page={paginationPage}
