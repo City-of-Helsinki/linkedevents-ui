@@ -1,7 +1,8 @@
 import CONSTANTS from '../constants'
 import validationFn from './validationRules'
 import {getCharacterLimitByRule} from '../utils/helpers'
-import {each, remove, pickBy} from 'lodash'
+import {each, remove, pickBy, isEmpty} from 'lodash'
+import moment from 'moment'
 
 const {
     VALIDATION_RULES,
@@ -28,7 +29,7 @@ const publicValidations = {
     name: [VALIDATION_RULES.REQUIRE_MULTI, VALIDATION_RULES.REQUIRED_IN_CONTENT_LANGUAGE],
     location: [VALIDATION_RULES.REQUIRE_AT_ID],
     hel_main: [VALIDATION_RULES.AT_LEAST_ONE],
-    start_time: [VALIDATION_RULES.REQUIRED_STRING], // Datetime is saved as ISO string
+    start_time: [VALIDATION_RULES.REQUIRED_STRING, VALIDATION_RULES.DEFAULT_END_IN_FUTURE], // Datetime is saved as ISO string
     end_time: [VALIDATION_RULES.AFTER_START_TIME, VALIDATION_RULES.IN_THE_FUTURE],
     price: [VALIDATION_RULES.HAS_PRICE],
     short_description: [VALIDATION_RULES.REQUIRE_MULTI, VALIDATION_RULES.REQUIRED_IN_CONTENT_LANGUAGE, VALIDATION_RULES.SHORT_STRING],
@@ -37,6 +38,10 @@ const publicValidations = {
     extlink_facebook: [VALIDATION_RULES.IS_URL],
     extlink_twitter: [VALIDATION_RULES.IS_URL],
     extlink_instagram: [VALIDATION_RULES.IS_URL],
+    sub_events: {
+        start_time: [VALIDATION_RULES.REQUIRED_STRING, VALIDATION_RULES.DEFAULT_END_IN_FUTURE],
+        end_time: [VALIDATION_RULES.AFTER_START_TIME, VALIDATION_RULES.IN_THE_FUTURE],
+    },
 }
 
 /**
@@ -69,12 +74,19 @@ function runValidationWithSettings(values, languages, settings) {
 
     each(settings, (validations, key) => {
         // Returns an array of validation errors (array of nulls if validation passed)
-        let errors = validations.map(validation => {
-            if (key === 'offer_description' || key === 'price' || key === 'info_url') {
-                return validateCollection(valuesWithLanguages, key, validation, 'offers')
-            }
-            return validationFn[validation](valuesWithLanguages, values[key]) ? null : validation
-        })
+        let errors = []
+
+        // validate sub events
+        if (key === 'sub_events') {
+            each(values['sub_events'], (subEvent) => {
+                const subEventError = runValidationWithSettings(subEvent, languages, settings.sub_events)
+                errors.push(
+                    isEmpty(subEventError) ? null : subEventError
+                )
+            })
+        } else {
+            errors = validateEventObject(validations, valuesWithLanguages, key)
+        }
 
         // Remove nulls
         remove(errors, i => i === null)
@@ -83,6 +95,15 @@ function runValidationWithSettings(values, languages, settings) {
     })
     obj = pickBy(obj, validationErrors => validationErrors.length > 0)
     return obj
+}
+
+const validateEventObject = (validations, values, key) => {
+    return validations.map(validation => {
+        if (key === 'offer_description' || key === 'price' || key === 'info_url') {
+            return validateCollection(values, key, validation, 'offers')
+        }
+        return validationFn[validation](values, values[key]) ? null : validation
+    })
 }
 
 function validateCollection(values, key, validationRule, type) {

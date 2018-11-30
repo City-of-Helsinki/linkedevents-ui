@@ -1,9 +1,13 @@
 import fetch from 'isomorphic-fetch'
 import moment from 'moment';
-import {includes} from 'lodash';
+import {includes, keys} from 'lodash';
 
 import constants from '../constants'
-import {mapUIDataToAPIFormat} from '../utils/formDataMapping'
+import {
+    mapUIDataToAPIFormat,
+    calculateSuperEventTime,
+    combineSubEventsFromEditor,
+} from '../utils/formDataMapping'
 
 import {push} from 'react-router-redux'
 import {setFlashMsg, confirmAction} from './app'
@@ -149,13 +153,13 @@ const prepareFormValues = (formValues, contentLanguages, user, updateExisting, p
     dispatch({type: constants.EDITOR_SENDDATA})
     let recurring = false;
     if(formValues.sub_events) {
-        recurring = _.keys(formValues.sub_events).length > 0
+        recurring = keys(formValues.sub_events).length > 0
     }
     // Run validations
     let validationErrors = doValidations(formValues, contentLanguages, publicationStatus)
 
     // There are validation errors, don't continue sending
-    if (_.keys(validationErrors).length > 0) {
+    if (keys(validationErrors).length > 0) {
         return dispatch(setValidationErrors(validationErrors))
     }
 
@@ -200,19 +204,25 @@ const prepareFormValues = (formValues, contentLanguages, user, updateExisting, p
     }
 
     let data = Object.assign({}, formValues, multiLanguageValues, {publication_status: publicationStatus, description: descriptionTexts})
+    
+    // specific processing for event with multiple dates
     if (recurring) {
+        data = combineSubEventsFromEditor(data)
+        // calculate the super event's start_time and end_time based on its sub events
+        const superEventTime = calculateSuperEventTime(data.sub_events)
         data = Object.assign({}, data, {
             super_event_type: 'recurring',
-            sub_events: {'0': {start_time: data.start_time, end_time: data.end_time}, ...data.sub_events},
+            ...superEventTime,
         })
     }
+
     return mapUIDataToAPIFormat(data)
 }
 
 const executeSendRequest = (formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch) => {
     // check publication to decide whether allow the request to happen
     publicationStatus = publicationStatus || formValues.publication_status
- 
+
     if(!publicationStatus) {
         return
     }
@@ -250,6 +260,7 @@ const executeSendRequest = (formValues, contentLanguages, user, updateExisting, 
     if(user) {
         token = user.token
     }
+
     dispatch(validateFor(publicationStatus))
     return fetch(url, {
         method: updateExisting ? 'PUT' : 'POST',
@@ -277,8 +288,12 @@ const executeSendRequest = (formValues, contentLanguages, user, updateExisting, 
             }
 
             if(response.status === 200 || response.status === 201) {
+                // create sub events after creaing super event successfully
                 if (json.super_event_type === 'recurring') {
-                    dispatch(sendRecurringData(formValues, contentLanguages, user, updateExisting, publicationStatus, json['@id']))
+                    const formWithAllSubEvents = combineSubEventsFromEditor(formValues)
+                    dispatch(
+                        sendRecurringData(formWithAllSubEvents, contentLanguages, user, updateExisting, publicationStatus, json['@id'])
+                    )
                 } else {
                     dispatch(sendDataComplete(json, actionName))
                 }
@@ -352,7 +367,6 @@ export function sendRecurringData(formValues, contentLanguages, user, updateExis
             }
         }
         if(newValues.length > 0) {
-            // dispatch(sendData(newValues, contentLanguages, user, updateExisting = false, publicationStatus))
             executeSendRequest(newValues, contentLanguages, user, updateExisting = false, publicationStatus, dispatch)
         }
     }
