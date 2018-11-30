@@ -1,9 +1,13 @@
 import fetch from 'isomorphic-fetch'
 import moment from 'moment';
-import {includes} from 'lodash';
+import {includes, keys} from 'lodash';
 
 import constants from '../constants'
-import {mapUIDataToAPIFormat} from '../utils/formDataMapping'
+import {
+    mapUIDataToAPIFormat,
+    calculateSuperEventTime,
+    combineSubEventsFromEditor,
+} from '../utils/formDataMapping'
 
 import {push} from 'react-router-redux'
 import {setFlashMsg, confirmAction} from './app'
@@ -145,179 +149,188 @@ export function validateFor(publicationStatus) {
 
 const multiLanguageFields = ['name', 'description', 'short_description', 'provider', 'location_extra_info']
 
-export function sendData(formValues, contentLanguages, user, updateExisting = false, publicationStatus) {
-    const prepareFormValues = (formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch) => {
-        dispatch({type: constants.EDITOR_SENDDATA})
-        let recurring = false;
-        if(formValues.sub_events) {
-            recurring = _.keys(formValues.sub_events).length > 0
-        }
-        // Run validations
-        let validationErrors = doValidations(formValues, contentLanguages, publicationStatus)
+const prepareFormValues = (formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch) => {
+    dispatch({type: constants.EDITOR_SENDDATA})
+    let recurring = false;
+    if(formValues.sub_events) {
+        recurring = keys(formValues.sub_events).length > 0
+    }
+    // Run validations
+    let validationErrors = doValidations(formValues, contentLanguages, publicationStatus)
 
-        // There are validation errors, don't continue sending
-        if (_.keys(validationErrors).length > 0) {
-            return dispatch(setValidationErrors(validationErrors))
-        }
-
-        const multiLanguageValues = {}
-        // Language fields not included in contentLanguages should not be posted, they aren't validated anyway
-        for (var field of multiLanguageFields) {
-            for (const lang in formValues[field]) {
-                if (!(field in multiLanguageValues)) {
-                    multiLanguageValues[field] = {}
-                }
-                if (contentLanguages.includes(lang)) {
-                    multiLanguageValues[field][lang] = formValues[field][lang]
-                } else {
-                    // Null is needed here to overwrite any existing strings in the backend
-                    multiLanguageValues[field][lang] = null
-                }
-            }
-        }
-
-        // Format descriptions to HTML
-        const descriptionTexts = formValues.description
-        for (const lang in formValues.description) {
-            if (formValues.description[lang]) {
-                const desc = formValues.description[lang].replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br/>').replace(/&/g, '&amp;')
-                if (desc.indexOf('<p>') === 0 && desc.substr(desc.length - 4) === '</p>') {
-                    descriptionTexts[lang] = desc
-                } else {
-                    descriptionTexts[lang] = `<p>${desc}</p>`
-                }
-            }
-        }
-        // Check for 'palvelukeskuskortti' in audience
-        if (formValues.audience && includes(formValues.audience, `${appSettings.api_base}/keyword/helsinki:aflfbat76e/`)) {
-            const specialDescription = '<p>Tapahtuma on tarkoitettu vain eläkeläisille ja työttömille, joilla on <a href="https://www.hel.fi/sote/fi/palvelut/palvelukuvaus?id=3252" target="_blank">palvelukeskuskortti</a>.</p>'
-            if (formValues.description && formValues.description.fi && descriptionTexts.fi) {
-                if (!includes(formValues.description.fi, 'https://www.hel.fi/sote/fi/palvelut/palvelukuvaus?id=3252')) { // Don't repeat insertion
-                    descriptionTexts.fi = specialDescription + formValues.description.fi
-                }
-            } else {
-                descriptionTexts.fi = specialDescription
-            }
-        }
-
-        let data = Object.assign({}, formValues, multiLanguageValues, {publication_status: publicationStatus, description: descriptionTexts})
-        if (recurring) {
-            const subEvents = data.sub_events
-            let endDates = [];
-            for(const key in subEvents) {
-                if(subEvents.hasOwnProperty(key)) {
-                    endDates.push(moment(subEvents[key].end_time))
-                }
-            }
-            let newSubEvents = Object.assign({}, {[0]: {start_time: data.start_time, end_time: data.end_time}});
-            for(const key in subEvents) {
-                if(subEvents.hasOwnProperty(key)) {
-                    newSubEvents = Object.assign({}, newSubEvents, {[key + 1]: subEvents[key]});
-                }
-            }
-            data.end_time = moment.tz(moment.max(endDates), 'Europe/Helsinki').utc().toISOString();
-            formValues.sub_events = newSubEvents
-            data = Object.assign({}, data, {super_event_type: 'recurring'})
-        }
-        return mapUIDataToAPIFormat(data)
+    // There are validation errors, don't continue sending
+    if (keys(validationErrors).length > 0) {
+        return dispatch(setValidationErrors(validationErrors))
     }
 
-    return (dispatch) => {
-        publicationStatus = publicationStatus || formValues.publication_status
+    const multiLanguageValues = {}
+    // Language fields not included in contentLanguages should not be posted, they aren't validated anyway
+    for (var field of multiLanguageFields) {
+        for (const lang in formValues[field]) {
+            if (!(field in multiLanguageValues)) {
+                multiLanguageValues[field] = {}
+            }
+            if (contentLanguages.includes(lang)) {
+                multiLanguageValues[field][lang] = formValues[field][lang]
+            } else {
+                // Null is needed here to overwrite any existing strings in the backend
+                multiLanguageValues[field][lang] = null
+            }
+        }
+    }
 
-        if(!publicationStatus) {
+    // Format descriptions to HTML
+    const descriptionTexts = formValues.description
+    for (const lang in formValues.description) {
+        if (formValues.description[lang]) {
+            const desc = formValues.description[lang].replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br/>').replace(/&/g, '&amp;')
+            if (desc.indexOf('<p>') === 0 && desc.substr(desc.length - 4) === '</p>') {
+                descriptionTexts[lang] = desc
+            } else {
+                descriptionTexts[lang] = `<p>${desc}</p>`
+            }
+        }
+    }
+    // Check for 'palvelukeskuskortti' in audience
+    if (formValues.audience && includes(formValues.audience, `${appSettings.api_base}/keyword/helsinki:aflfbat76e/`)) {
+        const specialDescription = '<p>Tapahtuma on tarkoitettu vain eläkeläisille ja työttömille, joilla on <a href="https://www.hel.fi/sote/fi/palvelut/palvelukuvaus?id=3252" target="_blank">palvelukeskuskortti</a>.</p>'
+        if (formValues.description && formValues.description.fi && descriptionTexts.fi) {
+            if (!includes(formValues.description.fi, 'https://www.hel.fi/sote/fi/palvelut/palvelukuvaus?id=3252')) { // Don't repeat insertion
+                descriptionTexts.fi = specialDescription + formValues.description.fi
+            }
+        } else {
+            descriptionTexts.fi = specialDescription
+        }
+    }
+
+    let data = Object.assign({}, formValues, multiLanguageValues, {publication_status: publicationStatus, description: descriptionTexts})
+    
+    // specific processing for event with multiple dates
+    if (recurring) {
+        data = combineSubEventsFromEditor(data)
+        // calculate the super event's start_time and end_time based on its sub events
+        const superEventTime = calculateSuperEventTime(data.sub_events)
+        data = Object.assign({}, data, {
+            super_event_type: 'recurring',
+            ...superEventTime,
+        })
+    }
+
+    return mapUIDataToAPIFormat(data)
+}
+
+const executeSendRequest = (formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch) => {
+    // check publication to decide whether allow the request to happen
+    publicationStatus = publicationStatus || formValues.publication_status
+
+    if(!publicationStatus) {
+        return
+    }
+
+    // prepare the body of the request (event object/array)
+    let preparedFormValues
+    if(!Array.isArray(formValues)) {
+        preparedFormValues = {}
+        const newValues = prepareFormValues(formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch)
+        if(newValues !== undefined) {
+            preparedFormValues = newValues
+        } else {
             return
         }
-        let preparedFormValues
-        if(!Array.isArray(formValues)) {
-            preparedFormValues = {}
-            const newValues = prepareFormValues(formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch)
+    } else if(Array.isArray(formValues) && formValues.length > 0) {
+        preparedFormValues = []
+        formValues.map(formObject => {
+            const newValues = prepareFormValues(formObject, contentLanguages, user, updateExisting, publicationStatus, dispatch)
             if(newValues !== undefined) {
-                preparedFormValues = newValues
+                preparedFormValues.push(newValues)
             } else {
                 return
             }
-        } else if(Array.isArray(formValues) && formValues.length > 0) {
-            preparedFormValues = []
-            formValues.map(formObject => {
-                const newValues = prepareFormValues(formObject, contentLanguages, user, updateExisting, publicationStatus, dispatch)
-                if(newValues !== undefined) {
-                    preparedFormValues.push(newValues)
-                } else {
-                    return
-                }
-            })
-        }
-        let url = `${appSettings.api_base}/event/`
-        if(updateExisting) {
-            const updateId = formValues.id || formValues[0].id
-            url += `${updateId}/`
-        }
-
-        let token = ''
-        if(user) {
-            token = user.token
-        }
-        // Set publication status for editor values. This is used by the validation to determine
-        // which set of rules to use
-        dispatch(validateFor(publicationStatus))
-        return fetch(url, {
-            method: updateExisting ? 'PUT' : 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'JWT ' + token,
-            },
-            body: JSON.stringify(preparedFormValues),
-        }).then(response => {
-            //console.log('Received', response)
-            let jsonPromise = response.json()
-
-            jsonPromise.then(json => {
-                let actionName = updateExisting ? 'update' : 'create'
-                if(Array.isArray(json)) {
-                    json = json[0]
-                }
-                // The publication_status was changed to public. The event was published!
-                if(json.publication_status === constants.PUBLICATION_STATUS.PUBLIC && json.publication_status !== formValues.publication_status) {
-                    actionName = 'publish'
-                } else if ( json.publication_status === constants.PUBLICATION_STATUS.PUBLIC ) {
-                    actionName = 'savepublic'
-                } else if ( json.publication_status === constants.PUBLICATION_STATUS.DRAFT ) {
-                    actionName = 'savedraft'
-                }
-
-                if(response.status === 200 || response.status === 201) {
-                    if (json.super_event_type === 'recurring') {
-                        dispatch(sendRecurringData(formValues, contentLanguages, user, updateExisting, publicationStatus, json['@id']))
-                    } else {
-                        dispatch(sendDataComplete(json, actionName))
-                    }
-                }
-                // Validation errors
-                else if(response.status === 400) {
-                    json.apiErrorMsg = 'validation-error'
-                    json.response = response
-                    dispatch(sendDataComplete(json, actionName))
-                }
-
-                // Auth errors
-                else if(response.status === 401 || response.status === 403) {
-                    json.apiErrorMsg = 'authorization-required'
-                    json.response = response
-                    dispatch(sendDataComplete(json, actionName))
-                }
-
-                else {
-                    json.apiErrorMsg = 'server-error'
-                    json.response = response
-                    dispatch(sendDataComplete(json, actionName))
-                }
-            })
         })
-            .catch(e => {
-                // Error happened while fetching ajax (connection or javascript)
-            })
+    }
+
+    // prepare other needed information for request matedata
+    let url = `${appSettings.api_base}/event/`
+    if(updateExisting) {
+        const updateId = formValues.id || formValues[0].id
+        url += `${updateId}/`
+    }
+
+    let token = ''
+    if(user) {
+        token = user.token
+    }
+
+    dispatch(validateFor(publicationStatus))
+    return fetch(url, {
+        method: updateExisting ? 'PUT' : 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'JWT ' + token,
+        },
+        body: JSON.stringify(preparedFormValues),
+    }).then(response => {
+        let jsonPromise = response.json()
+
+        jsonPromise.then(json => {
+            let actionName = updateExisting ? 'update' : 'create'
+            if(Array.isArray(json)) {
+                json = json[0]
+            }
+            // The publication_status was changed to public. The event was published!
+            if(json.publication_status === constants.PUBLICATION_STATUS.PUBLIC && json.publication_status !== formValues.publication_status) {
+                actionName = 'publish'
+            } else if ( json.publication_status === constants.PUBLICATION_STATUS.PUBLIC ) {
+                actionName = 'savepublic'
+            } else if ( json.publication_status === constants.PUBLICATION_STATUS.DRAFT ) {
+                actionName = 'savedraft'
+            }
+
+            if(response.status === 200 || response.status === 201) {
+                // create sub events after creaing super event successfully
+                if (json.super_event_type === 'recurring') {
+                    const formWithAllSubEvents = combineSubEventsFromEditor(formValues)
+                    dispatch(
+                        sendRecurringData(formWithAllSubEvents, contentLanguages, user, updateExisting, publicationStatus, json['@id'])
+                    )
+                } else {
+                    dispatch(sendDataComplete(json, actionName))
+                }
+            }
+            // Validation errors
+            else if(response.status === 400) {
+                json.apiErrorMsg = 'validation-error'
+                json.response = response
+                dispatch(sendDataComplete(json, actionName))
+            }
+
+            // Auth errors
+            else if(response.status === 401 || response.status === 403) {
+                json.apiErrorMsg = 'authorization-required'
+                json.response = response
+                dispatch(sendDataComplete(json, actionName))
+            }
+
+            else {
+                json.apiErrorMsg = 'server-error'
+                json.response = response
+                dispatch(sendDataComplete(json, actionName))
+            }
+        })
+    })
+        .catch(e => {
+            // Error happened while fetching ajax (connection or javascript)
+        })
+}
+
+export function sendData(updateExisting = false, publicationStatus) {
+    return (dispatch, getState) => {
+        // get needed information from the state
+        const {values: formValues, contentLanguages} = getState().editor
+        const user = getState().user
+        // prepare and execute the request
+        executeSendRequest(formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch)
     }
 }
 
@@ -354,7 +367,7 @@ export function sendRecurringData(formValues, contentLanguages, user, updateExis
             }
         }
         if(newValues.length > 0) {
-            dispatch(sendData(newValues, contentLanguages, user, updateExisting = false, publicationStatus))
+            executeSendRequest(newValues, contentLanguages, user, updateExisting = false, publicationStatus, dispatch)
         }
     }
 }
