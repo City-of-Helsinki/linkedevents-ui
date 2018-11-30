@@ -43,7 +43,7 @@ const config = {
             {test: /\.(js|jsx)?$/, exclude: /node_modules/, loader: 'babel-loader'},
             {test: /\.scss$/, use: [{loader: 'style-loader'}, {loader: 'css-loader'}, {loader: 'sass-loader'}]},
             {test: /\.css$/, use: ['style-loader', 'css-loader']},
-            {test: /\.jade$/, loader: 'jade-loader'},
+            {test: /\.(jade|pug)?$/, loader: 'pug-loader'},
             {test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff'},
             {test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff'},
             {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=application/octet-stream'},

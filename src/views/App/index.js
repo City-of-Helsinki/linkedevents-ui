@@ -101,9 +101,9 @@ class App extends React.Component {
         var organization_missing_msg;
         if (this.props.user && !this.props.user.organization) {
             organization_missing_msg = <Well><h4>Tervetuloa käyttämään Linked Eventsiä, {this.props.user.displayName}!</h4>
-                <p>Sinulla ei ole vielä oikeutta hallinnoida yhdenkään viraston tapahtumia.
-                    Ota yhteyttä <a href="mailto:aleksi.salonen@hel.fi">Aleksi Saloseen</a> saadaksesi oikeudet muokata virastosi tapahtumia.</p>
-                <p>Jos olet jo saanut käyttöoikeudet, kirjautumisesi saattaa olla vanhentunut. Pahoittelemme, kokeile päivittää sivu (F5) ja kirjautua uudestaan.</p>
+                <p>Sinulla ei ole vielä oikeutta hallinnoida yhdenkään yksikön tapahtumia.
+                    Ota yhteyttä <a href="mailto:aleksi.salonen@hel.fi">Aleksi Saloseen</a> saadaksesi oikeudet muokata yksikkösi tapahtumia.</p>
+                <p>Jos olet jo saanut käyttöoikeudet, kirjautumisesi saattaa olla vanhentunut. Kokeile sivun päivittämistä (F5) ja kirjautumista uudestaan.</p>
             </Well>
         } else {
             organization_missing_msg = null;

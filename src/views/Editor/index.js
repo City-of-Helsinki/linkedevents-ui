@@ -12,27 +12,23 @@ import PropTypes from 'prop-types'
 import {Button} from 'material-ui'
 import Tooltip from 'material-ui/Tooltip'
 import Close from 'material-ui-icons/Close'
-import constants from 'src/constants.js'
 
-import {getStringWithLocale} from 'src/utils/locale'
+import {getStringWithLocale} from '../../utils/locale'
 
 import {
-    fetchEventForEditing as fetchEventForEditingAction, 
-    deleteEvent as deleteEventAction, 
-    cancelEvent as cancelEventAction, 
-    sendData as sendDataAction, 
-    clearData as clearDataAction, 
-    fetchKeywordSets as fetchKeywordSetsAction, 
-    fetchLanguages as fetchLanguagesAction, 
+    fetchEventForEditing as fetchEventForEditingAction,
+    deleteEvent as deleteEventAction,
+    cancelEvent as cancelEventAction,
+    sendData as sendDataAction,
+    clearData as clearDataAction,
+    fetchKeywordSets as fetchKeywordSetsAction,
+    fetchLanguages as fetchLanguagesAction,
     setValidationErrors as setValidationErrorsAction,
-} from 'src/actions/editor.js'
-
-import {
-    confirmAction, 
-    clearFlashMsg as clearFlashMsgAction} from 'src/actions/app.js'
-import {fetchSubEvents as fetchSubEventsAction} from 'src/actions/subEvents.js'
-
-import {checkEventEditability} from 'src/utils/checkEventEditability.js'
+} from '../../actions/editor'
+import {confirmAction, clearFlashMsg} from '../../actions/app'
+import {fetchSubEvents as fetchSubEventsAction} from '../../actions/subEvents'
+import constants from '../../constants'
+import {checkEventEditability} from '../../utils/checkEventEditability'
 
 // the backup doesn't support non-language links, so we use hardcoded
 // 'fi' instead for the link language
@@ -41,9 +37,9 @@ var EXT_LINK_NO_LANGUAGE = 'fi'
 // sentinel for authentication alert
 var sentinel = true;
 
-import FormFields from 'src/components/FormFields'
+import FormFields from '../../components/FormFields'
 
-class EditorPage extends React.Component {
+export class EditorPage extends React.Component {
     constructor(props) {
         super(props)
         
@@ -205,14 +201,14 @@ class EditorPage extends React.Component {
     }
 
     getWarningMarkup() {
-        let warningText = this.props.intl.formatMessage('editor-delete-warning') + '<br/>'
+        let warningText = this.props.intl.formatMessage({id: 'editor-delete-warning'}) + '<br/>'
         let subEventWarning = ''
         if (this.props.subEvents.items && this.props.subEvents.items.length) {
             const subEventNames = []
             for (const subEvent of this.props.subEvents.items) {
                 subEventNames.push(`</br><strong>${subEvent.name.fi}</strong> (${moment(subEvent.start_time).format('DD.MM.YYYY')})`)
             }
-            subEventWarning = `</br>${this.props.intl.formatMessage('editor-delete-subevents-warning')}</br>${subEventNames}`
+            subEventWarning = `</br>${this.props.intl.formatMessage({id: 'editor-delete-subevents-warning'})}</br>${subEventNames}`
         }
         return warningText + subEventWarning
     }

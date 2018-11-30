@@ -1,6 +1,8 @@
 import CONSTANTS from '../constants'
 import validationFn from './validationRules'
 import {getCharacterLimitByRule} from '../utils/helpers'
+import {each, remove, pickBy} from 'lodash'
+
 const {
     VALIDATION_RULES,
     PUBLICATION_STATUS,
@@ -77,8 +79,8 @@ function runValidationWithSettings(values, languages, settings) {
         _contentLanguages: languages,
     })
 
-    _.each(settings, (validations, key) => {
-    // Returns an array of validation errors (array of nulls if validation passed)
+    each(settings, (validations, key) => {
+        // Returns an array of validation errors (array of nulls if validation passed)
         let errors = validations.map(validation => {
             if (key === 'offer_description' || key === 'price' || key === 'info_url') {
                 return validateCollection(valuesWithLanguages, key, validation, 'offers')
@@ -87,13 +89,11 @@ function runValidationWithSettings(values, languages, settings) {
         })
 
         // Remove nulls
-        _.remove(errors, i => i === null)
+        remove(errors, i => i === null)
 
         obj[key] = errors
     })
-
-    obj = _.pick(obj, validationErrors => validationErrors.length > 0)
-
+    obj = pickBy(obj, validationErrors => validationErrors.length > 0)
     return obj
 }
 

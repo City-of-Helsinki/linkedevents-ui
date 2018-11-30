@@ -43,34 +43,36 @@ class HelDateTimeField extends React.Component {
     }
 
     onBlur(type, value) {
+        // validation must be run also even if date or time are emptied, to update event data accordingly
+        let date = this.state.date
+        if (date) {
+            // if date is missing, we don't want 'Invalid date' to be passed on
+            date = moment.tz(this.state.date, 'Europe/Helsinki').format('YYYY-MM-DD')
+        }
+        const time = this.state.time
+        let errors = [
+            this.getValidationErrors(CONSTANTS.VALIDATION_RULES.IS_TIME, time),
+            this.getValidationErrors(CONSTANTS.VALIDATION_RULES.IS_DATE, date),
+        ]
 
-        if(this.state.date && this.state.time) {
-            const date = moment.tz(this.state.date, 'Europe/Helsinki').format('YYYY-MM-DD')
-            const time = this.state.time
-            let errors = [
-                this.getValidationErrors(CONSTANTS.VALIDATION_RULES.IS_TIME, time),
-                this.getValidationErrors(CONSTANTS.VALIDATION_RULES.IS_DATE, date),
-            ]
+        // Filter out empty lists
+        let actualErrors = errors.filter(list => (list.length > 0))
+        let datetime = this.getDateTimeFromFields(date, time)
+        // If there are validation errors, empty datetime even if parsing succeeded
+        if (actualErrors.length !== 0) {
+            datetime = undefined
+        }
+        // Update event data even if datetime is undefined, to prevent unseen datetime staying lingering in event
+        let obj = {}
+        obj[this.props.name] = datetime
+        if(this.props.eventKey){
+            this.context.dispatch(updateSubEvent(datetime, this.props.name, this.props.eventKey))
+        } else {
+            this.context.dispatch(setData(obj))
+        }
 
-            // Filter out empty lists
-            let actualErrors = errors.filter(list => (list.length > 0))
-            // If no validation errors, format datetime
-            if(actualErrors.length === 0) {
-                let datetime = this.getDateTimeFromFields(date, time)
-                if(datetime) {
-                    let obj = {}
-                    obj[this.props.name] = datetime
-                    if(this.props.eventKey){
-                        this.context.dispatch(updateSubEvent(datetime, this.props.name, this.props.eventKey))
-                    } else {
-                        this.context.dispatch(setData(obj))
-                    }
-
-                    if (this.props.setDirtyState) {
-                        this.props.setDirtyState()
-                    }
-                }
-            }
+        if (this.props.setDirtyState) {
+            this.props.setDirtyState()
         }
     }
 
@@ -130,11 +132,10 @@ class HelDateTimeField extends React.Component {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
-        if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
-            if (moment(nextProps.defaultValue).isValid()) {
-                const value = this.parseValueFromString(nextProps.defaultValue)
-                this.setState({date: value.date, time: value.time})
-            }
+        const value = this.parseValueFromString(nextProps.defaultValue)
+        // the current state should be kept if parsing was not successful, as the user hasn't finished
+        if (value.date && value.time) {
+            this.setState({date: value.date, time: value.time})
         }
     }
 

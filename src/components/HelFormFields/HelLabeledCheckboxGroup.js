@@ -3,12 +3,12 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import {Checkbox} from 'react-bootstrap'
 
-import _ from 'lodash'
+import {map, isEqual} from 'lodash'
 
 import {connect} from 'react-redux'
-import {setData} from 'src/actions/editor.js'
+import {setData} from '../../actions/editor'
 
-import ValidationPopover from 'src/components/ValidationPopover'
+import ValidationPopover from '../ValidationPopover'
 
 // NOTE: Not using ES6 classes because of the needed mixins
 class HelLabeledCheckboxGroup extends React.Component {
@@ -28,7 +28,7 @@ class HelLabeledCheckboxGroup extends React.Component {
             return ac
         }, [])
 
-        let checkedNames = _.map(checked, (checkbox) => (checkbox.value) )
+        let checkedNames = map(checked, (checkbox) => (checkbox.value) )
 
         if(this.props.name) {
             let obj = {}
@@ -46,7 +46,7 @@ class HelLabeledCheckboxGroup extends React.Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        if(_.isEqual(nextProps.selectedValues, this.props.selectedValues)) {
+        if(isEqual(nextProps.selectedValues, this.props.selectedValues)) {
             //return false;
         }
 
