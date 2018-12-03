@@ -318,7 +318,10 @@ OptionGroup.propTypes = {
 }
 
 FormHeader.propTypes = {
-    children: PropTypes.string,
+    children: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object,
+    ]),
 }
 
 export default injectIntl(EventDetails)

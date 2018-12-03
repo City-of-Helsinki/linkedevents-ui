@@ -96,7 +96,7 @@ class EventCreated extends React.Component {
 EventCreated.propTypes = {
     match: PropTypes.object,
     setFlashMsg: PropTypes.func,
-    events: PropTypes.array,
+    events: PropTypes.object,
     routerPush: PropTypes.func,
 }
 
