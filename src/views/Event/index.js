@@ -6,7 +6,7 @@ import EventDetails from 'src/components/EventDetails'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 
-import {FormattedMessage} from 'react-intl'
+import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 
 import {Button} from 'material-ui'
 import Tooltip from 'material-ui/Tooltip'
@@ -83,8 +83,9 @@ class EventPage extends React.Component {
             'warning',
             'cancel-event',
             {
-                action: e => this.props.cancelEvent(this.props.match.params.eventId, this.props.user, this.props.editor.values),
+                action: e => this.props.cancelEvent(this.props.match.params.eventId, this.props.user, mapAPIDataToUIFormat(this.props.events.event)),
                 additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
+                additionalMarkup: this.getWarningMarkup(),
             }
         )
     }
@@ -101,6 +102,28 @@ class EventPage extends React.Component {
                 additionalMarkup: this.getWarningMarkup(),
             }
         )
+    }
+
+    deleteEvents() {
+        if (this.props.subEvents.items.length) {
+            for (const subEvent of this.props.subEvents.items) {
+                this.deleteSubEvent(subEvent.id, this.props.user)
+            }
+        }
+        return this.props.deleteEvent(this.props.match.params.eventId, this.props.user)
+    }
+
+    getWarningMarkup() {
+        let warningText = this.props.intl.formatMessage({id: 'editor-delete-warning'}) + '<br/>'
+        let subEventWarning = ''
+        if (this.props.subEvents.items && this.props.subEvents.items.length) {
+            const subEventNames = []
+            for (const subEvent of this.props.subEvents.items) {
+                subEventNames.push(`</br><strong>${subEvent.name.fi}</strong> (${moment(subEvent.start_time).format('DD.MM.YYYY')})`)
+            }
+            subEventWarning = `</br>${this.props.intl.formatMessage({id: 'editor-delete-subevents-warning'})}</br>${subEventNames}`
+        }
+        return warningText + subEventWarning
     }
 
     render() {
@@ -135,9 +158,6 @@ class EventPage extends React.Component {
             )
         }
 
-        const eventDeletabilityExplanation = 'You do not have rights to delete this event.';
-        const eventCancelabilityExplanation = 'You do not have rights to cancel this event.';
-
         const editEventButton = <Button raised onClick={e => this.editEvent(e)} disabled={!eventIsEditable} color="primary"><FormattedMessage id="edit-event"/></Button>
         const cancelEventButton = <Button raised disabled={!eventIsEditable} onClick={ (e) => this.confirmCancel(e) }><FormattedMessage id="cancel-event"/></Button>
         const deleteEventButton = <Button raised disabled={!eventIsEditable} onClick={ (e) => this.confirmDelete(e) }><FormattedMessage id="delete-event"/></Button>
@@ -155,12 +175,12 @@ class EventPage extends React.Component {
 
                         <div className="event-actions">
                             {eventIsEditable ? cancelEventButton :
-                                <Tooltip title={eventCancelabilityExplanation}>
+                                <Tooltip title={eventEditabilityExplanation}>
                                     <span>{cancelEventButton}</span>
                                 </Tooltip>
                             }
                             {eventIsEditable ? deleteEventButton :
-                                <Tooltip title={eventDeletabilityExplanation}>
+                                <Tooltip title={eventEditabilityExplanation}>
                                     <span>{deleteEventButton}</span>
                                 </Tooltip>
                             }
@@ -195,15 +215,19 @@ EventPage.propTypes = {
     fetchEventDetails: PropTypes.func,
     user: PropTypes.object,
     events: PropTypes.object,
+    subEvents: PropTypes.object,
     replaceData: PropTypes.func,
     routerPush: PropTypes.func,
     confirm: PropTypes.func,
     cancelEvent: PropTypes.func,
+    deleteEvent: PropTypes.func,
     editor: PropTypes.object,
+    intl: intlShape.isRequired,
 }
 
 const mapStateToProps = (state) => ({
     events: state.events,
+    subEvents: state.subEvents,
     routing: state.routing,
     user: state.user,
 })
@@ -217,4 +241,4 @@ const mapDispatchToProps = (dispatch) => ({
     cancelEvent: (eventId, user, values) => dispatch(cancelEventAction(eventId, user, values)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventPage)
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(EventPage))
