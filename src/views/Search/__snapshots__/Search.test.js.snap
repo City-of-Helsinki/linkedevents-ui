@@ -33,34 +33,32 @@ exports[`Search Snapshot should render view correctly 1`] = `
       <div
         className="hel-text-field"
       >
-        <div>
+        <div
+          className="react-datepicker-wrapper"
+        >
           <div
-            className="react-datepicker-wrapper"
+            className="react-datepicker__input-container"
           >
-            <div
-              className="react-datepicker__input-container"
-            >
-              <input
-                autoComplete={undefined}
-                autoFocus={undefined}
-                className=""
-                disabled={false}
-                id={undefined}
-                name="startDate"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onKeyDown={[Function]}
-                placeholder="pp.kk.vvvv"
-                readOnly={false}
-                required={undefined}
-                tabIndex={undefined}
-                title={undefined}
-                type="text"
-                value=""
-              />
-            </div>
+            <input
+              autoComplete={undefined}
+              autoFocus={undefined}
+              className=""
+              disabled={false}
+              id={undefined}
+              name="startDate"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              placeholder="pp.kk.vvvv"
+              readOnly={false}
+              required={undefined}
+              tabIndex={undefined}
+              title={undefined}
+              type="text"
+              value=""
+            />
           </div>
         </div>
       </div>
@@ -71,34 +69,32 @@ exports[`Search Snapshot should render view correctly 1`] = `
       <div
         className="hel-text-field"
       >
-        <div>
+        <div
+          className="react-datepicker-wrapper"
+        >
           <div
-            className="react-datepicker-wrapper"
+            className="react-datepicker__input-container"
           >
-            <div
-              className="react-datepicker__input-container"
-            >
-              <input
-                autoComplete={undefined}
-                autoFocus={undefined}
-                className=""
-                disabled={false}
-                id={undefined}
-                name="endDate"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onKeyDown={[Function]}
-                placeholder="pp.kk.vvvv"
-                readOnly={false}
-                required={undefined}
-                tabIndex={undefined}
-                title={undefined}
-                type="text"
-                value=""
-              />
-            </div>
+            <input
+              autoComplete={undefined}
+              autoFocus={undefined}
+              className=""
+              disabled={false}
+              id={undefined}
+              name="endDate"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              placeholder="pp.kk.vvvv"
+              readOnly={false}
+              required={undefined}
+              tabIndex={undefined}
+              title={undefined}
+              type="text"
+              value=""
+            />
           </div>
         </div>
       </div>
