@@ -1,3 +1,5 @@
+import {isArray} from 'lodash';
+
 import CONSTANTS from '../constants'
 
 const {VALIDATION_RULES, CHARACTER_LIMIT} = CONSTANTS
@@ -43,4 +45,26 @@ export function textLimitValidator(value, limit) {
         }
     }
     return true
+}
+
+// set a property of an object to empty value based on its type
+export const emptyField = (object, field) => {
+    let value = object[field];
+    const fieldValueType = isArray(value) ? 'array' : typeof value;
+    
+    switch (fieldValueType) {
+        case 'array':
+            value = []
+            break
+        case 'object':
+            value = {}
+            break
+        case 'string':
+        case 'number':
+            value = ''
+            break
+        default:
+    }
+
+    return Object.assign({}, object, {[field]: value})
 }

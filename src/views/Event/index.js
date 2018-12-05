@@ -43,7 +43,6 @@ class EventPage extends React.Component {
             let formData = mapAPIDataToUIFormat(event)
             formData.id = undefined
             delete formData.id
-
             replaceData(formData)
             routerPush(`/event/create/new`)
         }
@@ -235,7 +234,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     fetchEventDetails: (eventId, user) => dispatch(fetchEventDetailsAction(eventId, user)),
     routerPush: (url) => dispatch(push(url)),
-    replaceData: (formData) => dispatch(replaceDataAction(formData)),
+    replaceData: (formData, publication_status) => dispatch(replaceDataAction(formData, publication_status)),
     confirm: (msg, style, actionButtonLabel, data) => dispatch(confirmAction(msg, style, actionButtonLabel, data)),
     deleteEvent: (eventId, user) => dispatch(deleteEventAction(eventId, user)),
     cancelEvent: (eventId, user, values) => dispatch(cancelEventAction(eventId, user, values)),

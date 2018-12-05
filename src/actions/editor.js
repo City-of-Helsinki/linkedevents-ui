@@ -8,6 +8,7 @@ import {
     calculateSuperEventTime,
     combineSubEventsFromEditor,
 } from '../utils/formDataMapping'
+import {emptyField} from '../utils/helpers'
 
 import {push} from 'react-router-redux'
 import {setFlashMsg, confirmAction} from './app'
@@ -90,14 +91,24 @@ export function setLanguages(languages) {
  * @param  {obj} formValues     new form values to replace all existing values
  */
 export function replaceData(formValues) {
-    return (dispatch) => {
-    // Run validations
-        dispatch(validateFor(null))
-        dispatch(setValidationErrors({}))
+    return (dispatch, getState) => {
+        const {contentLanguages} = getState().editor
+        let formObject = formValues
+        const publicationStatus = formValues.publication_status || constants.PUBLICATION_STATUS.PUBLIC
 
+        // run the validation before copy to a draft
+        const validationErrors = doValidations(formValues, contentLanguages, publicationStatus)
+
+        // empty any field that has validation errors
+        keys(validationErrors).map(field => {
+            formObject = emptyField(formObject, field)
+        })
+
+        dispatch(validateFor(publicationStatus))
+        dispatch(setValidationErrors({}))
         dispatch({
             type: constants.EDITOR_REPLACEDATA,
-            values: formValues,
+            values: formObject,
         })
     }
 }
