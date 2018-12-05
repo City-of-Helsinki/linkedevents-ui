@@ -4,6 +4,7 @@ import {includes, keys} from 'lodash';
 
 import constants from '../constants'
 import {
+    mapAPIDataToUIFormat,
     mapUIDataToAPIFormat,
     calculateSuperEventTime,
     combineSubEventsFromEditor,
@@ -90,20 +91,22 @@ export function setLanguages(languages) {
  * Replace all editor values
  * @param  {obj} formValues     new form values to replace all existing values
  */
-export function replaceData(formValues) {
+export function replaceData(formData) {
     return (dispatch, getState) => {
         const {contentLanguages} = getState().editor
-        let formObject = formValues
-        const publicationStatus = formValues.publication_status || constants.PUBLICATION_STATUS.PUBLIC
+        let formObject = mapAPIDataToUIFormat(formData)
+        const publicationStatus = formObject.publication_status || constants.PUBLICATION_STATUS.PUBLIC
 
         // run the validation before copy to a draft
-        const validationErrors = doValidations(formValues, contentLanguages, publicationStatus)
+        const validationErrors = doValidations(formObject, contentLanguages, publicationStatus)
 
-        // empty any field that has validation errors
+        // empty id, event_status, and any field that has validation errors
         keys(validationErrors).map(field => {
             formObject = emptyField(formObject, field)
         })
-
+        delete formObject.id
+        delete formObject.event_status
+        
         dispatch(validateFor(publicationStatus))
         dispatch(setValidationErrors({}))
         dispatch({

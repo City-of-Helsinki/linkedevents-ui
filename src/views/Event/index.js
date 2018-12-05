@@ -40,10 +40,7 @@ class EventPage extends React.Component {
     copyAsTemplate() {
         const {events:{event}, replaceData, routerPush} = this.props
         if(event) {
-            let formData = mapAPIDataToUIFormat(event)
-            formData.id = undefined
-            delete formData.id
-            replaceData(formData)
+            replaceData(event)
             routerPush(`/event/create/new`)
         }
     }
@@ -51,9 +48,7 @@ class EventPage extends React.Component {
     editEvent() {
         const {events:{event}, replaceData, routerPush} = this.props
         if(event) {
-            let formData = mapAPIDataToUIFormat(event)
-
-            replaceData(formData)            
+            replaceData(event)            
             routerPush(`/event/update/${event.id}`)
         }
     }
@@ -234,7 +229,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     fetchEventDetails: (eventId, user) => dispatch(fetchEventDetailsAction(eventId, user)),
     routerPush: (url) => dispatch(push(url)),
-    replaceData: (formData, publication_status) => dispatch(replaceDataAction(formData, publication_status)),
+    replaceData: (event) => dispatch(replaceDataAction(event)),
     confirm: (msg, style, actionButtonLabel, data) => dispatch(confirmAction(msg, style, actionButtonLabel, data)),
     deleteEvent: (eventId, user) => dispatch(deleteEventAction(eventId, user)),
     cancelEvent: (eventId, user, values) => dispatch(cancelEventAction(eventId, user, values)),
