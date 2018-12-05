@@ -4,10 +4,12 @@ import {includes, keys} from 'lodash';
 
 import constants from '../constants'
 import {
+    mapAPIDataToUIFormat,
     mapUIDataToAPIFormat,
     calculateSuperEventTime,
     combineSubEventsFromEditor,
 } from '../utils/formDataMapping'
+import {emptyField} from '../utils/helpers'
 
 import {push} from 'react-router-redux'
 import {setFlashMsg, confirmAction} from './app'
@@ -89,15 +91,27 @@ export function setLanguages(languages) {
  * Replace all editor values
  * @param  {obj} formValues     new form values to replace all existing values
  */
-export function replaceData(formValues) {
-    return (dispatch) => {
-    // Run validations
-        dispatch(validateFor(null))
-        dispatch(setValidationErrors({}))
+export function replaceData(formData) {
+    return (dispatch, getState) => {
+        const {contentLanguages} = getState().editor
+        let formObject = mapAPIDataToUIFormat(formData)
+        const publicationStatus = formObject.publication_status || constants.PUBLICATION_STATUS.PUBLIC
 
+        // run the validation before copy to a draft
+        const validationErrors = doValidations(formObject, contentLanguages, publicationStatus)
+
+        // empty id, event_status, and any field that has validation errors
+        keys(validationErrors).map(field => {
+            formObject = emptyField(formObject, field)
+        })
+        delete formObject.id
+        delete formObject.event_status
+        
+        dispatch(validateFor(publicationStatus))
+        dispatch(setValidationErrors({}))
         dispatch({
             type: constants.EDITOR_REPLACEDATA,
-            values: formValues,
+            values: formObject,
         })
     }
 }
