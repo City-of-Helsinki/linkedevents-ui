@@ -211,15 +211,13 @@
     "editor-tip-hel-main-category": "Select at least one main category.",
     "editor-tip-hel-target-group": "If the event does not have a specific target group, don't select anything.",
     "editor-tip-event-languages": "Languages used in the event.",
-
     "image-caption-limit": "Caption (maximum {limit} characters)",
-    
     "add-more": "Add more",
     "play-date-label": "Play date",
-
     "linked-courses": "Linked Courses",
     "create-courses": "Add a new course",
     "edit-courses": "Edit the course",
     "search-courses": "Search for courses",
     "more-info": "More info",
-    "courses-management": "Crouse management"
+    "courses-management": "Course management"
+}
