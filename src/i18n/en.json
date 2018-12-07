@@ -1,8 +1,9 @@
 {
     "login": "Login",
     "logout": "Logout",
-    "create-event": "Create event",
-    "edit-event": "Edit event",
+    "linked-events": "Linked Events",
+    "create-events": "Create a new event",
+    "edit-events": "Edit the event",
     "copy-event-to-draft": "Copy to draft",
     "search-events": "Search events",
     "search-events-description": "View all events on Linked Events.",
@@ -56,10 +57,10 @@
     "event-provider": "Event organizer",
     "event-provider-input": "Event organizer (if different than your organization)",
     
-    "organization-events": "Manage events",
-    "organization-events-prompt": "to manage events.",
-    "organization-events-description": "Browse and edit drafts and published events of your organization.",
-    "organization-events-no-results": "No editable events found.",
+    "events-management": "Manage events",
+    "events-management-prompt": "to manage events.",
+    "events-management-description": "Browse and edit drafts and published events of your organization.",
+    "events-management-no-results": "No editable events found.",
    
     "event-image": "Event image (click to change)",
     "new-image": "Add a new image",
@@ -215,10 +216,10 @@
     
     "add-more": "Add more",
     "play-date-label": "Play date",
-    
-    "link-courses": "Link Courses",
-    "create-course": "Create course",
-    "search-course": "Search course",
+
+    "linked-courses": "Linked Courses",
+    "create-courses": "Add a new course",
+    "edit-courses": "Edit the course",
+    "search-courses": "Search for courses",
     "more-info": "More info",
-    "course-management": "Course management"
-}
+    "courses-management": "Crouse management"

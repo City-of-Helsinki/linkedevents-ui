@@ -5,9 +5,9 @@ $headerBarHeight: 128px;
 $helsinkiLogoPaddingLeft: 30px;
 $helsinkiLogoHeight: 36px;
 $linkFontSize: 16px;
-$linkCoursesTextSize: 19px;
+$linkedEventsTextSize: 19px;
 $logoPaddingRight: 32px;
-$addCoursePadding: 6px 12px;
+$addEventPadding: 6px 12px;
 $languageMarginRight: 10px;
 
 .main-navbar {
@@ -33,7 +33,7 @@ $languageMarginRight: 10px;
         height: $helsinkiBarHeight;
         width: 100%;
         display: flex;
-        background: $hel-tram;
+        background: $hel-theme;
         justify-content: space-between;
         align-items: center;
 
@@ -75,7 +75,7 @@ $languageMarginRight: 10px;
         }
     }
 
-    .linked-courses-bar {
+    .linked-events-bar {
         height: $helsinkiBarHeight;
         width: 100%;
         display: flex;
@@ -85,9 +85,9 @@ $languageMarginRight: 10px;
         &__logo {
             padding-right: $logoPaddingRight;
             span {
-                font-size: $linkCoursesTextSize;
+                font-size: $linkedEventsTextSize;
                 font-weight: bold;
-                color: $hel-tram;   
+                color: $hel-theme;
             }
         }
 
@@ -102,10 +102,10 @@ $languageMarginRight: 10px;
                 }
             }
 
-            &__create-courses {
-                color: $hel-tram;
-                border: 2px solid $hel-tram;
-                padding: $addCoursePadding;
+            &__create-events {
+                color: $hel-theme;
+                border: 2px solid $hel-theme;
+                padding: $addEventPadding;
             }
         }
     }

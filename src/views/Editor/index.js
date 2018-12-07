@@ -1,5 +1,5 @@
 
-import '!style-loader!css-loader!sass-loader!./index.scss'
+import './index.scss'
 import 'style-loader!vendor/stylesheets/typeahead.css'
 
 import React from 'react'
@@ -272,7 +272,7 @@ export class EditorPage extends React.Component {
             disabled: this.state.disabled,
         }
 
-        let headerTextId = (this.props.match.params.action === 'update') ? 'edit-event' : 'create-event'
+        let headerTextId = (this.props.match.params.action === 'update') ? `edit-${appSettings.ui_mode}` : `create-${appSettings.ui_mode}`
 
         let clearButton = null
         if(_.keys(this.props.editor.values).length) {

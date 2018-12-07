@@ -1,4 +1,4 @@
-import '!style-loader!css-loader!sass-loader!./index.scss'
+import './index.scss'
 
 import React from 'react'
 
@@ -6,7 +6,7 @@ const Help = () => {
     return (
         <div className="container help-page">
             <div id="short">
-                <h1>Linked Courses lyhyesti</h1>
+                <h1>Linked Events lyhyesti</h1>
                 <ul>
                     <li>Tapahtumatiedot näkyvät useissa eri sovelluksissa – myös muissa kuin kaupungin omissa.</li>
                     <li>Tapahtumia saa syöttää kaupungin luvalla. Niiden ei tarvitse olla kaupungin järjestämiä.</li> 

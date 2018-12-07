@@ -1,4 +1,4 @@
-import '!style-loader!css-loader!sass-loader!./index.scss'
+import './index.scss'
 
 import React from 'react'
 import {connect} from 'react-redux'
@@ -84,7 +84,7 @@ class EventPage extends React.Component {
             )
         }
 
-        const editEventButton = <Button raised onClick={e => this.editEvent(e)} disabled={!eventIsEditable} color="primary"><FormattedMessage id="edit-event"/></Button>
+        const editEventButton = <Button raised onClick={e => this.editEvent(e)} disabled={!eventIsEditable} color="primary"><FormattedMessage id="edit-events"/></Button>
 
         if(event && event.name) {
             return (

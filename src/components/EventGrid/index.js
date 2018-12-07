@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import defaultThumbnail from '../../assets/images/helsinki-coat-of-arms-white.png'
 
 import constants from '../../constants'
-import '!style-loader!css-loader!sass-loader!./index.scss'
+import './index.scss'
 
 let dateFormat = function(timeStr) {
     return timeStr ? moment(timeStr).format('YYYY-MM-DD') : ''

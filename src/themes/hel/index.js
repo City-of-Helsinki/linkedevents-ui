@@ -3,13 +3,30 @@ let Spacing = require('material-ui/styles/spacing')
 import {createMuiTheme} from 'material-ui/styles'
 
 
-const {green, cyan} = Colors
+const {green, lightGreen, cyan, blue, lightBlue} = Colors
 
 
 let helColor = {
-    cyan,
     A200: '#00bcd4',
     helTram: '#009246',
+    helCopper: '#00d7a7',
+    helCoat: '#0072c6',
+    helFog: '#9fc9eb',
+}
+
+let primary = blue
+let secondary = cyan
+let background = blue
+
+if (appSettings.ui_mode === 'events') {
+    background = helColor.helCoat
+    primary = blue
+    secondary = lightBlue
+}
+if (appSettings.ui_mode === 'courses') {
+    background = helColor.helTram
+    primary = green
+    secondary = lightGreen
 }
 
 let helRawStyle = {
@@ -17,8 +34,8 @@ let helRawStyle = {
     spacing: Spacing,
     fontFamily: 'Roboto, sans-serif',
     palette: {
-        primary: green,
-        secondary: cyan,
+        primary: primary,
+        secondary: secondary,
         primary2Color: Colors.cyan700,
         primary3Color: Colors.gray700,
         accent1Color: '#48a3e7',
@@ -38,7 +55,7 @@ let helRawStyle = {
                 fontSize: '0.8em',
                 lineHeight: '36px',
                 raisedAccent: {
-                    color: green,
+                    color: primary,
                 },
             },
         },
@@ -61,17 +78,17 @@ let helRawStyle = {
         },
         MuiToolbar: {
             root: {
-                backgroundColor: helColor.helTram,
+                backgroundColor: background,
             },
         },
         MuiSnackbar: {
             root: {
-                backgroundColor: helColor.helTram,
+                backgroundColor: background,
             },
         },
         MuiSnackbarContent: {
             root: {
-                backgroundColor: helColor.helTram,
+                backgroundColor: background,
             },
         },
         MuiTable: {
@@ -86,7 +103,7 @@ let helHeaderRawStyle = {
     spacing: Spacing,
     fontFamily: 'Roboto, sans-serif',
     palette: {
-        primary: green,
+        primary: primary,
         primary2Color: Colors.cyan700,
         primary3Color: Colors.gray700,
         accent1Color: '#48a3e7',
@@ -120,7 +137,7 @@ let helTheme = createMuiTheme(helRawStyle)
 let headerTheme = createMuiTheme(helHeaderRawStyle)
 
 // Override specific component styles
-headerTheme.mixins.toolbar.backgroundColor = helColor.helTram
+headerTheme.mixins.toolbar.backgroundColor = background
 headerTheme.mixins.toolbar.height = 56
 headerTheme.mixins.toolbar.titleFontSize = 20
 headerTheme.mixins.toolbar.iconColor = '#ffffff'

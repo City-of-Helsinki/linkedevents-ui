@@ -1,4 +1,4 @@
-require('!style-loader!css-loader!sass-loader!./index.scss')
+import './index.scss'
 
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -69,17 +69,17 @@ class HeaderBar extends React.Component {
                     </div>
                 </Toolbar>
                 
-                <Toolbar className="linked-courses-bar">
-                    <div className="linked-courses-bar__logo" onClick={() => routerPush('/')}><FormattedMessage id="link-courses" /></div>
-                    <div className="linked-courses-bar__links">
-                        <div className="linked-courses-bar__links__list">
-                            <Button onClick={() => routerPush('/')}><FormattedMessage id="course-management"/></Button>
-                            <Button onClick={() => routerPush('/search')}><FormattedMessage id="search-course"/></Button>
+                <Toolbar className="linked-events-bar">
+                    <div className="linked-events-bar__logo" onClick={() => routerPush('/')}><FormattedMessage id={`linked-${appSettings.ui_mode}`} /></div>
+                    <div className="linked-events-bar__links">
+                        <div className="linked-events-bar__links__list">
+                            <Button onClick={() => routerPush('/')}><FormattedMessage id={`${appSettings.ui_mode}-management`}/></Button>
+                            <Button onClick={() => routerPush('/search')}><FormattedMessage id={`search-${appSettings.ui_mode}`}/></Button>
                             <Button onClick={() => routerPush('/help')}> <FormattedMessage id="more-info"/></Button>
                         </div>
-                        <Button className="linked-courses-bar__links__create-courses" onClick={() => routerPush('/event/create/new')}>
+                        <Button className="linked-events-bar__links__create-events" onClick={() => routerPush('/event/create/new')}>
                             <Add/>
-                            <FormattedMessage id="create-course"/>
+                            <FormattedMessage id={`create-${appSettings.ui_mode}`}/>
                         </Button>
                     </div>
                 </Toolbar>

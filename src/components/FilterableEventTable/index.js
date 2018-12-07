@@ -1,4 +1,4 @@
-require('!style-loader!css-loader!sass-loader!./index.scss');
+import './index.scss'
 
 import PropTypes from 'prop-types';
 import React from 'react'

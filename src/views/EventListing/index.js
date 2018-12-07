@@ -38,7 +38,7 @@ export class EventListing extends React.Component {
     // Use material UI table
     // or similar grid
         const {events, user} = this.props;
-        const header = <h1><FormattedMessage id="organization-events"/></h1>
+        const header = <h1><FormattedMessage id={`${appSettings.ui_mode}-management`}/></h1>
         if (!user) {
             return (
                 <div className="container">
@@ -47,14 +47,14 @@ export class EventListing extends React.Component {
                         <a style={{cursor: 'pointer'}} onClick={() => this.props.login()}>
                             <FormattedMessage id="login" />
                         </a>
-                        {' '}<FormattedMessage id="organization-events-prompt" /></p>
+                        {' '}<FormattedMessage id="events-management-prompt" /></p>
                 </div>);
         }
 
         return (
             <div className="container">
-                <h1><FormattedMessage id="organization-events"/></h1>
-                <p><FormattedMessage id="organization-events-description"/></p>
+                {header}
+                <p><FormattedMessage id="events-management-description"/></p>
                 <FilterableEventTable events={events.items} apiErrorMsg={''} sortBy={events.sortBy} sortOrder={events.sortOrder} user={this.props.user} fetchComplete={events.fetchComplete} count={events.count} paginationPage={events.paginationPage}/>
             </div>
         )

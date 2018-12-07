@@ -9,7 +9,7 @@ exports[`Editor Snapshot should render view correctly when creating new event fr
   >
     <h1>
       <FormattedMessage
-        id="create-event"
+        id="create-events"
         values={Object {}}
       />
     </h1>
@@ -981,7 +981,7 @@ exports[`Editor Snapshot should render view correctly when editing existing even
   >
     <h1>
       <FormattedMessage
-        id="edit-event"
+        id="edit-events"
         values={Object {}}
       />
     </h1>
@@ -1974,7 +1974,7 @@ exports[`Editor Snapshot should render view correctly when new event 1`] = `
   >
     <h1>
       <FormattedMessage
-        id="create-event"
+        id="create-events"
         values={Object {}}
       />
     </h1>

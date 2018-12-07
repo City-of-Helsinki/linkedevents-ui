@@ -1,8 +1,9 @@
 {
     "login": "Kirjaudu sisään",
     "logout": "Kirjaudu ulos",
-    "create-event": "Lisää uusi tapahtuma",
-    "edit-event": "Muokkaa tapahtumaa",
+    "linked-events": "Linked Events",
+    "create-events": "Lisää uusi tapahtuma",
+    "edit-events": "Muokkaa tapahtumaa",
     "copy-event-to-draft": "Kopioi uuden tapahtuman pohjaksi",
     "search-events": "Etsi tapahtumia",
     "search-events-description": "Katsele kaikkia Linked Eventsin tapahtumia.",
@@ -55,10 +56,10 @@
     "event-info-url": "Kotisivu",
     "event-provider": "Tapahtuman järjestäjä",
     "event-provider-input": "Tapahtuman järjestäjä (jos eri kuin syöttäjän organisaatio)",
-    "organization-events": "Tapahtumien hallinta",
-    "organization-events-prompt": "muokataksesi tapahtumia.",
-    "organization-events-description": "Selaa ja muokkaa oman organisaatiosi julkisia tapahtumia sekä luonnoksia. Voit lisätä uuden tapahtuman yläpalkista.",
-    "organization-events-no-results": "Yhtäkään muokattavaa tapahtumaa ei löytynyt.",
+    "events-management": "Tapahtumien hallinta",
+    "events-management-prompt": "muokataksesi tapahtumia.",
+    "events-management-description": "Selaa ja muokkaa oman organisaatiosi julkisia tapahtumia sekä luonnoksia. Voit lisätä uuden tapahtuman yläpalkista.",
+    "events-management-no-results": "Yhtäkään muokattavaa tapahtumaa ei löytynyt.",
 
     "event-image": "Tapahtuman kuva (klikkaa vaihtaaksesi)",
     "new-image": "Lisää uusi kuva",
@@ -214,10 +215,11 @@
     
     "add-more": "Lisää kerrat",
     "play-date-label": "Toistopäivät",
-    
-    "link-courses": "Linkkurssit",
-    "create-course": "Lisää Kurssi",
-    "search-course": "Selaa Kursseja",
-    "more-info": "Lisätietoja",
-    "course-management": "Kurssien hallinta"
+
+    "linked-courses": "Linked Courses",
+    "create-courses": "Lisää uusi kurssi",
+    "edit-courses": "Muokkaa kurssia",
+    "search-courses": "Etsi kursseja",
+    "more-info": "Help",
+    "courses-management": "Kurssien hallinta"
 }
