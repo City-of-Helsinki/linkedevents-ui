@@ -1,5 +1,3 @@
-import {readConfig} from "../appConfig";
-
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
@@ -17,7 +15,7 @@ const indexTemplate = require('../../server/renderIndexTemplate')
 
 const ASSET_PATH = '/'
 
-const ui_mode = required('ui_mode')
+const ui_mode = appConfig.getConfig('ui_mode')
 
 const config = {
     context: path.join(common.paths.ROOT, '/src'),
