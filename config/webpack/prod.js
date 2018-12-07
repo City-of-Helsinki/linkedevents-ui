@@ -15,7 +15,7 @@ const indexTemplate = require('../../server/renderIndexTemplate')
 
 const ASSET_PATH = '/'
 
-const ui_mode = appConfig.getConfig('ui_mode')
+const ui_mode = appConfig.readConfig('ui_mode')
 
 const config = {
     context: path.join(common.paths.ROOT, '/src'),
