@@ -156,6 +156,13 @@ var validations = {
 
         return false;
     },
+    defaultEndInTheFuture: function defaultEndInTheFuture(values, value) {
+        if (values['end_time']) {
+            return true
+        }
+        const defaultEndTime = moment(value).endOf('day')
+        return defaultEndTime.diff(moment()) > 0
+    },
     required: function required(values, value) {
         return _isExisty(value)
     },

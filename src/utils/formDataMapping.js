@@ -1,4 +1,4 @@
-import {clone, map, lastIndexOf, forOwn, every, includes, isEmpty, cloneDeep, remove} from 'lodash'
+import {clone, map, lastIndexOf, forOwn, every, includes, isEmpty, cloneDeep, remove, values} from 'lodash'
 import constants from 'src/constants.js'
 import moment from 'moment'
 import 'moment-timezone'
@@ -256,4 +256,48 @@ function mapAPIDataToUIFormat(values) {
     }
 
     return obj
+}
+
+/*
+    take an array of sub events, return start and end time for the
+    corresponding super event with:
+    - earliest date of sub events as start_time
+    - latest date of sub events as end_time
+*/
+export const calculateSuperEventTime = (subEvents) => {
+    let startTimes = []
+    let endTimes = []
+    values(subEvents).filter(event => {
+        if (event.start_time) {
+            startTimes.push(moment(event.start_time))
+        }
+        if (event.end_time) {
+            endTimes.push(moment(event.end_time))
+        }
+    })
+    // in case there is no end_time in sub events should return the
+    // midnight of the day after the latest start time as super event endtime
+    const superEventStartTime = startTimes.length <= 0 ? undefined : moment.min(startTimes);
+    let superEventEndTime = endTimes.length <= 0
+        ? startTimes.length <= 0
+            ? undefined    
+            : moment.max(startTimes).add(1, 'days').endOf('day')
+        : moment.max(endTimes)
+    return {
+        start_time: superEventStartTime
+            ? moment.tz(superEventStartTime, 'Europe/Helsinki').utc().toISOString()
+            : undefined,
+        end_time: superEventEndTime
+            ? moment.tz(superEventEndTime, 'Europe/Helsinki').utc().toISOString()
+            : undefined,
+    }
+}
+
+// combine all dates in the editor form to get a collection of sub events under super
+export const combineSubEventsFromEditor = (formValues) => {
+    const subEvents = {
+        '0': {start_time: formValues.start_time, end_time: formValues.end_time},
+        ...formValues.sub_events,
+    }
+    return Object.assign({}, formValues, {sub_events: subEvents})
 }

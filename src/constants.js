@@ -126,6 +126,7 @@ const constants = {
         AT_LEAST_ONE: 'atLeastOne',
         IS_MORE_THAN_ONE: 'isMoreThanOne',
         AT_LEAST_ONE_IS_TRUE: 'atLeastOneIsTrue',
+        DEFAULT_END_IN_FUTURE: 'defaultEndInTheFuture',
     },
 
     CHARACTER_LIMIT: {

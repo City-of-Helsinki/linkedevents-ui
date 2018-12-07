@@ -215,16 +215,14 @@ export class EditorPage extends React.Component {
 
     saveAsDraft(event) {
         let doUpdate = this.props.match.params.action === 'update'
-        const {values, contentLanguages} = this.props.editor
         this.setState({isDirty: false})
-        this.props.sendData(values, contentLanguages, this.props.user, doUpdate, constants.PUBLICATION_STATUS.DRAFT)
+        this.props.sendData(doUpdate, constants.PUBLICATION_STATUS.DRAFT)
     }
 
     saveAsPublished(event) {
         let doUpdate = this.props.match.params.action === 'update'
-        const {values, contentLanguages} = this.props.editor
         this.setState({isDirty: false})
-        this.props.sendData(values, contentLanguages, this.props.user, doUpdate, constants.PUBLICATION_STATUS.PUBLIC)
+        this.props.sendData(doUpdate, constants.PUBLICATION_STATUS.PUBLIC)
     }
 
     confirmDelete() {
@@ -334,8 +332,8 @@ const mapDispatchToProps = (dispatch) => ({
     fetchSubEvents: (eventId, user) => dispatch(fetchSubEventsAction(eventId, user)),
     clearData: () => dispatch(clearDataAction()),
     setValidationErrors: (errors) => dispatch(setValidationErrorsAction(errors)),
-    sendData: (formValues, contentLanguages, user, updateExisting, publicationStatus) => 
-        dispatch(sendDataAction(formValues, contentLanguages, user, updateExisting, publicationStatus)),
+    sendData: (updateExisting, publicationStatus) => 
+        dispatch(sendDataAction(updateExisting, publicationStatus)),
     confirm: (msg, style, actionButtonLabel, data) => dispatch(confirmAction(msg, style, actionButtonLabel, data)),
     deleteEvent: (eventId, user) => dispatch(deleteEventAction(eventId, user)),
     cancelEvent: (eventId, user, values) => dispatch(cancelEventAction(eventId, user, values)),
