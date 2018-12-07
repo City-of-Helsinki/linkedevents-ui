@@ -100,6 +100,9 @@ class FormFields extends React.Component {
     }
 
     generateNewEventFields(events) {
+        const {validationErrors} = this.props.editor;
+        const subEventErrors = validationErrors.sub_events || []
+
         let newEvents = []
         for (const key in events) {
             if (events.hasOwnProperty(key)) {
@@ -108,6 +111,7 @@ class FormFields extends React.Component {
                         key={key}
                         eventKey={key}
                         event={events[key]}
+                        errors={subEventErrors[key] || {}}
                     />
                 )
             }

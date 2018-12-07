@@ -107,15 +107,27 @@ function update(state = initialState, action) {
     }
 
     if (action.type === constants.EDITOR_UPDATE_SUB_EVENT) {
-        return updater(state, {
-            values: {
-                sub_events: {
-                    [action.eventKey]: {
-                        [action.property]: {$set: action.value},
-                    },
+
+        const newValues = updater(state.values, {
+            sub_events: {
+                [action.eventKey]: {
+                    [action.property]: {$set: action.value},
                 },
             },
         })
+        
+        let validationErrors = Object.assign({}, state.validationErrors)
+        // If there are validation errors in sub_events, check if they are fixed
+        if (state.validationErrors.sub_events) {
+            validationErrors = doValidations(newValues, state.contentLanguages, state.validateFor || constants.PUBLICATION_STATUS.PUBLIC)
+        }
+
+        const x = Object.assign({}, state, {
+            values: newValues,
+            validationErrors,
+        })
+        console.log(x, newValues, validationErrors)
+        return x
     }
 
     if (action.type === constants.EDITOR_DELETE_SUB_EVENT) {
