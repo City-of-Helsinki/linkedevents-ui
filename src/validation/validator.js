@@ -78,18 +78,19 @@ function runValidationWithSettings(values, languages, settings) {
 
         // validate sub events
         if (key === 'sub_events') {
-            each(values['sub_events'], (subEvent) => {
+            each(values['sub_events'], (subEvent, eventKey) => {
                 const subEventError = runValidationWithSettings(subEvent, languages, settings.sub_events)
-                errors.push(
-                    isEmpty(subEventError) ? null : subEventError
-                )
+                const error = isEmpty(subEventError) ? null : subEventError
+                errors[eventKey] = error
             })
         } else {
             errors = validateEventObject(validations, valuesWithLanguages, key)
         }
 
-        // Remove nulls
-        remove(errors, i => i === null)
+        // Remove nulls, except for sub_events
+        if (key !== 'sub_events') {
+            remove(errors, i => i === null)
+        }
 
         obj[key] = errors
     })
