@@ -166,11 +166,23 @@ var validations = {
     required: function required(values, value) {
         return _isExisty(value)
     },
+    requiredForCourses: function requiredForCourses(values, value){
+        if(!(appSettings.ui_mode === 'courses')) {
+            return true;
+        }
+        return this.required(values, value);
+    },
     requiredString: function requiredString(values, value) {
         if(typeof value === 'string' && value.length > 0) {
             return true
         }
         return false
+    },
+    requiredStringForCourses: function requiredStringForCourses(values, value){
+        if(!(appSettings.ui_mode === 'courses')) {
+            return true;
+        }
+        return this.requiredString(values, value);
     },
     requiredMulti: function requiredMulti(values, value) {
         if(typeof value !== 'object' || !value) {

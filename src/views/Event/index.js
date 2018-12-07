@@ -1,4 +1,4 @@
-import '!style-loader!css-loader!sass-loader!./index.scss'
+import './index.scss'
 
 import React from 'react'
 import {connect} from 'react-redux'
@@ -152,9 +152,9 @@ class EventPage extends React.Component {
             )
         }
 
-        const editEventButton = <Button raised onClick={e => this.editEvent(e)} disabled={!eventIsEditable} color="primary"><FormattedMessage id="edit-event"/></Button>
-        const cancelEventButton = <Button raised disabled={!eventIsEditable} onClick={ (e) => this.confirmCancel(e) }><FormattedMessage id="cancel-event"/></Button>
-        const deleteEventButton = <Button raised disabled={!eventIsEditable} onClick={ (e) => this.confirmDelete(e) }><FormattedMessage id="delete-event"/></Button>
+        const editEventButton = <Button raised onClick={e => this.editEvent(e)} disabled={!eventIsEditable} color="primary"><FormattedMessage id="edit-events"/></Button>
+        const cancelEventButton = <Button raised disabled={!eventIsEditable} onClick={ (e) => this.confirmCancel(e) }><FormattedMessage id="cancel-events"/></Button>
+        const deleteEventButton = <Button raised disabled={!eventIsEditable} onClick={ (e) => this.confirmDelete(e) }><FormattedMessage id="delete-events"/></Button>
         if(event && event.name) {
             return (
                 <div className={draftClass}>

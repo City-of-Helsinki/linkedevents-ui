@@ -1,4 +1,4 @@
-import '!style-loader!css-loader!sass-loader!./index.scss'
+import './index.scss'
 
 import React from 'react'
 

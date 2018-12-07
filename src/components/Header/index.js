@@ -1,4 +1,4 @@
-require('!style-loader!css-loader!sass-loader!./index.scss')
+import './index.scss'
 
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -19,11 +19,12 @@ import Search from 'material-ui-icons/Search'
 import Add from 'material-ui-icons/Add'
 import Language from 'material-ui-icons/Language'
 import HelpOutline from 'material-ui-icons/HelpOutline'
+import Person from 'material-ui-icons/Person'
 
 import {Link} from 'react-router-dom'
 import CONSTANTS from '../../constants'
 
-import cityOfHelsinkiLogo from '../../assets/images/helsinki-coat-of-arms-white.png'
+import cityOfHelsinkiLogo from '../../assets/images/helsinki-logo.svg'
 
 class HeaderBar extends React.Component {
 
@@ -32,49 +33,57 @@ class HeaderBar extends React.Component {
     }
 
     render() {
-        let buttonStyle = {color: '#ffffff'}
-        let verticalAlignMiddle = {verticalAlign: 'middle'}
-
-        // NOTE: mockup for login button functionality
-        let loginButton = <Button style={buttonStyle} onClick={() => this.props.login()}><FormattedMessage id="login"/></Button>
-        if(this.props.user) {
-            loginButton = <Button style={buttonStyle} onClick={() => this.props.logout()}>{this.props.user.displayName}</Button>
-        }
+        const {user, routerPush, logout, login} = this.props 
         const languages = CONSTANTS.APPLICATION_SUPPORT_TRANSLATION
+
         return (
-            <Toolbar className="mui-toolbar">
-                <div>
-                    <Link to="/" className="title">
-                        <img className="title-image" src={cityOfHelsinkiLogo} alt="City Of Helsinki" />
-                        <div className="title-text">Linked Events</div>
-                    </Link>
-                </div>
-                <div className="navbar-links">
-                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.routerPush('/')}><FormattedMessage id="organization-events"/><List/></Button>
-                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.routerPush('/search')}><FormattedMessage id="search-events"/><Search/></Button>
-                    <Button className="mui-flat-button" style={buttonStyle} onClick={() => this.props.routerPush('/event/create/new')}><FormattedMessage id="create-event"/><Add/></Button>
-                </div>
-                <div className="navbar-right">
-                    <div className="language-selector">
-                        <Language className="language-icon"/>
-                        <Select
-                            className="language-select-box"
-                            value={this.props.userLocale.locale}
-                            onChange={this.changeLanguage}
-                        >
-                            {languages.map((lang, index) => (
-                                <MenuItem 
-                                    value={lang} 
-                                    key={index}>
-                                    {lang}
-                                </MenuItem>
-                            ))}
-                        </Select> 
-                    </div>                 
-                    <Button className="mui-flat-button" style={{...buttonStyle,...verticalAlignMiddle}} onClick={() => this.props.routerPush('/help')}><HelpOutline/></Button>
-                    {loginButton}
-                </div>
-            </Toolbar>
+            <div className="main-navbar">
+                <Toolbar className="helsinki-bar">
+                    <div className="helsinki-bar__logo">
+                        <Link to="/">
+                            <img src={cityOfHelsinkiLogo} alt="City Of Helsinki" />
+                        </Link>
+                    </div>
+                    <div className="helsinki-bar__login-button">
+                        <div className="helsinki-bar__language-button">
+                            <div className="language-selector">
+                                <Language className="language-icon"/>
+                                <Select
+                                    className="language-select-box"
+                                    value={this.props.userLocale.locale}
+                                    onChange={this.changeLanguage}
+                                >
+                                    {languages.map((lang, index) => (
+                                        <MenuItem 
+                                            value={lang} 
+                                            key={index}>
+                                            {lang}
+                                        </MenuItem>
+                                    ))}
+                                </Select> 
+                            </div>  
+                        </div>
+                        {user ? 
+                            <Button onClick={() => logout()}>{user.displayName}</Button> :
+                            <Button onClick={() => login()}><Person/><FormattedMessage id="login"/></Button>}
+                    </div>
+                </Toolbar>
+                
+                <Toolbar className="linked-events-bar">
+                    <div className="linked-events-bar__logo" onClick={() => routerPush('/')}><FormattedMessage id={`linked-${appSettings.ui_mode}`} /></div>
+                    <div className="linked-events-bar__links">
+                        <div className="linked-events-bar__links__list">
+                            <Button onClick={() => routerPush('/')}><FormattedMessage id={`${appSettings.ui_mode}-management`}/></Button>
+                            <Button onClick={() => routerPush('/search')}><FormattedMessage id={`search-${appSettings.ui_mode}`}/></Button>
+                            <Button onClick={() => routerPush('/help')}> <FormattedMessage id="more-info"/></Button>
+                        </div>
+                        <Button className="linked-events-bar__links__create-events" onClick={() => routerPush('/event/create/new')}>
+                            <Add/>
+                            <FormattedMessage id={`create-${appSettings.ui_mode}`}/>
+                        </Button>
+                    </div>
+                </Toolbar>
+            </div>
         )
     }
 }

@@ -1,20 +1,41 @@
 let Colors = require('material-ui/colors')
 let Spacing = require('material-ui/styles/spacing')
 import {createMuiTheme} from 'material-ui/styles'
-import blue from 'material-ui/colors/blue'
-import cyan from 'material-ui/colors/cyan'
 
-let helCyan = {
-    ...cyan,
+
+const {green, lightGreen, cyan, blue, lightBlue} = Colors
+
+
+let helColor = {
     A200: '#00bcd4',
+    helTram: '#009246',
+    helCopper: '#00d7a7',
+    helCoat: '#0072c6',
+    helFog: '#9fc9eb',
+}
+
+let primary = blue
+let secondary = cyan
+let background = blue
+
+if (appSettings.ui_mode === 'events') {
+    background = helColor.helCoat
+    primary = blue
+    secondary = lightBlue
+}
+if (appSettings.ui_mode === 'courses') {
+    background = helColor.helTram
+    primary = green
+    secondary = lightGreen
 }
 
 let helRawStyle = {
+    outline: 'none',
     spacing: Spacing,
     fontFamily: 'Roboto, sans-serif',
     palette: {
-        primary: blue,
-        secondary: helCyan,
+        primary: primary,
+        secondary: secondary,
         primary2Color: Colors.cyan700,
         primary3Color: Colors.gray700,
         accent1Color: '#48a3e7',
@@ -34,7 +55,7 @@ let helRawStyle = {
                 fontSize: '0.8em',
                 lineHeight: '36px',
                 raisedAccent: {
-                    color: blue,
+                    color: primary,
                 },
             },
         },
@@ -57,17 +78,17 @@ let helRawStyle = {
         },
         MuiToolbar: {
             root: {
-                backgroundColor: '#0072c6',
+                backgroundColor: background,
             },
         },
         MuiSnackbar: {
             root: {
-                backgroundColor: '#0072c6',
+                backgroundColor: background,
             },
         },
         MuiSnackbarContent: {
             root: {
-                backgroundColor: '#0072c6',
+                backgroundColor: background,
             },
         },
         MuiTable: {
@@ -82,7 +103,7 @@ let helHeaderRawStyle = {
     spacing: Spacing,
     fontFamily: 'Roboto, sans-serif',
     palette: {
-        primary: blue,
+        primary: primary,
         primary2Color: Colors.cyan700,
         primary3Color: Colors.gray700,
         accent1Color: '#48a3e7',
@@ -100,6 +121,7 @@ let helHeaderRawStyle = {
                 textTransform: 'none',
                 fontWeight: 300,
                 textColor: '#ffffff',
+                outline: 'none',
             },
         },
         MuiInput: {
@@ -115,7 +137,7 @@ let helTheme = createMuiTheme(helRawStyle)
 let headerTheme = createMuiTheme(helHeaderRawStyle)
 
 // Override specific component styles
-headerTheme.mixins.toolbar.backgroundColor = '#0072c6'
+headerTheme.mixins.toolbar.backgroundColor = background
 headerTheme.mixins.toolbar.height = 56
 headerTheme.mixins.toolbar.titleFontSize = 20
 headerTheme.mixins.toolbar.iconColor = '#ffffff'

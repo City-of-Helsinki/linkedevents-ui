@@ -1,4 +1,4 @@
-import '!style-loader!css-loader!sass-loader!./HelSelect.scss'
+import './HelSelect.scss'
 
 import PropTypes from 'prop-types';
 

@@ -6,13 +6,13 @@ exports[`EventListing Snapshot should render view by default 1`] = `
 >
   <h1>
     <FormattedMessage
-      id="organization-events"
+      id="events-management"
       values={Object {}}
     />
   </h1>
   <p>
     <FormattedMessage
-      id="organization-events-description"
+      id="events-management-description"
       values={Object {}}
     />
   </p>
