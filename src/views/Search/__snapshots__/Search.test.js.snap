@@ -57,7 +57,7 @@ exports[`Search Snapshot should render view correctly 1`] = `
               tabIndex={undefined}
               title={undefined}
               type="text"
-              value=""
+              value="07.12.2018"
             />
           </div>
         </div>
