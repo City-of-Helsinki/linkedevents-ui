@@ -26,6 +26,10 @@ Copy the contents of `config_dev.json.example` to `config_dev.json`.
 access to our test API. If you have your own API and/or authentication
 credentials you can change the relevant settings therein.
 
+The UI is now compatible with the `courses` extension for the Linked Events API.
+If you wish to include the extra fields specified in the `courses` extension,
+please change the `ui_mode` setting from `events` to `courses.`
+
 Note that authentication server is not nicely configurable. If you wish to
 use your own authentication server, you will need code changes in server/auth.js.
 
