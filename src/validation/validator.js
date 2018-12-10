@@ -1,7 +1,7 @@
 import CONSTANTS from '../constants'
 import validationFn from './validationRules'
 import {getCharacterLimitByRule} from '../utils/helpers'
-import {each, remove, pickBy, isEmpty} from 'lodash'
+import {each, remove, pickBy, isEmpty, omitBy} from 'lodash'
 import moment from 'moment'
 
 const {
@@ -90,6 +90,7 @@ function runValidationWithSettings(values, languages, settings) {
 
         // validate sub events
         if (key === 'sub_events') {
+            errors = {}
             each(values['sub_events'], (subEvent, eventKey) => {
                 const subEventError = runValidationWithSettings(subEvent, languages, settings.sub_events)
                 const error = isEmpty(subEventError) ? null : subEventError
@@ -99,14 +100,21 @@ function runValidationWithSettings(values, languages, settings) {
             errors = validateEventObject(validations, valuesWithLanguages, key)
         }
 
-        // Remove nulls, except for sub_events
-        if (key !== 'sub_events') {
+        // Remove nulls
+        if (key === 'sub_events') {
+            errors = omitBy(errors, i => i === null)
+        } else {
             remove(errors, i => i === null)
         }
 
         obj[key] = errors
     })
-    obj = pickBy(obj, validationErrors => validationErrors.length > 0)
+    obj = pickBy(obj, (validationErrors, key) => {
+        if (key === 'sub_events') {
+            return !isEmpty(validationErrors)
+        }
+        return validationErrors.length > 0
+    })
     return obj
 }
 
