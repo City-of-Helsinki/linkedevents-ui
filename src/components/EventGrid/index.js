@@ -34,7 +34,7 @@ let EventItem = (props) => {
     let cancelled = props.event.event_status === constants.EVENT_STATUS.CANCELLED
     let cancelledBadge = null
     if (cancelled) {
-        cancelledBadge = (<span className="label label-danger search-badge"><FormattedMessage id="cancelled"/></span>)
+        cancelledBadge = (<span className="badge badge-danger search-badge"><FormattedMessage id="cancelled"/></span>)
     }
 
     return (

@@ -62,9 +62,9 @@ class FilterableEventTable extends React.Component {
             // let cancelledClass = cancelled ? 'cancelled-row' : ''
             let cancelledClass = null
             if (draft) {
-                nameColumn = (<TableCell className={draftClass}><span className="label label-warning text-uppercase"><FormattedMessage id="draft"/></span> <Link to={url}>{name}</Link></TableCell>)
+                nameColumn = (<TableCell className={draftClass}><span className="badge badge-warning text-uppercase"><FormattedMessage id="draft"/></span> <Link to={url}>{name}</Link></TableCell>)
             } else if (cancelled) {
-                nameColumn = (<TableCell className={cancelledClass}><span className="label label-danger text-uppercase"><FormattedMessage id="cancelled"/></span> <Link to={url}>{name}</Link></TableCell>)
+                nameColumn = (<TableCell className={cancelledClass}><span className="badge badge-danger text-uppercase"><FormattedMessage id="cancelled"/></span> <Link to={url}>{name}</Link></TableCell>)
             } else {
                 nameColumn = (<TableCell><Link to={url}>{name}</Link></TableCell>)
             }

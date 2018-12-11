@@ -8,15 +8,10 @@
       box-shadow:$left $top $blur $color #{$inset};
 }
 
-@import "node_modules/bootstrap/scss/bootstrap-reboot.scss";
-@import "node_modules/bootstrap/scss/bootstrap-grid.scss";
+@import "node_modules/bootstrap/scss/bootstrap.scss";
 
-@import "node_modules/bootstrap/scss/_modal.scss";
-@import "node_modules/bootstrap/scss/mixins/_reset-text.scss";
-@import "node_modules/bootstrap/scss/mixins/_border-radius.scss";
-@import "node_modules/bootstrap/scss/_popover.scss";
-@import "node_modules/bootstrap/scss/mixins/_label.scss";
-@import "node_modules/bootstrap/scss/_labels.scss";
+// @import "node_modules/bootstrap/scss/mixins/_label.scss";
+// @import "node_modules/bootstrap/scss/_labels.scss";
 
 // Define a custom sass file to override any variables defined in scaffolding.scss
 // @import "my-custom-overrides.scss";

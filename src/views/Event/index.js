@@ -138,12 +138,12 @@ class EventPage extends React.Component {
         let draftClass = event.publication_status == constants.PUBLICATION_STATUS.DRAFT ? 'event-page draft' : 'event-page'
         let draftBadge = null
         if (event.publication_status === constants.PUBLICATION_STATUS.DRAFT) {
-            draftBadge = (<span style={{marginRight:'0.5em'}} className="label label-warning text-uppercase"><FormattedMessage id="draft"/></span>)
+            draftBadge = (<span className="badge badge-warning warn"><FormattedMessage id="draft"/></span>)
         }
         let cancelledClass = event.publication_status == constants.EVENT_STATUS.CANCELLED ? 'event-page cancelled' : 'event-page'
         let cancelledBadge = null
         if (event.event_status === constants.EVENT_STATUS.CANCELLED) {
-            cancelledBadge = (<span style={{marginRight:'0.5em'}} className="label label-danger text-uppercase"><FormattedMessage id="cancelled"/></span>)
+            cancelledBadge = (<span className="badge badge-danger cancelled"><FormattedMessage id="cancelled"/></span>)
         }
 
         if(this.props.events.eventError) {

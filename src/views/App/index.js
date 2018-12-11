@@ -1,6 +1,8 @@
 import 'src/assets/additional_css/bootstrap.custom.min.css';
 import 'src/assets/main.scss';
 
+require('./index.scss');
+
 import PropTypes from 'prop-types';
 
 import React from 'react'

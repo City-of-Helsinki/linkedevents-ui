@@ -48,8 +48,9 @@ $buttonActionMargin: 10px;
     );
 }
 
-.text-uppercase {
+.cancelled, .warn {
     text-transform: uppercase;
+    margin-right: 0.5em;
 }
 
 @media (max-width: 480px) {
