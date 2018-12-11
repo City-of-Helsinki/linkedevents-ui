@@ -16,12 +16,14 @@ import {fetchEventDetails as fetchEventDetailsAction} from 'src/actions/events.j
 import {
     replaceData as replaceDataAction,
     deleteEvent as deleteEventAction, 
-    cancelEvent as cancelEventAction, 
+    cancelEvent as cancelEventAction,
 } from 'src/actions/editor.js'
+import {fetchSubEvents as fetchSubEventsAction} from 'src/actions/subEvents'
 
 import {
     confirmAction, 
-    clearFlashMsg as clearFlashMsgAction} from 'src/actions/app.js'
+    clearFlashMsg as clearFlashMsgAction,
+} from 'src/actions/app.js'
 
 import {getStringWithLocale} from 'src/utils/locale'
 import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
@@ -32,9 +34,10 @@ import constants from 'src/constants'
 class EventPage extends React.Component {
 
     UNSAFE_componentWillMount() {
-        const {match, fetchEventDetails, user} = this.props
+        const {match, fetchEventDetails, user, fetchSubEvents} = this.props
 
         fetchEventDetails(match.params.eventId, user)
+        fetchSubEvents(this.props.match.params.eventId, user)
     }
 
     copyAsTemplate() {
@@ -99,12 +102,13 @@ class EventPage extends React.Component {
     }
 
     deleteEvents() {
-        if (this.props.subEvents.items.length) {
-            for (const subEvent of this.props.subEvents.items) {
-                this.deleteSubEvent(subEvent.id, this.props.user)
+        const {subEvents, user, deleteEvent} = this.props;
+        if (subEvents.items.length) {
+            for (const subEvent of subEvents.items) {
+                deleteEvent(subEvent.id, user)
             }
         }
-        return this.props.deleteEvent(this.props.match.params.eventId, this.props.user)
+        return deleteEvent(this.props.match.params.eventId, user)
     }
 
     getWarningMarkup() {
@@ -217,6 +221,8 @@ EventPage.propTypes = {
     deleteEvent: PropTypes.func,
     editor: PropTypes.object,
     intl: intlShape.isRequired,
+    fetchSubEvents: PropTypes.func,
+    deleteSubEvent: PropTypes.func,
 }
 
 const mapStateToProps = (state) => ({
@@ -233,6 +239,7 @@ const mapDispatchToProps = (dispatch) => ({
     confirm: (msg, style, actionButtonLabel, data) => dispatch(confirmAction(msg, style, actionButtonLabel, data)),
     deleteEvent: (eventId, user) => dispatch(deleteEventAction(eventId, user)),
     cancelEvent: (eventId, user, values) => dispatch(cancelEventAction(eventId, user, values)),
+    fetchSubEvents: (user, superEventId) => dispatch(fetchSubEventsAction(user, superEventId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(EventPage))

@@ -5,6 +5,7 @@ import RecurringDateRangePicker from './RecurringDateRangePicker'
 import RecurringTimePicker from './RecurringTimePicker'
 import {FormattedMessage} from 'react-intl'
 import moment from 'moment'
+import {some, values, forEach, isEmpty} from 'lodash' 
 
 import DayCheckbox from './DayCheckbox'
 // Material-ui Icons
@@ -13,7 +14,7 @@ import {Button as MaterialButton} from 'material-ui'
 import {Grid, Row, Col, ControlLabel, Button} from 'react-bootstrap'
 
 import {connect} from 'react-redux'
-import {setEventData, sortSubEvents} from 'src/actions/editor'
+import {setEventData, sortSubEvents, setData} from 'src/actions/editor'
 
 import validationRules from 'src/validation/validationRules'
 import ValidationPopover from 'src/components/ValidationPopover'
@@ -45,6 +46,8 @@ class RecurringEvent extends React.Component {
         this.onCheckboxChange = this.onCheckboxChange.bind(this)
         this.weekIntervalChange = this.weekIntervalChange.bind(this)
         this.onTimeChange = this.onTimeChange.bind(this)
+
+        const {values: {start_time, end_time}} = this.props;
         this.state = {
             weekInterval: 1,
             daysSelected: {
@@ -56,10 +59,10 @@ class RecurringEvent extends React.Component {
                 saturday: false,
                 sunday: false,
             },
-            recurringStartDate: moment(this.props.values.start_time),
-            recurringStartTime: moment(this.props.values.start_time).format('HH:mm'),
-            recurringEndDate: moment(this.props.values.end_time).add(2, 'weeks'),
-            recurringEndTime: moment(this.props.values.end_time).format('HH:mm'),
+            recurringStartDate: isEmpty(start_time) ? '' : moment(this.props.values.start_time),
+            recurringStartTime: isEmpty(start_time) ? '' : moment(this.props.values.start_time).format('HH:mm'),
+            recurringEndDate: isEmpty(end_time) ? '' : moment(this.props.values.end_time).add(2, 'weeks'),
+            recurringEndTime: isEmpty(end_time) ? '' : moment(this.props.values.end_time).format('HH:mm'),
             errors: {
                 afterStartTime: false,
                 atLeastOneIsTrue: false,
@@ -118,9 +121,9 @@ class RecurringEvent extends React.Component {
         let actualErrors = errors.filter(list => (list.length > 0))
         // If no validation errors, format datetime
         if(actualErrors.length === 0) {
-            if (moment(recurringStartDate).isValid() && moment(recurringEndDate).isValid && _.some(_.values(daysSelected), value => value === true) && weekInterval > 0) {
+            if (moment(recurringStartDate).isValid() && moment(recurringEndDate).isValid && some(values(daysSelected), value => value === true) && weekInterval > 0) {
                 let days = {}
-                _.forEach(daysSelected, (value, index) => value ? days = Object.assign({}, days, {[index]: index}) : '')
+                forEach(daysSelected, (value, index) => value ? days = Object.assign({}, days, {[index]: index}) : '')
                 const dayCodes = {
                     monday: 1,
                     tuesday: 2,
@@ -130,7 +133,10 @@ class RecurringEvent extends React.Component {
                     saturday: 6,
                     sunday: 7,
                 }
-                const eventLength = moment(this.props.values.start_time).diff(this.props.values.end_time, 'minutes') * -1
+                let eventLength
+                if (!isEmpty(recurringEndTime)) {
+                    eventLength = moment(recurringEndTime).diff(recurringStartTime, 'minutes')
+                }
                 let recurringStartTime = Object.assign({}, {full: this.state.recurringStartTime}, {hours: ''}, {minutes: ''})
                 switch(recurringStartTime.full.length) {
                     case 2:
@@ -163,11 +169,14 @@ class RecurringEvent extends React.Component {
                                 const key = Object.keys(this.props.values.sub_events).length + count
                                 count += 1
                                 const startTime = moment().isoWeekday(day + i * interval).hours(recurringStartTime.hours).minutes(recurringStartTime.minutes)
-                                let endTime = Object.assign({}, startTime)
-                                endTime = moment(endTime).add(eventLength, 'minutes').hours(recurringEndTime.hours).minutes(recurringEndTime.minutes)
+                                let endTime
+                                if (!isEmpty(rules.recurringEndTime)) {
+                                    endTime = Object.assign({}, startTime)
+                                    endTime = moment(endTime).add(eventLength, 'minutes').hours(recurringEndTime.hours).minutes(recurringEndTime.minutes)
+                                }
                                 obj[key] = {
                                     start_time: moment.tz(startTime, 'Europe/Helsinki').utc().toISOString(),
-                                    end_time: moment.tz(endTime, 'Europe/Helsinki').utc().toISOString(),
+                                    end_time: endTime ? moment.tz(endTime, 'Europe/Helsinki').utc().toISOString() : undefined,
                                 }
                                 this.context.dispatch(setEventData(obj, key))
                                 this.props.toggle()

@@ -34,6 +34,7 @@ class NewEvent extends React.Component {
                                 ref="start_time"
                                 name="start_time"
                                 label="event-starting-datetime"
+                                defaultValue={this.props.event.start_time}
                                 eventKey={eventKey}
                                 validationErrors={errors['start_time']}
                             />
@@ -43,6 +44,7 @@ class NewEvent extends React.Component {
                                 ref="end_time"
                                 name="end_time"
                                 label="event-ending-datetime"
+                                defaultValue={this.props.event.end_time}
                                 eventKey={eventKey}
                                 validationErrors={errors['end_time']}
                             />
