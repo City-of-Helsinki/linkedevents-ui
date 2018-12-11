@@ -5,7 +5,6 @@ import {connect} from 'react-redux'
 import EventDetails from 'src/components/EventDetails'
 import moment from 'moment'
 import PropTypes from 'prop-types'
-import {isEmpty} from 'lodash'
 
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 
@@ -18,7 +17,6 @@ import {
     replaceData as replaceDataAction,
     deleteEvent as deleteEventAction, 
     cancelEvent as cancelEventAction,
-    deleteSubEvent as deleteSubEventAction, 
 } from 'src/actions/editor.js'
 import {fetchSubEvents as fetchSubEventsAction} from 'src/actions/subEvents'
 
@@ -36,7 +34,7 @@ import constants from 'src/constants'
 class EventPage extends React.Component {
 
     UNSAFE_componentWillMount() {
-        const {match, fetchEventDetails, user, events: {event}, fetchSubEvents} = this.props
+        const {match, fetchEventDetails, user, fetchSubEvents} = this.props
 
         fetchEventDetails(match.params.eventId, user)
         fetchSubEvents(this.props.match.params.eventId, user)
@@ -104,10 +102,10 @@ class EventPage extends React.Component {
     }
 
     deleteEvents() {
-        const {subEvents, deleteSubEvent, user, deleteEvent} = this.props;
+        const {subEvents, user, deleteEvent} = this.props;
         if (subEvents.items.length) {
             for (const subEvent of subEvents.items) {
-                deleteSubEvent(subEvent.id, user)
+                deleteEvent(subEvent.id, user)
             }
         }
         return deleteEvent(this.props.match.params.eventId, user)
@@ -242,7 +240,6 @@ const mapDispatchToProps = (dispatch) => ({
     deleteEvent: (eventId, user) => dispatch(deleteEventAction(eventId, user)),
     cancelEvent: (eventId, user, values) => dispatch(cancelEventAction(eventId, user, values)),
     fetchSubEvents: (user, superEventId) => dispatch(fetchSubEventsAction(user, superEventId)),
-    deleteSubEvent: (event) => dispatch(deleteSubEventAction(event)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(EventPage))
