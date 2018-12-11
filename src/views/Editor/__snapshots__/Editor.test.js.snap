@@ -1926,22 +1926,24 @@ exports[`Editor Snapshot should render view correctly when editing existing even
           >
             <div>
               <WithStyles(Button)
+                color="accent"
                 disabled={false}
                 onClick={[Function]}
                 raised={true}
               >
                 <FormattedMessage
-                  id="delete-event"
+                  id="delete-events"
                   values={Object {}}
                 />
               </WithStyles(Button)>
               <WithStyles(Button)
+                color="accent"
                 disabled={false}
                 onClick={[Function]}
                 raised={true}
               >
                 <FormattedMessage
-                  id="cancel-event"
+                  id="cancel-events"
                   values={Object {}}
                 />
               </WithStyles(Button)>

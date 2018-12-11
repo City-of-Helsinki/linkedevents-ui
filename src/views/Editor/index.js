@@ -115,7 +115,8 @@ export class EditorPage extends React.Component {
                 <Button
                     raised
                     disabled={disabled}
-                    onClick={ (e) => this.confirmDelete(e) }><FormattedMessage id="delete-event"/></Button>
+                    onClick={ (e) => this.confirmDelete(e) }
+                    color="accent"><FormattedMessage id="delete-events"/></Button>
             )
         }
     }
@@ -143,7 +144,8 @@ export class EditorPage extends React.Component {
                 <Button
                     raised
                     disabled={disabled}
-                    onClick={ (e) => this.confirmCancel(e) }><FormattedMessage id="cancel-event"/></Button>
+                    onClick={ (e) => this.confirmCancel(e)}
+                    color="accent"><FormattedMessage id="cancel-events"/></Button>
             )
         } else {
             return null

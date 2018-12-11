@@ -157,8 +157,8 @@ class EventPage extends React.Component {
         }
 
         const editEventButton = <Button raised onClick={e => this.editEvent(e)} disabled={!eventIsEditable} color="primary"><FormattedMessage id="edit-events"/></Button>
-        const cancelEventButton = <Button raised disabled={!eventIsEditable} onClick={ (e) => this.confirmCancel(e) }><FormattedMessage id="cancel-events"/></Button>
-        const deleteEventButton = <Button raised disabled={!eventIsEditable} onClick={ (e) => this.confirmDelete(e) }><FormattedMessage id="delete-events"/></Button>
+        const cancelEventButton = <Button raised disabled={!eventIsEditable} onClick={ (e) => this.confirmCancel(e)} color="accent"><FormattedMessage id="cancel-events"/></Button>
+        const deleteEventButton = <Button raised disabled={!eventIsEditable} onClick={ (e) => this.confirmDelete(e)} color="accent"><FormattedMessage id="delete-events"/></Button>
         if(event && event.name) {
             return (
                 <div className={draftClass}>
@@ -187,7 +187,7 @@ class EventPage extends React.Component {
                                     <span>{editEventButton}</span>
                                 </Tooltip>
                             }
-                            <Button raised onClick={e => this.copyAsTemplate(e)} color="accent"><FormattedMessage id="copy-event-to-draft"/></Button>
+                            <Button raised onClick={e => this.copyAsTemplate(e)} color="default"><FormattedMessage id="copy-event-to-draft"/></Button>
                         </div>
                     </div>
                     <div className="container">
