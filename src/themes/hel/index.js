@@ -3,30 +3,64 @@ let Spacing = require('material-ui/styles/spacing')
 import {createMuiTheme} from 'material-ui/styles'
 
 
-const {green, lightGreen, cyan, blue, lightBlue} = Colors
+const {red, blue} = Colors
 
+let helCoat = {
+    light: '#5aa0f9',
+    main: '#0072c6',
+    dark: '#004795',
+    contrastText: '#fff',
+}
 
-let helColor = {
-    A200: '#00bcd4',
-    helTram: '#009246',
-    helCopper: '#00d7a7',
-    helCoat: '#0072c6',
-    helFog: '#9fc9eb',
+let helFog = {
+    light: '#d2fcff',
+    main: '#9fc9eb',
+    dark: '#6e98b9',
+    contrastText: '#fff',
+}
+
+let helTram = {
+    light: '#4ec373',
+    main: '#009246',
+    dark: '#00631b',
+    contrastText: '#fff',
+}
+
+let helCopper = {
+    light: '#63ffd8',
+    main: '#00d7a7',
+    dark: '#00a478',
+    contrastText: '#fff',
+}
+
+let helGray = {
+    black: '#343434',
+    light: '#ebedf1',
+    main: '#abb2bd',
+    dark: '#525a65',
+    contrastText: '#fff',
+}
+
+let helBrick = {
+    light: '#f75d43',
+    main: '#bd2719',
+    dark: '#850000',
+    contrastText: '#fff',
 }
 
 let primary = blue
-let secondary = cyan
+let secondary = red
 let background = blue
 
 if (appSettings.ui_mode === 'events') {
-    background = helColor.helCoat
-    primary = blue
-    secondary = lightBlue
+    background = helCoat.main
+    primary = helCoat
+    secondary = helBrick
 }
 if (appSettings.ui_mode === 'courses') {
-    background = helColor.helTram
-    primary = green
-    secondary = lightGreen
+    background = helTram.main
+    primary = helTram
+    secondary = helBrick
 }
 
 let helRawStyle = {
@@ -36,16 +70,16 @@ let helRawStyle = {
     palette: {
         primary: primary,
         secondary: secondary,
-        primary2Color: Colors.cyan700,
-        primary3Color: Colors.gray700,
-        accent1Color: '#48a3e7',
-        accent2Color: '#0072c6',
-        accent3Color: Colors.grey500,
-        textColor: Colors.black,
+        primary2Color: primary.dark,
+        primary3Color: helGray.dark,
+        accent1Color: primary.light,
+        accent2Color: primary.main,
+        accent3Color: helGray.main,
+        textColor: helGray.black,
         alternateTextColor: Colors.white,
         canvasColor: Colors.white,
-        borderColor: Colors.grey300,
-        disabledColor: Colors.darkBlack300,
+        borderColor: helGray.light,
+        disabledColor: helGray.light,
     },
     overrides: {
         MuiButton: {
@@ -61,18 +95,15 @@ let helRawStyle = {
         },
         MuiInput: {
             root: {
-                textColor: Colors.black,
-                hintColor: Colors.darkBlack300,
-                floatingLabelColor: Colors.black,
+                textColor: helGray.black,
+                hintColor: helGray.light,
+                floatingLabelColor: helGray.black,
                 backgroundColor: '#ffffff',
                 disabled: {
-                    color: Colors.darkBlack300,
-                },
-                error: {
-                    color: Colors.red500,
+                    color: helGray.light,
                 },
                 focused: {
-                    color: Colors.cyan500,
+                    color: secondary.main,
                 },
             },
         },
@@ -104,16 +135,16 @@ let helHeaderRawStyle = {
     fontFamily: 'HelsinkiGrotesk, Roboto, sans-serif',
     palette: {
         primary: primary,
-        primary2Color: Colors.cyan700,
-        primary3Color: Colors.gray700,
-        accent1Color: '#48a3e7',
-        accent2Color: '#0072c6',
-        accent3Color: Colors.grey500,
-        textColor: Colors.black,
+        primary2Color: primary.dark,
+        primary3Color: helGray.dark,
+        accent1Color: primary.light,
+        accent2Color: primary.main,
+        accent3Color: helGray.main,
+        textColor: helGray.black,
         alternateTextColor: Colors.white,
         canvasColor: Colors.white,
-        borderColor: Colors.grey300,
-        disabledColor: Colors.darkBlack300,
+        borderColor: helGray.light,
+        disabledColor: helGray.light,
     },
     overrides: {
         MuiButton: {
@@ -126,7 +157,7 @@ let helHeaderRawStyle = {
         },
         MuiInput: {
             root: {
-                floatingLabelColor: Colors.black,
+                floatingLabelColor: helGray.black,
             },
         },
     },

@@ -76,13 +76,13 @@ class App extends React.Component {
         let buttonStyle = {
             marginLeft: '10px',
             color: 'white',
-            backgroundColor: '#1976d2',
+            backgroundColor: HelTheme.palette.primary.main,
         }
 
         let warningButtonStyle = {
             marginLeft: '10px',
             color: 'white',
-            backgroundColor: 'red',
+            backgroundColor: HelTheme.palette.secondary.main,
         }
         let useWarningButtonStyle = false
         if (this.props.app.confirmAction && this.props.app.confirmAction.style === 'warning') {
