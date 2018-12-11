@@ -230,7 +230,7 @@ export class EditorPage extends React.Component {
         this.props.confirm(
             'confirm-delete',
             'warning',
-            'delete',
+            'delete-events',
             {
                 action: () => this.deleteEvents(),
                 additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
@@ -257,7 +257,7 @@ export class EditorPage extends React.Component {
         this.props.confirm(
             'confirm-cancel',
             'warning',
-            'cancel-event',
+            'cancel-events',
             {
                 action: e => this.props.cancelEvent(this.props.match.params.eventId, this.props.user, this.props.editor.values),
                 additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),

@@ -32,7 +32,7 @@ if (appSettings.ui_mode === 'courses') {
 let helRawStyle = {
     outline: 'none',
     spacing: Spacing,
-    fontFamily: 'Roboto, sans-serif',
+    fontFamily: 'HelsinkiGrotesk, Roboto, sans-serif',
     palette: {
         primary: primary,
         secondary: secondary,
@@ -101,7 +101,7 @@ let helRawStyle = {
 
 let helHeaderRawStyle = {
     spacing: Spacing,
-    fontFamily: 'Roboto, sans-serif',
+    fontFamily: 'HelsinkiGrotesk, Roboto, sans-serif',
     palette: {
         primary: primary,
         primary2Color: Colors.cyan700,
