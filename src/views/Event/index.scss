@@ -6,6 +6,14 @@ $buttonActionMargin: 10px;
         height: $buttonActionHeight;
         margin-right: $buttonActionMargin;
     }
+
+    .cancel-delete-btn, .edit-copy-btn {
+        display: inline-block;
+    }
+
+    .edit-copy-btn {
+        float: right;
+    }
 }
 .event-page {
 

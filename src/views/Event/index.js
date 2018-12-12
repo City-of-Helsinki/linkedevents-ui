@@ -172,22 +172,26 @@ class EventPage extends React.Component {
                     <div className="container">
 
                         <div className="event-actions">
-                            {eventIsEditable ? cancelEventButton :
-                                <Tooltip title={eventEditabilityExplanation}>
-                                    <span>{cancelEventButton}</span>
-                                </Tooltip>
-                            }
-                            {eventIsEditable ? deleteEventButton :
-                                <Tooltip title={eventEditabilityExplanation}>
-                                    <span>{deleteEventButton}</span>
-                                </Tooltip>
-                            }
-                            {eventIsEditable ? editEventButton :
-                                <Tooltip title={eventEditabilityExplanation}>
-                                    <span>{editEventButton}</span>
-                                </Tooltip>
-                            }
-                            <Button raised onClick={e => this.copyAsTemplate(e)} color="default"><FormattedMessage id="copy-event-to-draft"/></Button>
+                            <div className="cancel-delete-btn">
+                                {eventIsEditable ? cancelEventButton :
+                                    <Tooltip title={eventEditabilityExplanation}>
+                                        <span>{cancelEventButton}</span>
+                                    </Tooltip>
+                                }
+                                {eventIsEditable ? deleteEventButton :
+                                    <Tooltip title={eventEditabilityExplanation}>
+                                        <span>{deleteEventButton}</span>
+                                    </Tooltip>
+                                }
+                            </div>
+                            <div className="edit-copy-btn">
+                                {eventIsEditable ? editEventButton :
+                                    <Tooltip title={eventEditabilityExplanation}>
+                                        <span>{editEventButton}</span>
+                                    </Tooltip>
+                                }
+                                <Button raised onClick={e => this.copyAsTemplate(e)} color="default"><FormattedMessage id="copy-event-to-draft"/></Button>
+                            </div>
                         </div>
                     </div>
                     <div className="container">
