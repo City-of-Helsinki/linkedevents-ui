@@ -13,6 +13,7 @@ $buttonActionMargin: 10px;
 
     .edit-copy-btn {
         float: right;
+        margin-right: -$buttonActionMargin;
     }
 }
 .event-page {
