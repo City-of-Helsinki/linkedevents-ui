@@ -2,20 +2,14 @@ $buttonActionHeight: 64px;
 $buttonActionMargin: 10px;
 
 .event-actions {
+    display: flex;
+    justify-content: space-between;
     button {
         height: $buttonActionHeight;
         margin-right: $buttonActionMargin;
     }
-
-    .cancel-delete-btn, .edit-copy-btn {
-        display: inline-block;
-    }
-
-    .edit-copy-btn {
-        float: right;
-        margin-right: -$buttonActionMargin;
-    }
 }
+
 .event-page {
 
     .container {
@@ -73,5 +67,12 @@ $buttonActionMargin: 10px;
                 line-height: 1;
             }
         }
+    }
+
+    .event-actions button {
+        margin-bottom: 10px;
+        line-height: 1.5;
+        padding: 12px;
+        width: 160px;
     }
 }
