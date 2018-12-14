@@ -23,6 +23,7 @@ class HelTimePicker extends React.Component {
     render() {
         return (
             <HelTextField
+                {...this.props}
                 validations={[CONSTANTS.VALIDATION_RULES.IS_TIME]}
                 placeholder='hh.mm'
                 name={this.props.name}

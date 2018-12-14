@@ -307,7 +307,12 @@ export class EditorPage extends React.Component {
                 </div>
 
                 <div className="container">
-                    <FormFields ref="form" action={this.props.match.params.action} editor={this.props.editor} setDirtyState={this.setDirtyState} />
+                    <FormFields
+                        ref="form"
+                        action={this.props.match.params.action}
+                        editor={this.props.editor}
+                        setDirtyState={this.setDirtyState}
+                    />
                 </div>
 
                 <div className="editor-action-buttons">

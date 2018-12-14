@@ -32,6 +32,7 @@ import {connect} from 'react-redux'
 import {setEventData} from '../../actions/editor'
 
 import moment from 'moment'
+import {pickBy} from 'lodash'
 
 import API from '../../api'
 
@@ -155,9 +156,11 @@ class FormFields extends React.Component {
 
         }
         const {values, validationErrors, contentLanguages} = this.props.editor
-        const newEvents = this.generateNewEventFields(this.props.editor.values.sub_events);
+        const formType = this.props.action
 
         const {VALIDATION_RULES, DEFAULT_CHARACTER_LIMIT} = CONSTANTS
+        const addedEvents = pickBy(values.sub_events, event => !event['@id'])
+        const newEvents = this.generateNewEventFields(addedEvents)
         
         return (
             <div>
@@ -255,10 +258,27 @@ class FormFields extends React.Component {
                     <div className="col-sm-6">
                         <div className="row">
                             <div className="col-xs-12 col-md-6">
-                                <HelDateTimeField validationErrors={validationErrors['start_time']} defaultValue={values['start_time']} ref="start_time" name="start_time" label="event-starting-datetime" setDirtyState={this.props.setDirtyState} />
+                                <HelDateTimeField
+                                    datePickerProps={{disabled: formType === 'update'}}
+                                    timePickerProps={{disabled: formType === 'update'}}
+                                    validationErrors={validationErrors['start_time']}
+                                    defaultValue={values['start_time']}
+                                    ref="start_time"
+                                    name="start_time"
+                                    label="event-starting-datetime"
+                                    setDirtyState={this.props.setDirtyState}
+                                />
                             </div>
                             <div className="col-xs-12 col-md-6">
-                                <HelDateTimeField validationErrors={validationErrors['end_time']} defaultValue={values['end_time']} ref="end_time" name="end_time" label="event-ending-datetime" setDirtyState={this.props.setDirtyState} />
+                                <HelDateTimeField
+                                    datePickerProps={{disabled: formType === 'update'}}
+                                    timePickerProps={{disabled: formType === 'update'}}
+                                    validationErrors={validationErrors['end_time']}
+                                    defaultValue={values['end_time']}
+                                    ref="end_time" name="end_time"
+                                    label="event-ending-datetime"
+                                    setDirtyState={this.props.setDirtyState}
+                                />
                             </div>
                         </div>
                         <div className={'new-events ' + (this.state.showNewEvents ? 'show' : 'hidden')}>
@@ -491,6 +511,7 @@ class FormFields extends React.Component {
 FormFields.propTypes = {
     editor: PropTypes.object,
     setDirtyState: PropTypes.func,
+    action: PropTypes.oneOf(['update', 'create']),
 }
 
 export default FormFields

@@ -126,7 +126,6 @@ function update(state = initialState, action) {
             values: newValues,
             validationErrors,
         })
-        console.log(x, newValues, validationErrors)
         return x
     }
 
