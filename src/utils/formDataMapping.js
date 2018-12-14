@@ -1,4 +1,4 @@
-import {clone, map, lastIndexOf, forOwn, every, includes, isEmpty, cloneDeep, remove, values} from 'lodash'
+import {clone, map, lastIndexOf, forOwn, every, includes, isEmpty, cloneDeep, remove, values, pickBy} from 'lodash'
 import constants from 'src/constants.js'
 import moment from 'moment'
 import 'moment-timezone'
@@ -198,12 +198,8 @@ function mapAPIDataToUIFormat(values) {
         obj.offers = values.offers
     }
 
-    // Subevents
-    if (values.sub_events.length === 0) {
-        obj.sub_events = {}
-    } else {
-        obj.sub_events = values.sub_events
-    }
+    // Subevents: from array to object
+    obj.sub_events = {...values.sub_events}
 
     // TODO: Filter hel_main categories from keywords, non-hel_main categories from hel_main
     //
@@ -294,10 +290,19 @@ export const calculateSuperEventTime = (subEvents) => {
 }
 
 // combine all dates in the editor form to get a collection of sub events under super
-export const combineSubEventsFromEditor = (formValues) => {
-    const subEvents = {
-        '0': {start_time: formValues.start_time, end_time: formValues.end_time},
-        ...formValues.sub_events,
+export const combineSubEventsFromEditor = (formValues, updateExisting = false) => {
+    let subEvents
+    if (updateExisting) {
+        subEvents = formValues.sub_events
+    } else {
+        subEvents = {
+            '0': {start_time: formValues.start_time, end_time: formValues.end_time},
+            ...formValues.sub_events,
+        }
     }
-    return Object.assign({}, formValues, {sub_events: subEvents})
+
+    return Object.assign({}, formValues, {
+        sub_events: subEvents,
+        id: undefined,
+    })
 }

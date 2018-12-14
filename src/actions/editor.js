@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch'
 import moment from 'moment';
-import {includes, keys} from 'lodash';
+import {includes, keys, pickBy} from 'lodash';
 
 import constants from '../constants'
 import {
@@ -164,6 +164,10 @@ export function validateFor(publicationStatus) {
 const multiLanguageFields = ['name', 'description', 'short_description', 'provider', 'location_extra_info']
 
 const prepareFormValues = (formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch) => {
+    // exclude all existing sub events from editing form
+    if (updateExisting) {
+        formValues.sub_events = pickBy(formValues.sub_events, event => !event['@id'])
+    }
     dispatch({type: constants.EDITOR_SENDDATA})
     let recurring = false;
     if(formValues.sub_events) {
@@ -221,7 +225,7 @@ const prepareFormValues = (formValues, contentLanguages, user, updateExisting, p
     
     // specific processing for event with multiple dates
     if (recurring) {
-        data = combineSubEventsFromEditor(data)
+        data = combineSubEventsFromEditor(data, updateExisting)
         // calculate the super event's start_time and end_time based on its sub events
         const superEventTime = calculateSuperEventTime(data.sub_events)
         data = Object.assign({}, data, {
@@ -236,11 +240,9 @@ const prepareFormValues = (formValues, contentLanguages, user, updateExisting, p
 const executeSendRequest = (formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch) => {
     // check publication to decide whether allow the request to happen
     publicationStatus = publicationStatus || formValues.publication_status
-
     if(!publicationStatus) {
         return
     }
-
     // prepare the body of the request (event object/array)
     let preparedFormValues
     if(!Array.isArray(formValues)) {
@@ -304,7 +306,7 @@ const executeSendRequest = (formValues, contentLanguages, user, updateExisting, 
             if(response.status === 200 || response.status === 201) {
                 // create sub events after creaing super event successfully
                 if (json.super_event_type === 'recurring') {
-                    const formWithAllSubEvents = combineSubEventsFromEditor(formValues)
+                    const formWithAllSubEvents = combineSubEventsFromEditor(formValues, updateExisting)
                     dispatch(
                         sendRecurringData(formWithAllSubEvents, contentLanguages, user, updateExisting, publicationStatus, json['@id'])
                     )
@@ -340,11 +342,12 @@ const executeSendRequest = (formValues, contentLanguages, user, updateExisting, 
 
 export function sendData(updateExisting = false, publicationStatus) {
     return (dispatch, getState) => {
-        // get needed information from the state
+        // get needed information from the stat
         const {values: formValues, contentLanguages} = getState().editor
         const user = getState().user
+        let form = formValues
         // prepare and execute the request
-        executeSendRequest(formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch)
+        executeSendRequest(form, contentLanguages, user, updateExisting, publicationStatus, dispatch)
     }
 }
 
@@ -373,7 +376,10 @@ export function sendDataComplete(json, action) {
 export function sendRecurringData(formValues, contentLanguages, user, updateExisting = false, publicationStatus, superEventId) {
     return (dispatch) => {
         const subEvents = Object.assign({}, formValues.sub_events)
-        const baseEvent = Object.assign({}, formValues, {sub_events: {}, super_event: {'@id': superEventId}})
+        const baseEvent = Object.assign({}, formValues, {
+            sub_events: {},
+            super_event: {'@id': superEventId},
+        })
         const newValues = []
         for (const key in subEvents) {
             if (subEvents.hasOwnProperty(key)) {

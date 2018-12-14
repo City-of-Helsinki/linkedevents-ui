@@ -32,6 +32,7 @@ import {connect} from 'react-redux'
 import {setEventData} from '../../actions/editor'
 
 import moment from 'moment'
+import {pickBy} from 'lodash'
 
 import API from '../../api'
 
@@ -158,10 +159,8 @@ class FormFields extends React.Component {
         const formType = this.props.action
 
         const {VALIDATION_RULES, DEFAULT_CHARACTER_LIMIT} = CONSTANTS
-        let newEvents
-        if (formType === 'create') {
-            newEvents = this.generateNewEventFields(values.sub_events)
-        }
+        const addedEvents = pickBy(values.sub_events, event => !event['@id'])
+        const newEvents = this.generateNewEventFields(addedEvents)
         
         return (
             <div>
