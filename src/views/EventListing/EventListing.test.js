@@ -7,6 +7,7 @@ import renderer from 'react-test-renderer'
 import testReduxIntWrapper from '../../../__mocks__/testReduxIntWrapper'
 import ConnectedEventListing, {EventListing} from './index'
 import {mockUserEvents} from '__mocks__/mockData';
+import {mockCurrentTime, resetMockDate} from '../../../__mocks__/testMocks';
 
 const mockStore = configureStore([thunk])
 const initialStore = {
@@ -41,6 +42,14 @@ const initialStore = {
 
 describe('EventListing Snapshot', () => {
     let store;
+
+    beforeEach(() => {
+        mockCurrentTime('2018-11-10T12:00:00z')
+    })
+
+    afterEach(() => {
+        resetMockDate()
+    })
 
     it('should render view by default', () => {
         const componentProps = {
