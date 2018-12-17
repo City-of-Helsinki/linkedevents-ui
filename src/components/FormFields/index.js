@@ -289,6 +289,7 @@ class FormFields extends React.Component {
                         }
                         <Button
                             raised
+                            disabled={formType === 'update'}
                             className="base-material-btn"
                             color="primary"
                             onClick={ () => this.addNewEventDialog() }

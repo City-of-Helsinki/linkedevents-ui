@@ -21,8 +21,6 @@ import {
     cancelEvent as cancelEventAction,
     sendData as sendDataAction,
     clearData as clearDataAction,
-    fetchKeywordSets as fetchKeywordSetsAction,
-    fetchLanguages as fetchLanguagesAction,
     setValidationErrors as setValidationErrorsAction,
 } from '../../actions/editor'
 import {confirmAction, clearFlashMsg} from '../../actions/app'
@@ -155,10 +153,10 @@ export class EditorPage extends React.Component {
     getSaveButtons(disabled = false) {
 
         let eventExists = this.eventExists()
-        let labelTextId = this.props.editor.isSending ?
-            (eventExists ? 'event-action-save-existing-active' : 'event-action-save-new-active')
+        let labelTextId = this.props.editor.isSending
+            ? (eventExists ? 'event-action-save-existing-active' : 'event-action-save-new-active')
             : (eventExists ? 'event-action-save-existing' : 'event-action-save-new')
-        if (_.keys(this.props.editor.values.sub_events).length > 0) {
+        if (_.keys(this.props.editor.values.sub_events).length > 0 && !eventExists) {
             labelTextId = this.props.editor.isSending ? 'event-action-save-multiple-active' : 'event-action-save-multiple'
         }
 
