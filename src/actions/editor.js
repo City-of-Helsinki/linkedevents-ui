@@ -310,6 +310,7 @@ const executeSendRequest = (formValues, contentLanguages, user, updateExisting, 
                     dispatch(
                         sendRecurringData(formWithAllSubEvents, contentLanguages, user, updateExisting, publicationStatus, json['@id'])
                     )
+                    dispatch(sendDataComplete(json, actionName))
                 } else {
                     dispatch(sendDataComplete(json, actionName))
                 }
@@ -345,9 +346,9 @@ export function sendData(updateExisting = false, publicationStatus) {
         // get needed information from the stat
         const {values: formValues, contentLanguages} = getState().editor
         const user = getState().user
-        let form = formValues
+
         // prepare and execute the request
-        executeSendRequest(form, contentLanguages, user, updateExisting, publicationStatus, dispatch)
+        executeSendRequest(formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch)
     }
 }
 
