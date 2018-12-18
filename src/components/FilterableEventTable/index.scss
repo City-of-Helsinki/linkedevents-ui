@@ -17,6 +17,16 @@
     }
 }
 
+.sub-events-progress {
+    margin: 12px 0 12px 60px;
+}
+
+.super-event-row {
+    &:hover {
+        cursor: pointer;
+    }
+}
+
 @media (max-width: 480px) {
     .event-table {
         td, th {

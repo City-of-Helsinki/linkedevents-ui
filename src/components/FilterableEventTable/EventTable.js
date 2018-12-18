@@ -53,7 +53,15 @@ const EventTable = (props) => {
                     </TableCell>
                 </TableRow>
             </TableHead>
-            <TableBody>{rows}</TableBody>
+            
+            {/*
+                since event will contain sub events, using multiple body helps break down
+                the whole table into smaller sub sections with consistent styles
+            */}
+            {rows.map((row, index) => (
+                <TableBody key={props.events[index].id}>{row}</TableBody>
+            ))}
+
             <MuiThemeProvider theme={paginationTheme}>
                 <TableFooter>
                     <TableRow>

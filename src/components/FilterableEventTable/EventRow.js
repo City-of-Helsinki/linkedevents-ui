@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import {TableCell, TableRow, Table, TableBody, CircularProgress} from 'material-ui'
 import {FormattedMessage, FormattedDate, FormattedRelative} from 'react-intl'
 import {Link} from 'react-router-dom'
+import {keys, isEmpty} from 'lodash'
 
 import constants from '../../constants'
 import {fetchSubEventsForSuper} from '../../actions/subEvents'
@@ -16,12 +17,13 @@ class EventRow extends React.Component {
     toggleSubEvent = () => {
         const {getSubEvents, event, fetchingId, fetchSubEvents} = this.props
         const {showSubEvents} = this.state
-        const subEvents = getSubEvents(event.id) 
+        const subEvents = getSubEvents(event.id)
+
         if (!showSubEvents
             && event.super_event_type === 'recurring'
             && fetchingId !== event.id
-            && subEvents.length <= 0
-            && _.keys(event.sub_events).length > 0
+            && isEmpty(subEvents)
+            && !isEmpty(event.sub_events)
         ) {
             fetchSubEvents(event.id)
         }
@@ -54,60 +56,85 @@ class EventRow extends React.Component {
 
         // Add necessary badges
         let nameColumn = null
-        let draft = this.props.event.publication_status === constants.PUBLICATION_STATUS.DRAFT
+        let draft = e.publication_status === constants.PUBLICATION_STATUS.DRAFT
         // let draftClass = draft ? 'draft-row' : ''
         let draftClass = null
-        let cancelled = this.props.event.event_status === constants.EVENT_STATUS.CANCELLED
-        let isSuper = this.props.event.super_event_type === 'recurring'
+        let cancelled = e.event_status === constants.EVENT_STATUS.CANCELLED
+        let isSuper = e.super_event_type === 'recurring'
         // let cancelledClass = cancelled ? 'cancelled-row' : ''
         let cancelledClass = null
-        if (draft) {
-            nameColumn = (<TableCell className={draftClass}><span className="badge badge-warning text-uppercase"><FormattedMessage id="draft"/></span> <Link to={url}>{name}</Link></TableCell>)
-        } else if (cancelled) {
-            nameColumn = (<TableCell className={cancelledClass}><span className="badge badge-danger text-uppercase"><FormattedMessage id="cancelled"/></span> <Link to={url}>{name}</Link></TableCell>)
-        } else if (isSuper) {
-            nameColumn = (<TableCell className={cancelledClass}><span className="badge badge-success text-uppercase"><FormattedMessage id="sarja"/></span> <Link to={url}>{name}</Link></TableCell>)
-        } else {
-            nameColumn = (<TableCell><Link to={url}>{name}</Link></TableCell>)
+
+        const indentationStyle = {
+            paddingLeft: `${this.props.nestLevel * 24}px`,
+            fontWeight: this.props.nestLevel === 1 && isSuper ? 'bold' : 'normal', 
         }
 
-        const progressStyle = {
-            marginTop: '20px',
-            marginLeft: '60px',
+        if (draft) {
+            nameColumn = (<TableCell style={indentationStyle} className={draftClass}><span className="badge badge-warning text-uppercase"><FormattedMessage id="draft"/></span> <Link to={url}>{name}</Link></TableCell>)
+        } else if (cancelled) {
+            nameColumn = (<TableCell style={indentationStyle} className={cancelledClass}><span className="badge badge-danger text-uppercase"><FormattedMessage id="cancelled"/></span> <Link to={url}>{name}</Link></TableCell>)
+        } else if (isSuper) {
+            nameColumn = (<TableCell style={indentationStyle} className={cancelledClass}><span className="badge badge-success text-uppercase"><FormattedMessage id="series"/></span> <Link to={url}>{name}</Link></TableCell>)
+        } else {
+            nameColumn = (<TableCell style={indentationStyle}><Link to={url}>{name}</Link></TableCell>)
         }
+
+        const isExpandable = !isEmpty(e.sub_events)
+        const shouldShow = isExpandable && this.state.showSubEvents
+        const isFetching = this.props.fetchingId === e.id
 
         return (
             <React.Fragment>
-                <TableRow key={e['id']} onClick={this.toggleSubEvent}>
+                <TableRow
+                    className={isExpandable ? 'super-event-row' : null}
+                    key={e['id']}
+                    onClick={isExpandable ? this.toggleSubEvent : null}
+                >
                     {nameColumn}
                     <TableCell className={draftClass}>{dateFormat(e.start_time)}</TableCell>
                     <TableCell className={draftClass}>{dateFormat(e.end_time)}</TableCell>
                     <TableCell className={draftClass}>{dateTimeFormat(e.last_modified_time)}</TableCell>
                 </TableRow>
-                {_.keys(e.sub_events).length > 0 && this.state.showSubEvents && (
-                    <TableRow>
-                        <TableCell colSpan={4} style={{padding: 0, paddingLeft: 24}}>
-                            {this.props.fetchingId === e.id
-                                ? <span><CircularProgress style={progressStyle}/></span>
-                                : (
-                                    <Table className='event-table'>
-                                        <TableBody>
-                                            {this.props.getSubEvents(e.id).map(event => (
-                                                <EventRow event={event} key={event.id} />
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                )
-                            }
-                        </TableCell>
-                    </TableRow>
+                {shouldShow && (
+                    isFetching
+                        ? <span><CircularProgress className='sub-events-progress'/></span>
+                        : (
+                            <SubEventsTable
+                                nestLevel={this.props.nestLevel + 1}
+                                events={this.props.getSubEvents(e.id)}
+                            />
+                        )
                 )}
             </React.Fragment>
         )
     }
 }
 
+// render sub events of sub events ..etc recursively
+// nest levl is used to calculate the indentation for each level of recursion
+const SubEventsTable = (props) => {
+    const {events, nestLevel} = props;
+
+    return (
+        <React.Fragment>
+            {events.map(event => (
+                <EventRow nestLevel={nestLevel} event={event} key={event.id} />
+            ))}
+        </React.Fragment>
+    )
+}
+
+SubEventsTable.propTypes = {
+    events: PropTypes.arrayOf(PropTypes.object),
+    nestLevel: PropTypes.number,
+}
+
+EventRow.defaultProps = {
+    nestLevel: 1,
+}
+
 EventRow.propTypes = {
+    nestLevel: PropTypes.number,
     event: PropTypes.object,
     fetchingId: PropTypes.string,
     getSubEvents: PropTypes.func,
