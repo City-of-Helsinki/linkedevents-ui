@@ -16,7 +16,7 @@ function makeRequest(user = {}, sortBy, sortOrder, paginationPage, dispatch) {
     let apiSortParam = apiSortDirectionPrefix + sortBy
     // API page parameter begins from 1 but TablePagination component we use uses 0 based counting
     // that's why we add to paginationPage variable when passing it to API
-    var url = `${appSettings.api_base}/event/?publisher=${organization}&show_all=1&sort=${apiSortParam}&page=${paginationPage + 1}&page_size=100`
+    var url = `${appSettings.api_base}/event/?super_event=none&publisher=${organization}&show_all=1&sort=${apiSortParam}&page=${paginationPage + 1}&page_size=100`
     if(appSettings.nocache) {
         url += `&nocache=${Date.now()}`
     }
