@@ -1,10 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import {TableCell, TableRow, Table, TableBody, CircularProgress} from 'material-ui'
+import {TableCell, TableRow, CircularProgress} from 'material-ui'
+import {KeyboardArrowDown, KeyboardArrowUp} from 'material-ui-icons';
 import {FormattedMessage, FormattedDate, FormattedRelative} from 'react-intl'
 import {Link} from 'react-router-dom'
-import {keys, isEmpty} from 'lodash'
+import {isEmpty} from 'lodash'
 
 import constants from '../../constants'
 import {fetchSubEventsForSuper} from '../../actions/subEvents'
@@ -70,25 +71,37 @@ class EventRow extends React.Component {
         }
 
         if (draft) {
-            nameColumn = (<TableCell style={indentationStyle} className={draftClass}><span className="badge badge-warning text-uppercase"><FormattedMessage id="draft"/></span> <Link to={url}>{name}</Link></TableCell>)
+            nameColumn = (<TableCell style={indentationStyle} className={draftClass}><span className="badge badge-warning text-uppercase tag-space"><FormattedMessage id="draft"/></span> <Link to={url}>{name}</Link></TableCell>)
         } else if (cancelled) {
-            nameColumn = (<TableCell style={indentationStyle} className={cancelledClass}><span className="badge badge-danger text-uppercase"><FormattedMessage id="cancelled"/></span> <Link to={url}>{name}</Link></TableCell>)
+            nameColumn = (<TableCell style={indentationStyle} className={cancelledClass}><span className="badge badge-danger text-uppercase tag-space"><FormattedMessage id="cancelled"/></span> <Link to={url}>{name}</Link></TableCell>)
         } else if (isSuper) {
-            nameColumn = (<TableCell style={indentationStyle} className={cancelledClass}><span className="badge badge-success text-uppercase"><FormattedMessage id="series"/></span> <Link to={url}>{name}</Link></TableCell>)
+            nameColumn = (
+                <TableCell
+                    style={indentationStyle}
+                    className={cancelledClass}
+                >
+                    <span className='tag-space'>
+                        {this.state.showSubEvents ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+                    </span>
+                    <span className="badge badge-success text-uppercase tag-space">
+                        <FormattedMessage id="series"/>
+                    </span>
+                    <Link to={url}>{name}</Link>
+                </TableCell>
+            )
         } else {
             nameColumn = (<TableCell style={indentationStyle}><Link to={url}>{name}</Link></TableCell>)
         }
 
-        const isExpandable = !isEmpty(e.sub_events)
-        const shouldShow = isExpandable && this.state.showSubEvents
+        const shouldShow = isSuper && this.state.showSubEvents
         const isFetching = this.props.fetchingId === e.id
 
         return (
             <React.Fragment>
                 <TableRow
-                    className={isExpandable ? 'super-event-row' : null}
+                    className={isSuper ? 'super-event-row' : null}
                     key={e['id']}
-                    onClick={isExpandable ? this.toggleSubEvent : null}
+                    onClick={isSuper ? this.toggleSubEvent : null}
                 >
                     {nameColumn}
                     <TableCell className={draftClass}>{dateFormat(e.start_time)}</TableCell>
