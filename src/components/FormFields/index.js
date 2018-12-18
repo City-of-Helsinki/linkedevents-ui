@@ -296,6 +296,7 @@ class FormFields extends React.Component {
                         ><Add/> <FormattedMessage id="event-add-new-occasion" /></Button>
                         <Button
                             raised
+                            disabled={formType == 'update'}
                             className="base-material-btn"
                             color={getAddRecurringEventButtonColor(this.state.showRecurringEvent)}
                             onClick={ () => this.showRecurringEventDialog() }
