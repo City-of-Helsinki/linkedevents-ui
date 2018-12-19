@@ -263,11 +263,9 @@ class RecurringEvent extends React.Component {
                     <Button className="recurring-events-modal__close" onClick={this.props.toggle}>
                         <Close />
                     </Button>
-
                     <h2><FormattedMessage id="event-add-recurring"/></h2>
-
                     <Row>
-                        <Col xs={12} className="multi-field repeat-frequency">
+                        <Col xs={12} sm={12} className="multi-field repeat-frequency">
                             <div className="dates-label">
                                 <FormattedMessage id="repetition-interval-label"/>
                             </div>
@@ -288,7 +286,7 @@ class RecurringEvent extends React.Component {
                     </Row>
 
                     <Row>
-                        <Col xs={12}>
+                        <Col xs={12} sm={12}>
                             <span className="play-date">
                                 <div className="play-date-label">
                                     <FormattedMessage id="play-date-label" />
@@ -302,45 +300,43 @@ class RecurringEvent extends React.Component {
                         { days }
                     </Row>
 
-                    <Row>
-                        <div className="recurring-date-range-wrapper multi-field">
-                            <RecurringDateRangePicker
-                                name="recurringStartDate"
-                                validationErrors={(this.state.errors.isDate ? [VALIDATION_RULES.IS_DATE] : null)}
-                                ref="start_time"
-                                defaultValue={this.state.recurringStartDate}
-                                label="repetition-begin"
-                                onChange={this.onChange}
-                                onBlur={() => this.clearErrors()}
-                            />
+                    <Row className="recurring-date-range-wrapper multi-field">
+                        <RecurringDateRangePicker
+                            name="recurringStartDate"
+                            validationErrors={(this.state.errors.isDate ? [VALIDATION_RULES.IS_DATE] : null)}
+                            ref="start_time"
+                            defaultValue={this.state.recurringStartDate}
+                            label="repetition-begin"
+                            onChange={this.onChange}
+                            onBlur={() => this.clearErrors()}
+                        />
 
-                            <RecurringDateRangePicker
-                                name="recurringEndDate"
-                                validationErrors={(this.state.errors.afterStartTime ? [VALIDATION_RULES.AFTER_START_TIME] : null)}
-                                ref="end_time"
-                                defaultValue={this.state.recurringEndDate}
-                                label="repetition-end"
-                                onChange={this.onChange}
-                            />
-                        </div>
+                        <RecurringDateRangePicker
+                            name="recurringEndDate"
+                            validationErrors={(this.state.errors.afterStartTime ? [VALIDATION_RULES.AFTER_START_TIME] : null)}
+                            ref="end_time"
+                            defaultValue={this.state.recurringEndDate}
+                            label="repetition-end"
+                            onChange={this.onChange}
+                        />
                     </Row>
 
                     <Row>
-                        <Col xs={6} className="multi-field recurring-times">
+                        <Col xs={12} sm={6} className="multi-field recurring-times">
                             <span className="label-wrapper"><FormattedMessage id="repetition-start-time" /><ValidationPopover small={true} validationErrors={(this.state.errors.isTime ? [VALIDATION_RULES.IS_TIME] : null)} /></span>
                             <RecurringTimePicker name="recurringStartTime" time={this.state.recurringStartTime} onChange={this.onTimeChange} onBlur={this.onTimeChange} />
                         </Col>
 
-                        <Col xs={6} className="multi-field recurring-times">
+                        <Col xs={6} sm={6} className="multi-field recurring-times">
                             <span className="label-wrapper"><FormattedMessage id="repetition-end-time" /><ValidationPopover small={true} validationErrors={(this.state.errors.isTime ? [VALIDATION_RULES.IS_TIME] : null)} /></span>
                             <RecurringTimePicker name="recurringEndTime" time={this.state.recurringEndTime} onChange={this.onTimeChange} onBlur={this.onTimeChange} />
                         </Col>
                     </Row>
 
                     <Row>
-                        <Col xs={12}>
+                        <Col xs={12} sm={12}>
                             <MaterialButton
-                                className="base-material-btn"
+                                className="base-material-btn add-button"
                                 raised
                                 color="primary"
                                 onClick={() => this.generateEvents(this.state)}><Add/><FormattedMessage id="add-more"/>
