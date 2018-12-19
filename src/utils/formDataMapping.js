@@ -1,4 +1,4 @@
-import {clone, map, lastIndexOf, forOwn, every, includes, isEmpty, cloneDeep, remove, values, pickBy} from 'lodash'
+import {find, clone, map, lastIndexOf, forOwn, every, includes, isEmpty, cloneDeep, remove, values, pickBy} from 'lodash'
 import constants from 'src/constants.js'
 import moment from 'moment'
 import 'moment-timezone'
@@ -59,7 +59,6 @@ function _nullifyEmptyStrings(multiLangObject) {
 // TODO: Refactoring form components to output and accept the correct format (like <MultiLanguageField> to output {fi: name, se: namn})
 
 function mapUIDataToAPIFormat(values) {
-
     if(!values) {
         return {}
     }

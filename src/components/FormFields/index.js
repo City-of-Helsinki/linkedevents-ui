@@ -329,7 +329,11 @@ class FormFields extends React.Component {
                             placeholder={this.context.intl.formatMessage({id: 'event-location'})}
                             setDirtyState={this.props.setDirtyState}
                         />
-                        <CopyToClipboard text={values['location'] ? values['location'].id : ''}><button className="clipboard-copy-button" title={this.context.intl.formatMessage({id: 'copy-to-clipboard'})}><i className="material-icons">&#xE14D;</i></button></CopyToClipboard>
+                        <CopyToClipboard text={values['location'] ? values['location'].id : ''}>
+                            <button className="clipboard-copy-button" title={this.context.intl.formatMessage({id: 'copy-to-clipboard'})}>
+                                <i className="material-icons">&#xE14D;</i>
+                            </button>
+                        </CopyToClipboard>
                         <MultiLanguageField 
                             multiLine={true} 
                             label="event-location-additional-info" 
@@ -356,7 +360,14 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6">
-                        <HelOffersField ref="offers" name="offers" validationErrors={validationErrors} defaultValue={values['offers']} languages={this.props.editor.contentLanguages} setDirtyState={this.props.setDirtyState} />
+                        <HelOffersField
+                            ref="offers"
+                            name="offers"
+                            validationErrors={validationErrors}
+                            defaultValue={values['offers']}
+                            languages={this.props.editor.contentLanguages}
+                            setDirtyState={this.props.setDirtyState}
+                        />
                     </div>
                     <SideField>
                         <div className="tip">
@@ -371,9 +382,36 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6">
-                        <HelTextField validations={[VALIDATION_RULES.IS_URL]} ref="extlink_facebook" name="extlink_facebook" label={<FormattedMessage id="facebook-url"/>} validationErrors={validationErrors['extlink_facebook']} defaultValue={values['extlink_facebook']} setDirtyState={this.props.setDirtyState} forceApplyToStore />
-                        <HelTextField validations={[VALIDATION_RULES.IS_URL]} ref="extlink_twitter" name="extlink_twitter" label={<FormattedMessage id="twitter-url"/>} validationErrors={validationErrors['extlink_twitter']} defaultValue={values['extlink_twitter']} setDirtyState={this.props.setDirtyState} forceApplyToStore />
-                        <HelTextField validations={[VALIDATION_RULES.IS_URL]} ref="extlink_instagram" name="extlink_instagram" label={<FormattedMessage id="instagram-url"/>} validationErrors={validationErrors['extlink_instagram']} defaultValue={values['extlink_instagram']} setDirtyState={this.props.setDirtyState} forceApplyToStore />
+                        <HelTextField
+                            validations={[VALIDATION_RULES.IS_URL]}
+                            ref="extlink_facebook"
+                            name="extlink_facebook"
+                            label={<FormattedMessage id="facebook-url"/>}
+                            validationErrors={validationErrors['extlink_facebook']}
+                            defaultValue={values['extlink_facebook']}
+                            setDirtyState={this.props.setDirtyState}
+                            forceApplyToStore
+                        />
+                        <HelTextField
+                            validations={[VALIDATION_RULES.IS_URL]}
+                            ref="extlink_twitter"
+                            name="extlink_twitter"
+                            label={<FormattedMessage id="twitter-url"/>}
+                            validationErrors={validationErrors['extlink_twitter']}
+                            defaultValue={values['extlink_twitter']}
+                            setDirtyState={this.props.setDirtyState}
+                            forceApplyToStore
+                        />
+                        <HelTextField
+                            validations={[VALIDATION_RULES.IS_URL]}
+                            ref="extlink_instagram"
+                            name="extlink_instagram"
+                            label={<FormattedMessage id="instagram-url"/>}
+                            validationErrors={validationErrors['extlink_instagram']}
+                            defaultValue={values['extlink_instagram']}
+                            setDirtyState={this.props.setDirtyState}
+                            forceApplyToStore
+                        />
                     </div>
                     <SideField><p className="tip"><FormattedMessage id="editor-tip-social-media"/></p></SideField>
                 </div>
@@ -382,8 +420,21 @@ class FormFields extends React.Component {
                     <FormattedMessage id="event-categorization" />
                 </FormHeader>
                 <div className="row keyword-row">
-                    <HelSelect selectedValues={values['keywords']} legend={this.context.intl.formatMessage({id: 'event-keywords'})} ref="keywords" name="keywords" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?show_all_keywords=1&data_source=yso&text=`} validationErrors={validationErrors['keywords']} setDirtyState={this.props.setDirtyState} />
-                    <CopyToClipboard text={values['keywords'] ? this.getKeywords(values['keywords']) : ''}><button className="clipboard-copy-button" title={this.context.intl.formatMessage({id: 'copy-to-clipboard'})}><i className="material-icons">&#xE14D;</i></button></CopyToClipboard>
+                    <HelSelect
+                        selectedValues={values['keywords']}
+                        legend={this.context.intl.formatMessage({id: 'event-keywords'})}
+                        ref="keywords"
+                        name="keywords"
+                        resource="keyword"
+                        dataSource={`${appSettings.api_base}/keyword/?show_all_keywords=1&data_source=yso&text=`}
+                        validationErrors={validationErrors['keywords']}
+                        setDirtyState={this.props.setDirtyState}
+                    />
+                    <CopyToClipboard text={values['keywords'] ? this.getKeywords(values['keywords']) : ''}>
+                        <button className="clipboard-copy-button" title={this.context.intl.formatMessage({id: 'copy-to-clipboard'})}>
+                            <i className="material-icons">&#xE14D;</i>
+                        </button>
+                    </CopyToClipboard>
                     <SideField><p className="tip"><FormattedMessage id="editor-tip-keywords"/></p></SideField>
                     <HelLabeledCheckboxGroup
                         groupLabel={<FormattedMessage id="hel-main-categories"/>}
