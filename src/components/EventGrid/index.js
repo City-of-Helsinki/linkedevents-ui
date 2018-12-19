@@ -38,8 +38,8 @@ let EventItem = (props) => {
     }
 
     return (
-        <Link to={url}>
-            <div className="col-xs-12 col-md-6 col-lg-4" key={ props.event['id'] }>
+        <div className="col-xs-12 col-md-6 col-lg-4" key={ props.event['id'] }>
+            <Link to={url}>
                 <div className="event-item">
                     {cancelledBadge}
                     <div className="thumbnail" style={thumbnailStyle} />
@@ -49,8 +49,8 @@ let EventItem = (props) => {
                     </div>
 
                 </div>
-            </div>
-        </Link>
+            </Link>
+        </div>
     )
 }
 
