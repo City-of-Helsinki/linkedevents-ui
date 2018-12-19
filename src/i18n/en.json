@@ -26,6 +26,7 @@
     "confirm": "Confirm",
     "draft": "Draft",
     "cancelled": "Cancelled",
+    "series": "Series",
 
     "event-sort-title": "Title",
     "event-sort-starttime": "Event starts",

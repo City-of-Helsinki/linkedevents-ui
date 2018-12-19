@@ -11,6 +11,10 @@ import {mockCurrentTime, resetMockDate} from '../../../__mocks__/testMocks';
 
 const mockStore = configureStore([thunk])
 const initialStore = {
+    subEvents: {
+        bySuperEventId: {},
+        fetchingFromSuperId: '',
+    },
     userEvents: {
         isFetching: false,
         fetchComplete: true,

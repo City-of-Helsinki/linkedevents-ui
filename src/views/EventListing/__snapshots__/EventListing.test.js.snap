@@ -206,10 +206,17 @@ exports[`EventListing Snapshot should render view correctly 1`] = `
         <tbody>
           <tr
             className="MuiTableRow-root-2"
+            onClick={null}
           >
             <td
               aria-sort={null}
               className="MuiTableCell-root-7 MuiTableCell-paddingDefault-12 MuiTableCell-typeBody-10"
+              style={
+                Object {
+                  "fontWeight": "normal",
+                  "paddingLeft": "24px",
+                }
+              }
             >
               <a
                 href="/event/undefined"
@@ -243,12 +250,21 @@ exports[`EventListing Snapshot should render view correctly 1`] = `
               </span>
             </td>
           </tr>
+        </tbody>
+        <tbody>
           <tr
             className="MuiTableRow-root-2"
+            onClick={null}
           >
             <td
               aria-sort={null}
               className="MuiTableCell-root-7 MuiTableCell-paddingDefault-12 MuiTableCell-typeBody-10"
+              style={
+                Object {
+                  "fontWeight": "normal",
+                  "paddingLeft": "24px",
+                }
+              }
             >
               <a
                 href="/event/undefined"

@@ -10,10 +10,24 @@
     text-transform: uppercase;
 }
 
+.tag-space {
+    margin-right: 4px;
+}
+
 .event-table {
     td, th {
         overflow-wrap: break-word;
         white-space: normal !important;
+    }
+}
+
+.sub-events-progress {
+    margin: 12px 0 12px 60px;
+}
+
+.super-event-row {
+    &:hover {
+        cursor: pointer;
     }
 }
 

@@ -5,6 +5,8 @@ const initialState = {
     fetchComplete: false,
     items: [],
     error: null,
+    bySuperEventId: {},
+    fetchingFromSuperId: '',
 }
 
 function update(state = initialState, action) {
@@ -32,7 +34,29 @@ function update(state = initialState, action) {
             fetchComplete: false,
             items: [],
             error: action.error,
+            fetchingFromSuperId: '',
         });
+    }
+
+    if (action.type === constants.REQUEST_SUB_EVENTS_FROM_SUPER) {
+        return Object.assign({}, state, {
+            fetchingFromSuperId: action.superEventId,
+        })
+    }
+
+    if (action.type === constants.RECEIVE_SUB_EVENTS_FROM_SUPER) {
+        const {subEvents, superEventId} = action
+        const bySuperEventId = Object.assign({}, state.bySuperEventId, {
+            [superEventId]: subEvents,
+        })
+
+        return Object.assign({}, state, {
+            bySuperEventId,
+            isFetching: false,
+            fetchComplete: true,
+            error: null,
+            fetchingFromSuperId: '',
+        })
     }
 
     return state
