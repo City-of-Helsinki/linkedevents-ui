@@ -162,25 +162,36 @@ class RecurringEvent extends React.Component {
                 for (const key in days) {
                     if (days.hasOwnProperty(key)) {
                         const day = dayCodes[days[key]]
-                        const interval = weekInterval * 7
-                        for (let i = 0; i < 53 ; i++) {
-                            if (moment().isoWeekday(day + i * interval).isBetween(moment(recurringStartDate), moment(recurringEndDate).add(1, 'day'), 'day')) {
-                                let obj = {}
-                                const key = Object.keys(this.props.values.sub_events).length + count
-                                count += 1
-                                const startTime = moment().isoWeekday(day + i * interval).hours(recurringStartTime.hours).minutes(recurringStartTime.minutes)
-                                let endTime
-                                if (!isEmpty(rules.recurringEndTime)) {
-                                    endTime = Object.assign({}, startTime)
-                                    endTime = moment(endTime).add(eventLength, 'minutes').hours(recurringEndTime.hours).minutes(recurringEndTime.minutes)
-                                }
-                                obj[key] = {
-                                    start_time: moment.tz(startTime, 'Europe/Helsinki').utc().toISOString(),
-                                    end_time: endTime ? moment.tz(endTime, 'Europe/Helsinki').utc().toISOString() : undefined,
-                                }
-                                this.context.dispatch(setEventData(obj, key))
-                                this.props.toggle()
+                        // find the first valid matching weekday
+                        let firstMatchWeekday
+                        for (let i = 0; i <= weekInterval; i++) {
+                            const startDateWeekday = moment(recurringStartDate).isoWeekday(day + i * 7)
+                            if (startDateWeekday.isBetween(moment(recurringStartDate), moment(recurringEndDate).add(1, 'day'), 'day')) {
+                                firstMatchWeekday = startDateWeekday
+                                break
                             }
+                        }
+                        // calculate all the following weekdays using weekInterval as step
+                        for (
+                            let matchWeekday = firstMatchWeekday;
+                            matchWeekday.isBetween(moment(recurringStartDate), moment(recurringEndDate).add(1, 'day'), 'day');
+                            matchWeekday = matchWeekday.add(weekInterval, 'week')
+                        ) {
+                            let obj = {}
+                            const key = Object.keys(this.props.values.sub_events).length + count
+                            count += 1
+                            const startTime = matchWeekday.hours(recurringStartTime.hours).minutes(recurringStartTime.minutes)
+                            let endTime
+                            if (!isEmpty(rules.recurringEndTime)) {
+                                endTime = Object.assign({}, startTime)
+                                endTime = moment(endTime).add(eventLength, 'minutes').hours(recurringEndTime.hours).minutes(recurringEndTime.minutes)
+                            }
+                            obj[key] = {
+                                start_time: moment.tz(startTime, 'Europe/Helsinki').utc().toISOString(),
+                                end_time: endTime ? moment.tz(endTime, 'Europe/Helsinki').utc().toISOString() : undefined,
+                            }
+                            this.context.dispatch(setEventData(obj, key))
+                            this.props.toggle()
                         }
                     }
                 }
