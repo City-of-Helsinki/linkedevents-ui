@@ -126,7 +126,7 @@ class EventPage extends React.Component {
 
     render() {
         const user = this.props.user
-
+        
         let event = mapAPIDataToUIFormat(this.props.events.event)
 
         // To prevent 'Can't access field of undefined errors'
