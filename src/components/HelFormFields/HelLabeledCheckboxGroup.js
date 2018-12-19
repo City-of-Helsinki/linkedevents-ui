@@ -74,12 +74,9 @@ class HelLabeledCheckboxGroup extends React.Component {
         },this)
 
         // view half-width checkboxes in two columns
-        let left_column = checkboxes
-        let right_column = []
-        if(/col-lg-6/g.test(this.props.itemClassName)) {
-            left_column = checkboxes.slice(0, Math.floor((checkboxes.length + 1) / 2))
-            right_column = checkboxes.slice(Math.floor((checkboxes.length + 1) / 2), checkboxes.length)
-        }
+        const left_column = checkboxes.slice(0, Math.floor((checkboxes.length + 1) / 2))
+        const right_column = checkboxes.slice(Math.floor((checkboxes.length + 1) / 2), checkboxes.length)
+        
         checkboxes = [
             <div className="left_column col-sm-6" key="1">{left_column}</div>,
             <div className="right_column col-sm-6" key="2">{right_column}</div>,
