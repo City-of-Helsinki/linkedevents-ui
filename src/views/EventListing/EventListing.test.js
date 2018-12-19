@@ -10,6 +10,10 @@ import {mockUserEvents} from '__mocks__/mockData';
 
 const mockStore = configureStore([thunk])
 const initialStore = {
+    subEvents: {
+        bySuperEventId: {},
+        fetchingFromSuperId: '',
+    },
     userEvents: {
         isFetching: false,
         fetchComplete: true,
