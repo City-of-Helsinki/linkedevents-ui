@@ -18,6 +18,7 @@
         align-items: center;
     }
 }
+
 .recurring-events {
     position: relative;
     z-index: 999;
@@ -36,6 +37,7 @@
     display: inline-block;
     margin-right: 7px;
 }
+
 .dates-label {
     position: relative;
     font-size: 15px;
@@ -67,14 +69,17 @@
         }
     }
 }
+
 .recurring-date-range-wrapper {
     label {
         @extend .dates-label;
     }
 }
+
 .popover-content {
     pointer-events: none;
 }
+
 .recurring-times {
     .label-wrapper {
         position: relative;
@@ -82,4 +87,8 @@
     .label-wrapper > span:first-child {
         @extend .dates-label;
     }
+}
+
+.add-button {
+    margin: 20px 0 0;
 }

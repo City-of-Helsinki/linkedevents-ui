@@ -948,7 +948,9 @@ exports[`Editor Snapshot should render view correctly when creating new event fr
           parentClassName="loader"
           scale={1}
         />
-        <div>
+        <div
+          className="buttons-group"
+        >
           <div
             className="actions"
           >
@@ -1920,7 +1922,9 @@ exports[`Editor Snapshot should render view correctly when editing existing even
           parentClassName="loader"
           scale={1}
         />
-        <div>
+        <div
+          className="buttons-group"
+        >
           <div
             className="actions"
           >
@@ -2665,7 +2669,9 @@ exports[`Editor Snapshot should render view correctly when new event 1`] = `
           parentClassName="loader"
           scale={1}
         />
-        <div>
+        <div
+          className="buttons-group"
+        >
           <div
             className="actions"
           >

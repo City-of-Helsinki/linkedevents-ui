@@ -114,7 +114,10 @@ export class EditorPage extends React.Component {
                     raised
                     disabled={disabled}
                     onClick={ (e) => this.confirmDelete(e) }
-                    color="accent"><FormattedMessage id="delete-events"/></Button>
+                    color="accent"
+                >
+                    <FormattedMessage id="delete-events"/>
+                </Button>
             )
         }
     }
@@ -174,15 +177,17 @@ export class EditorPage extends React.Component {
         let {eventIsEditable, eventEditabilityExplanation} = checkEventEditability(this.props.user, this.props.editor.values)
 
         let disabled = this.props.editor.isSending || !eventIsEditable
-        let buttons = <div className="actions">
-            <div>
-                { this.getDeleteButton(disabled) }
-                { this.getCancelButton(disabled) }
+        let buttons = (
+            <div className="actions">
+                <div>
+                    { this.getDeleteButton(disabled) }
+                    { this.getCancelButton(disabled) }
+                </div>
+                { this.getSaveButtons(disabled) }
             </div>
-            { this.getSaveButtons(disabled) }
-        </div>
+        )
         return (
-            <div>
+            <div className='buttons-group'>
                 {eventIsEditable ? buttons :
                     <Tooltip title={eventEditabilityExplanation}>
                         <span>{buttons}</span>
