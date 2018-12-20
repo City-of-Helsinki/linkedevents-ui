@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import {TableCell, TableRow, CircularProgress} from 'material-ui'
+import {TableCell, TableRow, CircularProgress, Table} from 'material-ui'
 import {KeyboardArrowDown, KeyboardArrowUp} from 'material-ui-icons';
 import {FormattedMessage, FormattedDate, FormattedRelative} from 'react-intl'
 import {Link} from 'react-router-dom'
@@ -110,8 +110,11 @@ class EventRow extends React.Component {
                 </TableRow>
                 {shouldShow && (
                     isFetching
-                        ? <span><CircularProgress className='sub-events-progress'/></span>
-                        : (
+                        ? (
+                            <TableRow>
+                                <TableCell><CircularProgress className='sub-events-progress'/></TableCell>
+                            </TableRow>
+                        ) : (
                             <SubEventsTable
                                 nestLevel={this.props.nestLevel + 1}
                                 events={this.props.getSubEvents(e.id)}
