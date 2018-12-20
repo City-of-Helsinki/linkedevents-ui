@@ -182,6 +182,7 @@ function mapAPIDataToUIFormat(values) {
     obj.description = values.description
     obj.info_url = values.info_url
     obj.provider = values.provider
+    obj.super_event_type = values.super_event_type
 
     // Statuses
     obj.event_status = values.event_status
