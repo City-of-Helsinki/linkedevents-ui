@@ -157,6 +157,7 @@ class FormFields extends React.Component {
         }
         const {values, validationErrors, contentLanguages} = this.props.editor
         const formType = this.props.action
+        const isSuperEvent = values.super_event_type === 'recurring'
 
         const {VALIDATION_RULES, DEFAULT_CHARACTER_LIMIT} = CONSTANTS
         const addedEvents = pickBy(values.sub_events, event => !event['@id'])
@@ -259,8 +260,8 @@ class FormFields extends React.Component {
                         <div className="row">
                             <div className="col-xs-12 col-md-6">
                                 <HelDateTimeField
-                                    datePickerProps={{disabled: formType === 'update'}}
-                                    timePickerProps={{disabled: formType === 'update'}}
+                                    datePickerProps={{disabled: formType === 'update' && isSuperEvent}}
+                                    timePickerProps={{disabled: formType === 'update' && isSuperEvent}}
                                     validationErrors={validationErrors['start_time']}
                                     defaultValue={values['start_time']}
                                     ref="start_time"
@@ -271,8 +272,8 @@ class FormFields extends React.Component {
                             </div>
                             <div className="col-xs-12 col-md-6">
                                 <HelDateTimeField
-                                    datePickerProps={{disabled: formType === 'update'}}
-                                    timePickerProps={{disabled: formType === 'update'}}
+                                    datePickerProps={{disabled: formType === 'update' && isSuperEvent}}
+                                    timePickerProps={{disabled: formType === 'update' && isSuperEvent}}
                                     validationErrors={validationErrors['end_time']}
                                     defaultValue={values['end_time']}
                                     ref="end_time" name="end_time"
