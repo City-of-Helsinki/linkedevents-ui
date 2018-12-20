@@ -164,9 +164,11 @@ class RecurringEvent extends React.Component {
                         const day = dayCodes[days[key]]
                         // find the first valid matching weekday
                         let firstMatchWeekday
+                        const recurrenceStart = moment(recurringStartDate).subtract(1, 'day').endOf('day')
+                        const recurrenceEnd = moment(recurringEndDate).endOf('day')
                         for (let i = 0; i <= weekInterval; i++) {
                             const startDateWeekday = moment(recurringStartDate).isoWeekday(day + i * 7)
-                            if (startDateWeekday.isBetween(moment(recurringStartDate), moment(recurringEndDate).add(1, 'day'), 'day')) {
+                            if (startDateWeekday.isBetween(recurrenceStart, recurrenceEnd)) {
                                 firstMatchWeekday = startDateWeekday
                                 break
                             }
@@ -174,7 +176,7 @@ class RecurringEvent extends React.Component {
                         // calculate all the following weekdays using weekInterval as step
                         for (
                             let matchWeekday = firstMatchWeekday;
-                            matchWeekday.isBetween(moment(recurringStartDate), moment(recurringEndDate).add(1, 'day'), 'day');
+                            matchWeekday.isBetween(recurrenceStart, recurrenceEnd);
                             matchWeekday = matchWeekday.add(weekInterval, 'week')
                         ) {
                             let obj = {}
