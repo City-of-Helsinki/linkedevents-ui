@@ -59,9 +59,9 @@ class RecurringEvent extends React.Component {
                 saturday: false,
                 sunday: false,
             },
-            recurringStartDate: isEmpty(start_time) ? '' : moment(this.props.values.start_time),
+            recurringStartDate: isEmpty(start_time) ? moment(null) : moment(this.props.values.start_time),
             recurringStartTime: isEmpty(start_time) ? '' : moment(this.props.values.start_time).format('HH:mm'),
-            recurringEndDate: isEmpty(end_time) ? '' : moment(this.props.values.end_time).add(2, 'weeks'),
+            recurringEndDate: isEmpty(end_time) ? moment(null) : moment(this.props.values.end_time).add(2, 'weeks'),
             recurringEndTime: isEmpty(end_time) ? '' : moment(this.props.values.end_time).format('HH:mm'),
             errors: {
                 afterStartTime: false,
@@ -164,9 +164,11 @@ class RecurringEvent extends React.Component {
                         const day = dayCodes[days[key]]
                         // find the first valid matching weekday
                         let firstMatchWeekday
+                        const recurrenceStart = moment(recurringStartDate).subtract(1, 'day').endOf('day')
+                        const recurrenceEnd = moment(recurringEndDate).endOf('day')
                         for (let i = 0; i <= weekInterval; i++) {
                             const startDateWeekday = moment(recurringStartDate).isoWeekday(day + i * 7)
-                            if (startDateWeekday.isBetween(moment(recurringStartDate), moment(recurringEndDate).add(1, 'day'), 'day')) {
+                            if (startDateWeekday.isBetween(recurrenceStart, recurrenceEnd)) {
                                 firstMatchWeekday = startDateWeekday
                                 break
                             }
@@ -174,7 +176,7 @@ class RecurringEvent extends React.Component {
                         // calculate all the following weekdays using weekInterval as step
                         for (
                             let matchWeekday = firstMatchWeekday;
-                            matchWeekday.isBetween(moment(recurringStartDate), moment(recurringEndDate).add(1, 'day'), 'day');
+                            matchWeekday.isBetween(recurrenceStart, recurrenceEnd);
                             matchWeekday = matchWeekday.add(weekInterval, 'week')
                         ) {
                             let obj = {}
@@ -264,10 +266,15 @@ class RecurringEvent extends React.Component {
     }
     render() {
         const {validationErrors, values} = this.props
+        const {recurringStartDate, recurringEndDate} = this.state
 
         const VALIDATION_RULES = CONSTANTS.VALIDATION_RULES
 
         const days = this.generateCheckboxes(this.state.daysSelected)
+
+        const startDate = recurringStartDate.isValid() ? recurringStartDate : null
+        const endDate = recurringEndDate.isValid() ? recurringEndDate : null
+
         return (
             <div className="recurring-events-modal" onClick={this.props.toggle}>
                 <Grid className="recurring-events" onClick={(e) => this.stop(e)}>
@@ -316,7 +323,7 @@ class RecurringEvent extends React.Component {
                             name="recurringStartDate"
                             validationErrors={(this.state.errors.isDate ? [VALIDATION_RULES.IS_DATE] : null)}
                             ref="start_time"
-                            defaultValue={this.state.recurringStartDate}
+                            defaultValue={startDate}
                             label="repetition-begin"
                             onChange={this.onChange}
                             onBlur={() => this.clearErrors()}
@@ -326,7 +333,7 @@ class RecurringEvent extends React.Component {
                             name="recurringEndDate"
                             validationErrors={(this.state.errors.afterStartTime ? [VALIDATION_RULES.AFTER_START_TIME] : null)}
                             ref="end_time"
-                            defaultValue={this.state.recurringEndDate}
+                            defaultValue={endDate}
                             label="repetition-end"
                             onChange={this.onChange}
                         />
