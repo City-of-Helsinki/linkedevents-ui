@@ -24,6 +24,7 @@
         transition: 200ms border;
 
         border: none;
+        border-radius: 0;
         border-bottom: 2px solid #e0e0e0;
 
         line-height: 22px;
@@ -38,6 +39,7 @@
         &:focus {
             outline: 0;
             border-color: rgba(0, 188, 212, 1);
+            box-shadow: none;
         }
 
         &[disabled] {
