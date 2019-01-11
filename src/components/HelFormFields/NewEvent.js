@@ -22,8 +22,8 @@ class NewEvent extends React.Component {
             minWidth: '42px',
             height: '36px',
             position: 'absolute',
-            left: '-30px',
-            top: '25px',
+            left: '-55px',
+            top: '2rem',
         }
         return (
             <div className="new-events">
