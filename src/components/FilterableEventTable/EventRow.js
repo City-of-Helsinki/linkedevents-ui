@@ -19,7 +19,6 @@ class EventRow extends React.Component {
         const {getSubEvents, event, fetchingId, fetchSubEvents} = this.props
         const {showSubEvents} = this.state
         const subEvents = getSubEvents(event.id)
-
         if (!showSubEvents
             && event.super_event_type === 'recurring'
             && fetchingId !== event.id
@@ -70,11 +69,22 @@ class EventRow extends React.Component {
             fontWeight: this.props.nestLevel === 1 && isSuper ? 'bold' : 'normal', 
         }
 
-        if (draft) {
-            nameColumn = (<TableCell style={indentationStyle} className={draftClass}><span className="badge badge-warning text-uppercase tag-space"><FormattedMessage id="draft"/></span> <Link to={url}>{name}</Link></TableCell>)
-        } else if (cancelled) {
-            nameColumn = (<TableCell style={indentationStyle} className={cancelledClass}><span className="badge badge-danger text-uppercase tag-space"><FormattedMessage id="cancelled"/></span> <Link to={url}>{name}</Link></TableCell>)
-        } else if (isSuper) {
+        const draftLabels = draft && (
+            <span className='badge badge-warning text-uppercase tag-space'>
+                <FormattedMessage id='draft' />
+            </span>
+        )
+        const cancelledLabel = cancelled && (
+            <span className='badge badge-danger text-uppercase tag-space'>
+                <FormattedMessage id='cancelled' />
+            </span>
+        )
+
+        // if (draft) {
+        // nameColumn = (<TableCell style={indentationStyle} className={draftClass}><span className="badge badge-warning text-uppercase tag-space"><FormattedMessage id="draft"/></span> <Link to={url}>{name}</Link></TableCell>)
+        // } else if (cancelled) {
+        //     nameColumn = (<TableCell style={indentationStyle} className={cancelledClass}><span className="badge badge-danger text-uppercase tag-space"><FormattedMessage id="cancelled"/></span> <Link to={url}>{name}</Link></TableCell>)
+        if (isSuper) {
             nameColumn = (
                 <TableCell
                     style={indentationStyle}
@@ -86,11 +96,19 @@ class EventRow extends React.Component {
                     <span className="badge badge-success text-uppercase tag-space">
                         <FormattedMessage id="series"/>
                     </span>
+                    {draftLabels}
+                    {cancelledLabel}
                     <Link to={url}>{name}</Link>
                 </TableCell>
             )
         } else {
-            nameColumn = (<TableCell style={indentationStyle}><Link to={url}>{name}</Link></TableCell>)
+            nameColumn = (
+                <TableCell style={indentationStyle}>
+                    {draftLabels}
+                    {cancelledLabel}
+                    <Link to={url}>{name}</Link>
+                </TableCell>
+            )
         }
 
         const shouldShow = isSuper && this.state.showSubEvents
