@@ -37,6 +37,7 @@ import {pickBy} from 'lodash'
 import API from '../../api'
 
 import CONSTANTS from '../../constants'
+import {fetchUserAdminOrganization} from '../../actions/organization';
 
 let FormHeader = (props) => (
     <div className="row">
@@ -80,6 +81,10 @@ class FormFields extends React.Component {
 
     UNSAFE_componentWillReceiveProps() {
         this.forceUpdate()
+    }
+
+    componentDidMount () {
+        this.context.dispatch(fetchUserAdminOrganization());
     }
 
     shouldComponentUpdate() {
@@ -162,7 +167,7 @@ class FormFields extends React.Component {
         const {VALIDATION_RULES, DEFAULT_CHARACTER_LIMIT} = CONSTANTS
         const addedEvents = pickBy(values.sub_events, event => !event['@id'])
         const newEvents = this.generateNewEventFields(addedEvents)
-        
+
         return (
             <div>
                 <div className="col-sm-12 highlighted-block">

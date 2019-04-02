@@ -6,6 +6,8 @@ import images from './images'
 import app from './app'
 import userEvents from './userEvents'
 import userLocale from './userLocale'
+import organizations from './organizations';
+
 export default {
     events: events,
     subEvents: subEvents,
@@ -15,4 +17,5 @@ export default {
     app: app,
     userEvents: userEvents,
     userLocale: userLocale,
+    organizations: organizations,
 }
