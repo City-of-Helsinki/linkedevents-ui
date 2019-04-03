@@ -20,6 +20,8 @@ import {
     NewEvent,
 } from 'src/components/HelFormFields'
 import RecurringEvent from 'src/components/RecurringEvent'
+import Select from 'react-select';
+import {FormControl} from 'react-bootstrap';
 
 import {Button} from 'material-ui'
 // Material-ui Icons
@@ -29,7 +31,7 @@ import Autorenew from 'material-ui-icons/Autorenew'
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from '../../utils/apiDataMapping'
 import {connect} from 'react-redux'
 
-import {setEventData} from '../../actions/editor'
+import {setEventData, setData} from '../../actions/editor'
 
 import moment from 'moment'
 import {pickBy} from 'lodash'
@@ -79,12 +81,12 @@ class FormFields extends React.Component {
         };
     }
 
-    UNSAFE_componentWillReceiveProps() {
-        this.forceUpdate()
-    }
-
     componentDidMount () {
         this.context.dispatch(fetchUserAdminOrganization());
+    }
+
+    UNSAFE_componentWillReceiveProps() {
+        this.forceUpdate()
     }
 
     shouldComponentUpdate() {
@@ -167,7 +169,8 @@ class FormFields extends React.Component {
         const {VALIDATION_RULES, DEFAULT_CHARACTER_LIMIT} = CONSTANTS
         const addedEvents = pickBy(values.sub_events, event => !event['@id'])
         const newEvents = this.generateNewEventFields(addedEvents)
-
+        const selectedPublisher = this.props.organizations.find(org => org.id === values['organization']) || {};
+        console.log(formType)
         return (
             <div>
                 <div className="col-sm-12 highlighted-block">
@@ -250,6 +253,20 @@ class FormFields extends React.Component {
                             languages={this.props.editor.contentLanguages} 
                             setDirtyState={this.props.setDirtyState} 
                         />
+                        <div className='hel-text-field'>
+                            <label className='hel-label'>
+                                <FormattedMessage id='event-publisher' />
+                            </label>
+                            {formType === 'update' ? (
+                                <FormControl value={selectedPublisher.name} disabled />
+                            ) : (
+                                <Select
+                                    value={{label: selectedPublisher.name, value: selectedPublisher.id}}
+                                    options={this.props.organizations.map(org => ({label: org.name, value: org.id}))}
+                                    onChange={ option => this.context.dispatch(setData({organization: option ? option.value : undefined})) }
+                                />
+                            )}
+                        </div>
                     </div>
                     <SideField>
                         <label><FormattedMessage id="event-image"/></label>
@@ -571,6 +588,7 @@ FormFields.propTypes = {
     editor: PropTypes.object,
     setDirtyState: PropTypes.func,
     action: PropTypes.oneOf(['update', 'create']),
+    organizations: PropTypes.arrayOf(PropTypes.object),
 }
 
 export default FormFields
