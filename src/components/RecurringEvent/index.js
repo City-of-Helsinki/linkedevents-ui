@@ -59,7 +59,7 @@ class RecurringEvent extends React.Component {
                 saturday: false,
                 sunday: false,
             },
-            recurringStartDate: isEmpty(start_time) ? moment(null) : moment(this.props.values.start_time),
+            recurringStartDate: isEmpty(start_time) ? moment(null) : moment(this.props.values.start_time).add(1, 'weeks'),
             recurringStartTime: isEmpty(start_time) ? '' : moment(this.props.values.start_time).format('HH:mm'),
             recurringEndDate: isEmpty(end_time) ? moment(null) : moment(this.props.values.end_time).add(2, 'weeks'),
             recurringEndTime: isEmpty(end_time) ? '' : moment(this.props.values.end_time).format('HH:mm'),
