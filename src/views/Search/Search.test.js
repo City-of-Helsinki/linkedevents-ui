@@ -20,6 +20,9 @@ const initialStore = {
     },
 };
 
+// mock moment to render search dates as expected
+jest.mock('moment');
+
 describe('Search Snapshot', () => {
     let store;
 

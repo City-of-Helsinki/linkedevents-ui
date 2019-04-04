@@ -50,7 +50,7 @@ class SearchBar extends React.Component {
                     <HelDatePicker
                         ref="date"
                         name="startDate"
-                        defaultValue={moment().format('YYYY-MM-DD')}
+                        defaultValue={moment()}
                         validations={[VALIDATION_RULES.IS_DATE]}
                         placeholder={this.props.intl.formatMessage({id: 'search-date-placeholder'})}
                         onChange={(date, value) => this.handleDateChange('startDate', date, value)}
