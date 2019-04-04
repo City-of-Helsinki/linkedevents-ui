@@ -232,30 +232,20 @@ export class EditorPage extends React.Component {
     }
 
     confirmDelete() {
-    // TODO: maybe do a decorator for confirmable actions etc...?
+        // TODO: maybe do a decorator for confirmable actions etc...?
+        const eventId = this.props.match.params.eventId;
+        const {user, deleteEvent, editor} = this.props;
+
         this.props.confirm(
             'confirm-delete',
             'warning',
             'delete-events',
             {
-                action: () => this.deleteEvents(),
+                action: () => deleteEvent(eventId, user, editor.values),
                 additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
                 additionalMarkup: this.getWarningMarkup(),
             }
         )
-    }
-
-    deleteEvents() {
-        if (this.props.subEvents.items.length) {
-            for (const subEvent of this.props.subEvents.items) {
-                this.deleteSubEvent(subEvent.id, this.props.user)
-            }
-        }
-        return this.props.deleteEvent(this.props.match.params.eventId, this.props.user)
-    }
-
-    deleteSubEvent(eventId) {
-        return this.props.deleteEvent(eventId, this.props.user)
     }
 
     confirmCancel() {
@@ -279,7 +269,6 @@ export class EditorPage extends React.Component {
         if (subEvents.items.length) {
             for (const event of subEvents.items) {
                 cancelEvent(event.id, user, mapAPIDataToUIFormat(event));
-                console.log('as')
             }
         }
         cancelEvent(superEventId, user, editor.values);
@@ -360,7 +349,7 @@ const mapDispatchToProps = (dispatch) => ({
     sendData: (updateExisting, publicationStatus) => 
         dispatch(sendDataAction(updateExisting, publicationStatus)),
     confirm: (msg, style, actionButtonLabel, data) => dispatch(confirmAction(msg, style, actionButtonLabel, data)),
-    deleteEvent: (eventId, user) => dispatch(deleteEventAction(eventId, user)),
+    deleteEvent: (eventId, user, values) => dispatch(deleteEventAction(eventId, user, values)),
     cancelEvent: (eventId, user, values) => dispatch(cancelEventAction(eventId, user, values)),
 })
 

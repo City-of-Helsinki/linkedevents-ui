@@ -556,7 +556,7 @@ export function cancelEvent(eventId, user, values) {
     }
 }
 
-// Fetch data for updating
+// recursively delete super event and its sub events
 export function deleteEvent(eventID, user, values) {
     let url = `${appSettings.api_base}/event/${eventID}/`
 
@@ -564,8 +564,9 @@ export function deleteEvent(eventID, user, values) {
     if(user) {
         token = user.token
     }
+    const isSuperEvent = values.super_event_type === 'recurring';
 
-    return (dispatch) => {
+    return (dispatch, getState) => {
         return fetch(url, {
             method: 'DELETE',
             headers: {
@@ -576,9 +577,16 @@ export function deleteEvent(eventID, user, values) {
         }).then(response => {
 
             if(response.status === 200 || response.status === 201 || response.status === 203 || response.status === 204) {
-                dispatch(clearData())
-                dispatch(push(`/event/done/delete/${eventID}`))
-                dispatch(eventDeleted(values))
+                if (isSuperEvent) {
+                    // if the previously deleted is a super event, continue to delete its sub events recursively
+                    const subEvents = getState().subEvents.items;
+                    subEvents.forEach(event => dispatch(deleteEvent(event.id, user, event)));
+
+                    // reset/update redux app state, data clearance
+                    dispatch(clearData())
+                    dispatch(push(`/event/done/delete/${eventID}`))
+                    dispatch(eventDeleted(values))
+                }
             }
 
             // Auth errors

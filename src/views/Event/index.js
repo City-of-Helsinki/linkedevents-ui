@@ -89,26 +89,19 @@ class EventPage extends React.Component {
 
     confirmDelete() {
         // TODO: maybe do a decorator for confirmable actions etc...?
+        const eventId = this.props.match.params.eventId;
+        const {user, deleteEvent, events} = this.props;
+
         this.props.confirm(
             'confirm-delete',
             'warning',
             'delete-events',
             {
-                action: () => this.deleteEvents(),
+                action: () => deleteEvent(eventId, user, events.event),
                 additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
                 additionalMarkup: this.getWarningMarkup(),
             }
         )
-    }
-
-    deleteEvents() {
-        const {subEvents, user, deleteEvent} = this.props;
-        if (subEvents.items.length) {
-            for (const subEvent of subEvents.items) {
-                deleteEvent(subEvent.id, user)
-            }
-        }
-        return deleteEvent(this.props.match.params.eventId, user)
     }
 
     getWarningMarkup() {
@@ -241,7 +234,7 @@ const mapDispatchToProps = (dispatch) => ({
     routerPush: (url) => dispatch(push(url)),
     replaceData: (event) => dispatch(replaceDataAction(event)),
     confirm: (msg, style, actionButtonLabel, data) => dispatch(confirmAction(msg, style, actionButtonLabel, data)),
-    deleteEvent: (eventId, user) => dispatch(deleteEventAction(eventId, user)),
+    deleteEvent: (eventId, user, values) => dispatch(deleteEventAction(eventId, user, values)),
     cancelEvent: (eventId, user, values) => dispatch(cancelEventAction(eventId, user, values)),
     fetchSubEvents: (user, superEventId) => dispatch(fetchSubEventsAction(user, superEventId)),
 })
