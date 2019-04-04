@@ -36,6 +36,7 @@ var EXT_LINK_NO_LANGUAGE = 'fi'
 var sentinel = true;
 
 import FormFields from '../../components/FormFields'
+import {mapAPIDataToUIFormat} from '../../utils/formDataMapping';
 
 export class EditorPage extends React.Component {
     constructor(props) {
@@ -264,10 +265,24 @@ export class EditorPage extends React.Component {
             'warning',
             'cancel-events',
             {
-                action: e => this.props.cancelEvent(this.props.match.params.eventId, this.props.user, this.props.editor.values),
+                action: () => this.cancelEvents(),
                 additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
+                // additionalMarkup: ' ',
             }
         )
+    }
+
+    // cancel all events in a series of recurring events
+    cancelEvents = () => {
+        const {user, editor, subEvents, cancelEvent} = this.props;
+        const superEventId = this.props.match.params.eventId;
+        if (subEvents.items.length) {
+            for (const event of subEvents.items) {
+                cancelEvent(event.id, user, mapAPIDataToUIFormat(event));
+                console.log('as')
+            }
+        }
+        cancelEvent(superEventId, user, editor.values);
     }
 
     render() {
