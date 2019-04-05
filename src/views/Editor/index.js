@@ -206,15 +206,16 @@ export class EditorPage extends React.Component {
     // console.log(event)
     }
 
-    getWarningMarkup() {
-        let warningText = this.props.intl.formatMessage({id: 'editor-delete-warning'}) + '<br/>'
+    // action: either 'delete' or 'cancel'
+    getWarningMarkup(action) {
+        let warningText = this.props.intl.formatMessage({id: `editor-${action}-warning`}) + '<br/>'
         let subEventWarning = ''
         if (this.props.subEvents.items && this.props.subEvents.items.length) {
             const subEventNames = []
             for (const subEvent of this.props.subEvents.items) {
                 subEventNames.push(`</br><strong>${subEvent.name.fi}</strong> (${moment(subEvent.start_time).format('DD.MM.YYYY')})`)
             }
-            subEventWarning = `</br>${this.props.intl.formatMessage({id: 'editor-delete-subevents-warning'})}</br>${subEventNames}`
+            subEventWarning = `</br>${this.props.intl.formatMessage({id: `editor-${action}-subevents-warning`})}</br>${subEventNames}`
         }
         return warningText + subEventWarning
     }
@@ -243,7 +244,7 @@ export class EditorPage extends React.Component {
             {
                 action: () => deleteEvent(eventId, user, editor.values),
                 additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
-                additionalMarkup: this.getWarningMarkup(),
+                additionalMarkup: this.getWarningMarkup('delete'),
             }
         )
     }
@@ -259,7 +260,7 @@ export class EditorPage extends React.Component {
             {
                 action: () => cancelEvent(eventId, user, mapUIDataToAPIFormat(editor.values)),
                 additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
-                // additionalMarkup: ' ',
+                additionalMarkup: this.getWarningMarkup('cancel'),
             }
         )
     }
