@@ -36,7 +36,7 @@ var EXT_LINK_NO_LANGUAGE = 'fi'
 var sentinel = true;
 
 import FormFields from '../../components/FormFields'
-import {mapAPIDataToUIFormat} from '../../utils/formDataMapping';
+import {mapAPIDataToUIFormat, mapUIDataToAPIFormat} from '../../utils/formDataMapping';
 
 export class EditorPage extends React.Component {
     constructor(props) {
@@ -249,29 +249,19 @@ export class EditorPage extends React.Component {
     }
 
     confirmCancel() {
-    // TODO: maybe do a decorator for confirmable actions etc...?
+        const {user, editor,cancelEvent} = this.props;
+        const eventId = this.props.match.params.eventId;
+        // TODO: maybe do a decorator for confirmable actions etc...?
         this.props.confirm(
             'confirm-cancel',
             'warning',
             'cancel-events',
             {
-                action: () => this.cancelEvents(),
+                action: () => cancelEvent(eventId, user, mapUIDataToAPIFormat(editor.values)),
                 additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
                 // additionalMarkup: ' ',
             }
         )
-    }
-
-    // cancel all events in a series of recurring events
-    cancelEvents = () => {
-        const {user, editor, subEvents, cancelEvent} = this.props;
-        const superEventId = this.props.match.params.eventId;
-        if (subEvents.items.length) {
-            for (const event of subEvents.items) {
-                cancelEvent(event.id, user, mapAPIDataToUIFormat(event));
-            }
-        }
-        cancelEvent(superEventId, user, editor.values);
     }
 
     render() {

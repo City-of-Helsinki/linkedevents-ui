@@ -502,17 +502,20 @@ export function receiveEventForEditing(json) {
     }
 }
 
+// recursively cancel an event and its sub events
 export function cancelEvent(eventId, user, values) {
-    return (dispatch) => {
+    const isSuperEvent = values.super_event_type === 'recurring';
 
-        let url = `${appSettings.api_base}/event/${values.id}/`
+    return (dispatch, getState) => {
+
+        let url = `${appSettings.api_base}/event/${eventId}/`
 
         let token = ''
         if(user) {
             token = user.token
         }
-
-        let data = Object.assign({}, values, {event_status: constants.EVENT_STATUS.CANCELLED})
+        // this should be an event object that matchs api event scheme
+        const data = Object.assign({}, values, {event_status: constants.EVENT_STATUS.CANCELLED})
 
         return fetch(url, {
             method: 'PUT',
@@ -521,7 +524,7 @@ export function cancelEvent(eventId, user, values) {
                 'Content-Type': 'application/json',
                 'Authorization': 'JWT ' + token,
             },
-            body: JSON.stringify(mapUIDataToAPIFormat(data)),
+            body: JSON.stringify(data),
         }).then(response => {
             //console.log('Received', response)
             let jsonPromise = response.json()
@@ -530,7 +533,11 @@ export function cancelEvent(eventId, user, values) {
                 let actionName = 'cancel'
 
                 if(response.status === 200 || response.status === 201) {
-                    dispatch(sendDataComplete(json, actionName))
+                    if (isSuperEvent) {
+                        const subEvents = getState().subEvents.items;
+                        subEvents.forEach(event => dispatch(cancelEvent(event.id, user, event)));
+                    }
+                    dispatch(sendDataComplete(json, actionName));
                 }
                 // Validation errors
                 else if(response.status === 400) {

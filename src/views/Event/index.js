@@ -74,13 +74,15 @@ class EventPage extends React.Component {
     }
 
     confirmCancel() {
+        const {user, events, cancelEvent} = this.props;
+        const eventId = this.props.match.params.eventId;
         // TODO: maybe do a decorator for confirmable actions etc...?
         this.props.confirm(
             'confirm-cancel',
             'warning',
             'cancel-events',
             {
-                action: e => this.props.cancelEvent(this.props.match.params.eventId, this.props.user, mapAPIDataToUIFormat(this.props.events.event)),
+                action: () => cancelEvent(eventId, user, events.event),
                 additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
                 additionalMarkup: this.getWarningMarkup(),
             }
