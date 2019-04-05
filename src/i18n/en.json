@@ -196,8 +196,8 @@
 
     "editor-delete-subevents-warning": "The following subevents will be deleted:",
     "editor-delete-warning": "WARNING: This action will delete the event permanently. You may cancel or postpone the event if needed.",
-    "editor-cancel-subevents-warning": "The following subevents will be deleted:",
-    "editor-cancel-warning": "WARNING: This action will delete the event permanently. You may cancel or postpone the event if needed.",
+    "editor-cancel-subevents-warning": "The following subevents will also be cancelled:",
+    "editor-cancel-warning": "WARNING: This action will cancel the event. You can also delete an event, if it was erroneously entered.",
     "editor-sentinel-alert": "You can view the form, but you don't have the permission to publish or edit events. You are not logged in or your login has expired.",
 
     "editor-tip-time-start": "Enter the start date of the event and also the start time if the event starts at a specific time.",

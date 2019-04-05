@@ -195,8 +195,8 @@
 
     "editor-delete-subevents-warning": "Poistaessasi tämän tapahtuman myös seuraavat alitapahtumat poistetaan:",
     "editor-delete-warning": "VAROITUS: Tämä toiminto poistaa tapahtuman lopullisesti. Voit tarvittaessa myös perua tapahtuman tai lykätä sitä.",
-    "editor-cancel-subevents-warning": "Poistaessasi tämän tapahtuman myös seuraavat alitapahtumat poistetaan:",
-    "editor-cancel-warning": "VAROITUS: Tämä toiminto poistaa tapahtuman lopullisesti. Voit tarvittaessa myös perua tapahtuman tai lykätä sitä.",
+    "editor-cancel-subevents-warning": "Samalla myös seuraavat alitapahtumat peruutetaan:",
+    "editor-cancel-warning": "VAROITUS: Tämä toiminto peruuttaa tapahtuman. Voit myös poistaa sellaisen tapahtuman, jonka syötit vahingossa.",
     "editor-sentinel-alert": "Voit katsella lomaketta, mutta sinulla ei ole oikeuksia julkaista tai muokata tapahtumia. Et ole kirjautunut sisään tai kirjautumisesi on vanhentunut.",
     
     "editor-tip-time-start": "Kirjoita tapahtuman alkamispäivä ja myös alkamisaika, jos tapahtuma alkaa tiettyyn kellonaikaan.",
