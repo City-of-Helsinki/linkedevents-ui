@@ -15,6 +15,7 @@ import {push} from 'react-router-redux'
 import {setFlashMsg, confirmAction} from './app'
 
 import {doValidations} from 'src/validation/validator.js'
+import {fetchSubEventsForSuper} from './subEvents';
 
 /**
  * Set editor form data
@@ -536,6 +537,14 @@ export function cancelEvent(eventId, user, values) {
                     if (isSuperEvent) {
                         const subEvents = getState().subEvents.items;
                         subEvents.forEach(event => dispatch(cancelEvent(event.id, user, event)));
+                        dispatch(fetchSubEventsForSuper(json.id));
+                    }
+                    const allSuperEventIds = Object.keys(getState().subEvents.bySuperEventId);
+                    const cancelledEventSuperId = json.super_event
+                        && allSuperEventIds.find(id => json.super_event['@id'].includes(id));
+                    // re-fetch sub events data after cancelling non-super event
+                    if (cancelledEventSuperId) {
+                        dispatch(fetchSubEventsForSuper(cancelledEventSuperId));
                     }
                     dispatch(sendDataComplete(json, actionName));
                 }
