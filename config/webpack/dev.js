@@ -5,6 +5,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import {readConfig} from '../appConfig';
 
 const publicUrl = readConfig('publicUrl')
+const ui_mode = readConfig('ui_mode')
 
 export default {
     context: path.join(common.paths.ROOT, '/src'),
@@ -32,9 +33,21 @@ export default {
                 use: ['babel-loader', 'eslint-loader'],
             },
             {test: /\.(js|jsx)?$/, exclude: /node_modules/, loader: 'babel-loader'},
-            {test: /\.scss$/, use: [{loader: 'style-loader'}, {loader: 'css-loader'}, {loader: 'sass-loader'}]},
+            {
+                test: /\.scss$/,
+                use: [
+                    {loader: 'style-loader'},
+                    {loader: 'css-loader'},
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            data: "$ui-mode: " + ui_mode + " !global;",
+                        },
+                    },
+                ],
+            },
             {test: /\.css$/, use: ['style-loader', 'css-loader']},
-            {test: /\.jade$/, loader: 'jade-loader'},
+            {test: /\.(jade|pug)?$/, loader: 'pug-loader'},
             {test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff'},
             {test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff'},
             {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=application/octet-stream'},
@@ -55,4 +68,5 @@ export default {
             'window.jQuery': 'jquery',
         }),
     ],
+    mode: 'development',
 };

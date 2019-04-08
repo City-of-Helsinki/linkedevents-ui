@@ -6,7 +6,7 @@ import React from 'react'
 import {Checkbox} from 'react-bootstrap'
 
 import {connect} from 'react-redux'
-import {setData} from 'src/actions/editor.js'
+import {setData} from '../../actions/editor'
 
 class HelCheckbox extends React.Component {
     constructor(props) {

@@ -1,8 +1,9 @@
 {
     "login": "Kirjaudu sisään",
     "logout": "Kirjaudu ulos",
-    "create-event": "Lisää uusi tapahtuma",
-    "edit-event": "Muokkaa tapahtumaa",
+    "linked-events": "Linked Events",
+    "create-events": "Lisää uusi tapahtuma",
+    "edit-events": "Muokkaa tapahtumaa",
     "copy-event-to-draft": "Kopioi uuden tapahtuman pohjaksi",
     "search-events": "Etsi tapahtumia",
     "search-events-description": "Katsele kaikkia Linked Eventsin tapahtumia.",
@@ -15,8 +16,8 @@
     "welcome": "Tervetuloa",
     "submit": "Lähetä",
     "cancel": "Kumoa",
-    "delete-event": "Poista tapahtuma",
-    "cancel-event": "Peruuta tapahtuma",
+    "delete-events": "Poista tapahtuma",
+    "cancel-events": "Peruuta tapahtuma",
     "save": "Tallenna",
     "confirm-action-header": "Varmista toiminto",
     "confirm-delete": "Varmista tapahtuman poistaminen",
@@ -25,6 +26,7 @@
     "confirm": "Suorita",
     "draft": "Luonnos",
     "cancelled": "Peruutettu",
+    "series": "Sarja",
 
     "event-sort-title": "Otsikko",
     "event-sort-starttime": "Tapahtuma alkaa",
@@ -55,11 +57,10 @@
     "event-info-url": "Kotisivu",
     "event-provider": "Tapahtuman järjestäjä",
     "event-provider-input": "Tapahtuman järjestäjä (jos eri kuin syöttäjän organisaatio)",
-
-    "organization-events": "Tapahtumien hallinta",
-    "organization-events-prompt": "muokataksesi tapahtumia.",
-    "organization-events-description": "Selaa ja muokkaa oman organisaatiosi julkisia tapahtumia sekä luonnoksia. Voit lisätä uuden tapahtuman yläpalkista.",
-    "organization-events-no-results": "Yhtäkään muokattavaa tapahtumaa ei löytynyt.",
+    "events-management": "Tapahtumien hallinta",
+    "events-management-prompt": "muokataksesi tapahtumia.",
+    "events-management-description": "Selaa ja muokkaa oman organisaatiosi julkisia tapahtumia sekä luonnoksia. Voit lisätä uuden tapahtuman yläpalkista.",
+    "events-management-no-results": "Yhtäkään muokattavaa tapahtumaa ei löytynyt.",
 
     "event-image": "Tapahtuman kuva (klikkaa vaihtaaksesi)",
     "new-image": "Lisää uusi kuva",
@@ -118,10 +119,24 @@
 
     "hel-event-languages": "Tapahtuman kielet",
 
+    "audience-age-restrictions": "Ikärajoitukset",
+    "audience-min-age": "Alaikäraja",
+    "audience-max-age": "Yläikäraja",
+
+    "enrolment-time": "Ilmoittautumisaika",
+    "enrolment-start-time": "Ilmoittautuminen alkaa",
+    "enrolment-end-time": "Ilmoittautuminen päättyy",
+
+    "attendee-capacity": "Osallistujamäärä",
+    "minimum-attendee-capacity": "Vähimmäisosallistujamäärä",
+    "maximum-attendee-capacity": "Enimmäisosallistujamäärä",
+
     "validation-isUrl": "Kirjoita URL osoite kokonaisena ja oikeassa muodossa (http://...)",
     "validation-isTime": "Kirjoita aika oikeassa muodossa HH.mm tai HH",
     "validation-isDate": "Kirjoita päivämäärä muodossa pp.kk.vvvv tai p.k.vvvv",
+    "validation-isInt": "Tulon on oltava numero",
     "validation-atLeastOne": "Valitse vähintään yksi kategoria",
+    "validation-required": "Tämä kenttä vaaditaa",
     "validation-requiredMulti": "Tämä kenttä vaaditaan",
     "validation-requiredAtId": "Tämä kenttä vaaditaan",
     "validation-requiredString": "Tämä kenttä vaaditaan",
@@ -180,6 +195,8 @@
 
     "editor-delete-subevents-warning": "Poistaessasi tämän tapahtuman myös seuraavat alitapahtumat poistetaan:",
     "editor-delete-warning": "VAROITUS: Tämä toiminto poistaa tapahtuman lopullisesti. Voit tarvittaessa myös perua tapahtuman tai lykätä sitä.",
+    "editor-cancel-subevents-warning": "Samalla myös seuraavat alitapahtumat peruutetaan:",
+    "editor-cancel-warning": "VAROITUS: Tämä toiminto peruuttaa tapahtuman. Voit myös poistaa sellaisen tapahtuman, jonka syötit vahingossa.",
     "editor-sentinel-alert": "Voit katsella lomaketta, mutta sinulla ei ole oikeuksia julkaista tai muokata tapahtumia. Et ole kirjautunut sisään tai kirjautumisesi on vanhentunut.",
     
     "editor-tip-time-start": "Kirjoita tapahtuman alkamispäivä ja myös alkamisaika, jos tapahtuma alkaa tiettyyn kellonaikaan.",
@@ -200,5 +217,12 @@
     "image-caption-limit": "Kuvateksti (korkeintaan {limit} merkkiä)",
     
     "add-more": "Lisää kerrat",
-    "play-date-label": "Toistopäivät"
+    "play-date-label": "Toistopäivät",
+
+    "linked-courses": "Linked Courses",
+    "create-courses": "Lisää uusi kurssi",
+    "edit-courses": "Muokkaa kurssia",
+    "search-courses": "Etsi kursseja",
+    "more-info": "Lisätietoja",
+    "courses-management": "Kurssien hallinta"
 }

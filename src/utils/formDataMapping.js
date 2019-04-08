@@ -1,10 +1,10 @@
-import _ from 'lodash'
+import {find, clone, map, lastIndexOf, forOwn, every, includes, isEmpty, cloneDeep, remove, values, pickBy} from 'lodash'
 import constants from 'src/constants.js'
 import moment from 'moment'
 import 'moment-timezone'
 
 import {getStringWithLocale} from './locale'
-import {mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
+import {mapLanguagesSetToForm} from './apiDataMapping'
 
 export {
     mapUIDataToAPIFormat,
@@ -24,19 +24,19 @@ const helFiYsoAudienceMapping = {
 }
 
 function _addHelFiAudienceKeywords(original_audiences) {
-    let audiences = _.clone(original_audiences)
+    let audiences = clone(original_audiences)
 
-    const audienceIds = _.map(audiences, function(audience) {
+    const audienceIds = map(audiences, function(audience) {
     // parse keyword ID from keyword URL
-        return audience.slice(_.lastIndexOf(audience, '/', audience.length - 2) + 1, -1)
+        return audience.slice(lastIndexOf(audience, '/', audience.length - 2) + 1, -1)
     })
 
     // iterate hel.fi keywords
-    _.forOwn(helFiYsoAudienceMapping, function(ysoIDs, helFiID) {
+    forOwn(helFiYsoAudienceMapping, function(ysoIDs, helFiID) {
 
     // check that every YSO keyword for the current hel.fi keyword is selected
-        const containsEveryYso = _.every(ysoIDs, function(ysoID) {
-            return _.contains(audienceIds, ysoID)
+        const containsEveryYso = every(ysoIDs, function(ysoID) {
+            return includes(audienceIds, ysoID)
         })
         if (containsEveryYso) {
             audiences.push(`${appSettings.api_base}/keyword/` + helFiID + '/')
@@ -46,7 +46,7 @@ function _addHelFiAudienceKeywords(original_audiences) {
 }
 
 function _nullifyEmptyStrings(multiLangObject) {
-    _.forOwn(multiLangObject, function(value, language) {
+    forOwn(multiLangObject, function(value, language) {
 
     // do not send empty strings to the backend, as this will set the null language field to non-null
         if (value === '') {
@@ -59,7 +59,6 @@ function _nullifyEmptyStrings(multiLangObject) {
 // TODO: Refactoring form components to output and accept the correct format (like <MultiLanguageField> to output {fi: name, se: namn})
 
 function mapUIDataToAPIFormat(values) {
-
     if(!values) {
         return {}
     }
@@ -85,9 +84,9 @@ function mapUIDataToAPIFormat(values) {
     obj.location_extra_info = _nullifyEmptyStrings(values.location_extra_info)
 
     // Image data
-    if(values.image) {
-    // obj.image = { '@id': `/v0.1/image/${values.image_id}/`}
-        obj.image = values.image
+    obj.images = []
+    if(values.image && !isEmpty(values.image)) {
+        obj.images[0] = values.image
     }
 
     // Price data
@@ -102,17 +101,17 @@ function mapUIDataToAPIFormat(values) {
 
     // Keywords, audience, languages
     if(values.keywords && values.keywords.length !== undefined) {
-        obj.keywords = _.map(values.keywords, (item) => ({'@id': item.value}))
+        obj.keywords = map(values.keywords, (item) => ({'@id': item.value}))
     }
 
     if(values.hel_main && values.hel_main.length !== undefined) {
         obj.keywords = obj.keywords || []
-        obj.keywords = obj.keywords.concat(_.map(values.hel_main, (item) => ({'@id': item})))
+        obj.keywords = obj.keywords.concat(map(values.hel_main, (item) => ({'@id': item})))
     }
 
     if(values.audience && values.audience.length !== undefined) {
         const audiences = _addHelFiAudienceKeywords(values.audience)
-        obj.audience = _.map(audiences, (item) => ({'@id': item}))
+        obj.audience = map(audiences, (item) => ({'@id': item}))
     }
 
     if(values.in_language) {
@@ -141,6 +140,27 @@ function mapUIDataToAPIFormat(values) {
         obj.end_time = values.end_time
     }
 
+    if (values.audience_min_age) {
+        obj.audience_min_age = parseInt(values.audience_min_age, 10)
+    }
+    if (values.audience_max_age) {
+        obj.audience_max_age = parseInt(values.audience_max_age, 10)
+    }
+
+    if (values.enrolment_start_time) {
+        obj.enrolment_start_time = values.enrolment_start_time
+    }
+    if (values.enrolment_end_time) {
+        obj.enrolment_end_time = values.enrolment_end_time
+    }
+
+    if (values.minimum_attendee_capacity) {
+        obj.minimum_attendee_capacity = parseInt(values.minimum_attendee_capacity, 10)
+    }
+    if (values.maximum_attendee_capacity) {
+        obj.maximum_attendee_capacity = parseInt(values.maximum_attendee_capacity, 10)
+    }
+
     return obj
 
     /*
@@ -162,6 +182,7 @@ function mapAPIDataToUIFormat(values) {
     obj.description = values.description
     obj.info_url = values.info_url
     obj.provider = values.provider
+    obj.super_event_type = values.super_event_type
 
     // Statuses
     obj.event_status = values.event_status
@@ -177,45 +198,41 @@ function mapAPIDataToUIFormat(values) {
         obj.offers = values.offers
     }
 
-    // Subevents
-    if (values.sub_events.length === 0) {
-        obj.sub_events = {}
-    } else {
-        obj.sub_events = values.sub_events
-    }
+    // Subevents: from array to object
+    obj.sub_events = {...values.sub_events}
 
     // TODO: Filter hel_main categories from keywords, non-hel_main categories from hel_main
     //
-    let keywords = _.cloneDeep(values.keywords)
+    let keywords = cloneDeep(values.keywords)
 
-    let hel_main_items = _.remove(keywords, item => {
+    let hel_main_items = remove(keywords, item => {
         return (item.id.indexOf('helfi:') > -1)
     })
 
-    obj.hel_main = _.map(hel_main_items, (item) => { return item['@id'] })
+    obj.hel_main = map(hel_main_items, (item) => { return item['@id'] })
 
     // Keywords, audience, languages
-    obj.keywords = _.map(keywords, (item) => ({value: item['@id'], label: (getStringWithLocale(item, 'name') || item['id'])}))
+    obj.keywords = map(keywords, (item) => ({value: item['@id'], label: (getStringWithLocale(item, 'name') || item['id'])}))
 
     // Filter somehow the hel_main keyword values from keywords
-    // obj.keywords = _.filter(obj.keywords, (item) => {
+    // obj.keywords = filter(obj.keywords, (item) => {
     //     console.log(obj.hel_main.indexOf(item.value) === -1)
     //     return (obj.hel_main.indexOf(item.value) === -1)
     // });
 
     if(values.audience) {
-        obj.audience = _.map(values.audience, item => item['@id'])
+        obj.audience = map(values.audience, item => item['@id'])
     }
 
     if(values.in_language) {
-        obj.in_language = _.map(values.in_language, lang => lang['@id'])
+        obj.in_language = map(values.in_language, lang => lang['@id'])
     }
 
     // External links
     if(values.external_links) {
         let externalLinkFields = ['extlink_facebook', 'extlink_twitter', 'extlink_instagram']
         externalLinkFields.forEach(item => {
-            let extlink = _.findWhere(values.external_links, {name: item})
+            let extlink = find(values.external_links, {name: item})
             if(extlink) {
                 obj[item] = extlink.link
             }
@@ -235,4 +252,57 @@ function mapAPIDataToUIFormat(values) {
     }
 
     return obj
+}
+
+/*
+    take an array of sub events, return start and end time for the
+    corresponding super event with:
+    - earliest date of sub events as start_time
+    - latest date of sub events as end_time
+*/
+export const calculateSuperEventTime = (subEvents) => {
+    let startTimes = []
+    let endTimes = []
+    values(subEvents).filter(event => {
+        if (event.start_time) {
+            startTimes.push(moment(event.start_time))
+        }
+        if (event.end_time) {
+            endTimes.push(moment(event.end_time))
+        }
+    })
+    // in case there is no end_time in sub events should return the
+    // midnight of the day after the latest start time as super event endtime
+    const superEventStartTime = startTimes.length <= 0 ? undefined : moment.min(startTimes);
+    let superEventEndTime = endTimes.length <= 0
+        ? startTimes.length <= 0
+            ? undefined    
+            : moment.max(startTimes).add(1, 'days').endOf('day')
+        : moment.max(endTimes)
+    return {
+        start_time: superEventStartTime
+            ? moment.tz(superEventStartTime, 'Europe/Helsinki').utc().toISOString()
+            : undefined,
+        end_time: superEventEndTime
+            ? moment.tz(superEventEndTime, 'Europe/Helsinki').utc().toISOString()
+            : undefined,
+    }
+}
+
+// combine all dates in the editor form to get a collection of sub events under super
+export const combineSubEventsFromEditor = (formValues, updateExisting = false) => {
+    let subEvents
+    if (updateExisting) {
+        subEvents = formValues.sub_events
+    } else {
+        subEvents = {
+            '0': {start_time: formValues.start_time, end_time: formValues.end_time},
+            ...formValues.sub_events,
+        }
+    }
+
+    return Object.assign({}, formValues, {
+        sub_events: subEvents,
+        id: undefined,
+    })
 }

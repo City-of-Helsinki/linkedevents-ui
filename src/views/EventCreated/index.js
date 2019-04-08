@@ -1,4 +1,4 @@
-import '!style-loader!css-loader!sass-loader!./index.scss'
+import './index.scss'
 
 import React from 'react'
 import {connect} from 'react-redux'
@@ -7,17 +7,18 @@ import {Button} from 'material-ui'
 import {push} from 'react-router-redux'
 import PropTypes from 'prop-types'
 
-import {setFlashMsg as setFlashMsgAction} from '../../actions/app'
+import {setFlashMsg as setFlashMsgAction, clearFlashMsg as clearFlashMsgAction} from '../../actions/app'
 
 import CONSTANTS from '../../constants'
 
 class EventCreated extends React.Component {
 
     UNSAFE_componentWillMount() {
-        const {match, setFlashMsg, routerPush} = this.props
+        const {match, setFlashMsg, clearFlashMsg, routerPush} = this.props
         if(match.params.action !== CONSTANTS.EVENT_CREATION.UPDATE) {
             let headerTranslationId = this.getEventHeaderTranslationId()
             setFlashMsg(headerTranslationId, CONSTANTS.EVENT_CREATION.SUCCESS)
+            clearFlashMsg()
             routerPush(`/event/${this.props.match.params.eventId}`)
         }
     }
@@ -96,7 +97,8 @@ class EventCreated extends React.Component {
 EventCreated.propTypes = {
     match: PropTypes.object,
     setFlashMsg: PropTypes.func,
-    events: PropTypes.array,
+    clearFlashMsg: PropTypes.func,
+    events: PropTypes.object,
     routerPush: PropTypes.func,
 }
 
@@ -108,7 +110,14 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     setFlashMsg: (id, status) => dispatch(setFlashMsgAction(id, status)),
+    clearFlashMsg: ()=> setTimeout(()=>{
+        dispatch(clearFlashMsgAction())
+    }, 5000),
     routerPush: (url) => dispatch(push(url)),
+    
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventCreated)
+
+
+

@@ -4,13 +4,13 @@ import {FormattedMessage} from 'react-intl'
 import PropTypes from 'prop-types'
 
 import FilterableEventTable from 'src/components/FilterableEventTable'
-import EventGrid from 'src/components/EventGrid'
-import SearchBar from 'src/components/SearchBar'
+import EventGrid from '../../components/EventGrid'
+import SearchBar from '../../components/SearchBar'
 
 import {fetchUserEvents as fetchUserEventsAction} from 'src/actions/userEvents'
 import {login as loginAction} from 'src/actions/user.js'
 
-class EventListing extends React.Component {
+export class EventListing extends React.Component {
     constructor(props) {
         super(props)
     }
@@ -38,7 +38,7 @@ class EventListing extends React.Component {
     // Use material UI table
     // or similar grid
         const {events, user} = this.props;
-        const header = <h1><FormattedMessage id="organization-events"/></h1>
+        const header = <h1><FormattedMessage id={`${appSettings.ui_mode}-management`}/></h1>
         if (!user) {
             return (
                 <div className="container">
@@ -47,14 +47,14 @@ class EventListing extends React.Component {
                         <a style={{cursor: 'pointer'}} onClick={() => this.props.login()}>
                             <FormattedMessage id="login" />
                         </a>
-                        {' '}<FormattedMessage id="organization-events-prompt" /></p>
+                        {' '}<FormattedMessage id="events-management-prompt" /></p>
                 </div>);
         }
 
         return (
             <div className="container">
-                <h1><FormattedMessage id="organization-events"/></h1>
-                <p><FormattedMessage id="organization-events-description"/></p>
+                {header}
+                <p><FormattedMessage id="events-management-description"/></p>
                 <FilterableEventTable events={events.items} apiErrorMsg={''} sortBy={events.sortBy} sortOrder={events.sortOrder} user={this.props.user} fetchComplete={events.fetchComplete} count={events.count} paginationPage={events.paginationPage}/>
             </div>
         )

@@ -11,6 +11,7 @@
     min-height: 38px;
     min-width: 190px;
     width: auto;
+    margin-left: 12px;
 
     text-align: left;
 
@@ -34,23 +35,28 @@
     &.small {
         height: 28px;
         min-height: 28px;
+        top: -5px;
 
         .popover-content {
             span {
                 position: relative;
                 padding: 1px 12px;
                 margin-left: -14px;
-                top: -10px;
                 line-height: 28px;
             }
         }
+    }
+
+    .arrow {
+        width: 1.5rem;
+        height: 1.5rem;
     }
 }
 
 .arrow {
     position: absolute;
-    left: -11px;
-    top:50%;
+    left: -32px;
+    top: 50%;
     transform: translateY(-50%);
     width: 12px;
     height: 25px;

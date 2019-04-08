@@ -1,7 +1,7 @@
 import {createAction} from 'redux-actions';
 // import fetch from 'isomorphic-fetch'
 
-import authedFetch from 'src/utils/authedFetch'
+import authedFetch from '../utils/authedFetch'
 import constants from '../constants'
 
 function makeRequest(superEventID, user = {}, dispatch) {
@@ -33,6 +33,17 @@ export function receiveSubEventsError(error) {
     }
 }
 
+export const startFetchingFromSuper = (superEventId) => ({
+    type: constants.REQUEST_SUB_EVENTS_FROM_SUPER,
+    superEventId,
+})
+
+export const receiveSubEventsFromSuper = (json, superEventId) => ({
+    type: constants.RECEIVE_SUB_EVENTS_FROM_SUPER,
+    subEvents: json.data,
+    superEventId,
+})
+
 export function fetchSubEvents(user, superEventID) {
     return (dispatch) => {
         dispatch(startFetching());
@@ -46,6 +57,28 @@ export function fetchSubEvents(user, superEventID) {
         })
             .catch(e => {
                 // Error happened while fetching ajax (connection or javascript)
+            });
+    }
+}
+
+export const fetchSubEventsForSuper = (superEventId) => {
+    return (dispatch, getState) => {
+        const user = getState().user
+        dispatch(startFetchingFromSuper(superEventId));
+        makeRequest(superEventId, user, dispatch).then(function (response) {
+            if (response.status >= 400) {
+                dispatch(receiveSubEventsError({
+                    error: 'API Error ' + response.status,
+                }));
+            }
+            response.json().then(json => {
+                dispatch(receiveSubEventsFromSuper(json, superEventId))
+            });
+        })
+            .catch(e => {
+                dispatch(receiveSubEventsError({
+                    error: e,
+                }));
             });
     }
 }

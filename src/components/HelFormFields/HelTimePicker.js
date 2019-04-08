@@ -2,20 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react'
 import HelTextField from './HelTextField.js'
 
-import {connect} from 'react-redux'
-
-import moment from 'moment'
-
 import CONSTANTS from '../../constants'
 
 class HelTimePicker extends React.Component {
-
-    constructor(props) {
-        super(props)
-
-        this.handleChange = this.handleChange.bind(this)
-        this.handleBlur = this.handleBlur.bind(this)
-    }
     static propTypes = {
         name: PropTypes.string.isRequired,
         onBlur: PropTypes.func.isRequired,
@@ -23,17 +12,18 @@ class HelTimePicker extends React.Component {
         onChange: PropTypes.func,
     }
 
-    handleChange(event, time) {
+    handleChange = (event, time) => {
         this.props.onChange('time', time)
     }
 
-    handleBlur () {
+    handleBlur = () => {
         this.props.onBlur()
     }
 
     render() {
         return (
             <HelTextField
+                {...this.props}
                 validations={[CONSTANTS.VALIDATION_RULES.IS_TIME]}
                 placeholder='hh.mm'
                 name={this.props.name}
@@ -45,6 +35,4 @@ class HelTimePicker extends React.Component {
     }
 }
 
-export default connect((state) => ({
-    editor: state.editor,
-}))(HelTimePicker)
+export default HelTimePicker

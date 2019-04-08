@@ -1,4 +1,4 @@
-import '!style-loader!css-loader!sass-loader!./index.scss'
+import './index.scss'
 
 import React from 'react';
 import PropTypes from 'prop-types'
@@ -14,7 +14,7 @@ import ImageGalleryGrid from '../ImageGalleryGrid'
 import {confirmAction} from 'src/actions/app.js'
 import {getStringWithLocale} from 'src/utils/locale'
 
-class ImagePicker extends React.Component {
+export class ImagePicker extends React.Component {
 
     constructor(props) {
         super(props)
@@ -155,6 +155,15 @@ class ImagePicker extends React.Component {
         )
     }
 }
+
+ImagePicker.defaultProps = {
+    editor: {
+        values: {},
+    },
+    images: {},
+    user: {},
+}
+
 ImagePicker.propTypes = {
     editor: PropTypes.object,
     user: PropTypes.object,

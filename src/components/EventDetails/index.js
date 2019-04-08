@@ -227,7 +227,7 @@ class EventDetails extends React.Component {
         let helfiCategories = _.map(props.values.hel_main, (id) => (
             _.find(props.rawData.keywords, (item) => (id.indexOf(item['@id']) > -1))
         ))
-
+        
         return (
             <div>
                 <ImageValue labelKey="event-image" value={props.values['image']}/>
@@ -318,7 +318,10 @@ OptionGroup.propTypes = {
 }
 
 FormHeader.propTypes = {
-    children: PropTypes.string,
+    children: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object,
+    ]),
 }
 
 export default injectIntl(EventDetails)

@@ -124,7 +124,9 @@ var validations = {
         return !_isExisty(value) || isEmpty(value) || value.length >= length;
     },
     isTime: function isTime(values, value) {
-        return validations.matchRegexp(values, value, /(24:00)|(^(2[0-3]|1[0-9]|0[0-9]|[0-9])((:|\.)[0-5][0-9]))?$/i);
+        // Empty string needs not match, because HelTimePicker does not run validations on empty strings anyway.
+        // However, HelDateTimeField itself runs this too, and there we must *not* accept empty time.
+        return validations.matchRegexp(values, value, /(24((:|\.)00)?)|^((2[0-3]|1[0-9]|0[0-9]|[0-9])((:|\.)[0-5][0-9])?)$/i);
     },
     isDate: function isDate(values, value) {
         return validations.matchRegexp(values, value, /^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/i);
@@ -154,14 +156,33 @@ var validations = {
 
         return false;
     },
+    defaultEndInTheFuture: function defaultEndInTheFuture(values, value) {
+        if (values['end_time']) {
+            return true
+        }
+        const defaultEndTime = moment(value).endOf('day')
+        return defaultEndTime.diff(moment()) > 0
+    },
     required: function required(values, value) {
         return _isExisty(value)
+    },
+    requiredForCourses: function requiredForCourses(values, value){
+        if(!(appSettings.ui_mode === 'courses')) {
+            return true;
+        }
+        return this.required(values, value);
     },
     requiredString: function requiredString(values, value) {
         if(typeof value === 'string' && value.length > 0) {
             return true
         }
         return false
+    },
+    requiredStringForCourses: function requiredStringForCourses(values, value){
+        if(!(appSettings.ui_mode === 'courses')) {
+            return true;
+        }
+        return this.requiredString(values, value);
     },
     requiredMulti: function requiredMulti(values, value) {
         if(typeof value !== 'object' || !value) {

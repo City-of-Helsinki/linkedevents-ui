@@ -1,11 +1,12 @@
-require('!style-loader!css-loader!sass-loader!./index.scss')
+import './index.scss'
+
 import PropTypes from 'prop-types';
 import React from 'react'
 
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 import CopyToClipboard from 'react-copy-to-clipboard'
 
-import ImagePicker from 'src/components/ImagePicker'
+import ImagePickerForm from '../ImagePicker'
 import {
     HelAutoComplete,
     MultiLanguageField,
@@ -25,14 +26,15 @@ import {Button} from 'material-ui'
 import Add from 'material-ui-icons/Add'
 import Autorenew from 'material-ui-icons/Autorenew'
 
-import {mapKeywordSetToForm, mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
+import {mapKeywordSetToForm, mapLanguagesSetToForm} from '../../utils/apiDataMapping'
 import {connect} from 'react-redux'
 
-import {setEventData} from 'src/actions/editor.js'
+import {setEventData} from '../../actions/editor'
 
 import moment from 'moment'
+import {pickBy} from 'lodash'
 
-import API from 'src/api.js'
+import API from '../../api'
 
 import CONSTANTS from '../../constants'
 
@@ -93,35 +95,16 @@ class FormFields extends React.Component {
     }
 
     addNewEventDialog() {
-        let obj = {}
-        let startTime
-        let endTime
         let subEventKeys = Object.keys(this.props.editor.values.sub_events)
         let key = subEventKeys.length > 0 ? Math.max.apply(null, subEventKeys) + 1 : 1
-        if (_.keys(this.props.editor.values.sub_events).length) {
-            const subEvents = this.props.editor.values.sub_events
-            const startDates = []
-            const endDates = []
-            for (const key in subEvents) {
-                if (subEvents.hasOwnProperty(key)) {
-                    startDates.push(moment(subEvents[key].start_time))
-                    endDates.push(moment(subEvents[key].end_time))
-                }
-            }
-            startTime = moment.max(startDates)
-            endTime = moment.max(endDates)
-        } else {
-            startTime = this.props.editor.values.start_time ? moment(this.props.editor.values.start_time) : moment()
-            endTime = this.props.editor.values.end_time ? moment(this.props.editor.values.end_time) : moment()
-        }
-        obj[key] = {
-            start_time: moment.tz(startTime.add(1, 'weeks'), 'Europe/Helsinki').utc().toISOString(),
-            end_time: moment.tz(endTime.add(1, 'weeks'), 'Europe/Helsinki').utc().toISOString(),
-        }
-        this.context.dispatch(setEventData(obj, key))
+        const newEventObject = {[key]: {}}
+        this.context.dispatch(setEventData(newEventObject, key))
     }
 
     generateNewEventFields(events) {
+        const {validationErrors} = this.props.editor;
+        const subEventErrors = validationErrors.sub_events || {}
+
         let newEvents = []
         for (const key in events) {
             if (events.hasOwnProperty(key)) {
@@ -130,6 +113,7 @@ class FormFields extends React.Component {
                         key={key}
                         eventKey={key}
                         event={events[key]}
+                        errors={subEventErrors[key] || {}}
                     />
                 )
             }
@@ -153,7 +137,7 @@ class FormFields extends React.Component {
     trimmedDescription() {
         let descriptions = Object.assign({}, this.props.editor.values['description'])
         for (const lang in descriptions) {
-            descriptions[lang] = descriptions[lang].replace(/<\/p><p>/gi, '\n\n').replace(/<br\s*[\/]?>/gi, '\n').replace(/<p>/g, '').replace(/<\/p>/g, '')
+            descriptions[lang] = descriptions[lang].replace(/<\/p><p>/gi, '\n\n').replace(/<br\s*[\/]?>/gi, '\n').replace(/<p>/g, '').replace(/<\/p>/g, '').replace(/&amp;/g, '&')
         }
         return descriptions
     }
@@ -172,9 +156,12 @@ class FormFields extends React.Component {
 
         }
         const {values, validationErrors, contentLanguages} = this.props.editor
-        const newEvents = this.generateNewEventFields(this.props.editor.values.sub_events);
+        const formType = this.props.action
+        const isSuperEvent = values.super_event_type === 'recurring'
 
         const {VALIDATION_RULES, DEFAULT_CHARACTER_LIMIT} = CONSTANTS
+        const addedEvents = pickBy(values.sub_events, event => !event['@id'])
+        const newEvents = this.generateNewEventFields(addedEvents)
         
         return (
             <div>
@@ -261,7 +248,7 @@ class FormFields extends React.Component {
                     </div>
                     <SideField>
                         <label><FormattedMessage id="event-image"/></label>
-                        <ImagePicker label="image-preview" name="image" />
+                        <ImagePickerForm label="image-preview" name="image" />
                     </SideField>
                 </div>
 
@@ -272,10 +259,27 @@ class FormFields extends React.Component {
                     <div className="col-sm-6">
                         <div className="row">
                             <div className="col-xs-12 col-md-6">
-                                <HelDateTimeField validationErrors={validationErrors['start_time']} defaultValue={values['start_time']} ref="start_time" name="start_time" label="event-starting-datetime" setDirtyState={this.props.setDirtyState} />
+                                <HelDateTimeField
+                                    datePickerProps={{disabled: formType === 'update' && isSuperEvent}}
+                                    timePickerProps={{disabled: formType === 'update' && isSuperEvent}}
+                                    validationErrors={validationErrors['start_time']}
+                                    defaultValue={values['start_time']}
+                                    ref="start_time"
+                                    name="start_time"
+                                    label="event-starting-datetime"
+                                    setDirtyState={this.props.setDirtyState}
+                                />
                             </div>
                             <div className="col-xs-12 col-md-6">
-                                <HelDateTimeField validationErrors={validationErrors['end_time']} defaultValue={values['end_time']} ref="end_time" name="end_time" label="event-ending-datetime" setDirtyState={this.props.setDirtyState} />
+                                <HelDateTimeField
+                                    datePickerProps={{disabled: formType === 'update' && isSuperEvent}}
+                                    timePickerProps={{disabled: formType === 'update' && isSuperEvent}}
+                                    validationErrors={validationErrors['end_time']}
+                                    defaultValue={values['end_time']}
+                                    ref="end_time" name="end_time"
+                                    label="event-ending-datetime"
+                                    setDirtyState={this.props.setDirtyState}
+                                />
                             </div>
                         </div>
                         <div className={'new-events ' + (this.state.showNewEvents ? 'show' : 'hidden')}>
@@ -286,12 +290,14 @@ class FormFields extends React.Component {
                         }
                         <Button
                             raised
+                            disabled={formType === 'update'}
                             className="base-material-btn"
                             color="primary"
                             onClick={ () => this.addNewEventDialog() }
                         ><Add/> <FormattedMessage id="event-add-new-occasion" /></Button>
                         <Button
                             raised
+                            disabled={formType == 'update'}
                             className="base-material-btn"
                             color={getAddRecurringEventButtonColor(this.state.showRecurringEvent)}
                             onClick={ () => this.showRecurringEventDialog() }
@@ -324,7 +330,11 @@ class FormFields extends React.Component {
                             placeholder={this.context.intl.formatMessage({id: 'event-location'})}
                             setDirtyState={this.props.setDirtyState}
                         />
-                        <CopyToClipboard text={values['location'] ? values['location'].id : ''}><button className="clipboard-copy-button" title={this.context.intl.formatMessage({id: 'copy-to-clipboard'})}><i className="material-icons">&#xE14D;</i></button></CopyToClipboard>
+                        <CopyToClipboard text={values['location'] ? values['location'].id : ''}>
+                            <button className="clipboard-copy-button" title={this.context.intl.formatMessage({id: 'copy-to-clipboard'})}>
+                                <i className="material-icons">&#xE14D;</i>
+                            </button>
+                        </CopyToClipboard>
                         <MultiLanguageField 
                             multiLine={true} 
                             label="event-location-additional-info" 
@@ -351,7 +361,14 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6">
-                        <HelOffersField ref="offers" name="offers" validationErrors={validationErrors} defaultValue={values['offers']} languages={this.props.editor.contentLanguages} setDirtyState={this.props.setDirtyState} />
+                        <HelOffersField
+                            ref="offers"
+                            name="offers"
+                            validationErrors={validationErrors}
+                            defaultValue={values['offers']}
+                            languages={this.props.editor.contentLanguages}
+                            setDirtyState={this.props.setDirtyState}
+                        />
                     </div>
                     <SideField>
                         <div className="tip">
@@ -366,9 +383,36 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6">
-                        <HelTextField validations={[VALIDATION_RULES.IS_URL]} ref="extlink_facebook" name="extlink_facebook" label={<FormattedMessage id="facebook-url"/>} validationErrors={validationErrors['extlink_facebook']} defaultValue={values['extlink_facebook']} setDirtyState={this.props.setDirtyState} forceApplyToStore />
-                        <HelTextField validations={[VALIDATION_RULES.IS_URL]} ref="extlink_twitter" name="extlink_twitter" label={<FormattedMessage id="twitter-url"/>} validationErrors={validationErrors['extlink_twitter']} defaultValue={values['extlink_twitter']} setDirtyState={this.props.setDirtyState} forceApplyToStore />
-                        <HelTextField validations={[VALIDATION_RULES.IS_URL]} ref="extlink_instagram" name="extlink_instagram" label={<FormattedMessage id="instagram-url"/>} validationErrors={validationErrors['extlink_instagram']} defaultValue={values['extlink_instagram']} setDirtyState={this.props.setDirtyState} forceApplyToStore />
+                        <HelTextField
+                            validations={[VALIDATION_RULES.IS_URL]}
+                            ref="extlink_facebook"
+                            name="extlink_facebook"
+                            label={<FormattedMessage id="facebook-url"/>}
+                            validationErrors={validationErrors['extlink_facebook']}
+                            defaultValue={values['extlink_facebook']}
+                            setDirtyState={this.props.setDirtyState}
+                            forceApplyToStore
+                        />
+                        <HelTextField
+                            validations={[VALIDATION_RULES.IS_URL]}
+                            ref="extlink_twitter"
+                            name="extlink_twitter"
+                            label={<FormattedMessage id="twitter-url"/>}
+                            validationErrors={validationErrors['extlink_twitter']}
+                            defaultValue={values['extlink_twitter']}
+                            setDirtyState={this.props.setDirtyState}
+                            forceApplyToStore
+                        />
+                        <HelTextField
+                            validations={[VALIDATION_RULES.IS_URL]}
+                            ref="extlink_instagram"
+                            name="extlink_instagram"
+                            label={<FormattedMessage id="instagram-url"/>}
+                            validationErrors={validationErrors['extlink_instagram']}
+                            defaultValue={values['extlink_instagram']}
+                            setDirtyState={this.props.setDirtyState}
+                            forceApplyToStore
+                        />
                     </div>
                     <SideField><p className="tip"><FormattedMessage id="editor-tip-social-media"/></p></SideField>
                 </div>
@@ -377,8 +421,21 @@ class FormFields extends React.Component {
                     <FormattedMessage id="event-categorization" />
                 </FormHeader>
                 <div className="row keyword-row">
-                    <HelSelect selectedValues={values['keywords']} legend={this.context.intl.formatMessage({id: 'event-keywords'})} ref="keywords" name="keywords" resource="keyword" dataSource={`${appSettings.api_base}/keyword/?show_all_keywords=1&data_source=yso&text=`} validationErrors={validationErrors['keywords']} setDirtyState={this.props.setDirtyState} />
-                    <CopyToClipboard text={values['keywords'] ? this.getKeywords(values['keywords']) : ''}><button className="clipboard-copy-button" title={this.context.intl.formatMessage({id: 'copy-to-clipboard'})}><i className="material-icons">&#xE14D;</i></button></CopyToClipboard>
+                    <HelSelect
+                        selectedValues={values['keywords']}
+                        legend={this.context.intl.formatMessage({id: 'event-keywords'})}
+                        ref="keywords"
+                        name="keywords"
+                        resource="keyword"
+                        dataSource={`${appSettings.api_base}/keyword/?show_all_keywords=1&data_source=yso&text=`}
+                        validationErrors={validationErrors['keywords']}
+                        setDirtyState={this.props.setDirtyState}
+                    />
+                    <CopyToClipboard text={values['keywords'] ? this.getKeywords(values['keywords']) : ''}>
+                        <button className="clipboard-copy-button" title={this.context.intl.formatMessage({id: 'copy-to-clipboard'})}>
+                            <i className="material-icons">&#xE14D;</i>
+                        </button>
+                    </CopyToClipboard>
                     <SideField><p className="tip"><FormattedMessage id="editor-tip-keywords"/></p></SideField>
                     <HelLabeledCheckboxGroup
                         groupLabel={<FormattedMessage id="hel-main-categories"/>}
@@ -416,6 +473,90 @@ class FormFields extends React.Component {
                     />
                     <SideField><p className="tip"><FormattedMessage id="editor-tip-event-languages"/></p></SideField>
                 </div>
+
+                {appSettings.ui_mode === 'courses' &&
+                    <div>
+                        <FormHeader>
+                            <FormattedMessage id="audience-age-restrictions"/>
+                        </FormHeader>
+                        <div className="row">
+                            <div className="col-sm-12">
+                                <HelTextField
+                                    ref="audience_min_age"
+                                    name="audience_min_age"
+                                    label={<FormattedMessage id="audience-min-age"/>}
+                                    validationErrors={validationErrors['audience_min_age']}
+                                    defaultValue={values['audience_min_age']}
+                                    setDirtyState={this.props.setDirtyState}
+                                    required={true}
+                                />
+
+                                <HelTextField
+                                    ref="audience_max_age"
+                                    name="audience_max_age"
+                                    label={<FormattedMessage id="audience-max-age"/>}
+                                    validationErrors={validationErrors['audience_max_age']}
+                                    defaultValue={values['audience_max_age']}
+                                    setDirtyState={this.props.setDirtyState}
+                                    required={true}
+                                />
+                            </div>
+                        </div>
+
+                        <FormHeader>
+                            <FormattedMessage id="enrolment-time"/>
+                        </FormHeader>
+                        <div className="row">
+                            <div className="col-sm-6 col-md-4">
+                                <HelDateTimeField
+                                    validationErrors={validationErrors['enrolment_start_time']}
+                                    defaultValue={values['enrolment_start_time']}
+                                    ref="enrolment_start_time"
+                                    name="enrolment_start_time"
+                                    label="enrolment-start-time"
+                                    setDirtyState={this.props.setDirtyState}
+                                />
+                            </div>
+                            <div className="col-sm-6 col-md-4">
+                                <HelDateTimeField
+                                    validationErrors={validationErrors['enrolment_end_time']}
+                                    defaultValue={values['enrolment_end_time']}
+                                    ref="enrolment_end_time"
+                                    name="enrolment_end_time"
+                                    label="enrolment-end-time"
+                                    setDirtyState={this.props.setDirtyState}
+                                />
+                            </div>
+                        </div>
+
+                        <FormHeader>
+                            <FormattedMessage id="attendee-capacity"/>
+                        </FormHeader>
+                        <div className="row">
+                            <div className="col-sm-12">
+                                <HelTextField
+                                    ref="minimum_attendee_capacity"
+                                    name="minimum_attendee_capacity"
+                                    label={<FormattedMessage id="minimum-attendee-capacity"/>}
+                                    validationErrors={validationErrors['minimum_attendee_capacity']}
+                                    defaultValue={values['minimum_attendee_capacity']}
+                                    setDirtyState={this.props.setDirtyState}
+                                    required={true}
+                                />
+
+                                <HelTextField
+                                    ref="maximum_attendee_capacity"
+                                    name="maximum_attendee_capacity"
+                                    label={<FormattedMessage id="maximum-attendee-capacity"/>}
+                                    validationErrors={validationErrors['maximum_attendee_capacity']}
+                                    defaultValue={values['maximum_attendee_capacity']}
+                                    setDirtyState={this.props.setDirtyState}
+                                    required={true}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
         )
     }
@@ -424,6 +565,7 @@ class FormFields extends React.Component {
 FormFields.propTypes = {
     editor: PropTypes.object,
     setDirtyState: PropTypes.func,
+    action: PropTypes.oneOf(['update', 'create']),
 }
 
 export default FormFields

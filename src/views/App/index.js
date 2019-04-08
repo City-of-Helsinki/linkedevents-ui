@@ -1,5 +1,7 @@
-require('!style-loader!css-loader!src/assets/additional_css/bootstrap.custom.min.css');
-require('!style-loader!css-loader!sass-loader!src/assets/main.scss');
+import 'src/assets/additional_css/bootstrap.custom.min.css';
+import 'src/assets/main.scss';
+
+require('./index.scss');
 
 import PropTypes from 'prop-types';
 
@@ -76,13 +78,13 @@ class App extends React.Component {
         let buttonStyle = {
             marginLeft: '10px',
             color: 'white',
-            backgroundColor: '#1976d2',
+            backgroundColor: HelTheme.palette.primary.main,
         }
 
         let warningButtonStyle = {
             marginLeft: '10px',
             color: 'white',
-            backgroundColor: 'red',
+            backgroundColor: HelTheme.palette.secondary.main,
         }
         let useWarningButtonStyle = false
         if (this.props.app.confirmAction && this.props.app.confirmAction.style === 'warning') {
@@ -101,9 +103,9 @@ class App extends React.Component {
         var organization_missing_msg;
         if (this.props.user && !this.props.user.organization) {
             organization_missing_msg = <Well><h4>Tervetuloa käyttämään Linked Eventsiä, {this.props.user.displayName}!</h4>
-                <p>Sinulla ei ole vielä oikeutta hallinnoida yhdenkään viraston tapahtumia.
-                    Ota yhteyttä <a href="mailto:aleksi.salonen@hel.fi">Aleksi Saloseen</a> saadaksesi oikeudet muokata virastosi tapahtumia.</p>
-                <p>Jos olet jo saanut käyttöoikeudet, kirjautumisesi saattaa olla vanhentunut. Pahoittelemme, kokeile päivittää sivu (F5) ja kirjautua uudestaan.</p>
+                <p>Sinulla ei ole vielä oikeutta hallinnoida yhdenkään yksikön tapahtumia.
+                    Ota yhteyttä <a href="mailto:aleksi.salonen@hel.fi">Aleksi Saloseen</a> saadaksesi oikeudet muokata yksikkösi tapahtumia.</p>
+                <p>Jos olet jo saanut käyttöoikeudet, kirjautumisesi saattaa olla vanhentunut. Kokeile sivun päivittämistä (F5) ja kirjautumista uudestaan.</p>
             </Well>
         } else {
             organization_missing_msg = null;

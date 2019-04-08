@@ -1,4 +1,4 @@
-import constants from 'src/constants'
+import constants from '../constants'
 import moment from 'moment'
 
 export function userMayEdit(user, event) {
@@ -69,4 +69,3 @@ export function checkEventEditability(user, event) {
     }
     return {eventIsEditable: !eventIsInThePast && !eventIsCancelled && userMayEdit, eventEditabilityExplanation}
 }
-

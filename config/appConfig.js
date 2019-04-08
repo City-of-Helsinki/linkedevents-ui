@@ -6,10 +6,10 @@ const paths = require('./webpack/common').paths;
 
 // Config-keys used by server
 const serverConfigKeys = ['port', 'publicUrl', 'helsinkiAuthId', 'helsinkiAuthSecret', 'helsinkiTargetApp', 'sessionSecret'];
-// Config-keys used for jade template
+// Config-keys used for pug template
 const templateConfigKeys = ['LE_PRODUCTION_INSTANCE', 'APP_MODE'];
 // React-app config-keys
-const clientConfigKeys = ['api_base', 'local_storage_user_expiry_time', 'nocache', 'raven_id'];
+const clientConfigKeys = ['api_base', 'local_storage_user_expiry_time', 'nocache', 'raven_id', 'commit_hash', 'ui_mode'];
 
 const gitRevisionPlugin = new GitRevisionPlugin();
 nconf.overrides({
@@ -30,6 +30,7 @@ nconf.defaults({
     'LE_PRODUCTION_INSTANCE': '#',
     'APP_MODE': process.env.NODE_ENV,
     'port': 8080,
+    'ui_mode': 'events',
 });
 
 /**

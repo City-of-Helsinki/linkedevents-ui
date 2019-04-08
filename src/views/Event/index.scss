@@ -2,15 +2,24 @@ $buttonActionHeight: 64px;
 $buttonActionMargin: 10px;
 
 .event-actions {
+    display: flex;
+    justify-content: space-between;
     button {
         height: $buttonActionHeight;
         margin-right: $buttonActionMargin;
     }
 }
+
 .event-page {
 
     .container {
         background: rgba(255,255,255,0.9);
+    }
+
+    .container.header h1 {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
     }
 
     pre {
@@ -38,18 +47,13 @@ $buttonActionMargin: 10px;
     );
 }
 
-.cancelled {
-    background: repeating-linear-gradient(
-        45deg,
-        rgba(222, 114, 106, 0.60),
-        rgba(222, 114, 106, 0.60) 10px,
-        #fff 10px,
-        #fff 20px
-    );
+.warn {
+    text-transform: uppercase;
+    margin-right: 0.5em;
 }
 
-.text-uppercase {
-    text-transform: uppercase;
+.tag-space {
+    margin-right: 8px;
 }
 
 @media (max-width: 480px) {
@@ -63,5 +67,12 @@ $buttonActionMargin: 10px;
                 line-height: 1;
             }
         }
+    }
+
+    .event-actions button {
+        margin-bottom: 10px;
+        line-height: 1.5;
+        padding: 12px;
+        width: 160px;
     }
 }

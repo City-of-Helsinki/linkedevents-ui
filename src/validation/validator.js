@@ -1,6 +1,9 @@
 import CONSTANTS from '../constants'
 import validationFn from './validationRules'
 import {getCharacterLimitByRule} from '../utils/helpers'
+import {each, remove, pickBy, isEmpty, omitBy} from 'lodash'
+import moment from 'moment'
+
 const {
     VALIDATION_RULES,
     PUBLICATION_STATUS,
@@ -19,6 +22,12 @@ const draftValidations = {
     extlink_facebook: [VALIDATION_RULES.IS_URL],
     extlink_twitter: [VALIDATION_RULES.IS_URL],
     extlink_instagram: [VALIDATION_RULES.IS_URL],
+    audience_min_age: [VALIDATION_RULES.REQUIRED_FOR_COURSES, VALIDATION_RULES.IS_INT],
+    audience_max_age: [VALIDATION_RULES.REQUIRED_FOR_COURSES, VALIDATION_RULES.IS_INT],
+    enrolment_start_time: [VALIDATION_RULES.REQUIRED_STRING_FOR_COURSES],
+    enrolment_end_time: [VALIDATION_RULES.AFTER_START_TIME, VALIDATION_RULES.IN_THE_FUTURE],
+    minimum_attendee_capacity: [VALIDATION_RULES.REQUIRED_FOR_COURSES, VALIDATION_RULES.IS_INT],
+    maximum_attendee_capacity: [VALIDATION_RULES.REQUIRED_FOR_COURSES, VALIDATION_RULES.IS_INT],
 }
 
 // Validations for published event
@@ -26,7 +35,7 @@ const publicValidations = {
     name: [VALIDATION_RULES.REQUIRE_MULTI, VALIDATION_RULES.REQUIRED_IN_CONTENT_LANGUAGE],
     location: [VALIDATION_RULES.REQUIRE_AT_ID],
     hel_main: [VALIDATION_RULES.AT_LEAST_ONE],
-    start_time: [VALIDATION_RULES.REQUIRED_STRING], // Datetime is saved as ISO string
+    start_time: [VALIDATION_RULES.REQUIRED_STRING, VALIDATION_RULES.DEFAULT_END_IN_FUTURE], // Datetime is saved as ISO string
     end_time: [VALIDATION_RULES.AFTER_START_TIME, VALIDATION_RULES.IN_THE_FUTURE],
     price: [VALIDATION_RULES.HAS_PRICE],
     short_description: [VALIDATION_RULES.REQUIRE_MULTI, VALIDATION_RULES.REQUIRED_IN_CONTENT_LANGUAGE, VALIDATION_RULES.SHORT_STRING],
@@ -35,6 +44,16 @@ const publicValidations = {
     extlink_facebook: [VALIDATION_RULES.IS_URL],
     extlink_twitter: [VALIDATION_RULES.IS_URL],
     extlink_instagram: [VALIDATION_RULES.IS_URL],
+    sub_events: {
+        start_time: [VALIDATION_RULES.REQUIRED_STRING, VALIDATION_RULES.DEFAULT_END_IN_FUTURE],
+        end_time: [VALIDATION_RULES.AFTER_START_TIME, VALIDATION_RULES.IN_THE_FUTURE],
+    },
+    audience_min_age: [VALIDATION_RULES.REQUIRED_FOR_COURSES, VALIDATION_RULES.IS_INT],
+    audience_max_age: [VALIDATION_RULES.REQUIRED_FOR_COURSES, VALIDATION_RULES.IS_INT],
+    enrolment_start_time: [VALIDATION_RULES.REQUIRED_STRING_FOR_COURSES],
+    enrolment_end_time: [VALIDATION_RULES.AFTER_START_TIME, VALIDATION_RULES.IN_THE_FUTURE],
+    minimum_attendee_capacity: [VALIDATION_RULES.REQUIRED_FOR_COURSES, VALIDATION_RULES.IS_INT],
+    maximum_attendee_capacity: [VALIDATION_RULES.REQUIRED_FOR_COURSES, VALIDATION_RULES.IS_INT],
 }
 
 /**
@@ -65,24 +84,47 @@ function runValidationWithSettings(values, languages, settings) {
         _contentLanguages: languages,
     })
 
-    _.each(settings, (validations, key) => {
-    // Returns an array of validation errors (array of nulls if validation passed)
-        let errors = validations.map(validation => {
-            if (key === 'offer_description' || key === 'price' || key === 'info_url') {
-                return validateCollection(valuesWithLanguages, key, validation, 'offers')
-            }
-            return validationFn[validation](valuesWithLanguages, values[key]) ? null : validation
-        })
+    each(settings, (validations, key) => {
+        // Returns an array of validation errors (array of nulls if validation passed)
+        let errors = []
+
+        // validate sub events
+        if (key === 'sub_events') {
+            errors = {}
+            each(values['sub_events'], (subEvent, eventKey) => {
+                const subEventError = runValidationWithSettings(subEvent, languages, settings.sub_events)
+                const error = isEmpty(subEventError) ? null : subEventError
+                errors[eventKey] = error
+            })
+        } else {
+            errors = validateEventObject(validations, valuesWithLanguages, key)
+        }
 
         // Remove nulls
-        _.remove(errors, i => i === null)
+        if (key === 'sub_events') {
+            errors = omitBy(errors, i => i === null)
+        } else {
+            remove(errors, i => i === null)
+        }
 
         obj[key] = errors
     })
-
-    obj = _.pick(obj, validationErrors => validationErrors.length > 0)
-
+    obj = pickBy(obj, (validationErrors, key) => {
+        if (key === 'sub_events') {
+            return !isEmpty(validationErrors)
+        }
+        return validationErrors.length > 0
+    })
     return obj
+}
+
+const validateEventObject = (validations, values, key) => {
+    return validations.map(validation => {
+        if (key === 'offer_description' || key === 'price' || key === 'info_url') {
+            return validateCollection(values, key, validation, 'offers')
+        }
+        return validationFn[validation](values, values[key]) ? null : validation
+    })
 }
 
 function validateCollection(values, key, validationRule, type) {

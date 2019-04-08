@@ -1,11 +1,11 @@
 import constants from '../constants'
 import fetch from 'isomorphic-fetch'
-import authedFetch from 'src/utils/authedFetch'
+import authedFetch from '../utils/authedFetch'
 
 import {setFlashMsg} from './app'
 
 function makeRequest(query, startDate, endDate) {
-    var url = `${appSettings.api_base}/search/?type=event&q=${encodeURI(query)}&page_size=100`;
+    var url = `${appSettings.api_base}/event/?text=${encodeURI(query)}&page_size=100&sort=start_time`;
 
     if(appSettings.nocache) {
         url += `&nocache=${Date.now()}`

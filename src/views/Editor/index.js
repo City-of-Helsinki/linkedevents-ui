@@ -1,5 +1,5 @@
 
-import '!style-loader!css-loader!sass-loader!./index.scss'
+import './index.scss'
 import 'style-loader!vendor/stylesheets/typeahead.css'
 
 import React from 'react'
@@ -12,27 +12,21 @@ import PropTypes from 'prop-types'
 import {Button} from 'material-ui'
 import Tooltip from 'material-ui/Tooltip'
 import Close from 'material-ui-icons/Close'
-import constants from 'src/constants.js'
 
-import {getStringWithLocale} from 'src/utils/locale'
+import {getStringWithLocale} from '../../utils/locale'
 
 import {
-    fetchEventForEditing as fetchEventForEditingAction, 
-    deleteEvent as deleteEventAction, 
-    cancelEvent as cancelEventAction, 
-    sendData as sendDataAction, 
-    clearData as clearDataAction, 
-    fetchKeywordSets as fetchKeywordSetsAction, 
-    fetchLanguages as fetchLanguagesAction, 
+    fetchEventForEditing as fetchEventForEditingAction,
+    deleteEvent as deleteEventAction,
+    cancelEvent as cancelEventAction,
+    sendData as sendDataAction,
+    clearData as clearDataAction,
     setValidationErrors as setValidationErrorsAction,
-} from 'src/actions/editor.js'
-
-import {
-    confirmAction, 
-    clearFlashMsg as clearFlashMsgAction} from 'src/actions/app.js'
-import {fetchSubEvents as fetchSubEventsAction} from 'src/actions/subEvents.js'
-
-import {checkEventEditability} from 'src/utils/checkEventEditability.js'
+} from '../../actions/editor'
+import {confirmAction, clearFlashMsg} from '../../actions/app'
+import {fetchSubEvents as fetchSubEventsAction} from '../../actions/subEvents'
+import constants from '../../constants'
+import {checkEventEditability} from '../../utils/checkEventEditability'
 
 // the backup doesn't support non-language links, so we use hardcoded
 // 'fi' instead for the link language
@@ -41,9 +35,10 @@ var EXT_LINK_NO_LANGUAGE = 'fi'
 // sentinel for authentication alert
 var sentinel = true;
 
-import FormFields from 'src/components/FormFields'
+import FormFields from '../../components/FormFields'
+import {mapAPIDataToUIFormat, mapUIDataToAPIFormat} from '../../utils/formDataMapping';
 
-class EditorPage extends React.Component {
+export class EditorPage extends React.Component {
     constructor(props) {
         super(props)
         
@@ -119,7 +114,11 @@ class EditorPage extends React.Component {
                 <Button
                     raised
                     disabled={disabled}
-                    onClick={ (e) => this.confirmDelete(e) }><FormattedMessage id="delete-event"/></Button>
+                    onClick={ (e) => this.confirmDelete(e) }
+                    color="accent"
+                >
+                    <FormattedMessage id="delete-events"/>
+                </Button>
             )
         }
     }
@@ -147,7 +146,8 @@ class EditorPage extends React.Component {
                 <Button
                     raised
                     disabled={disabled}
-                    onClick={ (e) => this.confirmCancel(e) }><FormattedMessage id="cancel-event"/></Button>
+                    onClick={ (e) => this.confirmCancel(e)}
+                    color="accent"><FormattedMessage id="cancel-events"/></Button>
             )
         } else {
             return null
@@ -157,10 +157,10 @@ class EditorPage extends React.Component {
     getSaveButtons(disabled = false) {
 
         let eventExists = this.eventExists()
-        let labelTextId = this.props.editor.isSending ?
-            (eventExists ? 'event-action-save-existing-active' : 'event-action-save-new-active')
+        let labelTextId = this.props.editor.isSending
+            ? (eventExists ? 'event-action-save-existing-active' : 'event-action-save-new-active')
             : (eventExists ? 'event-action-save-existing' : 'event-action-save-new')
-        if (_.keys(this.props.editor.values.sub_events).length > 0) {
+        if (_.keys(this.props.editor.values.sub_events).length > 0 && !eventExists) {
             labelTextId = this.props.editor.isSending ? 'event-action-save-multiple-active' : 'event-action-save-multiple'
         }
 
@@ -178,15 +178,17 @@ class EditorPage extends React.Component {
         let {eventIsEditable, eventEditabilityExplanation} = checkEventEditability(this.props.user, this.props.editor.values)
 
         let disabled = this.props.editor.isSending || !eventIsEditable
-        let buttons = <div className="actions">
-            <div>
-                { this.getDeleteButton(disabled) }
-                { this.getCancelButton(disabled) }
+        let buttons = (
+            <div className="actions">
+                <div>
+                    { this.getDeleteButton(disabled) }
+                    { this.getCancelButton(disabled) }
+                </div>
+                { this.getSaveButtons(disabled) }
             </div>
-            { this.getSaveButtons(disabled) }
-        </div>
+        )
         return (
-            <div>
+            <div className='buttons-group'>
                 {eventIsEditable ? buttons :
                     <Tooltip title={eventEditabilityExplanation}>
                         <span>{buttons}</span>
@@ -204,69 +206,61 @@ class EditorPage extends React.Component {
     // console.log(event)
     }
 
-    getWarningMarkup() {
-        let warningText = this.props.intl.formatMessage('editor-delete-warning') + '<br/>'
+    // action: either 'delete' or 'cancel'
+    getWarningMarkup(action) {
+        let warningText = this.props.intl.formatMessage({id: `editor-${action}-warning`}) + '<br/>'
         let subEventWarning = ''
         if (this.props.subEvents.items && this.props.subEvents.items.length) {
             const subEventNames = []
             for (const subEvent of this.props.subEvents.items) {
                 subEventNames.push(`</br><strong>${subEvent.name.fi}</strong> (${moment(subEvent.start_time).format('DD.MM.YYYY')})`)
             }
-            subEventWarning = `</br>${this.props.intl.formatMessage('editor-delete-subevents-warning')}</br>${subEventNames}`
+            subEventWarning = `</br>${this.props.intl.formatMessage({id: `editor-${action}-subevents-warning`})}</br>${subEventNames}`
         }
         return warningText + subEventWarning
     }
 
     saveAsDraft(event) {
         let doUpdate = this.props.match.params.action === 'update'
-        const {values, contentLanguages} = this.props.editor
         this.setState({isDirty: false})
-        this.props.sendData(values, contentLanguages, this.props.user, doUpdate, constants.PUBLICATION_STATUS.DRAFT)
+        this.props.sendData(doUpdate, constants.PUBLICATION_STATUS.DRAFT)
     }
 
     saveAsPublished(event) {
         let doUpdate = this.props.match.params.action === 'update'
-        const {values, contentLanguages} = this.props.editor
         this.setState({isDirty: false})
-        this.props.sendData(values, contentLanguages, this.props.user, doUpdate, constants.PUBLICATION_STATUS.PUBLIC)
+        this.props.sendData(doUpdate, constants.PUBLICATION_STATUS.PUBLIC)
     }
 
     confirmDelete() {
-    // TODO: maybe do a decorator for confirmable actions etc...?
+        // TODO: maybe do a decorator for confirmable actions etc...?
+        const eventId = this.props.match.params.eventId;
+        const {user, deleteEvent, editor} = this.props;
+
         this.props.confirm(
             'confirm-delete',
             'warning',
-            'delete',
+            'delete-events',
             {
-                action: () => this.deleteEvents(),
+                action: () => deleteEvent(eventId, user, editor.values),
                 additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
-                additionalMarkup: this.getWarningMarkup(),
+                additionalMarkup: this.getWarningMarkup('delete'),
             }
         )
     }
 
-    deleteEvents() {
-        if (this.props.subEvents.items.length) {
-            for (const subEvent of this.props.subEvents.items) {
-                this.deleteSubEvent(subEvent.id, this.props.user)
-            }
-        }
-        return this.props.deleteEvent(this.props.match.params.eventId, this.props.user)
-    }
-
-    deleteSubEvent(eventId) {
-        return this.props.deleteEvent(eventId, this.props.user)
-    }
-
     confirmCancel() {
-    // TODO: maybe do a decorator for confirmable actions etc...?
+        const {user, editor,cancelEvent} = this.props;
+        const eventId = this.props.match.params.eventId;
+        // TODO: maybe do a decorator for confirmable actions etc...?
         this.props.confirm(
             'confirm-cancel',
             'warning',
-            'cancel-event',
+            'cancel-events',
             {
-                action: e => this.props.cancelEvent(this.props.match.params.eventId, this.props.user, this.props.editor.values),
+                action: () => cancelEvent(eventId, user, mapUIDataToAPIFormat(editor.values)),
                 additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
+                additionalMarkup: this.getWarningMarkup('cancel'),
             }
         )
     }
@@ -276,7 +270,7 @@ class EditorPage extends React.Component {
             disabled: this.state.disabled,
         }
 
-        let headerTextId = (this.props.match.params.action === 'update') ? 'edit-event' : 'create-event'
+        let headerTextId = (this.props.match.params.action === 'update') ? `edit-${appSettings.ui_mode}` : `create-${appSettings.ui_mode}`
 
         let clearButton = null
         if(_.keys(this.props.editor.values).length) {
@@ -311,7 +305,12 @@ class EditorPage extends React.Component {
                 </div>
 
                 <div className="container">
-                    <FormFields ref="form" action={this.props.match.params.action} editor={this.props.editor} setDirtyState={this.setDirtyState} />
+                    <FormFields
+                        ref="form"
+                        action={this.props.match.params.action}
+                        editor={this.props.editor}
+                        setDirtyState={this.setDirtyState}
+                    />
                 </div>
 
                 <div className="editor-action-buttons">
@@ -338,10 +337,10 @@ const mapDispatchToProps = (dispatch) => ({
     fetchSubEvents: (eventId, user) => dispatch(fetchSubEventsAction(eventId, user)),
     clearData: () => dispatch(clearDataAction()),
     setValidationErrors: (errors) => dispatch(setValidationErrorsAction(errors)),
-    sendData: (formValues, contentLanguages, user, updateExisting, publicationStatus) => 
-        dispatch(sendDataAction(formValues, contentLanguages, user, updateExisting, publicationStatus)),
+    sendData: (updateExisting, publicationStatus) => 
+        dispatch(sendDataAction(updateExisting, publicationStatus)),
     confirm: (msg, style, actionButtonLabel, data) => dispatch(confirmAction(msg, style, actionButtonLabel, data)),
-    deleteEvent: (eventId, user) => dispatch(deleteEventAction(eventId, user)),
+    deleteEvent: (eventId, user, values) => dispatch(deleteEventAction(eventId, user, values)),
     cancelEvent: (eventId, user, values) => dispatch(cancelEventAction(eventId, user, values)),
 })
 

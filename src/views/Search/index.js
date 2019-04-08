@@ -1,16 +1,16 @@
-import '!style-loader!css-loader!sass-loader!./index.scss'
+import './index.scss'
 
 import React from 'react'
 import {connect} from 'react-redux'
 import {FormattedMessage} from 'react-intl'
 import PropTypes from 'prop-types';
 
-import FilterableEventTable from 'src/components/FilterableEventTable'
-import EventGrid from 'src/components/EventGrid'
-import SearchBar from 'src/components/SearchBar'
+import FilterableEventTable from '../../components/FilterableEventTable'
+import EventGrid from '../../components/EventGrid'
+import SearchBar from '../../components/SearchBar'
 import Loader from 'react-loader'
 
-import {fetchEvents as fetchEventsAction} from 'src/actions/events'
+import {fetchEvents as fetchEventsAction} from '../../actions/events'
 
 
 class SearchPage extends React.Component {
@@ -41,7 +41,7 @@ class SearchPage extends React.Component {
     render() {
         return (
             <div className="container">
-                <h1><FormattedMessage id="search-events"/></h1>
+                <h1><FormattedMessage id={`search-${appSettings.ui_mode}`}/></h1>
                 <p><FormattedMessage id="search-events-description"/></p>
                 <SearchBar onFormSubmit={ (query, start, end) => this.searchEvents(query, start, end) }/>
                 <Loader loaded={!this.props.isFetching} scale={3}>

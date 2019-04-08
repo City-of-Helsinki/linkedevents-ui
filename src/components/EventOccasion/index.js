@@ -1,9 +1,10 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import {FormattedMessage, injectIntl} from 'react-intl'
 
 import {connect} from 'react-redux'
-import {setData} from 'src/actions/editor.js'
+import {setData} from '../../actions/editor'
 
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from 'src/utils/apiDataMapping.js'
 
@@ -27,6 +28,14 @@ class EventOccasion extends React.Component {
             </div>
         )
     }
+}
+
+EventOccasion.propTypes = {
+    editor: PropTypes.shape({
+        contentLanguages: PropTypes.any,
+        values: PropTypes.object,
+        validationErrors: PropTypes.object,
+    }).isRequired,
 }
 
 export default EventOccasion

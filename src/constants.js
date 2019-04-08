@@ -22,6 +22,8 @@ const constants = {
     REQUEST_SUB_EVENTS: 'REQUEST_SUB_EVENTS',
     RECEIVE_SUB_EVENTS: 'RECEIVE_SUB_EVENTS',
     RECEIVE_SUB_EVENTS_ERROR: 'RECEIVE_SUB_EVENTS_ERROR',
+    RECEIVE_SUB_EVENTS_FROM_SUPER: 'RECEIVE_SUB_EVENTS_FROM_SUPER',
+    REQUEST_SUB_EVENTS_FROM_SUPER: 'REQUEST_SUB_EVENTS_FROM_SUPER',
 
     REQUEST_IMAGES: 'REQUEST_IMAGES',
     RECEIVE_IMAGES: 'RECEIVE_IMAGES',
@@ -108,6 +110,7 @@ const constants = {
         IS_URL: 'isUrl',
         IS_DATE: 'isDate',
         IS_TIME: 'isTime',
+        IS_INT: 'isInt',
         LONG_STRING:'longString',
         MEDIUM_STRING: 'mediumString',
         SHORT_STRING: 'shortString',
@@ -117,11 +120,15 @@ const constants = {
         IN_THE_FUTURE: 'inTheFuture',
         DAY_WITHIN_INTERVAL: 'daysWithinInterval',
         REQUIRED_IN_CONTENT_LANGUAGE: 'requiredInContentLanguages',
+        REQUIRED: 'required',
+        REQUIRED_FOR_COURSES: 'requiredForCourses',
         REQUIRED_STRING: 'requiredString',
+        REQUIRED_STRING_FOR_COURSES: 'requiredStringForCourses',
         REQUIRE_AT_ID: 'requiredAtId',
         AT_LEAST_ONE: 'atLeastOne',
         IS_MORE_THAN_ONE: 'isMoreThanOne',
         AT_LEAST_ONE_IS_TRUE: 'atLeastOneIsTrue',
+        DEFAULT_END_IN_FUTURE: 'defaultEndInTheFuture',
     },
 
     CHARACTER_LIMIT: {

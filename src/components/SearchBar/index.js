@@ -1,4 +1,4 @@
-require('!style-loader!css-loader!sass-loader!./index.scss');
+import './index.scss'
 
 import moment from 'moment'
 import PropTypes from 'prop-types'
@@ -50,6 +50,7 @@ class SearchBar extends React.Component {
                     <HelDatePicker
                         ref="date"
                         name="startDate"
+                        defaultValue={this.state.startDate}
                         validations={[VALIDATION_RULES.IS_DATE]}
                         placeholder={this.props.intl.formatMessage({id: 'search-date-placeholder'})}
                         onChange={(date, value) => this.handleDateChange('startDate', date, value)}

@@ -5,10 +5,10 @@ import moment from 'moment'
 import PropTypes from 'prop-types'
 import {FormattedMessage} from 'react-intl';
 
-import defaultThumbnail from 'src/assets/images/helsinki-coat-of-arms-white.png'
+import defaultThumbnail from '../../assets/images/helsinki-coat-of-arms-white.png'
 
-import constants from 'src/constants'
-import '!style-loader!css-loader!sass-loader!./index.scss'
+import constants from '../../constants'
+import './index.scss'
 
 let dateFormat = function(timeStr) {
     return timeStr ? moment(timeStr).format('YYYY-MM-DD') : ''
@@ -34,12 +34,12 @@ let EventItem = (props) => {
     let cancelled = props.event.event_status === constants.EVENT_STATUS.CANCELLED
     let cancelledBadge = null
     if (cancelled) {
-        cancelledBadge = (<span className="label label-danger search-badge"><FormattedMessage id="cancelled"/></span>)
+        cancelledBadge = (<span className="badge badge-danger search-badge"><FormattedMessage id="cancelled"/></span>)
     }
 
     return (
-        <Link to={url}>
-            <div className="col-xs-12 col-md-6 col-lg-4" key={ props.event['id'] }>
+        <div className="col-xs-12 col-md-6 col-lg-4" key={ props.event['id'] }>
+            <Link to={url}>
                 <div className="event-item">
                     {cancelledBadge}
                     <div className="thumbnail" style={thumbnailStyle} />
@@ -49,8 +49,8 @@ let EventItem = (props) => {
                     </div>
 
                 </div>
-            </div>
-        </Link>
+            </Link>
+        </div>
     )
 }
 

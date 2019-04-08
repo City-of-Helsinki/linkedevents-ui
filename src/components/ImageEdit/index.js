@@ -1,4 +1,4 @@
-import '!style-loader!css-loader!sass-loader!./index.scss'
+import './index.scss'
 
 import React from 'react';
 import PropTypes from 'prop-types'
@@ -12,7 +12,6 @@ import HelTextField from '../HelFormFields/HelTextField'
 
 import CONSTANTS from '../../constants' 
 import {postImage as postImageAction} from 'src/actions/userImages'
-
 
 class ImageEdit extends React.Component {
 

@@ -1,3 +1,7 @@
+.container > div > .row {
+    justify-content: space-between;
+}
+
 .clipboard-copy-button {
     padding: 4px;
     position: absolute;
@@ -11,7 +15,7 @@
 .location-row {
     .clipboard-copy-button {
         right: -30px;
-        top: 140px;
+        top: 40px;
     }
 
 }
@@ -20,7 +24,7 @@
     position: relative;
 
     .clipboard-copy-button {
-        left: 465px;
+        left: 480px;
         top: 64px;
     }
 }
@@ -34,7 +38,7 @@
     .keyword-row {
         .clipboard-copy-button {
             left: 17px;
-            top: 80px;
+            top: 120px;
             z-index: 2;
         }
     }
@@ -47,7 +51,6 @@
         }
         .clipboard-copy-button {
             left: 515px;
-            top: 37px;
         }
     }
 }
@@ -59,7 +62,6 @@
         }
         .clipboard-copy-button {
             left: 680px;
-            top: 37px;
         }
     }
 }

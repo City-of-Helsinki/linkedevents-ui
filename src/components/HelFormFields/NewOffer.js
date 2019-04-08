@@ -87,7 +87,7 @@ class NewOffer extends React.Component {
             height: '36px',
             position: 'absolute',
             left: '-55px',
-            top: '0',
+            top: '2rem',
         }
         return (
             <div key={offerKey} className="offer-fields" style={{'position': 'relative'}}>

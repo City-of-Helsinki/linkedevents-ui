@@ -8,7 +8,11 @@
     "start": "NODE_ENV=development node server",
     "production": "NODE_ENV=production node server",
     "build": "NODE_ENV=production webpack -p --config config/webpack/prod.js",
-    "testing": "NODE_ENV=production APP_MODE=testing webpack -p --config config/webpack/prod.js"
+    "testing": "NODE_ENV=production APP_MODE=testing webpack -p --config config/webpack/prod.js",
+    "test": "jest",
+    "test:ci": "node --icu-data-dir=node_modules/full-icu node_modules/jest/bin/jest.js",
+    "lint:fix": "eslint -c .eslintrc src/**/*.{js,jsx}?\\(x\\) --fix",
+    "lint": "eslint -c .eslintrc src/**/*.{js,jsx}?\\(x\\)"
   },
   "engines": {
     "node": ">=8"
@@ -18,7 +22,7 @@
     "babel-polyfill": "^6.23.0",
     "babel-preset-stage-2": "^6.1.18",
     "body-parser": "^1.14.1",
-    "bootstrap": "4.0.0-alpha.2",
+    "bootstrap": "^4.1.3",
     "codecov": "^3.0.0",
     "connect-history-api-fallback": "^1.1.0",
     "cookie-parser": "^1.4.0",
@@ -37,7 +41,7 @@
     "jsonwebtoken": "^5.4.1",
     "jszip": "^3.0.0",
     "jwt-decode": "^2.0.1",
-    "lodash": "^3.10.1",
+    "lodash": "^4.17.11",
     "material-ui": "^1.0.0-beta.23",
     "material-ui-icons": "^1.0.0-beta.17",
     "moment": "^2.20.1",
@@ -52,7 +56,7 @@
     "react-addons-pure-render-mixin": "^15.6.2",
     "react-bootstrap": "^0.32.1",
     "react-copy-to-clipboard": "^5.0.1",
-    "react-datepicker": "^1.5.0",
+    "react-datepicker": "^1.8.0",
     "react-dom": "^16.4.0",
     "react-helmet": "^2.2.0",
     "react-intl": "^2.4.0",
@@ -61,7 +65,7 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.9",
-    "react-select": "^1.0.0-beta8",
+    "react-select": "^1.1.0",
     "redux": "^3.0.5",
     "redux-actions": "^0.9.0",
     "redux-thunk": "^1.0.2",
@@ -71,6 +75,7 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.3",
+    "babel-jest": "^23.6.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-react-transform": "^3.0.0",
@@ -82,23 +87,52 @@
     "coffee-loader": "^0.7.2",
     "coffee-script": "^1.10.0",
     "css-loader": "^0.28.7",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.7.0",
+    "enzyme-to-json": "^3.3.4",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-react": "^7.8.2",
-    "file-loader": "^0.8.5",
-    "html-webpack-plugin": "^2.30.1",
+    "file-loader": "^2.0.0",
+    "full-icu": "^1.2.1",
+    "html-webpack-plugin": "^3.2.0",
+    "identity-obj-proxy": "^3.0.0",
     "jade": "^1.11.0",
     "jade-loader": "^0.8.0",
+    "jest": "^22.1.1",
     "js-yaml": "^3.4.6",
     "json-loader": "^0.5.4",
     "morgan": "^1.6.1",
     "node-sass": "^4.7.2",
+    "pug": "^2.0.3",
+    "pug-loader": "^2.4.0",
     "react-transform-hmr": "^1.0.4",
-    "sass-loader": "^6.0.6",
+    "redux-mock-store": "^1.4.0",
+    "sass-loader": "^7.1.0",
     "style-loader": "^0.19.0",
-    "url-loader": "^0.5.7",
-    "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.9.7",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.26.0",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10",
     "webpack-hot-middleware": "^2.22.2"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "jest": {
+    "setupTestFrameworkScriptFile": "<rootDir>src/setupTests.js",
+    "testEnvironment": "jsdom",
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json"
+    ],
+    "moduleDirectories": [
+      "<rootDir>",
+      "node_modules"
+    ],
+    "moduleNameMapper": {
+      "^.+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"
+    },
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
+  }
 }

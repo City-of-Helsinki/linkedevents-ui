@@ -1,6 +1,6 @@
 import constants from '../constants.js'
 import fetch from 'isomorphic-fetch'
-import _ from 'lodash'
+import {get} from 'lodash'
 import {resetUserEventsFetching} from './userEvents'
 
 // Handled by the user reducer
@@ -44,9 +44,9 @@ export function retrieveUserFromSession() {
                     return response.json()
                 }).then((userJSON) => {
                     let mergedUser = Object.assign({}, user, {
-                        organization: _.get(userJSON, 'organization', null),
-                        adminOrganizations: _.get(userJSON, 'admin_organizations', null),
-                        organizationMemberships: _.get(userJSON, 'organization_memberships', null),
+                        organization: get(userJSON, 'organization', null),
+                        adminOrganizations: get(userJSON, 'admin_organizations', null),
+                        organizationMemberships: get(userJSON, 'organization_memberships', null),
                     })
 
                     saveUserToLocalStorage(mergedUser)

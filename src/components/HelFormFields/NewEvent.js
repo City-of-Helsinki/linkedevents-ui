@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react'
-import HelDateTimeField from 'src/components/HelFormFields/HelDateTimeField.js'
+import HelDateTimeField from '../HelFormFields/HelDateTimeField'
 import './NewEvent.scss'
 import {Button} from 'material-ui'
 import {connect} from 'react-redux'
@@ -16,13 +16,14 @@ class NewEvent extends React.Component {
         this.context.dispatch(deleteSubEvent(this.props.eventKey))
     }
     render() {
+        const {eventKey, errors} = this.props;
         const buttonStyles = {
             width: '42px',
             minWidth: '42px',
             height: '36px',
             position: 'absolute',
-            left: '-30px',
-            top: '25px',
+            left: '-55px',
+            top: '2rem',
         }
         return (
             <div className="new-events">
@@ -34,7 +35,8 @@ class NewEvent extends React.Component {
                                 name="start_time"
                                 label="event-starting-datetime"
                                 defaultValue={this.props.event.start_time}
-                                eventKey={this.props.eventKey}
+                                eventKey={eventKey}
+                                validationErrors={errors['start_time']}
                             />
                         </div>
                         <div className="col-xs-12 col-md-6">
@@ -43,7 +45,8 @@ class NewEvent extends React.Component {
                                 name="end_time"
                                 label="event-ending-datetime"
                                 defaultValue={this.props.event.end_time}
-                                eventKey={this.props.eventKey}
+                                eventKey={eventKey}
+                                validationErrors={errors['end_time']}
                             />
                         </div>
                         <Button
@@ -61,6 +64,7 @@ class NewEvent extends React.Component {
 NewEvent.propTypes = {
     event: PropTypes.object.isRequired,
     eventKey: PropTypes.string.isRequired,
+    errors: PropTypes.object,
 }
 
 export default NewEvent;
