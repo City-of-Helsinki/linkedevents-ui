@@ -107,6 +107,7 @@ export function replaceData(formData) {
         })
         delete formObject.id
         delete formObject.event_status
+        delete formObject.super_event_type
         
         dispatch(validateFor(publicationStatus))
         dispatch(setValidationErrors({}))
