@@ -9,6 +9,7 @@ $linkedEventsTextSize: 19px;
 $logoPaddingRight: 32px;
 $addEventPadding: 6px 12px;
 $languageMarginRight: 10px;
+$iconMarginLeft: 24px; 
 
 .main-navbar {
     height: $headerBarHeight !important;
@@ -91,6 +92,11 @@ $languageMarginRight: 10px;
             }
         }
 
+        &__icon {
+            margin-left: $iconMarginLeft;
+            height: 100%;
+        }
+
         &__links {
             display: flex;
             flex-grow: 1;
@@ -106,7 +112,19 @@ $languageMarginRight: 10px;
                 color: $hel-theme;
                 border: 2px solid $hel-theme;
                 padding: $addEventPadding;
+                line-height: initial;
+                height: 100%;
+            }
+
+            &__mobile {
+                display: flex;
             }
         }
     }
+}
+
+.menu-drawer-mobile {
+    display: flex;
+    flex-direction: column;
+    width: auto;
 }
