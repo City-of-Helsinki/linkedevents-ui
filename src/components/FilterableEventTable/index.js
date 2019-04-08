@@ -70,7 +70,7 @@ class FilterableEventTable extends React.Component {
         }
 
         return (
-            <div style={{padding: '0em 2em 0.5em 0em'}} >
+            <div style={{padding: '0em 0em 0.5em 0em'}} >
                 {err}
                 {results}
             </div>
