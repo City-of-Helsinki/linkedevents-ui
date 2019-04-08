@@ -36,6 +36,7 @@ var EXT_LINK_NO_LANGUAGE = 'fi'
 var sentinel = true;
 
 import FormFields from '../../components/FormFields'
+import {mapAPIDataToUIFormat, mapUIDataToAPIFormat} from '../../utils/formDataMapping';
 
 export class EditorPage extends React.Component {
     constructor(props) {
@@ -205,15 +206,16 @@ export class EditorPage extends React.Component {
     // console.log(event)
     }
 
-    getWarningMarkup() {
-        let warningText = this.props.intl.formatMessage({id: 'editor-delete-warning'}) + '<br/>'
+    // action: either 'delete' or 'cancel'
+    getWarningMarkup(action) {
+        let warningText = this.props.intl.formatMessage({id: `editor-${action}-warning`}) + '<br/>'
         let subEventWarning = ''
         if (this.props.subEvents.items && this.props.subEvents.items.length) {
             const subEventNames = []
             for (const subEvent of this.props.subEvents.items) {
                 subEventNames.push(`</br><strong>${subEvent.name.fi}</strong> (${moment(subEvent.start_time).format('DD.MM.YYYY')})`)
             }
-            subEventWarning = `</br>${this.props.intl.formatMessage({id: 'editor-delete-subevents-warning'})}</br>${subEventNames}`
+            subEventWarning = `</br>${this.props.intl.formatMessage({id: `editor-${action}-subevents-warning`})}</br>${subEventNames}`
         }
         return warningText + subEventWarning
     }
@@ -231,41 +233,34 @@ export class EditorPage extends React.Component {
     }
 
     confirmDelete() {
-    // TODO: maybe do a decorator for confirmable actions etc...?
+        // TODO: maybe do a decorator for confirmable actions etc...?
+        const eventId = this.props.match.params.eventId;
+        const {user, deleteEvent, editor} = this.props;
+
         this.props.confirm(
             'confirm-delete',
             'warning',
             'delete-events',
             {
-                action: () => this.deleteEvents(),
+                action: () => deleteEvent(eventId, user, editor.values),
                 additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
-                additionalMarkup: this.getWarningMarkup(),
+                additionalMarkup: this.getWarningMarkup('delete'),
             }
         )
     }
 
-    deleteEvents() {
-        if (this.props.subEvents.items.length) {
-            for (const subEvent of this.props.subEvents.items) {
-                this.deleteSubEvent(subEvent.id, this.props.user)
-            }
-        }
-        return this.props.deleteEvent(this.props.match.params.eventId, this.props.user)
-    }
-
-    deleteSubEvent(eventId) {
-        return this.props.deleteEvent(eventId, this.props.user)
-    }
-
     confirmCancel() {
-    // TODO: maybe do a decorator for confirmable actions etc...?
+        const {user, editor,cancelEvent} = this.props;
+        const eventId = this.props.match.params.eventId;
+        // TODO: maybe do a decorator for confirmable actions etc...?
         this.props.confirm(
             'confirm-cancel',
             'warning',
             'cancel-events',
             {
-                action: e => this.props.cancelEvent(this.props.match.params.eventId, this.props.user, this.props.editor.values),
+                action: () => cancelEvent(eventId, user, mapUIDataToAPIFormat(editor.values)),
                 additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
+                additionalMarkup: this.getWarningMarkup('cancel'),
             }
         )
     }
@@ -345,7 +340,7 @@ const mapDispatchToProps = (dispatch) => ({
     sendData: (updateExisting, publicationStatus) => 
         dispatch(sendDataAction(updateExisting, publicationStatus)),
     confirm: (msg, style, actionButtonLabel, data) => dispatch(confirmAction(msg, style, actionButtonLabel, data)),
-    deleteEvent: (eventId, user) => dispatch(deleteEventAction(eventId, user)),
+    deleteEvent: (eventId, user, values) => dispatch(deleteEventAction(eventId, user, values)),
     cancelEvent: (eventId, user, values) => dispatch(cancelEventAction(eventId, user, values)),
 })
 

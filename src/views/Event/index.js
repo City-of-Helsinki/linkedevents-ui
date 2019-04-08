@@ -74,52 +74,48 @@ class EventPage extends React.Component {
     }
 
     confirmCancel() {
+        const {user, events, cancelEvent} = this.props;
+        const eventId = this.props.match.params.eventId;
         // TODO: maybe do a decorator for confirmable actions etc...?
         this.props.confirm(
             'confirm-cancel',
             'warning',
             'cancel-events',
             {
-                action: e => this.props.cancelEvent(this.props.match.params.eventId, this.props.user, mapAPIDataToUIFormat(this.props.events.event)),
+                action: () => cancelEvent(eventId, user, events.event),
                 additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
-                additionalMarkup: this.getWarningMarkup(),
+                additionalMarkup: this.getWarningMarkup('cancel'),
             }
         )
     }
 
     confirmDelete() {
         // TODO: maybe do a decorator for confirmable actions etc...?
+        const eventId = this.props.match.params.eventId;
+        const {user, deleteEvent, events} = this.props;
+
         this.props.confirm(
             'confirm-delete',
             'warning',
             'delete-events',
             {
-                action: () => this.deleteEvents(),
+                action: () => deleteEvent(eventId, user, events.event),
                 additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
-                additionalMarkup: this.getWarningMarkup(),
+                additionalMarkup: this.getWarningMarkup('delete'),
             }
         )
     }
 
-    deleteEvents() {
-        const {subEvents, user, deleteEvent} = this.props;
-        if (subEvents.items.length) {
-            for (const subEvent of subEvents.items) {
-                deleteEvent(subEvent.id, user)
-            }
-        }
-        return deleteEvent(this.props.match.params.eventId, user)
-    }
-
-    getWarningMarkup() {
-        let warningText = this.props.intl.formatMessage({id: 'editor-delete-warning'}) + '<br/>'
+    // action: either 'delete' or 'cancel'
+    getWarningMarkup(action) {
+        let warningText = this.props.intl.formatMessage({id: `editor-${action}-warning`}) + '<br/>'
         let subEventWarning = ''
         if (this.props.subEvents.items && this.props.subEvents.items.length) {
             const subEventNames = []
             for (const subEvent of this.props.subEvents.items) {
                 subEventNames.push(`</br><strong>${subEvent.name.fi}</strong> (${moment(subEvent.start_time).format('DD.MM.YYYY')})`)
             }
-            subEventWarning = `</br>${this.props.intl.formatMessage({id: 'editor-delete-subevents-warning'})}</br>${subEventNames}`
+            subEventWarning = `</br>${this.props.intl.formatMessage({id: `editor-${action}-subevents-warning`})}</br>${subEventNames}`
         }
         return warningText + subEventWarning
     }
@@ -241,7 +237,7 @@ const mapDispatchToProps = (dispatch) => ({
     routerPush: (url) => dispatch(push(url)),
     replaceData: (event) => dispatch(replaceDataAction(event)),
     confirm: (msg, style, actionButtonLabel, data) => dispatch(confirmAction(msg, style, actionButtonLabel, data)),
-    deleteEvent: (eventId, user) => dispatch(deleteEventAction(eventId, user)),
+    deleteEvent: (eventId, user, values) => dispatch(deleteEventAction(eventId, user, values)),
     cancelEvent: (eventId, user, values) => dispatch(cancelEventAction(eventId, user, values)),
     fetchSubEvents: (user, superEventId) => dispatch(fetchSubEventsAction(user, superEventId)),
 })

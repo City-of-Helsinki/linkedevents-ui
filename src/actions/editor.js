@@ -15,6 +15,7 @@ import {push} from 'react-router-redux'
 import {setFlashMsg, confirmAction} from './app'
 
 import {doValidations} from 'src/validation/validator.js'
+import {fetchSubEventsForSuper} from './subEvents';
 
 /**
  * Set editor form data
@@ -502,17 +503,20 @@ export function receiveEventForEditing(json) {
     }
 }
 
+// recursively cancel an event and its sub events
 export function cancelEvent(eventId, user, values) {
-    return (dispatch) => {
+    const isSuperEvent = values.super_event_type === 'recurring';
 
-        let url = `${appSettings.api_base}/event/${values.id}/`
+    return (dispatch, getState) => {
+
+        let url = `${appSettings.api_base}/event/${eventId}/`
 
         let token = ''
         if(user) {
             token = user.token
         }
-
-        let data = Object.assign({}, values, {event_status: constants.EVENT_STATUS.CANCELLED})
+        // this should be an event object that matchs api event scheme
+        const data = Object.assign({}, values, {event_status: constants.EVENT_STATUS.CANCELLED})
 
         return fetch(url, {
             method: 'PUT',
@@ -521,7 +525,7 @@ export function cancelEvent(eventId, user, values) {
                 'Content-Type': 'application/json',
                 'Authorization': 'JWT ' + token,
             },
-            body: JSON.stringify(mapUIDataToAPIFormat(data)),
+            body: JSON.stringify(data),
         }).then(response => {
             //console.log('Received', response)
             let jsonPromise = response.json()
@@ -530,7 +534,19 @@ export function cancelEvent(eventId, user, values) {
                 let actionName = 'cancel'
 
                 if(response.status === 200 || response.status === 201) {
-                    dispatch(sendDataComplete(json, actionName))
+                    if (isSuperEvent) {
+                        const subEvents = getState().subEvents.items;
+                        subEvents.forEach(event => dispatch(cancelEvent(event.id, user, event)));
+                        dispatch(fetchSubEventsForSuper(json.id));
+                    }
+                    const allSuperEventIds = Object.keys(getState().subEvents.bySuperEventId);
+                    const cancelledEventSuperId = json.super_event
+                        && allSuperEventIds.find(id => json.super_event['@id'].includes(id));
+                    // re-fetch sub events data after cancelling non-super event
+                    if (cancelledEventSuperId) {
+                        dispatch(fetchSubEventsForSuper(cancelledEventSuperId));
+                    }
+                    dispatch(sendDataComplete(json, actionName));
                 }
                 // Validation errors
                 else if(response.status === 400) {
@@ -556,7 +572,7 @@ export function cancelEvent(eventId, user, values) {
     }
 }
 
-// Fetch data for updating
+// recursively delete super event and its sub events
 export function deleteEvent(eventID, user, values) {
     let url = `${appSettings.api_base}/event/${eventID}/`
 
@@ -564,8 +580,9 @@ export function deleteEvent(eventID, user, values) {
     if(user) {
         token = user.token
     }
+    const isSuperEvent = values.super_event_type === 'recurring';
 
-    return (dispatch) => {
+    return (dispatch, getState) => {
         return fetch(url, {
             method: 'DELETE',
             headers: {
@@ -576,9 +593,16 @@ export function deleteEvent(eventID, user, values) {
         }).then(response => {
 
             if(response.status === 200 || response.status === 201 || response.status === 203 || response.status === 204) {
-                dispatch(clearData())
-                dispatch(push(`/event/done/delete/${eventID}`))
-                dispatch(eventDeleted(values))
+                if (isSuperEvent) {
+                    // if the previously deleted is a super event, continue to delete its sub events recursively
+                    const subEvents = getState().subEvents.items;
+                    subEvents.forEach(event => dispatch(deleteEvent(event.id, user, event)));
+
+                    // reset/update redux app state, data clearance
+                    dispatch(clearData())
+                    dispatch(push(`/event/done/delete/${eventID}`))
+                    dispatch(eventDeleted(values))
+                }
             }
 
             // Auth errors
