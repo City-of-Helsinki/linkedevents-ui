@@ -85,6 +85,14 @@ class FormFields extends React.Component {
         this.context.dispatch(fetchUserAdminOrganization());
     }
 
+    componentDidUpdate (prevProps) {
+        const {organizations, action} = this.props;
+        // set default value for organization if user is creating new event
+        if (prevProps.organizations.length <= 0 && organizations.length > 0 && action === 'create') {
+            this.context.dispatch(setData({organization: organizations[0].id}));
+        }
+    }
+
     UNSAFE_componentWillReceiveProps() {
         this.forceUpdate()
     }
@@ -169,8 +177,9 @@ class FormFields extends React.Component {
         const {VALIDATION_RULES, DEFAULT_CHARACTER_LIMIT} = CONSTANTS
         const addedEvents = pickBy(values.sub_events, event => !event['@id'])
         const newEvents = this.generateNewEventFields(addedEvents)
-        const selectedPublisher = this.props.organizations.find(org => org.id === values['organization']) || {};
-        console.log(formType)
+        const publisherOptions = this.props.organizations.map(org => ({label: org.name, value: org.id}));
+        const selectedPublisher = publisherOptions.find(option => option.value === values['organization']) || {};
+
         return (
             <div>
                 <div className="col-sm-12 highlighted-block">
@@ -261,8 +270,9 @@ class FormFields extends React.Component {
                                 <FormControl value={selectedPublisher.name} disabled />
                             ) : (
                                 <Select
-                                    value={{label: selectedPublisher.name, value: selectedPublisher.id}}
-                                    options={this.props.organizations.map(org => ({label: org.name, value: org.id}))}
+                                    defaultValue={publisherOptions[0]}
+                                    value={selectedPublisher}
+                                    options={publisherOptions}
                                     onChange={ option => this.context.dispatch(setData({organization: option ? option.value : undefined})) }
                                 />
                             )}
