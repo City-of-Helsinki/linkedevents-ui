@@ -309,6 +309,7 @@ export class EditorPage extends React.Component {
                         ref="form"
                         action={this.props.match.params.action}
                         editor={this.props.editor}
+                        organizations={this.props.organizations}
                         setDirtyState={this.setDirtyState}
                     />
                 </div>
@@ -330,6 +331,7 @@ const mapStateToProps = (state) => ({
     editor: state.editor,
     subEvents: state.subEvents,
     user: state.user,
+    organizations: state.organizations.admin,
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -358,5 +360,6 @@ EditorPage.propTypes = {
     deleteEvent: PropTypes.func,
     cancelEvent: PropTypes.func,
     intl: intlShape.isRequired,
+    organizations: PropTypes.arrayOf(PropTypes.object),
 }
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(EditorPage))

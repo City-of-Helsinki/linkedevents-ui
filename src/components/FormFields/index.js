@@ -20,6 +20,8 @@ import {
     NewEvent,
 } from 'src/components/HelFormFields'
 import RecurringEvent from 'src/components/RecurringEvent'
+import Select from 'react-select';
+import {FormControl} from 'react-bootstrap';
 
 import {Button} from 'material-ui'
 // Material-ui Icons
@@ -29,7 +31,7 @@ import Autorenew from 'material-ui-icons/Autorenew'
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from '../../utils/apiDataMapping'
 import {connect} from 'react-redux'
 
-import {setEventData} from '../../actions/editor'
+import {setEventData, setData} from '../../actions/editor'
 
 import moment from 'moment'
 import {pickBy} from 'lodash'
@@ -37,6 +39,7 @@ import {pickBy} from 'lodash'
 import API from '../../api'
 
 import CONSTANTS from '../../constants'
+import {fetchUserAdminOrganization} from '../../actions/organization';
 
 let FormHeader = (props) => (
     <div className="row">
@@ -76,6 +79,18 @@ class FormFields extends React.Component {
             showNewEvents: true,
             showRecurringEvent: false,
         };
+    }
+
+    componentDidMount () {
+        this.context.dispatch(fetchUserAdminOrganization());
+    }
+
+    componentDidUpdate (prevProps) {
+        const {organizations, action} = this.props;
+        // set default value for organization if user is creating new event
+        if (prevProps.organizations.length <= 0 && organizations.length > 0 && action === 'create') {
+            this.context.dispatch(setData({organization: organizations[0].id}));
+        }
     }
 
     UNSAFE_componentWillReceiveProps() {
@@ -162,7 +177,9 @@ class FormFields extends React.Component {
         const {VALIDATION_RULES, DEFAULT_CHARACTER_LIMIT} = CONSTANTS
         const addedEvents = pickBy(values.sub_events, event => !event['@id'])
         const newEvents = this.generateNewEventFields(addedEvents)
-        
+        const publisherOptions = this.props.organizations.map(org => ({label: org.name, value: org.id}));
+        const selectedPublisher = publisherOptions.find(option => option.value === values['organization']) || {};
+
         return (
             <div>
                 <div className="col-sm-12 highlighted-block">
@@ -245,6 +262,21 @@ class FormFields extends React.Component {
                             languages={this.props.editor.contentLanguages} 
                             setDirtyState={this.props.setDirtyState} 
                         />
+                        <div className='hel-text-field'>
+                            <label className='hel-label'>
+                                <FormattedMessage id='event-publisher' />
+                            </label>
+                            {formType === 'update' ? (
+                                <FormControl value={selectedPublisher.name} disabled />
+                            ) : (
+                                <Select
+                                    defaultValue={publisherOptions[0]}
+                                    value={selectedPublisher}
+                                    options={publisherOptions}
+                                    onChange={ option => this.context.dispatch(setData({organization: option ? option.value : undefined})) }
+                                />
+                            )}
+                        </div>
                     </div>
                     <SideField>
                         <label><FormattedMessage id="event-image"/></label>
@@ -566,6 +598,7 @@ FormFields.propTypes = {
     editor: PropTypes.object,
     setDirtyState: PropTypes.func,
     action: PropTypes.oneOf(['update', 'create']),
+    organizations: PropTypes.arrayOf(PropTypes.object),
 }
 
 export default FormFields

@@ -57,6 +57,8 @@
     "event-info-url": "Kotisivu",
     "event-provider": "Tapahtuman järjestäjä",
     "event-provider-input": "Tapahtuman järjestäjä (jos eri kuin syöttäjän organisaatio)",
+    "event-publisher": "Tapahtuman julkaisija",
+
     "events-management": "Tapahtumien hallinta",
     "events-management-prompt": "muokataksesi tapahtumia.",
     "events-management-description": "Selaa ja muokkaa oman organisaatiosi julkisia tapahtumia sekä luonnoksia. Voit lisätä uuden tapahtuman yläpalkista.",

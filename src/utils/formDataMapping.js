@@ -79,6 +79,8 @@ function mapUIDataToAPIFormat(values) {
     obj.publication_status = values.publication_status || constants.PUBLICATION_STATUS.DRAFT
     obj.super_event_type = values.super_event_type
     obj.super_event = values.super_event
+    obj.publisher = values.organization
+
     // Location data
     obj.location = values.location
     obj.location_extra_info = _nullifyEmptyStrings(values.location_extra_info)
