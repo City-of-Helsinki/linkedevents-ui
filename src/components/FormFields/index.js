@@ -40,6 +40,7 @@ import API from '../../api'
 
 import CONSTANTS from '../../constants'
 import {fetchUserAdminOrganization} from '../../actions/organization';
+import OrganizationSelector from '../HelFormFields/OrganizationSelector';
 
 let FormHeader = (props) => (
     <div className="row">
@@ -262,21 +263,12 @@ class FormFields extends React.Component {
                             languages={this.props.editor.contentLanguages} 
                             setDirtyState={this.props.setDirtyState} 
                         />
-                        <div className='hel-text-field'>
-                            <label className='hel-label'>
-                                <FormattedMessage id='event-publisher' />
-                            </label>
-                            {formType === 'update' ? (
-                                <FormControl value={selectedPublisher.name} disabled />
-                            ) : (
-                                <Select
-                                    defaultValue={publisherOptions[0]}
-                                    value={selectedPublisher}
-                                    options={publisherOptions}
-                                    onChange={ option => this.context.dispatch(setData({organization: option ? option.value : undefined})) }
-                                />
-                            )}
-                        </div>
+                        <OrganizationSelector
+                            formType={formType}
+                            options={publisherOptions}
+                            selectedOption={selectedPublisher}
+                            onChange={ option => option && this.context.dispatch(setData({organization: option.value})) }
+                        />
                     </div>
                     <SideField>
                         <label><FormattedMessage id="event-image"/></label>

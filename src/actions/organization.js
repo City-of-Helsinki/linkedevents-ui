@@ -18,7 +18,7 @@ export const fetchUserAdminOrganization = () => {
     return (dispatch, getState) => {
         const user = getState().user;
         if (user) {
-            const orgIds = user.adminOrganizations;
+            const orgIds = user.adminOrganizations || [];
             const organizations = [];
             dispatch(fetchAdminOrganization());
             Promise.all(orgIds.map(id => fetch(`${appSettings.api_base}/organization/${id}`)))
