@@ -56,7 +56,7 @@
     "event-description": "Description",
     "event-info-url": "Website",
     "event-provider": "Event organizer",
-    "event-provider-input": "Event organizer (if different than your organization)",
+    "event-provider-input": "Event organizer (if different than the publisher)",
     "event-publisher": "Event publisher",
     
     "events-management": "Manage events",
