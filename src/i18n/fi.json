@@ -56,7 +56,7 @@
     "event-description": "Kuvaus",
     "event-info-url": "Kotisivu",
     "event-provider": "Tapahtuman järjestäjä",
-    "event-provider-input": "Tapahtuman järjestäjä (jos eri kuin syöttäjän organisaatio)",
+    "event-provider-input": "Tapahtuman järjestäjä (jos eri kuin julkaisija)",
     "event-publisher": "Tapahtuman julkaisija",
 
     "events-management": "Tapahtumien hallinta",
