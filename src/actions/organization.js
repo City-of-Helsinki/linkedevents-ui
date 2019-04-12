@@ -24,7 +24,12 @@ export const fetchUserAdminOrganization = () => {
             Promise.all(orgIds.map(id => fetch(`${appSettings.api_base}/organization/${id}`)))
                 .then(responses => Promise.all(responses.map(res => res.json())))
                 .then(results => {
-                    results.forEach(org => organizations.push(org));
+                    results.forEach(org => {
+                        // removed undissolved/old organization object
+                        if (!org.dissolution_date) {
+                            organizations.push(org);
+                        }
+                    });
                     dispatch(fetchAdminOrganizationSuccess(organizations));
                 })
                 .catch(() => {
