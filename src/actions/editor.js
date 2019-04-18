@@ -573,8 +573,18 @@ export function cancelEvent(eventId, user, values) {
     }
 }
 
+export function postDeleteEvent (values) {
+    return (dispatch) => {
+        // reset/update redux app state, data clearance
+        dispatch(clearData());
+        dispatch(push('/'));
+        dispatch(eventDeleted(values));
+        dispatch(setFlashMsg(constants.EVENT_CREATION.DELETE_SUCCESS));
+    }
+}
+
 // recursively delete super event and its sub events
-export function deleteEvent(eventID, user, values) {
+export function deleteEvent(eventID, user, values, recursing = false) {
     let url = `${appSettings.api_base}/event/${eventID}/`
 
     let token = ''
@@ -597,12 +607,11 @@ export function deleteEvent(eventID, user, values) {
                 if (isSuperEvent) {
                     // if the previously deleted is a super event, continue to delete its sub events recursively
                     const subEvents = getState().subEvents.items;
-                    subEvents.forEach(event => dispatch(deleteEvent(event.id, user, event)));
-
-                    // reset/update redux app state, data clearance
-                    dispatch(clearData())
-                    dispatch(push(`/event/done/delete/${eventID}`))
-                    dispatch(eventDeleted(values))
+                    subEvents.forEach(event => dispatch(deleteEvent(event.id, user, event, true)));
+                }
+                // only redirect if done deleting the whole series (when recursion stops)
+                if (!recursing) {
+                    dispatch(postDeleteEvent(values));
                 }
             }
 
