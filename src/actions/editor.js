@@ -239,108 +239,118 @@ const prepareFormValues = (formValues, contentLanguages, user, updateExisting, p
     return mapUIDataToAPIFormat(data)
 }
 
-const executeSendRequest = (formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch) => {
-    // check publication to decide whether allow the request to happen
-    publicationStatus = publicationStatus || formValues.publication_status
-    if(!publicationStatus) {
-        return
-    }
-    // prepare the body of the request (event object/array)
-    let preparedFormValues
-    if(!Array.isArray(formValues)) {
-        preparedFormValues = {}
-        const newValues = prepareFormValues(formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch)
-        if(newValues !== undefined) {
-            preparedFormValues = newValues
-        } else {
+const executeSendRequest = (formValues, contentLanguages, user, updateExisting, publicationStatus) => {
+    return (dispatch, getState) => {
+        // check publication to decide whether allow the request to happen
+        publicationStatus = publicationStatus || formValues.publication_status
+        if(!publicationStatus) {
             return
         }
-    } else if(Array.isArray(formValues) && formValues.length > 0) {
-        preparedFormValues = []
-        formValues.map(formObject => {
-            const newValues = prepareFormValues(formObject, contentLanguages, user, updateExisting, publicationStatus, dispatch)
+        // prepare the body of the request (event object/array)
+        let preparedFormValues
+        if(!Array.isArray(formValues)) {
+            preparedFormValues = {}
+            const newValues = prepareFormValues(formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch)
             if(newValues !== undefined) {
-                preparedFormValues.push(newValues)
+                preparedFormValues = newValues
             } else {
                 return
             }
-        })
-    }
-
-    // prepare other needed information for request matedata
-    let url = `${appSettings.api_base}/event/`
-    if(updateExisting) {
-        const updateId = formValues.id || formValues[0].id
-        url += `${updateId}/`
-    }
-
-    let token = ''
-    if(user) {
-        token = user.token
-    }
-
-    dispatch(validateFor(publicationStatus))
-    return fetch(url, {
-        method: updateExisting ? 'PUT' : 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': 'JWT ' + token,
-        },
-        body: JSON.stringify(preparedFormValues),
-    }).then(response => {
-        let jsonPromise = response.json()
-
-        jsonPromise.then(json => {
-            let actionName = updateExisting ? 'update' : 'create'
-            if(Array.isArray(json)) {
-                json = json[0]
-            }
-            // The publication_status was changed to public. The event was published!
-            if(json.publication_status === constants.PUBLICATION_STATUS.PUBLIC && json.publication_status !== formValues.publication_status) {
-                actionName = 'publish'
-            } else if ( json.publication_status === constants.PUBLICATION_STATUS.PUBLIC ) {
-                actionName = 'savepublic'
-            } else if ( json.publication_status === constants.PUBLICATION_STATUS.DRAFT ) {
-                actionName = 'savedraft'
-            }
-
-            if(response.status === 200 || response.status === 201) {
-                // create sub events after creaing super event successfully
-                if (json.super_event_type === 'recurring') {
-                    const formWithAllSubEvents = combineSubEventsFromEditor(formValues, updateExisting)
-                    dispatch(
-                        sendRecurringData(formWithAllSubEvents, contentLanguages, user, updateExisting, publicationStatus, json['@id'])
-                    )
-                    dispatch(sendDataComplete(json, actionName))
+        } else if(Array.isArray(formValues) && formValues.length > 0) {
+            preparedFormValues = []
+            formValues.map(formObject => {
+                const newValues = prepareFormValues(formObject, contentLanguages, user, updateExisting, publicationStatus, dispatch)
+                if(newValues !== undefined) {
+                    preparedFormValues.push(newValues)
                 } else {
+                    return
+                }
+            })
+        }
+
+        // prepare other needed information for request matedata
+        let url = `${appSettings.api_base}/event/`
+        if(updateExisting) {
+            const updateId = formValues.id || formValues[0].id
+            url += `${updateId}/`
+        }
+
+        let token = ''
+        if(user) {
+            token = user.token
+        }
+        
+        dispatch(validateFor(publicationStatus))
+
+        return fetch(url, {
+            method: updateExisting ? 'PUT' : 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'JWT ' + token,
+            },
+            body: JSON.stringify(preparedFormValues),
+        }).then(response => {
+            let jsonPromise = response.json()
+
+            jsonPromise.then(json => {
+                let actionName = updateExisting ? 'update' : 'create'
+                if(Array.isArray(json)) {
+                    json = json[0]
+                }
+                // The publication_status was changed to public. The event was published!
+                if(json.publication_status === constants.PUBLICATION_STATUS.PUBLIC && json.publication_status !== formValues.publication_status) {
+                    actionName = 'publish'
+                } else if ( json.publication_status === constants.PUBLICATION_STATUS.PUBLIC ) {
+                    actionName = 'savepublic'
+                } else if ( json.publication_status === constants.PUBLICATION_STATUS.DRAFT ) {
+                    actionName = 'savedraft'
+                }
+
+                if(response.status === 200 || response.status === 201) {
+                    // create sub events after creaing super event successfully
+                    if (json.super_event_type === 'recurring') {
+                        const formWithAllSubEvents = combineSubEventsFromEditor(formValues, updateExisting)
+                        dispatch(
+                            sendRecurringData(formWithAllSubEvents, contentLanguages, user, updateExisting, publicationStatus, json['@id'])
+                        )
+                        dispatch(sendDataComplete(json, actionName))
+                    } else {
+                        dispatch(sendDataComplete(json, actionName))
+                        // re-fetch sub events for a series if done editing non-super events
+                        if (updateExisting) {
+                            const allSuperEventIds = Object.keys(getState().subEvents.bySuperEventId);
+                            const editedEventSuperId = json.super_event
+                                && allSuperEventIds.find(id => json.super_event['@id'].includes(id));
+                            dispatch(fetchSubEventsForSuper(editedEventSuperId));
+                        }
+                    }
+                }
+                // Validation errors
+                else if(response.status === 400) {
+                    json.apiErrorMsg = 'validation-error'
+                    json.response = response
                     dispatch(sendDataComplete(json, actionName))
                 }
-            }
-            // Validation errors
-            else if(response.status === 400) {
-                json.apiErrorMsg = 'validation-error'
-                json.response = response
-                dispatch(sendDataComplete(json, actionName))
-            }
 
-            // Auth errors
-            else if(response.status === 401 || response.status === 403) {
-                json.apiErrorMsg = 'authorization-required'
-                json.response = response
-                dispatch(sendDataComplete(json, actionName))
-            }
+                // Auth errors
+                else if(response.status === 401 || response.status === 403) {
+                    json.apiErrorMsg = 'authorization-required'
+                    json.response = response
+                    dispatch(sendDataComplete(json, actionName))
+                }
 
-            else {
-                json.apiErrorMsg = 'server-error'
-                json.response = response
-                dispatch(sendDataComplete(json, actionName))
-            }
+                else {
+                    json.apiErrorMsg = 'server-error'
+                    json.response = response
+                    dispatch(sendDataComplete(json, actionName))
+                }
+            })
         })
-    })
-        .catch(e => {
-            // Error happened while fetching ajax (connection or javascript)
-        })
+            .catch(e => {
+                // Error happened while fetching ajax (connection or javascript)
+            })
+    }
 }
 
 export function sendData(updateExisting = false, publicationStatus) {
@@ -350,7 +360,7 @@ export function sendData(updateExisting = false, publicationStatus) {
         const user = getState().user
 
         // prepare and execute the request
-        executeSendRequest(formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch)
+        dispatch(executeSendRequest(formValues, contentLanguages, user, updateExisting, publicationStatus))
     }
 }
 
@@ -390,7 +400,7 @@ export function sendRecurringData(formValues, contentLanguages, user, updateExis
             }
         }
         if(newValues.length > 0) {
-            executeSendRequest(newValues, contentLanguages, user, updateExisting = false, publicationStatus, dispatch)
+            dispatch(executeSendRequest(newValues, contentLanguages, user, updateExisting = false, publicationStatus))
         }
     }
 }
