@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 
 import {connect} from 'react-redux'
 import {push} from 'react-router-redux'
+import {withRouter} from 'react-router'
 
 import {login as loginAction, logout as logoutAction} from 'src/actions/user.js'
 import {setLocale as setLocaleAction} from 'src/actions/userLocale'
@@ -46,12 +47,14 @@ class HeaderBar extends React.Component {
     }
 
     render() {
-        const {user, routerPush, logout, login} = this.props 
+        const {user, routerPush, logout, login, location} = this.props 
         const languages = CONSTANTS.APPLICATION_SUPPORT_TRANSLATION
 
         const toMainPage = () => routerPush('/');
         const toSearchPage = () => routerPush('/search');
         const toHelpPage = () => routerPush('/help');
+
+        const isInsideForm = location.pathname.startsWith('/event/create/new');
 
         return (
             <div className="main-navbar">
@@ -96,10 +99,12 @@ class HeaderBar extends React.Component {
                         </Hidden>
                         <div />
                         <div className="linked-events-bar__links__mobile">
-                            <Button className="linked-events-bar__links__create-events" onClick={() => routerPush('/event/create/new')}>
-                                <Add/>
-                                <FormattedMessage id={`create-${appSettings.ui_mode}`}/>
-                            </Button>
+                            {!isInsideForm && (
+                                <Button className="linked-events-bar__links__create-events" onClick={() => routerPush('/event/create/new')}>
+                                    <Add/>
+                                    <FormattedMessage id={`create-${appSettings.ui_mode}`}/>
+                                </Button>
+                            )}
                             <Hidden mdUp>
                                 <MenuIcon className="linked-events-bar__icon" onClick={this.toggleNavbar} />
                                 <Drawer anchor='right' open={this.state.navBarOpen} ModalProps={{onBackdropClick: this.toggleNavbar}}>
@@ -145,6 +150,7 @@ HeaderBar.propTypes = {
     routerPush: PropTypes.func,
     userLocale: PropTypes.object,
     setLocale: PropTypes.func,
+    location: PropTypes.object,
 }
 
 const mapStateToProps = (state) => ({
@@ -159,4 +165,4 @@ const mapDispatchToProps = (dispatch) => ({
     setLocale: (locale) => dispatch(setLocaleAction(locale)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderBar)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HeaderBar))

@@ -279,7 +279,7 @@ export const calculateSuperEventTime = (subEvents) => {
     let superEventEndTime = endTimes.length <= 0
         ? startTimes.length <= 0
             ? undefined    
-            : moment.max(startTimes).add(1, 'days').endOf('day')
+            : moment.max(startTimes).endOf('day')
         : moment.max(endTimes)
     return {
         start_time: superEventStartTime
