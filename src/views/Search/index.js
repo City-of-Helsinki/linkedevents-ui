@@ -4,6 +4,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {FormattedMessage} from 'react-intl'
 import PropTypes from 'prop-types';
+import ReactPiwik from 'react-piwik';
 
 import FilterableEventTable from '../../components/FilterableEventTable'
 import EventGrid from '../../components/EventGrid'
@@ -25,16 +26,20 @@ class SearchPage extends React.Component {
         }
         else {
             this.props.fetchEvents(searchQuery, startDate, endDate)
-            this.setState({searchExecuted: true})
+            this.setState({searchExecuted: true, searchQuery: searchQuery})
         }
     }
 
     // <FilterableEventTable events={this.props.events} apiErrorMsg={''} />
 
     getResults() {
+
         if (this.state.searchExecuted && !this.props.events.length > 0) {
+            // Umm. Why?
+            ReactPiwik.push(['trackSiteSearch', this.state.searchQuery, false, this.props.events.length])
             return <div className="search-no-results"><FormattedMessage id="search-no-results"/></div>
         }
+        ReactPiwik.push(['trackSiteSearch', this.state.searchQuery, false, this.props.events.length])
         return <EventGrid events={this.props.events} apiErrorMsg={''}/>
     }
 
