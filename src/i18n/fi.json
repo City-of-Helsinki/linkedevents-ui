@@ -143,6 +143,7 @@
     "validation-requiredAtId": "Tämä kenttä vaaditaan",
     "validation-requiredString": "Tämä kenttä vaaditaan",
     "validation-afterStartTime": "Päättymisajan pitää olla alkamisaikaa myöhemmin",
+    "validation-afterEnrolmentStartTime": "Päättymisajan pitää olla alkamisaikaa myöhemmin",
     "validation-inTheFuture": "Tapahtuman pitää olla tulevaisuudessa",
     "validation-stringLimitReached": "Tämä kenttä voi olla korkeintaan {limit} merkkiä pitkä",
     "validation-stringLengthCounter": "{counter} merkkiä jäljellä",

@@ -143,6 +143,7 @@
     "validation-requiredAtId": "This field is required",
     "validation-requiredString": "This field is required",
     "validation-afterStartTime": "The end time must be later than start time",
+    "validation-afterEnrolmentStartTime": "The end time must be later than start time",
     "validation-inTheFuture": "The event must be in the future",
     "validation-stringLimitReached": "This field can have no more than {limit} characters",
     "validation-stringLengthCounter": "{counter} characters left",
