@@ -149,20 +149,6 @@ function mapUIDataToAPIFormat(values) {
         obj.audience_max_age = parseInt(values.audience_max_age, 10)
     }
 
-    if (values.enrolment_start_time) {
-        obj.enrolment_start_time = values.enrolment_start_time
-    }
-    if (values.enrolment_end_time) {
-        obj.enrolment_end_time = values.enrolment_end_time
-    }
-
-    if (values.minimum_attendee_capacity) {
-        obj.minimum_attendee_capacity = parseInt(values.minimum_attendee_capacity, 10)
-    }
-    if (values.maximum_attendee_capacity) {
-        obj.maximum_attendee_capacity = parseInt(values.maximum_attendee_capacity, 10)
-    }
-
     return obj
 
     /*
@@ -251,6 +237,13 @@ function mapAPIDataToUIFormat(values) {
 
     if(values.images) {
         obj.image = values.images[0]
+    }
+
+    if (values.audience_min_age) {
+        obj.audience_min_age = values.audience_min_age
+    }
+    if (values.audience_max_age) {
+        obj.audience_max_age = values.audience_max_age
     }
 
     return obj
