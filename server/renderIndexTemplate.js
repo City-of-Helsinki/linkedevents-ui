@@ -13,6 +13,7 @@ const leProductionInstance = readConfig('LE_PRODUCTION_INSTANCE');
 const indexTemplate = compiledTemplate({
     APP_MODE: appMode,
     LE_PRODUCTION_INSTANCE: leProductionInstance,
+    ui_mode: clientConfig.ui_mode,
     configJson: JSON.stringify(clientConfig),
 })
 

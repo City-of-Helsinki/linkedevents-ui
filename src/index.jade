@@ -3,7 +3,8 @@ html.no-js
     head
         meta(charset='utf-8')
         meta(http-equiv='X-UA-Compatible', content='IE=edge')
-        title Linked Events UI
+        - var instanceName = ui_mode === 'courses' ? 'Linked Courses' : 'Linked Events'
+        title #{instanceName} UI
         meta(name='description', content='')
         meta(name='viewport', content='width=device-width, initial-scale=1')
 
@@ -22,7 +23,7 @@ html.no-js
         <![endif]-->
         if APP_MODE == 'testing'
             #testingmessage
-                | tämä Linked Events on testiversio
+                | tämä #{instanceName} on testiversio
                 a(href=LE_PRODUCTION_INSTANCE) siirry tuotantoon
         div
             #content
