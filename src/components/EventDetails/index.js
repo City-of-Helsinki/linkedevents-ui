@@ -76,11 +76,10 @@ let MultiLanguageValue = (props) => {
 
         )
     }
-
 }
 
 let TextValue = (props) => {
-    if(props.value && props.value.length !== undefined && props.value.length > 0) {
+    if (_.isInteger(props.value) || (props.value && props.value.length !== undefined && props.value.length > 0)) {
         return (
             <div className="single-value-field">
                 <div><label><FormattedMessage id={`${props.labelKey}`} /></label></div>
@@ -305,8 +304,8 @@ class EventDetails extends React.Component {
                         </FormHeader>
                         <div className="row">
                             <div className="col-sm-12">
-                                <TextValue labelKey="audience-min-age" value={props.values['audience_min_age'].toString()} />
-                                <TextValue labelKey="audience-max-age" value={props.values['audience_max_age'].toString()} />
+                                <TextValue labelKey="audience-min-age" value={props.values['audience_min_age']} />
+                                <TextValue labelKey="audience-max-age" value={props.values['audience_max_age']} />
                             </div>
                         </div>
 
@@ -325,8 +324,8 @@ class EventDetails extends React.Component {
                         </FormHeader>
                         <div className="row">
                             <div className="col-sm-12">
-                                <TextValue labelKey="minimum-attendee-capacity"value={props.values['minimum_attendee_capacity'].toString()} />
-                                <TextValue labelKey="maximum-attendee-capacity" value={props.values['maximum_attendee_capacity'].toString()} />
+                                <TextValue labelKey="minimum-attendee-capacity"value={props.values['minimum_attendee_capacity']} />
+                                <TextValue labelKey="maximum-attendee-capacity" value={props.values['maximum_attendee_capacity']} />
                             </div>
                         </div>
                     </div>

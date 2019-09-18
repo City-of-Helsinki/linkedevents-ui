@@ -22,12 +22,11 @@ const draftValidations = {
     extlink_facebook: [VALIDATION_RULES.IS_URL],
     extlink_twitter: [VALIDATION_RULES.IS_URL],
     extlink_instagram: [VALIDATION_RULES.IS_URL],
-    audience_min_age: [VALIDATION_RULES.REQUIRED_FOR_COURSES, VALIDATION_RULES.IS_INT],
-    audience_max_age: [VALIDATION_RULES.REQUIRED_FOR_COURSES, VALIDATION_RULES.IS_INT],
-    enrolment_start_time: [VALIDATION_RULES.REQUIRED_STRING_FOR_COURSES],
+    audience_min_age: [VALIDATION_RULES.IS_INT],
+    audience_max_age: [VALIDATION_RULES.IS_INT],
     enrolment_end_time: [VALIDATION_RULES.AFTER_ENROLMENT_START_TIME, VALIDATION_RULES.IN_THE_FUTURE],
-    minimum_attendee_capacity: [VALIDATION_RULES.REQUIRED_FOR_COURSES, VALIDATION_RULES.IS_INT],
-    maximum_attendee_capacity: [VALIDATION_RULES.REQUIRED_FOR_COURSES, VALIDATION_RULES.IS_INT],
+    minimum_attendee_capacity: [VALIDATION_RULES.IS_INT],
+    maximum_attendee_capacity: [VALIDATION_RULES.IS_INT],
 }
 
 // Validations for published event
@@ -48,12 +47,11 @@ const publicValidations = {
         start_time: [VALIDATION_RULES.REQUIRED_STRING, VALIDATION_RULES.DEFAULT_END_IN_FUTURE],
         end_time: [VALIDATION_RULES.AFTER_START_TIME, VALIDATION_RULES.IN_THE_FUTURE],
     },
-    audience_min_age: [VALIDATION_RULES.REQUIRED_FOR_COURSES, VALIDATION_RULES.IS_INT],
-    audience_max_age: [VALIDATION_RULES.REQUIRED_FOR_COURSES, VALIDATION_RULES.IS_INT],
-    enrolment_start_time: [VALIDATION_RULES.REQUIRED_STRING_FOR_COURSES],
+    audience_min_age: [VALIDATION_RULES.IS_INT],
+    audience_max_age: [VALIDATION_RULES.IS_INT],
     enrolment_end_time: [VALIDATION_RULES.AFTER_ENROLMENT_START_TIME, VALIDATION_RULES.IN_THE_FUTURE],
-    minimum_attendee_capacity: [VALIDATION_RULES.REQUIRED_FOR_COURSES, VALIDATION_RULES.IS_INT],
-    maximum_attendee_capacity: [VALIDATION_RULES.REQUIRED_FOR_COURSES, VALIDATION_RULES.IS_INT],
+    minimum_attendee_capacity: [VALIDATION_RULES.IS_INT],
+    maximum_attendee_capacity: [VALIDATION_RULES.IS_INT],
 }
 
 /**

@@ -512,7 +512,6 @@ class FormFields extends React.Component {
                                     validationErrors={validationErrors['audience_min_age']}
                                     defaultValue={values['audience_min_age']}
                                     setDirtyState={this.props.setDirtyState}
-                                    required={true}
                                 />
 
                                 <HelTextField
@@ -522,7 +521,6 @@ class FormFields extends React.Component {
                                     validationErrors={validationErrors['audience_max_age']}
                                     defaultValue={values['audience_max_age']}
                                     setDirtyState={this.props.setDirtyState}
-                                    required={true}
                                 />
                             </div>
                         </div>
@@ -565,7 +563,6 @@ class FormFields extends React.Component {
                                     validationErrors={validationErrors['minimum_attendee_capacity']}
                                     defaultValue={values['minimum_attendee_capacity']}
                                     setDirtyState={this.props.setDirtyState}
-                                    required={true}
                                 />
 
                                 <HelTextField
@@ -575,7 +572,6 @@ class FormFields extends React.Component {
                                     validationErrors={validationErrors['maximum_attendee_capacity']}
                                     defaultValue={values['maximum_attendee_capacity']}
                                     setDirtyState={this.props.setDirtyState}
-                                    required={true}
                                 />
                             </div>
                         </div>
