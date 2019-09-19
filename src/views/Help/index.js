@@ -2,7 +2,7 @@ import './index.scss'
 
 import React from 'react'
 
-const Help = () => {
+const EventsHelp = () => {
     return (
         <div className="container help-page">
             <div id="short">
@@ -74,4 +74,15 @@ const Help = () => {
     )
 }
 
+const CoursesHelp = () => {
+    return (
+        <div className="container help-page">
+            <div id="short">
+                <h2>Lisätiedot tulossa...</h2>
+            </div>
+        </div>
+    )
+}
+
+const Help = appSettings.ui_mode === 'courses' ? CoursesHelp : EventsHelp
 export default Help

@@ -76,11 +76,10 @@ let MultiLanguageValue = (props) => {
 
         )
     }
-
 }
 
 let TextValue = (props) => {
-    if(props.value && props.value.length !== undefined && props.value.length > 0) {
+    if (_.isInteger(props.value) || (props.value && props.value.length !== undefined && props.value.length > 0)) {
         return (
             <div className="single-value-field">
                 <div><label><FormattedMessage id={`${props.labelKey}`} /></label></div>
@@ -297,6 +296,40 @@ class EventDetails extends React.Component {
                         <OptionGroup values={props.rawData['in_language']} labelKey="hel-event-languages" />
                     </div>
                 </div>
+
+                {appSettings.ui_mode === 'courses' &&
+                    <div>
+                        <FormHeader>
+                            { props.intl.formatMessage({id: 'audience-age-restrictions'})}
+                        </FormHeader>
+                        <div className="row">
+                            <div className="col-sm-12">
+                                <TextValue labelKey="audience-min-age" value={props.values['audience_min_age']} />
+                                <TextValue labelKey="audience-max-age" value={props.values['audience_max_age']} />
+                            </div>
+                        </div>
+
+                        <FormHeader>
+                            { props.intl.formatMessage({id: 'enrolment-time'})}
+                        </FormHeader>
+                        <div className="row">
+                            <div className="col-sm-12">
+                                <DateTime labelKey="enrolment-start-time" value={props.values['enrolment_start_time']} />
+                                <DateTime labelKey="enrolment-end-time" value={props.values['enrolment_end_time']} />
+                            </div>
+                        </div>
+
+                        <FormHeader>
+                            { props.intl.formatMessage({id: 'attendee-capacity'})}
+                        </FormHeader>
+                        <div className="row">
+                            <div className="col-sm-12">
+                                <TextValue labelKey="minimum-attendee-capacity"value={props.values['minimum_attendee_capacity']} />
+                                <TextValue labelKey="maximum-attendee-capacity" value={props.values['maximum_attendee_capacity']} />
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
         )
     }

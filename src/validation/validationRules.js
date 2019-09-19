@@ -143,6 +143,10 @@ var validations = {
 
         return false;
     },
+    afterEnrolmentStartTime: function afterEnrolmentStartTime(values, value) {
+        if(!values.enrolment_start_time || !value) { return true }
+        return new Date(value) >= new Date(values.enrolment_start_time)
+    },
     inTheFuture: function inTheFuture(values, value) {
 
         if(!value) {return true}

@@ -100,17 +100,26 @@ class App extends React.Component {
         if(this.props.app.confirmAction && this.props.app.confirmAction.actionButtonLabel && this.props.app.confirmAction.actionButtonLabel.length > 0) {
             actionButtonLabel = this.props.app.confirmAction.actionButtonLabel;
         }
-        var organization_missing_msg;
+        let organization_missing_msg = null;
         if (this.props.user && !this.props.user.organization) {
-            organization_missing_msg = <Well><h4>Tervetuloa käyttämään Linked Eventsiä, {this.props.user.displayName}!</h4>
-                <p>Sinulla ei ole vielä oikeutta hallinnoida yhdenkään yksikön tapahtumia.
-                    Ota yhteyttä <a href="mailto:aleksi.salonen@hel.fi">Aleksi Saloseen</a> saadaksesi oikeudet muokata yksikkösi tapahtumia.</p>
-                <p>Jos olet jo saanut käyttöoikeudet, kirjautumisesi saattaa olla vanhentunut. Kokeile sivun päivittämistä (F5) ja kirjautumista uudestaan.</p>
-            </Well>
-        } else {
-            organization_missing_msg = null;
+            if (appSettings.ui_mode === 'courses') {
+                organization_missing_msg =
+                    <Well><h4>Tervetuloa käyttämään Linked Coursesia, {this.props.user.displayName}!</h4>
+                        <p>Sinulla ei ole vielä oikeutta hallinnoida yhdenkään yksikön kursseja.</p>
+                        <p>Jos olet jo saanut käyttöoikeudet, kirjautumisesi saattaa olla vanhentunut. Kokeile sivun
+                            päivittämistä (F5) ja kirjautumista uudestaan.</p>
+                    </Well>
+            } else {
+                organization_missing_msg =
+                    <Well><h4>Tervetuloa käyttämään Linked Eventsiä, {this.props.user.displayName}!</h4>
+                        <p>Sinulla ei ole vielä oikeutta hallinnoida yhdenkään yksikön tapahtumia.
+                            Ota yhteyttä <a href="mailto:aleksi.salonen@hel.fi">Aleksi Saloseen</a> saadaksesi oikeudet
+                            muokata yksikkösi tapahtumia.</p>
+                        <p>Jos olet jo saanut käyttöoikeudet, kirjautumisesi saattaa olla vanhentunut. Kokeile sivun
+                            päivittämistä (F5) ja kirjautumista uudestaan.</p>
+                    </Well>
+            }
         }
-
         return (
             <MuiThemeProvider theme={HelTheme}>
                 <div>

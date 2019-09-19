@@ -149,19 +149,21 @@ function mapUIDataToAPIFormat(values) {
         obj.audience_max_age = parseInt(values.audience_max_age, 10)
     }
 
+    // course extension fields
+    const courseFields = {}
     if (values.enrolment_start_time) {
-        obj.enrolment_start_time = values.enrolment_start_time
+        courseFields.enrolment_start_time = values.enrolment_start_time
     }
     if (values.enrolment_end_time) {
-        obj.enrolment_end_time = values.enrolment_end_time
+        courseFields.enrolment_end_time = values.enrolment_end_time
     }
-
     if (values.minimum_attendee_capacity) {
-        obj.minimum_attendee_capacity = parseInt(values.minimum_attendee_capacity, 10)
+        courseFields.minimum_attendee_capacity = parseInt(values.minimum_attendee_capacity, 10)
     }
     if (values.maximum_attendee_capacity) {
-        obj.maximum_attendee_capacity = parseInt(values.maximum_attendee_capacity, 10)
+        courseFields.maximum_attendee_capacity = parseInt(values.maximum_attendee_capacity, 10)
     }
+    obj.extension_course = courseFields
 
     return obj
 
@@ -252,6 +254,24 @@ function mapAPIDataToUIFormat(values) {
     if(values.images) {
         obj.image = values.images[0]
     }
+
+    if (values.audience_min_age) {
+        obj.audience_min_age = values.audience_min_age
+    }
+    if (values.audience_max_age) {
+        obj.audience_max_age = values.audience_max_age
+    }
+
+    // course extension fields
+    const courseFields = [
+        'enrolment_start_time', 'enrolment_end_time', 'minimum_attendee_capacity', 'maximum_attendee_capacity',
+    ];
+    courseFields.forEach(field => {
+        const value = values['extension_course'][field]
+        if (value) {
+            obj[field] = value
+        }
+    })
 
     return obj
 }

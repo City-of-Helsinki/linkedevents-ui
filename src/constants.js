@@ -121,6 +121,7 @@ const constants = {
         HAS_PRICE: 'hasPrice',
         REQUIRE_MULTI: 'requiredMulti',
         AFTER_START_TIME: 'afterStartTime',
+        AFTER_ENROLMENT_START_TIME: 'afterEnrolmentStartTime',
         IN_THE_FUTURE: 'inTheFuture',
         DAY_WITHIN_INTERVAL: 'daysWithinInterval',
         REQUIRED_IN_CONTENT_LANGUAGE: 'requiredInContentLanguages',
