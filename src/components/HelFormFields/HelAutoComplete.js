@@ -32,9 +32,14 @@ class HelAutoComplete extends React.Component {
                 return response.json();
             }).then((json) => {
                 return _.map(json.data, (item) => {
+                    var label = item.name.fi // TODO: use locale
+                    // for locations with names, we want to display the address for clarity
+                    if (item.data_source !== 'osoite') {
+                        label = label + ` (${item.street_address.fi})` // TODO: use locale
+                    }
                     return {
                         value: item.id,
-                        label: item.name.fi, // TODO: use locale
+                        label: label,
                         '@id': `/v1/${this.props.resource}/${item.id}/`,
                         id: item.id,
                         n_events: item.n_events,
@@ -75,7 +80,7 @@ class HelAutoComplete extends React.Component {
     }
 
     optionRenderer(item) {
-        return `${item.label} (${item.n_events} tapahtumaa)`
+        return `${item.label}, ${item.n_events} tapahtumaa`
     }
 
     render() {
