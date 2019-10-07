@@ -263,15 +263,17 @@ function mapAPIDataToUIFormat(values) {
     }
 
     // course extension fields
-    const courseFields = [
-        'enrolment_start_time', 'enrolment_end_time', 'minimum_attendee_capacity', 'maximum_attendee_capacity',
-    ];
-    courseFields.forEach(field => {
-        const value = values['extension_course'][field]
-        if (value) {
-            obj[field] = value
-        }
-    })
+    if (appSettings.ui_mode === 'courses' && values.hasOwnProperty('extension_course')) {
+        const courseFields = [
+            'enrolment_start_time', 'enrolment_end_time', 'minimum_attendee_capacity', 'maximum_attendee_capacity',
+        ];
+        courseFields.forEach(field => {
+            const value = values['extension_course'][field]
+            if (value) {
+                obj[field] = value
+            }
+        })
+    }
 
     return obj
 }
