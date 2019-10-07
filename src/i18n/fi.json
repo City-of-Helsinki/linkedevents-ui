@@ -219,7 +219,7 @@
     "editor-tip-hel-target-group": "Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään.",
     "editor-tip-event-languages": "Kielet, joita tapahtumassa käytetään.",
 
-    "image-caption-limit": "Kuvateksti (korkeintaan {limit} merkkiä)",
+    "image-caption-limit": "Kuvaus eli kuvan alt-teksti (korkeintaan {limit} merkkiä)",
     
     "add-more": "Lisää kerrat",
     "play-date-label": "Toistopäivät",
