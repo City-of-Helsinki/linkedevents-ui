@@ -198,7 +198,9 @@ var validations = {
         let hasOneValue = false
 
         _.each(value, item => {
-            if(item.length && item.length > 0) {
+            const trimmedValue = item.trim();
+            
+            if(trimmedValue.length && trimmedValue.length > 0) {
                 hasOneValue = true
             }
         })
