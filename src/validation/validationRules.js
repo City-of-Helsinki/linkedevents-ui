@@ -1,6 +1,6 @@
 
 import moment from 'moment'
-import {includes} from 'lodash';
+import {includes, every} from 'lodash';
 import CONSTANT from '../constants'
 import {textLimitValidator} from '../utils/helpers'
 /**
@@ -195,17 +195,7 @@ var validations = {
         if(_.keys(value).length === 0) {
             return false
         }
-        let hasOneValue = false
-
-        _.each(value, item => {
-            const trimmedValue = item.trim();
-            
-            if(trimmedValue.length && trimmedValue.length > 0) {
-                hasOneValue = true
-            }
-        })
-
-        return hasOneValue
+        return every(value, item => item.trim() && item.trim().length > 0)
     },
     requiredAtId: function requiredAtId(values, value) {
         if(typeof value !== 'object' || !value) {
