@@ -118,7 +118,7 @@ function runValidationWithSettings(values, languages, settings) {
 
 const validateEventObject = (validations, values, key) => {
     return validations.map(validation => {
-        if (key === 'offer_description' || key === 'price' || key === 'info_url') {
+        if (key === 'offer_description' || key === 'price') {
             return validateCollection(values, key, validation, 'offers')
         }
         return validationFn[validation](values, values[key]) ? null : validation
