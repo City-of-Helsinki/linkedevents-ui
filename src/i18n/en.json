@@ -137,7 +137,7 @@
     "validation-isTime": "Enter the time in the correct format HH.mm or HH",
     "validation-isDate": "Enter the date in the correct format dd.mm.yyyy or d.m.yyyy",
     "validation-isInt": "The input need to be number",
-    "validation-atLeastOne": "At least one category must be selected",
+    "validation-atLeastOne": "At least one item must be selected",
     "validation-required": "This field is required",
     "validation-requiredForCourses": "This field is required",
     "validation-requiredMulti": "This field is required",
