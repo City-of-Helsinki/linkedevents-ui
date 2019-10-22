@@ -5,6 +5,11 @@ $select-input-border-radius: 0px;
 .hel-select {
     legend,
     .legend {
+        position: relative;
         margin-top: 1.5rem;
+
+        .validation-error-popover.popover.small {
+            top: 50%;
+        }
     }
 }

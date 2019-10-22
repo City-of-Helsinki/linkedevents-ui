@@ -9,6 +9,7 @@ import Select from 'react-select'
 
 import {connect} from 'react-redux'
 import {setData} from '../../actions/editor'
+import ValidationPopover from '../ValidationPopover'
 
 class HelSelect extends React.Component {
 
@@ -49,7 +50,7 @@ class HelSelect extends React.Component {
     render() {
         return (
             <div className="hel-select col-lg-6">
-                <legend>{this.props.legend}</legend>
+                <legend>{this.props.legend} <ValidationPopover small={true} validationErrors={this.props.validationErrors} /></legend>
                 <Select.Async
                     multi
                     value={this.props.selectedValues}
@@ -70,6 +71,10 @@ HelSelect.propTypes = {
     dataSource: PropTypes.string,
     resource: PropTypes.string,
     legend: PropTypes.string,
+    validationErrors: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object,
+    ]),
     selectedValues: PropTypes.array,
 }
 

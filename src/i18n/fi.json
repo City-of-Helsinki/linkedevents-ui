@@ -137,7 +137,7 @@
     "validation-isTime": "Kirjoita aika oikeassa muodossa HH.mm tai HH",
     "validation-isDate": "Kirjoita päivämäärä muodossa pp.kk.vvvv tai p.k.vvvv",
     "validation-isInt": "Tulon on oltava numero",
-    "validation-atLeastOne": "Valitse vähintään yksi kategoria",
+    "validation-atLeastOne": "Valitse vähintään yksi",
     "validation-required": "Tämä kenttä vaaditaan",
     "validation-requiredForCourses": "Tämä kenttä vaaditaan",
     "validation-requiredMulti": "Tämä kenttä vaaditaan",
