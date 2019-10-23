@@ -3,6 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import {Route} from 'react-router'
 import PropTypes from 'prop-types'
+import ReactPiwik from 'react-piwik'
 
 import {Link, withRouter} from 'react-router-dom'
 import createHistory from 'history/createBrowserHistory' //'history/createHashHistory'
@@ -38,6 +39,14 @@ import IntlProviderWrapper from './components/IntlProviderWrapper'
 
 const history = createHistory()
 
+const matomo = new ReactPiwik({
+    url: 'https://analytics.hel.ninja',
+    siteId: 42,
+})
+
+// Track initial load
+ReactPiwik.push(['trackPageView'])
+
 const allReducers = combineReducers(Object.assign({}, reducers, {
     router: routerReducer,
 }))
@@ -64,7 +73,7 @@ const LayoutContainer = withRouter(connect()(App));
 ReactDOM.render(
     <Provider store={store}>
         <IntlProviderWrapper>
-            <ConnectedRouter history={history}>
+            <ConnectedRouter history={matomo.connectToHistory(history)}>
                 <LayoutContainer>
                     <Route exact path="/" component={EventListingPage}/>
                     <Route exact path="/event/:eventId" component={Event}/>

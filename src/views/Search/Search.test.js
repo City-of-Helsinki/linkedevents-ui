@@ -22,6 +22,8 @@ const initialStore = {
 
 // mock moment to render search dates as expected
 jest.mock('moment');
+// Mock piwik, tests should not generate analytics hits
+jest.mock('react-piwik')
 
 describe('Search Snapshot', () => {
     let store;
