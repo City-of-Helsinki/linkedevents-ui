@@ -215,7 +215,7 @@ const prepareFormValues = (formValues, contentLanguages, user, updateExisting, p
     }
 
     // Format descriptions to HTML
-    const descriptionTexts = multiLanguageValues.description || formValues.description
+    const descriptionTexts = cleanedFormValues.description
     for (const lang in descriptionTexts) {
         if (descriptionTexts[lang]) {
             const desc = descriptionTexts[lang].replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br/>').replace(/&/g, '&amp;')
