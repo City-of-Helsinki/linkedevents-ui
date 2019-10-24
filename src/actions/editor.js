@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch'
 import moment from 'moment';
-import {includes, keys, pickBy, set, isUndefined} from 'lodash';
+import {includes, keys, pickBy, set, isNil} from 'lodash';
 
 import constants from '../constants'
 import {
@@ -185,7 +185,7 @@ const prepareFormValues = (formValues, contentLanguages, user, updateExisting, p
     for (const field of multiLanguageFields) {
         const fieldValue = formValues[field];
         // some multi-language fields might not have a value
-        if (isUndefined(fieldValue)) {
+        if (isNil(fieldValue)) {
             continue
         }
         if (field === 'offers') {
