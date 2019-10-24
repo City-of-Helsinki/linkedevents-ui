@@ -196,7 +196,7 @@ const prepareFormValues = (formValues, contentLanguages, user, updateExisting, p
                 Object.keys(offer)
                     // filter out the is_free key
                     .filter(key => key !== 'is_free')
-                    .forEach(key => multiLanguageValues[field][index][key] = nullifyField(offer[key]))
+                    .forEach(key => multiLanguageValues[field][index][key] = !isNil(offer[key]) ? nullifyField(offer[key]) : null)
             })
             continue
         }
