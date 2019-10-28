@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch'
 import moment from 'moment';
-import {includes, keys, pickBy, set, isNil} from 'lodash';
+import {includes, keys, pickBy, set, isNil, each} from 'lodash';
 
 import constants from '../constants'
 import {
@@ -9,7 +9,7 @@ import {
     calculateSuperEventTime,
     combineSubEventsFromEditor,
 } from '../utils/formDataMapping'
-import {emptyField} from '../utils/helpers'
+import {emptyField, nullifyMultiLanguageValues} from '../utils/helpers'
 
 import {push} from 'react-router-redux'
 import {setFlashMsg, confirmAction} from './app'
@@ -163,8 +163,6 @@ export function validateFor(publicationStatus) {
  * @return {[type]}                         [description]
  */
 
-const multiLanguageFields = ['name', 'description', 'short_description', 'provider', 'location_extra_info', 'info_url', 'offers']
-
 const prepareFormValues = (formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch) => {
     // exclude all existing sub events from editing form
     if (updateExisting) {
@@ -177,34 +175,8 @@ const prepareFormValues = (formValues, contentLanguages, user, updateExisting, p
     }
 
     // nullify language fields that are not included in contentLanguages as they should not be posted
-    const nullifyField = value => Object.keys(value)
-        .reduce((acc, key) => set(acc, key, contentLanguages.includes(key) ? value[key] : null), {})
-
-    const multiLanguageValues = {}
-
-    for (const field of multiLanguageFields) {
-        const fieldValue = formValues[field];
-        // some multi-language fields might not have a value
-        if (isNil(fieldValue)) {
-            continue
-        }
-        if (field === 'offers') {
-            multiLanguageValues[field] = []
-            // nullify multi-language fields for every offer
-            fieldValue.forEach((offer, index) => {
-                multiLanguageValues[field].push(offer)
-                Object.keys(offer)
-                    // filter out the is_free key
-                    .filter(key => key !== 'is_free')
-                    .forEach(key => multiLanguageValues[field][index][key] = !isNil(offer[key]) ? nullifyField(offer[key]) : null)
-            })
-            continue
-        }
-        multiLanguageValues[field] = nullifyField(fieldValue)
-    }
-
     // merge the "cleaned" multi-language value fields with the form values
-    const cleanedFormValues = {...formValues, ...multiLanguageValues}
+    const cleanedFormValues = {...formValues, ...nullifyMultiLanguageValues(formValues, contentLanguages)}
 
     // Run validations
     const validationErrors = doValidations(cleanedFormValues, contentLanguages, publicationStatus)
@@ -323,24 +295,32 @@ const executeSendRequest = (formValues, contentLanguages, user, updateExisting, 
                 }
 
                 if(response.status === 200 || response.status === 201) {
-                    // create sub events after creaing super event successfully
+                    // create or update sub events after creating/updating super event successfully
                     if (json.super_event_type === 'recurring') {
-                        const formWithAllSubEvents = combineSubEventsFromEditor(formValues, updateExisting)
-                        dispatch(
-                            sendRecurringData(formWithAllSubEvents, contentLanguages, user, updateExisting, publicationStatus, json['@id'])
-                        )
-                        dispatch(sendDataComplete(json, actionName))
+                        // update sub events
+                        if (updateExisting) {
+                            const subEventsToUpdate = getState().subEvents.items
+                            dispatch(updateRecurringData(preparedFormValues, subEventsToUpdate, contentLanguages, user, json.id))
+                        // create sub events
+                        } else {
+                            const formWithAllSubEvents = combineSubEventsFromEditor(formValues, updateExisting)
+                            dispatch(sendRecurringData(formWithAllSubEvents, contentLanguages, user, updateExisting, publicationStatus, json['@id']))
+                        }
                     } else {
-                        dispatch(sendDataComplete(json, actionName))
                         // re-fetch sub events for a series if done editing non-super events
                         if (updateExisting) {
                             const allSuperEventIds = Object.keys(getState().subEvents.bySuperEventId);
                             const editedEventSuperId = json.super_event
                                 && allSuperEventIds.find(id => json.super_event['@id'].includes(id));
-                            dispatch(fetchSubEventsForSuper(editedEventSuperId));
+
+                            if (editedEventSuperId) {
+                                dispatch(fetchSubEventsForSuper(editedEventSuperId));
+                            }
                         }
                     }
+                    dispatch(sendDataComplete(json, actionName))
                 }
+
                 // Validation errors
                 else if(response.status === 400) {
                     json.apiErrorMsg = 'validation-error'
@@ -417,6 +397,49 @@ export function sendRecurringData(formValues, contentLanguages, user, updateExis
         if(newValues.length > 0) {
             dispatch(executeSendRequest(newValues, contentLanguages, user, updateExisting = false, publicationStatus))
         }
+    }
+}
+
+export function updateRecurringData(superEvent, subEventsToUpdate, contentLanguages, user, superEventId) {
+    return (dispatch) => {
+        const keysNotToUpdate = ['start_time', 'end_time', 'id', 'super_event_type']
+        // update sub events based on super event data
+        const updatedSubEvents = subEventsToUpdate.map(subEvent => {
+            const updatedSubEvent = Object.keys(subEvent)
+                // filter out keys that we don't want to update
+                .filter(key => !keysNotToUpdate.includes(key))
+                .reduce((acc, key) => {
+                    if (!isNil(superEvent[key])) {
+                        acc[key] = superEvent[key]
+                    }
+                    return acc
+                }, subEvent)
+
+            return {...updatedSubEvent, ...nullifyMultiLanguageValues(updatedSubEvent, contentLanguages)}
+        })
+
+        // prepare other needed information for request metadata
+        const url = `${appSettings.api_base}/event/`
+        const token = user.token || ''
+
+        return fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'JWT ' + token,
+            },
+            body: JSON.stringify(updatedSubEvents),
+        })
+            .then(response => response.json()
+                .then(() => {
+                    if(response.status === 200) {
+                        dispatch(fetchSubEventsForSuper(superEventId))
+                    }
+                }))
+            .catch(() => {
+                // Error happened while fetching ajax (connection or javascript)
+            })
     }
 }
 
@@ -553,7 +576,6 @@ export function cancelEvent(eventId, user, values) {
             },
             body: JSON.stringify(data),
         }).then(response => {
-            //console.log('Received', response)
             let jsonPromise = response.json()
 
             jsonPromise.then(json => {

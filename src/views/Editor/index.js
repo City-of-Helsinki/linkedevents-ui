@@ -7,6 +7,7 @@ import Loader from 'react-loader'
 import {connect} from 'react-redux'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 import moment from 'moment'
+import {get} from 'lodash'
 import PropTypes from 'prop-types'
 
 import {Button} from 'material-ui'
@@ -37,6 +38,7 @@ var sentinel = true;
 
 import FormFields from '../../components/FormFields'
 import {mapAPIDataToUIFormat, mapUIDataToAPIFormat} from '../../utils/formDataMapping';
+import {getConfirmationMarkup} from '../../utils/helpers'
 
 export class EditorPage extends React.Component {
     constructor(props) {
@@ -155,11 +157,12 @@ export class EditorPage extends React.Component {
     }
 
     getSaveButtons(disabled = false) {
-
-        let eventExists = this.eventExists()
+        const eventExists = this.eventExists()
+        const hasSubEvents = eventExists && get(this.props, ['subEvents', 'items'], []).length > 0
         let labelTextId = this.props.editor.isSending
             ? (eventExists ? 'event-action-save-existing-active' : 'event-action-save-new-active')
             : (eventExists ? 'event-action-save-existing' : 'event-action-save-new')
+
         if (_.keys(this.props.editor.values.sub_events).length > 0 && !eventExists) {
             labelTextId = this.props.editor.isSending ? 'event-action-save-multiple-active' : 'event-action-save-multiple'
         }
@@ -169,7 +172,7 @@ export class EditorPage extends React.Component {
                 raised
                 color="primary"
                 disabled={disabled}
-                onClick={ (e) => this.saveAsPublished(e) }
+                onClick={ (e) => hasSubEvents ? this.confirmUpdate() : this.saveAsPublished(e) }
             ><FormattedMessage id={labelTextId}/></Button>
         )
     }
@@ -206,20 +209,6 @@ export class EditorPage extends React.Component {
     // console.log(event)
     }
 
-    // action: either 'delete' or 'cancel'
-    getWarningMarkup(action) {
-        let warningText = this.props.intl.formatMessage({id: `editor-${action}-warning`}) + '<br/>'
-        let subEventWarning = ''
-        if (this.props.subEvents.items && this.props.subEvents.items.length) {
-            const subEventNames = []
-            for (const subEvent of this.props.subEvents.items) {
-                subEventNames.push(`</br><strong>${subEvent.name.fi}</strong> (${moment(subEvent.start_time).format('DD.MM.YYYY')})`)
-            }
-            subEventWarning = `</br>${this.props.intl.formatMessage({id: `editor-${action}-subevents-warning`})}</br>${subEventNames}`
-        }
-        return warningText + subEventWarning
-    }
-
     saveAsDraft(event) {
         let doUpdate = this.props.match.params.action === 'update'
         this.setState({isDirty: false})
@@ -232,10 +221,26 @@ export class EditorPage extends React.Component {
         this.props.sendData(doUpdate, constants.PUBLICATION_STATUS.PUBLIC)
     }
 
+    confirmUpdate() {
+        const subEvents = get(this.props, ['subEvents', 'items'], [])
+
+        this.props.confirm(
+            'confirm-update',
+            'message',
+            'save',
+            {
+                action: () => this.saveAsPublished(),
+                additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
+                additionalMarkup: getConfirmationMarkup('update', this.props.intl, subEvents),
+            }
+        )
+    }
+
     confirmDelete() {
         // TODO: maybe do a decorator for confirmable actions etc...?
-        const eventId = this.props.match.params.eventId;
         const {user, deleteEvent, editor} = this.props;
+        const eventId = this.props.match.params.eventId;
+        const subEvents = get(this.props, ['subEvents', 'items'], [])
 
         this.props.confirm(
             'confirm-delete',
@@ -244,15 +249,17 @@ export class EditorPage extends React.Component {
             {
                 action: () => deleteEvent(eventId, user, editor.values),
                 additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
-                additionalMarkup: this.getWarningMarkup('delete'),
+                additionalMarkup: getConfirmationMarkup('delete', this.props.intl, subEvents),
             }
         )
     }
 
     confirmCancel() {
+        // TODO: maybe do a decorator for confirmable actions etc...?
         const {user, editor,cancelEvent} = this.props;
         const eventId = this.props.match.params.eventId;
-        // TODO: maybe do a decorator for confirmable actions etc...?
+        const subEvents = get(this.props, ['subEvents', 'items'], [])
+
         this.props.confirm(
             'confirm-cancel',
             'warning',
@@ -260,7 +267,7 @@ export class EditorPage extends React.Component {
             {
                 action: () => cancelEvent(eventId, user, mapUIDataToAPIFormat(editor.values)),
                 additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
-                additionalMarkup: this.getWarningMarkup('cancel'),
+                additionalMarkup: getConfirmationMarkup('cancel', this.props.intl, subEvents),
             }
         )
     }
