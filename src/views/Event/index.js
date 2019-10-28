@@ -58,6 +58,10 @@ class EventPage extends React.Component {
         }
     }
 
+    get getSubEvents() {
+        return get(this.props, ['subEvents', 'items'], [])
+    }
+
     getActionButtons() {
         let {eventIsEditable, eventEditabilityExplanation} = checkEventEditability(this.props.user, this.props.events.event)
         let buttons = <div className="actions">
@@ -79,7 +83,6 @@ class EventPage extends React.Component {
         // TODO: maybe do a decorator for confirmable actions etc...?
         const {user, events, cancelEvent} = this.props;
         const eventId = this.props.match.params.eventId;
-        const subEvents = get(this.props, ['subEvents', 'items'], [])
 
         this.props.confirm(
             'confirm-cancel',
@@ -88,7 +91,7 @@ class EventPage extends React.Component {
             {
                 action: () => cancelEvent(eventId, user, events.event),
                 additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
-                additionalMarkup: getConfirmationMarkup('cancel', this.props.intl, subEvents),
+                additionalMarkup: getConfirmationMarkup('cancel', this.props.intl, this.getSubEvents),
             }
         )
     }
@@ -97,7 +100,6 @@ class EventPage extends React.Component {
         // TODO: maybe do a decorator for confirmable actions etc...?
         const {user, deleteEvent, events} = this.props;
         const eventId = this.props.match.params.eventId;
-        const subEvents = get(this.props, ['subEvents', 'items'], [])
 
         this.props.confirm(
             'confirm-delete',
@@ -106,7 +108,7 @@ class EventPage extends React.Component {
             {
                 action: () => deleteEvent(eventId, user, events.event),
                 additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
-                additionalMarkup: getConfirmationMarkup('delete', this.props.intl, subEvents),
+                additionalMarkup: getConfirmationMarkup('delete', this.props.intl, this.getSubEvents),
             }
         )
     }
