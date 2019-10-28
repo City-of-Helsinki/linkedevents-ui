@@ -125,6 +125,10 @@ export class EditorPage extends React.Component {
         }
     }
 
+    get getSubEvents() {
+        return get(this.props, ['subEvents', 'items'], [])
+    }
+
     eventExists() {
         if (this.props.match.params.action !== 'update') {
             // we are not updating an existing event
@@ -158,7 +162,7 @@ export class EditorPage extends React.Component {
 
     getSaveButtons(disabled = false) {
         const eventExists = this.eventExists()
-        const hasSubEvents = eventExists && get(this.props, ['subEvents', 'items'], []).length > 0
+        const hasSubEvents = eventExists && this.getSubEvents.length > 0
         let labelTextId = this.props.editor.isSending
             ? (eventExists ? 'event-action-save-existing-active' : 'event-action-save-new-active')
             : (eventExists ? 'event-action-save-existing' : 'event-action-save-new')
@@ -222,8 +226,6 @@ export class EditorPage extends React.Component {
     }
 
     confirmUpdate() {
-        const subEvents = get(this.props, ['subEvents', 'items'], [])
-
         this.props.confirm(
             'confirm-update',
             'message',
@@ -231,7 +233,7 @@ export class EditorPage extends React.Component {
             {
                 action: () => this.saveAsPublished(),
                 additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
-                additionalMarkup: getConfirmationMarkup('update', this.props.intl, subEvents),
+                additionalMarkup: getConfirmationMarkup('update', this.props.intl, this.getSubEvents),
             }
         )
     }
@@ -240,7 +242,6 @@ export class EditorPage extends React.Component {
         // TODO: maybe do a decorator for confirmable actions etc...?
         const {user, deleteEvent, editor} = this.props;
         const eventId = this.props.match.params.eventId;
-        const subEvents = get(this.props, ['subEvents', 'items'], [])
 
         this.props.confirm(
             'confirm-delete',
@@ -249,7 +250,7 @@ export class EditorPage extends React.Component {
             {
                 action: () => deleteEvent(eventId, user, editor.values),
                 additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
-                additionalMarkup: getConfirmationMarkup('delete', this.props.intl, subEvents),
+                additionalMarkup: getConfirmationMarkup('delete', this.props.intl, this.getSubEvents),
             }
         )
     }
@@ -258,7 +259,6 @@ export class EditorPage extends React.Component {
         // TODO: maybe do a decorator for confirmable actions etc...?
         const {user, editor,cancelEvent} = this.props;
         const eventId = this.props.match.params.eventId;
-        const subEvents = get(this.props, ['subEvents', 'items'], [])
 
         this.props.confirm(
             'confirm-cancel',
@@ -267,7 +267,7 @@ export class EditorPage extends React.Component {
             {
                 action: () => cancelEvent(eventId, user, mapUIDataToAPIFormat(editor.values)),
                 additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
-                additionalMarkup: getConfirmationMarkup('cancel', this.props.intl, subEvents),
+                additionalMarkup: getConfirmationMarkup('cancel', this.props.intl, this.getSubEvents),
             }
         )
     }
