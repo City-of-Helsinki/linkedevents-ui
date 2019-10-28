@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch'
 import moment from 'moment';
-import {includes, keys, pickBy} from 'lodash';
+import {includes, keys, pickBy, set, isNil} from 'lodash';
 
 import constants from '../constants'
 import {
@@ -163,7 +163,7 @@ export function validateFor(publicationStatus) {
  * @return {[type]}                         [description]
  */
 
-const multiLanguageFields = ['name', 'description', 'short_description', 'provider', 'location_extra_info']
+const multiLanguageFields = ['name', 'description', 'short_description', 'provider', 'location_extra_info', 'info_url', 'offers']
 
 const prepareFormValues = (formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch) => {
     // exclude all existing sub events from editing form
@@ -175,36 +175,51 @@ const prepareFormValues = (formValues, contentLanguages, user, updateExisting, p
     if(formValues.sub_events) {
         recurring = keys(formValues.sub_events).length > 0
     }
+
+    // nullify language fields that are not included in contentLanguages as they should not be posted
+    const nullifyField = value => Object.keys(value)
+        .reduce((acc, key) => set(acc, key, contentLanguages.includes(key) ? value[key] : null), {})
+
+    const multiLanguageValues = {}
+
+    for (const field of multiLanguageFields) {
+        const fieldValue = formValues[field];
+        // some multi-language fields might not have a value
+        if (isNil(fieldValue)) {
+            continue
+        }
+        if (field === 'offers') {
+            multiLanguageValues[field] = []
+            // nullify multi-language fields for every offer
+            fieldValue.forEach((offer, index) => {
+                multiLanguageValues[field].push(offer)
+                Object.keys(offer)
+                    // filter out the is_free key
+                    .filter(key => key !== 'is_free')
+                    .forEach(key => multiLanguageValues[field][index][key] = !isNil(offer[key]) ? nullifyField(offer[key]) : null)
+            })
+            continue
+        }
+        multiLanguageValues[field] = nullifyField(fieldValue)
+    }
+
+    // merge the "cleaned" multi-language value fields with the form values
+    const cleanedFormValues = {...formValues, ...multiLanguageValues}
+
     // Run validations
-    let validationErrors = doValidations(formValues, contentLanguages, publicationStatus)
+    const validationErrors = doValidations(cleanedFormValues, contentLanguages, publicationStatus)
 
     // There are validation errors, don't continue sending
     if (keys(validationErrors).length > 0) {
         return dispatch(setValidationErrors(validationErrors))
     }
 
-    const multiLanguageValues = {}
-    // Language fields not included in contentLanguages should not be posted, they aren't validated anyway
-    for (var field of multiLanguageFields) {
-        for (const lang in formValues[field]) {
-            if (!(field in multiLanguageValues)) {
-                multiLanguageValues[field] = {}
-            }
-            if (contentLanguages.includes(lang)) {
-                multiLanguageValues[field][lang] = formValues[field][lang]
-            } else {
-                // Null is needed here to overwrite any existing strings in the backend
-                multiLanguageValues[field][lang] = null
-            }
-        }
-    }
-
     // Format descriptions to HTML
-    const descriptionTexts = formValues.description
-    for (const lang in formValues.description) {
-        if (formValues.description[lang]) {
-            const desc = formValues.description[lang].replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br/>').replace(/&/g, '&amp;')
-            if (desc.indexOf('<p>') === 0 && desc.substr(desc.length - 4) === '</p>') {
+    const descriptionTexts = cleanedFormValues.description
+    for (const lang in descriptionTexts) {
+        if (descriptionTexts[lang]) {
+            const desc = descriptionTexts[lang].replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br/>').replace(/&/g, '&amp;')
+            if (desc.indexOf('<p>') === 0 && desc.substring(desc.length - 4) === '</p>') {
                 descriptionTexts[lang] = desc
             } else {
                 descriptionTexts[lang] = `<p>${desc}</p>`
@@ -223,8 +238,8 @@ const prepareFormValues = (formValues, contentLanguages, user, updateExisting, p
         }
     }
 
-    let data = Object.assign({}, formValues, multiLanguageValues, {publication_status: publicationStatus, description: descriptionTexts})
-    
+    let data = {...cleanedFormValues, publication_status: publicationStatus, description: descriptionTexts}
+
     // specific processing for event with multiple dates
     if (recurring) {
         data = combineSubEventsFromEditor(data, updateExisting)

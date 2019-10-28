@@ -1,6 +1,6 @@
 
 import moment from 'moment'
-import {includes, every} from 'lodash';
+import {includes, every, isNull} from 'lodash';
 import CONSTANT from '../constants'
 import {textLimitValidator} from '../utils/helpers'
 /**
@@ -16,10 +16,10 @@ let isEmpty = function isEmpty(value) {
     return value === '';
 }
 
-const _containsAllLanguages = function _containsAllLanguages(value, languages) {
+const _containsAllLanguages = (value, languages) => {
     let requiredLanguages = new Set(languages)
     _.forOwn(value, (item, key) => {
-        if (item.length && item.length > 0) {
+        if (isNull(item) || item.length && item.length > 0) {
             requiredLanguages.delete(key)
         }
     })
@@ -188,14 +188,14 @@ var validations = {
         }
         return this.requiredString(values, value);
     },
-    requiredMulti: function requiredMulti(values, value) {
+    requiredMulti(values, value) {
         if(typeof value !== 'object' || !value) {
             return false
         }
         if(_.keys(value).length === 0) {
             return false
         }
-        return every(value, item => item.trim() && item.trim().length > 0)
+        return every(value, item => isNull(item) || item.trim() && item.trim().length > 0)
     },
     requiredAtId: function requiredAtId(values, value) {
         if(typeof value !== 'object' || !value) {

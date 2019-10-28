@@ -9,8 +9,6 @@ import {Checkbox} from 'react-bootstrap'
 import {connect} from 'react-redux'
 import {setLanguages as setLanguageAction} from 'src/actions/editor.js'
 
-import {map} from 'lodash'
-
 class HelLanguageSelect extends React.Component {
 
     constructor(props) {
@@ -19,27 +17,25 @@ class HelLanguageSelect extends React.Component {
         this.onChange = this.onChange.bind(this)
     }
 
-    onChange(e) {
+    onChange() {
         const {options} = this.props
+        const checkedOptions = options
+            .filter((option, index) => this[`checkRef${index}`].checked)
+            .map(checkedOption => checkedOption.value)
 
-        let checked = options.reduce((ac, op, index) => {
-            if(this[`checkRef${index}`].checked) {
-                ac.push(this[`checkRef${index}`]) 
-            }
-            return ac
-        }, [])
+        this.props.setLanguages(checkedOptions)
 
-        let checkedNames = map(checked, (checkbox) => (checkbox.name) )
-        this.props.setLanguages(checkedNames)
-
-        if(typeof this.props.onChange === 'function') {
-            this.props.onChange(checkedNames)
+        if (typeof this.props.onChange === 'function') {
+            this.props.onChange(checkedOptions)
         }
     }
 
     render() {
         let checkboxes = this.props.options.map((item, index) => {
-            let checked = this.props.checked && (this.props.checked.indexOf(item.value) > -1)
+            const checkedOptions = this.props.checked;
+            let checked = checkedOptions && checkedOptions.includes(item.value)
+            let disabled = checked && checkedOptions && checkedOptions.length === 1
+
             return (<Checkbox
                 style={{width: 'auto'}}
                 className="hel-checkbox inline"
@@ -47,6 +43,7 @@ class HelLanguageSelect extends React.Component {
                 key={index}
                 name={item.value}
                 checked={checked}
+                disabled={disabled}
                 onChange={this.onChange}
             >
                 <FormattedMessage id={item.label} />

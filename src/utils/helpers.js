@@ -1,4 +1,4 @@
-import {isArray} from 'lodash';
+import {isArray, isNull, some} from 'lodash';
 
 import CONSTANTS from '../constants'
 
@@ -28,21 +28,11 @@ export const getCharacterLimitByRule = (ruleName) => {
  * @param  {int} limit
  * @return {boolean} validation status
  */
-
-export function textLimitValidator(value, limit) {
-    if(typeof value === 'object') {
-        let hasOneOverLimit = false
-        _.each(value, item => {
-            if(item.length > limit) {
-                hasOneOverLimit = true
-            }
-        })
-        return !hasOneOverLimit
-
-    } else if(typeof value === 'string') {
-        if(value.length > limit) {
-            return false
-        }
+export const textLimitValidator = (value, limit) => {
+    if (typeof value === 'object') {
+        return !some(value, item => !isNull(item) && item.length > limit)
+    } else if (typeof value === 'string') {
+        return value.length <= limit
     }
     return true
 }
