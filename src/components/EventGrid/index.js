@@ -3,46 +3,84 @@ import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import moment from 'moment'
 import PropTypes from 'prop-types'
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl'
+import get from 'lodash/get'
+import forEach from 'lodash/forEach'
 
 import defaultThumbnail from '../../assets/images/helsinki-coat-of-arms-white.png'
 
 import constants from '../../constants'
 import './index.scss'
 
-let dateFormat = function(timeStr) {
+const dateFormat = function (timeStr) {
     return timeStr ? moment(timeStr).format('YYYY-MM-DD') : ''
 }
 
-let EventItem = (props) => {
-    let name = (
-        props.event.name.fi || props.event.name.en || props.event.name.sv ||
-        props.event.headline.fi || props.event.headline.en || props.event.headline.sv
-    )
+const getName = (event) => {
+    const paths = [
+        'name.fi',
+        'name.en',
+        'name.sv',
+        'headline.fi',
+        'headline.en',
+        'headline.sv',
+    ]
 
-    let url = '/event/' + encodeURIComponent(props.event['id']) + '/'
+    let name
+    forEach(paths, (path) => {
+        name = get(event, path)
 
+        // We found a name, exit forEach
+        if (name) {
+            return false
+        }
+    })
+
+    if (name) {
+        return name
+    }
+
+    // If we don't have a name at this point, try to find a translation/locale from name field.
+    forEach(get(event, 'name', []), (item) => {
+        name = item
+        return false
+    })
+
+    if (name) {
+        return name
+    }
+
+    // If name field didn't have any translation/locale, then try to find one in headline field.
+    forEach(get(event, 'headline', []), (item) => {
+        name = item
+        return false
+    })
+
+    // If name still doesn't have a value, then return an empty string.
+    return name ? name : ''
+}
+
+const EventItem = (props) => {
+    const name = getName(props.event)
+    const url = '/event/' + encodeURIComponent(props.event['id']) + '/'
     const image = props.event.images.length > 0 ? props.event.images[0].url : defaultThumbnail
-    let thumbnailStyle = {
+    const thumbnailStyle = {
         backgroundImage: 'url(' + image + ')',
     }
-
-    const getDay = props.event.start_time;
-    let date = getDay.split('T');
-    let convertedDate = date[0].split('-').reverse().join('.');
-
-    let cancelled = props.event.event_status === constants.EVENT_STATUS.CANCELLED
-    let cancelledBadge = null
-    if (cancelled) {
-        cancelledBadge = (<span className="badge badge-danger search-badge"><FormattedMessage id="cancelled"/></span>)
-    }
+    const getDay = props.event.start_time
+    const date = getDay.split('T')
+    const convertedDate = date[0].split('-').reverse().join('.')
+    const isCancelled = props.event.event_status === constants.EVENT_STATUS.CANCELLED
 
     return (
-        <div className="col-xs-12 col-md-6 col-lg-4" key={ props.event['id'] }>
+        <div className="col-xs-12 col-md-6 col-lg-4" key={props.event['id']}>
             <Link to={url}>
                 <div className="event-item">
-                    {cancelledBadge}
-                    <div className="thumbnail" style={thumbnailStyle} />
+                    {
+                        isCancelled &&
+                        <span className="badge badge-danger search-badge"><FormattedMessage id="cancelled"/></span>
+                    }
+                    <div className="thumbnail" style={thumbnailStyle}/>
                     <div className="name">
                         <span className="converted-day">{convertedDate}</span>
                         {name}
@@ -54,17 +92,11 @@ let EventItem = (props) => {
     )
 }
 
-let EventGrid = (props) => {
-    let gridItems = props.events.map(function(event) {
-        return (<EventItem event={event} key={event.id} />)
-    })
-
-    return (
-        <div className="row event-grid">
-            {gridItems}
-        </div>
-    )
-}
+const EventGrid = (props) => (
+    <div className="row event-grid">
+        {props.events.map(event => <EventItem event={event} key={event.id}/>)}
+    </div>
+)
 
 EventItem.propTypes = {
     event: PropTypes.object,
