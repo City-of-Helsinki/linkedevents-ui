@@ -8,6 +8,7 @@ import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 import {Button} from 'material-ui'
 import Tooltip from 'material-ui/Tooltip'
 import {push} from 'react-router-redux'
+import classNames from 'classnames'
 
 import {fetchEventDetails as fetchEventDetailsAction} from 'src/actions/events'
 import {
@@ -45,6 +46,7 @@ class EventPage extends React.Component {
     componentDidUpdate(prevProps) {
         const publisherId = get(this.props, 'events.event.publisher')
         const oldPublisherId = get(prevProps, 'events.event.publisher')
+
         if (publisherId && publisherId !== oldPublisherId) {
             client.get(`organization/${publisherId}`).then(response => {
                 this.setState({
@@ -134,20 +136,23 @@ class EventPage extends React.Component {
         return warningText + subEventWarning
     }
 
-    renderPublished = () => {
-        const {events: {event}} = this.props
+    getPublishedText = () => {
+        const {events: {event}, intl} = this.props
         const {publisher} = this.state
 
         if (!publisher) {
             return null
         }
 
+        const values = {
+            publisher: publisher.name,
+            createdBy: get(event, 'created_by', ''),
+            publishedAt: moment(event.last_modified_time).format('D.M.YYYY HH:mm'),
+        }
 
-        return (
-            <div className="published-information">
-                Julkaisija: {publisher.name}
-            </div>
-        )
+        return intl.formatMessage({
+            id: values.createdBy ? 'event-publisher-info-with-created-by' : 'event-publisher-info',
+        }, values);
     }
 
     render() {
@@ -164,33 +169,21 @@ class EventPage extends React.Component {
             )
         }
 
-
-        // To prevent 'Can't access field of undefined errors'
-        event.location = event.location || {}
-        // Tooltip is empty if the event is editable
-        let {eventIsEditable, eventEditabilityExplanation} = checkEventEditability(user, event)
-
-        // Add necessary badges
-        let draftClass = event.publication_status == constants.PUBLICATION_STATUS.DRAFT ? 'event-page draft' : 'event-page'
-        let draftBadge = null
-        if (event.publication_status === constants.PUBLICATION_STATUS.DRAFT) {
-            draftBadge = (<span className="badge badge-warning warn tag-space"><FormattedMessage id="draft"/></span>)
-        }
-        let cancelledClass = event.publication_status == constants.EVENT_STATUS.CANCELLED ? 'event-page' : 'event-page'
-        let cancelledBadge = null
-        if (event.event_status === constants.EVENT_STATUS.CANCELLED) {
-            cancelledBadge = (<span className="badge badge-danger tag-space"><FormattedMessage id="cancelled"/></span>)
-        }
-
         if (this.props.events.eventError) {
             return (
-                <header className="container header">
-                    <h3>
-                        <div><FormattedMessage id="event-page-error"/></div>
-                    </h3>
+                <header className="header">
+                    <div className="container">
+                        <h3><FormattedMessage id="event-page-error"/></h3>
+                    </div>
                 </header>
             )
         }
+
+        // Tooltip is empty if the event is editable
+        let {eventIsEditable, eventEditabilityExplanation} = checkEventEditability(user, event)
+
+        const isDraft = event.publication_status === constants.PUBLICATION_STATUS.DRAFT
+        const isCancelled = event.publication_status === constants.EVENT_STATUS.CANCELLED
 
         const editEventButton = <Button raised onClick={e => this.editEvent(e)} disabled={!eventIsEditable}
             color="primary"><FormattedMessage id="edit-events"/></Button>
@@ -198,13 +191,18 @@ class EventPage extends React.Component {
             color="accent"><FormattedMessage id="cancel-events"/></Button>
         const deleteEventButton = <Button raised disabled={!eventIsEditable} onClick={(e) => this.confirmDelete(e)}
             color="accent"><FormattedMessage id="delete-events"/></Button>
+
+        const publishedText = this.getPublishedText();
         return (
-            <div className={draftClass}>
+            <div className={classNames('event-page', {
+                'draft': isDraft,
+                'cancelled': isCancelled,
+            })}>
                 <div className="container">
                     <header className="header">
                         <h1>
-                            {cancelledBadge}
-                            {draftBadge}
+                            {isCancelled && <span className="badge badge-danger tag-space"><FormattedMessage id="cancelled"/></span>}
+                            {isDraft && <span className="badge badge-warning warn tag-space"><FormattedMessage id="draft"/></span>}
                             {getStringWithLocale(event, 'name')}
                         </h1>
                     </header>
@@ -227,12 +225,19 @@ class EventPage extends React.Component {
                                     <span>{editEventButton}</span>
                                 </Tooltip>
                             }
-                            <Button raised onClick={e => this.copyAsTemplate(e)} color="default"><FormattedMessage
-                                id="copy-event-to-draft"/></Button>
+                            <Button raised onClick={e => this.copyAsTemplate(e)} color="default">
+                                <FormattedMessage id="copy-event-to-draft"/>
+                            </Button>
                         </div>
                     </div>
-                    {this.renderPublished()}
-                    <EventDetails values={event} rawData={this.props.events.event}/>
+                    <div className="published-information">
+                        {publishedText}
+                    </div>
+                    <EventDetails
+                        values={event}
+                        rawData={this.props.events.event}
+                        publisher={this.state.publisher}
+                    />
                 </div>
             </div>
         )

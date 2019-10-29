@@ -1,6 +1,7 @@
 import moment from 'moment'
 import React from 'react'
 import PropTypes from 'prop-types'
+import get from 'lodash/get'
 import {
     injectIntl,
     FormattedMessage,
@@ -43,7 +44,6 @@ CheckedValue.propTypes = {
 }
 
 const MultiLanguageValue = (props) => {
-
     if (props.hidden) {
         return (<div/>)
     }
@@ -98,7 +98,7 @@ const MultiLanguageValue = (props) => {
     }
 }
 
-let TextValue = (props) => {
+const TextValue = (props) => {
     if (_.isInteger(props.value) || (props.value && props.value.length !== undefined && props.value.length > 0)) {
         return (
             <div className="single-value-field">
@@ -213,39 +213,39 @@ FormHeader.propTypes = {
 
 const OffersValue = (props) => {
     const {offers} = props.values
-    if (offers && offers[0] && typeof offers[0] === 'object') {
-        for (const key in props.values.offers) {
 
-            console.warn(key, props.values.offers[key]);
-
-        }
-
-        return (
-            <div>
-                <CheckedValue checked={offers[0].is_free} labelKey="is-free"/>
-                {props.values.offers.map((offer, key) => (
-                    <div key={key} className="offer-values">
-                        <MultiLanguageValue
-                            labelKey="event-purchase-link"
-                            value={offer.info_url}
-                        />
-                        <MultiLanguageValue
-                            labelKey="event-price"
-                            hidden={offer.is_free}
-                            value={offer.price}
-                        />
-                        <MultiLanguageValue
-                            labelKey="event-price-info"
-                            hidden={offer.is_free}
-                            value={offer.description}
-                        />
-                    </div>
-                ))}
-            </div>
-        )
-    } else {
+    if (!offers || offers[0] && typeof offers[0] !== 'object') {
         return (<NoValue labelKey={props.labelKey}/>)
     }
+
+    return (
+        <div>
+            <CheckedValue checked={offers[0].is_free} labelKey="is-free"/>
+            {props.values.offers.map((offer, key) => (
+                <div key={`offer-value-${key}`} className="offer-values">
+                    <MultiLanguageValue
+                        labelKey="event-purchase-link"
+                        value={offer.info_url}
+                    />
+                    <MultiLanguageValue
+                        labelKey="event-price"
+                        hidden={offer.is_free}
+                        value={offer.price}
+                    />
+                    <MultiLanguageValue
+                        labelKey="event-price-info"
+                        hidden={offer.is_free}
+                        value={offer.description}
+                    />
+                </div>
+            ))}
+        </div>
+    )
+}
+
+OffersValue.propTypes = {
+    values: PropTypes.object,
+    labelKey: PropTypes.string,
 }
 
 const EventDetails = (props) => {
@@ -270,6 +270,7 @@ const EventDetails = (props) => {
             <MultiLanguageValue labelKey="event-description" value={props.values['description']}/>
             <MultiLanguageValue labelKey="event-info-url" value={props.values['info_url']}/>
             <MultiLanguageValue labelKey="event-provider" value={props.values['provider']}/>
+            {props.publisher && <TextValue labelKey="event-publisher" value={get(props.publisher, 'name')}/>}
 
             <FormHeader>
                 {props.intl.formatMessage({id: 'event-datetime-fields-header'})}
@@ -281,8 +282,8 @@ const EventDetails = (props) => {
                 {props.intl.formatMessage({id: 'event-location-fields-header'})}
             </FormHeader>
 
-            <MultiLanguageValue labelKey="event-location" value={props.values.location.name}/>
-            <TextValue labelKey="event-location-id" value={props.values.location.id}/>
+            <MultiLanguageValue labelKey="event-location" value={get(props.values, 'location.name')}/>
+            <TextValue labelKey="event-location-id" value={get(props.values, 'location.id')}/>
             <MultiLanguageValue
                 labelKey="event-location-additional-info"
                 value={props.values['location_extra_info']}
@@ -336,6 +337,7 @@ EventDetails.propTypes = {
     values: PropTypes.object,
     rawData: PropTypes.object,
     intl: intlShape,
+    publisher: PropTypes.object,
 }
 
 export default injectIntl(EventDetails)
