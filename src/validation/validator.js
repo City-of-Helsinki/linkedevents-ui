@@ -95,8 +95,11 @@ function runValidationWithSettings(values, languages, settings) {
                 const error = isEmpty(subEventError) ? null : subEventError
                 errors[eventKey] = error
             })
+        // validate offers
+        } else if (key === 'price') {
+            errors = validateOffers(valuesWithLanguages)
         } else {
-            errors = validateEventObject(validations, valuesWithLanguages, key)
+            errors = validations.map(validation => validationFn[validation](valuesWithLanguages, valuesWithLanguages[key]) ? null : validation)
         }
 
         // Remove nulls
@@ -106,7 +109,12 @@ function runValidationWithSettings(values, languages, settings) {
             remove(errors, i => i === null)
         }
 
-        obj[key] = errors
+        // handle offers separately
+        if (key === 'price') {
+            obj = {...obj, ...errors}
+        } else {
+            obj[key] = errors
+        }
     })
     obj = pickBy(obj, (validationErrors, key) => {
         if (key === 'sub_events') {
@@ -117,23 +125,54 @@ function runValidationWithSettings(values, languages, settings) {
     return obj
 }
 
-const validateEventObject = (validations, values, key) => {
-    return validations.map(validation => {
-        if (key === 'offer_description' || key === 'price' || key === 'info_url') {
-            return validateCollection(values, key, validation, 'offers')
-        }
-        return validationFn[validation](values, values[key]) ? null : validation
-    })
-}
+const validateOffers = values => {
+    const offers = values['offers']
 
-function validateCollection(values, key, validationRule, type) {
-    const targetKey = key === 'offer_description' ? 'description' : key
-    const valueByType = values[type]
-    let validations = []
-    for (const index in valueByType) {
-        if (!validationFn[validationRule](values, valueByType[index], targetKey)) {
-            validations.push({key: index, validation: validationRule})
-        }
+    if (!offers) {
+        return null
     }
-    return validations.length ? validations : null
+    // validation rules used for the offer fields
+    const offerValidationRules = {
+        price: VALIDATION_RULES.HAS_PRICE,
+        description: VALIDATION_RULES.LONG_STRING,
+        info_url: VALIDATION_RULES.IS_URL,
+    }
+    // prepends key names with prefix where applicable
+    const prependKeyName = key => {
+        const offerPrefix = 'offer_'
+
+        return key === 'info_url' || key === 'description'
+            ? `${offerPrefix}${key}`
+            : key
+    }
+
+    let errors = {}
+
+    // loop through all offers and get validation errors for each one
+    offers.forEach((offer, index) => {
+        const offerValidationErrors = Object.keys(offer)
+            .reduce((acc, key) => {
+                const validationRule = offerValidationRules[key]
+
+                if (validationRule) {
+                    // the data we need to pass to the validation function differs for description fields
+                    const valid = key === 'description'
+                        ? validationFn[validationRule](offer, offer[key], key)
+                        : validationFn[validationRule](values, offer, key)
+
+                    if (!valid) {
+                        acc[prependKeyName(key)] = [{key: `${index}`, validation: validationRule}]
+                    }
+                }
+                return acc
+            }, {})
+
+        // add validation errors to the errors object
+        each(offerValidationErrors, (value, key) => {
+            Object.getOwnPropertyNames(errors).includes(key)
+                ? errors[key][0].push(...value)
+                : errors[key] = [value]
+        })
+    })
+    return errors
 }
