@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch'
 import moment from 'moment';
-import {includes, keys, pickBy, set, isNil, each} from 'lodash';
+import {includes, keys, pickBy, isUndefined} from 'lodash';
 
 import constants from '../constants'
 import {
@@ -8,6 +8,8 @@ import {
     mapUIDataToAPIFormat,
     calculateSuperEventTime,
     combineSubEventsFromEditor,
+    createSubEventsFromFormValues,
+    updateSubEventsFromFormValues,
 } from '../utils/formDataMapping'
 import {emptyField, nullifyMultiLanguageValues} from '../utils/helpers'
 
@@ -226,7 +228,7 @@ const prepareFormValues = (formValues, contentLanguages, user, updateExisting, p
     return mapUIDataToAPIFormat(data)
 }
 
-const executeSendRequest = (formValues, contentLanguages, user, updateExisting, publicationStatus) => {
+const executeSendRequest = (formValues, contentLanguages, user, updateExisting, publicationStatus, updatingSubEvents) => {
     return (dispatch, getState) => {
         // check publication to decide whether allow the request to happen
         publicationStatus = publicationStatus || formValues.publication_status
@@ -235,38 +237,34 @@ const executeSendRequest = (formValues, contentLanguages, user, updateExisting, 
         }
         // prepare the body of the request (event object/array)
         let preparedFormValues
-        if(!Array.isArray(formValues)) {
-            preparedFormValues = {}
-            const newValues = prepareFormValues(formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch)
-            if(newValues !== undefined) {
-                preparedFormValues = newValues
-            } else {
+        if (!Array.isArray(formValues)) {
+            preparedFormValues = prepareFormValues(formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch)
+
+            if (!preparedFormValues && !keys(preparedFormValues).length > 0) {
                 return
             }
-        } else if(Array.isArray(formValues) && formValues.length > 0) {
-            preparedFormValues = []
-            formValues.map(formObject => {
-                const newValues = prepareFormValues(formObject, contentLanguages, user, updateExisting, publicationStatus, dispatch)
-                if(newValues !== undefined) {
-                    preparedFormValues.push(newValues)
-                } else {
-                    return
-                }
-            })
+        } else if (Array.isArray(formValues) && formValues.length > 0) {
+            preparedFormValues = formValues
+                .map(formObject => prepareFormValues(formObject, contentLanguages, user, updateExisting, publicationStatus, dispatch))
+                .filter(preparedFormObject => !isUndefined(preparedFormObject))
+
+            if (!preparedFormValues.length > 0) {
+                return
+            }
         }
 
-        // prepare other needed information for request matedata
+        // prepare other needed information for request metadata
         let url = `${appSettings.api_base}/event/`
-        if(updateExisting) {
+        if (updateExisting && !updatingSubEvents) {
             const updateId = formValues.id || formValues[0].id
             url += `${updateId}/`
         }
 
         let token = ''
-        if(user) {
+        if (user) {
             token = user.token
         }
-        
+
         dispatch(validateFor(publicationStatus))
 
         return fetch(url, {
@@ -297,15 +295,7 @@ const executeSendRequest = (formValues, contentLanguages, user, updateExisting, 
                 if(response.status === 200 || response.status === 201) {
                     // create or update sub events after creating/updating super event successfully
                     if (json.super_event_type === 'recurring') {
-                        // update sub events
-                        if (updateExisting) {
-                            const subEventsToUpdate = getState().subEvents.items
-                            dispatch(updateRecurringData(preparedFormValues, subEventsToUpdate, contentLanguages, user, json.id))
-                        // create sub events
-                        } else {
-                            const formWithAllSubEvents = combineSubEventsFromEditor(formValues, updateExisting)
-                            dispatch(sendRecurringData(formWithAllSubEvents, contentLanguages, user, updateExisting, publicationStatus, json['@id']))
-                        }
+                        dispatch(sendRecurringData(formValues, contentLanguages, user, updateExisting, publicationStatus, json['@id']))
                     } else {
                         // re-fetch sub events for a series if done editing non-super events
                         if (updateExisting) {
@@ -381,65 +371,17 @@ export function sendDataComplete(json, action) {
     }
 }
 
-export function sendRecurringData(formValues, contentLanguages, user, updateExisting = false, publicationStatus, superEventId) {
-    return (dispatch) => {
-        const subEvents = Object.assign({}, formValues.sub_events)
-        const baseEvent = Object.assign({}, formValues, {
-            sub_events: {},
-            super_event: {'@id': superEventId},
-        })
-        const newValues = []
-        for (const key in subEvents) {
-            if (subEvents.hasOwnProperty(key)) {
-                newValues.push(Object.assign({}, baseEvent, {start_time: subEvents[key].start_time, end_time: subEvents[key].end_time}))
-            }
+export function sendRecurringData(formValues, contentLanguages, user, updateExisting, publicationStatus, superEventUrl) {
+    return (dispatch, getState) => {
+        // this tells the executeSendRequest method whether we're updating sub events
+        const updatingSubEvents = updateExisting
+        let subEventsToSend = updateExisting
+            ? updateSubEventsFromFormValues(formValues, getState().subEvents.items)
+            : createSubEventsFromFormValues(formValues, updateExisting, superEventUrl)
+
+        if(subEventsToSend.length > 0) {
+            dispatch(executeSendRequest(subEventsToSend, contentLanguages, user, updateExisting, publicationStatus, updatingSubEvents))
         }
-        if(newValues.length > 0) {
-            dispatch(executeSendRequest(newValues, contentLanguages, user, updateExisting = false, publicationStatus))
-        }
-    }
-}
-
-export function updateRecurringData(superEvent, subEventsToUpdate, contentLanguages, user, superEventId) {
-    return (dispatch) => {
-        const keysNotToUpdate = ['start_time', 'end_time', 'id', 'super_event_type']
-        // update sub events based on super event data
-        const updatedSubEvents = subEventsToUpdate.map(subEvent => {
-            const updatedSubEvent = Object.keys(subEvent)
-                // filter out keys that we don't want to update
-                .filter(key => !keysNotToUpdate.includes(key))
-                .reduce((acc, key) => {
-                    if (!isNil(superEvent[key])) {
-                        acc[key] = superEvent[key]
-                    }
-                    return acc
-                }, subEvent)
-
-            return {...updatedSubEvent, ...nullifyMultiLanguageValues(updatedSubEvent, contentLanguages)}
-        })
-
-        // prepare other needed information for request metadata
-        const url = `${appSettings.api_base}/event/`
-        const token = user.token || ''
-
-        return fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'JWT ' + token,
-            },
-            body: JSON.stringify(updatedSubEvents),
-        })
-            .then(response => response.json()
-                .then(() => {
-                    if(response.status === 200) {
-                        dispatch(fetchSubEventsForSuper(superEventId))
-                    }
-                }))
-            .catch(() => {
-                // Error happened while fetching ajax (connection or javascript)
-            })
     }
 }
 
