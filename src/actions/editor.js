@@ -228,7 +228,7 @@ const prepareFormValues = (formValues, contentLanguages, user, updateExisting, p
     return mapUIDataToAPIFormat(data)
 }
 
-const executeSendRequest = (formValues, contentLanguages, user, updateExisting, publicationStatus, updatingSubEvents) => {
+const executeSendRequest = (formValues, contentLanguages, user, updateExisting, publicationStatus, updatingSubEvents = false) => {
     return (dispatch, getState) => {
         // check publication to decide whether allow the request to happen
         publicationStatus = publicationStatus || formValues.publication_status
@@ -240,7 +240,7 @@ const executeSendRequest = (formValues, contentLanguages, user, updateExisting, 
         if (!Array.isArray(formValues)) {
             preparedFormValues = prepareFormValues(formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch)
 
-            if (!preparedFormValues && !keys(preparedFormValues).length > 0) {
+            if (!preparedFormValues || !keys(preparedFormValues).length > 0) {
                 return
             }
         } else if (Array.isArray(formValues) && formValues.length > 0) {
