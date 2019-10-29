@@ -1,57 +1,71 @@
-import './index.scss'
-
 import React from 'react'
 import {connect} from 'react-redux'
 import EventDetails from 'src/components/EventDetails'
 import moment from 'moment'
 import PropTypes from 'prop-types'
-
+import get from 'lodash/get'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
-
 import {Button} from 'material-ui'
 import Tooltip from 'material-ui/Tooltip'
 import {push} from 'react-router-redux'
 
-import {fetchEventDetails as fetchEventDetailsAction} from 'src/actions/events.js'
+import {fetchEventDetails as fetchEventDetailsAction} from 'src/actions/events'
 import {
     replaceData as replaceDataAction,
-    deleteEvent as deleteEventAction, 
+    deleteEvent as deleteEventAction,
     cancelEvent as cancelEventAction,
 } from 'src/actions/editor.js'
 import {fetchSubEvents as fetchSubEventsAction} from 'src/actions/subEvents'
-
-import {
-    confirmAction, 
-    clearFlashMsg as clearFlashMsgAction,
-} from 'src/actions/app.js'
-
+import {confirmAction} from 'src/actions/app.js'
 import {getStringWithLocale} from 'src/utils/locale'
 import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
 import {checkEventEditability} from 'src/utils/checkEventEditability.js'
-
+import client from '../../api/client'
 import constants from 'src/constants'
 
-class EventPage extends React.Component {
+import './index.scss'
 
-    UNSAFE_componentWillMount() {
-        const {match, fetchEventDetails, user, fetchSubEvents} = this.props
+class EventPage extends React.Component {
+    state = {
+        publisher: null,
+    }
+
+    componentDidMount() {
+        const {
+            match,
+            fetchEventDetails,
+            user,
+            fetchSubEvents,
+        } = this.props
 
         fetchEventDetails(match.params.eventId, user)
         fetchSubEvents(this.props.match.params.eventId, user)
     }
 
+    componentDidUpdate(prevProps) {
+        const publisherId = get(this.props, 'events.event.publisher')
+        const oldPublisherId = get(prevProps, 'events.event.publisher')
+        if (publisherId && publisherId !== oldPublisherId) {
+            client.get(`organization/${publisherId}`).then(response => {
+                this.setState({
+                    publisher: response.data,
+                })
+            })
+        }
+    }
+
     copyAsTemplate() {
-        const {events:{event}, replaceData, routerPush} = this.props
-        if(event) {
+        const {events: {event}, replaceData, routerPush} = this.props
+        if (event) {
             replaceData(event)
             routerPush(`/event/create/new`)
         }
     }
 
     editEvent() {
-        const {events:{event}, replaceData, routerPush} = this.props
-        if(event) {
-            replaceData(event)            
+        const {events: {event}, replaceData, routerPush} = this.props
+        if (event) {
+            replaceData(event)
             routerPush(`/event/update/${event.id}`)
         }
     }
@@ -59,8 +73,8 @@ class EventPage extends React.Component {
     getActionButtons() {
         let {eventIsEditable, eventEditabilityExplanation} = checkEventEditability(this.props.user, this.props.events.event)
         let buttons = <div className="actions">
-            { this.getDeleteButton(!eventIsEditable) }
-            { this.getCancelButton(!eventIsEditable) }
+            {this.getDeleteButton(!eventIsEditable)}
+            {this.getCancelButton(!eventIsEditable)}
         </div>
         return (
             <div>
@@ -74,8 +88,8 @@ class EventPage extends React.Component {
     }
 
     confirmCancel() {
-        const {user, events, cancelEvent} = this.props;
-        const eventId = this.props.match.params.eventId;
+        const {user, events, cancelEvent} = this.props
+        const eventId = this.props.match.params.eventId
         // TODO: maybe do a decorator for confirmable actions etc...?
         this.props.confirm(
             'confirm-cancel',
@@ -91,8 +105,8 @@ class EventPage extends React.Component {
 
     confirmDelete() {
         // TODO: maybe do a decorator for confirmable actions etc...?
-        const eventId = this.props.match.params.eventId;
-        const {user, deleteEvent, events} = this.props;
+        const eventId = this.props.match.params.eventId
+        const {user, deleteEvent, events} = this.props
 
         this.props.confirm(
             'confirm-delete',
@@ -120,10 +134,36 @@ class EventPage extends React.Component {
         return warningText + subEventWarning
     }
 
+    renderPublished = () => {
+        const {events: {event}} = this.props
+        const {publisher} = this.state
+
+        if (!publisher) {
+            return null
+        }
+
+
+        return (
+            <div className="published-information">
+                Julkaisija: {publisher.name}
+            </div>
+        )
+    }
+
     render() {
-        const user = this.props.user
-        
+        const {user} = this.props
         let event = mapAPIDataToUIFormat(this.props.events.event)
+
+        if (!event || !event.name) {
+            return (
+                <header className="header">
+                    <div className="container">
+                        <h3><FormattedMessage id="event-page-loading"/></h3>
+                    </div>
+                </header>
+            )
+        }
+
 
         // To prevent 'Can't access field of undefined errors'
         event.location = event.location || {}
@@ -142,7 +182,7 @@ class EventPage extends React.Component {
             cancelledBadge = (<span className="badge badge-danger tag-space"><FormattedMessage id="cancelled"/></span>)
         }
 
-        if(this.props.events.eventError) {
+        if (this.props.events.eventError) {
             return (
                 <header className="container header">
                     <h3>
@@ -152,59 +192,50 @@ class EventPage extends React.Component {
             )
         }
 
-        const editEventButton = <Button raised onClick={e => this.editEvent(e)} disabled={!eventIsEditable} color="primary"><FormattedMessage id="edit-events"/></Button>
-        const cancelEventButton = <Button raised disabled={!eventIsEditable} onClick={ (e) => this.confirmCancel(e)} color="accent"><FormattedMessage id="cancel-events"/></Button>
-        const deleteEventButton = <Button raised disabled={!eventIsEditable} onClick={ (e) => this.confirmDelete(e)} color="accent"><FormattedMessage id="delete-events"/></Button>
-        if(event && event.name) {
-            return (
-                <div className={draftClass}>
-                    <header className="container header">
+        const editEventButton = <Button raised onClick={e => this.editEvent(e)} disabled={!eventIsEditable}
+            color="primary"><FormattedMessage id="edit-events"/></Button>
+        const cancelEventButton = <Button raised disabled={!eventIsEditable} onClick={(e) => this.confirmCancel(e)}
+            color="accent"><FormattedMessage id="cancel-events"/></Button>
+        const deleteEventButton = <Button raised disabled={!eventIsEditable} onClick={(e) => this.confirmDelete(e)}
+            color="accent"><FormattedMessage id="delete-events"/></Button>
+        return (
+            <div className={draftClass}>
+                <div className="container">
+                    <header className="header">
                         <h1>
                             {cancelledBadge}
                             {draftBadge}
-                            { getStringWithLocale(event, 'name') }
+                            {getStringWithLocale(event, 'name')}
                         </h1>
                     </header>
-                    <div className="container">
-
-                        <div className="event-actions">
-                            <div className="cancel-delete-btn">
-                                {eventIsEditable ? cancelEventButton :
-                                    <Tooltip title={eventEditabilityExplanation}>
-                                        <span>{cancelEventButton}</span>
-                                    </Tooltip>
-                                }
-                                {eventIsEditable ? deleteEventButton :
-                                    <Tooltip title={eventEditabilityExplanation}>
-                                        <span>{deleteEventButton}</span>
-                                    </Tooltip>
-                                }
-                            </div>
-                            <div className="edit-copy-btn">
-                                {eventIsEditable ? editEventButton :
-                                    <Tooltip title={eventEditabilityExplanation}>
-                                        <span>{editEventButton}</span>
-                                    </Tooltip>
-                                }
-                                <Button raised onClick={e => this.copyAsTemplate(e)} color="default"><FormattedMessage id="copy-event-to-draft"/></Button>
-                            </div>
+                    <div className="event-actions">
+                        <div className="cancel-delete-btn">
+                            {eventIsEditable ? cancelEventButton :
+                                <Tooltip title={eventEditabilityExplanation}>
+                                    <span>{cancelEventButton}</span>
+                                </Tooltip>
+                            }
+                            {eventIsEditable ? deleteEventButton :
+                                <Tooltip title={eventEditabilityExplanation}>
+                                    <span>{deleteEventButton}</span>
+                                </Tooltip>
+                            }
+                        </div>
+                        <div className="edit-copy-btn">
+                            {eventIsEditable ? editEventButton :
+                                <Tooltip title={eventEditabilityExplanation}>
+                                    <span>{editEventButton}</span>
+                                </Tooltip>
+                            }
+                            <Button raised onClick={e => this.copyAsTemplate(e)} color="default"><FormattedMessage
+                                id="copy-event-to-draft"/></Button>
                         </div>
                     </div>
-                    <div className="container">
-                        <EventDetails values={event} rawData={this.props.events.event}/>
-                    </div>
+                    {this.renderPublished()}
+                    <EventDetails values={event} rawData={this.props.events.event}/>
                 </div>
-            )
-        }
-        else {
-            return (
-                <header className="container header">
-                    <h3>
-                        <div><FormattedMessage id="event-page-loading"/></div>
-                    </h3>
-                </header>
-            )
-        }
+            </div>
+        )
     }
 }
 
