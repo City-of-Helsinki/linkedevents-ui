@@ -1,4 +1,4 @@
-import {find, clone, map, lastIndexOf, forOwn, every, includes, isEmpty, cloneDeep, remove, values, set,} from 'lodash'
+import {find, clone, map, lastIndexOf, forOwn, every, includes, isEmpty, cloneDeep, remove, values, set} from 'lodash'
 import constants from 'src/constants.js'
 import moment from 'moment'
 import 'moment-timezone'
