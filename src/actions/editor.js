@@ -16,6 +16,7 @@ import {setFlashMsg, confirmAction} from './app'
 
 import {doValidations} from 'src/validation/validator.js'
 import {fetchSubEventsForSuper} from './subEvents';
+import getContentLanguages from '../utils/language'
 
 /**
  * Set editor form data
@@ -90,16 +91,15 @@ export function setLanguages(languages) {
 
 /**
  * Replace all editor values
- * @param  {obj} formValues     new form values to replace all existing values
+ * @param  {obj} formData     new form values to replace all existing values
  */
 export function replaceData(formData) {
-    return (dispatch, getState) => {
-        const {contentLanguages} = getState().editor
+    return (dispatch) => {
         let formObject = mapAPIDataToUIFormat(formData)
         const publicationStatus = formObject.publication_status || constants.PUBLICATION_STATUS.PUBLIC
 
         // run the validation before copy to a draft
-        const validationErrors = doValidations(formObject, contentLanguages, publicationStatus)
+        const validationErrors = doValidations(formObject, getContentLanguages(formObject), publicationStatus)
 
         // empty id, event_status, and any field that has validation errors
         keys(validationErrors).map(field => {
