@@ -22,8 +22,9 @@ import {
     sendData as sendDataAction,
     clearData as clearDataAction,
     setValidationErrors as setValidationErrorsAction,
+    setEditorAuthFlashMsg as setEditorAuthFlashMsgAction,
 } from '../../actions/editor'
-import {confirmAction, clearFlashMsg} from '../../actions/app'
+import {confirmAction, clearFlashMsg as clearFlashMsgAction} from '../../actions/app'
 import {fetchSubEvents as fetchSubEventsAction} from '../../actions/subEvents'
 import constants from '../../constants'
 import {checkEventEditability} from '../../utils/checkEventEditability'
@@ -68,6 +69,7 @@ export class EditorPage extends React.Component {
 
     componentDidMount() {
         window.addEventListener('beforeunload', this.handler)
+        this.props.setEditorAuthFlashMsg()
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -88,6 +90,7 @@ export class EditorPage extends React.Component {
     componentWillUnmount() {
         window.removeEventListener('beforeunload', this.handler)
         this.props.setValidationErrors({})
+        this.props.clearFlashMsg()
     }
 
     setDirtyState() {
@@ -339,7 +342,9 @@ const mapDispatchToProps = (dispatch) => ({
     fetchSubEvents: (eventId, user) => dispatch(fetchSubEventsAction(eventId, user)),
     clearData: () => dispatch(clearDataAction()),
     setValidationErrors: (errors) => dispatch(setValidationErrorsAction(errors)),
-    sendData: (updateExisting, publicationStatus) => 
+    setEditorAuthFlashMsg: () => dispatch(setEditorAuthFlashMsgAction()),
+    clearFlashMsg: () => dispatch(clearFlashMsgAction()),
+    sendData: (updateExisting, publicationStatus) =>
         dispatch(sendDataAction(updateExisting, publicationStatus)),
     confirm: (msg, style, actionButtonLabel, data) => dispatch(confirmAction(msg, style, actionButtonLabel, data)),
     deleteEvent: (eventId, user, values) => dispatch(deleteEventAction(eventId, user, values)),
@@ -351,6 +356,8 @@ EditorPage.propTypes = {
     fetchEventForEditing: PropTypes.func,
     fetchSubEvents: PropTypes.func,
     setValidationErrors: PropTypes.func,
+    setEditorAuthFlashMsg: PropTypes.func,
+    clearFlashMsg: PropTypes.func,
     clearData: PropTypes.func,
     user: PropTypes.object,
     editor: PropTypes.object,

@@ -1,6 +1,5 @@
 import fetch from 'isomorphic-fetch'
-import moment from 'moment';
-import {includes, keys, pickBy, set, isNil} from 'lodash';
+import {includes, keys, pickBy, set, isNil, get} from 'lodash';
 
 import constants from '../constants'
 import {
@@ -12,7 +11,7 @@ import {
 import {emptyField} from '../utils/helpers'
 
 import {push} from 'react-router-redux'
-import {setFlashMsg, confirmAction} from './app'
+import {setFlashMsg, clearFlashMsg} from './app'
 
 import {doValidations} from 'src/validation/validator.js'
 import {fetchSubEventsForSuper} from './subEvents';
@@ -670,5 +669,19 @@ export function eventDeleted(values, error) {
         type: constants.EVENT_DELETED,
         values: values,
         error: error,
+    }
+}
+
+export function setEditorAuthFlashMsg () {
+    return (dispatch, getState) => {
+        const {router, user} = getState()
+        const pathName = get(router, ['location', 'pathname'])
+        const isEditorRoute = ['/event/update/', '/event/create/'].some(path => pathName.includes(path))
+
+        if (isEditorRoute) {
+            isNil(user)
+                ? dispatch(setFlashMsg('editor-authorization-required', 'error', {sticky: true}))
+                : dispatch(clearFlashMsg())
+        }
     }
 }
