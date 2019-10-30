@@ -1,17 +1,12 @@
-
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {Route} from 'react-router'
 import PropTypes from 'prop-types'
-
-import {Link, withRouter} from 'react-router-dom'
-import createHistory from 'history/createBrowserHistory' //'history/createHashHistory'
-
+import {withRouter} from 'react-router-dom'
+import createHistory from 'history/createBrowserHistory'
 import {createStore, combineReducers, applyMiddleware, compose} from 'redux'
 import {Provider, connect} from 'react-redux'
-
-import {ConnectedRouter, routerReducer, routerMiddleware, push} from 'react-router-redux'
-
+import {ConnectedRouter, routerReducer, routerMiddleware} from 'react-router-redux'
 import thunk from 'redux-thunk'
 
 import reducers from './reducers'
@@ -35,22 +30,7 @@ import {Modal, Button, Glyphicon} from 'react-bootstrap';
 
 // translation 
 import IntlProviderWrapper from './components/IntlProviderWrapper'
-
-const history = createHistory()
-
-const allReducers = combineReducers(Object.assign({}, reducers, {
-    router: routerReducer,
-}))
-
-const allMiddlewares = compose(
-    applyMiddleware(thunk),
-    applyMiddleware(routerMiddleware(history)),
-    typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f
-)
-
-const store = createStore(allReducers, allMiddlewares)
-
-
+import store, {history} from './store'
 
 // Setup actor for validation. Actor is a viewless component which can listen to store changes
 // and send new actions accordingly. Bind the store as this for function

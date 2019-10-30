@@ -58,7 +58,9 @@
     "event-provider": "Event organizer",
     "event-provider-input": "Event organizer (if different than the publisher)",
     "event-publisher": "Event publisher",
-    
+    "event-publisher-info": "Publisher: {publisher}, {publishedAt}",
+    "event-publisher-info-with-created-by": "Publisher: {publisher} / {createdBy}, {publishedAt}",
+
     "events-management": "Manage events",
     "events-management-prompt": "to manage events.",
     "events-management-description": "Browse and edit drafts and published events of your organization.",
