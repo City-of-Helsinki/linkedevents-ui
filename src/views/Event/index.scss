@@ -23,7 +23,7 @@ $buttonActionMargin: 10px;
     }
 
     pre {
-        margin: 2rem 0rem
+        margin: 2rem 0
     }
 
     .highlighted-block {
@@ -34,6 +34,11 @@ $buttonActionMargin: 10px;
         min-height: 72px;
 
         color: #5a5959;
+    }
+
+    .published-information {
+        text-align: right;
+        margin: 20px 10px;
     }
 }
 

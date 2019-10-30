@@ -84,7 +84,7 @@ export function startFetchingEventDetails() {
 }
 
 export function fetchEventDetails(eventID, user = {}) {
-    let url = `${appSettings.api_base}/event/${eventID}/?include=keywords,location,audience,in_language,external_links,image`
+    let url = `${appSettings.api_base}/event/${eventID}/?include=keywords,location,audience,in_language,external_links`
 
     if(appSettings.nocache) {
         url += `&nocache=${Date.now()}`

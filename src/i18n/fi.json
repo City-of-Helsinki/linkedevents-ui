@@ -59,7 +59,8 @@
     "event-provider": "Tapahtuman järjestäjä",
     "event-provider-input": "Tapahtuman järjestäjä (jos eri kuin julkaisija)",
     "event-publisher": "Tapahtuman julkaisija",
-
+    "event-publisher-info": "Julkaisija: {publisher}, {publishedAt}",
+    "event-publisher-info-with-created-by": "Julkaisija: {publisher} / {createdBy}, {publishedAt}",
     "events-management": "Tapahtumien hallinta",
     "events-management-prompt": "muokataksesi tapahtumia.",
     "events-management-description": "Selaa ja muokkaa oman organisaatiosi julkisia tapahtumia sekä luonnoksia. Voit lisätä uuden tapahtuman yläpalkista.",
