@@ -20,6 +20,7 @@
     "cancel-events": "Peruuta tapahtuma",
     "save": "Tallenna",
     "confirm-action-header": "Varmista toiminto",
+    "confirm-update": "Varmista tapahtuman tallentaminen",
     "confirm-delete": "Varmista tapahtuman poistaminen",
     "confirm-cancel": "Varmista tapahtuman peruminen",
     "delete": "Poista",
@@ -199,6 +200,7 @@
     "hel-target-groups": "Kohderyhmät",
     "hel-main-categories": "Hel.fi-pääkategoriat",
 
+    "editor-update-warning": "Tiedot tallennetaan kaikkiin tapahtumiin tässä sarjassa. Näihin tapahtumiin tehdyt muutokset menetetään. Oletko varma että haluat jatkaa?",
     "editor-delete-subevents-warning": "Poistaessasi tämän tapahtuman myös seuraavat alitapahtumat poistetaan:",
     "editor-delete-warning": "VAROITUS: Tämä toiminto poistaa tapahtuman lopullisesti. Voit tarvittaessa myös perua tapahtuman tai lykätä sitä.",
     "editor-cancel-subevents-warning": "Samalla myös seuraavat alitapahtumat peruutetaan:",
