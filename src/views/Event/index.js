@@ -3,7 +3,6 @@ import {connect} from 'react-redux'
 import EventDetails from 'src/components/EventDetails'
 import moment from 'moment'
 import PropTypes from 'prop-types'
-import get from 'lodash/get'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 import {Button} from 'material-ui'
 import Tooltip from 'material-ui/Tooltip'
@@ -23,6 +22,8 @@ import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
 import {checkEventEditability} from 'src/utils/checkEventEditability.js'
 import client from '../../api/client'
 import constants from 'src/constants'
+import {getConfirmationMarkup} from '../../utils/helpers'
+import {get} from 'lodash'
 
 import './index.scss'
 
@@ -72,6 +73,10 @@ class EventPage extends React.Component {
         }
     }
 
+    get getSubEvents() {
+        return get(this.props, ['subEvents', 'items'], [])
+    }
+
     getActionButtons() {
         let {eventIsEditable, eventEditabilityExplanation} = checkEventEditability(this.props.user, this.props.events.event)
         let buttons = <div className="actions">
@@ -90,9 +95,10 @@ class EventPage extends React.Component {
     }
 
     confirmCancel() {
-        const {user, events, cancelEvent} = this.props
-        const eventId = this.props.match.params.eventId
         // TODO: maybe do a decorator for confirmable actions etc...?
+        const {user, events, cancelEvent} = this.props;
+        const eventId = this.props.match.params.eventId;
+
         this.props.confirm(
             'confirm-cancel',
             'warning',
@@ -100,15 +106,15 @@ class EventPage extends React.Component {
             {
                 action: () => cancelEvent(eventId, user, events.event),
                 additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
-                additionalMarkup: this.getWarningMarkup('cancel'),
+                additionalMarkup: getConfirmationMarkup('cancel', this.props.intl, this.getSubEvents),
             }
         )
     }
 
     confirmDelete() {
         // TODO: maybe do a decorator for confirmable actions etc...?
-        const eventId = this.props.match.params.eventId
-        const {user, deleteEvent, events} = this.props
+        const {user, deleteEvent, events} = this.props;
+        const eventId = this.props.match.params.eventId;
 
         this.props.confirm(
             'confirm-delete',
@@ -117,23 +123,9 @@ class EventPage extends React.Component {
             {
                 action: () => deleteEvent(eventId, user, events.event),
                 additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
-                additionalMarkup: this.getWarningMarkup('delete'),
+                additionalMarkup: getConfirmationMarkup('delete', this.props.intl, this.getSubEvents),
             }
         )
-    }
-
-    // action: either 'delete' or 'cancel'
-    getWarningMarkup(action) {
-        let warningText = this.props.intl.formatMessage({id: `editor-${action}-warning`}) + '<br/>'
-        let subEventWarning = ''
-        if (this.props.subEvents.items && this.props.subEvents.items.length) {
-            const subEventNames = []
-            for (const subEvent of this.props.subEvents.items) {
-                subEventNames.push(`</br><strong>${subEvent.name.fi}</strong> (${moment(subEvent.start_time).format('DD.MM.YYYY')})`)
-            }
-            subEventWarning = `</br>${this.props.intl.formatMessage({id: `editor-${action}-subevents-warning`})}</br>${subEventNames}`
-        }
-        return warningText + subEventWarning
     }
 
     getPublishedText = () => {

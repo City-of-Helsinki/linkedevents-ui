@@ -20,6 +20,7 @@
     "cancel-events": "Cancel event",
     "save": "Save",
     "confirm-action-header": "Confirm",
+    "confirm-update": "Save event",
     "confirm-delete": "Delete event",
     "confirm-cancel": "Cancel event",
     "delete": "Delete",
@@ -200,6 +201,7 @@
     "hel-target-groups": "Target groups",
     "hel-main-categories": "Hel.fi main categories",
 
+    "editor-update-warning": "The changes will effect all the events in the series. Any previous changes to the selected events will be lost. Are you sure you want to continue?",
     "editor-delete-subevents-warning": "The following subevents will be deleted:",
     "editor-delete-warning": "WARNING: This action will delete the event permanently. You may cancel or postpone the event if needed.",
     "editor-cancel-subevents-warning": "The following subevents will also be cancelled:",
