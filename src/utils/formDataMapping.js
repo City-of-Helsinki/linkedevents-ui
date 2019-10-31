@@ -1,10 +1,8 @@
-import {find, clone, map, lastIndexOf, forOwn, every, includes, isEmpty, cloneDeep, remove, values, pickBy} from 'lodash'
+import {find, clone, map, lastIndexOf, forOwn, every, includes, isEmpty, cloneDeep, remove, values, set} from 'lodash'
 import constants from 'src/constants.js'
 import moment from 'moment'
 import 'moment-timezone'
-
 import {getStringWithLocale} from './locale'
-import {mapLanguagesSetToForm} from './apiDataMapping'
 
 export {
     mapUIDataToAPIFormat,
@@ -329,4 +327,19 @@ export const combineSubEventsFromEditor = (formValues, updateExisting = false) =
         sub_events: subEvents,
         id: undefined,
     })
+}
+
+export const createSubEventsFromFormValues = (formValues, updateExisting, superEventUrl) => {
+    const formWithAllSubEvents = combineSubEventsFromEditor(formValues, updateExisting)
+    const baseEvent = {...formWithAllSubEvents, sub_events: {}, super_event: {'@id': superEventUrl}}
+    const subEvents = {...formWithAllSubEvents.sub_events}
+    return Object.keys(subEvents)
+        .map(key => ({...baseEvent, start_time: subEvents[key].start_time, end_time: subEvents[key].end_time}))
+}
+
+export const updateSubEventsFromFormValues = (formValues, subEventsToUpdate) => {
+    const keysToUpdate = ['start_time', 'end_time', 'id', 'super_event', 'super_event_type']
+    // update form data with sub event data where applicable
+    return subEventsToUpdate.map(subEvent =>
+        keysToUpdate.reduce((acc, key) => set(acc, key, subEvent[key]), {...formValues}))
 }
