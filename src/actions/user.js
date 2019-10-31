@@ -2,6 +2,7 @@ import constants from '../constants.js'
 import fetch from 'isomorphic-fetch'
 import {get} from 'lodash'
 import {resetUserEventsFetching} from './userEvents'
+import {setEditorAuthFlashMsg} from './editor'
 
 // Handled by the user reducer
 export function receiveUserData(data) {
@@ -50,7 +51,8 @@ export function retrieveUserFromSession() {
                     })
 
                     saveUserToLocalStorage(mergedUser)
-                    return dispatch(receiveUserData(mergedUser))
+                    dispatch(receiveUserData(mergedUser))
+                    dispatch(setEditorAuthFlashMsg())
                 })
             } else {
                 // dispatch(login())
@@ -89,5 +91,6 @@ export function logout() {
         localStorage.removeItem('user')
         dispatch(clearUserData())
         dispatch(resetUserEventsFetching())
+        dispatch(setEditorAuthFlashMsg())
     };
 }
