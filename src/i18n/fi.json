@@ -206,6 +206,7 @@
     "editor-cancel-subevents-warning": "Samalla myös seuraavat alitapahtumat peruutetaan:",
     "editor-cancel-warning": "VAROITUS: Tämä toiminto peruuttaa tapahtuman. Voit myös poistaa sellaisen tapahtuman, jonka syötit vahingossa.",
     "editor-sentinel-alert": "Voit katsella lomaketta, mutta sinulla ei ole oikeuksia julkaista tai muokata tapahtumia. Et ole kirjautunut sisään tai kirjautumisesi on vanhentunut.",
+    "editor-authorization-required": "Jos haluat julkaista tapahtuman, kirjaudu ensin sisään.",
 
     "editor-tip-time-start": "Kirjoita tapahtuman alkamispäivä ja myös alkamisaika, jos tapahtuma alkaa tiettyyn kellonaikaan.",
     "editor-tip-time-end": "Kirjoita myös päättymispäivä sekä päättymisaika, jos tapahtuma päättyy tiettyyn kellonaikaan.",

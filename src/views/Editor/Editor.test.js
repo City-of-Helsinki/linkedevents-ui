@@ -40,6 +40,7 @@ describe('Editor Snapshot', () => {
                     eventId: 'new?_k=dn954b',
                 },
             },
+            setEditorAuthFlashMsg: jest.fn(),
             ...initialStoreNewEvent,
         } // Props which are added to component
         const wrapper = shallow(<EditorPage {...componentProps} />)
@@ -54,6 +55,7 @@ describe('Editor Snapshot', () => {
                     eventId: 'helsinki:afqxukccli',
                 },
             },
+            setEditorAuthFlashMsg: jest.fn(),
             fetchEventForEditing: jest.fn(),
             fetchSubEvents: jest.fn(),
             ...initialStoreExistingEvent,
@@ -70,6 +72,7 @@ describe('Editor Snapshot', () => {
                     eventId: 'new?_k=dn954b',
                 },
             },
+            setEditorAuthFlashMsg: jest.fn(),
             ...initialStoreExistingEvent,
         } // Props which are added to component
         const wrapper = shallow(<EditorPage {...componentProps} />)
