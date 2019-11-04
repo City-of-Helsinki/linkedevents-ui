@@ -2,7 +2,7 @@ import {map, filter, keys} from 'lodash'
 import API from 'src/api'
 
 // TODO: configure somewhere properly.
-const SKIP_FIELDS = new Set(['location', 'keywords', 'audience', 'languages']);
+const SKIP_FIELDS = new Set(['location', 'keywords', 'audience', 'languages', 'in_language']);
 
 // Enumerate all the property names
 // of an object recursively.
