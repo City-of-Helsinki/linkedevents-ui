@@ -10,12 +10,12 @@ import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles'
 import EventRow from './EventRow'
 
 const EventTable = (props) => {
-    let rows = props.events.map(event => (
+    const rows = props.events.map(event => (
         <EventRow event={event} key={event['@id']} />
     ))
-    let rowsPerPage = 100
-    let rowsCount = props.count
-    let paginationPage = props.paginationPage
+    const rowsPerPage = 100
+    const rowsCount = props.count
+    const paginationPage = props.paginationPage
     
     const paginationTheme = createMuiTheme({
         overrides: {
@@ -35,21 +35,51 @@ const EventTable = (props) => {
         },
     })
 
+    const isActive = name => {
+        return props.sortBy === name
+    }
+    const changeSortOrder = name => {
+        props.changeSortOrder(name, props.sortBy, props.sortOrder, props.paginationPage, props.user)
+    }
+
     return (
         <Table className="event-table">
             <TableHead>
                 <TableRow>
                     <TableCell key="otsikko">
-                        <TableSortLabel active={props.sortBy === 'name'} direction={props.sortBy === 'name' && props.sortOrder} onClick={() => props.changeSortOrder('name', props.sortBy, props.sortOrder, props.paginationPage, props.user)}><FormattedMessage id="event-sort-title"/></TableSortLabel>
+                        <TableSortLabel
+                            active={isActive('name')}
+                            direction={props.sortOrder}
+                            onClick={() => changeSortOrder('name')}
+                        >
+                            <FormattedMessage id="event-sort-title"/>
+                        </TableSortLabel>
                     </TableCell>
                     <TableCell key="alkaa">
-                        <TableSortLabel active={props.sortBy === 'start_time'} direction={props.sortBy === 'start_time' && props.sortOrder} onClick={() => props.changeSortOrder('start_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}><FormattedMessage id="event-sort-starttime"/></TableSortLabel>
+                        <TableSortLabel
+                            active={isActive('start_time')}
+                            direction={props.sortOrder}
+                            onClick={() => changeSortOrder('start_time')}
+                        >
+                            <FormattedMessage id="event-sort-starttime"/>
+                        </TableSortLabel>
                     </TableCell>
                     <TableCell key="päättyy">
-                        <TableSortLabel active={props.sortBy === 'end_time'} direction={props.sortBy === 'end_time' && props.sortOrder} onClick={() => props.changeSortOrder('end_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}><FormattedMessage id="event-sort-endtime"/></TableSortLabel>
+                        <TableSortLabel
+                            active={isActive('end_time')}
+                            direction={props.sortOrder}
+                            onClick={() => changeSortOrder('end_time')}
+                        >
+                            <FormattedMessage id="event-sort-endtime"/>
+                        </TableSortLabel>
                     </TableCell>
                     <TableCell key="muokattu">
-                        <TableSortLabel active={props.sortBy === 'last_modified_time'} direction={props.sortBy === 'last_modified_time' && props.sortOrder} onClick={() => props.changeSortOrder('last_modified_time', props.sortBy, props.sortOrder, props.paginationPage, props.user)}><FormattedMessage id="event-sort-last-modified"/></TableSortLabel>
+                        <TableSortLabel
+                            active={isActive('last_modified_time')}
+                            direction={props.sortOrder}
+                            onClick={() => changeSortOrder('last_modified_time')}
+                        >
+                            <FormattedMessage id="event-sort-last-modified"/></TableSortLabel>
                     </TableCell>
                 </TableRow>
             </TableHead>
