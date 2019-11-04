@@ -1,6 +1,5 @@
 import fetch from 'isomorphic-fetch'
-import moment from 'moment';
-import {includes, keys, pickBy} from 'lodash';
+import {includes, keys, pickBy, isUndefined, isNil, get} from 'lodash';
 
 import constants from '../constants'
 import {
@@ -8,14 +7,17 @@ import {
     mapUIDataToAPIFormat,
     calculateSuperEventTime,
     combineSubEventsFromEditor,
+    createSubEventsFromFormValues,
+    updateSubEventsFromFormValues,
 } from '../utils/formDataMapping'
-import {emptyField} from '../utils/helpers'
+import {emptyField, nullifyMultiLanguageValues} from '../utils/helpers'
 
 import {push} from 'react-router-redux'
-import {setFlashMsg, confirmAction} from './app'
+import {setFlashMsg, clearFlashMsg} from './app'
 
 import {doValidations} from 'src/validation/validator.js'
 import {fetchSubEventsForSuper} from './subEvents';
+import getContentLanguages from '../utils/language'
 
 /**
  * Set editor form data
@@ -90,16 +92,15 @@ export function setLanguages(languages) {
 
 /**
  * Replace all editor values
- * @param  {obj} formValues     new form values to replace all existing values
+ * @param  {obj} formData     new form values to replace all existing values
  */
 export function replaceData(formData) {
-    return (dispatch, getState) => {
-        const {contentLanguages} = getState().editor
+    return (dispatch) => {
         let formObject = mapAPIDataToUIFormat(formData)
         const publicationStatus = formObject.publication_status || constants.PUBLICATION_STATUS.PUBLIC
 
         // run the validation before copy to a draft
-        const validationErrors = doValidations(formObject, contentLanguages, publicationStatus)
+        const validationErrors = doValidations(formObject, getContentLanguages(formObject), publicationStatus)
 
         // empty id, event_status, and any field that has validation errors
         keys(validationErrors).map(field => {
@@ -163,8 +164,6 @@ export function validateFor(publicationStatus) {
  * @return {[type]}                         [description]
  */
 
-const multiLanguageFields = ['name', 'description', 'short_description', 'provider', 'location_extra_info']
-
 const prepareFormValues = (formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch) => {
     // exclude all existing sub events from editing form
     if (updateExisting) {
@@ -175,36 +174,25 @@ const prepareFormValues = (formValues, contentLanguages, user, updateExisting, p
     if(formValues.sub_events) {
         recurring = keys(formValues.sub_events).length > 0
     }
+
+    // nullify language fields that are not included in contentLanguages as they should not be posted
+    // merge the "cleaned" multi-language value fields with the form values
+    const cleanedFormValues = {...formValues, ...nullifyMultiLanguageValues(formValues, contentLanguages)}
+
     // Run validations
-    let validationErrors = doValidations(formValues, contentLanguages, publicationStatus)
+    const validationErrors = doValidations(cleanedFormValues, contentLanguages, publicationStatus)
 
     // There are validation errors, don't continue sending
     if (keys(validationErrors).length > 0) {
         return dispatch(setValidationErrors(validationErrors))
     }
 
-    const multiLanguageValues = {}
-    // Language fields not included in contentLanguages should not be posted, they aren't validated anyway
-    for (var field of multiLanguageFields) {
-        for (const lang in formValues[field]) {
-            if (!(field in multiLanguageValues)) {
-                multiLanguageValues[field] = {}
-            }
-            if (contentLanguages.includes(lang)) {
-                multiLanguageValues[field][lang] = formValues[field][lang]
-            } else {
-                // Null is needed here to overwrite any existing strings in the backend
-                multiLanguageValues[field][lang] = null
-            }
-        }
-    }
-
     // Format descriptions to HTML
-    const descriptionTexts = formValues.description
-    for (const lang in formValues.description) {
-        if (formValues.description[lang]) {
-            const desc = formValues.description[lang].replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br/>').replace(/&/g, '&amp;')
-            if (desc.indexOf('<p>') === 0 && desc.substr(desc.length - 4) === '</p>') {
+    const descriptionTexts = cleanedFormValues.description
+    for (const lang in descriptionTexts) {
+        if (descriptionTexts[lang]) {
+            const desc = descriptionTexts[lang].replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br/>').replace(/&/g, '&amp;')
+            if (desc.indexOf('<p>') === 0 && desc.substring(desc.length - 4) === '</p>') {
                 descriptionTexts[lang] = desc
             } else {
                 descriptionTexts[lang] = `<p>${desc}</p>`
@@ -223,8 +211,8 @@ const prepareFormValues = (formValues, contentLanguages, user, updateExisting, p
         }
     }
 
-    let data = Object.assign({}, formValues, multiLanguageValues, {publication_status: publicationStatus, description: descriptionTexts})
-    
+    let data = {...cleanedFormValues, publication_status: publicationStatus, description: descriptionTexts}
+
     // specific processing for event with multiple dates
     if (recurring) {
         data = combineSubEventsFromEditor(data, updateExisting)
@@ -239,7 +227,7 @@ const prepareFormValues = (formValues, contentLanguages, user, updateExisting, p
     return mapUIDataToAPIFormat(data)
 }
 
-const executeSendRequest = (formValues, contentLanguages, user, updateExisting, publicationStatus) => {
+const executeSendRequest = (formValues, contentLanguages, user, updateExisting, publicationStatus, updatingSubEvents = false) => {
     return (dispatch, getState) => {
         // check publication to decide whether allow the request to happen
         publicationStatus = publicationStatus || formValues.publication_status
@@ -248,38 +236,34 @@ const executeSendRequest = (formValues, contentLanguages, user, updateExisting, 
         }
         // prepare the body of the request (event object/array)
         let preparedFormValues
-        if(!Array.isArray(formValues)) {
-            preparedFormValues = {}
-            const newValues = prepareFormValues(formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch)
-            if(newValues !== undefined) {
-                preparedFormValues = newValues
-            } else {
+        if (!Array.isArray(formValues)) {
+            preparedFormValues = prepareFormValues(formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch)
+
+            if (!preparedFormValues || !keys(preparedFormValues).length > 0) {
                 return
             }
-        } else if(Array.isArray(formValues) && formValues.length > 0) {
-            preparedFormValues = []
-            formValues.map(formObject => {
-                const newValues = prepareFormValues(formObject, contentLanguages, user, updateExisting, publicationStatus, dispatch)
-                if(newValues !== undefined) {
-                    preparedFormValues.push(newValues)
-                } else {
-                    return
-                }
-            })
+        } else if (Array.isArray(formValues) && formValues.length > 0) {
+            preparedFormValues = formValues
+                .map(formObject => prepareFormValues(formObject, contentLanguages, user, updateExisting, publicationStatus, dispatch))
+                .filter(preparedFormObject => !isUndefined(preparedFormObject))
+
+            if (!preparedFormValues.length > 0) {
+                return
+            }
         }
 
-        // prepare other needed information for request matedata
+        // prepare other needed information for request metadata
         let url = `${appSettings.api_base}/event/`
-        if(updateExisting) {
+        if (updateExisting && !updatingSubEvents) {
             const updateId = formValues.id || formValues[0].id
             url += `${updateId}/`
         }
 
         let token = ''
-        if(user) {
+        if (user) {
             token = user.token
         }
-        
+
         dispatch(validateFor(publicationStatus))
 
         return fetch(url, {
@@ -308,24 +292,24 @@ const executeSendRequest = (formValues, contentLanguages, user, updateExisting, 
                 }
 
                 if(response.status === 200 || response.status === 201) {
-                    // create sub events after creaing super event successfully
+                    // create or update sub events after creating/updating super event successfully
                     if (json.super_event_type === 'recurring') {
-                        const formWithAllSubEvents = combineSubEventsFromEditor(formValues, updateExisting)
-                        dispatch(
-                            sendRecurringData(formWithAllSubEvents, contentLanguages, user, updateExisting, publicationStatus, json['@id'])
-                        )
-                        dispatch(sendDataComplete(json, actionName))
+                        dispatch(sendRecurringData(formValues, contentLanguages, user, updateExisting, publicationStatus, json['@id']))
                     } else {
-                        dispatch(sendDataComplete(json, actionName))
                         // re-fetch sub events for a series if done editing non-super events
                         if (updateExisting) {
                             const allSuperEventIds = Object.keys(getState().subEvents.bySuperEventId);
                             const editedEventSuperId = json.super_event
                                 && allSuperEventIds.find(id => json.super_event['@id'].includes(id));
-                            dispatch(fetchSubEventsForSuper(editedEventSuperId));
+
+                            if (editedEventSuperId) {
+                                dispatch(fetchSubEventsForSuper(editedEventSuperId));
+                            }
                         }
                     }
+                    dispatch(sendDataComplete(json, actionName))
                 }
+
                 // Validation errors
                 else if(response.status === 400) {
                     json.apiErrorMsg = 'validation-error'
@@ -386,21 +370,16 @@ export function sendDataComplete(json, action) {
     }
 }
 
-export function sendRecurringData(formValues, contentLanguages, user, updateExisting = false, publicationStatus, superEventId) {
-    return (dispatch) => {
-        const subEvents = Object.assign({}, formValues.sub_events)
-        const baseEvent = Object.assign({}, formValues, {
-            sub_events: {},
-            super_event: {'@id': superEventId},
-        })
-        const newValues = []
-        for (const key in subEvents) {
-            if (subEvents.hasOwnProperty(key)) {
-                newValues.push(Object.assign({}, baseEvent, {start_time: subEvents[key].start_time, end_time: subEvents[key].end_time}))
-            }
-        }
-        if(newValues.length > 0) {
-            dispatch(executeSendRequest(newValues, contentLanguages, user, updateExisting = false, publicationStatus))
+export function sendRecurringData(formValues, contentLanguages, user, updateExisting, publicationStatus, superEventUrl) {
+    return (dispatch, getState) => {
+        // this tells the executeSendRequest method whether we're updating sub events
+        const updatingSubEvents = updateExisting
+        let subEventsToSend = updateExisting
+            ? updateSubEventsFromFormValues(formValues, getState().subEvents.items)
+            : createSubEventsFromFormValues(formValues, updateExisting, superEventUrl)
+
+        if(subEventsToSend.length > 0) {
+            dispatch(executeSendRequest(subEventsToSend, contentLanguages, user, updateExisting, publicationStatus, updatingSubEvents))
         }
     }
 }
@@ -538,7 +517,6 @@ export function cancelEvent(eventId, user, values) {
             },
             body: JSON.stringify(data),
         }).then(response => {
-            //console.log('Received', response)
             let jsonPromise = response.json()
 
             jsonPromise.then(json => {
@@ -655,5 +633,19 @@ export function eventDeleted(values, error) {
         type: constants.EVENT_DELETED,
         values: values,
         error: error,
+    }
+}
+
+export function setEditorAuthFlashMsg () {
+    return (dispatch, getState) => {
+        const {router, user} = getState()
+        const pathName = get(router, ['location', 'pathname'])
+        const isEditorRoute = ['/event/update/', '/event/create/'].some(path => pathName.includes(path))
+
+        if (isEditorRoute) {
+            isNil(user)
+                ? dispatch(setFlashMsg('editor-authorization-required', 'error', {sticky: true}))
+                : dispatch(clearFlashMsg())
+        }
     }
 }

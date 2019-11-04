@@ -20,6 +20,7 @@
     "cancel-events": "Peruuta tapahtuma",
     "save": "Tallenna",
     "confirm-action-header": "Varmista toiminto",
+    "confirm-update": "Varmista tapahtuman tallentaminen",
     "confirm-delete": "Varmista tapahtuman poistaminen",
     "confirm-cancel": "Varmista tapahtuman peruminen",
     "delete": "Poista",
@@ -58,7 +59,8 @@
     "event-provider": "Tapahtuman järjestäjä",
     "event-provider-input": "Tapahtuman järjestäjä (jos eri kuin julkaisija)",
     "event-publisher": "Tapahtuman julkaisija",
-
+    "event-publisher-info": "Julkaisija: {publisher}, {publishedAt}",
+    "event-publisher-info-with-created-by": "Julkaisija: {publisher} / {createdBy}, {publishedAt}",
     "events-management": "Tapahtumien hallinta",
     "events-management-prompt": "muokataksesi tapahtumia.",
     "events-management-description": "Selaa ja muokkaa oman organisaatiosi julkisia tapahtumia sekä luonnoksia. Voit lisätä uuden tapahtuman yläpalkista.",
@@ -198,12 +200,14 @@
     "hel-target-groups": "Kohderyhmät",
     "hel-main-categories": "Hel.fi-pääkategoriat",
 
+    "editor-update-warning": "Tiedot tallennetaan kaikkiin tapahtumiin tässä sarjassa. Näihin tapahtumiin tehdyt muutokset menetetään. Oletko varma että haluat jatkaa?",
     "editor-delete-subevents-warning": "Poistaessasi tämän tapahtuman myös seuraavat alitapahtumat poistetaan:",
     "editor-delete-warning": "VAROITUS: Tämä toiminto poistaa tapahtuman lopullisesti. Voit tarvittaessa myös perua tapahtuman tai lykätä sitä.",
     "editor-cancel-subevents-warning": "Samalla myös seuraavat alitapahtumat peruutetaan:",
     "editor-cancel-warning": "VAROITUS: Tämä toiminto peruuttaa tapahtuman. Voit myös poistaa sellaisen tapahtuman, jonka syötit vahingossa.",
     "editor-sentinel-alert": "Voit katsella lomaketta, mutta sinulla ei ole oikeuksia julkaista tai muokata tapahtumia. Et ole kirjautunut sisään tai kirjautumisesi on vanhentunut.",
-    
+    "editor-authorization-required": "Jos haluat julkaista tapahtuman, kirjaudu ensin sisään.",
+
     "editor-tip-time-start": "Kirjoita tapahtuman alkamispäivä ja myös alkamisaika, jos tapahtuma alkaa tiettyyn kellonaikaan.",
     "editor-tip-time-end": "Kirjoita myös päättymispäivä sekä päättymisaika, jos tapahtuma päättyy tiettyyn kellonaikaan.",
     "editor-tip-time-multi": "Jos tapahtuma järjestetään useamman kerran, voit lisätä tapahtumalle uusia ajankohtia. Jos tapahtuma toistuu säännöllisesti, voit lisätä kaikki ajankohdat kerralla valitsemalla Toistuva tapahtuma.",

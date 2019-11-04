@@ -1,4 +1,8 @@
 const constants = {
+    API_HEADERS: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+    },
 
     APP_SET_FLASHMSG: 'APP_SET_FLASHMSG',
     APP_CLEAR_FLASHMSG: 'APP_CLEAR_FLASHMSG',

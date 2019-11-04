@@ -20,6 +20,7 @@
     "cancel-events": "Cancel event",
     "save": "Save",
     "confirm-action-header": "Confirm",
+    "confirm-update": "Save event",
     "confirm-delete": "Delete event",
     "confirm-cancel": "Cancel event",
     "delete": "Delete",
@@ -58,7 +59,9 @@
     "event-provider": "Event organizer",
     "event-provider-input": "Event organizer (if different than the publisher)",
     "event-publisher": "Event publisher",
-    
+    "event-publisher-info": "Publisher: {publisher}, {publishedAt}",
+    "event-publisher-info-with-created-by": "Publisher: {publisher} / {createdBy}, {publishedAt}",
+
     "events-management": "Manage events",
     "events-management-prompt": "to manage events.",
     "events-management-description": "Browse and edit drafts and published events of your organization.",
@@ -198,11 +201,13 @@
     "hel-target-groups": "Target groups",
     "hel-main-categories": "Hel.fi main categories",
 
+    "editor-update-warning": "The changes will effect all the events in the series. Any previous changes to the selected events will be lost. Are you sure you want to continue?",
     "editor-delete-subevents-warning": "The following subevents will be deleted:",
     "editor-delete-warning": "WARNING: This action will delete the event permanently. You may cancel or postpone the event if needed.",
     "editor-cancel-subevents-warning": "The following subevents will also be cancelled:",
     "editor-cancel-warning": "WARNING: This action will cancel the event. You can also delete an event, if it was erroneously entered.",
     "editor-sentinel-alert": "You can view the form, but you don't have the permission to publish or edit events. You are not logged in or your login has expired.",
+    "editor-authorization-required": "You must be logged in to edit events.",
 
     "editor-tip-time-start": "Enter the start date of the event and also the start time if the event starts at a specific time.",
     "editor-tip-time-end": "Also enter the end date and end time if the event ends at a specific time.",
