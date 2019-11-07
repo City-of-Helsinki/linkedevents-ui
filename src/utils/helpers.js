@@ -121,10 +121,14 @@ export const getConfirmationMarkup = (action, intl, subEvents = [])  => {
 
 /**
  * Returns the event id from given URL
- * @param url           URL to get the event ID from
- * @returns {string}    Event ID
+ * @param url                     URL to get the event ID from
+ * @returns {string|undefined}    Event ID
  */
-export const getEventIdFromUrl = url  => url.substring(url.indexOf('/event/') + '/event/'.length, url.lastIndexOf('/'))
+export const getEventIdFromUrl = url  => {
+    return typeof url === 'string'
+        ? url.substring(url.indexOf('/event/') + '/event/'.length, url.lastIndexOf('/'))
+        : undefined
+}
 
 /**
  * Scrolls to the top of the page

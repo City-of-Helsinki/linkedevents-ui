@@ -73,6 +73,14 @@ $actionBtnHeight: 64px;
         &.padded {
             padding-top: 66px;
         }
+
+        &-umbrella {
+            padding-top: 0;
+
+            .tip {
+                margin-top: 0;
+            }
+        }
     }
 
     legend,

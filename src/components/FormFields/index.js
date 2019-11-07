@@ -2,10 +2,8 @@ import './index.scss'
 
 import PropTypes from 'prop-types';
 import React from 'react'
-
-import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
+import {FormattedMessage} from 'react-intl'
 import CopyToClipboard from 'react-copy-to-clipboard'
-
 import ImagePickerForm from '../ImagePicker'
 import {
     HelAutoComplete,
@@ -16,31 +14,21 @@ import {
     HelDateTimeField,
     HelSelect,
     HelOffersField,
-    HelDatePicker,
     NewEvent,
 } from 'src/components/HelFormFields'
 import RecurringEvent from 'src/components/RecurringEvent'
-import Select from 'react-select';
-import {FormControl} from 'react-bootstrap';
-
 import {Button} from 'material-ui'
 // Material-ui Icons
 import Add from 'material-ui-icons/Add'
 import Autorenew from 'material-ui-icons/Autorenew'
-
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from '../../utils/apiDataMapping'
-import {connect} from 'react-redux'
-
 import {setEventData, setData} from '../../actions/editor'
-
-import moment from 'moment'
 import {pickBy} from 'lodash'
-
 import API from '../../api'
-
 import CONSTANTS from '../../constants'
 import {fetchUserAdminOrganization} from '../../actions/organization';
 import OrganizationSelector from '../HelFormFields/OrganizationSelector';
+import UmbrellaSelector from '../HelFormFields/UmbrellaSelector/UmbrellaSelector'
 
 let FormHeader = (props) => (
     <div className="row">
@@ -52,13 +40,14 @@ FormHeader.propTypes = {
     children: PropTypes.element,
 }
 
-let SideField = (props) => (
-    <div className="side-field col-sm-5 col-sm-push-1">
+export const SideField = (props) => (
+    <div className={`side-field col-sm-5 col-sm-push-1 ${ props.className }`}>
         { props.children }
     </div>
 )
 
 SideField.propTypes = {
+    className: PropTypes.string,
     children: PropTypes.oneOfType([
         PropTypes.array,
         PropTypes.object,
@@ -67,19 +56,9 @@ SideField.propTypes = {
 
 class FormFields extends React.Component {
 
-    static contextTypes = {
-        intl: PropTypes.object,
-        dispatch: PropTypes.func,
-        showNewEvents: PropTypes.bool,
-        showRecurringEvent: PropTypes.bool,
-    };
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            showNewEvents: true,
-            showRecurringEvent: false,
-        };
+    state = {
+        showNewEvents: true,
+        showRecurringEvent: false,
     }
 
     componentDidMount () {
@@ -173,7 +152,7 @@ class FormFields extends React.Component {
         }
         const {values, validationErrors, contentLanguages} = this.props.editor
         const formType = this.props.action
-        const isSuperEvent = values.super_event_type === 'recurring'
+        const isSuperEvent = values.super_event_type === CONSTANTS.SUPER_EVENT_TYPE_RECURRING
 
         const {VALIDATION_RULES, DEFAULT_CHARACTER_LIMIT} = CONSTANTS
         const addedEvents = pickBy(values.sub_events, event => !event['@id'])
@@ -577,16 +556,32 @@ class FormFields extends React.Component {
                         </div>
                     </div>
                 }
+
+                <FormHeader>
+                    <FormattedMessage id="event-umbrella" />
+                </FormHeader>
+                <UmbrellaSelector editor={this.props.editor} />
             </div>
         )
     }
 }
 
 FormFields.propTypes = {
+    intl: PropTypes.object,
+    dispatch: PropTypes.func,
+    showNewEvents: PropTypes.bool,
+    showRecurringEvent: PropTypes.bool,
     editor: PropTypes.object,
     setDirtyState: PropTypes.func,
     action: PropTypes.oneOf(['update', 'create']),
     organizations: PropTypes.arrayOf(PropTypes.object),
 }
+
+FormFields.contextTypes = {
+    intl: PropTypes.object,
+    dispatch: PropTypes.func,
+    showNewEvents: PropTypes.bool,
+    showRecurringEvent: PropTypes.bool,
+};
 
 export default FormFields
