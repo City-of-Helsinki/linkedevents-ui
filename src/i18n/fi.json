@@ -6,6 +6,7 @@
     "edit-events": "Muokkaa tapahtumaa",
     "copy-event-to-draft": "Kopioi uuden tapahtuman pohjaksi",
     "search-events": "Etsi tapahtumia",
+    "no-events": "Ei tapahtumia mitä näyttää.",
     "search-events-description": "Katsele kaikkia Linked Eventsin tapahtumia.",
     "pick-time-range": "Etsi vain ajalta",
     "event-name-or-place": "Tapahtuman nimi tai paikka",
@@ -28,6 +29,7 @@
     "draft": "Luonnos",
     "cancelled": "Peruutettu",
     "series": "Sarja",
+    "umbrella": "Kattotapahtuma",
 
     "event-sort-title": "Otsikko",
     "event-sort-starttime": "Tapahtuma alkaa",
@@ -120,6 +122,13 @@
 
     "event-categorization": "Tapahtuman luokittelu",
     "event-keywords": "Tapahtuman asiasanat",
+
+    "event-umbrella": "Kattotapahtumat",
+    "event-is-umbrella": "Tämä tapahtuma on kattotapahtuma.",
+    "event-has-umbrella": "Tällä tapahtumalla on kattotapahtuma.",
+    "event-is-umbrella-tooltip": "Alatapahtuma ei voi olla kattotapahtuma.",
+    "event-has-umbrella-tooltip": "Kattotapahtumalla ei voi olla kattotapahtumaa.",
+    "event-has-umbrella-select-tip": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
 
     "hel-event-languages": "Tapahtuman kielet",
 
@@ -222,6 +231,8 @@
     "editor-tip-hel-main-category": "Valitse vähintään yksi pääkategoria.",
     "editor-tip-hel-target-group": "Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään.",
     "editor-tip-event-languages": "Kielet, joita tapahtumassa käytetään.",
+    "editor-tip-umbrella-sub-event": "Jos haluat lisätä tämän tapahtuman osaksi kattotapahtumaa, tee se ",
+    "editor-tip-umbrella-sub-event-link": "sarjan ylätapahtumasta",
 
     "image-caption-limit": "Kuvaus eli kuvan alt-teksti (korkeintaan {limit} merkkiä)",
     
