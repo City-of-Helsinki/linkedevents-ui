@@ -204,15 +204,15 @@ class UmbrellaSelector extends React.Component {
             return isCreateView
                 ? hasUmbrellaEvent || Object.keys(values.sub_events).length > 0
                 : (hasUmbrellaEvent
-                    || (editedEventIsAnUmbrellaEvent && editedEventHasSubEvents && !isNil(values.super_event))
+                    || (editedEventIsAnUmbrellaEvent && editedEventHasSubEvents && !isNull(values.super_event))
                     || editedEventIsARecurringEvent
-                    || (editedEventIsSubEvent && !isNil(values.super_event)))
+                    || (editedEventIsSubEvent && !isNull(values.super_event)))
         }
         if (name === 'has_umbrella') {
             return isCreateView
                 ? isUmbrellaEvent
                 : (isUmbrellaEvent
-                    || (editedEventIsAnUmbrellaEvent && !isNil(values.super_event_type))
+                    || (editedEventIsAnUmbrellaEvent && !isNull(values.super_event_type))
                     || superEventSuperEventType === constants.SUPER_EVENT_TYPE_RECURRING)
         }
     }
