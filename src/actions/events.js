@@ -1,8 +1,7 @@
 import constants from '../constants'
 import fetch from 'isomorphic-fetch'
 import authedFetch from '../utils/authedFetch'
-
-import {setFlashMsg} from './app'
+import client from '../api/client'
 
 function makeRequest(query, startDate, endDate) {
     var url = `${appSettings.api_base}/event/?text=${encodeURI(query)}&page_size=100&sort=start_time`;
@@ -63,12 +62,10 @@ export function fetchEvents(query, startDate, endDate) {
     }
 }
 
-export function receiveEventDetails(json) {
-    return {
-        type: constants.RECEIVE_EVENT_DETAILS,
-        event: json,
-    }
-}
+export const receiveEventDetails = json => ({
+    type: constants.RECEIVE_EVENT_DETAILS,
+    event: json,
+})
 
 export function receiveEventDetailsError(error) {
     return {
@@ -77,11 +74,33 @@ export function receiveEventDetailsError(error) {
     }
 }
 
+export const clearEventDetails = () => ({
+    type: constants.CLEAR_EVENT_DETAILS,
+})
+
 export function startFetchingEventDetails() {
     return {
         type: constants.REQUEST_EVENT,
     }
 }
+
+export const fetchSuperEventDetails = superEventId => {
+    return async (dispatch) => {
+        try {
+            const response = await client.get(`event/${superEventId}`)
+            dispatch(receiveSuperEvent(response.data))
+        } catch (error) {
+            new Error(error)
+        }
+    }
+}
+
+export const clearSuperEventDetails = () => ({type: constants.CLEAR_SUPER_EVENT_DETAILS})
+
+export const receiveSuperEvent = json => ({
+    type: constants.RECEIVE_SUPER_EVENT,
+    superEvent: json,
+})
 
 export function fetchEventDetails(eventID, user = {}) {
     let url = `${appSettings.api_base}/event/${eventID}/?include=keywords,location,audience,in_language,external_links`
