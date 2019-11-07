@@ -60,6 +60,7 @@ export class EditorPage extends React.Component {
 
         this.setDirtyState = this.setDirtyState.bind(this)
         this.clearForm = this.clearForm.bind(this)
+        this.form = React.createRef()
     }
 
     UNSAFE_componentWillMount() {
@@ -210,6 +211,10 @@ export class EditorPage extends React.Component {
 
     clearForm() {
         this.props.clearData()
+        
+        // Reset the state of the HelDateTimeFields components
+        this.form.current.refs.start_time.resetFields();
+        this.form.current.refs.end_time.resetFields();
     }
 
     goToPreview(event) {
@@ -316,7 +321,7 @@ export class EditorPage extends React.Component {
 
                 <div className="container">
                     <FormFields
-                        ref="form"
+                        ref={this.form}
                         action={this.props.match.params.action}
                         editor={this.props.editor}
                         organizations={this.props.organizations}

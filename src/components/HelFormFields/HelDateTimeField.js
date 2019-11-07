@@ -14,8 +14,6 @@ import ValidationPopover from 'src/components/ValidationPopover'
 
 import CONSTANTS from '../../constants'
 
-import store from '../../store'
-
 class HelDateTimeField extends React.Component {
     constructor(props) {
         super(props)
@@ -142,13 +140,6 @@ class HelDateTimeField extends React.Component {
 
     UNSAFE_componentWillReceiveProps(nextProps) {
         const value = this.parseValueFromString(nextProps.defaultValue)
-    
-        const editorStateKeys = Object.keys(store.getState().editor.values);
-        
-        // Check if store's state is empty. If it is, then the form have just been cleared.
-        if (editorStateKeys.length === 1 && editorStateKeys[0] === 'sub_events') {
-            this.resetFields();
-        }
         
         // the current state should be kept if parsing was not successful, as the user hasn't finished
         if (value.date && value.time) {
@@ -167,7 +158,7 @@ class HelDateTimeField extends React.Component {
             time: null,
         })
     }
-    
+
     render () {
         return (
             <div className="multi-field">
