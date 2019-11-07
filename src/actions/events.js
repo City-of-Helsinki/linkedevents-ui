@@ -2,6 +2,8 @@ import constants from '../constants'
 import fetch from 'isomorphic-fetch'
 import authedFetch from '../utils/authedFetch'
 import client from '../api/client'
+import {get, isNil} from 'lodash'
+import {getEventIdFromUrl} from '../utils/helpers'
 
 function makeRequest(query, startDate, endDate) {
     var url = `${appSettings.api_base}/event/?text=${encodeURI(query)}&page_size=100&sort=start_time`;
@@ -130,7 +132,15 @@ export function fetchEventDetails(eventID, user = {}) {
             })
             .then(json => {
                 if(!json.apiErrorMsg) {
+                    const superEventUrl = get(json, ['super_event', '@id'])
+
                     dispatch(receiveEventDetails(json))
+
+                    // fetch super event for the received event if it has one,
+                    // otherwise clear existing one from store
+                    !isNil(superEventUrl)
+                        ? dispatch(fetchSuperEventDetails(getEventIdFromUrl(superEventUrl)))
+                        : dispatch(clearSuperEventDetails())
                 } else {
                     dispatch(receiveEventDetailsError(json.apiErrorMsg))
                 }

@@ -139,9 +139,12 @@ export const scrollToTop = ()  => window.scrollTo(0, 0)
  * Returns the first defined value of a multi-language field
  * @param field             Multi-language field to get the value from
  * @param contentLanguages  Optional. If given, the value will only be looked for, for the given languages
- * @returns {string}
+ * @returns {string|undefined}
  */
 export const getFirstMultiLanguageFieldValue = (field, contentLanguages = null) => {
+    if (isNil(field)) {
+        return undefined
+    }
     return isArray(contentLanguages)
         ? get(field, keys(field).filter(key => contentLanguages.includes(key)).find(key => !isNil(field[key])), '')
         : get(field, keys(field).find(key => !isNil(field[key])), '')

@@ -31,6 +31,13 @@
     "series": "Series",
     "umbrella": "Umbrella",
 
+    "links-to-events": "Links to other events",
+
+    "super-event-of-series": "This is the top event of a series.",
+    "super-event-of-umbrella": "This is an umbrella event.",
+    "sub-event-of-series": "This event is part of a series: ",
+    "sub-event-of-umbrella": "This event has an umbrella event: ",
+
     "event-sort-title": "Title",
     "event-sort-starttime": "Event starts",
     "event-sort-endtime": "Event ends",

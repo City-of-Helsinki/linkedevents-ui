@@ -45,7 +45,17 @@ class EventPage extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        const publisherId = get(this.props, 'events.event.publisher')
+        const {events, match, user, fetchEventDetails, fetchSubEvents} = this.props
+
+        const eventId = get(match, ['params', 'eventId'])
+        const oldEventId = get(prevProps, ['match', 'params', 'eventId'])
+
+        if (eventId !== oldEventId) {
+            fetchEventDetails(eventId, user)
+            fetchSubEvents(eventId, user)
+        }
+
+        const publisherId = get(events, 'event.publisher')
         const oldPublisherId = get(prevProps, 'events.event.publisher')
 
         if (publisherId && publisherId !== oldPublisherId) {
@@ -227,6 +237,7 @@ class EventPage extends React.Component {
                     </div>
                     <EventDetails
                         values={event}
+                        superEvent={this.props.superEvent}
                         rawData={this.props.events.event}
                         publisher={this.state.publisher}
                     />
@@ -241,6 +252,7 @@ EventPage.propTypes = {
     fetchEventDetails: PropTypes.func,
     user: PropTypes.object,
     events: PropTypes.object,
+    superEvent: PropTypes.object,
     subEvents: PropTypes.object,
     replaceData: PropTypes.func,
     routerPush: PropTypes.func,
@@ -255,6 +267,7 @@ EventPage.propTypes = {
 
 const mapStateToProps = (state) => ({
     events: state.events,
+    superEvent: get(state, ['events', 'superEvent']),
     subEvents: state.subEvents,
     routing: state.routing,
     user: state.user,
