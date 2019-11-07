@@ -5,7 +5,7 @@ import client from '../../../api/client'
 import {setData} from '../../../actions/editor'
 import {FormattedMessage} from 'react-intl'
 import {SideField} from '../../FormFields'
-import {get, isUndefined} from 'lodash'
+import {get, isNil, isNull, isUndefined} from 'lodash'
 import {connect} from 'react-redux'
 import UmbrellaCheckbox from './UmbrellaCheckbox'
 import {Link} from 'react-router-dom'
@@ -77,9 +77,11 @@ class UmbrellaSelector extends React.Component {
         if (updatedIsCreateView !== isCreateView) {
             stateToSet.isCreateView = updatedIsCreateView
         }
-        // set the 'is_umbrella' checkbox as checked, if the event being edited is an umbrella event
+        // set the 'is_umbrella' checkbox as checked if:
+        //  - the event being edited is an umbrella event
+        //  - the form super event type value is not null (it's null if the user un-checks the 'is_umbrella' checkbox)
         if (!updatedIsCreateView
-            && editedEventIsAnUmbrellaEvent
+            && (editedEventIsAnUmbrellaEvent && !isNull(values.super_event_type))
             && prevState.isUmbrellaEvent === isUmbrellaEvent
             && isUmbrellaEvent !== editedEventIsAnUmbrellaEvent
         ) {
@@ -101,11 +103,12 @@ class UmbrellaSelector extends React.Component {
         ) {
             stateToSet.isUmbrellaEvent = false
         }
-        // set the 'has_umbrella' checkbox as checked, if the event being edited has a super event with the super event type 'umbrella'.
-        // also set the selected umbrella event for the selection drop-down if it has
+        // set the 'has_umbrella' checkbox as checked, if:
+        //  - the event being edited has a super event with the super event type 'umbrella'
+        //  - the form super event value is not null (it's null if the user un-checks the 'has_umbrella' checkbox)
         if (!hasUmbrellaEvent
             && prevState.hasUmbrellaEvent === hasUmbrellaEvent
-            && superEventIsAnUmbrellaEvent
+            && (superEventIsAnUmbrellaEvent && !isNull(values.super_event))
         ) {
             stateToSet = {
                 ...stateToSet,
@@ -201,15 +204,15 @@ class UmbrellaSelector extends React.Component {
             return isCreateView
                 ? hasUmbrellaEvent || Object.keys(values.sub_events).length > 0
                 : (hasUmbrellaEvent
-                    || (editedEventIsAnUmbrellaEvent && editedEventHasSubEvents)
+                    || (editedEventIsAnUmbrellaEvent && editedEventHasSubEvents && !isNil(values.super_event))
                     || editedEventIsARecurringEvent
-                    || editedEventIsSubEvent)
+                    || (editedEventIsSubEvent && !isNil(values.super_event)))
         }
         if (name === 'has_umbrella') {
             return isCreateView
                 ? isUmbrellaEvent
                 : (isUmbrellaEvent
-                    || editedEventIsAnUmbrellaEvent
+                    || (editedEventIsAnUmbrellaEvent && !isNil(values.super_event_type))
                     || superEventSuperEventType === constants.SUPER_EVENT_TYPE_RECURRING)
         }
     }

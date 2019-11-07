@@ -6,7 +6,7 @@ import React from 'react'
 import Loader from 'react-loader'
 import {connect} from 'react-redux'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
-import {get, keys} from 'lodash'
+import {get, isEqual, keys} from 'lodash'
 import PropTypes from 'prop-types'
 import {Button} from 'material-ui'
 import Tooltip from 'material-ui/Tooltip'
@@ -20,6 +20,7 @@ import {
     clearData as clearDataAction,
     setValidationErrors as setValidationErrorsAction,
     setEditorAuthFlashMsg as setEditorAuthFlashMsgAction,
+    setLanguages as setLanguageAction,
 } from '../../actions/editor'
 import {confirmAction, clearFlashMsg as clearFlashMsgAction} from '../../actions/app'
 import {
@@ -35,6 +36,7 @@ import {checkEventEditability} from '../../utils/checkEventEditability'
 import FormFields from '../../components/FormFields'
 import {mapUIDataToAPIFormat} from '../../utils/formDataMapping';
 import {getConfirmationMarkup} from '../../utils/helpers'
+import getContentLanguages from '../../utils/language'
 
 // sentinel for authentication alert
 let sentinel = true
@@ -73,6 +75,14 @@ export class EditorPage extends React.Component {
     componentDidUpdate(prevProps) {
         const prevParams = get(prevProps, ['match', 'params'], {})
         const currParams = get(this.props, ['match', 'params'], {})
+
+        const {values, contentLanguages} = this.props.editor
+        const newContentLanguages = getContentLanguages(values)
+
+        // set correct content languages based on editor values
+        if (newContentLanguages.length && !isEqual(newContentLanguages, contentLanguages)) {
+            this.props.setLanguages(newContentLanguages)
+        }
 
         // check if the editing mode or if the eventId params changed
         if (prevParams.action !== currParams.action || prevParams.eventId !== currParams.eventId) {
@@ -358,6 +368,7 @@ const mapDispatchToProps = (dispatch) => ({
     clearSubEvents: () => dispatch(clearSubEventsAction()),
     setValidationErrors: (errors) => dispatch(setValidationErrorsAction(errors)),
     setEditorAuthFlashMsg: () => dispatch(setEditorAuthFlashMsgAction()),
+    setLanguages: (languages) => dispatch(setLanguageAction(languages)),
     clearFlashMsg: () => dispatch(clearFlashMsgAction()),
     sendData: (updateExisting, publicationStatus) =>
         dispatch(sendDataAction(updateExisting, publicationStatus)),
@@ -372,6 +383,7 @@ EditorPage.propTypes = {
     fetchSubEvents: PropTypes.func,
     setValidationErrors: PropTypes.func,
     setEditorAuthFlashMsg: PropTypes.func,
+    setLanguages: PropTypes.func,
     clearFlashMsg: PropTypes.func,
     clearData: PropTypes.func,
     clearEventDetails: PropTypes.func,

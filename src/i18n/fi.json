@@ -32,6 +32,7 @@
     "umbrella": "Kattotapahtuma",
 
     "links-to-events": "Kytkökset muihin tapahtumiin",
+    "no-links-to-events": "Ei kytköksiä.",
 
     "super-event-of-series": "Tämä on tapahtumasarjan ylätapahtuma.",
     "super-event-of-umbrella": "Tämä tapahtuma on kattotapahtuma.",

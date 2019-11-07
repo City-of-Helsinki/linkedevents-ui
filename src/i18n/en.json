@@ -32,6 +32,7 @@
     "umbrella": "Umbrella",
 
     "links-to-events": "Links to other events",
+    "no-links-to-events": "No links.",
 
     "super-event-of-series": "This is the top event of a series.",
     "super-event-of-umbrella": "This is an umbrella event.",

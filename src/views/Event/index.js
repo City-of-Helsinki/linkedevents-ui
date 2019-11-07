@@ -47,6 +47,8 @@ class EventPage extends React.Component {
     componentDidUpdate(prevProps) {
         const {events, match, user, fetchEventDetails, fetchSubEvents} = this.props
 
+        const publisherId = get(events, 'event.publisher')
+        const oldPublisherId = get(prevProps, 'events.event.publisher')
         const eventId = get(match, ['params', 'eventId'])
         const oldEventId = get(prevProps, ['match', 'params', 'eventId'])
 
@@ -54,9 +56,6 @@ class EventPage extends React.Component {
             fetchEventDetails(eventId, user)
             fetchSubEvents(eventId, user)
         }
-
-        const publisherId = get(events, 'event.publisher')
-        const oldPublisherId = get(prevProps, 'events.event.publisher')
 
         if (publisherId && publisherId !== oldPublisherId) {
             client.get(`organization/${publisherId}`).then(response => {

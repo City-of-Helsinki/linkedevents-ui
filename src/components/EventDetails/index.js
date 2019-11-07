@@ -378,6 +378,12 @@ const EventDetails = (props) => {
                     </Link>
                 </p>
             }
+            {!isUmbrellaEvent && !isRecurringEvent && !superEventIsUmbrellaEvent && !superEventIsRecurringEvent &&
+                <p className="link-to-events-text">
+                    <FormattedMessage id="no-links-to-events" />
+                </p>
+
+            }
         </div>
     )
 }
