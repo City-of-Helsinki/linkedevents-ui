@@ -192,8 +192,8 @@ class FormFields extends React.Component {
                         </label>
                     </div>
                     <div className="col-xl-8 col-sm-12">
-                        <HelLanguageSelect 
-                            options={API.eventInfoLanguages()} 
+                        <HelLanguageSelect
+                            options={API.eventInfoLanguages()}
                             checked={contentLanguages}
                         />
                     </div>
@@ -205,65 +205,65 @@ class FormFields extends React.Component {
 
                 <div className="row">
                     <div className="col-sm-6">
-                        <MultiLanguageField 
-                            required={true} 
-                            multiLine={false} 
-                            label="event-headline" 
-                            ref="name" name="name" 
-                            validationErrors={validationErrors['name']} 
-                            defaultValue={values['name']} 
-                            languages={this.props.editor.contentLanguages} 
-                            setDirtyState={this.props.setDirtyState} 
+                        <MultiLanguageField
+                            required={true}
+                            multiLine={false}
+                            label="event-headline"
+                            ref="name" name="name"
+                            validationErrors={validationErrors['name']}
+                            defaultValue={values['name']}
+                            languages={this.props.editor.contentLanguages}
+                            setDirtyState={this.props.setDirtyState}
                         />
                         
-                        <MultiLanguageField 
-                            required={true} multiLine={true} 
-                            label="event-short-description" 
-                            ref="short_description" 
-                            name="short_description" 
-                            validationErrors={validationErrors['short_description']} 
-                            defaultValue={values['short_description']} 
-                            languages={this.props.editor.contentLanguages} 
-                            validations={[VALIDATION_RULES.SHORT_STRING]} 
-                            setDirtyState={this.props.setDirtyState} 
-                            forceApplyToStore 
+                        <MultiLanguageField
+                            required={true} multiLine={true}
+                            label="event-short-description"
+                            ref="short_description"
+                            name="short_description"
+                            validationErrors={validationErrors['short_description']}
+                            defaultValue={values['short_description']}
+                            languages={this.props.editor.contentLanguages}
+                            validations={[VALIDATION_RULES.SHORT_STRING]}
+                            setDirtyState={this.props.setDirtyState}
+                            forceApplyToStore
                         />
 
-                        <MultiLanguageField 
-                            required={true} 
-                            multiLine={true} 
-                            label="event-description" 
-                            ref="description" 
-                            name="description" 
-                            validationErrors={validationErrors['description']} 
-                            defaultValue={this.trimmedDescription()} 
-                            languages={this.props.editor.contentLanguages} 
-                            validations={[VALIDATION_RULES.LONG_STRING]} 
-                            setDirtyState={this.props.setDirtyState} 
+                        <MultiLanguageField
+                            required={true}
+                            multiLine={true}
+                            label="event-description"
+                            ref="description"
+                            name="description"
+                            validationErrors={validationErrors['description']}
+                            defaultValue={this.trimmedDescription()}
+                            languages={this.props.editor.contentLanguages}
+                            validations={[VALIDATION_RULES.LONG_STRING]}
+                            setDirtyState={this.props.setDirtyState}
                         />
-                        <MultiLanguageField 
-                            required={false} 
-                            multiLine={false} 
-                            label="event-info-url" 
-                            ref="info_url" 
-                            name="info_url" 
-                            validationErrors={validationErrors['info_url']} 
-                            defaultValue={values['info_url']} 
-                            languages={this.props.editor.contentLanguages} 
-                            validations={[VALIDATION_RULES.IS_URL]} 
-                            setDirtyState={this.props.setDirtyState} 
-                            forceApplyToStore 
+                        <MultiLanguageField
+                            required={false}
+                            multiLine={false}
+                            label="event-info-url"
+                            ref="info_url"
+                            name="info_url"
+                            validationErrors={validationErrors['info_url']}
+                            defaultValue={values['info_url']}
+                            languages={this.props.editor.contentLanguages}
+                            validations={[VALIDATION_RULES.IS_URL]}
+                            setDirtyState={this.props.setDirtyState}
+                            forceApplyToStore
                         />
-                        <MultiLanguageField 
-                            required={false} 
-                            multiLine={false} 
-                            label="event-provider-input" 
-                            ref="provider" 
-                            name="provider" 
-                            validationErrors={validationErrors['provider']} 
-                            defaultValue={values['provider']} 
-                            languages={this.props.editor.contentLanguages} 
-                            setDirtyState={this.props.setDirtyState} 
+                        <MultiLanguageField
+                            required={false}
+                            multiLine={false}
+                            label="event-provider-input"
+                            ref="provider"
+                            name="provider"
+                            validationErrors={validationErrors['provider']}
+                            defaultValue={values['provider']}
+                            languages={this.props.editor.contentLanguages}
+                            setDirtyState={this.props.setDirtyState}
                         />
                         <OrganizationSelector
                             formType={formType}
@@ -302,7 +302,8 @@ class FormFields extends React.Component {
                                     timePickerProps={{disabled: formType === 'update' && isSuperEvent}}
                                     validationErrors={validationErrors['end_time']}
                                     defaultValue={values['end_time']}
-                                    ref="end_time" name="end_time"
+                                    ref="end_time"
+                                    name="end_time"
                                     label="event-ending-datetime"
                                     setDirtyState={this.props.setDirtyState}
                                 />
@@ -361,15 +362,15 @@ class FormFields extends React.Component {
                                 <i className="material-icons">&#xE14D;</i>
                             </button>
                         </CopyToClipboard>
-                        <MultiLanguageField 
-                            multiLine={true} 
-                            label="event-location-additional-info" 
-                            ref="location_extra_info" 
-                            name="location_extra_info" 
+                        <MultiLanguageField
+                            multiLine={true}
+                            label="event-location-additional-info"
+                            ref="location_extra_info"
+                            name="location_extra_info"
                             validationErrors={validationErrors['location_extra_info']}
-                            validations={[VALIDATION_RULES.SHORT_STRING]} 
-                            defaultValue={values['location_extra_info']} 
-                            languages={this.props.editor.contentLanguages} 
+                            validations={[VALIDATION_RULES.SHORT_STRING]}
+                            defaultValue={values['location_extra_info']}
+                            languages={this.props.editor.contentLanguages}
                             setDirtyState={this.props.setDirtyState}
                         />
                     </div>
