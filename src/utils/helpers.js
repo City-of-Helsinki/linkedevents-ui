@@ -1,4 +1,4 @@
-import {isArray, isNil, isNull, set, some} from 'lodash';
+import {isArray, isNil, isNull, set, some, keys, get} from 'lodash';
 
 import CONSTANTS from '../constants'
 import moment from 'moment';
@@ -110,10 +110,12 @@ export const getConfirmationMarkup = (action, intl, subEvents = [])  => {
     subEventWarningText = subEventWarningText === `editor-${action}-subevents-warning`
         ? ''
         : `<p>${subEventWarningText}</p>`
+    // returns the value of the first language that has a value
+    const getSubEventName = field => get(field, keys(field).find(key => !isNil(field[key])), '')
     const subEventNames = subEvents
         // sort sub events by start time
         .sort((a, b) => moment(a.start_time).unix() - moment(b.start_time).unix())
-        .map((subEvent, index) => `${index === 0 ? '' : '</br>'}<strong>${subEvent.name.fi}</strong> (${moment(subEvent.start_time).format('DD.MM.YYYY')})`)
+        .map((subEvent, index) => `${index === 0 ? '' : '</br>'}<strong>${getSubEventName(subEvent.name)}</strong> (${moment(subEvent.start_time).format('DD.MM.YYYY')})`)
 
     return subEventNames.length > 0
         ? `${warningText}${subEventWarningText}${subEventNames}`

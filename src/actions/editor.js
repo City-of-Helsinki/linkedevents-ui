@@ -478,7 +478,11 @@ export function fetchEventForEditing(eventID, user = {}) {
     return (dispatch) => {
         return fetch(url, options)
             .then(response => response.json())
-            .then(json => dispatch(receiveEventForEditing(json)))
+            .then(json => {
+                dispatch(receiveEventForEditing(json))
+                // update editor content languages based on received event data
+                dispatch(setLanguages(getContentLanguages(json)))
+            })
             .catch(e => {
                 // Error happened while fetching ajax (connection or javascript)
             })
