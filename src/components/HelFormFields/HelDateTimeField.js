@@ -34,7 +34,6 @@ class HelDateTimeField extends React.Component {
         
         this.onChange = this.onChange.bind(this)
         this.onBlur = this.onBlur.bind(this)
-        this.resetFields = this.resetFields.bind(this)
     }
     
     onChange(type, value) {
@@ -163,9 +162,27 @@ class HelDateTimeField extends React.Component {
         return (
             <div className="multi-field">
                 <div className="indented">
-                    <label style={{position: 'relative'}}><FormattedMessage id={`${this.props.label}`} /> <ValidationPopover validationErrors={this.props.validationErrors} /></label>
-                    <HelDatePicker {...this.props.datePickerProps} ref="date" name={this.props.name} defaultValue={this.state.date} validations={[CONSTANTS.VALIDATION_RULES.IS_DATE]} placeholder="pp.kk.vvvv" onChange={this.onChange} onBlur={this.onBlur} label={<FormattedMessage id="date" isClearable />} />
-                    <HelTimePicker {...this.props.timePickerProps} ref="time" name={this.props.name} defaultValue={this.state.time} validations={[CONSTANTS.VALIDATION_RULES.IS_TIME]} placeholder="hh.mm" onChange={this.onChange} onBlur={this.onBlur} label={<FormattedMessage id="time" isClearable />} />
+                    <label style={{position: 'relative'}}><FormattedMessage id={`${this.props.label}`} /> <ValidationPopover validationErrors={this.props.validationErrors} />
+                    </label>
+                    <HelDatePicker {...this.props.datePickerProps}
+                        ref="date"
+                        name={this.props.name}
+                        defaultValue={this.state.date}
+                        validations={[CONSTANTS.VALIDATION_RULES.IS_DATE]}
+                        placeholder="pp.kk.vvvv" onChange={this.onChange}
+                        onBlur={this.onBlur} label={<FormattedMessage id="date"
+                        />} />
+                    <HelTimePicker {...this.props.timePickerProps}
+                        ref="time"
+                        name={this.props.name}
+                        defaultValue={this.state.time}
+                        validations={[CONSTANTS.VALIDATION_RULES.IS_TIME]}
+                        placeholder="hh.mm"
+                        onChange={this.onChange}
+                        onBlur={this.onBlur}
+                        label={<FormattedMessage id="time"/>}
+                        maxLength={5}
+                    />
                 </div>
             </div>
         )
