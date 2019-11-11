@@ -7,6 +7,7 @@ import {get} from 'lodash';
 
 const OrganizationSelector = (props) => {
     const {formType, selectedOption, options, onChange} = props;
+    const label = selectedOption.label ? selectedOption.label : ''
 
     return (
         <div className='hel-text-field'>
@@ -14,7 +15,7 @@ const OrganizationSelector = (props) => {
                 <FormattedMessage id='event-publisher' />
             </label>
             {formType === 'update' ? (
-                <FormControl value={selectedOption.label} disabled />
+                <FormControl value={label} disabled />
             ) : options.length > 1 ? (
                 <Select
                     clearable={false}
@@ -24,7 +25,7 @@ const OrganizationSelector = (props) => {
                     onChange={onChange}
                 />
             ) : (
-                <FormControl value={get(options, '[0].label')} disabled />
+                <FormControl value={get(options, '[0].label', '')} disabled />
             )}
         </div>
     );

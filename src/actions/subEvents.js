@@ -82,3 +82,5 @@ export const fetchSubEventsForSuper = (superEventId) => {
             });
     }
 }
+
+export const clearSubEvents = () => ({type: constants.CLEAR_SUB_EVENTS})

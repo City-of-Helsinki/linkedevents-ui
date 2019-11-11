@@ -6,16 +6,12 @@ import React from 'react'
 import Loader from 'react-loader'
 import {connect} from 'react-redux'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
-import moment from 'moment'
-import {get} from 'lodash'
+import {get, isEqual, keys} from 'lodash'
 import PropTypes from 'prop-types'
-
 import {Button} from 'material-ui'
 import Tooltip from 'material-ui/Tooltip'
 import Close from 'material-ui-icons/Close'
-
 import {getStringWithLocale} from '../../utils/locale'
-
 import {
     fetchEventForEditing as fetchEventForEditingAction,
     deleteEvent as deleteEventAction,
@@ -24,22 +20,26 @@ import {
     clearData as clearDataAction,
     setValidationErrors as setValidationErrorsAction,
     setEditorAuthFlashMsg as setEditorAuthFlashMsgAction,
+    setLanguages as setLanguageAction,
 } from '../../actions/editor'
 import {confirmAction, clearFlashMsg as clearFlashMsgAction} from '../../actions/app'
-import {fetchSubEvents as fetchSubEventsAction} from '../../actions/subEvents'
+import {
+    fetchSubEvents as fetchSubEventsAction,
+    clearSubEvents as clearSubEventsAction,
+} from '../../actions/subEvents'
+import {
+    clearEventDetails as clearEventDetailsAction,
+    clearSuperEventDetails as clearSuperEventDetailsAction,
+} from '../../actions/events'
 import constants from '../../constants'
 import {checkEventEditability} from '../../utils/checkEventEditability'
-
-// the backup doesn't support non-language links, so we use hardcoded
-// 'fi' instead for the link language
-var EXT_LINK_NO_LANGUAGE = 'fi'
+import FormFields from '../../components/FormFields'
+import {mapUIDataToAPIFormat} from '../../utils/formDataMapping';
+import {getConfirmationMarkup} from '../../utils/helpers'
+import getContentLanguages from '../../utils/language'
 
 // sentinel for authentication alert
-var sentinel = true;
-
-import FormFields from '../../components/FormFields'
-import {mapAPIDataToUIFormat, mapUIDataToAPIFormat} from '../../utils/formDataMapping';
-import {getConfirmationMarkup} from '../../utils/helpers'
+let sentinel = true
 
 export class EditorPage extends React.Component {
     constructor(props) {
@@ -59,41 +59,66 @@ export class EditorPage extends React.Component {
         }
 
         this.setDirtyState = this.setDirtyState.bind(this)
-        this.clearForm = this.clearForm.bind(this)
+        this.clearEventData = this.clearEventData.bind(this)
         this.form = React.createRef()
-    }
-
-    UNSAFE_componentWillMount() {
-        if(this.props.match.params.action === 'update' && this.props.match.params.eventId) {
-            this.props.fetchEventForEditing(this.props.match.params.eventId, this.props.user)
-            this.props.fetchSubEvents(this.props.match.params.eventId, this.props.user)
-        }
     }
 
     componentDidMount() {
         window.addEventListener('beforeunload', this.handler)
         this.props.setEditorAuthFlashMsg()
+        const params = get(this.props, ['match', 'params'])
+
+        if(params.action === 'update' && params.eventId) {
+            this.fetchEventData(params.eventId)
+        }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
-    // Check if we are changing the editing mode on fly
-    // (happens when jumping from update event page to create event page)
-    // Clear page or fetch new eventdata accordingly
-        if(nextProps.match && nextProps.match.params && this.props.match.params.action !== nextProps.match.params.action) {
-            if(nextProps.match.params.action === 'update') {
-                this.props.fetchEventForEditing(this.props.match.params.eventId, this.props.user)
-            } else {
-                this.props.clearData()
-            }
+    componentDidUpdate(prevProps) {
+        const prevParams = get(prevProps, ['match', 'params'], {})
+        const currParams = get(this.props, ['match', 'params'], {})
+
+        const {values, contentLanguages} = this.props.editor
+        const newContentLanguages = getContentLanguages(values)
+
+        // set correct content languages based on editor values
+        if (newContentLanguages.length && !isEqual(newContentLanguages, contentLanguages)) {
+            this.props.setLanguages(newContentLanguages)
         }
 
-        this.forceUpdate()
+        // check if the editing mode or if the eventId params changed
+        if (prevParams.action !== currParams.action || prevParams.eventId !== currParams.eventId) {
+            currParams.action  === 'update'
+                ? this.fetchEventData(currParams.eventId)
+                : this.clearEventData()
+        }
     }
 
     componentWillUnmount() {
         window.removeEventListener('beforeunload', this.handler)
         this.props.setValidationErrors({})
         this.props.clearFlashMsg()
+        this.clearEventData()
+    }
+
+    fetchEventData(eventId) {
+        const {fetchEventForEditing, fetchSubEvents, user} = this.props
+        fetchEventForEditing(eventId, user)
+        fetchSubEvents(eventId, user)
+    }
+
+    /**
+     * Clears the editor data and the event, super event and sub events from the store
+     */
+    clearEventData() {
+        const {clearData, clearEventDetails, clearSuperEventDetails, clearSubEvents} = this.props
+        clearData()
+        clearEventDetails()
+        clearSuperEventDetails()
+        clearSubEvents()
+        
+        // Reset the state of the HelDateTimeFields components
+        this.form.current.refs.start_time.resetFields();
+        this.form.current.refs.end_time.resetFields();
     }
 
     setDirtyState() {
@@ -209,14 +234,6 @@ export class EditorPage extends React.Component {
         )
     }
 
-    clearForm() {
-        this.props.clearData()
-        
-        // Reset the state of the HelDateTimeFields components
-        this.form.current.refs.start_time.resetFields();
-        this.form.current.refs.end_time.resetFields();
-    }
-
     goToPreview(event) {
     // console.log(event)
     }
@@ -281,32 +298,30 @@ export class EditorPage extends React.Component {
     }
 
     render() {
-        var sharedProps = {
-            disabled: this.state.disabled,
-        }
-
-        let headerTextId = (this.props.match.params.action === 'update') ? `edit-${appSettings.ui_mode}` : `create-${appSettings.ui_mode}`
-
+        const {editor, user, match, organizations, intl} = this.props
+        const headerTextId = match.params.action === 'update'
+            ? `edit-${appSettings.ui_mode}`
+            : `create-${appSettings.ui_mode}`
         let clearButton = null
-        if(_.keys(this.props.editor.values).length) {
+
+        if (keys(editor.values).length) {
             clearButton = (
                 <Button
                     raised
-                    onClick={this.clearForm}
+                    onClick={this.clearEventData}
                     color="primary"
                     className="pull-right"
-                ><FormattedMessage id="clear-form"/> <Close/></Button>
+                >
+                    <FormattedMessage id="clear-form"/> <Close/>
+                </Button>
             )
         }
 
         // TODO: fix flow for non-authorized users
-        setTimeout(
-            ()=>
-            {if (this.props.user && !this.props.user.organization && sentinel) {
-                alert(this.props.intl.formatMessage({id:'editor-sentinel-alert'}));
-                sentinel = false;
-            }
-            }, 1000);
+        if (user && !user.organization && sentinel) {
+            setTimeout(() => alert(intl.formatMessage({id:'editor-sentinel-alert'})), 1000);
+            sentinel = false;
+        }
 
         return (
             <div className="editor-page">
@@ -322,9 +337,9 @@ export class EditorPage extends React.Component {
                 <div className="container">
                     <FormFields
                         ref={this.form}
-                        action={this.props.match.params.action}
-                        editor={this.props.editor}
-                        organizations={this.props.organizations}
+                        action={match.params.action}
+                        editor={editor}
+                        organizations={organizations}
                         setDirtyState={this.setDirtyState}
                     />
                 </div>
@@ -332,7 +347,7 @@ export class EditorPage extends React.Component {
                 <div className="editor-action-buttons">
                     <div className="container">
                         <div className="row">
-                            <Loader loaded={!this.props.editor.isSending} scale={1}/>
+                            <Loader loaded={!editor.isSending} scale={1}/>
                             {this.getActionButtons()}
                         </div>
                     </div>
@@ -353,8 +368,12 @@ const mapDispatchToProps = (dispatch) => ({
     fetchEventForEditing: (eventId, user) => dispatch(fetchEventForEditingAction(eventId, user)),
     fetchSubEvents: (eventId, user) => dispatch(fetchSubEventsAction(eventId, user)),
     clearData: () => dispatch(clearDataAction()),
+    clearEventDetails: () => dispatch(clearEventDetailsAction()),
+    clearSuperEventDetails: () => dispatch(clearSuperEventDetailsAction()),
+    clearSubEvents: () => dispatch(clearSubEventsAction()),
     setValidationErrors: (errors) => dispatch(setValidationErrorsAction(errors)),
     setEditorAuthFlashMsg: () => dispatch(setEditorAuthFlashMsgAction()),
+    setLanguages: (languages) => dispatch(setLanguageAction(languages)),
     clearFlashMsg: () => dispatch(clearFlashMsgAction()),
     sendData: (updateExisting, publicationStatus) =>
         dispatch(sendDataAction(updateExisting, publicationStatus)),
@@ -369,8 +388,12 @@ EditorPage.propTypes = {
     fetchSubEvents: PropTypes.func,
     setValidationErrors: PropTypes.func,
     setEditorAuthFlashMsg: PropTypes.func,
+    setLanguages: PropTypes.func,
     clearFlashMsg: PropTypes.func,
     clearData: PropTypes.func,
+    clearEventDetails: PropTypes.func,
+    clearSuperEventDetails: PropTypes.func,
+    clearSubEvents: PropTypes.func,
     user: PropTypes.object,
     editor: PropTypes.object,
     subEvents: PropTypes.object,

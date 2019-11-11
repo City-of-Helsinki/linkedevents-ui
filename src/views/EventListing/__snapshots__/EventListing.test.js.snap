@@ -37,29 +37,285 @@ exports[`EventListing Snapshot should render view correctly 1`] = `
       Selaa ja muokkaa oman organisaatiosi julkisia tapahtumia sekä luonnoksia. Voit lisätä uuden tapahtuman yläpalkista.
     </span>
   </p>
-  <div
-    style={
-      Object {
-        "padding": "0em 0em 0.5em 0em",
-      }
-    }
+  <table
+    className="MuiTable-root-1 event-table"
   >
-    
-    <div>
-      <table
-        className="MuiTable-root-1 event-table"
+    <thead>
+      <tr
+        className="MuiTableRow-root-2 MuiTableRow-head-3"
       >
-        <thead>
-          <tr
-            className="MuiTableRow-root-2 MuiTableRow-head-3"
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root-8 MuiTableCell-paddingDefault-13 MuiTableCell-typeHead-10 WithStyles-TableCell--typeHead-7"
+        >
+          <span
+            className="MuiButtonBase-root-21 MuiTableSortLabel-root-16"
+            disabled={undefined}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            role="button"
+            tabIndex={0}
           >
-            <th
-              aria-sort={null}
-              className="MuiTableCell-root-7 MuiTableCell-paddingDefault-12 MuiTableCell-typeHead-9"
+            <span>
+              Otsikko
+            </span>
+            <svg
+              aria-hidden="true"
+              className="MuiSvgIcon-root-23 MuiTableSortLabel-icon-18 MuiTableSortLabel-desc-19"
+              color={undefined}
+              focusable="false"
+              viewBox="0 0 24 24"
             >
-              <span
-                className="MuiButtonBase-root-20 MuiTableSortLabel-root-15"
-                disabled={undefined}
+              <path
+                d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+              />
+            </svg>
+          </span>
+        </th>
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root-8 MuiTableCell-paddingDefault-13 MuiTableCell-typeHead-10 WithStyles-TableCell--typeHead-7"
+        >
+          <span
+            className="MuiButtonBase-root-21 MuiTableSortLabel-root-16"
+            disabled={undefined}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            role="button"
+            tabIndex={0}
+          >
+            <span>
+              Tapahtuma alkaa
+            </span>
+            <svg
+              aria-hidden="true"
+              className="MuiSvgIcon-root-23 MuiTableSortLabel-icon-18 MuiTableSortLabel-desc-19"
+              color={undefined}
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+              />
+            </svg>
+          </span>
+        </th>
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root-8 MuiTableCell-paddingDefault-13 MuiTableCell-typeHead-10 WithStyles-TableCell--typeHead-7"
+        >
+          <span
+            className="MuiButtonBase-root-21 MuiTableSortLabel-root-16"
+            disabled={undefined}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            role="button"
+            tabIndex={0}
+          >
+            <span>
+              Tapahtuma päättyy
+            </span>
+            <svg
+              aria-hidden="true"
+              className="MuiSvgIcon-root-23 MuiTableSortLabel-icon-18 MuiTableSortLabel-desc-19"
+              color={undefined}
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+              />
+            </svg>
+          </span>
+        </th>
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root-8 MuiTableCell-paddingDefault-13 MuiTableCell-typeHead-10 WithStyles-TableCell--typeHead-7"
+        >
+          <span
+            className="MuiButtonBase-root-21 MuiTableSortLabel-root-16 MuiTableSortLabel-active-17"
+            disabled={undefined}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            role="button"
+            tabIndex={0}
+          >
+            <span>
+              Muokattu viimeksi
+            </span>
+            <svg
+              aria-hidden="true"
+              className="MuiSvgIcon-root-23 MuiTableSortLabel-icon-18 MuiTableSortLabel-desc-19"
+              color={undefined}
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+              />
+            </svg>
+          </span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        className="MuiTableRow-root-2"
+        onClick={null}
+      >
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root-8 MuiTableCell-paddingDefault-13 MuiTableCell-typeBody-11 WithStyles-TableCell--typeBody-30"
+          style={
+            Object {
+              "fontWeight": "normal",
+              "paddingLeft": "24px",
+            }
+          }
+        >
+          <a
+            href="/event/undefined"
+            onClick={[Function]}
+          >
+            TestEvent1
+          </a>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root-8 MuiTableCell-paddingDefault-13 MuiTableCell-typeBody-11 WithStyles-TableCell--typeBody-30"
+        >
+          <span>
+            31. tammik. 2018
+          </span>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root-8 MuiTableCell-paddingDefault-13 MuiTableCell-typeBody-11 WithStyles-TableCell--typeBody-30"
+        >
+          <span>
+            31. tammik. 2018
+          </span>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root-8 MuiTableCell-paddingDefault-13 MuiTableCell-typeBody-11 WithStyles-TableCell--typeBody-30"
+        >
+          <span>
+            10 kuukautta sitten
+          </span>
+        </td>
+      </tr>
+    </tbody>
+    <tbody>
+      <tr
+        className="MuiTableRow-root-2"
+        onClick={null}
+      >
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root-8 MuiTableCell-paddingDefault-13 MuiTableCell-typeBody-11 WithStyles-TableCell--typeBody-30"
+          style={
+            Object {
+              "fontWeight": "normal",
+              "paddingLeft": "24px",
+            }
+          }
+        >
+          <a
+            href="/event/undefined"
+            onClick={[Function]}
+          >
+            Pomppu
+          </a>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root-8 MuiTableCell-paddingDefault-13 MuiTableCell-typeBody-11 WithStyles-TableCell--typeBody-30"
+        >
+          <span>
+            2. helmik. 2018
+          </span>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root-8 MuiTableCell-paddingDefault-13 MuiTableCell-typeBody-11 WithStyles-TableCell--typeBody-30"
+        >
+          <span>
+            2. helmik. 2018
+          </span>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root-8 MuiTableCell-paddingDefault-13 MuiTableCell-typeBody-11 WithStyles-TableCell--typeBody-30"
+        >
+          <span>
+            10 kuukautta sitten
+          </span>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr
+        className="MuiTableRow-root-31 MuiTableRow-footer-33"
+      >
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root-45 MuiTableCell-paddingDefault-50 MuiTableCell-typeFooter-49 MuiTablePagination-root-36"
+          colSpan={1000}
+        >
+          <div
+            className="MuiToolbar-root-53 MuiToolbar-gutters-54 MuiTablePagination-toolbar-37"
+          >
+            <div
+              className="MuiTablePagination-spacer-38"
+            />
+            <span
+              className="MuiTypography-root-55 MuiTypography-caption-65 MuiTablePagination-caption-39"
+            >
+              1-100 / 738
+            </span>
+            <div
+              className="MuiTablePaginationActions-root-79"
+            >
+              <button
+                className="MuiButtonBase-root-89 MuiButtonBase-disabled-90 MuiIconButton-root-80 MuiIconButton-disabled-85"
+                disabled={true}
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -71,335 +327,68 @@ exports[`EventListing Snapshot should render view correctly 1`] = `
                 onTouchEnd={[Function]}
                 onTouchMove={[Function]}
                 onTouchStart={[Function]}
-                role="button"
-                tabIndex={0}
+                role={undefined}
+                tabIndex={-1}
+                type="button"
               >
-                <span>
-                  Otsikko
-                </span>
-                <svg
-                  aria-hidden="true"
-                  className="MuiSvgIcon-root-22 MuiTableSortLabel-icon-17"
-                  color={undefined}
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                  />
-                </svg>
-              </span>
-            </th>
-            <th
-              aria-sort={null}
-              className="MuiTableCell-root-7 MuiTableCell-paddingDefault-12 MuiTableCell-typeHead-9"
-            >
-              <span
-                className="MuiButtonBase-root-20 MuiTableSortLabel-root-15"
-                disabled={undefined}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onKeyDown={[Function]}
-                onKeyUp={[Function]}
-                onMouseDown={[Function]}
-                onMouseLeave={[Function]}
-                onMouseUp={[Function]}
-                onTouchEnd={[Function]}
-                onTouchMove={[Function]}
-                onTouchStart={[Function]}
-                role="button"
-                tabIndex={0}
-              >
-                <span>
-                  Tapahtuma alkaa
-                </span>
-                <svg
-                  aria-hidden="true"
-                  className="MuiSvgIcon-root-22 MuiTableSortLabel-icon-17"
-                  color={undefined}
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                  />
-                </svg>
-              </span>
-            </th>
-            <th
-              aria-sort={null}
-              className="MuiTableCell-root-7 MuiTableCell-paddingDefault-12 MuiTableCell-typeHead-9"
-            >
-              <span
-                className="MuiButtonBase-root-20 MuiTableSortLabel-root-15"
-                disabled={undefined}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onKeyDown={[Function]}
-                onKeyUp={[Function]}
-                onMouseDown={[Function]}
-                onMouseLeave={[Function]}
-                onMouseUp={[Function]}
-                onTouchEnd={[Function]}
-                onTouchMove={[Function]}
-                onTouchStart={[Function]}
-                role="button"
-                tabIndex={0}
-              >
-                <span>
-                  Tapahtuma päättyy
-                </span>
-                <svg
-                  aria-hidden="true"
-                  className="MuiSvgIcon-root-22 MuiTableSortLabel-icon-17"
-                  color={undefined}
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                  />
-                </svg>
-              </span>
-            </th>
-            <th
-              aria-sort={null}
-              className="MuiTableCell-root-7 MuiTableCell-paddingDefault-12 MuiTableCell-typeHead-9"
-            >
-              <span
-                className="MuiButtonBase-root-20 MuiTableSortLabel-root-15 MuiTableSortLabel-active-16"
-                disabled={undefined}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onKeyDown={[Function]}
-                onKeyUp={[Function]}
-                onMouseDown={[Function]}
-                onMouseLeave={[Function]}
-                onMouseUp={[Function]}
-                onTouchEnd={[Function]}
-                onTouchMove={[Function]}
-                onTouchStart={[Function]}
-                role="button"
-                tabIndex={0}
-              >
-                <span>
-                  Muokattu viimeksi
-                </span>
-                <svg
-                  aria-hidden="true"
-                  className="MuiSvgIcon-root-22 MuiTableSortLabel-icon-17 MuiTableSortLabel-desc-18"
-                  color={undefined}
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                  />
-                </svg>
-              </span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            className="MuiTableRow-root-2"
-            onClick={null}
-          >
-            <td
-              aria-sort={null}
-              className="MuiTableCell-root-7 MuiTableCell-paddingDefault-12 MuiTableCell-typeBody-10"
-              style={
-                Object {
-                  "fontWeight": "normal",
-                  "paddingLeft": "24px",
-                }
-              }
-            >
-              <a
-                href="/event/undefined"
-                onClick={[Function]}
-              >
-                TestEvent1
-              </a>
-            </td>
-            <td
-              aria-sort={null}
-              className="MuiTableCell-root-7 MuiTableCell-paddingDefault-12 MuiTableCell-typeBody-10"
-            >
-              <span>
-                31. tammik. 2018
-              </span>
-            </td>
-            <td
-              aria-sort={null}
-              className="MuiTableCell-root-7 MuiTableCell-paddingDefault-12 MuiTableCell-typeBody-10"
-            >
-              <span>
-                31. tammik. 2018
-              </span>
-            </td>
-            <td
-              aria-sort={null}
-              className="MuiTableCell-root-7 MuiTableCell-paddingDefault-12 MuiTableCell-typeBody-10"
-            >
-              <span>
-                10 kuukautta sitten
-              </span>
-            </td>
-          </tr>
-        </tbody>
-        <tbody>
-          <tr
-            className="MuiTableRow-root-2"
-            onClick={null}
-          >
-            <td
-              aria-sort={null}
-              className="MuiTableCell-root-7 MuiTableCell-paddingDefault-12 MuiTableCell-typeBody-10"
-              style={
-                Object {
-                  "fontWeight": "normal",
-                  "paddingLeft": "24px",
-                }
-              }
-            >
-              <a
-                href="/event/undefined"
-                onClick={[Function]}
-              >
-                Pomppu
-              </a>
-            </td>
-            <td
-              aria-sort={null}
-              className="MuiTableCell-root-7 MuiTableCell-paddingDefault-12 MuiTableCell-typeBody-10"
-            >
-              <span>
-                2. helmik. 2018
-              </span>
-            </td>
-            <td
-              aria-sort={null}
-              className="MuiTableCell-root-7 MuiTableCell-paddingDefault-12 MuiTableCell-typeBody-10"
-            >
-              <span>
-                2. helmik. 2018
-              </span>
-            </td>
-            <td
-              aria-sort={null}
-              className="MuiTableCell-root-7 MuiTableCell-paddingDefault-12 MuiTableCell-typeBody-10"
-            >
-              <span>
-                10 kuukautta sitten
-              </span>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr
-            className="MuiTableRow-root-29 MuiTableRow-footer-31"
-          >
-            <td
-              aria-sort={null}
-              className="MuiTableCell-root-43 MuiTableCell-paddingDefault-48 MuiTableCell-typeFooter-47 MuiTablePagination-root-34"
-              colSpan={1000}
-            >
-              <div
-                className="MuiToolbar-root-51 MuiToolbar-gutters-52 MuiTablePagination-toolbar-35"
-              >
-                <div
-                  className="MuiTablePagination-spacer-36"
-                />
                 <span
-                  className="MuiTypography-root-53 MuiTypography-caption-63 MuiTablePagination-caption-37"
+                  className="MuiIconButton-label-86"
                 >
-                  1-100 / 738
-                </span>
-                <div
-                  className="MuiTablePaginationActions-root-77"
-                >
-                  <button
-                    className="MuiButtonBase-root-87 MuiButtonBase-disabled-88 MuiIconButton-root-78 MuiIconButton-disabled-83"
-                    disabled={true}
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onFocus={[Function]}
-                    onKeyDown={[Function]}
-                    onKeyUp={[Function]}
-                    onMouseDown={[Function]}
-                    onMouseLeave={[Function]}
-                    onMouseUp={[Function]}
-                    onTouchEnd={[Function]}
-                    onTouchMove={[Function]}
-                    onTouchStart={[Function]}
-                    role={undefined}
-                    tabIndex={-1}
-                    type="button"
+                  <svg
+                    aria-hidden="true"
+                    className="MuiSvgIcon-root-91 MuiIconButton-icon-87"
+                    color={undefined}
+                    focusable="false"
+                    viewBox="0 0 24 24"
                   >
-                    <span
-                      className="MuiIconButton-label-84"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        className="MuiSvgIcon-root-89 MuiIconButton-icon-85"
-                        color={undefined}
-                        focusable="false"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
-                        />
-                      </svg>
-                    </span>
-                  </button>
-                  <button
-                    className="MuiButtonBase-root-87 MuiIconButton-root-78"
-                    disabled={false}
-                    onBlur={[Function]}
-                    onClick={[Function]}
-                    onFocus={[Function]}
-                    onKeyDown={[Function]}
-                    onKeyUp={[Function]}
-                    onMouseDown={[Function]}
-                    onMouseLeave={[Function]}
-                    onMouseUp={[Function]}
-                    onTouchEnd={[Function]}
-                    onTouchMove={[Function]}
-                    onTouchStart={[Function]}
-                    role={undefined}
-                    tabIndex={0}
-                    type="button"
-                  >
-                    <span
-                      className="MuiIconButton-label-84"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        className="MuiSvgIcon-root-89 MuiIconButton-icon-85"
-                        color={undefined}
-                        focusable="false"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
-                        />
-                      </svg>
-                    </span>
-                    <span
-                      className="MuiTouchRipple-root-96"
+                    <path
+                      d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
                     />
-                  </button>
-                </div>
-              </div>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-  </div>
+                  </svg>
+                </span>
+              </button>
+              <button
+                className="MuiButtonBase-root-89 MuiIconButton-root-80"
+                disabled={false}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                onKeyUp={[Function]}
+                onMouseDown={[Function]}
+                onMouseLeave={[Function]}
+                onMouseUp={[Function]}
+                onTouchEnd={[Function]}
+                onTouchMove={[Function]}
+                onTouchStart={[Function]}
+                role={undefined}
+                tabIndex={0}
+                type="button"
+              >
+                <span
+                  className="MuiIconButton-label-86"
+                >
+                  <svg
+                    aria-hidden="true"
+                    className="MuiSvgIcon-root-91 MuiIconButton-icon-87"
+                    color={undefined}
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
+                    />
+                  </svg>
+                </span>
+                <span
+                  className="MuiTouchRipple-root-98"
+                />
+              </button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
 </div>
 `;

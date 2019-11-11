@@ -59,6 +59,13 @@ function update(state = initialState, action) {
         })
     }
 
+    if(action.type === constants.CLEAR_SUB_EVENTS) {
+        return {
+            ...state,
+            items: [],
+        }
+    }
+
     return state
 }
 

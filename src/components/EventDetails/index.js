@@ -1,3 +1,4 @@
+import './index.scss'
 import moment from 'moment'
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -9,10 +10,10 @@ import {
     FormattedTime,
     intlShape,
 } from 'react-intl'
-
 import {getStringWithLocale} from '../../utils/locale'
-
-import './index.scss'
+import constants from '../../constants'
+import {getEventIdFromUrl, getFirstMultiLanguageFieldValue, scrollToTop} from '../../utils/helpers'
+import {Link} from 'react-router-dom'
 
 const NoValue = (props) => {
     let header = props.labelKey ? (<span><FormattedMessage id={`${props.labelKey}`}/>&nbsp;</span>) : null
@@ -249,92 +250,147 @@ OffersValue.propTypes = {
 }
 
 const EventDetails = (props) => {
+    const {values, intl, rawData, publisher, superEvent} = props
+
+    const isUmbrellaEvent = rawData.super_event_type === constants.SUPER_EVENT_TYPE_UMBRELLA
+    const isRecurringEvent = rawData.super_event_type === constants.SUPER_EVENT_TYPE_RECURRING
+    const superEventUrl = get(rawData, ['super_event', '@id'])
+    const superEventId = getEventIdFromUrl(superEventUrl)
+    const superEventName = getFirstMultiLanguageFieldValue(get(superEvent, 'name'))
+    const superEventIsUmbrellaEvent = get(superEvent, 'super_event_type') === constants.SUPER_EVENT_TYPE_UMBRELLA
+    const superEventIsRecurringEvent = get(superEvent, 'super_event_type') === constants.SUPER_EVENT_TYPE_RECURRING
+
     // NOTE: Currently don't show not selected options
 
-    // let helMainOptions = mapKeywordSetToForm(props.keywordSets, 'helfi:topics')
-    // let helTargetOptions = mapKeywordSetToForm(props.keywordSets, 'helfi:audiences')
-    // let helEventLangOptions = mapLanguagesSetToForm(props.languages)
-    let helfiCategories = _.map(props.values.hel_main, (id) => (
-        _.find(props.rawData.keywords, (item) => (id.indexOf(item['@id']) > -1))
+    // let helMainOptions = mapKeywordSetToForm(keywordSets, 'helfi:topics')
+    // let helTargetOptions = mapKeywordSetToForm(keywordSets, 'helfi:audiences')
+    // let helEventLangOptions = mapLanguagesSetToForm(languages)
+    let helfiCategories = _.map(values.hel_main, (id) => (
+        _.find(rawData.keywords, (item) => (id.indexOf(item['@id']) > -1))
     ))
 
     return (
         <div className="event-details">
-            <ImageValue labelKey="event-image" value={props.values['image']}/>
+            <ImageValue labelKey="event-image" value={values['image']}/>
             <FormHeader>
-                {props.intl.formatMessage({id: 'event-description-fields-header'})}
+                {intl.formatMessage({id: 'event-description-fields-header'})}
             </FormHeader>
 
-            <MultiLanguageValue labelKey="event-headline" value={props.values['name']}/>
-            <MultiLanguageValue labelKey="event-short-description" value={props.values['short_description']}/>
-            <MultiLanguageValue labelKey="event-description" value={props.values['description']}/>
-            <MultiLanguageValue labelKey="event-info-url" value={props.values['info_url']}/>
-            <MultiLanguageValue labelKey="event-provider" value={props.values['provider']}/>
-            {props.publisher && <TextValue labelKey="event-publisher" value={get(props.publisher, 'name')}/>}
+            <MultiLanguageValue labelKey="event-headline" value={values['name']}/>
+            <MultiLanguageValue labelKey="event-short-description" value={values['short_description']}/>
+            <MultiLanguageValue labelKey="event-description" value={values['description']}/>
+            <MultiLanguageValue labelKey="event-info-url" value={values['info_url']}/>
+            <MultiLanguageValue labelKey="event-provider" value={values['provider']}/>
+            {publisher && <TextValue labelKey="event-publisher" value={get(publisher, 'name')}/>}
 
             <FormHeader>
-                {props.intl.formatMessage({id: 'event-datetime-fields-header'})}
+                {intl.formatMessage({id: 'event-datetime-fields-header'})}
             </FormHeader>
-            <DateTime value={props.values['start_time']} labelKey="event-starting-datetime"/>
-            <DateTime value={props.values['end_time']} labelKey="event-ending-datetime"/>
+            <DateTime value={values['start_time']} labelKey="event-starting-datetime"/>
+            <DateTime value={values['end_time']} labelKey="event-ending-datetime"/>
 
             <FormHeader>
-                {props.intl.formatMessage({id: 'event-location-fields-header'})}
+                {intl.formatMessage({id: 'event-location-fields-header'})}
             </FormHeader>
 
-            <MultiLanguageValue labelKey="event-location" value={get(props.values, 'location.name')}/>
-            <TextValue labelKey="event-location-id" value={get(props.values, 'location.id')}/>
+            <MultiLanguageValue labelKey="event-location" value={get(values, 'location.name')}/>
+            <TextValue labelKey="event-location-id" value={get(values, 'location.id')}/>
             <MultiLanguageValue
                 labelKey="event-location-additional-info"
-                value={props.values['location_extra_info']}
+                value={values['location_extra_info']}
             />
 
             <FormHeader>
-                {props.intl.formatMessage({id: 'event-price-fields-header'})}
+                {intl.formatMessage({id: 'event-price-fields-header'})}
             </FormHeader>
-            <OffersValue values={props.values}/>
+            <OffersValue values={values}/>
 
             <FormHeader>
-                {props.intl.formatMessage({id: 'event-social-media-fields-header'})}
+                {intl.formatMessage({id: 'event-social-media-fields-header'})}
             </FormHeader>
-            <TextValue labelKey="facebook-url" value={props.values['extlink_facebook']}/>
-            <TextValue labelKey="twitter-url" value={props.values['extlink_twitter']}/>
-            <TextValue labelKey="instagram-url" value={props.values['extlink_instagram']}/>
+            <TextValue labelKey="facebook-url" value={values['extlink_facebook']}/>
+            <TextValue labelKey="twitter-url" value={values['extlink_twitter']}/>
+            <TextValue labelKey="instagram-url" value={values['extlink_instagram']}/>
 
             <FormHeader>
-                {props.intl.formatMessage({id: 'event-categorization'})}
+                {intl.formatMessage({id: 'event-categorization'})}
             </FormHeader>
 
             <OptionGroup values={helfiCategories} labelKey="hel-main-categories"/>
-            <OptionGroup values={props.values['keywords']} labelKey="hel-keywords"/>
-            <OptionGroup values={props.rawData['audience']} labelKey="hel-target-groups"/>
-            <OptionGroup values={props.rawData['in_language']} labelKey="hel-event-languages"/>
+            <OptionGroup values={values['keywords']} labelKey="hel-keywords"/>
+            <OptionGroup values={rawData['audience']} labelKey="hel-target-groups"/>
+            <OptionGroup values={rawData['in_language']} labelKey="hel-event-languages"/>
 
-            {appSettings.ui_mode === 'courses' && <React.Fragment>
-                <FormHeader>
-                    {props.intl.formatMessage({id: 'audience-age-restrictions'})}
-                </FormHeader>
-                <TextValue labelKey="audience-min-age" value={props.values['audience_min_age']}/>
-                <TextValue labelKey="audience-max-age" value={props.values['audience_max_age']}/>
+            {appSettings.ui_mode === 'courses' &&
+                <React.Fragment>
+                    <FormHeader>
+                        {intl.formatMessage({id: 'audience-age-restrictions'})}
+                    </FormHeader>
+                    <TextValue labelKey="audience-min-age" value={values['audience_min_age']}/>
+                    <TextValue labelKey="audience-max-age" value={values['audience_max_age']}/>
 
-                <FormHeader>
-                    {props.intl.formatMessage({id: 'enrolment-time'})}
-                </FormHeader>
-                <DateTime labelKey="enrolment-start-time" value={props.values['enrolment_start_time']}/>
-                <DateTime labelKey="enrolment-end-time" value={props.values['enrolment_end_time']}/>
+                    <FormHeader>
+                        {intl.formatMessage({id: 'enrolment-time'})}
+                    </FormHeader>
+                    <DateTime labelKey="enrolment-start-time" value={values['enrolment_start_time']}/>
+                    <DateTime labelKey="enrolment-end-time" value={values['enrolment_end_time']}/>
 
-                <FormHeader>
-                    {props.intl.formatMessage({id: 'attendee-capacity'})}
-                </FormHeader>
-                <TextValue labelKey="minimum-attendee-capacity" value={props.values['minimum_attendee_capacity']}/>
-                <TextValue labelKey="maximum-attendee-capacity" value={props.values['maximum_attendee_capacity']}/>
-            </React.Fragment>}
+                    <FormHeader>
+                        {intl.formatMessage({id: 'attendee-capacity'})}
+                    </FormHeader>
+                    <TextValue labelKey="minimum-attendee-capacity" value={values['minimum_attendee_capacity']}/>
+                    <TextValue labelKey="maximum-attendee-capacity" value={values['maximum_attendee_capacity']}/>
+                </React.Fragment>
+            }
+
+            <FormHeader>
+                {intl.formatMessage({id: 'links-to-events'})}
+            </FormHeader>
+            {isUmbrellaEvent &&
+                <p className="link-to-events-text">
+                    <FormattedMessage id="super-event-of-umbrella" />
+                </p>
+            }
+            {isRecurringEvent &&
+                <p className="link-to-events-text">
+                    <FormattedMessage id="super-event-of-series" />
+                </p>
+            }
+            {superEventIsUmbrellaEvent && superEventId &&
+                <p className="link-to-events-text">
+                    <FormattedMessage id="sub-event-of-umbrella" />
+                    <Link
+                        to={`/event/${superEventId}`}
+                        onClick={scrollToTop}
+                    >
+                        <span>{superEventName}</span>
+                    </Link>
+                </p>
+            }
+            {superEventIsRecurringEvent && superEventId &&
+                <p className="link-to-events-text">
+                    <FormattedMessage id="sub-event-of-series" />
+                    <Link
+                        to={`/event/${superEventId}`}
+                        onClick={scrollToTop}
+                    >
+                        <span>{superEventName}</span>
+                    </Link>
+                </p>
+            }
+            {!isUmbrellaEvent && !isRecurringEvent && !superEventIsUmbrellaEvent && !superEventIsRecurringEvent &&
+                <p className="link-to-events-text">
+                    <FormattedMessage id="no-links-to-events" />
+                </p>
+
+            }
         </div>
     )
 }
 
 EventDetails.propTypes = {
     values: PropTypes.object,
+    superEvent: PropTypes.object,
     rawData: PropTypes.object,
     intl: intlShape,
     publisher: PropTypes.object,
