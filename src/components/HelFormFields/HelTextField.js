@@ -222,7 +222,6 @@ class HelTextField extends React.Component {
                 <div className={groupClassName}>
                     <ControlLabel className="hel-label relative">{label}</ControlLabel>
                     <FormControl
-                        {...this.props}
                         componentClass={type}
                         value={this.state.value}
                         placeholder={this.props.placeholder}

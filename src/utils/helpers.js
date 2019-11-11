@@ -1,5 +1,4 @@
-import {isArray, isNil, isNull, set, some, keys, get} from 'lodash';
-
+import {isArray, isNil, isNull, set, some, get, keys} from 'lodash';
 import CONSTANTS from '../constants'
 import moment from 'moment';
 
@@ -98,7 +97,7 @@ export const nullifyMultiLanguageValues = (formValues, contentLanguages) => {
 }
 
 /**
- * Return the additional markup for the confirmation dialog based on given action type
+ * Returns the additional markup for the confirmation dialog based on given action type
  * @param action        Either 'update', 'delete' or 'cancel'
  * @param intl          React Intl
  * @param subEvents     Possible sub events for the event
@@ -120,4 +119,35 @@ export const getConfirmationMarkup = (action, intl, subEvents = [])  => {
     return subEventNames.length > 0
         ? `${warningText}${subEventWarningText}${subEventNames}`
         : warningText
+}
+
+/**
+ * Returns the event id from given URL
+ * @param url                     URL to get the event ID from
+ * @returns {string|undefined}    Event ID
+ */
+export const getEventIdFromUrl = url  => {
+    return typeof url === 'string'
+        ? url.substring(url.indexOf('/event/') + '/event/'.length, url.lastIndexOf('/'))
+        : undefined
+}
+
+/**
+ * Scrolls to the top of the page
+ */
+export const scrollToTop = ()  => window.scrollTo(0, 0)
+
+/**
+ * Returns the first defined value of a multi-language field
+ * @param field             Multi-language field to get the value from
+ * @param contentLanguages  Optional. If given, the value will only be looked for, for the given languages
+ * @returns {string|undefined}
+ */
+export const getFirstMultiLanguageFieldValue = (field, contentLanguages = null) => {
+    if (isNil(field)) {
+        return undefined
+    }
+    return isArray(contentLanguages)
+        ? get(field, keys(field).filter(key => contentLanguages.includes(key)).find(key => !isNil(field[key])), '')
+        : get(field, keys(field).find(key => !isNil(field[key])), '')
 }
