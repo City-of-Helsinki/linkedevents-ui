@@ -10,7 +10,7 @@ import {
     createSubEventsFromFormValues,
     updateSubEventsFromFormValues,
 } from '../utils/formDataMapping'
-import {emptyField, nullifyMultiLanguageValues} from '../utils/helpers'
+import {emptyField, getEventIdFromUrl, nullifyMultiLanguageValues} from '../utils/helpers'
 
 import {push} from 'react-router-redux'
 import {setFlashMsg, clearFlashMsg} from './app'
@@ -18,6 +18,8 @@ import {setFlashMsg, clearFlashMsg} from './app'
 import {doValidations} from 'src/validation/validator.js'
 import {fetchSubEventsForSuper} from './subEvents';
 import getContentLanguages from '../utils/language'
+import {receiveEventDetails, fetchSuperEventDetails, clearSuperEventDetails} from './events'
+import client from '../api/client'
 
 /**
  * Set editor form data
@@ -122,11 +124,7 @@ export function replaceData(formData) {
 /**
  * Clear all editor form data
  */
-export function clearData() {
-    return {
-        type: constants.EDITOR_CLEARDATA,
-    }
-}
+export const clearData = () =>  ({type: constants.EDITOR_CLEARDATA})
 
 /**
  * Set validation errors for editor (shown with validation popovers)
@@ -219,7 +217,7 @@ const prepareFormValues = (formValues, contentLanguages, user, updateExisting, p
         // calculate the super event's start_time and end_time based on its sub events
         const superEventTime = calculateSuperEventTime(data.sub_events)
         data = Object.assign({}, data, {
-            super_event_type: 'recurring',
+            super_event_type: constants.SUPER_EVENT_TYPE_RECURRING,
             ...superEventTime,
         })
     }
@@ -293,7 +291,7 @@ const executeSendRequest = (formValues, contentLanguages, user, updateExisting, 
 
                 if(response.status === 200 || response.status === 201) {
                     // create or update sub events after creating/updating super event successfully
-                    if (json.super_event_type === 'recurring') {
+                    if (json.super_event_type === constants.SUPER_EVENT_TYPE_RECURRING) {
                         dispatch(sendRecurringData(formValues, contentLanguages, user, updateExisting, publicationStatus, json['@id']))
                     } else {
                         // re-fetch sub events for a series if done editing non-super events
@@ -455,33 +453,29 @@ export function receiveLanguages(json) {
 }
 
 // Fetch data for updating
-export function fetchEventForEditing(eventID, user = {}) {
-    let url = `${appSettings.api_base}/event/${eventID}/?include=keywords,location,audience,in_language,external_links,image`
-
-    if(appSettings.nocache) {
-        url += `&nocache=${Date.now()}`
-    }
-
-    let options = {
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-    }
-
-    if(user && user.token) {
-        Object.assign(options.headers, {
-            'Authorization': 'JWT ' + user.token,
-        })
-    }
-
-    return (dispatch) => {
-        return fetch(url, options)
-            .then(response => response.json())
-            .then(json => dispatch(receiveEventForEditing(json)))
-            .catch(e => {
-                // Error happened while fetching ajax (connection or javascript)
+export const fetchEventForEditing = eventID => {
+    return async (dispatch) => {
+        try {
+            const response = await client.get(`event/${eventID}/`, {
+                include: 'keywords,location,audience,in_language,external_links,image',
+                nocache: Date.now(),
             })
+            const data = response.data
+            const superEventUrl = get(data, ['super_event', '@id'])
+
+            dispatch(receiveEventForEditing(data))
+            dispatch(receiveEventDetails(data))
+            // update editor content languages based on received event data
+            dispatch(setLanguages(getContentLanguages(data)))
+
+            // fetch super event for the received event if it has one,
+            // otherwise clear existing one from store
+            !isNil(superEventUrl)
+                ? dispatch(fetchSuperEventDetails(getEventIdFromUrl(superEventUrl)))
+                : dispatch(clearSuperEventDetails())
+        } catch (error) {
+            new Error(error)
+        }
     }
 }
 
@@ -495,7 +489,7 @@ export function receiveEventForEditing(json) {
 
 // recursively cancel an event and its sub events
 export function cancelEvent(eventId, user, values) {
-    const isSuperEvent = values.super_event_type === 'recurring';
+    const isSuperEvent = values.super_event_type === constants.SUPER_EVENT_TYPE_RECURRING;
 
     return (dispatch, getState) => {
 
@@ -579,7 +573,7 @@ export function deleteEvent(eventID, user, values, recursing = false) {
     if(user) {
         token = user.token
     }
-    const isSuperEvent = values.super_event_type === 'recurring';
+    const isSuperEvent = values.super_event_type === constants.SUPER_EVENT_TYPE_RECURRING;
 
     return (dispatch, getState) => {
         return fetch(url, {

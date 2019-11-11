@@ -2,21 +2,16 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {FormattedMessage} from 'react-intl'
 import PropTypes from 'prop-types'
-
 import FilterableEventTable from 'src/components/FilterableEventTable'
-import EventGrid from '../../components/EventGrid'
-import SearchBar from '../../components/SearchBar'
-
 import {fetchUserEvents as fetchUserEventsAction} from 'src/actions/userEvents'
 import {login as loginAction} from 'src/actions/user.js'
 
 export class EventListing extends React.Component {
-    constructor(props) {
-        super(props)
-    }
+
     componentDidMount() {
         this.fetchEvents()
     }
+
     componentDidUpdate() {
         const {fetchComplete, isFetching} = this.props.events;
         if (fetchComplete || isFetching) {
@@ -31,8 +26,6 @@ export class EventListing extends React.Component {
             fetchUserEvents(user, sortBy, sortOrder, paginationPage)
         }
     }
-
-    // <FilterableEventTable events={this.props.events} apiErrorMsg={''} />
 
     render() {
     // Use material UI table
@@ -55,7 +48,16 @@ export class EventListing extends React.Component {
             <div className="container">
                 {header}
                 <p><FormattedMessage id="events-management-description"/></p>
-                <FilterableEventTable events={events.items} apiErrorMsg={''} sortBy={events.sortBy} sortOrder={events.sortOrder} user={this.props.user} fetchComplete={events.fetchComplete} count={events.count} paginationPage={events.paginationPage}/>
+                <FilterableEventTable
+                    events={events.items}
+                    apiErrorMsg={''}
+                    sortBy={events.sortBy}
+                    sortOrder={events.sortOrder}
+                    user={this.props.user}
+                    fetchComplete={events.fetchComplete}
+                    count={events.count}
+                    paginationPage={events.paginationPage}
+                />
             </div>
         )
     }
@@ -63,16 +65,14 @@ export class EventListing extends React.Component {
 
 EventListing.propTypes = {
     events: PropTypes.object,
-    fetchUserEvents: PropTypes.func,
     user: PropTypes.object,
+    fetchUserEvents: PropTypes.func,
     login: PropTypes.func,
 }
 
 const mapStateToProps = (state) => ({
     events: state.userEvents,
     user: state.user,
-    organization: state.organization,
-    apiErrorMsg: state.events.apiErrorMsg,
 })
 
 const mapDispatchToProps = (dispatch) => ({

@@ -6,6 +6,7 @@
     "edit-events": "Edit the event",
     "copy-event-to-draft": "Copy to draft",
     "search-events": "Search events",
+    "no-events": "No events do show.",
     "search-events-description": "View all events on Linked Events.",
     "pick-time-range": "Pick time range",
     "event-name-or-place": "Event name or place",
@@ -28,6 +29,15 @@
     "draft": "Draft",
     "cancelled": "Cancelled",
     "series": "Series",
+    "umbrella": "Umbrella",
+
+    "links-to-events": "Links to other events",
+    "no-links-to-events": "No links.",
+
+    "super-event-of-series": "This is the top event of a series.",
+    "super-event-of-umbrella": "This is an umbrella event.",
+    "sub-event-of-series": "This event is part of a series: ",
+    "sub-event-of-umbrella": "This event has an umbrella event: ",
 
     "event-sort-title": "Title",
     "event-sort-starttime": "Event starts",
@@ -121,6 +131,13 @@
 
     "event-categorization": "Categorization",
     "event-keywords": "Keywords",
+
+    "event-umbrella": "Umbrella events",
+    "event-is-umbrella": "This event is an umbrella event.",
+    "event-has-umbrella": "This event has an umbrella event.",
+    "event-is-umbrella-tooltip": "A sub event cannot be an umbrella event.",
+    "event-has-umbrella-tooltip": "An umbrella event cannot have an umbrella event.",
+    "event-has-umbrella-select-tip": "An umbrella event has to be created before events can be added under it.",
 
     "hel-event-languages": "Event languages",
 
@@ -223,6 +240,9 @@
     "editor-tip-hel-main-category": "Select at least one main category.",
     "editor-tip-hel-target-group": "If the event does not have a specific target group, don't select anything.",
     "editor-tip-event-languages": "Languages used in the event.",
+    "editor-tip-umbrella-sub-event": "If you wish to add this event under an umbrella event, you may do so from the associated ",
+    "editor-tip-umbrella-sub-event-link": "top level event",
+
     "image-caption-limit": "Caption (maximum {limit} characters)",
     "add-more": "Add more",
     "play-date-label": "Play date",
