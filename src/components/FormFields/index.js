@@ -132,7 +132,9 @@ class FormFields extends React.Component {
     trimmedDescription() {
         let descriptions = Object.assign({}, this.props.editor.values['description'])
         for (const lang in descriptions) {
-            descriptions[lang] = descriptions[lang].replace(/<\/p><p>/gi, '\n\n').replace(/<br\s*[\/]?>/gi, '\n').replace(/<p>/g, '').replace(/<\/p>/g, '').replace(/&amp;/g, '&')
+            if (descriptions[lang] !== null) {
+                descriptions[lang] = descriptions[lang].replace(/<\/p><p>/gi, '\n\n').replace(/<br\s*[\/]?>/gi, '\n').replace(/<p>/g, '').replace(/<\/p>/g, '').replace(/&amp;/g, '&')
+            }
         }
         return descriptions
     }

@@ -465,6 +465,8 @@ export const fetchEventForEditing = eventID => {
 
             dispatch(receiveEventForEditing(data))
             dispatch(receiveEventDetails(data))
+            // update editor content languages based on received event data
+            dispatch(setLanguages(getContentLanguages(data)))
 
             // fetch super event for the received event if it has one,
             // otherwise clear existing one from store
