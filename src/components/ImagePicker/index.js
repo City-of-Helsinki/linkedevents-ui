@@ -74,6 +74,13 @@ export class ImagePicker extends React.Component {
     }
 
     render() {
+        // console.log('ImagePicker/Index.js: this.props');
+        // console.log(this.props);
+        // console.log('ImagePicker/Index.js: this.props.images');
+        // console.log(this.props.images);
+        // console.log('ImagePicker/Index.js: this.state.imageFile');
+        // console.log(this.state.imageFile);
+        
         let bgStyle = {backgroundImage: 'url(' + getIfExists(this.props.editor.values, 'image.url', '') + ')'}
         return (
             <div className="image-picker">

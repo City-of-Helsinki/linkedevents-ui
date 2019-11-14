@@ -6,16 +6,35 @@ import {connect} from 'react-redux'
 import {fetchUserImages as fetchUserImagesAction} from 'src/actions/userImages'
 import ImageThumbnail from '../ImageThumbnail'
 
-class ImageGalleryGrid extends React.Component {
+const ImagePagination = (props) => {
+    console.log('ImagePagination props');
+    console.log(props.responseMetadata);
+    
+    // TODO pass the next url to the fetch functionq
+    
+    return <nav aria-label='Page navigation example'>
+        <ul className='pagination'>
+            <li className='page-item'><a className='page-link' href='#'>Previous</a></li>
+            <li className='page-item'><a className='page-link' href='#' onClick={() => alert('jess')}>1</a></li>
+            <li className='page-item'><a className='page-link' href='#'>2</a></li>
+            <li className='page-item'><a className='page-link' href='#'>3</a></li>
+            <li className='page-item'><a className='page-link' href={props.responseMetadata.next}>Next</a></li>
+        </ul>
+    </nav>
+}
 
+class ImageGalleryGrid extends React.Component {
     constructor(props) {
         super(props)
     }
     componentDidMount() {
+        console.log('component did mount')
         this.fetchImages();
     }
 
     componentDidUpdate() {
+        console.log('component did update')
+        
         const {fetchComplete, isFetching} = this.props.images
         if (fetchComplete || isFetching) {
             return;
@@ -25,13 +44,15 @@ class ImageGalleryGrid extends React.Component {
 
     fetchImages() {
         if (this.props.user) {
-            this.props.fetchUserImages(this.props.user, 1000);
+            this.props.fetchUserImages(this.props.user, 100);
         }
     }
 
     render() {
     // save the id of the selected image of this event (or editor values)
         let selected_id = getIfExists(this.props.editor.values, 'image.id', null)
+        
+        // console.log(this.props)
 
         // show latest modified at top
         let sorted = this.props.images.items.sort((a,b) => {
@@ -54,14 +75,18 @@ class ImageGalleryGrid extends React.Component {
         imgs.unshift(<ImageThumbnail selected={selected} key={0} empty={true} url="" data={{}}/>)
 
         return (
-            <div className="image-grid container-fluid">
-                <div className="row">
+            <div className='image-grid container-fluid'>
+                <div className='row'>
                     {imgs}
-                    <div className="clearfix" />
+                    <div className='clearfix' />
                 </div>
+    
+                <ImagePagination responseMetadata={this.props.images.meta} />
             </div>
         )
     }
+    
+    // <ArchiveSorting returnedSelectValue={this.changeBlogPostType} defaultValue={"summary"}></ArchiveSorting>
 }
 
 ImageGalleryGrid.propTypes = {
@@ -74,6 +99,14 @@ ImageGalleryGrid.propTypes = {
 const mapDispatchToProps = (dispatch) => ({
     fetchUserImages: (user, amount) => dispatch(fetchUserImagesAction(user, amount)),
 })
-const mapStateToProps = () => ({})
+
+const mapStateToProps = (state) => ({
+
+})
+
+ImagePagination.propTypes = {
+    responseMetadata: PropTypes.object,
+};
+
 // TODO: if leave null, react-intl not refresh. Replace this with better React context
 export default connect(mapStateToProps, mapDispatchToProps)(ImageGalleryGrid)

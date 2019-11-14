@@ -14,11 +14,21 @@ export function selectImage(image) {
     }
 }
 
+/**
+ * Fetch images from the API.
+ *
+ * @param organization
+ * @param pg_size = page size, how many images do you want to display on a single page.
+ * @returns Object
+ */
 function makeRequest(organization, pg_size) {
-    var url = `${appSettings.api_base}/image/?page_size=${pg_size}&publisher=${organization}`
+    let url = `${appSettings.api_base}/image/?page_size=${pg_size}&publisher=${organization}`
     if(appSettings.nocache) {
         url += `&nocache=${Date.now()}`
     }
+    
+    console.log($.getJSON(url));
+    
     return $.getJSON(url);
 }
 
@@ -50,7 +60,7 @@ export function fetchUserImages(user, page_size) {
     return (dispatch) => {
         dispatch(startFetching)
         makeRequest(getIfExists(user, 'organization', null), page_size).done(response => {
-            dispatch(receiveUserImages(response))
+            dispatch(receiveUserImagesAndMeta(response))
         }).fail(response => {
             dispatch(setFlashMsg(getIfExists(response, 'detail', 'Error fetching images'), 'error', response))
             dispatch(receiveUserImagesFail(response))
@@ -62,6 +72,20 @@ export function receiveUserImages(response) {
     return {
         type: constants.RECEIVE_IMAGES,
         items: response.data,
+    }
+}
+
+/**
+ * An action for fetching both images and meta data, that holds the next / previous page information and image count.
+ *
+ * @param response
+ * @returns Object
+ */
+export function receiveUserImagesAndMeta(response) {
+    return {
+        type: constants.RECEIVE_IMAGES_AND_META,
+        items: response.data,
+        meta: response.meta,
     }
 }
 

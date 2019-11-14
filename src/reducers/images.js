@@ -16,6 +16,15 @@ function update(state = initialState, action) {
             items: action.items,
         });
     }
+    
+    if (action.type === constants.RECEIVE_IMAGES_AND_META) {
+        return Object.assign({}, state, {
+            isFetching: false,
+            fetchComplete: true,
+            items: action.items,
+            meta: action.meta,
+        });
+    }
 
     if (action.type === constants.RECEIVE_IMAGES_ERROR) {
         return Object.assign({}, state, {
