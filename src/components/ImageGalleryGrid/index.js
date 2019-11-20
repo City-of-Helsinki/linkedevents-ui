@@ -7,59 +7,75 @@ import {fetchUserImages as fetchUserImagesAction} from 'src/actions/userImages'
 import ImageThumbnail from '../ImageThumbnail'
 
 const ImagePagination = (props) => {
-    console.log('ImagePagination props');
-    console.log(props.responseMetadata);
+    // During the first modal load there is no data yet. Data is fetched in ComponentDidMount.
+    if (props.responseMetadata === undefined) {
+        return null;
+    }
     
-    // TODO pass the next url to the fetch functionq
+    const pageAmount = Math.ceil(parseInt(props.responseMetadata.count) / 100);
+    const currentPage = props.responseMetadata.currentPage;
     
+    let classes;
+    const pages = [];
+    
+    for (let i = 1; i < pageAmount + 1; i++) {
+        classes = (props.responseMetadata.currentPage !== undefined && currentPage == i) ? 'page-item active' : 'page-item';
+        
+        pages.push(<li className={classes} key={i}><a className='page-link' href='#' onClick={() => props.clickedPage(i)}>{i}</a></li>);
+    }
+
     return <nav aria-label='Page navigation example'>
         <ul className='pagination'>
-            <li className='page-item'><a className='page-link' href='#'>Previous</a></li>
-            <li className='page-item'><a className='page-link' href='#' onClick={() => alert('jess')}>1</a></li>
-            <li className='page-item'><a className='page-link' href='#'>2</a></li>
-            <li className='page-item'><a className='page-link' href='#'>3</a></li>
-            <li className='page-item'><a className='page-link' href={props.responseMetadata.next}>Next</a></li>
+            <li className='page-item'><a className='page-link' href='#' onClick={() => props.clickedPage('Previous')}>Previous</a></li>
+            {pages}
+            <li className='page-item'><a className='page-link' href='' onClick={() => props.clickedPage('Next')}>Next</a></li>
         </ul>
     </nav>
-}
+};
 
 class ImageGalleryGrid extends React.Component {
     constructor(props) {
         super(props)
     }
+    
     componentDidMount() {
         console.log('component did mount')
         this.fetchImages();
     }
 
     componentDidUpdate() {
-        console.log('component did update')
+        console.log('component did update');
         
-        const {fetchComplete, isFetching} = this.props.images
+        const {fetchComplete, isFetching} = this.props.images;
+        
         if (fetchComplete || isFetching) {
             return;
         }
+        
         this.fetchImages();
     }
 
-    fetchImages() {
+    fetchImages = (organization = this.props.user, pageSize = 100, pageNumber = null) => {
         if (this.props.user) {
-            this.props.fetchUserImages(this.props.user, 100);
+            this.props.fetchUserImages(organization, pageSize, pageNumber);
         }
-    }
+    };
 
+    // Get the desired page number as a parameter and fetch images for that page
+    changeImagePage = (pageNumber) => {
+        this.fetchImages(this.props.user.organization, 100, pageNumber);
+    };
+    
     render() {
-    // save the id of the selected image of this event (or editor values)
-        let selected_id = getIfExists(this.props.editor.values, 'image.id', null)
-        
-        // console.log(this.props)
+        // save the id of the selected image of this event (or editor values)
+        let selected_id = getIfExists(this.props.editor.values, 'image.id', null);
 
         // show latest modified at top
-        let sorted = this.props.images.items.sort((a,b) => {
-            let date_a = new Date(a.last_modified_time)
-            let date_b = new Date(b.last_modified_time)
+        let sorted = this.props.images.items.sort((a, b) => {
+            const date_a = new Date(a.last_modified_time);
+            const date_b = new Date(b.last_modified_time);
             return date_b - date_a
-        })
+        });
 
         // build the classes for the thumbnails
         let imgs = this.props.images.items.map((img) => {
@@ -67,10 +83,11 @@ class ImageGalleryGrid extends React.Component {
             return (
                 <ImageThumbnail selected={selected} key={img.id} url={img.url} data={img} />
             )
-        })
+        });
 
         // ...and finally check if there is no image for this event to be able to set the class
-        let selected = selected_id == null
+        let selected = selected_id == null;
+        
         // unsift == prepend
         imgs.unshift(<ImageThumbnail selected={selected} key={0} empty={true} url="" data={{}}/>)
 
@@ -81,12 +98,10 @@ class ImageGalleryGrid extends React.Component {
                     <div className='clearfix' />
                 </div>
     
-                <ImagePagination responseMetadata={this.props.images.meta} />
+                <ImagePagination clickedPage={this.changeImagePage} responseMetadata={this.props.images.meta} />
             </div>
         )
     }
-    
-    // <ArchiveSorting returnedSelectValue={this.changeBlogPostType} defaultValue={"summary"}></ArchiveSorting>
 }
 
 ImageGalleryGrid.propTypes = {
@@ -94,18 +109,18 @@ ImageGalleryGrid.propTypes = {
     user: PropTypes.object,
     editor: PropTypes.object,
     fetchUserImages: PropTypes.func,
-}
+};
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchUserImages: (user, amount) => dispatch(fetchUserImagesAction(user, amount)),
-})
+    fetchUserImages: (user, amount, pageNumber) => dispatch(fetchUserImagesAction(user, amount, pageNumber)),
+});
 
-const mapStateToProps = (state) => ({
-
-})
+const mapStateToProps = (state, ownProps) => ({
+});
 
 ImagePagination.propTypes = {
     responseMetadata: PropTypes.object,
+    clickedPage: PropTypes.func,
 };
 
 // TODO: if leave null, react-intl not refresh. Replace this with better React context

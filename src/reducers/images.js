@@ -41,6 +41,15 @@ function update(state = initialState, action) {
             items: [],
         });
     }
+    
+    if (action.type === constants.REQUEST_IMAGES_AND_META) {
+        return Object.assign({}, state, {
+            isFetching: true,
+            fetchComplete: false,
+            items: [],
+            meta: [],
+        });
+    }
 
     if(action.type === constants.IMAGE_UPLOAD_SUCCESS) {
         return Object.assign({}, state, {

@@ -5,6 +5,7 @@ import constants from '../constants'
 import {setData} from './editor'
 import {setFlashMsg} from './app'
 import {get as getIfExists} from 'lodash'
+import client from '../api/client'
 
 
 export function selectImage(image) {
@@ -14,6 +15,15 @@ export function selectImage(image) {
     }
 }
 
+// TODO: Remove this with the jquery
+function makeRequest(organization, pg_size) {
+    var url = `${appSettings.api_base}/image/?page_size=${pg_size}&publisher=${organization}`
+    if (appSettings.nocache) {
+        url += `&nocache=${Date.now()}`
+    }
+    return $.getJSON(url);
+}
+
 /**
  * Fetch images from the API.
  *
@@ -21,15 +31,23 @@ export function selectImage(image) {
  * @param pg_size = page size, how many images do you want to display on a single page.
  * @returns Object
  */
-function makeRequest(organization, pg_size) {
-    let url = `${appSettings.api_base}/image/?page_size=${pg_size}&publisher=${organization}`
-    if(appSettings.nocache) {
-        url += `&nocache=${Date.now()}`
+async function makeImageRequest(organization, pageSize, pageNumber = null) {
+    let result;
+    
+    if (!pageNumber) {
+        // Default request when the modal is loaded
+        result = await client.get('image', {page_size: pageSize, $publisher: organization});
+    } else {
+        // When the user wants to load another page of images
+        result = await client.get('image', {page_size: pageSize, $publisher: organization, page: pageNumber});
+        
+        result.data.meta.currentPage = pageNumber;
     }
     
-    console.log($.getJSON(url));
     
-    return $.getJSON(url);
+    console.log(result);
+    
+    return result;
 }
 
 function getRequestBaseSettings(user, method = 'POST', imageId = null) {
@@ -54,18 +72,35 @@ function getRequestBaseSettings(user, method = 'POST', imageId = null) {
 
 }
 
-export const startFetching = createAction(constants.REQUEST_IMAGES);
-
-export function fetchUserImages(user, page_size) {
-    return (dispatch) => {
-        dispatch(startFetching)
-        makeRequest(getIfExists(user, 'organization', null), page_size).done(response => {
-            dispatch(receiveUserImagesAndMeta(response))
-        }).fail(response => {
-            dispatch(setFlashMsg(getIfExists(response, 'detail', 'Error fetching images'), 'error', response))
-            dispatch(receiveUserImagesFail(response))
-        });
-    }
+export function fetchUserImages(organization, pageSize, pageNumber = null) {
+    const startFetching = createAction(constants.REQUEST_IMAGES_AND_META);
+    
+    return async (dispatch) => {
+        let response;
+        
+        try {
+            dispatch(startFetching);
+    
+            response = await makeImageRequest(getIfExists(organization, 'organization', null), pageSize, pageNumber);
+            
+            dispatch(receiveUserImagesAndMeta(response));
+        } catch (error) {
+            dispatch(setFlashMsg(getIfExists(response, 'detail', 'Error fetching images'), 'error', response));
+            dispatch(receiveUserImagesFail(response));
+            new Error(error);
+        }
+    };
+    
+    // Original
+    // return (dispatch) => {
+    //     dispatch(startFetching)
+    //     makeRequest(getIfExists(organization, 'organization', null), pageSize).done(response => {
+    //         dispatch(receiveUserImages(response))
+    //     }).fail(response => {
+    //         dispatch(setFlashMsg(getIfExists(response, 'detail', 'Error fetching images'), 'error', response))
+    //         dispatch(receiveUserImagesFail(response))
+    //     });
+    // }
 }
 
 export function receiveUserImages(response) {
@@ -84,8 +119,8 @@ export function receiveUserImages(response) {
 export function receiveUserImagesAndMeta(response) {
     return {
         type: constants.RECEIVE_IMAGES_AND_META,
-        items: response.data,
-        meta: response.meta,
+        items: response.data.data,
+        meta: response.data.meta,
     }
 }
 
