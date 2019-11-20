@@ -15,7 +15,7 @@ export function selectImage(image) {
     }
 }
 
-// TODO: Remove this with the jquery
+// TODO: Remove this with jquery
 function makeRequest(organization, pg_size) {
     var url = `${appSettings.api_base}/image/?page_size=${pg_size}&publisher=${organization}`
     if (appSettings.nocache) {
@@ -41,38 +41,14 @@ async function makeImageRequest(organization, pageSize, pageNumber = null) {
         // When the user wants to load another page of images
         result = await client.get('image', {page_size: pageSize, $publisher: organization, page: pageNumber});
         
+        // Append the page number to the JSON array so that it can be easily used in the pagination
         result.data.meta.currentPage = pageNumber;
     }
-    
-    
-    console.log(result);
     
     return result;
 }
 
-function getRequestBaseSettings(user, method = 'POST', imageId = null) {
-    let token = user ? user.token : ''
-
-    let url = appSettings.api_base + '/image/'
-    if (imageId) {
-        url += imageId + '/'
-    }
-
-    return {
-        'async': true,
-        'crossDomain': true,
-        'url': url,
-        'method': method,
-        'headers': {
-            'authorization': 'JWT ' + token,
-            'accept': 'application/json',
-        },
-        'processData': false,
-    }
-
-}
-
-export function fetchUserImages(organization, pageSize, pageNumber = null) {
+export function fetchUserImages(organization, pageSize = 100, pageNumber = null) {
     const startFetching = createAction(constants.REQUEST_IMAGES_AND_META);
     
     return async (dispatch) => {
@@ -103,6 +79,7 @@ export function fetchUserImages(organization, pageSize, pageNumber = null) {
     // }
 }
 
+// TODO: Remove this (and the reducer?) with jquery
 export function receiveUserImages(response) {
     return {
         type: constants.RECEIVE_IMAGES,
@@ -131,13 +108,61 @@ export function receiveUserImagesFail(response) {
     }
 }
 
+export function imageUploadFailed(json) {
+    return {
+        type: constants.IMAGE_UPLOAD_ERROR,
+        data: json,
+    }
+}
+
+export function imageUploadComplete(json) {
+    return {
+        type: constants.IMAGE_UPLOAD_SUCCESS,
+        data: json,
+    }
+}
+
+function getRequestBaseSettings(user, method = 'POST', imageId = null) {
+    let token = user ? user.token : ''
+    
+    let url = appSettings.api_base + '/image/'
+    if (imageId) {
+        url += imageId + '/'
+    }
+    
+    return {
+        'async': true,
+        'crossDomain': true,
+        'url': url,
+        'method': method,
+        'headers': {
+            'authorization': 'JWT ' + token,
+            'accept': 'application/json',
+        },
+        'processData': false,
+    }
+}
+
 export function postImage(formData, user, imageId = null) {
+    // return async (dispatch) => {
+    //     try {
+    //         const requestContentSettings = {
+    //             'mimeType': 'multipart/form-data',
+    //             'contentType': false,
+    //             'data': formData,
+    //         };
+    //
+    //     } catch (error) {
+    //
+    //     }
+    // }
+    
     return (dispatch) => {
         const requestContentSettings = {
             'mimeType': 'multipart/form-data',
             'contentType': false,
             'data': formData,
-        }
+        };
 
         const baseSettings = imageId ? getRequestBaseSettings(user, 'PUT', imageId) : getRequestBaseSettings(user)
 
@@ -163,35 +188,24 @@ export function postImage(formData, user, imageId = null) {
     }
 }
 
-export function imageUploadFailed(json) {
-    return {
-        type: constants.IMAGE_UPLOAD_ERROR,
-        data: json,
-    }
-}
-
-export function imageUploadComplete(json) {
-    return {
-        type: constants.IMAGE_UPLOAD_SUCCESS,
-        data: json,
-    }
-}
-
 export function deleteImage(selectedImage, user) {
-    return (dispatch) => {
-        const settings = getRequestBaseSettings(user, 'DELETE', selectedImage.id)
-        return $.ajax(settings).done(response => {
-
-            // update form image value
-            dispatch(setData({'image': null}))
-
-            dispatch(setFlashMsg('image-deletion-success', 'success', response))
-
-            // update image picker images
-            dispatch(fetchUserImages(user, 1000))
-
-        }).fail(response => {
-            dispatch(setFlashMsg('image-deletion-error', 'error', response))
-        })
+    return async (dispatch) => {
+        const userToken = user ? user.token : '';
+        
+        try {
+            const query = await client.delete(`image/${selectedImage.id}`, {}, {});
+    
+            // Update form image value
+            dispatch(setData({'image': null}));
+    
+            dispatch(setFlashMsg('image-deletion-success', 'success', ''));
+    
+            // Update image listing
+            dispatch(fetchUserImages(user));
+        } catch (error) {
+            dispatch(setFlashMsg('image-deletion-error', 'error', error));
+            
+            new Error(error);
+        }
     }
 }

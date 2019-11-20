@@ -37,13 +37,10 @@ class ImageGalleryGrid extends React.Component {
     }
     
     componentDidMount() {
-        console.log('component did mount')
         this.fetchImages();
     }
 
     componentDidUpdate() {
-        console.log('component did update');
-        
         const {fetchComplete, isFetching} = this.props.images;
         
         if (fetchComplete || isFetching) {
