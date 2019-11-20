@@ -39,7 +39,7 @@
         height: 77px;
         width: 100%;
 
-        padding-left: 22px;
+        padding: 0 22px;
 
         background: rgba(0,0,0,0.5);
     }
@@ -62,7 +62,12 @@
 }
 
 .edit-icon {
-    right: 3%;
-    top: 35%;
-    position: absolute;
+    // right: 3%;
+    // top: 35%;
+    // position: absolute;
+    // display: inline-block;
+}
+
+ul.pagination {
+    flex-wrap: wrap;
 }

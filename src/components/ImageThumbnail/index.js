@@ -24,7 +24,6 @@ class ImageThumbnail extends React.Component {
     }
 
     render() {
-    // let classname = this.props.selected ? "col-md-6 col-xs-6 selected" : "col-md-6 col-xs-6"
         let classname = this.props.selected ? 'image-thumb selected' : 'image-thumb'
 
         if(this.props.empty) {
@@ -45,7 +44,8 @@ class ImageThumbnail extends React.Component {
             <div className="col-md-3 col-xs-12" onClick={this.selectThis} id={this.props.data.id}>
                 <div className={classname}>
                     <div className="thumbnail" style={bgStyle} />
-                    <div className="name edit-image" onClick={() => this.setState({edit: true})}>{this.props.data.name || 'Edit image'}<i className="material-icons edit-icon">&#xE869;</i></div>
+                    <div className="name edit-image" onClick={() => this.setState({edit: true})}>
+                        <span className={'image-title'}>{this.props.data.name || 'Edit image'}</span><i className="material-icons edit-icon">&#xE869;</i></div>
                 </div>
                 {   this.state.edit &&
                     <ImageEdit

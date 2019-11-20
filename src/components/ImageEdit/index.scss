@@ -35,6 +35,18 @@
 
 .edit-image {
     cursor: pointer;
+
+    &:hover {
+        opacity: 0.9;
+    }
+
+    .image-title {
+        flex-grow: 1;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 }
 
 .edit-form {
