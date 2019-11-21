@@ -190,10 +190,8 @@ export function postImage(formData, user, imageId = null) {
 
 export function deleteImage(selectedImage, user) {
     return async (dispatch) => {
-        const userToken = user ? user.token : '';
-        
         try {
-            const query = await client.delete(`image/${selectedImage.id}`, {}, {});
+            const query = await client.delete(`image/${selectedImage.id}`);
     
             // Update form image value
             dispatch(setData({'image': null}));
