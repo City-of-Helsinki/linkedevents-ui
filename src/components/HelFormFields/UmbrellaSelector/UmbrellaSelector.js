@@ -9,8 +9,9 @@ import {get, isNil, isNull, isUndefined} from 'lodash'
 import {connect} from 'react-redux'
 import UmbrellaCheckbox from './UmbrellaCheckbox'
 import {Link} from 'react-router-dom'
-import {getEventIdFromUrl, getFirstMultiLanguageFieldValue, scrollToTop} from '../../../utils/helpers'
+import {getFirstMultiLanguageFieldValue, scrollToTop} from '../../../utils/helpers'
 import constants from '../../../constants'
+import {getEventIdFromUrl} from '../../../utils/events'
 
 class UmbrellaSelector extends React.Component {
 

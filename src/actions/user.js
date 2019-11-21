@@ -1,8 +1,11 @@
 import constants from '../constants.js'
 import fetch from 'isomorphic-fetch'
-import {get} from 'lodash'
+import {set, get} from 'lodash'
 import {resetUserEventsFetching} from './userEvents'
 import {setEditorAuthFlashMsg} from './editor'
+import client from '../api/client'
+import axios from 'axios'
+import {getAdminOrganizations} from '../utils/user'
 
 // Handled by the user reducer
 export function receiveUserData(data) {
@@ -30,34 +33,53 @@ function saveUserToLocalStorage(user) {
     localStorage.setItem('user', JSON.stringify(modifiedUser))
 }
 
-export function retrieveUserFromSession() {
-    return (dispatch) => {
-        return fetch('/auth/me?' + (+new Date()), {method: 'GET', credentials: 'same-origin'}).then((response) => {
-            return response.json()
-        }).then((user) => {
-            if(user.token) {
-                const settings = {
-                    headers: {
-                        'Authorization': 'JWT ' + user.token,
-                    },
-                }
-                return fetch(`${appSettings.api_base}/user/${user.username}/`, settings).then((response) => {
-                    return response.json()
-                }).then((userJSON) => {
-                    let mergedUser = Object.assign({}, user, {
-                        organization: get(userJSON, 'organization', null),
-                        adminOrganizations: get(userJSON, 'admin_organizations', null),
-                        organizationMemberships: get(userJSON, 'organization_memberships', null),
-                    })
+export const retrieveUserFromSession = () => {
+    return async (dispatch) => {
+        try {
+            const meResponse = await axios.get(`auth/me?${+new Date()}`)
+            const user = meResponse.data
 
-                    saveUserToLocalStorage(mergedUser)
-                    dispatch(receiveUserData(mergedUser))
-                    dispatch(setEditorAuthFlashMsg())
+            if (user.token) {
+                const userResponse = await client.get(`user/${user.username}`, {}, {
+                    headers: {Authorization: `JWT ${user.token}`},
                 })
-            } else {
-                // dispatch(login())
+                const userData = userResponse.data
+                const permissions = []
+
+                if (get(userData, 'admin_organizations', []).length > 0) {
+                    permissions.push('admin')
+                }
+                if (get(userData, 'organization_memberships', []).length > 0) {
+                    permissions.push('regular')
+                }
+
+                const mergedUser = {
+                    ...user,
+                    organization: get(userData, 'organization', null),
+                    adminOrganizations: get(userData, 'admin_organizations', null),
+                    organizationMemberships: get(userData, 'organization_memberships', null),
+                    permissions,
+                }
+
+                Promise.all(getAdminOrganizations(mergedUser))
+                    .then(adminOrganizations => {
+                        // store data of all the organizations that the user is admin in
+                        mergedUser.adminOrganizationData = adminOrganizations
+                            .reduce((acc, organization) => set(acc, `${organization.data.id}`, organization.data), {})
+                        // get the affiliated organizations
+                        mergedUser.affiliatedOrganizations = adminOrganizations
+                            .filter(organization => get(organization, ['data', 'is_affiliated'], false))
+                            .map(organization => organization.data.id)
+                    })
+                    .finally(() => {
+                        saveUserToLocalStorage(mergedUser)
+                        dispatch(receiveUserData(mergedUser))
+                        dispatch(setEditorAuthFlashMsg())
+                    })
             }
-        })
+        } catch (e) {
+            throw Error(e)
+        }
     }
 }
 

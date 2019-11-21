@@ -1,0 +1,87 @@
+.draft-row {
+    background-color: rgba(255, 208, 91, 0.60) !important;
+}
+
+.cancelled-row {
+    background-color: rgba(222, 114, 106, 0.60) !important;
+}
+
+.text-uppercase {
+    text-transform: uppercase;
+}
+
+.tag-space {
+    margin-right: 4px;
+}
+
+.event-table {
+    th.checkbox,
+    td.checkbox {
+        padding: 10px;
+        width: 50px;
+    }
+
+    th.checkbox + th:not(.checkbox),
+    th:first-of-type:not(.checkbox),
+    td.checkbox + td:not(.checkbox),
+    td:first-of-type:not(.checkbox) {
+        width: auto;
+    }
+
+    td, th {
+        padding: 10px 15px;
+        width: 18%;
+    }
+}
+
+.draft-actions {
+    margin-top: 20px;
+
+    &--button:not(:first-of-type) {
+        margin-left: 20px;
+    }
+
+    &--button-count {
+        margin-left: 5px;
+    }
+}
+
+.sub-events-progress {
+    margin: 12px 0 12px 60px;
+}
+
+.sub-event-toggle {
+    height: 40px;
+    width: 40px;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    svg {
+        height: 30px;
+        width: 30px;
+    }
+}
+
+tbody {
+    > .sub-event-row {
+        background-color: rgba(black, 0.01);
+        border: solid #ebebeb;
+        border-width: 2px 0 0;
+    }
+
+    .sub-event-row ~ .sub-event-row {
+        border-width: 0 0 2px;
+    }
+}
+@media (max-width: 480px) {
+    .event-table {
+        td, th {
+            display: block;
+        }
+        td:first-child, th:first-child {
+            margin-top: 20px;
+        }
+    }
+}

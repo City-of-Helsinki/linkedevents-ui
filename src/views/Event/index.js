@@ -22,7 +22,7 @@ import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
 import {checkEventEditability} from 'src/utils/checkEventEditability.js'
 import client from '../../api/client'
 import constants from 'src/constants'
-import {getConfirmationMarkup} from '../../utils/helpers'
+import {getConfirmationMarkup} from '../../utils/confirm'
 import {get} from 'lodash'
 
 import './index.scss'

@@ -1,8 +1,8 @@
 import {isArray, isNil, isNull, set, some, get, keys} from 'lodash';
-import CONSTANTS from '../constants'
-import moment from 'moment';
+import constants from '../constants'
 
-const {VALIDATION_RULES, CHARACTER_LIMIT} = CONSTANTS
+const {VALIDATION_RULES, CHARACTER_LIMIT} = constants
+
 /**
  * Get text limit base on it's rule
  * @param {string} Rulename - Validation rule
@@ -94,42 +94,6 @@ export const nullifyMultiLanguageValues = (formValues, contentLanguages) => {
         multiLanguageValues[field] = nullifyField(fieldValue)
     }
     return multiLanguageValues
-}
-
-/**
- * Returns the additional markup for the confirmation dialog based on given action type
- * @param action        Either 'update', 'delete' or 'cancel'
- * @param intl          React Intl
- * @param subEvents     Possible sub events for the event
- * @returns {string}    Markup for the confirmation dialog
- */
-export const getConfirmationMarkup = (action, intl, subEvents = [])  => {
-    const warningText = `<p>${intl.formatMessage({id: `editor-${action}-warning`})}</p>`
-    let subEventWarningText = intl.formatMessage({id: `editor-${action}-subevents-warning`})
-    subEventWarningText = subEventWarningText === `editor-${action}-subevents-warning`
-        ? ''
-        : `<p>${subEventWarningText}</p>`
-    // returns the value of the first language that has a value
-    const getSubEventName = field => get(field, keys(field).find(key => !isNil(field[key])), '')
-    const subEventNames = subEvents
-        // sort sub events by start time
-        .sort((a, b) => moment(a.start_time).unix() - moment(b.start_time).unix())
-        .map((subEvent, index) => `${index === 0 ? '' : '</br>'}<strong>${getSubEventName(subEvent.name)}</strong> (${moment(subEvent.start_time).format('DD.MM.YYYY')})`)
-
-    return subEventNames.length > 0
-        ? `${warningText}${subEventWarningText}${subEventNames}`
-        : warningText
-}
-
-/**
- * Returns the event id from given URL
- * @param url                     URL to get the event ID from
- * @returns {string|undefined}    Event ID
- */
-export const getEventIdFromUrl = url  => {
-    return typeof url === 'string'
-        ? url.substring(url.indexOf('/event/') + '/event/'.length, url.lastIndexOf('/'))
-        : undefined
 }
 
 /**

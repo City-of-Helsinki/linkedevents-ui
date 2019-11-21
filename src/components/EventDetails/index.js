@@ -12,8 +12,9 @@ import {
 } from 'react-intl'
 import {getStringWithLocale} from '../../utils/locale'
 import constants from '../../constants'
-import {getEventIdFromUrl, getFirstMultiLanguageFieldValue, scrollToTop} from '../../utils/helpers'
+import {getFirstMultiLanguageFieldValue, scrollToTop} from '../../utils/helpers'
 import {Link} from 'react-router-dom'
+import {getEventIdFromUrl} from '../../utils/events'
 
 const NoValue = (props) => {
     let header = props.labelKey ? (<span><FormattedMessage id={`${props.labelKey}`}/>&nbsp;</span>) : null

@@ -3,7 +3,7 @@ import fetch from 'isomorphic-fetch'
 import authedFetch from '../utils/authedFetch'
 import client from '../api/client'
 import {get, isNil} from 'lodash'
-import {getEventIdFromUrl} from '../utils/helpers'
+import {getEventIdFromUrl} from '../utils/events'
 
 function makeRequest(query, startDate, endDate) {
     var url = `${appSettings.api_base}/event/?text=${encodeURI(query)}&page_size=100&sort=start_time`;

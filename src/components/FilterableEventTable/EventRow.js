@@ -1,148 +1,197 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import {TableCell, TableRow, CircularProgress, withStyles} from 'material-ui'
-import {KeyboardArrowDown, KeyboardArrowRight} from 'material-ui-icons';
-import {FormattedMessage, FormattedDate, FormattedRelative} from 'react-intl'
-import {Link} from 'react-router-dom'
-import {get, isEmpty} from 'lodash'
+import {TableCell, TableRow, CircularProgress, Checkbox} from 'material-ui'
+import {get, isEmpty, isUndefined} from 'lodash'
 import constants from '../../constants'
-import {fetchSubEventsForSuper} from '../../actions/subEvents'
+import NameCell from './CellTypes/NameCell'
+import DateTimeCell from './CellTypes/DateTimeCell'
+import PublisherCell from './CellTypes/PublisherCell'
 import {getFirstMultiLanguageFieldValue} from '../../utils/helpers'
-
-export const CustomTableCell = withStyles(() => ({
-    typeBody: {
-        '&:first-of-type': {
-            width: 'auto',
-        },
-        padding: '0 15px',
-        width: '16%',
-    },
-}))(TableCell);
+import {fetchEvents} from '../../utils/events'
 
 class EventRow extends React.Component {
 
     state = {
+        subEvents: [],
         showSubEvents: false,
+        isSubEvent: false,
         isSuperEvent: false,
         superEventType: null,
+        isFetching: false,
     }
 
     componentDidMount() {
         const {event} = this.props
         const superEventType = event.super_event_type
+        // whether the event is a super event
         const isSuperEvent = superEventType === constants.SUPER_EVENT_TYPE_RECURRING
             || superEventType === constants.SUPER_EVENT_TYPE_UMBRELLA
+        // whether the event is a sub event
+        const isSubEvent = !isUndefined(get(event, ['super_event', '@id']))
 
-        this.setState({isSuperEvent, superEventType})
+        this.setState({isSubEvent, isSuperEvent, superEventType})
     }
 
     toggleSubEvent = () => {
-        const {getSubEvents, event, fetchingId, fetchSubEvents} = this.props
-        const {showSubEvents, isSuperEvent} = this.state
-        const subEvents = getSubEvents(event.id)
+        const {event} = this.props
+        const {subEvents, showSubEvents, isSuperEvent} = this.state
 
-        if (!showSubEvents
+        if (
+            !showSubEvents
             && isSuperEvent
-            && fetchingId !== event.id
             && isEmpty(subEvents)
-            && !isEmpty(event.sub_events)
         ) {
-            fetchSubEvents(event.id)
+            this.setState({isFetching: true, showSubEvents: !showSubEvents})
+            fetchEvents(event.id)
+                .then(events => this.setState({subEvents: events.data.data}))
+                .finally(() => this.setState({isFetching: false}))
+        } else {
+            this.setState({showSubEvents: !showSubEvents})
         }
-        this.setState({showSubEvents: !this.state.showSubEvents})
+    }
+
+    getPublisherData = () => {
+        const {event, user} = this.props
+        const publisherId = get(event, ['publisher'], '')
+        const publisher = get(user, ['adminOrganizationData', publisherId, 'name'], '')
+        const createdBy = get(event, 'created_by', '')
+        const eventName = getFirstMultiLanguageFieldValue(event.name)
+
+        return {publisher, createdBy, eventName}
     }
 
     render() {
-        const {event, nestLevel, fetchingId} = this.props
-        const {showSubEvents, isSuperEvent, superEventType} = this.state
+        const {
+            event,
+            nestLevel,
+            tableName,
+            tableColumns,
+            selectedRows = [],
+            handleRowSelect,
+            superEventIsChecked,
+        } = this.props
+        const {
+            subEvents,
+            showSubEvents,
+            isSubEvent,
+            isSuperEvent,
+            superEventType,
+            isFetching,
+        } = this.state
         const hasSubEvents = get(event, 'sub_events', []).length > 0
-        let name = null
-
-        if (event.name ) {
-            name = getFirstMultiLanguageFieldValue(event.name)
-        }
-        else if (event.headline) {
-            name = getFirstMultiLanguageFieldValue(event.headline)
-        }
-        else {
-            name = '<event>'
-        }
-
-        // Add necessary badges
-        const draft = event.publication_status === constants.PUBLICATION_STATUS.DRAFT
-        const cancelled = event.event_status === constants.EVENT_STATUS.CANCELLED
-
-        const indentationStyle = {
-            paddingLeft: `${nestLevel * 24}px`,
-            fontWeight: nestLevel === 1 && isSuperEvent ? 'bold' : 'normal',
-        }
-
-        const dateFormat = timeStr => timeStr ? <FormattedDate value={timeStr} month="short" day="numeric" year="numeric"/> : ''
-        const dateTimeFormat = timeStr => timeStr ? <FormattedRelative value={timeStr} /> : ''
-        const getBadge = type => {
-            let badgeType = 'primary'
-
-            switch (type) {
-                case 'series':
-                    badgeType = 'success'
-                    break
-                case 'umbrella':
-                    badgeType = 'info'
-                    break
-                case 'draft':
-                    badgeType = 'warning'
-                    break
-                case 'cancelled':
-                    badgeType = 'danger'
-                    break
-            }
-            return (
-                <span className={`badge badge-${badgeType} text-uppercase tag-space`}>
-                    <FormattedMessage id={type} />
-                </span>
-            )
-        }
-
         const shouldShow = showSubEvents && isSuperEvent
-        const isFetching = fetchingId === event.id
+
+        let checked
+
+        if (isSubEvent) {
+            checked = superEventIsChecked
+        } else {
+            checked = selectedRows.includes(event.id)
+        }
 
         return (
             <React.Fragment>
-                <TableRow
-                    key={event['id']}
-                    className={isSuperEvent ? 'super-event-row' : null}
-                    onClick={isSuperEvent && hasSubEvents ? this.toggleSubEvent : null}
-                >
-                    <CustomTableCell style={indentationStyle}>
-                        {isSuperEvent && hasSubEvents &&
-                            <span className='tag-space'>
-                                {showSubEvents ? <KeyboardArrowDown /> : <KeyboardArrowRight />}
-                            </span>
+                <TableRow className={isSubEvent ? 'sub-event-row' : ''}>
+                    {tableColumns.map((type, index) => {
+                        if (type === 'checkbox') {
+                            return <TableCell
+                                key={`${event.id}-cell-${index}`}
+                                className="checkbox"
+                            >
+                                <Checkbox
+                                    checked={checked}
+                                    disabled={isSubEvent}
+                                    onChange={(e, checked) => handleRowSelect(checked, event.id, tableName)}
+                                />
+                            </TableCell>
                         }
-                        {isSuperEvent && superEventType === constants.SUPER_EVENT_TYPE_UMBRELLA &&
-                            getBadge('umbrella')
+                        if (type === 'name') {
+                            return <NameCell
+                                key={`${event.id}-cell-${index}`}
+                                event={event}
+                                nestLevel={nestLevel}
+                                isSuperEvent={isSuperEvent}
+                                superEventType={superEventType}
+                                hasSubEvents={hasSubEvents}
+                                showSubEvents={showSubEvents}
+                                toggleSubEvent={this.toggleSubEvent}
+                            />
                         }
-                        {isSuperEvent && superEventType === constants.SUPER_EVENT_TYPE_RECURRING &&
-                            getBadge('series')
+                        if (type === 'publisher') {
+                            return <PublisherCell
+                                key={`${event.id}-cell-${index}`}
+                                {...this.getPublisherData()}
+                            />
                         }
-                        {draft && getBadge('draft')}
-                        {cancelled && getBadge('cancelled')}
-                        <Link to={`/event/${event.id}`}>{name}</Link>
-                    </CustomTableCell>
-                    <CustomTableCell>{dateFormat(event.start_time)}</CustomTableCell>
-                    <CustomTableCell>{dateFormat(event.end_time)}</CustomTableCell>
-                    <CustomTableCell>{dateTimeFormat(event.last_modified_time)}</CustomTableCell>
+                        if (type === 'start_time') {
+                            return <DateTimeCell
+                                key={`${event.id}-cell-${index}`}
+                                event={event}
+                                start
+                            />
+                        }
+                        if (type === 'end_time') {
+                            return <DateTimeCell
+                                key={`${event.id}-cell-${index}`}
+                                event={event}
+                                end
+                            />
+                        }
+                        if (type === 'last_modified_time') {
+                            return <DateTimeCell
+                                key={`${event.id}-cell-${index}`}
+                                event={event}
+                                lastModified
+                                time
+                            />
+                        }
+                        if (type === 'date_published') {
+                            return <DateTimeCell
+                                key={`${event.id}-cell-${index}`}
+                                event={event}
+                                datePublished
+                                time
+                            />
+                        }
+                        if (type === 'event_time') {
+                            return <DateTimeCell
+                                key={`${event.id}-cell-${index}`}
+                                event={event}
+                                start
+                                end
+                            />
+                        }
+                    })}
                 </TableRow>
                 {shouldShow && (
                     isFetching
                         ? (
                             <TableRow>
-                                <TableCell><CircularProgress className='sub-events-progress'/></TableCell>
+                                {tableColumns.reduce((acc, column, index) => {
+                                    const tableHasCheckboxColumn = tableColumns.includes('checkbox')
+                                    const columnCount = tableColumns.length
+
+                                    // add a placeholder cell with "checkbox" class for tables with a checkbox column
+                                    if (column === 'checkbox') {
+                                        return [...acc, <TableCell key={`cell-placeholder-${index}`} className="checkbox" />]
+                                    }
+                                    // add loading spinner
+                                    if (tableHasCheckboxColumn && acc.length === 1 || !tableHasCheckboxColumn && acc.length === 0) {
+                                        return [...acc, <TableCell key={`cell-placeholder-${index}`}><CircularProgress /></TableCell>]
+                                    }
+                                    // add empty cells to fill the row
+                                    if (tableHasCheckboxColumn &&  index + 1 <= columnCount || !tableHasCheckboxColumn &&  index <= columnCount) {
+                                        return [...acc, <TableCell key={`cell-placeholder-${index}`} />]
+                                    }
+                                    return acc
+                                }, [])}
                             </TableRow>
                         ) : (
                             <SubEventsTable
                                 {...this.props}
+                                subEvents={subEvents}
+                                superEventIsChecked={checked}
                                 // nest level is used to calculate the indentation for each level of recursion
                                 nestLevel={nestLevel + 1}
                             />
@@ -153,14 +202,13 @@ class EventRow extends React.Component {
     }
 }
 
-// render sub events of sub events ..etc recursively
+// recursively render sub events of events
 const SubEventsTable = props => {
-    const {event, getSubEvents} = props;
-    const events = getSubEvents(event.id)
+    const {subEvents} = props;
 
     return (
         <React.Fragment>
-            {events.map(event => (
+            {subEvents.map(event => (
                 <EventRow
                     {...props}
                     event={event}
@@ -172,11 +220,10 @@ const SubEventsTable = props => {
 }
 
 SubEventsTable.propTypes = {
+    subEvents: PropTypes.array,
+    superEventIsChecked: PropTypes.bool,
     event: PropTypes.object,
-    fetchingId: PropTypes.string,
     nestLevel: PropTypes.number,
-    getSubEvents: PropTypes.func,
-    fetchSubEvents: PropTypes.func,
 }
 
 EventRow.defaultProps = {
@@ -185,6 +232,7 @@ EventRow.defaultProps = {
 
 EventRow.propTypes = {
     showSubEvents: PropTypes.bool,
+    isSubEvent: PropTypes.bool,
     isSuperEvent: PropTypes.bool,
     superEventType: PropTypes.oneOf([
         constants.SUPER_EVENT_TYPE_RECURRING,
@@ -192,18 +240,27 @@ EventRow.propTypes = {
     ]),
     nestLevel: PropTypes.number,
     event: PropTypes.object,
-    fetchingId: PropTypes.string,
-    getSubEvents: PropTypes.func,
-    fetchSubEvents: PropTypes.func,
+    tableName: PropTypes.string,
+    tableColumns: PropTypes.arrayOf(
+        PropTypes.oneOf([
+            'checkbox',
+            'name',
+            'publisher',
+            'start_time',
+            'end_time',
+            'last_modified_time',
+            'date_published',
+            'event_time',
+        ]),
+    ),
+    selectedRows: PropTypes.array,
+    handleRowSelect: PropTypes.func,
+    user: PropTypes.object,
+    superEventIsChecked: PropTypes.bool,
 }
 
 const mapStateToProps = (state) => ({
-    fetchingId: state.subEvents.fetchingFromSuperId,
-    getSubEvents: (superEventId) => state.subEvents.bySuperEventId[superEventId] || [],
+    user: state.user,
 })
 
-const mapDispatchToProps = (dispatch) => ({
-    fetchSubEvents: (superEventId) => dispatch(fetchSubEventsForSuper(superEventId)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(EventRow)
+export default connect(mapStateToProps)(EventRow)

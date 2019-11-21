@@ -35,7 +35,7 @@ import constants from '../../constants'
 import {checkEventEditability} from '../../utils/checkEventEditability'
 import FormFields from '../../components/FormFields'
 import {mapUIDataToAPIFormat} from '../../utils/formDataMapping';
-import {getConfirmationMarkup} from '../../utils/helpers'
+import {getConfirmationMarkup} from '../../utils/confirm'
 import getContentLanguages from '../../utils/language'
 
 // sentinel for authentication alert
