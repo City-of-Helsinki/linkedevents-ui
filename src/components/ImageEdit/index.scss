@@ -2,17 +2,36 @@
     z-index: 1040;
 }
 
-.form-check-input {
-    margin-right: 7px;
+.form-check {
+    padding-left: 0;
 }
-
 .edit-label {
-    margin: 0 20px;
+    cursor: pointer;
+    position: relative;
+    margin: 0;
+
+    &:last-child {
+        padding-left: 20px;
+    }
+
     span {
         font-size: 15px;
         color: #777;
     }
+
+    .form-check-input {
+        cursor: pointer;
+        position: relative;
+        display: inline-block;
+        margin: -1px 1rem 0 0;
+        padding: 0;
+        position: relative;
+        text-align: left;
+        line-height: inherit;
+        vertical-align: middle;
+    }
 }
+
 .form-image {
     height: 250px;
     width: auto;
