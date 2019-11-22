@@ -1,7 +1,6 @@
 import constants from '../constants.js'
 import fetch from 'isomorphic-fetch'
 import {set, get} from 'lodash'
-import {resetUserEventsFetching} from './userEvents'
 import {setEditorAuthFlashMsg} from './editor'
 import client from '../api/client'
 import axios from 'axios'
@@ -112,7 +111,6 @@ export function logout() {
         fetch('/auth/logout', {method: 'POST', credentials: 'same-origin'}) // Fire-and-forget
         localStorage.removeItem('user')
         dispatch(clearUserData())
-        dispatch(resetUserEventsFetching())
         dispatch(setEditorAuthFlashMsg())
     };
 }

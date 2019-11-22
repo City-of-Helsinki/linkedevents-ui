@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {Button} from 'material-ui'
 import {FormattedMessage, injectIntl} from 'react-intl'
-import EventTable from '../../components/FilterableEventTable/EventTable'
+import EventTable from '../../components/EventTable/EventTable'
 import {connect} from 'react-redux'
 import {get, isNull, zipObject, each} from 'lodash'
 import constants from '../../constants'
@@ -13,6 +13,8 @@ import showConfirmationModal from '../../utils/confirm'
 import {confirmAction, setFlashMsg as setFlashMsgAction, clearFlashMsg as clearFlashMsgAction} from '../../actions/app'
 import {hasAffiliatedOrganizations} from '../../utils/user'
 import {push} from 'react-router-redux'
+
+const {TABLE_DATA_SHAPE, PUBLICATION_STATUS} = constants
 
 export class Moderation extends React.Component {
 
@@ -48,7 +50,7 @@ export class Moderation extends React.Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState, prevContext) {
+    componentDidUpdate(prevProps) {
         const {user, routerPush} = this.props
         const oldUser = prevProps.user
 
@@ -89,6 +91,7 @@ export class Moderation extends React.Component {
         Promise.all(fetchedData)
             .then(values => {
                 const tableKeys = tables.map(table => `${table}Data`)
+                // map fetched data to the tables
                 const tableData = zipObject(tableKeys, values)
                 let updatedState = {...this.state}
 
@@ -209,7 +212,8 @@ export class Moderation extends React.Component {
 
         fetchEvents(
             'none',
-            publicationStatus, affiliatedOrganizations,
+            publicationStatus,
+            affiliatedOrganizations,
             undefined,
             pageSize,
             tableData.sortBy,
@@ -245,10 +249,10 @@ export class Moderation extends React.Component {
      */
     getPublicationStatus = (table) => {
         if (table === 'draft') {
-            return constants.PUBLICATION_STATUS.DRAFT
+            return PUBLICATION_STATUS.DRAFT
         }
         if (table === 'published') {
-            return  constants.PUBLICATION_STATUS.PUBLIC
+            return  PUBLICATION_STATUS.PUBLIC
         }
     }
 
@@ -339,7 +343,6 @@ export class Moderation extends React.Component {
     render() {
         const {draftData, publishedData} = this.state
         const {user} = this.props
-        const pageSizeOptions = [10, 25, 50, 100]
         const draftActionButtons = ['delete', 'publish']
         const moderationTables = [
             {
@@ -369,7 +372,6 @@ export class Moderation extends React.Component {
                             fetchComplete={table.data.fetchComplete}
                             count={table.data.count}
                             pageSize={table.data.pageSize}
-                            pageSizeOptions={pageSizeOptions}
                             paginationPage={table.data.paginationPage}
                             sortBy={table.data.sortBy}
                             sortDirection={table.data.sortDirection}
@@ -379,7 +381,7 @@ export class Moderation extends React.Component {
                             handlePageSizeChange={this.handlePageSizeChange}
                             handleSortChange={this.handleSortChange}
                         />
-                        {table.name === 'draft' &&
+                        {table.name === 'draft' && table.data.events.length > 0 &&
                             <div className="draft-actions">
                                 {draftActionButtons.map(action => this.getActionButton(table.name, action))}
                             </div>
@@ -390,29 +392,6 @@ export class Moderation extends React.Component {
         )
     }
 }
-
-const TABLE_DATA_SHAPE = PropTypes.shape({
-    events: PropTypes.array,
-    count: PropTypes.number,
-    paginationPage: PropTypes.number,
-    pageSize: PropTypes.number,
-    fetchComplete: PropTypes.bool,
-    sortBy: PropTypes.string,
-    sortDirection: PropTypes.string,
-    tableColumns: PropTypes.arrayOf(
-        PropTypes.oneOf([
-            'checkbox',
-            'name',
-            'publisher',
-            'start_time',
-            'end_time',
-            'last_modified_time',
-            'date_published',
-            'event_time',
-        ]),
-    ),
-    selectedRows: PropTypes.array,
-})
 
 Moderation.propTypes = {
     user: PropTypes.object,

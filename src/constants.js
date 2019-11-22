@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 const constants = {
     API_HEADERS: {
         'Accept': 'application/json',
@@ -153,6 +155,29 @@ const constants = {
         MEDIUM_STRING: 400,
         LONG_STRING: 5000,
     },
+
+    TABLE_DATA_SHAPE: PropTypes.shape({
+        events: PropTypes.array,
+        count: PropTypes.number,
+        paginationPage: PropTypes.number,
+        pageSize: PropTypes.number,
+        fetchComplete: PropTypes.bool,
+        sortBy: PropTypes.string,
+        sortDirection: PropTypes.string,
+        tableColumns: PropTypes.arrayOf(
+            PropTypes.oneOf([
+                'checkbox',
+                'name',
+                'publisher',
+                'start_time',
+                'end_time',
+                'last_modified_time',
+                'date_published',
+                'event_time',
+            ]),
+        ),
+        selectedRows: PropTypes.array,
+    }),
 }
 
 export default constants

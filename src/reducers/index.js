@@ -4,7 +4,6 @@ import user from './user'
 import editor from './editor'
 import images from './images'
 import app from './app'
-import userEvents from './userEvents'
 import userLocale from './userLocale'
 import organizations from './organizations';
 
@@ -15,7 +14,6 @@ export default {
     editor: editor,
     images: images,
     app: app,
-    userEvents: userEvents,
     userLocale: userLocale,
     organizations: organizations,
 }

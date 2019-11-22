@@ -57,7 +57,6 @@ describe('EventListing Snapshot', () => {
 
     it('should render view by default', () => {
         const componentProps = {
-            fetchUserEvents: jest.fn(),
             login: jest.fn(),
             events: {},
             user: {},
@@ -69,7 +68,6 @@ describe('EventListing Snapshot', () => {
     it('should render view correctly', () => {
         store = mockStore(initialStore)
         const componentProps = {
-            fetchUserEvents: jest.fn(),
             login: jest.fn(),
         } // Props which are added to component
         const componentToTest = <ConnectedEventListing {...componentProps} />
