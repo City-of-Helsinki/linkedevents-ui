@@ -45,7 +45,7 @@ class ImageThumbnail extends React.Component {
                 <div className={classname}>
                     <div className="thumbnail" style={bgStyle} />
                     <div className="name edit-image" onClick={() => this.setState({edit: true})}>
-                        <span className={'image-title'}>{this.props.data.name || 'Edit image'}</span><i className="material-icons edit-icon">&#xE869;</i></div>
+                        <span className={'image-title'}>{this.props.data.name || <FormattedMessage id="edit-image"/>}</span><i className="material-icons edit-icon">&#xE869;</i></div>
                 </div>
                 {   this.state.edit &&
                     <ImageEdit

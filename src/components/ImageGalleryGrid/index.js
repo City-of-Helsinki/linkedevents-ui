@@ -24,7 +24,7 @@ const ImagePagination = (props) => {
         pages.push(<li className={classes} key={i}><a className='page-link' href='#' onClick={() => props.clickedPage(i)}>{i}</a></li>);
     }
 
-    return <nav aria-label='Page navigation example'>
+    return <nav aria-label='Image pagination'>
         <ul className='pagination'>
             {pages}
         </ul>
