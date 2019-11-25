@@ -18,7 +18,8 @@ class HelDateTimeField extends React.Component {
     constructor(props) {
         super(props)
         
-        let defaultValue = this.props.defaultValue || null
+        let defaultValue = this.props.defaultValue || null;
+        
         if(moment(defaultValue).isValid()) {
             defaultValue = moment(defaultValue).tz('Europe/Helsinki');
             this.state = {
@@ -32,8 +33,8 @@ class HelDateTimeField extends React.Component {
             }
         }
         
-        this.onChange = this.onChange.bind(this)
-        this.onBlur = this.onBlur.bind(this)
+        this.onChange = this.onChange.bind(this);
+        this.onBlur = this.onBlur.bind(this);
     }
     
     onChange(type, value) {
@@ -151,13 +152,12 @@ class HelDateTimeField extends React.Component {
         return true
     }
     
-    resetFields = () => {
+    resetTime = () => {
         this.setState({
-            date: null,
             time: null,
         })
     }
-
+    
     render () {
         return (
             <div className="multi-field">
@@ -170,8 +170,8 @@ class HelDateTimeField extends React.Component {
                         defaultValue={this.state.date}
                         validations={[CONSTANTS.VALIDATION_RULES.IS_DATE]}
                         placeholder="pp.kk.vvvv" onChange={this.onChange}
-                        onBlur={this.onBlur} label={<FormattedMessage id="date"
-                        />} />
+                        onBlur={this.onBlur} label={<FormattedMessage id="date"/>}
+                    />
                     <HelTimePicker {...this.props.timePickerProps}
                         ref="time"
                         name={this.props.name}
@@ -207,4 +207,5 @@ HelDateTimeField.contextTypes = {
     intl: PropTypes.object,
     dispatch: PropTypes.func,
 }
+
 export default HelDateTimeField

@@ -161,7 +161,7 @@ class FormFields extends React.Component {
         const newEvents = this.generateNewEventFields(addedEvents)
         const publisherOptions = this.props.organizations.map(org => ({label: org.name, value: org.id}));
         const selectedPublisher = publisherOptions.find(option => option.value === values['organization']) || {};
-
+        
         return (
             <div>
                 <div className="col-sm-12 highlighted-block">
