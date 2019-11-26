@@ -118,49 +118,6 @@ class EventPage extends React.Component {
     }
 
     /**
-     * Opens a confirmation modal and runs the given action
-     * @param action    Action to run
-     */
-    confirmAction = (action) => {
-        const {confirm, intl, routerPush} = this.props;
-        const {event, subEvents} = this.state
-        let eventData = [event, ...subEvents]
-
-        // opens the confirm modal
-        const doConfirm = (data) => {
-            showConfirmationModal(data, action, confirm, intl)
-                .then(() => {
-                    // navigate to event listing after delete action
-                    if (action === 'delete') {
-                        routerPush('/')
-                    }
-                    // re-fetch event data after cancel action
-                    if (action === 'cancel') {
-                        this.fetchEventData()
-                    }
-                })
-        }
-
-        // get the id's of events that have sub events
-        // don't re-fetch sub event data for the event that the action is run for, as we already have it
-        const eventsWithSubEvents = getEventsWithSubEvents(eventData)
-            .filter(eventId => eventId !== event.id)
-
-        // we need to append the event data with sub events of recurring events,
-        // if we're running the action for an umbrella event
-        if (eventsWithSubEvents.length > 0) {
-            fetchEvents(eventsWithSubEvents.join())
-                .then(response => {
-                    const fetchedSubEventData = response.data.data
-                    eventData = [...eventData, ...fetchedSubEventData]
-                    doConfirm(eventData)
-                })
-        } else {
-            doConfirm(eventData)
-        }
-    }
-
-    /**
      * Returns the publisher & creator info text
      * @returns {null|*}
      */
@@ -194,7 +151,7 @@ class EventPage extends React.Component {
     }
 
     /**
-     * Returns an action button
+     * Returns a button for the given action
      * @param action    Action to run
      * @param onClick   onClick function that should be used instead of the default one
      * @returns {*}
@@ -203,12 +160,29 @@ class EventPage extends React.Component {
         const {user} = this.props
         const event = mapAPIDataToUIFormat(this.state.event)
         const {eventIsEditable, eventEditabilityExplanation} = checkEventEditability(user, event)
+        const isDraft = event.publication_status === PUBLICATION_STATUS.DRAFT
+        const disabled = action === 'cancel'
+            ? isDraft || !eventIsEditable
+            : !eventIsEditable
+
+        let color
+
+        switch (action) {
+            case 'publish':
+            case 'edit':
+                color = 'primary'
+                break
+            case 'cancel':
+            case 'delete':
+                color = 'accent'
+                break
+        }
 
         const button = <Button
             raised
-            disabled={!eventIsEditable}
+            disabled={disabled}
             onClick={() => onClick ? onClick() : this.confirmAction(action)}
-            color={action === 'edit' ? 'primary' : 'accent'}
+            color={color}
         >
             <FormattedMessage id={`${action}-event`}/>
         </Button>
@@ -218,6 +192,49 @@ class EventPage extends React.Component {
             : <Tooltip title={eventEditabilityExplanation}>
                 <span>{button}</span>
             </Tooltip>
+    }
+
+    /**
+     * Opens a confirmation modal and runs the given action
+     * @param action    Action to run
+     */
+    confirmAction = (action) => {
+        const {confirm, intl, routerPush} = this.props;
+        const {event, subEvents} = this.state
+        let eventData = [event, ...subEvents]
+
+        // opens the confirm modal
+        const doConfirm = (data) => {
+            showConfirmationModal(data, action, confirm, intl, event.publication_status)
+                .then(() => {
+                    // navigate to event listing after delete action
+                    if (action === 'delete') {
+                        routerPush('/')
+                    }
+                    // re-fetch event data after cancel or publish action
+                    if (action === 'cancel' || action === 'publish') {
+                        this.fetchEventData()
+                    }
+                })
+        }
+
+        // get the id's of events that have sub events
+        // don't re-fetch sub event data for the event that the action is run for, as we already have it
+        const eventsWithSubEvents = getEventsWithSubEvents(eventData)
+            .filter(eventId => eventId !== event.id)
+
+        // we need to append the event data with sub events of recurring events,
+        // if we're running the action for an umbrella event
+        if (eventsWithSubEvents.length > 0) {
+            fetchEvents(eventsWithSubEvents.join())
+                .then(response => {
+                    const fetchedSubEventData = response.data.data
+                    eventData = [...eventData, ...fetchedSubEventData]
+                    doConfirm(eventData)
+                })
+        } else {
+            doConfirm(eventData)
+        }
     }
 
     render() {
@@ -240,6 +257,7 @@ class EventPage extends React.Component {
         const isDraft = event.publication_status === PUBLICATION_STATUS.DRAFT
         const isCancelled = event.event_status === EVENT_STATUS.CANCELLED
         const editEventButton = this.getActionButton('edit', this.editEvent)
+        const publishEventButton = this.getActionButton('publish')
         const cancelEventButton = this.getActionButton('cancel')
         const deleteEventButton = this.getActionButton('delete')
         const publishedText = this.getPublishedText();
@@ -263,9 +281,11 @@ class EventPage extends React.Component {
                         {deleteEventButton}
                     </div>
                     <div className="edit-copy-btn">
+                        {isDraft && publishEventButton}
                         {editEventButton}
                         <Button
                             raised
+                            disabled={isDraft}
                             color="default"
                             onClick={e => this.copyAsTemplate(e)}
                         >
