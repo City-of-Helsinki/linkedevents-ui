@@ -104,7 +104,7 @@ export function postImage(formData, user, imageId = null) {
             
             dispatch(setFlashMsg(imageId ? 'image-update-success' : 'image-creation-success', 'success', request))
         } catch (error) {
-            dispatch(setFlashMsg('image-creation-error', 'error', error));
+            dispatch(setFlashMsg('image-creation-error', 'error'));
     
             dispatch(imageUploadFailed(error));
             
