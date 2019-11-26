@@ -46,21 +46,21 @@
 
     "event-page-error": "Tapahtumaa ei löytynyt tai sinulla ei ole oikeuksia katsella sitä.",
     "event-page-loading": "Ladataan tapahtumaa...",
-    
+
     "ready": "Valmis",
     "clear-form": "Tyhjennä kentät",
-    
+
     "event-presented-in-languages": "Tapahtumatiedot syötetään",
-    
+
     "in-fi": "suomeksi",
     "in-en": "englanniksi",
     "in-sv": "ruotsiksi",
     "in-ru": "venäjäksi",
     "in-zh_hans": "kiinaksi",
     "in-ar": "arabiaksi",
-    
+
     "no-value": "-kenttää ei ole täytetty.",
-    
+
     "event-description-fields-header": "Tapahtuman kuvaus",
     "event-headline": "Otsikko",
     "event-short-description": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
@@ -243,7 +243,7 @@
     "editor-tip-umbrella-sub-event-link": "sarjan ylätapahtumasta",
 
     "image-caption-limit": "Kuvaus eli kuvan alt-teksti (korkeintaan {limit} merkkiä)",
-    
+
     "add-more": "Lisää kerrat",
     "play-date-label": "Toistopäivät",
 
@@ -252,5 +252,6 @@
     "edit-courses": "Muokkaa kurssia",
     "search-courses": "Etsi kursseja",
     "more-info": "Lisätietoja",
-    "courses-management": "Kurssien hallinta"
+    "courses-management": "Kurssien hallinta",
+    "edit-image": "Muokkaa kuvaa"
 }
