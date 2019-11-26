@@ -1,5 +1,7 @@
 import {isArray, isNil, isNull, set, some, get, keys} from 'lodash';
 import constants from '../constants'
+import {FormattedMessage} from 'react-intl'
+import React from 'react'
 
 const {VALIDATION_RULES, CHARACTER_LIMIT} = constants
 
@@ -114,4 +116,34 @@ export const getFirstMultiLanguageFieldValue = (field, contentLanguages = null) 
     return isArray(contentLanguages)
         ? get(field, keys(field).filter(key => contentLanguages.includes(key)).find(key => !isNil(field[key])), '')
         : get(field, keys(field).find(key => !isNil(field[key])), '')
+}
+
+/**
+ * Returns a badge for the given type
+ * @param type
+ * @returns {*}
+ */
+export const getBadge = type => {
+    let badgeType = 'primary'
+
+    switch (type) {
+        case 'series':
+            badgeType = 'success'
+            break
+        case 'umbrella':
+            badgeType = 'info'
+            break
+        case 'draft':
+            badgeType = 'warning'
+            break
+        case 'cancelled':
+            badgeType = 'danger'
+            break
+    }
+
+    return (
+        <span className={`badge badge-${badgeType} text-uppercase tag-space`}>
+            <FormattedMessage id={type} />
+        </span>
+    )
 }

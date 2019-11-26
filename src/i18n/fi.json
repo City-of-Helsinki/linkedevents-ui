@@ -3,7 +3,8 @@
     "logout": "Kirjaudu ulos",
     "linked-events": "Linked Events",
     "create-events": "Lisää uusi tapahtuma",
-    "edit-events": "Muokkaa tapahtumaa",
+    "edit-event": "Muokkaa tapahtumaa",
+    "edit-events": "Muokkaa tapahtumia",
     "copy-event-to-draft": "Kopioi uuden tapahtuman pohjaksi",
     "search-events": "Etsi tapahtumia",
     "no-events": "Ei tapahtumia mitä näyttää.",
@@ -29,6 +30,7 @@
     "confirm-delete": "Varmista tapahtuman poistaminen",
     "confirm-cancel": "Varmista tapahtuman peruminen",
     "confirm-publish": "Varmista tapahtuman julkaiseminen",
+    "confirm-cancel-multi": "Varmista tapahtumien peruminen",
     "confirm-delete-multi": "Varmista tapahtumien poistaminen",
     "confirm-publish-multi": "Varmista tapahtumien julkaiseminen",
     "delete": "Poista",
@@ -79,8 +81,8 @@
     "event-provider": "Tapahtuman järjestäjä",
     "event-provider-input": "Tapahtuman järjestäjä (jos eri kuin julkaisija)",
     "event-publisher": "Tapahtuman julkaisija",
-    "event-publisher-info": "Julkaisija: {publisher}, {publishedAt}",
-    "event-publisher-info-with-created-by": "Julkaisija: {publisher} / {createdBy}, {publishedAt}",
+    "event-publisher-info": "Julkaisija: {publisher}",
+
     "events-management": "Tapahtumien hallinta",
     "events-management-prompt": "muokataksesi tapahtumia.",
     "events-management-description": "Selaa ja muokkaa oman organisaatiosi julkisia tapahtumia sekä luonnoksia. Voit lisätä uuden tapahtuman yläpalkista.",
@@ -229,14 +231,18 @@
 
     "editor-publish-draft-warning": "HUOM. Tämä toiminto julkaisee tapahtuman Internetiin. Tapahtumaehdotuksen alkuperäinen tekijä ei voi enää muokata tapahtumaa.",
     "editor-publish-draft-extra-warning": "Seuraavat tapahtumat julkaistaan:",
+
+    "editor-update-warning": "Tiedot tallennetaan kaikkiin tapahtumiin tässä sarjassa. Näihin tapahtumiin tehdyt muutokset menetetään. Oletko varma että haluat jatkaa?",
+    "editor-update-extra-warning": "Tiedot tallennetaan seuraaviin tapahtumiin:",
+
+    "editor-cancel-warning": "VAROITUS: Tämä toiminto peruuttaa tapahtuman. Voit myös poistaa sellaisen tapahtuman, jonka syötit vahingossa.",
+    "editor-cancel-extra-warning": "Seuraavat tapahtumat peruutetaan:",
+
+    "editor-delete-warning": "VAROITUS: Tämä toiminto poistaa tapahtuman lopullisesti. Voit tarvittaessa myös perua tapahtuman tai lykätä sitä.",
+    "editor-delete-extra-warning": "Seuraavat tapahtumat poistetaan:",
     "editor-delete-draft-warning": "VAROITUS: Tämä toiminto poistaa tapahtuman lopullisesti. Voit tarvittaessa myös pyytää, että tapahtumaehdotuksen tekijä muokkaa ilmoitustaan.",
     "editor-delete-draft-extra-warning": "Seuraavat tapahtumat poistetaan:",
 
-    "editor-update-warning": "Tiedot tallennetaan kaikkiin tapahtumiin tässä sarjassa. Näihin tapahtumiin tehdyt muutokset menetetään. Oletko varma että haluat jatkaa?",
-    "editor-delete-extra-warning": "Poistaessasi tämän tapahtuman myös seuraavat alitapahtumat poistetaan:",
-    "editor-delete-warning": "VAROITUS: Tämä toiminto poistaa tapahtuman lopullisesti. Voit tarvittaessa myös perua tapahtuman tai lykätä sitä.",
-    "editor-cancel-extra-warning": "Samalla myös seuraavat alitapahtumat peruutetaan:",
-    "editor-cancel-warning": "VAROITUS: Tämä toiminto peruuttaa tapahtuman. Voit myös poistaa sellaisen tapahtuman, jonka syötit vahingossa.",
     "editor-sentinel-alert": "Voit katsella lomaketta, mutta sinulla ei ole oikeuksia julkaista tai muokata tapahtumia. Et ole kirjautunut sisään tai kirjautumisesi on vanhentunut.",
     "editor-authorization-required": "Jos haluat julkaista tapahtuman, kirjaudu ensin sisään.",
 

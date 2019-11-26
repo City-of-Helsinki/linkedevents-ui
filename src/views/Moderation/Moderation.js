@@ -7,7 +7,7 @@ import EventTable from '../../components/EventTable/EventTable'
 import {connect} from 'react-redux'
 import {get, isNull, zipObject, each} from 'lodash'
 import constants from '../../constants'
-import {fetchEvents, getEventDataFromIds, getEventIdFromUrl} from '../../utils/events'
+import {fetchEvents, getEventDataFromIds, getEventIdFromUrl, getEventsWithSubEvents} from '../../utils/events'
 import {getSelectedRows, getSortColumnName, getSortDirection} from '../../utils/table'
 import showConfirmationModal from '../../utils/confirm'
 import {confirmAction, setFlashMsg as setFlashMsgAction, clearFlashMsg as clearFlashMsgAction} from '../../actions/app'
@@ -237,7 +237,7 @@ export class Moderation extends React.Component {
      * @param tables        Tables for which the loading state should be updated
      */
     setLoading = (fetchComplete, tables) => {
-        const updatedState = this.state
+        const updatedState = {...this.state}
         tables.forEach(table => updatedState[`${table}Data`].fetchComplete = fetchComplete)
         this.setState(updatedState)
     }
@@ -290,6 +290,11 @@ export class Moderation extends React.Component {
         </Button>
     }
 
+    /**
+     * Opens a confirmation modal and runs the given action
+     * @param table     The table to run the action for
+     * @param action    Action to run
+     */
     runConfirmAction = (table, action) => {
         const {confirm, intl, setFlashMsg, clearFlashMsg} = this.props
         const tableData = this.state[`${table}Data`]
@@ -311,21 +316,8 @@ export class Moderation extends React.Component {
                 })
         }
 
-        // get the ID's of events that have sub events
-        const eventsWithSubEvents = eventData
-            .reduce((acc, event) => {
-                const getSuperEventId = (_event) => {
-                    const subEvents = get(_event, 'sub_events', [])
-
-                    if (subEvents.length > 0) {
-                        acc.push(getEventIdFromUrl(_event['@id']))
-                        subEvents.forEach(getSuperEventId)
-                    }
-                }
-
-                getSuperEventId(event)
-                return acc
-            }, [])
+        // get the id's of events that have sub events
+        const eventsWithSubEvents = getEventsWithSubEvents(eventData)
 
         // we need to append sub event data to the event data if we're running actions for recurring / umbrella events
         if (eventsWithSubEvents.length > 0) {

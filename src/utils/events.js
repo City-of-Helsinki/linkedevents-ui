@@ -1,10 +1,28 @@
 import client from '../api/client'
 import moment from 'moment'
 import constants from '../constants'
-import {get} from 'lodash'
+import {get, set} from 'lodash'
 import {getIsUserOfType, getUser} from './user'
 
-const {PUBLICATION_STATUS} = constants
+const {PUBLICATION_STATUS, EVENT_STATUS} = constants
+
+/**
+ * Fetches an event based on given ID
+ * @param eventId   ID of event to fetch
+ * @param include   Include query parameter value
+ * @returns {Promise<*>}
+ */
+export const fetchEvent = async (eventId, include) => {
+    const queryParams = {
+        include: include,
+    }
+
+    try {
+        return await client.get(`event/${eventId}`, queryParams)
+    } catch (e) {
+        throw Error(e)
+    }
+}
 
 /**
  * Fetches events based on given parameters
@@ -78,7 +96,7 @@ export const publishEvents = async (eventData) => Promise.all(eventData.map(publ
 
 /**
  * Deletes an event
- * @param eventId  Event of ID that should be deleted
+ * @param eventId  ID of event that should be deleted
  * @returns {Promise}
  */
 export const deleteEvent = async (eventId) => {
@@ -95,6 +113,31 @@ export const deleteEvent = async (eventId) => {
  * @returns {Promise}
  */
 export const deleteEvents = async (eventIds) => Promise.all(eventIds.map(deleteEvent))
+
+/**
+ * Cancels an event
+ * @param eventData  Data for the event that should be canceled
+ * @returns {Promise}
+ */
+export const cancelEvent = async (eventData) => {
+    const updatedEventData = {
+        ...eventData,
+        event_status: EVENT_STATUS.CANCELLED,
+    }
+
+    try {
+        return await client.put(`event/${eventData.id}`, updatedEventData)
+    } catch (e) {
+        throw Error(e)
+    }
+}
+
+/**
+ * Cancels given events
+ * @param eventData  Data for the events that should be canceled
+ * @returns {Promise}
+ */
+export const cancelEvents = async (eventData) => Promise.all(eventData.map(cancelEvent))
 
 /**
  * Returns the data for the given ID's
@@ -124,4 +167,85 @@ export const getEventIdFromUrl = url  => {
 export const getSubEventIds = (event) => {
     const subEventUrls = get(event, 'sub_events', []).map(item => item['@id'])
     return subEventUrls.map(url => getEventIdFromUrl(url))
+}
+
+/**
+ * Returns the ID's of events that have sub events
+ * @param eventData   Event data
+ * @returns {string[]}
+ */
+export const getEventsWithSubEvents = (eventData) => eventData
+    .reduce((acc, event) => {
+        const getSuperEventId = (_event) => {
+            const subEvents = get(_event, 'sub_events', [])
+
+            if (subEvents.length > 0) {
+                acc.push(getEventIdFromUrl(_event['@id']))
+                subEvents.forEach(getSuperEventId)
+            }
+        }
+
+        getSuperEventId(event)
+        return acc
+    }, [])
+
+/**
+ * Recursively maps sub event data to super events (umbrella & recurring)
+ * @param eventData   Event data containing all the events
+ * @returns {object[]}
+ */
+export const mapSubEventDataToSuperEvents = (eventData) => {
+    // array containing ID's of sub events
+    let subEvents = []
+
+    return eventData
+        .reduce((acc, event) => {
+            const updatedEvent = {...event}
+
+            const updateEvent = (_event, depth = 0, subEventIndex = 0, subEventIndexes = []) => {
+                const subEventIds = getSubEventIds(_event)
+                const hasSubEvents = get(_event, 'sub_events', []).length > 0
+
+                if (hasSubEvents) {
+                    // push sub event id's to the array, so that they can be filtered out later
+                    subEvents.push(...subEventIds)
+                    // sub event data that should be set
+                    const subEventDataToSet = subEventIds.map(subEventId => eventData.find(item => item.id === subEventId))
+
+                    // we need to get the path to the event that we're updating if it isn't a top level sub event
+                    if (depth > 0) {
+                        subEventIndexes.push(subEventIndex)
+                        // the path is built based on the sub event indexes. consider the following event structure:
+                        // umbrella_event: {
+                        //     sub_events: [
+                        //         regular_event: {} (depth = 1, index = 0)
+                        //         recurring_event: { (depth = 1, index = 1)
+                        //             sub_events: [
+                        //                 recurring_event: {...} (depth = 2, index = 0)
+                        //                 regular_event: {...} (depth = 2, index = 1)
+                        //             ]
+                        //         }
+                        //     ]
+                        // }
+                        // if we were to set the sub event data of the recurring event at depth 2,
+                        // then subEventIndexes would be [1, 0] and the resulting path would be ['1', 'sub_events', '0', 'sub_events']
+                        const path = subEventIndexes
+                            .reduce((acc, index) => [...acc, `${index}`, 'sub_events'], [])
+
+                        set(updatedEvent.sub_events, path, subEventDataToSet)
+                    } else {
+                        updatedEvent.sub_events = subEventDataToSet
+                    }
+
+                    // update sub events
+                    _event.sub_events.forEach((subEvent, index) =>
+                        updateEvent(subEvent, depth + 1, index, [...subEventIndexes]))
+                }
+            }
+
+            updateEvent(event)
+            return [...acc, updatedEvent]
+        }, [])
+        // filter out sub events from the event data
+        .filter(event => !subEvents.includes(event.id))
 }

@@ -4,282 +4,315 @@ import EventDetails from 'src/components/EventDetails'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
-import {Button} from 'material-ui'
+import {Button, CircularProgress} from 'material-ui'
 import Tooltip from 'material-ui/Tooltip'
 import {push} from 'react-router-redux'
-import classNames from 'classnames'
-
-import {fetchEventDetails as fetchEventDetailsAction} from 'src/actions/events'
-import {
-    replaceData as replaceDataAction,
-    deleteEvent as deleteEventAction,
-    cancelEvent as cancelEventAction,
-} from 'src/actions/editor.js'
-import {fetchSubEvents as fetchSubEventsAction} from 'src/actions/subEvents'
+import {replaceData as replaceDataAction} from 'src/actions/editor.js'
 import {confirmAction} from 'src/actions/app.js'
 import {getStringWithLocale} from 'src/utils/locale'
 import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
 import {checkEventEditability} from 'src/utils/checkEventEditability.js'
 import client from '../../api/client'
 import constants from 'src/constants'
-import {getConfirmationMarkup} from '../../utils/confirm'
+import showConfirmationModal from '../../utils/confirm'
 import {get} from 'lodash'
+import {fetchEvent, fetchEvents, getEventIdFromUrl, getEventsWithSubEvents} from '../../utils/events'
+import {getBadge} from '../../utils/helpers'
 
 import './index.scss'
 
+const {
+    PUBLICATION_STATUS,
+    EVENT_STATUS,
+    SUPER_EVENT_TYPE_UMBRELLA,
+    SUPER_EVENT_TYPE_RECURRING,
+} = constants
+
 class EventPage extends React.Component {
+
     state = {
+        event: {},
+        superEvent: {},
+        subEvents: [],
+        loading: false,
         publisher: null,
     }
 
     componentDidMount() {
-        const {
-            match,
-            fetchEventDetails,
-            user,
-            fetchSubEvents,
-        } = this.props
-
-        fetchEventDetails(match.params.eventId, user)
-        fetchSubEvents(this.props.match.params.eventId, user)
+        this.fetchEventData()
     }
 
-    componentDidUpdate(prevProps) {
-        const {events, match, user, fetchEventDetails, fetchSubEvents} = this.props
+    componentDidUpdate(prevProps, prevState) {
+        const {event} = this.state
 
-        const publisherId = get(events, 'event.publisher')
-        const oldPublisherId = get(prevProps, 'events.event.publisher')
-        const eventId = get(match, ['params', 'eventId'])
+        const publisherId = get(event, 'publisher')
+        const oldPublisherId = get(prevState, ['event', 'publisher'])
+        const eventId = get(this.props.match, ['params', 'eventId'])
         const oldEventId = get(prevProps, ['match', 'params', 'eventId'])
 
         if (eventId !== oldEventId) {
-            fetchEventDetails(eventId, user)
-            fetchSubEvents(eventId, user)
+            this.fetchEventData()
         }
 
         if (publisherId && publisherId !== oldPublisherId) {
-            client.get(`organization/${publisherId}`).then(response => {
-                this.setState({
-                    publisher: response.data,
-                })
-            })
+            client.get(`organization/${publisherId}`)
+                .then(response => this.setState({publisher: response.data}))
         }
     }
 
-    copyAsTemplate() {
-        const {events: {event}, replaceData, routerPush} = this.props
+    /**
+     * Fetches the event, sub event and super event data
+     */
+    fetchEventData = () => {
+        const eventId = get(this.props, ['match', 'params', 'eventId'])
+
+        if (!eventId) {
+            return
+        }
+
+        this.setState({loading: true})
+
+        fetchEvent(eventId, 'keywords,location,audience,in_language,external_links,sub_events')
+            .then(response => {
+                const event = response.data
+                let subEvents = event.sub_events
+                let superEvent = {}
+                const superEventUrl = get(event, ['super_event', '@id'])
+                const superEventId = getEventIdFromUrl(superEventUrl)
+
+                // event doesn't have a super event, set data
+                if (!superEventId) {
+                    this.setState({event, superEvent, subEvents, loading: false})
+                    return
+                }
+
+                // fetch super event data
+                fetchEvent(superEventId)
+                    .then(value => {
+                        superEvent = value.data
+
+                        this.setState({event, superEvent, subEvents})
+                    })
+                    .finally(() => this.setState({loading: false}))
+            })
+    }
+
+    copyAsTemplate = () => {
+        const {replaceData, routerPush} = this.props
+        const {event} = this.state
+
         if (event) {
             replaceData(event)
             routerPush(`/event/create/new`)
         }
     }
 
-    editEvent() {
-        const {events: {event}, replaceData, routerPush} = this.props
+    editEvent = () => {
+        const {replaceData, routerPush} = this.props
+        const {event} = this.state
+
         if (event) {
             replaceData(event)
             routerPush(`/event/update/${event.id}`)
         }
     }
 
-    get getSubEvents() {
-        return get(this.props, ['subEvents', 'items'], [])
+    /**
+     * Opens a confirmation modal and runs the given action
+     * @param action    Action to run
+     */
+    confirmAction = (action) => {
+        const {confirm, intl, routerPush} = this.props;
+        const {event, subEvents} = this.state
+        let eventData = [event, ...subEvents]
+
+        // opens the confirm modal
+        const doConfirm = (data) => {
+            showConfirmationModal(data, action, confirm, intl)
+                .then(() => {
+                    // navigate to event listing after delete action
+                    if (action === 'delete') {
+                        routerPush('/')
+                    }
+                    // re-fetch event data after cancel action
+                    if (action === 'cancel') {
+                        this.fetchEventData()
+                    }
+                })
+        }
+
+        // get the id's of events that have sub events
+        // don't re-fetch sub event data for the event that the action is run for, as we already have it
+        const eventsWithSubEvents = getEventsWithSubEvents(eventData)
+            .filter(eventId => eventId !== event.id)
+
+        // we need to append the event data with sub events of recurring events,
+        // if we're running the action for an umbrella event
+        if (eventsWithSubEvents.length > 0) {
+            fetchEvents(eventsWithSubEvents.join())
+                .then(response => {
+                    const fetchedSubEventData = response.data.data
+                    eventData = [...eventData, ...fetchedSubEventData]
+                    doConfirm(eventData)
+                })
+        } else {
+            doConfirm(eventData)
+        }
     }
 
-    getActionButtons() {
-        let {eventIsEditable, eventEditabilityExplanation} = checkEventEditability(this.props.user, this.props.events.event)
-        let buttons = <div className="actions">
-            {this.getDeleteButton(!eventIsEditable)}
-            {this.getCancelButton(!eventIsEditable)}
-        </div>
-        return (
-            <div>
-                {eventIsEditable ? buttons :
-                    <Tooltip title={eventEditabilityExplanation}>
-                        <span>{buttons}</span>
-                    </Tooltip>
-                }
-            </div>
-        )
-    }
-
-    confirmCancel() {
-        // TODO: maybe do a decorator for confirmable actions etc...?
-        const {user, events, cancelEvent} = this.props;
-        const eventId = this.props.match.params.eventId;
-
-        this.props.confirm(
-            'confirm-cancel',
-            'warning',
-            'cancel-events',
-            {
-                action: () => cancelEvent(eventId, user, events.event),
-                additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
-                additionalMarkup: getConfirmationMarkup('cancel', this.props.intl, this.getSubEvents),
-            }
-        )
-    }
-
-    confirmDelete() {
-        // TODO: maybe do a decorator for confirmable actions etc...?
-        const {user, deleteEvent, events} = this.props;
-        const eventId = this.props.match.params.eventId;
-
-        this.props.confirm(
-            'confirm-delete',
-            'warning',
-            'delete-events',
-            {
-                action: () => deleteEvent(eventId, user, events.event),
-                additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
-                additionalMarkup: getConfirmationMarkup('delete', this.props.intl, this.getSubEvents),
-            }
-        )
-    }
-
+    /**
+     * Returns the publisher & creator info text
+     * @returns {null|*}
+     */
     getPublishedText = () => {
-        const {events: {event}, intl} = this.props
-        const {publisher} = this.state
+        const {event, publisher} = this.state
 
         if (!publisher) {
             return null
         }
 
-        const values = {
-            publisher: publisher.name,
-            createdBy: get(event, 'created_by', ''),
-            publishedAt: moment(event.last_modified_time).format('D.M.YYYY HH:mm'),
+        const createdBy = get(event, 'created_by')
+        const publishedAt = moment(event.last_modified_time).format('D.M.YYYY HH:mm')
+        let creator, email
+
+        if (createdBy) {
+            [creator, email] = createdBy.split(' - ')
         }
 
-        return intl.formatMessage({
-            id: values.createdBy ? 'event-publisher-info-with-created-by' : 'event-publisher-info',
-        }, values);
+        return (
+            <span>
+                <FormattedMessage id="event-publisher-info" values={{publisher: publisher.name}}/>
+                {creator && email &&
+                    <React.Fragment>
+                        <span> | {creator} | </span>
+                        <a href={`mailto:${email}`}>{email}</a>
+                    </React.Fragment>
+                }
+                <span> | {publishedAt}</span>
+            </span>
+        )
+    }
+
+    /**
+     * Returns an action button
+     * @param action    Action to run
+     * @param onClick   onClick function that should be used instead of the default one
+     * @returns {*}
+     */
+    getActionButton = (action, onClick) => {
+        const {user} = this.props
+        const event = mapAPIDataToUIFormat(this.state.event)
+        const {eventIsEditable, eventEditabilityExplanation} = checkEventEditability(user, event)
+
+        const button = <Button
+            raised
+            disabled={!eventIsEditable}
+            onClick={() => onClick ? onClick() : this.confirmAction(action)}
+            color={action === 'edit' ? 'primary' : 'accent'}
+        >
+            <FormattedMessage id={`${action}-event`}/>
+        </Button>
+
+        return eventIsEditable
+            ? <React.Fragment>{button}</React.Fragment>
+            : <Tooltip title={eventEditabilityExplanation}>
+                <span>{button}</span>
+            </Tooltip>
     }
 
     render() {
-        const {user} = this.props
-        let event = mapAPIDataToUIFormat(this.props.events.event)
+        const {event, superEvent, loading, publisher} = this.state
+        const formattedEvent = mapAPIDataToUIFormat(this.state.event)
 
-        if (!event || !event.name) {
+        // display loading text + spinner while data is being fetched
+        if (loading) {
             return (
                 <header className="header">
                     <div className="container">
-                        <h3><FormattedMessage id="event-page-loading"/></h3>
+                        <h3><FormattedMessage id="event-page-loading"/><CircularProgress style={{margin: '0 10px'}}/></h3>
                     </div>
                 </header>
             )
         }
 
-        if (this.props.events.eventError) {
-            return (
-                <header className="header">
-                    <div className="container">
-                        <h3><FormattedMessage id="event-page-error"/></h3>
-                    </div>
-                </header>
-            )
-        }
-
-        // Tooltip is empty if the event is editable
-        let {eventIsEditable, eventEditabilityExplanation} = checkEventEditability(user, event)
-
-        const isDraft = event.publication_status === constants.PUBLICATION_STATUS.DRAFT
-        const isCancelled = event.publication_status === constants.EVENT_STATUS.CANCELLED
-
-        const editEventButton = <Button raised onClick={e => this.editEvent(e)} disabled={!eventIsEditable}
-            color="primary"><FormattedMessage id="edit-events"/></Button>
-        const cancelEventButton = <Button raised disabled={!eventIsEditable} onClick={(e) => this.confirmCancel(e)}
-            color="accent"><FormattedMessage id="cancel-events"/></Button>
-        const deleteEventButton = <Button raised disabled={!eventIsEditable} onClick={(e) => this.confirmDelete(e)}
-            color="accent"><FormattedMessage id="delete-events"/></Button>
-
+        const isUmbrellaEvent = event.super_event_type === SUPER_EVENT_TYPE_UMBRELLA
+        const isRecurringEvent = event.super_event_type === SUPER_EVENT_TYPE_RECURRING
+        const isDraft = event.publication_status === PUBLICATION_STATUS.DRAFT
+        const isCancelled = event.event_status === EVENT_STATUS.CANCELLED
+        const editEventButton = this.getActionButton('edit', this.editEvent)
+        const cancelEventButton = this.getActionButton('cancel')
+        const deleteEventButton = this.getActionButton('delete')
         const publishedText = this.getPublishedText();
+
         return (
-            <div className={classNames('event-page', {
-                'draft': isDraft,
-                'cancelled': isCancelled,
-            })}>
-                <div className="container">
-                    <header className="header">
-                        <h1>
-                            {isCancelled && <span className="badge badge-danger tag-space"><FormattedMessage id="cancelled"/></span>}
-                            {isDraft && <span className="badge badge-warning warn tag-space"><FormattedMessage id="draft"/></span>}
-                            {getStringWithLocale(event, 'name')}
-                        </h1>
-                    </header>
-                    <div className="event-actions">
-                        <div className="cancel-delete-btn">
-                            {eventIsEditable ? cancelEventButton :
-                                <Tooltip title={eventEditabilityExplanation}>
-                                    <span>{cancelEventButton}</span>
-                                </Tooltip>
-                            }
-                            {eventIsEditable ? deleteEventButton :
-                                <Tooltip title={eventEditabilityExplanation}>
-                                    <span>{deleteEventButton}</span>
-                                </Tooltip>
-                            }
-                        </div>
-                        <div className="edit-copy-btn">
-                            {eventIsEditable ? editEventButton :
-                                <Tooltip title={eventEditabilityExplanation}>
-                                    <span>{editEventButton}</span>
-                                </Tooltip>
-                            }
-                            <Button raised onClick={e => this.copyAsTemplate(e)} color="default">
-                                <FormattedMessage id="copy-event-to-draft"/>
-                            </Button>
-                        </div>
+            <div className="event-page container">
+                <header className="header">
+                    <h1>
+                        {getStringWithLocale(event, 'name')}
+                    </h1>
+                    <h4>
+                        {isCancelled && getBadge('cancelled')}
+                        {isDraft && getBadge('draft')}
+                        {isUmbrellaEvent && getBadge('umbrella')}
+                        {isRecurringEvent && getBadge('series')}
+                    </h4>
+                </header>
+                <div className="event-actions">
+                    <div className="cancel-delete-btn">
+                        {cancelEventButton}
+                        {deleteEventButton}
                     </div>
-                    <div className="published-information">
-                        {publishedText}
+                    <div className="edit-copy-btn">
+                        {editEventButton}
+                        <Button
+                            raised
+                            color="default"
+                            onClick={e => this.copyAsTemplate(e)}
+                        >
+                            <FormattedMessage id="copy-event-to-draft"/>
+                        </Button>
                     </div>
-                    <EventDetails
-                        values={event}
-                        superEvent={this.props.superEvent}
-                        rawData={this.props.events.event}
-                        publisher={this.state.publisher}
-                    />
                 </div>
+                <div className="published-information">
+                    {publishedText}
+                </div>
+                <EventDetails
+                    values={formattedEvent}
+                    superEvent={superEvent}
+                    rawData={event}
+                    publisher={publisher}
+                />
             </div>
         )
     }
 }
 
 EventPage.propTypes = {
-    match: PropTypes.object,
-    fetchEventDetails: PropTypes.func,
+    intl: intlShape.isRequired,
     user: PropTypes.object,
+    match: PropTypes.object,
     events: PropTypes.object,
     superEvent: PropTypes.object,
     subEvents: PropTypes.object,
+    loading: PropTypes.bool,
     replaceData: PropTypes.func,
     routerPush: PropTypes.func,
     confirm: PropTypes.func,
-    cancelEvent: PropTypes.func,
-    deleteEvent: PropTypes.func,
-    editor: PropTypes.object,
-    intl: intlShape.isRequired,
-    fetchSubEvents: PropTypes.func,
-    deleteSubEvent: PropTypes.func,
 }
 
 const mapStateToProps = (state) => ({
-    events: state.events,
-    superEvent: get(state, ['events', 'superEvent']),
-    subEvents: state.subEvents,
-    routing: state.routing,
     user: state.user,
 })
 
+// todo: delete unused methods from redux
 const mapDispatchToProps = (dispatch) => ({
-    fetchEventDetails: (eventId, user) => dispatch(fetchEventDetailsAction(eventId, user)),
-    routerPush: (url) => dispatch(push(url)),
+    // fetchEventDetails: (eventId, user) => dispatch(fetchEventDetailsAction(eventId, user)),
     replaceData: (event) => dispatch(replaceDataAction(event)),
+    routerPush: (url) => dispatch(push(url)),
     confirm: (msg, style, actionButtonLabel, data) => dispatch(confirmAction(msg, style, actionButtonLabel, data)),
-    deleteEvent: (eventId, user, values) => dispatch(deleteEventAction(eventId, user, values)),
-    cancelEvent: (eventId, user, values) => dispatch(cancelEventAction(eventId, user, values)),
-    fetchSubEvents: (user, superEventId) => dispatch(fetchSubEventsAction(user, superEventId)),
+    // deleteEvent: (eventId, user, values) => dispatch(deleteEventAction(eventId, user, values)),
+    // cancelEvent: (eventId, user, values) => dispatch(cancelEventAction(eventId, user, values)),
+    // fetchSubEvents: (user, superEventId) => dispatch(fetchSubEventsAction(user, superEventId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(EventPage))

@@ -95,6 +95,10 @@ $modal-backdrop-opacity: 0.7;
 
     .modal-body {
         padding: 12px 24px;
+
+        ul {
+            margin: 0.3rem 0 0;
+        }
     }
 
     .close {

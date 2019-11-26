@@ -1,6 +1,5 @@
 import constants from '../../../constants'
-import {getFirstMultiLanguageFieldValue} from '../../../utils/helpers'
-import {FormattedMessage} from 'react-intl'
+import {getBadge, getFirstMultiLanguageFieldValue} from '../../../utils/helpers'
 import {KeyboardArrowDown, KeyboardArrowRight} from 'material-ui-icons'
 import {Link} from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -28,31 +27,6 @@ const NameCell = props => {
         name = '<event>'
     }
 
-    const getBadge = type => {
-        let badgeType = 'primary'
-
-        switch (type) {
-            case 'series':
-                badgeType = 'success'
-                break
-            case 'umbrella':
-                badgeType = 'info'
-                break
-            case 'draft':
-                badgeType = 'warning'
-                break
-            case 'cancelled':
-                badgeType = 'danger'
-                break
-        }
-
-        return (
-            <span className={`badge badge-${badgeType} text-uppercase tag-space`}>
-                <FormattedMessage id={type} />
-            </span>
-        )
-    }
-
     return (
         <TableCell style={indentationStyle}>
             {isSuperEvent && hasSubEvents &&
@@ -63,14 +37,14 @@ const NameCell = props => {
                     {showSubEvents ? <KeyboardArrowDown /> : <KeyboardArrowRight />}
                 </span>
             }
+            {cancelled && getBadge('cancelled')}
+            {draft && getBadge('draft')}
             {isSuperEvent && superEventType === constants.SUPER_EVENT_TYPE_UMBRELLA &&
                 getBadge('umbrella')
             }
             {isSuperEvent && superEventType === constants.SUPER_EVENT_TYPE_RECURRING &&
                 getBadge('series')
             }
-            {draft && getBadge('draft')}
-            {cancelled && getBadge('cancelled')}
             <Link to={`/event/${event.id}`}>{name}</Link>
         </TableCell>
     )

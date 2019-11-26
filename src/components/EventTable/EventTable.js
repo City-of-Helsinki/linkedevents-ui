@@ -50,6 +50,12 @@ const EventTable = (props) => {
         fetchComplete,
     } = props
 
+    const hasResults = events.length > 0 || fetchComplete === false
+
+    if (!hasResults) {
+        return (<strong><FormattedMessage id="no-events"/></strong>)
+    }
+
     const rows = events.map(event => (
         <EventRow
             key={event['@id']}
@@ -67,12 +73,6 @@ const EventTable = (props) => {
 
     // only show page size options dropdown if there are more events than the smallest option available
     const showPageSizeOptions = pageSizeOptions.length && pageSizeOptions[0] <= events.length
-
-    const hasResults = events.length > 0 || fetchComplete === false
-
-    if (!hasResults) {
-        return (<strong><FormattedMessage id="no-events"/></strong>)
-    }
 
     return (
         <Table className="event-table">

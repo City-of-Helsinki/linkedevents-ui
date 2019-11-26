@@ -168,7 +168,7 @@ export class EventListing extends React.Component {
      * @param fetchComplete Whether the fetch has completed
      */
     setLoading = (fetchComplete) => {
-        const updatedState = this.state
+        const updatedState = {...this.state}
         updatedState.tableData.fetchComplete = fetchComplete
         this.setState(updatedState)
     }

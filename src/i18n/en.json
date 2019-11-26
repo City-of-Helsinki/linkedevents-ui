@@ -3,7 +3,8 @@
     "logout": "Logout",
     "linked-events": "Linked Events",
     "create-events": "Create a new event",
-    "edit-events": "Edit the event",
+    "edit-event": "Edit the event",
+    "edit-events": "Edit the events",
     "copy-event-to-draft": "Copy to draft",
     "search-events": "Search events",
     "no-events": "No events do show.",
@@ -29,6 +30,7 @@
     "confirm-delete": "Delete event",
     "confirm-cancel": "Cancel event",
     "confirm-publish": "Publish event",
+    "confirm-cancel-multi": "Cancel events",
     "confirm-delete-multi": "Delete events",
     "confirm-publish-multi": "Publish events",
     "delete": "Delete",
@@ -79,8 +81,7 @@
     "event-provider": "Event organizer",
     "event-provider-input": "Event organizer (if different than the publisher)",
     "event-publisher": "Event publisher",
-    "event-publisher-info": "Publisher: {publisher}, {publishedAt}",
-    "event-publisher-info-with-created-by": "Publisher: {publisher} / {createdBy}, {publishedAt}",
+    "event-publisher-info": "Publisher: {publisher}",
 
     "events-management": "Manage events",
     "events-management-prompt": "to manage events.",
@@ -228,11 +229,20 @@
     "hel-target-groups": "Target groups",
     "hel-main-categories": "Hel.fi main categories",
 
+    "editor-publish-draft-warning": "HUOM. Tämä toiminto julkaisee tapahtuman Internetiin. Tapahtumaehdotuksen alkuperäinen tekijä ei voi enää muokata tapahtumaa.",
+    "editor-publish-draft-extra-warning": "The following events will be published:",
+
     "editor-update-warning": "The changes will effect all the events in the series. Any previous changes to the selected events will be lost. Are you sure you want to continue?",
-    "editor-delete-extra-warning": "The following subevents will be deleted:",
-    "editor-delete-warning": "WARNING: This action will delete the event permanently. You may cancel or postpone the event if needed.",
-    "editor-cancel-extra-warning": "The following subevents will also be cancelled:",
+    "editor-update-extra-warning": "The changes will effect the following events:",
+
     "editor-cancel-warning": "WARNING: This action will cancel the event. You can also delete an event, if it was erroneously entered.",
+    "editor-cancel-extra-warning": "The following events will be cancelled:",
+
+    "editor-delete-warning": "WARNING: This action will delete the event permanently. You may cancel or postpone the event if needed.",
+    "editor-delete-extra-warning": "The following events will be deleted:",
+    "editor-delete-draft-warning": "VAROITUS: Tämä toiminto poistaa tapahtuman lopullisesti. Voit tarvittaessa myös pyytää, että tapahtumaehdotuksen tekijä muokkaa ilmoitustaan.",
+    "editor-delete-draft-extra-warning": "The following events will be deleted:",
+
     "editor-sentinel-alert": "You can view the form, but you don't have the permission to publish or edit events. You are not logged in or your login has expired.",
     "editor-authorization-required": "You must be logged in to edit events.",
 
