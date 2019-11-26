@@ -60,6 +60,7 @@ export class EditorPage extends React.Component {
 
         this.setDirtyState = this.setDirtyState.bind(this)
         this.clearEventData = this.clearEventData.bind(this)
+        this.form = React.createRef()
     }
 
     componentDidMount() {
@@ -114,6 +115,13 @@ export class EditorPage extends React.Component {
         clearEventDetails()
         clearSuperEventDetails()
         clearSubEvents()
+        
+        // Reset the state of the HelDatePicker and HelTimePicker components
+        this.form.current.refs.start_time.refs.date.resetDate();
+        this.form.current.refs.start_time.resetTime();
+        
+        this.form.current.refs.end_time.refs.date.resetDate();
+        this.form.current.refs.end_time.resetTime();
     }
 
     setDirtyState() {
@@ -207,15 +215,15 @@ export class EditorPage extends React.Component {
 
     getActionButtons() {
         let {eventIsEditable, eventEditabilityExplanation} = checkEventEditability(this.props.user, this.props.editor.values)
-
+    
         let disabled = this.props.editor.isSending || !eventIsEditable
         let buttons = (
             <div className="actions">
                 <div>
-                    { this.getDeleteButton(disabled) }
-                    { this.getCancelButton(disabled) }
+                    {this.getDeleteButton(disabled)}
+                    {this.getCancelButton(disabled)}
                 </div>
-                { this.getSaveButtons(disabled) }
+                {this.getSaveButtons(disabled)}
             </div>
         )
         return (
@@ -227,10 +235,6 @@ export class EditorPage extends React.Component {
                 }
             </div>
         )
-    }
-
-    goToPreview(event) {
-    // console.log(event)
     }
 
     saveAsDraft(event) {
@@ -331,7 +335,7 @@ export class EditorPage extends React.Component {
 
                 <div className="container">
                     <FormFields
-                        ref="form"
+                        ref={this.form}
                         action={match.params.action}
                         editor={editor}
                         organizations={organizations}
