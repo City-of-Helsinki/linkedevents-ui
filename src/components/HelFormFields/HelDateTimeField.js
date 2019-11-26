@@ -18,7 +18,8 @@ class HelDateTimeField extends React.Component {
     constructor(props) {
         super(props)
         
-        let defaultValue = this.props.defaultValue || null
+        let defaultValue = this.props.defaultValue || null;
+        
         if(moment(defaultValue).isValid()) {
             defaultValue = moment(defaultValue).tz('Europe/Helsinki');
             this.state = {
@@ -31,11 +32,11 @@ class HelDateTimeField extends React.Component {
                 time: null,
             }
         }
-
-        this.onChange = this.onChange.bind(this)
-        this.onBlur = this.onBlur.bind(this)
+        
+        this.onChange = this.onChange.bind(this);
+        this.onBlur = this.onBlur.bind(this);
     }
-
+    
     onChange(type, value) {
         this.setState({
             [type]: value,
@@ -50,6 +51,8 @@ class HelDateTimeField extends React.Component {
             date = moment.tz(this.state.date, 'Europe/Helsinki').format('YYYY-MM-DD')
         }
         const time = this.state.time
+        
+        // Validate both date and time
         let errors = [
             this.getValidationErrors(CONSTANTS.VALIDATION_RULES.IS_TIME, time),
             this.getValidationErrors(CONSTANTS.VALIDATION_RULES.IS_DATE, date),
@@ -58,14 +61,18 @@ class HelDateTimeField extends React.Component {
         // Filter out empty lists
         let actualErrors = errors.filter(list => (list.length > 0))
         let datetime = this.getDateTimeFromFields(date, time)
+        
         // If there are validation errors, empty datetime even if parsing succeeded
         if (actualErrors.length !== 0) {
             datetime = undefined
         }
+        
         // Update event data even if datetime is undefined, to prevent unseen datetime staying lingering in event
-        let obj = {}
+        const obj = {}
+        
         obj[this.props.name] = datetime
-        if(this.props.eventKey){
+        
+        if (this.props.eventKey) {
             this.context.dispatch(updateSubEvent(datetime, this.props.name, this.props.eventKey))
         } else {
             this.context.dispatch(setData(obj))
@@ -133,6 +140,7 @@ class HelDateTimeField extends React.Component {
 
     UNSAFE_componentWillReceiveProps(nextProps) {
         const value = this.parseValueFromString(nextProps.defaultValue)
+        
         // the current state should be kept if parsing was not successful, as the user hasn't finished
         if (value.date && value.time) {
             this.setState({date: value.date, time: value.time})
@@ -143,14 +151,38 @@ class HelDateTimeField extends React.Component {
     shouldComponentUpdate(nextProps, nextState) {
         return true
     }
-
+    
+    resetTime = () => {
+        this.setState({
+            time: null,
+        })
+    }
+    
     render () {
         return (
             <div className="multi-field">
                 <div className="indented">
-                    <label style={{position: 'relative'}}><FormattedMessage id={`${this.props.label}`} /> <ValidationPopover validationErrors={this.props.validationErrors} /></label>
-                    <HelDatePicker {...this.props.datePickerProps} ref="date" name={this.props.name} defaultValue={this.state.date} validations={[CONSTANTS.VALIDATION_RULES.IS_DATE]} placeholder="pp.kk.vvvv" onChange={this.onChange} onBlur={this.onBlur} label={<FormattedMessage id="date" />} />
-                    <HelTimePicker {...this.props.timePickerProps} ref="time" name={this.props.name} defaultValue={this.state.time} validations={[CONSTANTS.VALIDATION_RULES.IS_TIME]} placeholder="hh.mm" onChange={this.onChange} onBlur={this.onBlur} label={<FormattedMessage id="time" />} />
+                    <label style={{position: 'relative'}}><FormattedMessage id={`${this.props.label}`} /> <ValidationPopover validationErrors={this.props.validationErrors} />
+                    </label>
+                    <HelDatePicker {...this.props.datePickerProps}
+                        ref="date"
+                        name={this.props.name}
+                        defaultValue={this.state.date}
+                        validations={[CONSTANTS.VALIDATION_RULES.IS_DATE]}
+                        placeholder="pp.kk.vvvv" onChange={this.onChange}
+                        onBlur={this.onBlur} label={<FormattedMessage id="date"/>}
+                    />
+                    <HelTimePicker {...this.props.timePickerProps}
+                        ref="time"
+                        name={this.props.name}
+                        defaultValue={this.state.time}
+                        validations={[CONSTANTS.VALIDATION_RULES.IS_TIME]}
+                        placeholder="hh.mm"
+                        onChange={this.onChange}
+                        onBlur={this.onBlur}
+                        label={<FormattedMessage id="time"/>}
+                        maxLength={5}
+                    />
                 </div>
             </div>
         )
@@ -175,4 +207,5 @@ HelDateTimeField.contextTypes = {
     intl: PropTypes.object,
     dispatch: PropTypes.func,
 }
+
 export default HelDateTimeField
