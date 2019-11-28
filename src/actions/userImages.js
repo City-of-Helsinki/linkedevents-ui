@@ -94,17 +94,23 @@ export function imageUploadComplete(json) {
 export function postImage(formData, user, imageId = null) {
     return async (dispatch) => {
         try {
+            let request;
+            
             // Use PUT when updating the existing image metadata, use POST when adding a new image.
-            const request = (imageId) ? await client.put(`image/${imageId}`, formData) : await client.post(`image/`, formData);
-
-            // Append updated image data to the form
-            dispatch(setData({'image': request}));
+            if (imageId) {
+                request = await client.put(`image/${imageId}`, formData);
+            } else {
+                request = await client.post(`image/`, formData);
+                
+                // Append uploaded image data to the form
+                dispatch(setData({'image': request.data}));
+            }
             
             dispatch(imageUploadComplete(request));
             
             dispatch(setFlashMsg(imageId ? 'image-update-success' : 'image-creation-success', 'success', request))
         } catch (error) {
-            dispatch(setFlashMsg('image-creation-error', 'error', error));
+            dispatch(setFlashMsg('image-creation-error', 'error'));
     
             dispatch(imageUploadFailed(error));
             

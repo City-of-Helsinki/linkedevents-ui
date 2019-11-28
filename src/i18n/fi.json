@@ -253,5 +253,7 @@
     "search-courses": "Etsi kursseja",
     "more-info": "Lisätietoja",
     "courses-management": "Kurssien hallinta",
-    "edit-image": "Muokkaa kuvaa"
+    "edit-image": "Muokkaa kuvaa",
+    "The name must be defined.": "Tiedostolla tulee olla nimi",
+    "image-caption-limit-for-min-and-max": "Kuvaus eli kuvan alt-teksti (pituus vähintään {minLength} ja korkeintaan {maxLength} merkkiä)"
 }

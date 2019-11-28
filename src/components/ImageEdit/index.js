@@ -10,7 +10,7 @@ import {connect} from 'react-redux'
 import FormFields from '../FormFields'
 import HelTextField from '../HelFormFields/HelTextField'
 
-import CONSTANTS from '../../constants' 
+import CONSTANTS from '../../constants'
 import {postImage as postImageAction} from 'src/actions/userImages'
 
 class ImageEdit extends React.Component {
@@ -22,6 +22,8 @@ class ImageEdit extends React.Component {
             name: this.props.defaultName || '',
             photographerName: this.props.defaultPhotographerName || '',
             license: this.props.license || 'cc_by',
+            nameMinLength: 6,
+            nameMaxLength: CONSTANTS.CHARACTER_LIMIT.SHORT_STRING,
         }
     }
 
@@ -70,12 +72,16 @@ class ImageEdit extends React.Component {
                         <div className="col-sm-8 edit-form">
                             <div className="hel-text-field">
                                 <label className="hel-label">
-                                    <FormattedMessage id={'image-caption-limit'} values={{limit:CONSTANTS.CHARACTER_LIMIT.SHORT_STRING}}/>
+                                    <FormattedMessage id={'image-caption-limit-for-min-and-max'} values={{
+                                        minLength: this.state.nameMinLength,
+                                        maxLength: this.state.nameMaxLength}}/>
+                                    
                                 </label>
                                 <HelTextField
                                     onChange={(e) => this.handleTextChange(e, 'name')}
                                     defaultValue={this.state.name}
                                     validations={[CONSTANTS.VALIDATION_RULES.SHORT_STRING]}
+                                    maxLength={this.state.nameMaxLength}
                                 />
                             </div>
                             <div className="hel-text-field">
@@ -100,7 +106,7 @@ class ImageEdit extends React.Component {
                             </div>
                         </div>
                         <img className="col-sm-4 edit-form form-image" src={this.props.thumbnailUrl} />
-                        <button type="submit" className="col-sm-12 btn btn-save-image-data">Tallenna tiedot</button>
+                        <button type="submit" className="col-sm-12 btn btn-save-image-data" disabled={(this.state.name.length >= 6) ? false : true}>Tallenna tiedot</button>
 
                     </form>
                 </Modal.Body>
