@@ -36,14 +36,22 @@ export const getSortColumnName = (columnName) =>
 
 /**
  * Returns the selected rows based on given parameters
- * @param tableData Table data
- * @param checked   Whether the row was selected or de-selected
- * @param id        Event ID of the selected row
- * @param table     The table that the row was selected in
- * @param selectAll Whether all rows should be selected
+ * @param tableData     Table data
+ * @param checked       Whether the row was selected or de-selected
+ * @param id            Event ID of the selected row
+ * @param table         The table that the row was selected in
+ * @param selectAll     Whether all rows should be selected
+ * @param invalidRows   Array containing invalid rows that shouldn't be selected
  * @returns {string[]}
  */
-export const getSelectedRows = (tableData, checked, id, table, selectAll = false) => {
+export const getSelectedRows = (
+    tableData,
+    checked,
+    id,
+    table,
+    selectAll = false,
+    invalidRows = [],
+) => {
     const {events} = tableData
     let {selectedRows} = tableData
 
@@ -58,4 +66,5 @@ export const getSelectedRows = (tableData, checked, id, table, selectAll = false
     }
 
     return selectedRows
+        .filter(id => !invalidRows.includes(id))
 }

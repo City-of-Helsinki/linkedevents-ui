@@ -16,12 +16,18 @@ import client from '../../api/client'
 import constants from 'src/constants'
 import showConfirmationModal from '../../utils/confirm'
 import {get} from 'lodash'
-import {fetchEvent, fetchEvents, getEventIdFromUrl, getEventsWithSubEvents} from '../../utils/events'
-import {getBadge} from '../../utils/helpers'
+import {
+    appendEventDataWithSubEvents,
+    EventQueryParams,
+    fetchEvent,
+    getEventsWithSubEvents,
+} from '../../utils/events'
+import {getBadge, scrollToTop} from '../../utils/helpers'
 
 import './index.scss'
 
 const {
+    USER_TYPE,
     PUBLICATION_STATUS,
     EVENT_STATUS,
     SUPER_EVENT_TYPE_UMBRELLA,
@@ -34,7 +40,8 @@ class EventPage extends React.Component {
         event: {},
         superEvent: {},
         subEvents: [],
-        loading: false,
+        // loading is true initially because we always fetch event data when the component is mounted
+        loading: true,
         publisher: null,
     }
 
@@ -72,48 +79,33 @@ class EventPage extends React.Component {
 
         this.setState({loading: true})
 
-        fetchEvent(eventId, 'keywords,location,audience,in_language,external_links,sub_events')
-            .then(response => {
-                const event = response.data
-                let subEvents = event.sub_events
-                let superEvent = {}
-                const superEventUrl = get(event, ['super_event', '@id'])
-                const superEventId = getEventIdFromUrl(superEventUrl)
+        const queryParams = new EventQueryParams()
+        queryParams.include = 'keywords,location,audience,in_language,external_links,sub_events'
 
-                // event doesn't have a super event, set data
-                if (!superEventId) {
-                    this.setState({event, superEvent, subEvents, loading: false})
-                    return
-                }
-
-                // fetch super event data
-                fetchEvent(superEventId)
-                    .then(value => {
-                        superEvent = value.data
-
-                        this.setState({event, superEvent, subEvents})
-                    })
-                    .finally(() => this.setState({loading: false}))
+        fetchEvent(eventId, queryParams, true)
+            .then(eventData => {
+                const [event, subEvents, superEvent] = eventData
+                this.setState({event, subEvents, superEvent, loading: false})
             })
+            .catch(() => this.setState({loading: false}))
     }
 
-    copyAsTemplate = () => {
+    /**
+     * Opens the editor with the event data in given mode
+     * @param mode  Whether event is copied as a template or being updated. Can be either 'copy' or 'update'
+     */
+    openEventInEditor = (mode = 'update') => {
         const {replaceData, routerPush} = this.props
         const {event} = this.state
 
-        if (event) {
-            replaceData(event)
-            routerPush(`/event/create/new`)
-        }
-    }
-
-    editEvent = () => {
-        const {replaceData, routerPush} = this.props
-        const {event} = this.state
+        const route = mode === 'copy'
+            ? 'create/new'
+            : `update/${event.id}`
 
         if (event) {
             replaceData(event)
-            routerPush(`/event/update/${event.id}`)
+            routerPush(`/event/${route}`)
+            scrollToTop()
         }
     }
 
@@ -151,19 +143,53 @@ class EventPage extends React.Component {
     }
 
     /**
+     * Returns a div containing all the action buttons for the view
+     * @returns {*}
+     */
+    getEventActions = () => {
+        const {user} = this.props
+        const {event, loading} = this.state
+
+        const userType = get(user, 'userType')
+        const isDraft = event.publication_status === PUBLICATION_STATUS.DRAFT
+        const isAdmin = userType === USER_TYPE.ADMIN
+        const editEventButton = this.getActionButton('edit', this.openEventInEditor)
+        const publishEventButton = this.getActionButton('publish')
+        const cancelEventButton = this.getActionButton('cancel')
+        const deleteEventButton = this.getActionButton('delete')
+
+        return  <div className="event-actions">
+            <div className="cancel-delete-btn">
+                {cancelEventButton}
+                {deleteEventButton}
+            </div>
+            <div className="edit-copy-btn">
+                {isAdmin && isDraft && publishEventButton}
+                {editEventButton}
+                <Button
+                    raised
+                    disabled={loading || isDraft}
+                    color="default"
+                    onClick={() => this.openEventInEditor('copy')}
+                >
+                    <FormattedMessage id="copy-event-to-draft"/>
+                </Button>
+            </div>
+        </div>
+    }
+
+    /**
      * Returns a button for the given action
      * @param action    Action to run
      * @param onClick   onClick function that should be used instead of the default one
      * @returns {*}
      */
     getActionButton = (action, onClick) => {
-        const {user} = this.props
-        const event = mapAPIDataToUIFormat(this.state.event)
-        const {eventIsEditable, eventEditabilityExplanation} = checkEventEditability(user, event)
-        const isDraft = event.publication_status === PUBLICATION_STATUS.DRAFT
-        const disabled = action === 'cancel'
-            ? isDraft || !eventIsEditable
-            : !eventIsEditable
+        const {user, intl} = this.props
+        const {event, loading} = this.state
+        const formattedEvent = mapAPIDataToUIFormat(event)
+        const {editable, explanationId} = checkEventEditability(user, formattedEvent, action)
+        const disabled = !editable || loading
 
         let color
 
@@ -187,11 +213,11 @@ class EventPage extends React.Component {
             <FormattedMessage id={`${action}-event`}/>
         </Button>
 
-        return eventIsEditable
-            ? <React.Fragment>{button}</React.Fragment>
-            : <Tooltip title={eventEditabilityExplanation}>
+        return disabled && explanationId
+            ? <Tooltip title={intl.formatMessage({id: explanationId})}>
                 <span>{button}</span>
             </Tooltip>
+            : button
     }
 
     /**
@@ -201,7 +227,7 @@ class EventPage extends React.Component {
     confirmAction = (action) => {
         const {confirm, intl, routerPush} = this.props;
         const {event, subEvents} = this.state
-        let eventData = [event, ...subEvents]
+        const eventData = [{...event}, ...subEvents]
 
         // opens the confirm modal
         const doConfirm = (data) => {
@@ -218,55 +244,37 @@ class EventPage extends React.Component {
                 })
         }
 
-        // get the id's of events that have sub events
-        // don't re-fetch sub event data for the event that the action is run for, as we already have it
+        // // get the id's of events that have sub events
+        // // don't re-fetch sub event data for the event that the action is run for, as we already have it
         const eventsWithSubEvents = getEventsWithSubEvents(eventData)
             .filter(eventId => eventId !== event.id)
 
-        // we need to append the event data with sub events of recurring events,
-        // if we're running the action for an umbrella event
-        if (eventsWithSubEvents.length > 0) {
-            fetchEvents(eventsWithSubEvents.join())
-                .then(response => {
-                    const fetchedSubEventData = response.data.data
-                    eventData = [...eventData, ...fetchedSubEventData]
-                    doConfirm(eventData)
-                })
-        } else {
-            doConfirm(eventData)
-        }
+        // // we need to append the event data with sub events of recurring events,
+        // // when we're running the action for an umbrella event
+        eventsWithSubEvents.length > 0
+            ? appendEventDataWithSubEvents(eventData, eventsWithSubEvents)
+                .then((appendedData) => doConfirm(appendedData))
+            : doConfirm(eventData)
     }
 
     render() {
         const {event, superEvent, loading, publisher} = this.state
+
         const formattedEvent = mapAPIDataToUIFormat(this.state.event)
-
-        // display loading text + spinner while data is being fetched
-        if (loading) {
-            return (
-                <header className="header">
-                    <div className="container">
-                        <h3><FormattedMessage id="event-page-loading"/><CircularProgress style={{margin: '0 10px'}}/></h3>
-                    </div>
-                </header>
-            )
-        }
-
         const isUmbrellaEvent = event.super_event_type === SUPER_EVENT_TYPE_UMBRELLA
         const isRecurringEvent = event.super_event_type === SUPER_EVENT_TYPE_RECURRING
         const isDraft = event.publication_status === PUBLICATION_STATUS.DRAFT
         const isCancelled = event.event_status === EVENT_STATUS.CANCELLED
-        const editEventButton = this.getActionButton('edit', this.editEvent)
-        const publishEventButton = this.getActionButton('publish')
-        const cancelEventButton = this.getActionButton('cancel')
-        const deleteEventButton = this.getActionButton('delete')
         const publishedText = this.getPublishedText();
 
         return (
             <div className="event-page container">
-                <header className="header">
+                <header>
                     <h1>
-                        {getStringWithLocale(event, 'name')}
+                        {loading
+                            ? <CircularProgress size={60}/>
+                            : getStringWithLocale(event, 'name')
+                        }
                     </h1>
                     <h4>
                         {isCancelled && getBadge('cancelled')}
@@ -275,24 +283,7 @@ class EventPage extends React.Component {
                         {isRecurringEvent && getBadge('series')}
                     </h4>
                 </header>
-                <div className="event-actions">
-                    <div className="cancel-delete-btn">
-                        {cancelEventButton}
-                        {deleteEventButton}
-                    </div>
-                    <div className="edit-copy-btn">
-                        {isDraft && publishEventButton}
-                        {editEventButton}
-                        <Button
-                            raised
-                            disabled={isDraft}
-                            color="default"
-                            onClick={e => this.copyAsTemplate(e)}
-                        >
-                            <FormattedMessage id="copy-event-to-draft"/>
-                        </Button>
-                    </div>
-                </div>
+                {this.getEventActions()}
                 <div className="published-information">
                     {publishedText}
                 </div>
@@ -302,6 +293,9 @@ class EventPage extends React.Component {
                     rawData={event}
                     publisher={publisher}
                 />
+                <footer>
+                    {this.getEventActions()}
+                </footer>
             </div>
         )
     }
@@ -324,15 +318,10 @@ const mapStateToProps = (state) => ({
     user: state.user,
 })
 
-// todo: delete unused methods from redux
 const mapDispatchToProps = (dispatch) => ({
-    // fetchEventDetails: (eventId, user) => dispatch(fetchEventDetailsAction(eventId, user)),
     replaceData: (event) => dispatch(replaceDataAction(event)),
     routerPush: (url) => dispatch(push(url)),
     confirm: (msg, style, actionButtonLabel, data) => dispatch(confirmAction(msg, style, actionButtonLabel, data)),
-    // deleteEvent: (eventId, user, values) => dispatch(deleteEventAction(eventId, user, values)),
-    // cancelEvent: (eventId, user, values) => dispatch(cancelEventAction(eventId, user, values)),
-    // fetchSubEvents: (user, superEventId) => dispatch(fetchSubEventsAction(user, superEventId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(EventPage))

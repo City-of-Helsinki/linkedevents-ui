@@ -8,7 +8,10 @@ import NameCell from './CellTypes/NameCell'
 import DateTimeCell from './CellTypes/DateTimeCell'
 import PublisherCell from './CellTypes/PublisherCell'
 import {getFirstMultiLanguageFieldValue} from '../../utils/helpers'
-import {fetchEvents} from '../../utils/events'
+import {EventQueryParams, fetchEvents} from '../../utils/events'
+import ValidationCell from './CellTypes/ValidationCell'
+
+const {USER_TYPE, SUPER_EVENT_TYPE_RECURRING, SUPER_EVENT_TYPE_UMBRELLA} = constants
 
 class EventRow extends React.Component {
 
@@ -19,14 +22,15 @@ class EventRow extends React.Component {
         isSuperEvent: false,
         superEventType: null,
         isFetching: false,
+        rowInvalid: false,
     }
 
     componentDidMount() {
         const {event} = this.props
         const superEventType = event.super_event_type
         // whether the event is a super event
-        const isSuperEvent = superEventType === constants.SUPER_EVENT_TYPE_RECURRING
-            || superEventType === constants.SUPER_EVENT_TYPE_UMBRELLA
+        const isSuperEvent = superEventType === SUPER_EVENT_TYPE_RECURRING
+            || superEventType === SUPER_EVENT_TYPE_UMBRELLA
         // whether the event is a sub event
         const isSubEvent = !isUndefined(get(event, ['super_event', '@id']))
 
@@ -34,8 +38,9 @@ class EventRow extends React.Component {
     }
 
     toggleSubEvent = () => {
-        const {event} = this.props
+        const {event, user} = this.props
         const {subEvents, showSubEvents, isSuperEvent} = this.state
+        const userType = get(user, 'userType')
 
         if (
             !showSubEvents
@@ -43,11 +48,32 @@ class EventRow extends React.Component {
             && isEmpty(subEvents)
         ) {
             this.setState({isFetching: true, showSubEvents: !showSubEvents})
-            fetchEvents(event.id)
+
+            const queryParams = new EventQueryParams()
+            queryParams.super_event = event.id
+            queryParams.include = 'keywords'
+            queryParams.show_all = userType === USER_TYPE.REGULAR ? true : null
+            queryParams.admin_user = userType === USER_TYPE.ADMIN ? true : null
+
+            fetchEvents(queryParams)
                 .then(events => this.setState({subEvents: events.data.data}))
                 .finally(() => this.setState({isFetching: false}))
         } else {
             this.setState({showSubEvents: !showSubEvents})
+        }
+    }
+
+    /**
+     * Handles invalid rows
+     * @param eventId
+     */
+    handleInvalidRow = (eventId) => {
+        const {event, tableName, handleInvalidRows} = this.props
+        const {rowInvalid} = this.state
+
+        if (eventId === event.id && !rowInvalid) {
+            handleInvalidRows(eventId, tableName)
+            this.setState({rowInvalid: true})
         }
     }
 
@@ -71,6 +97,7 @@ class EventRow extends React.Component {
             handleRowSelect,
             superEventIsChecked,
         } = this.props
+
         const {
             subEvents,
             showSubEvents,
@@ -78,17 +105,14 @@ class EventRow extends React.Component {
             isSuperEvent,
             superEventType,
             isFetching,
+            rowInvalid,
         } = this.state
+
         const hasSubEvents = get(event, 'sub_events', []).length > 0
         const shouldShow = showSubEvents && isSuperEvent
-
-        let checked
-
-        if (isSubEvent) {
-            checked = superEventIsChecked
-        } else {
-            checked = selectedRows.includes(event.id)
-        }
+        const checked = isSubEvent
+            ? superEventIsChecked
+            : selectedRows.includes(event.id)
 
         return (
             <React.Fragment>
@@ -101,7 +125,7 @@ class EventRow extends React.Component {
                             >
                                 <Checkbox
                                     checked={checked}
-                                    disabled={isSubEvent}
+                                    disabled={isSubEvent || rowInvalid}
                                     onChange={(e, checked) => handleRowSelect(checked, event.id, tableName)}
                                 />
                             </TableCell>
@@ -162,12 +186,19 @@ class EventRow extends React.Component {
                                 end
                             />
                         }
+                        if (type === 'validation') {
+                            return <ValidationCell
+                                key={`${event.id}-cell-${index}`}
+                                event={event}
+                                handleInvalidRow={this.handleInvalidRow}
+                            />
+                        }
                     })}
                 </TableRow>
                 {shouldShow && (
                     isFetching
                         ? (
-                            <TableRow>
+                            <TableRow className={tableColumns.includes('validation') ? 'loading-row validation' : 'loading-row'}>
                                 {tableColumns.reduce((acc, column, index) => {
                                     const tableHasCheckboxColumn = tableColumns.includes('checkbox')
                                     const columnCount = tableColumns.length
@@ -182,7 +213,7 @@ class EventRow extends React.Component {
                                     }
                                     // add empty cells to fill the row
                                     if (tableHasCheckboxColumn &&  index + 1 <= columnCount || !tableHasCheckboxColumn &&  index <= columnCount) {
-                                        return [...acc, <TableCell key={`cell-placeholder-${index}`} />]
+                                        return [...acc, <TableCell key={`cell-placeholder-${index}`} className="placeholder-cell" />]
                                     }
                                     return acc
                                 }, [])}
@@ -231,30 +262,23 @@ EventRow.defaultProps = {
 }
 
 EventRow.propTypes = {
+    subEvents: PropTypes.array,
     showSubEvents: PropTypes.bool,
     isSubEvent: PropTypes.bool,
     isSuperEvent: PropTypes.bool,
     superEventType: PropTypes.oneOf([
-        constants.SUPER_EVENT_TYPE_RECURRING,
-        constants.SUPER_EVENT_TYPE_UMBRELLA,
+        SUPER_EVENT_TYPE_RECURRING,
+        SUPER_EVENT_TYPE_UMBRELLA,
     ]),
+    isFetching: PropTypes.bool,
+    rowInvalid: PropTypes.bool,
     nestLevel: PropTypes.number,
     event: PropTypes.object,
     tableName: PropTypes.string,
-    tableColumns: PropTypes.arrayOf(
-        PropTypes.oneOf([
-            'checkbox',
-            'name',
-            'publisher',
-            'start_time',
-            'end_time',
-            'last_modified_time',
-            'date_published',
-            'event_time',
-        ]),
-    ),
+    tableColumns: PropTypes.arrayOf(PropTypes.oneOf(constants.TABLE_COLUMNS)),
     selectedRows: PropTypes.array,
     handleRowSelect: PropTypes.func,
+    handleInvalidRows: PropTypes.func,
     user: PropTypes.object,
     superEventIsChecked: PropTypes.bool,
 }

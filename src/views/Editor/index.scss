@@ -1,23 +1,18 @@
 $languageCheckboxInitialWidth: 30%;
-$actionBtnMargin: 0 10px;
-$actionBtnHeight: 64px;
+$actionBtnMargin: 0 15px;
+$actionBtnHeight: 60px;
 
 .editor-page {
     font-weight: 300;
     background-color: #ffffff;
 
     .header {
+        align-items: baseline;
+        display: flex;
         position: relative;
 
-        h1 {
-            display: inline-block;
-        }
-
         .controls {
-            position: absolute;
-            right: 16px;
-            bottom: 4px;
-            display: inline-block;
+            margin-left: auto;
         }
     }
 
@@ -122,30 +117,32 @@ $actionBtnHeight: 64px;
     }
 
     .editor-action-buttons {
-        margin-top: 6rem;
-        padding-top: 3rem;
-
+        align-items: center;
         background-color: #f7f7f7;
-        height: 176px;
+        display: flex;
+        height: 120px;
+        justify-content: center;
+        margin-top: 3rem;
+        padding-top: 2rem;
+        position: relative;
 
-        .loader {
-            width: 100%;
-            height: 72px;
-            top: -24px;
+        .loading-spinner {
+            position: absolute;
         }
 
         .buttons-group {
-            width: 100%;
-        }
-
-        .actions {
             display: flex;
-            flex-direction: row;
-            justify-content: space-between;
+            flex-wrap: wrap;
 
-            button {                
-                margin: $actionBtnMargin;
+            button {
                 height: $actionBtnHeight;
+
+                &:not(:first-child) {
+                    margin: $actionBtnMargin;
+                }
+                &:last-child {
+                    margin-left: auto;
+                }
             }
         }
     }

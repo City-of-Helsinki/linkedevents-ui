@@ -2,9 +2,6 @@
     "login": "Kirjaudu sisään",
     "logout": "Kirjaudu ulos",
     "linked-events": "Linked Events",
-    "create-events": "Lisää uusi tapahtuma",
-    "edit-event": "Muokkaa tapahtumaa",
-    "edit-events": "Muokkaa tapahtumia",
     "copy-event-to-draft": "Kopioi uuden tapahtuman pohjaksi",
     "search-events": "Etsi tapahtumia",
     "no-events": "Ei tapahtumia mitä näyttää.",
@@ -18,20 +15,31 @@
     "welcome": "Tervetuloa",
     "submit": "Lähetä",
     "cancel": "Kumoa",
+    "create-event": "Lisää uusi tapahtuma",
+    "edit-event": "Muokkaa tapahtumaa",
+    "update-event": "Tallenna",
     "delete-event": "Poista tapahtuma",
     "cancel-event": "Peruuta tapahtuma",
     "publish-event": "Julkaise tapahtuma",
+    "create-events": "Lisää uusi tapahtuma",
+    "edit-events": "Muokkaa tapahtumia",
+    "update-events": "Tallenna",
     "delete-events": "Poista tapahtumat",
     "cancel-events": "Peruuta tapahtumat",
     "publish-events": "Julkaise tapahtumat",
     "save": "Tallenna",
     "confirm-action-header": "Varmista toiminto",
     "confirm-update": "Varmista tapahtuman tallentaminen",
+    "confirm-update-draft": "Varmista luonnoksen tallentaminen",
     "confirm-delete": "Varmista tapahtuman poistaminen",
+    "confirm-delete-draft": "Varmista luonnoksen poistaminen",
     "confirm-cancel": "Varmista tapahtuman peruminen",
     "confirm-publish": "Varmista tapahtuman julkaiseminen",
+    "confirm-update-multi": "Varmista tapahtumien tallentaminen",
+    "confirm-update-draft-multi": "Varmista luonnosten tallentaminen",
     "confirm-cancel-multi": "Varmista tapahtumien peruminen",
     "confirm-delete-multi": "Varmista tapahtumien poistaminen",
+    "confirm-delete-draft-multi": "Varmista luonnosten poistaminen",
     "confirm-publish-multi": "Varmista tapahtumien julkaiseminen",
     "delete": "Poista",
     "confirm": "Suorita",
@@ -55,6 +63,7 @@
     "event-sort-publisher": "Julkaisija",
     "event-sort-event_time": "Tapahtuma-aika",
     "event-sort-date_published": "Hyväksytty",
+    "event-sort-validation": " ",
 
     "event-page-error": "Tapahtumaa ei löytynyt tai sinulla ei ole oikeuksia katsella sitä.",
     "event-page-loading": "Ladataan tapahtumaa...",
@@ -86,6 +95,7 @@
     "events-management": "Tapahtumien hallinta",
     "events-management-prompt": "muokataksesi tapahtumia.",
     "events-management-description": "Selaa ja muokkaa oman organisaatiosi julkisia tapahtumia sekä luonnoksia. Voit lisätä uuden tapahtuman yläpalkista.",
+    "events-management-description-regular-user": "Julkaistuja tapahtumia ei voi muokata.",
     "events-management-no-results": "Yhtäkään muokattavaa tapahtumaa ei löytynyt.",
 
     "event-image": "Tapahtuman kuva (klikkaa vaihtaaksesi)",
@@ -196,6 +206,8 @@
     "event-posted": "Tapahtuma lähetettiin onnistuneesti!",
     "no-connection": "Ei yhteyttä palvelimelle!",
 
+    "event-action-save-draft-new": "Lähetä tarkastettavaksi",
+    "event-action-save-draft-existing": "Päivitä ehdotusta",
     "event-action-save-new": "Julkaise tapahtuma",
     "event-action-save-new-active": "Julkaistaan tapahtumaa",
     "event-action-save-existing": "Tallenna muutokset julkaistuun tapahtumaan",
@@ -235,6 +247,9 @@
     "editor-update-warning": "Tiedot tallennetaan kaikkiin tapahtumiin tässä sarjassa. Näihin tapahtumiin tehdyt muutokset menetetään. Oletko varma että haluat jatkaa?",
     "editor-update-extra-warning": "Tiedot tallennetaan seuraaviin tapahtumiin:",
 
+    "editor-update-draft-warning": "Tiedot tallennetaan kaikkiin tapahtumiin tässä sarjassa. Näihin tapahtumiin tehdyt muutokset menetetään. Oletko varma että haluat jatkaa?",
+    "editor-update-draft-extra-warning": "Tiedot tallennetaan seuraaviin tapahtumiin:",
+
     "editor-cancel-warning": "VAROITUS: Tämä toiminto peruuttaa tapahtuman. Voit myös poistaa sellaisen tapahtuman, jonka syötit vahingossa.",
     "editor-cancel-extra-warning": "Seuraavat tapahtumat peruutetaan:",
 
@@ -264,10 +279,8 @@
     "editor-tip-umbrella-sub-event-link": "sarjan ylätapahtumasta",
 
     "image-caption-limit": "Kuvaus eli kuvan alt-teksti (korkeintaan {limit} merkkiä)",
-    
     "add-more": "Lisää kerrat",
     "play-date-label": "Toistopäivät",
-
     "linked-courses": "Linked Courses",
     "create-courses": "Lisää uusi kurssi",
     "edit-courses": "Muokkaa kurssia",
@@ -279,5 +292,11 @@
     "moderation-page-draft-heading": "Odottaa hyväksyntää",
     "moderation-page-published-heading": "Julkaistut tapahtumat",
 
-    "table-events-per-page": "Tapahtumia per sivu"
+    "table-events-per-page": "Tapahtumia per sivu",
+
+    "draft-cancel": "Tapahtumaluonnoksia ei voi perua.",
+    "event-validation-errors": "Tapahtumatiedoissa on puutteita. Muokkaa tapahtumaa ennen julkaisua.",
+    "event-in-the-past": "Menneisyydessä olevia tapahtumia ei voi muokata.",
+    "event-canceled": "Peruttuja tapahtumia ei voi muokata.",
+    "user-no-rights": "Sinulla ei ole oikeuksia muokata tätä tapahtumaa."
 }

@@ -55,8 +55,8 @@ class UmbrellaSelector extends React.Component {
      */
     handleUpdate = (prevState = {}) => {
         const {isUmbrellaEvent, hasUmbrellaEvent, isCreateView, superEventSuperEventType} = this.state
-        const {router, events: {event, superEvent}} = this.context.store.getState()
-        const {editor: {values}} = this.props
+        const {router} = this.context.store.getState()
+        const {editor: {values}, event, superEvent} = this.props
 
         // object containing the updated states
         let stateToSet = {}
@@ -224,8 +224,7 @@ class UmbrellaSelector extends React.Component {
     hideSelectTip = () => this.setState({showSelectTip: false})
 
     render() {
-        const {showSelectTip, selectedUmbrellaEvent, isUmbrellaEvent, hasUmbrellaEvent, superEventSuperEventType} = this.state
-        const {events: {event}} = this.context.store.getState()
+        const {event, showSelectTip, selectedUmbrellaEvent, isUmbrellaEvent, hasUmbrellaEvent, superEventSuperEventType} = this.state
         const superEventUrl = get(event, ['super_event', '@id'])
         // the super event id of the event that is being edited
         const superEventId = getEventIdFromUrl(superEventUrl)
@@ -291,11 +290,6 @@ class UmbrellaSelector extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({
-    event: get(state, ['events', 'event']),
-    superEvent: get(state, ['events', 'superEvent']),
-})
-
 UmbrellaSelector.propTypes = {
     intl: PropTypes.object,
     dispatch: PropTypes.func,
@@ -324,4 +318,4 @@ UmbrellaSelector.contextTypes = {
     store: PropTypes.object,
 };
 
-export default connect(mapStateToProps)(UmbrellaSelector)
+export default UmbrellaSelector

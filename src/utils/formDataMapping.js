@@ -80,7 +80,7 @@ function mapUIDataToAPIFormat(values) {
     obj.publisher = values.organization
 
     // Location data
-    obj.location = values.location
+    obj.location = {'@id': values.location['@id']}
     obj.location_extra_info = _nullifyEmptyStrings(values.location_extra_info)
 
     // Image data
@@ -161,13 +161,13 @@ function mapUIDataToAPIFormat(values) {
     if (values.maximum_attendee_capacity) {
         courseFields.maximum_attendee_capacity = parseInt(values.maximum_attendee_capacity, 10)
     }
+    // date published
+    if (!values.publication_status) {
+        obj.date_published = moment().utc().format()
+    }
     obj.extension_course = courseFields
 
     return obj
-
-    /*
-    'date_published': DATETIME, // Not required at the moment...
-    */
 }
 
 function mapAPIDataToUIFormat(values) {

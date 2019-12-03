@@ -5,12 +5,18 @@ import {Button} from 'material-ui'
 import {FormattedMessage, injectIntl} from 'react-intl'
 import EventTable from '../../components/EventTable/EventTable'
 import {connect} from 'react-redux'
-import {get, isNull, zipObject, each} from 'lodash'
+import {isNull, zipObject, each} from 'lodash'
 import constants from '../../constants'
-import {fetchEvents, getEventDataFromIds, getEventIdFromUrl, getEventsWithSubEvents} from '../../utils/events'
+import {
+    appendEventDataWithSubEvents,
+    EventQueryParams,
+    fetchEvents,
+    getEventDataFromIds,
+    getEventsWithSubEvents,
+} from '../../utils/events'
 import {getSelectedRows, getSortColumnName, getSortDirection} from '../../utils/table'
 import showConfirmationModal from '../../utils/confirm'
-import {confirmAction, setFlashMsg as setFlashMsgAction, clearFlashMsg as clearFlashMsgAction} from '../../actions/app'
+import {confirmAction, setFlashMsg as setFlashMsgAction} from '../../actions/app'
 import {hasAffiliatedOrganizations} from '../../utils/user'
 import {push} from 'react-router-redux'
 
@@ -27,8 +33,9 @@ export class Moderation extends React.Component {
             fetchComplete: true,
             sortBy: 'last_modified_time',
             sortDirection: 'desc',
-            tableColumns: ['checkbox', 'name', 'publisher', 'event_time', 'last_modified_time'],
+            tableColumns: ['checkbox', 'name', 'publisher', 'event_time', 'last_modified_time', 'validation'],
             selectedRows: [],
+            invalidRows: [],
         },
         publishedData: {
             events: [],
@@ -69,21 +76,13 @@ export class Moderation extends React.Component {
      * @param tables    The table(s) that data should be fetched for
      */
     fetchTableData = (tables) => {
-        const {user: {affiliatedOrganizations}} = this.props
         // promises containing the table data
         const fetchedData = tables.map(table => {
-            const tableData = this.state[`${table}Data`]
+            const queryParams = this.getDefaultEventQueryParams(table)
+            queryParams.include = table === 'draft' ? 'keywords,sub_events' : null
+            queryParams.admin_user = table === 'draft' ? true : null
 
-            return fetchEvents(
-                'none',
-                this.getPublicationStatus(table),
-                affiliatedOrganizations,
-                undefined,
-                tableData.pageSize,
-                tableData.sortBy,
-                tableData.sortDirection,
-                table === 'draft' ? 'sub_events' : undefined
-            )
+            return fetchEvents(queryParams)
         })
 
         this.setLoading(false, tables)
@@ -118,7 +117,8 @@ export class Moderation extends React.Component {
      */
     handleRowSelect = (checked, id, table, selectAll = false) => {
         const tableData = this.state[`${table}Data`]
-        const selectedRows = getSelectedRows(tableData, checked, id, table, selectAll)
+        const {invalidRows} = tableData
+        const selectedRows = getSelectedRows(tableData, checked, id, table, selectAll, invalidRows)
 
         // set selected rows
         this.setState({[`${table}Data`]: {
@@ -128,30 +128,43 @@ export class Moderation extends React.Component {
     }
 
     /**
+     * Handles invalid rows
+     * @param eventId
+     * @param table
+     */
+    handleInvalidRows = (eventId, table) => {
+        const {invalidRows} = this.state[`${table}Data`]
+
+        if (!invalidRows.includes(eventId)) {
+            this.setState(state => {
+                const tableData = state[`${table}Data`]
+                const updatedInvalidRows = [...state[`${table}Data`].invalidRows, eventId]
+
+                return {[`${table}Data`]: {
+                    ...tableData,
+                    invalidRows: updatedInvalidRows,
+                }}
+            })
+        }
+    }
+
+    /**
      * Handles table column sort changes
      * @param columnName    The column that should be sorted
      * @param table         The table that the sorting was changed for
      */
     handleSortChange = (columnName, table) => {
-        const {user: {affiliatedOrganizations}} = this.props
         const tableData = this.state[`${table}Data`]
-        const publicationStatus = this.getPublicationStatus(table)
         const oldSortBy = tableData.sortBy
         const oldSortDirection = tableData.sortDirection
         const sortBy = getSortColumnName(columnName)
         const sortDirection = getSortDirection(oldSortBy, columnName, oldSortDirection)
+        const queryParams = this.getDefaultEventQueryParams(table)
+        queryParams.setSort(sortBy, sortDirection)
 
         this.setLoading(false, [table])
 
-        fetchEvents(
-            'none',
-            publicationStatus,
-            affiliatedOrganizations,
-            undefined,
-            tableData.pageSize,
-            sortBy,
-            sortDirection
-        )
+        fetchEvents(queryParams)
             .then(response => {
                 this.setState({[`${table}Data`]: {
                     ...tableData,
@@ -171,21 +184,13 @@ export class Moderation extends React.Component {
      * @param table     The table that the pagination page was changed for
      */
     handlePageChange = (event, newPage, table) => {
-        const {user: {affiliatedOrganizations}} = this.props
         const tableData = this.state[`${table}Data`]
-        const publicationStatus = this.getPublicationStatus(table)
+        const queryParams = this.getDefaultEventQueryParams(table)
+        queryParams.page = newPage + 1
 
         this.setLoading(false, [table])
 
-        fetchEvents(
-            'none',
-            publicationStatus,
-            affiliatedOrganizations,
-            newPage + 1,
-            tableData.pageSize,
-            tableData.sortBy,
-            tableData.sortDirection
-        )
+        fetchEvents(queryParams)
             .then(response => {
                 this.setState({[`${table}Data`]: {
                     ...tableData,
@@ -203,22 +208,14 @@ export class Moderation extends React.Component {
      * @param   table   The table that the page size was changed for
      */
     handlePageSizeChange = (event, table) => {
-        const {user: {affiliatedOrganizations}} = this.props
-        const publicationStatus = this.getPublicationStatus(table)
         const tableData = this.state[`${table}Data`]
         const pageSize = event.target.value
+        const queryParams = this.getDefaultEventQueryParams(table)
+        queryParams.pageSize = pageSize
 
         this.setLoading(false, [table])
 
-        fetchEvents(
-            'none',
-            publicationStatus,
-            affiliatedOrganizations,
-            undefined,
-            pageSize,
-            tableData.sortBy,
-            tableData.sortDirection
-        )
+        fetchEvents(queryParams)
             .then(response => {
                 this.setState({[`${table}Data`]: {
                     ...tableData,
@@ -254,6 +251,24 @@ export class Moderation extends React.Component {
         if (table === 'published') {
             return  PUBLICATION_STATUS.PUBLIC
         }
+    }
+
+    /**
+     * Return the default query params to use when fetching event data
+     * @returns {EventQueryParams}
+     */
+    getDefaultEventQueryParams = (table) => {
+        const {user: {affiliatedOrganizations}} = this.props
+        const {pageSize, sortBy, sortDirection} = this.state[`${table}Data`]
+
+        const queryParams = new EventQueryParams()
+        queryParams.super_event = 'none'
+        queryParams.publication_status = this.getPublicationStatus(table)
+        queryParams.setPublisher(affiliatedOrganizations)
+        queryParams.page_size = pageSize
+        queryParams.setSort(sortBy, sortDirection)
+
+        return queryParams
     }
 
     /**
@@ -296,7 +311,7 @@ export class Moderation extends React.Component {
      * @param action    Action to run
      */
     runConfirmAction = (table, action) => {
-        const {confirm, intl, setFlashMsg, clearFlashMsg} = this.props
+        const {confirm, intl, setFlashMsg} = this.props
         const tableData = this.state[`${table}Data`]
         const {events, selectedRows} = tableData
         const publicationStatus = this.getPublicationStatus(table)
@@ -312,7 +327,6 @@ export class Moderation extends React.Component {
                         : this.fetchTableData([table])
                     // show flash message after running action
                     setFlashMsg(`event-creation-${action}-success`, 'success')
-                    clearFlashMsg()
                 })
         }
 
@@ -320,16 +334,10 @@ export class Moderation extends React.Component {
         const eventsWithSubEvents = getEventsWithSubEvents(eventData)
 
         // we need to append sub event data to the event data if we're running actions for recurring / umbrella events
-        if (eventsWithSubEvents.length > 0) {
-            fetchEvents(eventsWithSubEvents.join())
-                .then(response => {
-                    const subEventData = response.data.data
-                    eventData = [...eventData, ...subEventData]
-                    doConfirm(eventData)
-                })
-        } else {
-            doConfirm(eventData)
-        }
+        eventsWithSubEvents.length > 0
+            ? appendEventDataWithSubEvents(eventData, eventsWithSubEvents)
+                .then((appendedData) => doConfirm(appendedData))
+            : doConfirm(eventData)
     }
 
     render() {
@@ -369,6 +377,7 @@ export class Moderation extends React.Component {
                             sortDirection={table.data.sortDirection}
                             selectedRows={table.name === 'draft' ? table.data.selectedRows : undefined}
                             handleRowSelect={this.handleRowSelect}
+                            handleInvalidRows={this.handleInvalidRows}
                             handlePageChange={this.handlePageChange}
                             handlePageSizeChange={this.handlePageSizeChange}
                             handleSortChange={this.handleSortChange}
@@ -390,7 +399,6 @@ Moderation.propTypes = {
     confirm: PropTypes.func,
     routerPush: PropTypes.func,
     setFlashMsg: PropTypes.func,
-    clearFlashMsg: PropTypes.func,
     intl: PropTypes.object,
     draftData: TABLE_DATA_SHAPE,
     publishedData: TABLE_DATA_SHAPE,
@@ -404,7 +412,6 @@ const mapDispatchToProps = (dispatch) => ({
     confirm: (msg, style, actionButtonLabel, data) => dispatch(confirmAction(msg, style, actionButtonLabel, data)),
     routerPush: (url) => dispatch(push(url)),
     setFlashMsg: (id, status) => dispatch(setFlashMsgAction(id, status)),
-    clearFlashMsg: () => setTimeout(() => dispatch(clearFlashMsgAction()), 5000),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(Moderation));

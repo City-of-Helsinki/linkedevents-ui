@@ -30,7 +30,6 @@ const initialState = {
     keywordSets: keywordSets,
     validationErrors: {},
     validateFor: null,
-    isSending: false,
 }
 
 function clearEventDataFromLocalStorage() {
@@ -248,27 +247,13 @@ function update(state = initialState, action) {
         })
     }
 
-    if (action.type === constants.EDITOR_SENDDATA) {
-        return Object.assign({}, state, {
-            isSending: true,
-        })
-    }
-
     if (action.type === constants.EDITOR_SENDDATA_SUCCESS) {
         clearEventDataFromLocalStorage()
 
-        return Object.assign({}, state, {
-            createdEvent: action.data.event,
-            createdAt: action.data.createdAt,
+        return {
+            ...state,
             values: editorValues,
-            isSending: false,
-        })
-    }
-
-    if (action.type === constants.EDITOR_SENDDATA_ERROR) {
-        return Object.assign({}, state, {
-            isSending: false,
-        })
+        }
     }
 
     if (action.type === constants.EDITOR_RECEIVE_KEYWORDSETS) {
@@ -284,11 +269,10 @@ function update(state = initialState, action) {
     }
 
     if (action.type === constants.RECEIVE_EVENT_FOR_EDITING) {
-        let newValues = Object.assign({}, mapAPIDataToUIFormat(action.event))
-
-        return Object.assign({}, state, {
-            values: newValues,
-        })
+        return {
+            ...state,
+            values: mapAPIDataToUIFormat({...action.event}),
+        }
     }
 
     if (action.type === constants.SELECT_IMAGE_BY_ID) {
@@ -304,7 +288,6 @@ function update(state = initialState, action) {
         return Object.assign({}, state, {
             validationErrors: action.errors,
             validationStatus: constants.VALIDATION_STATUS.RESOLVE,
-            isSending: false,
         })
     }
 

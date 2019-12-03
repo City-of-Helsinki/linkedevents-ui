@@ -6,10 +6,12 @@ import client from '../api/client'
 import axios from 'axios'
 import {getAdminOrganizations} from '../utils/user'
 
+const {RECEIVE_USERDATA, CLEAR_USERDATA, USER_TYPE} = constants
+
 // Handled by the user reducer
 export function receiveUserData(data) {
     return {
-        type: constants.RECEIVE_USERDATA,
+        type: RECEIVE_USERDATA,
         payload: data,
     }
 }
@@ -17,7 +19,16 @@ export function receiveUserData(data) {
 // Handled by the user reducer
 export function clearUserData() {
     return {
-        type: constants.CLEAR_USERDATA,
+        type: CLEAR_USERDATA,
+    }
+}
+
+const getUserType = (permissions) => {
+    if (permissions.includes(USER_TYPE.ADMIN)) {
+        return USER_TYPE.ADMIN
+    }
+    if (permissions.includes(USER_TYPE.REGULAR)) {
+        return USER_TYPE.REGULAR
     }
 }
 
@@ -46,10 +57,10 @@ export const retrieveUserFromSession = () => {
                 const permissions = []
 
                 if (get(userData, 'admin_organizations', []).length > 0) {
-                    permissions.push('admin')
+                    permissions.push(USER_TYPE.ADMIN)
                 }
                 if (get(userData, 'organization_memberships', []).length > 0) {
-                    permissions.push('regular')
+                    permissions.push(USER_TYPE.REGULAR)
                 }
 
                 const mergedUser = {
@@ -58,6 +69,7 @@ export const retrieveUserFromSession = () => {
                     adminOrganizations: get(userData, 'admin_organizations', null),
                     organizationMemberships: get(userData, 'organization_memberships', null),
                     permissions,
+                    userType: getUserType(permissions),
                 }
 
                 Promise.all(getAdminOrganizations(mergedUser))

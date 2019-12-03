@@ -1,68 +1,79 @@
 import client from '../api/client'
 import moment from 'moment'
 import constants from '../constants'
-import {get, set} from 'lodash'
-import {getIsUserOfType, getUser} from './user'
+import {get, isUndefined, set} from 'lodash'
 
 const {PUBLICATION_STATUS, EVENT_STATUS} = constants
 
-/**
- * Fetches an event based on given ID
- * @param eventId   ID of event to fetch
- * @param include   Include query parameter value
- * @returns {Promise<*>}
- */
-export const fetchEvent = async (eventId, include) => {
-    const queryParams = {
-        include: include,
-    }
+export class EventQueryParams {
+    admin_user = null
+    end = null
+    include = null
+    nocache = null
+    page = null
+    page_size = null
+    publication_status = null
+    publisher = null
+    show_all = null
+    sort = null
+    start = null
+    super_event = null
+    text = null
 
-    try {
-        return await client.get(`event/${eventId}`, queryParams)
-    } catch (e) {
-        throw Error(e)
+    setPublisher (publisher) {
+        this.publisher = publisher && publisher.join()
+    }
+    setSort(sortBy, sortDirection) {
+        this.sort = sortDirection === 'desc' ? `-${sortBy}` : sortBy
+    }
+    setText(query) {
+        this.text = encodeURI(query)
+    }
+    get values() {
+        return Object.keys(this)
+            .filter(key => typeof this[key] !== 'function')
+            .reduce((acc, key) => set(acc, key, this[key]), {})
     }
 }
 
 /**
+ * Fetches event data based on given ID
+ * @param eventId       ID of event to fetch
+ * @param queryParams   EventQueryParams class object containing the query parameters for the request
+ * @param fetchSuper    Whether super event data should be fetched for the given event
+ * @returns {Promise<*>}    Returns a promise containing event, sub event and possibly super event data depending on given params
+ */
+export const fetchEvent = (eventId, queryParams, fetchSuper = false) =>
+    new Promise(async (resolve) => {
+        try {
+            const eventResponse =  await client.get(`event/${eventId}`, queryParams.values)
+            const event = eventResponse.data
+            const subEvents = event.sub_events
+            const superEventUrl = get(event, ['super_event', '@id'])
+            const superEventId = getEventIdFromUrl(superEventUrl)
+
+            if (!fetchSuper) {
+                resolve([event, subEvents])
+            } else if (fetchSuper && superEventId) {
+                const superEventResponse =  await client.get(`event/${superEventId}`, queryParams.values)
+                const superEvent =  superEventResponse.data
+                resolve([event, subEvents, superEvent])
+            } else {
+                resolve([event, subEvents, null])
+            }
+        } catch (e) {
+            throw Error(e)
+        }
+    })
+
+/**
  * Fetches events based on given parameters
- * @param superEvent
- * @param publicationStatus
- * @param publisher
- * @param page
- * @param pageSize
- * @param sortDirection
- * @param sortBy
- * @param include
+ * @param queryParams   EventQueryParams class object containing the query parameters for the request
  * @returns {Promise<*>}
  */
-export const fetchEvents = async (
-    superEvent,
-    publicationStatus,
-    publisher,
-    page,
-    pageSize,
-    sortBy,
-    sortDirection,
-    include,
-) => {
-    const queryParams = {
-        super_event: superEvent,
-        admin_user: getIsUserOfType(getUser(), 'admin'),
-        publication_status: publicationStatus,
-        publisher: publisher && publisher.join(),
-        page: page,
-        page_size: pageSize,
-        sort: sortDirection === 'desc' ? `-${sortBy}` : sortBy,
-        include: include,
-    }
-
-    // remove all empty values
-    Object.keys(queryParams)
-        .forEach(key => !queryParams[key] && delete queryParams[key])
-
+export const fetchEvents = async (queryParams) => {
     try {
-        return await client.get('event', queryParams)
+        return await client.get('event', queryParams.values)
     } catch (e) {
         throw Error(e)
     }
@@ -93,6 +104,23 @@ export const publishEvent = async (eventData) => {
  * @returns {Promise}
  */
 export const publishEvents = async (eventData) => Promise.all(eventData.map(publishEvent))
+
+// todo: uncomment the below lines and remove the old publishEvents method when batch PUT works.
+// now we do a request for every event that we publish instead of just one.
+// export const publishEvents = async (eventData) => {
+//     const updatedEventData = eventData
+//         .map(event => ({
+//             ...event,
+//             date_published: moment().utc().format(),
+//             publication_status: PUBLICATION_STATUS.PUBLIC,
+//         }))
+//
+//     try {
+//         return await client.put('event', updatedEventData)
+//     } catch (e) {
+//         throw Error(e)
+//     }
+// }
 
 /**
  * Deletes an event
@@ -138,6 +166,22 @@ export const cancelEvent = async (eventData) => {
  * @returns {Promise}
  */
 export const cancelEvents = async (eventData) => Promise.all(eventData.map(cancelEvent))
+
+// todo: uncomment the below lines and remove the old cancelEvents method when batch PUT works.
+// now we do a request for every event that we cancel instead of just one.
+// export const cancelEvents = async (eventData) => {
+//     const updatedEventData = eventData
+//         .map(event => ({
+//             ...event,
+//             event_status: EVENT_STATUS.CANCELLED,
+//         }))
+//
+//     try {
+//         return await client.put('event', updatedEventData)
+//     } catch (e) {
+//         throw Error(e)
+//     }
+// }
 
 /**
  * Returns the data for the given ID's
@@ -190,6 +234,27 @@ export const getEventsWithSubEvents = (eventData) => eventData
     }, [])
 
 /**
+ * Appends the data of all the recurring/umbrella sub events to the given event data
+ * @param eventData             Event data
+ * @param eventsWithSubEvents   Array containing all the ID's of events in the event data that have sub events
+ * @returns {Promise<object[]>}
+ */
+export const appendEventDataWithSubEvents = (eventData, eventsWithSubEvents) =>
+    new Promise(async (resolve, reject) => {
+        const queryParams = new EventQueryParams()
+        queryParams.super_event = eventsWithSubEvents.join()
+        queryParams.show_all = true
+
+        fetchEvents(queryParams)
+            .then(response => {
+                const subEventData = response.data.data
+                eventData = [...eventData, ...subEventData]
+                resolve(eventData)
+            })
+            .catch(error => reject(new Error(error)))
+    })
+
+/**
  * Recursively maps sub event data to super events (umbrella & recurring)
  * @param eventData   Event data containing all the events
  * @returns {object[]}
@@ -210,7 +275,9 @@ export const mapSubEventDataToSuperEvents = (eventData) => {
                     // push sub event id's to the array, so that they can be filtered out later
                     subEvents.push(...subEventIds)
                     // sub event data that should be set
-                    const subEventDataToSet = subEventIds.map(subEventId => eventData.find(item => item.id === subEventId))
+                    const subEventDataToSet = subEventIds
+                        .map(subEventId => eventData.find(item => item.id === subEventId))
+                        .filter(subEvent => !isUndefined(subEvent))
 
                     // we need to get the path to the event that we're updating if it isn't a top level sub event
                     if (depth > 0) {

@@ -24,10 +24,13 @@ import HelpOutline from 'material-ui-icons/HelpOutline'
 import Person from 'material-ui-icons/Person'
 
 import {Link} from 'react-router-dom'
-import CONSTANTS from '../../constants'
+import constants from '../../constants'
 
 import cityOfHelsinkiLogo from '../../assets/images/helsinki-logo.svg'
 import {hasAffiliatedOrganizations} from '../../utils/user'
+import {get} from 'lodash'
+
+const {USER_TYPE, APPLICATION_SUPPORT_TRANSLATION} = constants
 
 class HeaderBar extends React.Component {
     state = {
@@ -39,7 +42,7 @@ class HeaderBar extends React.Component {
         const {user} = this.props
 
         if (user) {
-            const showModerationLink = hasAffiliatedOrganizations(user)
+            const showModerationLink = get(user, 'userType') === USER_TYPE.ADMIN && hasAffiliatedOrganizations(user)
             this.setState({showModerationLink})
         }
     }
@@ -49,7 +52,7 @@ class HeaderBar extends React.Component {
         const oldUser = prevProps.user
 
         if (oldUser !== user) {
-            const showModerationLink = hasAffiliatedOrganizations(user)
+            const showModerationLink = get(user, 'userType') === USER_TYPE.ADMIN && hasAffiliatedOrganizations(user)
             this.setState({showModerationLink})
         }
     }
@@ -70,7 +73,7 @@ class HeaderBar extends React.Component {
     render() {
         const {user, routerPush, logout, login, location} = this.props 
         const {showModerationLink} = this.state
-        const languages = CONSTANTS.APPLICATION_SUPPORT_TRANSLATION
+        const languages = APPLICATION_SUPPORT_TRANSLATION
 
         const toMainPage = () => routerPush('/');
         const toSearchPage = () => routerPush('/search');

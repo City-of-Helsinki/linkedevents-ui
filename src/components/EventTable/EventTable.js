@@ -9,6 +9,9 @@ import {FormattedMessage, injectIntl} from 'react-intl'
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles'
 import EventRow from './EventRow'
 import TableHeaderCell from './CellTypes/TableHeaderCell'
+import constants from '../../constants'
+
+const {TABLE_COLUMNS} = constants
 
 const paginationTheme = createMuiTheme({
     overrides: {
@@ -31,22 +34,21 @@ const paginationTheme = createMuiTheme({
 const EventTable = (props) => {
     const {
         intl,
-        events = [],
-        tableName = '',
-        // default columns
-        tableColumns = ['name', 'start_time', 'end_time', 'last_modified_time'],
+        events,
+        tableName,
+        tableColumns,
         count,
-        selectedRows = [],
+        selectedRows,
         handleRowSelect,
+        handleInvalidRows,
         handleSortChange,
         handlePageChange,
         handlePageSizeChange,
-        paginationPage = 0,
-        sortBy = 'name',
-        sortDirection = 'asc',
-        pageSize = 100,
-        // default page size options
-        pageSizeOptions = [10, 25, 50, 100],
+        paginationPage,
+        sortBy,
+        sortDirection,
+        pageSize,
+        pageSizeOptions,
         fetchComplete,
     } = props
 
@@ -64,13 +66,11 @@ const EventTable = (props) => {
             tableColumns={tableColumns}
             selectedRows={selectedRows}
             handleRowSelect={handleRowSelect}
+            handleInvalidRows={handleInvalidRows}
         />
     ))
 
-    const isActive = name => {
-        return sortBy === name
-    }
-
+    const isActive = name => sortBy === name
     // only show page size options dropdown if there are more events than the smallest option available
     const showPageSizeOptions = pageSizeOptions.length && pageSizeOptions[0] <= events.length
 
@@ -91,7 +91,7 @@ const EventTable = (props) => {
                             handleSortChange={handleSortChange}
                             fetchComplete={fetchComplete}
                         >
-                            {item !== 'checkbox'
+                            {item !== 'checkbox' || item !== 'validation'
                                 ? <FormattedMessage id={`event-sort-${item}`}/>
                                 : <React.Fragment />
                             }
@@ -135,25 +135,28 @@ const EventTable = (props) => {
     )
 }
 
+EventTable.defaultProps = {
+    events: [],
+    tableName: '',
+    tableColumns: ['name', 'start_time', 'end_time', 'last_modified_time'],
+    selectedRows: [],
+    paginationPage: 0,
+    sortBy: 'name',
+    sortDirection: 'asc',
+    pageSize: 100,
+    pageSizeOptions: [10, 25, 50, 100],
+    handleInvalidRows: () => {},
+}
+
 EventTable.propTypes = {
     intl: PropTypes.object,
     events: PropTypes.array,
     tableName: PropTypes.string,
-    tableColumns: PropTypes.arrayOf(
-        PropTypes.oneOf([
-            'checkbox',
-            'name',
-            'publisher',
-            'start_time',
-            'end_time',
-            'last_modified_time',
-            'date_published',
-            'event_time',
-        ]),
-    ),
+    tableColumns: PropTypes.arrayOf(PropTypes.oneOf(TABLE_COLUMNS)),
     count: PropTypes.number,
     selectedRows: PropTypes.array,
     handleRowSelect: PropTypes.func,
+    handleInvalidRows: PropTypes.func,
     handleSortChange: PropTypes.func,
     handlePageChange: PropTypes.func,
     handlePageSizeChange: PropTypes.func,

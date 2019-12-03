@@ -1,28 +1,8 @@
 import {get} from 'lodash'
 import client from '../api/client'
-import store from '../store'
+import constants from '../constants'
 
-/**
- * Return the current user data
- */
-export const getUser = () => {
-    const state = store.getState()
-    return get(state, 'user')
-}
-
-/**
- * Returns a boolean for whether the given user and type match any of the permissions
- * @param user  User data
- * @param type  User type to check for (admin, regular)
- * @returns {boolean}
- */
-export const getIsUserOfType = (user, type) => {
-    const permissions = get(user, 'permissions')
-    if (!permissions) {
-        return false
-    }
-    return permissions.includes(type)
-}
+const {USER_TYPE} = constants
 
 /**
  * Returns a promise containing data for the given organization
@@ -50,3 +30,20 @@ export const getAdminOrganizations = user =>
  */
 export const hasAffiliatedOrganizations = user =>
     get(user, 'affiliatedOrganizations', []).length > 0
+
+
+/**
+ * Returns the ID's of the organizations that the user is part of depending on user type
+ * @param user  User data
+ */
+export const getOrganizationMembershipIds = user => {
+    if (!user.userType ) {
+        return null
+    }
+    if (user.userType === USER_TYPE.ADMIN) {
+        return user.adminOrganizations
+    }
+    if (user.userType === USER_TYPE.REGULAR) {
+        return user.organizationMemberships
+    }
+}

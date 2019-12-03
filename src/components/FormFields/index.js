@@ -23,7 +23,7 @@ import Add from 'material-ui-icons/Add'
 import Autorenew from 'material-ui-icons/Autorenew'
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from '../../utils/apiDataMapping'
 import {setEventData, setData} from '../../actions/editor'
-import {pickBy} from 'lodash'
+import {get, pickBy} from 'lodash'
 import API from '../../api'
 import CONSTANTS from '../../constants'
 import {fetchUserAdminOrganization} from '../../actions/organization';
@@ -152,15 +152,17 @@ class FormFields extends React.Component {
             }
 
         }
+        const {event, superEvent, user} = this.props
         const {values, validationErrors, contentLanguages} = this.props.editor
         const formType = this.props.action
         const isSuperEvent = values.super_event_type === CONSTANTS.SUPER_EVENT_TYPE_RECURRING
 
-        const {VALIDATION_RULES, DEFAULT_CHARACTER_LIMIT} = CONSTANTS
+        const {VALIDATION_RULES, DEFAULT_CHARACTER_LIMIT, USER_TYPE} = CONSTANTS
         const addedEvents = pickBy(values.sub_events, event => !event['@id'])
         const newEvents = this.generateNewEventFields(addedEvents)
         const publisherOptions = this.props.organizations.map(org => ({label: org.name, value: org.id}));
         const selectedPublisher = publisherOptions.find(option => option.value === values['organization']) || {};
+        const isRegularUser = get(user, 'userType') === USER_TYPE.REGULAR
         
         return (
             <div>
@@ -559,11 +561,14 @@ class FormFields extends React.Component {
                         </div>
                     </div>
                 }
-
-                <FormHeader>
-                    <FormattedMessage id="event-umbrella" />
-                </FormHeader>
-                <UmbrellaSelector editor={this.props.editor} />
+                {!isRegularUser &&
+                    <React.Fragment>
+                        <FormHeader>
+                            <FormattedMessage id="event-umbrella" />
+                        </FormHeader>
+                        <UmbrellaSelector editor={this.props.editor} event={event} superEvent={superEvent}/>
+                    </React.Fragment>
+                }
             </div>
         )
     }
@@ -575,6 +580,9 @@ FormFields.propTypes = {
     showNewEvents: PropTypes.bool,
     showRecurringEvent: PropTypes.bool,
     editor: PropTypes.object,
+    event: PropTypes.object,
+    superEvent: PropTypes.object,
+    user: PropTypes.object,
     setDirtyState: PropTypes.func,
     action: PropTypes.oneOf(['update', 'create']),
     organizations: PropTypes.arrayOf(PropTypes.object),

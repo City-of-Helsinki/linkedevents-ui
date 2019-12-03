@@ -3,13 +3,14 @@ import {connect} from 'react-redux'
 import {FormattedMessage} from 'react-intl'
 import PropTypes from 'prop-types'
 import {login as loginAction} from 'src/actions/user.js'
-import {fetchEvents} from '../../utils/events'
-import {isNull} from 'lodash'
+import {EventQueryParams, fetchEvents} from '../../utils/events'
+import {isNull, get} from 'lodash'
 import constants from '../../constants'
 import {getSortDirection} from '../../utils/table'
 import EventTable from '../../components/EventTable/EventTable'
+import {getOrganizationMembershipIds} from '../../utils/user'
 
-const {TABLE_DATA_SHAPE, PUBLICATION_STATUS} = constants
+const {USER_TYPE, TABLE_DATA_SHAPE, PUBLICATION_STATUS} = constants
 
 export class EventListing extends React.Component {
 
@@ -18,7 +19,7 @@ export class EventListing extends React.Component {
             events: [],
             count: null,
             paginationPage: 0,
-            pageSize: 10,
+            pageSize: 25,
             fetchComplete: true,
             sortBy: 'last_modified_time',
             sortDirection: 'desc',
@@ -33,7 +34,6 @@ export class EventListing extends React.Component {
         }
     }
 
-    // todo: update when user logs in?
     componentDidUpdate(prevProps) {
         const {user} = this.props
         const oldUser = prevProps.user
@@ -48,19 +48,11 @@ export class EventListing extends React.Component {
      * Fetches the table data
      */
     fetchTableData = () => {
-        const {pageSize, sortBy, sortDirection} = this.state.tableData
+        const queryParams = this.getDefaultEventQueryParams()
 
         this.setLoading(false)
 
-        fetchEvents(
-            'none',
-            PUBLICATION_STATUS.PUBLIC,
-            undefined,
-            undefined,
-            pageSize,
-            sortBy,
-            sortDirection,
-        )
+        fetchEvents(queryParams)
             .then(response => {
                 this.setState({tableData: {
                     ...this.state.tableData,
@@ -76,25 +68,20 @@ export class EventListing extends React.Component {
      * @param columnName    The column that should be sorted
      */
     handleSortChange = (columnName) => {
-        const {pageSize, sortBy, sortDirection} = this.state.tableData
+        const {sortBy, sortDirection} = this.state.tableData
         const updatedSortDirection = getSortDirection(sortBy, columnName, sortDirection)
+        const queryParams = this.getDefaultEventQueryParams()
+        queryParams.setSort(columnName, updatedSortDirection)
 
         this.setLoading(false)
 
-        fetchEvents(
-            'none',
-            PUBLICATION_STATUS.PUBLIC,
-            undefined,
-            undefined,
-            pageSize,
-            columnName,
-            updatedSortDirection
-        )
+        fetchEvents(queryParams)
             .then(response => {
                 this.setState({tableData: {
                     ...this.state.tableData,
                     events: response.data.data,
                     count: response.data.meta.count,
+                    paginationPage: 0,
                     sortBy: columnName,
                     sortDirection: updatedSortDirection,
                 }})
@@ -108,19 +95,12 @@ export class EventListing extends React.Component {
      * @param newPage   The new page number
      */
     handlePageChange = (event, newPage) => {
-        const {pageSize, sortBy, sortDirection} = this.state.tableData
+        const queryParams = this.getDefaultEventQueryParams()
+        queryParams.page = newPage + 1
 
         this.setLoading(false)
 
-        fetchEvents(
-            'none',
-            PUBLICATION_STATUS.PUBLIC,
-            undefined,
-            newPage + 1,
-            pageSize,
-            sortBy,
-            sortDirection
-        )
+        fetchEvents(queryParams)
             .then(response => {
                 this.setState({tableData: {
                     ...this.state.tableData,
@@ -137,20 +117,13 @@ export class EventListing extends React.Component {
      * @param   event   Page size selection event data
      */
     handlePageSizeChange = (event) => {
-        const {sortBy, sortDirection} = this.state.tableData
         const pageSize = event.target.value
+        const queryParams = this.getDefaultEventQueryParams()
+        queryParams.page_size = pageSize
 
         this.setLoading(false)
 
-        fetchEvents(
-            'none',
-            PUBLICATION_STATUS.PUBLIC,
-            undefined,
-            undefined,
-            pageSize,
-            sortBy,
-            sortDirection
-        )
+        fetchEvents(queryParams)
             .then(response => {
                 this.setState({tableData: {
                     ...this.state.tableData,
@@ -173,10 +146,46 @@ export class EventListing extends React.Component {
         this.setState(updatedState)
     }
 
+    getPublicationStatus = () => {
+        const {user} = this.props
+
+        if (!user.userType) {
+            return null
+        }
+        if (user.userType === USER_TYPE.ADMIN) {
+            return PUBLICATION_STATUS.PUBLIC
+        }
+        if (user.userType === USER_TYPE.REGULAR) {
+            return null
+        }
+    }
+
+    /**
+     * Return the default query params to use when fetching event data
+     * @returns {EventQueryParams}
+     */
+    getDefaultEventQueryParams = () => {
+        const {user} = this.props
+        const {sortBy, sortDirection, pageSize} = this.state.tableData
+        const userType = get(user, 'userType')
+
+        const queryParams = new EventQueryParams()
+        queryParams.super_event = 'none'
+        queryParams.publication_status = this.getPublicationStatus()
+        queryParams.setPublisher(getOrganizationMembershipIds(user))
+        queryParams.page_size = pageSize
+        queryParams.setSort(sortBy, sortDirection)
+        queryParams.show_all = userType === USER_TYPE.REGULAR ? true : null
+        queryParams.admin_user = userType === USER_TYPE.ADMIN ? true : null
+
+        return queryParams
+    }
+
     render() {
         const {user} = this.props;
         const {events, fetchComplete, count, pageSize, paginationPage, sortBy, sortDirection} = this.state.tableData;
         const header = <h1><FormattedMessage id={`${appSettings.ui_mode}-management`}/></h1>
+        const isRegularUser = get(user, 'userType') === USER_TYPE.REGULAR
 
         if (!user) {
             return (
@@ -194,6 +203,7 @@ export class EventListing extends React.Component {
             <div className="container">
                 {header}
                 <p><FormattedMessage id="events-management-description"/></p>
+                {isRegularUser && <p><FormattedMessage id="events-management-description-regular-user"/></p>}
                 <EventTable
                     events={events}
                     user={user}

@@ -56,7 +56,7 @@ export class ApiClient {
             })
             .then(response => ({
                 data: get(response, 'data'),
-                error: null,
+                status: get(response, 'status'),
             }))
     }
 

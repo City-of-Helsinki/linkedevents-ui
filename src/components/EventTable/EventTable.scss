@@ -1,3 +1,5 @@
+$checkbox-column-width: 50px;
+
 .draft-row {
     background-color: rgba(255, 208, 91, 0.60) !important;
 }
@@ -18,7 +20,7 @@
     th.checkbox,
     td.checkbox {
         padding: 10px;
-        width: 50px;
+        width: $checkbox-column-width;
     }
 
     th.checkbox + th:not(.checkbox),
@@ -28,9 +30,26 @@
         width: auto;
     }
 
+    th.validation-cell,
+    td.validation-cell {
+        padding: 0;
+        text-align: center;
+        width: $checkbox-column-width;
+    }
+
     td, th {
         padding: 10px 15px;
         width: 18%;
+    }
+
+    .loading-row {
+        &.validation {
+            .placeholder-cell {
+                &:last-of-type {
+                    width: $checkbox-column-width;
+                }
+            }
+        }
     }
 }
 

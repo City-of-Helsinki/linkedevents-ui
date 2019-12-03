@@ -255,8 +255,7 @@ const EventDetails = (props) => {
 
     const isUmbrellaEvent = rawData.super_event_type === constants.SUPER_EVENT_TYPE_UMBRELLA
     const isRecurringEvent = rawData.super_event_type === constants.SUPER_EVENT_TYPE_RECURRING
-    const superEventUrl = get(rawData, ['super_event', '@id'])
-    const superEventId = getEventIdFromUrl(superEventUrl)
+    const superEventId = get(superEvent, 'id')
     const superEventName = getFirstMultiLanguageFieldValue(get(superEvent, 'name'))
     const superEventIsUmbrellaEvent = get(superEvent, 'super_event_type') === constants.SUPER_EVENT_TYPE_UMBRELLA
     const superEventIsRecurringEvent = get(superEvent, 'super_event_type') === constants.SUPER_EVENT_TYPE_RECURRING

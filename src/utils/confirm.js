@@ -1,8 +1,8 @@
 import {getFirstMultiLanguageFieldValue} from './helpers'
-import {deleteEvents, getSubEventIds, publishEvents} from './events'
+import {cancelEvents, deleteEvents, mapSubEventDataToSuperEvents, publishEvents} from './events'
 import constants from '../constants'
 import moment from 'moment'
-import {get, isUndefined} from 'lodash'
+import {get, isUndefined, isNull, isNil} from 'lodash'
 
 const {PUBLICATION_STATUS, SUPER_EVENT_TYPE_RECURRING, SUPER_EVENT_TYPE_UMBRELLA} = constants
 
@@ -23,7 +23,7 @@ const getSubEventListing = (subEvents) =>
     `<ul>${subEvents
         // sort events by start time
         .sort(compareDates)
-        .map((event => `<li>${getFirstMultiLanguageFieldValue(event.name)} (${moment(event.start_time).format('DD.MM.YYYY')})</li>`))
+        .map((event => `<li>${getFirstMultiLanguageFieldValue(event.name)} ${!isNil(event.start_time) ? `(${moment(event.start_time).format('DD.MM.YYYY')})` : ''}</li>`))
         .join(' ')}
     </ul>`
 
@@ -46,7 +46,7 @@ const getEventListing = (subEventsMappedToEvents, events, intl) =>
                 return `
                     ${_event.super_event_type === SUPER_EVENT_TYPE_RECURRING ? `<span class="badge badge-success text-uppercase tag-space">${intl.formatMessage({id: 'series'})}</span>` : ''}
                     ${_event.super_event_type === SUPER_EVENT_TYPE_UMBRELLA ? `<span class="badge badge-info text-uppercase tag-space">${intl.formatMessage({id: 'umbrella'})}</span>` : ''}
-                    <strong>${getFirstMultiLanguageFieldValue(_event.name)}</strong> (${moment(_event.start_time).format('DD.MM.YYYY')})`
+                    <strong>${getFirstMultiLanguageFieldValue(_event.name)}</strong> ${!isNil(_event.start_time) ? `(${moment(_event.start_time).format('DD.MM.YYYY')})` : ''}`
             }
 
             const getListing = (_event, topLevel = true) => {
@@ -81,8 +81,8 @@ const getEventListing = (subEventsMappedToEvents, events, intl) =>
                 // wrap regular events that are sub events of umbrella events in an <ul>
                 } else if (!hasSubEvents && superEventType === SUPER_EVENT_TYPE_UMBRELLA) {
                     eventListing.push(`<ul><li>${getEventLabel(_event)}</li></ul>`)
-                // just show the label if the event is a regular event
-                } else if (!hasSubEvents && !hasSuperEvent) {
+                // only show the label if the event is a regular event
+                } else if (!hasSubEvents && (!hasSuperEvent || isNull(superEventType))) {
                     eventListing.push(getEventLabel(_event))
                 }
             }
@@ -94,35 +94,17 @@ const getEventListing = (subEventsMappedToEvents, events, intl) =>
 
 /**
  * Returns the additional markup for the confirmation dialog based on given action type
- * @param action        Either 'update', 'delete' or 'cancel'
+ * @param action        Either 'update', 'publish', 'delete' or 'cancel'
  * @param intl          React Intl
  * @param events        Possible sub events for the event
  * @returns {string}    Markup for the confirmation dialog
  */
-export const getConfirmationMarkup = (action, intl, events = [])  => {
+const getConfirmationMarkup = (action, intl, events = [])  => {
     const warningText = `<p>${intl.formatMessage({id: `editor-${action}-warning`})}</p>`
     let extraWarningText = intl.formatMessage({id: `editor-${action}-extra-warning`})
     extraWarningText = extraWarningText === `editor-${action}-extra-warning` ? '' : `<p>${extraWarningText}</p>`
 
-    // array containing ID's of sub events
-    let subEvents = []
-    // todo: ASK RIKU ABOUT RECURSIVE SUB_EVENT DATA
-    const subEventsMappedToEvents = events
-        // map sub event data to their super events
-        .reduce((acc, event) => {
-            const updatedEvent = {...event}
-            const subEventIds = getSubEventIds(event)
-
-            if (subEventIds.length > 0) {
-                updatedEvent.sub_events = events.filter(item => subEventIds.includes(item.id))
-                subEvents.push(...subEventIds)
-            }
-
-            return [...acc, updatedEvent]
-        }, [])
-        // filter out sub events
-        .filter(event => !subEvents.includes(event.id))
-
+    const subEventsMappedToEvents = mapSubEventDataToSuperEvents(events)
     const eventListing = getEventListing(subEventsMappedToEvents, events, intl)
 
     return eventListing.length > 0
@@ -138,6 +120,7 @@ export const getConfirmationMarkup = (action, intl, events = [])  => {
  * @param confirm               Confirm method
  * @param intl                  React intl
  * @param publicationStatus     Publication status
+ * @param customAction          Custom action to run
  * @returns {Promise}
  */
 const showConfirmationModal = (
@@ -145,58 +128,65 @@ const showConfirmationModal = (
     action,
     confirm,
     intl,
-    publicationStatus = PUBLICATION_STATUS.PUBLIC
+    publicationStatus = PUBLICATION_STATUS.PUBLIC,
+    customAction,
 ) => new Promise((resolve) => {
     const eventIds = eventData.map(item => item.id)
     const multipleEvents = eventData.length > 1
-    let message, style, actionButtonLabel
-    let warningMessage = action
+    const isDraft = publicationStatus === PUBLICATION_STATUS.DRAFT
 
-    if (publicationStatus === PUBLICATION_STATUS.DRAFT) {
-        warningMessage = `${action}-draft`
+    // set the modal texts based on the action to run
+    let message = multipleEvents ? `confirm-${action}-multi` : `confirm-${action}`
+    const actionButtonLabel = multipleEvents ? `${action}-events` : `${action}-event`
+    const warningMessage = isDraft
+        ? `${action}-draft`
+        : action
+
+    let modalStyle
+
+
+    switch (action) {
+        case 'publish':
+            modalStyle = 'message'
+            break
+        case 'update':
+            modalStyle = 'message'
+            if (isDraft) {
+                message = message.replace(action, `${action}-draft`)
+            }
+            break
+        case 'cancel':
+            modalStyle = 'warning'
+            break
+        case 'delete':
+            modalStyle = 'warning'
+            if (isDraft) {
+                message = message.replace(action, `${action}-draft`)
+            }
+            break
     }
 
     const confirmActionMapping = {
         publish() {
-            console.log(`${action} events: `, eventData)
             resolve(publishEvents(eventData))
         },
         update() {
-            console.log(`${action} events: `, eventData)
+            console.warn(`action '${action}' is not implemented!`)
         },
         cancel() {
-            console.log(`${action} events`, eventData)
+            resolve(cancelEvents(eventData))
         },
         delete() {
-            console.log(`${action} events`, eventIds)
             resolve(deleteEvents(eventIds))
         },
     }
 
-    // set the modal texts based on the action to run
-    if (action === 'publish') {
-        message = multipleEvents ? 'confirm-publish-multi' : 'confirm-publish'
-        style = 'message'
-        actionButtonLabel = multipleEvents ? 'publish-events' : 'publish-event'
-    }
-    if (action === 'update') {
-        // todo
-    }
-    if (action === 'delete' || action === 'delete-draft') {
-        message = multipleEvents ? 'confirm-delete-multi' : 'confirm-delete'
-        style = 'warning'
-        actionButtonLabel = multipleEvents ? 'delete-events' : 'delete-event'
-    }
-    if (action === 'cancel') {
-        // todo
-    }
-
     confirm(
         message,
-        style,
+        modalStyle,
         actionButtonLabel,
         {
-            action: confirmActionMapping[action],
+            action: customAction || confirmActionMapping[action],
             additionalMarkup: getConfirmationMarkup(warningMessage, intl, eventData),
         }
     )
