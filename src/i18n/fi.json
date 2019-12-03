@@ -286,10 +286,10 @@
     "edit-courses": "Muokkaa kurssia",
     "search-courses": "Etsi kursseja",
     "more-info": "Lisätietoja",
+    "courses-management": "Kurssien hallinta",
     "edit-image": "Muokkaa kuvaa",
     "The name must be defined.": "Tiedostolla tulee olla nimi",
-    "image-caption-limit-for-min-and-max": "Kuvaus eli kuvan alt-teksti (pituus vähintään {minLength} ja korkeintaan {maxLength} merkkiä)"
-    "courses-management": "Kurssien hallinta",
+    "image-caption-limit-for-min-and-max": "Kuvaus eli kuvan alt-teksti (pituus vähintään {minLength} ja korkeintaan {maxLength} merkkiä)",
 
     "moderation-page": "Moderoi tapahtumia",
     "moderation-page-draft-heading": "Odottaa hyväksyntää",
