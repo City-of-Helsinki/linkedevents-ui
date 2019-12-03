@@ -9,6 +9,17 @@ import ConnectedEventListing, {EventListing} from './index'
 import {mockUserEvents} from '__mocks__/mockData';
 import {mockCurrentTime, resetMockDate} from '../../../__mocks__/testMocks';
 
+jest.mock('../../utils/events', () => ({
+    EventQueryParams: class Foo {
+        setPublisher() {}
+        setSort() {}
+    },
+    fetchEvents: () => ({
+        then: () => ({finally: () => true}),
+        finally: () => true,
+    }),
+}))
+
 const mockStore = configureStore([thunk])
 const initialStore = {
     subEvents: {
