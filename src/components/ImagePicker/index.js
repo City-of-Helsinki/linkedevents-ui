@@ -60,6 +60,7 @@ export class ImagePicker extends React.Component {
                     {
                         action: e => this.props.dispatch(deleteImage(selectedImage, this.props.user)),
                         additionalMsg: selectedImage.name,
+                        additionalMarkup: ' ',
                     }
                 )
             )

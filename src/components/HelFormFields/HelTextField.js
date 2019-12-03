@@ -16,6 +16,7 @@ import CONSTANTS from '../../constants'
 class HelTextField extends React.Component {
     constructor(props) {
         super(props)
+        
         this.state = {
             error: null,
             value: this.props.defaultValue || '',
@@ -44,7 +45,7 @@ class HelTextField extends React.Component {
             }
             else if(isMediumString) {
                 limit = CONSTANTS.CHARACTER_LIMIT.MEDIUM_STRING
-            } 
+            }
             else if(isLongString) {
                 limit = CONSTANTS.CHARACTER_LIMIT.LONG_STRING
             }
@@ -55,6 +56,7 @@ class HelTextField extends React.Component {
                 return this.context.intl.formatMessage({id: 'validation-stringLengthCounter'}, {counter: diff})
             }
         }
+        
         return this.state.error
     }
 
@@ -117,8 +119,8 @@ class HelTextField extends React.Component {
     }
 
     componentDidMount() {
-        this.setValidationErrorsToState()
-        this.recalculateHeight()
+        this.setValidationErrorsToState();
+        this.recalculateHeight();
     }
 
     recalculateHeight() {
@@ -157,12 +159,12 @@ class HelTextField extends React.Component {
     componentDidUpdate() {
         this.recalculateHeight()
     }
-
+    
     setValidationErrorsToState() {
         const {VALIDATION_RULES, CHARACTER_LIMIT} = CONSTANTS
 
         let errors = this.getValidationErrors()
-
+        
         if(errors.length > 0) {
             let limit
 
@@ -179,7 +181,7 @@ class HelTextField extends React.Component {
             }
             
             return limit ? this.setState({error: this.context.intl.formatMessage({id: `validation-stringLimitReached`}, {limit})}) :
-                this.setState({error: this.context.intl.formatMessage({id: `validation-${errors[0].rule}`})}) 
+                this.setState({error: this.context.intl.formatMessage({id: `validation-${errors[0].rule}`})})
         }
         else {
             this.setState({error: null})
@@ -189,10 +191,6 @@ class HelTextField extends React.Component {
     noValidationErrors() {
         let errors = this.getValidationErrors()
         return (errors.length === 0)
-    }
-
-    validationState() {
-        return this.state.error ? 'warning' : 'success'
     }
 
     render () {
@@ -216,7 +214,7 @@ class HelTextField extends React.Component {
         } else {
             type = this.props.multiLine ? 'textarea' : 'input'
         }
-
+        
         return (
             <span style={{position: 'relative'}}>
                 <div className={groupClassName}>
@@ -231,6 +229,7 @@ class HelTextField extends React.Component {
                         name={this.props.name}
                         rows="1"
                         disabled={this.props.disabled}
+                        maxLength={(this.props.maxLength) ? this.props.maxLength : null}
                     />
                     <HelpBlock>{this.helpText()}</HelpBlock>
                 </div>
@@ -264,6 +263,7 @@ HelTextField.propTypes = {
     index: PropTypes.string,
     disabled: PropTypes.bool,
     type: PropTypes.string,
+    maxLength: PropTypes.number,
 }
 
 export default HelTextField

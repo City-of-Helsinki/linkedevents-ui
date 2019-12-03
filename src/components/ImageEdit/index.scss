@@ -1,24 +1,41 @@
 #image-modal {
     z-index: 1040;
-    .modal-dialog {
-        height: auto;
-    }
 }
 
-.form-check-input {
-    margin-right: 7px;
+.form-check {
+    padding-left: 0;
 }
-
 .edit-label {
-    margin: 0 20px;
+    cursor: pointer;
+    position: relative;
+    margin: 0;
+
+    &:last-child {
+        padding-left: 20px;
+    }
+
     span {
         font-size: 15px;
         color: #777;
     }
+
+    .form-check-input {
+        cursor: pointer;
+        position: relative;
+        display: inline-block;
+        margin: -1px 1rem 0 0;
+        padding: 0;
+        position: relative;
+        text-align: left;
+        line-height: inherit;
+        vertical-align: middle;
+    }
 }
+
 .form-image {
     height: 250px;
     width: auto;
+    object-fit: contain;
 }
 
 .btn-save-image-data {
@@ -26,11 +43,13 @@
     text-decoration: none;
     outline: none;
     height: 70px;
-    width: 96%;
+    width: 100%;
     border-radius: 2px;
     background-color: #48a3e7;
     color: #fff;
-    margin: 60px 30px 30px 30px;
+    margin: 2rem 0 1rem;
+    position: relative;
+
     &:hover, &:focus {
         color: #fff;
     }
@@ -38,6 +57,18 @@
 
 .edit-image {
     cursor: pointer;
+
+    &:hover {
+        opacity: 0.9;
+    }
+
+    .image-title {
+        flex-grow: 1;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 }
 
 .edit-form {

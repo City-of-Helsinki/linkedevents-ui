@@ -67,21 +67,21 @@
 
     "event-page-error": "Tapahtumaa ei löytynyt tai sinulla ei ole oikeuksia katsella sitä.",
     "event-page-loading": "Ladataan tapahtumaa...",
-    
+
     "ready": "Valmis",
     "clear-form": "Tyhjennä kentät",
-    
+
     "event-presented-in-languages": "Tapahtumatiedot syötetään",
-    
+
     "in-fi": "suomeksi",
     "in-en": "englanniksi",
     "in-sv": "ruotsiksi",
     "in-ru": "venäjäksi",
     "in-zh_hans": "kiinaksi",
     "in-ar": "arabiaksi",
-    
+
     "no-value": "-kenttää ei ole täytetty.",
-    
+
     "event-description-fields-header": "Tapahtuman kuvaus",
     "event-headline": "Otsikko",
     "event-short-description": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
@@ -286,6 +286,9 @@
     "edit-courses": "Muokkaa kurssia",
     "search-courses": "Etsi kursseja",
     "more-info": "Lisätietoja",
+    "edit-image": "Muokkaa kuvaa",
+    "The name must be defined.": "Tiedostolla tulee olla nimi",
+    "image-caption-limit-for-min-and-max": "Kuvaus eli kuvan alt-teksti (pituus vähintään {minLength} ja korkeintaan {maxLength} merkkiä)"
     "courses-management": "Kurssien hallinta",
 
     "moderation-page": "Moderoi tapahtumia",
