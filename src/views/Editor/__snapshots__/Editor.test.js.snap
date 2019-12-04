@@ -966,6 +966,7 @@ exports[`Editor Snapshot should render view correctly when creating new event fr
       className="buttons-group container"
     >
       <WithStyles(Button)
+        className="editor-update-button"
         color="primary"
         disabled={false}
         onClick={[Function]}
@@ -2667,6 +2668,7 @@ exports[`Editor Snapshot should render view correctly when new event 1`] = `
       className="buttons-group container"
     >
       <WithStyles(Button)
+        className="editor-update-button"
         color="primary"
         disabled={false}
         onClick={[Function]}

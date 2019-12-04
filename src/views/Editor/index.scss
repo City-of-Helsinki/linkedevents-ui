@@ -1,5 +1,4 @@
 $languageCheckboxInitialWidth: 30%;
-$actionBtnMargin: 0 15px;
 $actionBtnHeight: 60px;
 
 .editor-page {
@@ -139,7 +138,7 @@ $actionBtnHeight: 60px;
                 height: $actionBtnHeight;
 
                 &:not(:first-child) {
-                    margin: $actionBtnMargin;
+                    margin-left: 15px;
                 }
 
                 &.editor-delete-button {
