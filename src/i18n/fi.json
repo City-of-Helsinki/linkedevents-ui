@@ -301,5 +301,6 @@
     "event-validation-errors": "Tapahtumatiedoissa on puutteita. Muokkaa tapahtumaa ennen julkaisua.",
     "event-in-the-past": "Menneisyydessä olevia tapahtumia ei voi muokata.",
     "event-canceled": "Peruttuja tapahtumia ei voi muokata.",
-    "user-no-rights": "Sinulla ei ole oikeuksia muokata tätä tapahtumaa."
+    "user-no-rights": "Sinulla ei ole oikeuksia muokata tätä tapahtumaa.",
+    "return-without-saving": "Palaa tekemättä muutoksia"
 }

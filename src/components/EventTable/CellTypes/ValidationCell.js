@@ -1,5 +1,5 @@
 import constants from '../../../constants'
-import {Warning, ErrorOutline} from 'material-ui-icons'
+import {ErrorOutline} from 'material-ui-icons'
 import PropTypes from 'prop-types'
 import React from 'react'
 import {TableCell, Tooltip} from 'material-ui'
@@ -25,7 +25,6 @@ const ValidationCell = props => {
             {hasValidationErrors &&
                 <Tooltip title={intl.formatMessage({id: 'event-validation-errors'})}>
                     <ErrorOutline />
-                    {/*<Warning />*/}
                 </Tooltip>
             }
         </TableCell>

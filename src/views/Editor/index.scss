@@ -140,7 +140,7 @@ $actionBtnHeight: 60px;
                 &:not(:first-child) {
                     margin: $actionBtnMargin;
                 }
-                &:last-child {
+                &:nth-child(3) {
                     margin-left: auto;
                 }
             }

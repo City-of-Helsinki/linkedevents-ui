@@ -28,6 +28,7 @@ import {
 } from '../../utils/events'
 import {push} from 'react-router-redux'
 import moment from 'moment'
+import {hasAffiliatedOrganizations} from '../../utils/user'
 
 const {PUBLICATION_STATUS, SUPER_EVENT_TYPE_UMBRELLA, USER_TYPE} = constants
 
@@ -155,9 +156,12 @@ export class EditorPage extends React.Component {
         const {editable, explanationId} = checkEventEditability(user, event, action)
         const disabled = !editable || loading
 
-        let color
+        let color = 'default'
         let buttonLabel = formHasSubEvents ? `${action}-events` : `${action}-event`
 
+        if (action === 'return') {
+            buttonLabel = 'return-without-saving'
+        }
         if (action === 'update') {
             color = 'primary'
             buttonLabel = isRegularUser
@@ -241,11 +245,20 @@ export class EditorPage extends React.Component {
             : doConfirm(eventData)
     }
 
+    /**
+     * Navigates to the moderation page
+     */
+    navigateToModeration = () => {
+        const {routerPush} = this.props
+        routerPush('/moderation')
+    }
+
     render() {
         const {editor, user, match, organizations, intl} = this.props
         const {event, subEvents, superEvent, loading} = this.state
         const editMode = get(match, ['params', 'action'])
         const isUmbrellaEvent = get(editor, ['values', 'super_event_type']) === SUPER_EVENT_TYPE_UMBRELLA
+        const isDraft = get(event, ['publication_status']) === PUBLICATION_STATUS.DRAFT
         const hasSubEvents = subEvents && subEvents.length > 0
         const headerTextId = editMode === 'update'
             ? 'edit-event'
@@ -294,6 +307,8 @@ export class EditorPage extends React.Component {
                         : <div className='buttons-group container'>
                             {editMode === 'update' && this.getActionButton('cancel')}
                             {editMode === 'update' && this.getActionButton('delete')}
+                            {isDraft && hasAffiliatedOrganizations(user) &&
+                                this.getActionButton('return', this.navigateToModeration)}
                             {// show confirmation modal when the updated event has sub events and isn't an umbrella event, otherwise save directly
                                 this.getActionButton(
                                     'update',

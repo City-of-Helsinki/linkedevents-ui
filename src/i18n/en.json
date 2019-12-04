@@ -298,5 +298,6 @@
     "event-validation-errors": "Event data incomplete. Edit the event before publishing.",
     "event-in-the-past": "Past events can't be edited.",
     "event-canceled": "Cancelled events can't be edited.",
-    "user-no-rights": "You have insufficient rights to edit this event."
+    "user-no-rights": "You have insufficient rights to edit this event.",
+    "return-without-saving": "Return without changes"
 }

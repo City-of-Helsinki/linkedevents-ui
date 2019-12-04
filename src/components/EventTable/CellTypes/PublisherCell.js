@@ -15,7 +15,7 @@ const PublisherCell = props => {
     }
 
     return (
-        <TableCell>
+        <TableCell style={{padding: '10px 15px'}}>
             <span>
                 {publisher}
                 {creator && email &&
