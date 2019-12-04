@@ -72,7 +72,7 @@ class EventRow extends React.Component {
         const {rowInvalid} = this.state
 
         if (eventId === event.id && !rowInvalid) {
-            handleInvalidRows(eventId, tableName)
+            handleInvalidRows(event, tableName)
             this.setState({rowInvalid: true})
         }
     }
@@ -93,7 +93,8 @@ class EventRow extends React.Component {
             nestLevel,
             tableName,
             tableColumns,
-            selectedRows = [],
+            selectedRows,
+            invalidRows,
             handleRowSelect,
             superEventIsChecked,
         } = this.props
@@ -113,6 +114,7 @@ class EventRow extends React.Component {
         const checked = isSubEvent
             ? superEventIsChecked
             : selectedRows.includes(event.id)
+        const disabled = isSubEvent || rowInvalid || invalidRows.includes(event.id)
 
         return (
             <React.Fragment>
@@ -125,7 +127,7 @@ class EventRow extends React.Component {
                             >
                                 <Checkbox
                                     checked={checked}
-                                    disabled={isSubEvent || rowInvalid}
+                                    disabled={disabled}
                                     onChange={(e, checked) => handleRowSelect(checked, event.id, tableName)}
                                 />
                             </TableCell>
@@ -259,6 +261,8 @@ SubEventsTable.propTypes = {
 
 EventRow.defaultProps = {
     nestLevel: 1,
+    selectedRows: [],
+    invalidRows: [],
 }
 
 EventRow.propTypes = {
@@ -277,6 +281,7 @@ EventRow.propTypes = {
     tableName: PropTypes.string,
     tableColumns: PropTypes.arrayOf(PropTypes.oneOf(constants.TABLE_COLUMNS)),
     selectedRows: PropTypes.array,
+    invalidRows: PropTypes.array,
     handleRowSelect: PropTypes.func,
     handleInvalidRows: PropTypes.func,
     user: PropTypes.object,

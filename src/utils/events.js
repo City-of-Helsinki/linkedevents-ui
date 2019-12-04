@@ -49,8 +49,7 @@ export const fetchEvent = (eventId, queryParams, fetchSuper = false) =>
             const eventResponse =  await client.get(`event/${eventId}`, queryParams.values)
             const event = eventResponse.data
             const subEvents = event.sub_events
-            const superEventUrl = get(event, ['super_event', '@id'])
-            const superEventId = getEventIdFromUrl(superEventUrl)
+            const superEventId = getSuperEventId(event)
 
             if (!fetchSuper) {
                 resolve([event, subEvents])
@@ -191,17 +190,23 @@ export const cancelEvents = async (eventData) => Promise.all(eventData.map(cance
  */
 export const getEventDataFromIds = (ids, data) => data.filter(item => ids.includes(item.id))
 
-
 /**
  * Returns the event id from given URL
  * @param url   URL to get the event ID from
  * @returns {string|undefined}    Event ID
  */
-export const getEventIdFromUrl = url  => {
+export const getEventIdFromUrl = url => {
     return typeof url === 'string'
         ? url.substring(url.indexOf('/event/') + '/event/'.length, url.lastIndexOf('/'))
         : undefined
 }
+
+/**
+ * Returns the super event ID of the given event
+ * @param event   Event to get the super event id for
+ * @returns {string|undefined}    Super event ID
+ */
+export const getSuperEventId = event => getEventIdFromUrl(get(event, ['super_event', '@id']))
 
 /**
  * Returns the sub event ID's for the given event

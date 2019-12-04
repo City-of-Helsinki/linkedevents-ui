@@ -39,6 +39,7 @@ const EventTable = (props) => {
         tableColumns,
         count,
         selectedRows,
+        invalidRows,
         handleRowSelect,
         handleInvalidRows,
         handleSortChange,
@@ -65,6 +66,7 @@ const EventTable = (props) => {
             tableName={tableName}
             tableColumns={tableColumns}
             selectedRows={selectedRows}
+            invalidRows={invalidRows}
             handleRowSelect={handleRowSelect}
             handleInvalidRows={handleInvalidRows}
         />
@@ -140,6 +142,7 @@ EventTable.defaultProps = {
     tableName: '',
     tableColumns: ['name', 'start_time', 'end_time', 'last_modified_time'],
     selectedRows: [],
+    invalidRows: [],
     paginationPage: 0,
     sortBy: 'name',
     sortDirection: 'asc',
@@ -155,6 +158,7 @@ EventTable.propTypes = {
     tableColumns: PropTypes.arrayOf(PropTypes.oneOf(TABLE_COLUMNS)),
     count: PropTypes.number,
     selectedRows: PropTypes.array,
+    invalidRows: PropTypes.array,
     handleRowSelect: PropTypes.func,
     handleInvalidRows: PropTypes.func,
     handleSortChange: PropTypes.func,

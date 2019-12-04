@@ -5,7 +5,7 @@ import {Button} from 'material-ui'
 import {FormattedMessage, injectIntl} from 'react-intl'
 import EventTable from '../../components/EventTable/EventTable'
 import {connect} from 'react-redux'
-import {isNull, zipObject, each} from 'lodash'
+import {isNull, zipObject, each, uniq} from 'lodash'
 import constants from '../../constants'
 import {
     appendEventDataWithSubEvents,
@@ -13,6 +13,7 @@ import {
     fetchEvents,
     getEventDataFromIds,
     getEventsWithSubEvents,
+    getSuperEventId,
 } from '../../utils/events'
 import {getSelectedRows, getSortColumnName, getSortDirection} from '../../utils/table'
 import showConfirmationModal from '../../utils/confirm'
@@ -129,20 +130,31 @@ export class Moderation extends React.Component {
 
     /**
      * Handles invalid rows
-     * @param eventId
-     * @param table
+     * @param event Event data
+     * @param table The table that the invalid row is in
      */
-    handleInvalidRows = (eventId, table) => {
+    handleInvalidRows = (event, table) => {
         const {invalidRows} = this.state[`${table}Data`]
+        let eventId = event.id
+        const superEventId = getSuperEventId(event)
+
+        if (superEventId) {
+            // mark super event as invalid as a sub event has validation errors
+            eventId = superEventId
+        }
 
         if (!invalidRows.includes(eventId)) {
             this.setState(state => {
                 const tableData = state[`${table}Data`]
-                const updatedInvalidRows = [...state[`${table}Data`].invalidRows, eventId]
+                const updatedInvalidRows = uniq([...state[`${table}Data`].invalidRows, eventId])
+                // un-select all invalid rows
+                const updatedSelectedRows = state[`${table}Data`].selectedRows
+                    .filter(id => !updatedInvalidRows.includes(id))
 
                 return {[`${table}Data`]: {
                     ...tableData,
                     invalidRows: updatedInvalidRows,
+                    selectedRows: updatedSelectedRows,
                 }}
             })
         }
@@ -376,6 +388,7 @@ export class Moderation extends React.Component {
                             sortBy={table.data.sortBy}
                             sortDirection={table.data.sortDirection}
                             selectedRows={table.name === 'draft' ? table.data.selectedRows : undefined}
+                            invalidRows={table.name === 'draft' ? table.data.invalidRows : undefined}
                             handleRowSelect={this.handleRowSelect}
                             handleInvalidRows={this.handleInvalidRows}
                             handlePageChange={this.handlePageChange}

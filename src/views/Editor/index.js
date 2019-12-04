@@ -69,6 +69,17 @@ export class EditorPage extends React.Component {
             currParams.action  === 'update'
                 ? this.fetchEventData()
                 : this.clearEventData()
+
+            if (currParams.action === 'update') {
+                this.fetchEventData()
+            } else {
+                this.clearEventData()
+                this.setState({
+                    event: {},
+                    superEvent: {},
+                    subEvents: [],
+                })
+            }
         }
     }
 
@@ -179,6 +190,7 @@ export class EditorPage extends React.Component {
         const button = <Button
             raised
             disabled={disabled}
+            className={`editor-${action}-button`}
             onClick={() => onClick ? onClick() : this.confirmAction(action)}
             color={color}
         >

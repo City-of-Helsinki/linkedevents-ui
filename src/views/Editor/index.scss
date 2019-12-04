@@ -133,6 +133,7 @@ $actionBtnHeight: 60px;
         .buttons-group {
             display: flex;
             flex-wrap: wrap;
+            justify-content: flex-end;
 
             button {
                 height: $actionBtnHeight;
@@ -140,8 +141,9 @@ $actionBtnHeight: 60px;
                 &:not(:first-child) {
                     margin: $actionBtnMargin;
                 }
-                &:nth-child(3) {
-                    margin-left: auto;
+
+                &.editor-delete-button {
+                    margin-right: auto;
                 }
             }
         }

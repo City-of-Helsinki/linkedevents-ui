@@ -11,7 +11,7 @@ import UmbrellaCheckbox from './UmbrellaCheckbox'
 import {Link} from 'react-router-dom'
 import {getFirstMultiLanguageFieldValue, scrollToTop} from '../../../utils/helpers'
 import constants from '../../../constants'
-import {getEventIdFromUrl} from '../../../utils/events'
+import {getEventIdFromUrl, getSuperEventId} from '../../../utils/events'
 
 class UmbrellaSelector extends React.Component {
 
@@ -225,11 +225,10 @@ class UmbrellaSelector extends React.Component {
 
     render() {
         const {event, showSelectTip, selectedUmbrellaEvent, isUmbrellaEvent, hasUmbrellaEvent, superEventSuperEventType} = this.state
-        const superEventUrl = get(event, ['super_event', '@id'])
         // the super event id of the event that is being edited
-        const superEventId = getEventIdFromUrl(superEventUrl)
+        const superEventId = getSuperEventId(event)
         // whether the event being edited is a sub event
-        const editedEventIsSubEvent = !isUndefined(superEventUrl)
+        const editedEventIsSubEvent = !isUndefined(superEventId)
 
         return (
             <div className="row">
