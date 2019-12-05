@@ -255,5 +255,8 @@
     "courses-management": "Kurssien hallinta",
     "edit-image": "Muokkaa kuvaa",
     "The name must be defined.": "Tiedostolla tulee olla nimi",
-    "image-caption-limit-for-min-and-max": "Kuvaus eli kuvan alt-teksti (pituus vähintään {minLength} ja korkeintaan {maxLength} merkkiä)"
+    "image-caption-limit-for-min-and-max": "Kuvaus eli kuvan alt-teksti (pituus vähintään {minLength} ja korkeintaan {maxLength} merkkiä)",
+    "delete-from-filesystem": "Poista kuva järjestelmästä",
+    "edit-selected-image": "Muokkaa valittua kuvaa",
+    "attach-image-to-event": "Lisää kuva tapahtumaan"
 }
