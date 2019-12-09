@@ -57,10 +57,10 @@ export const userCanDoAction = (user, event, action) => {
         const subEvents = Object.keys(event.sub_events)
             .map(key => mapAPIDataToUIFormat(event.sub_events[key]))
         // combine event with sub events
-        const eventAndSubEvents = [event, ...subEvents]
+        const formattedeventAndSubEvents = [mapAPIDataToUIFormat(event), ...subEvents]
         // run validation against all events to see if any of them fail
-        const hasValidationErrors = eventAndSubEvents
-            .some(event => Object.keys(doValidations(event, getContentLanguages(event), PUBLICATION_STATUS.PUBLIC)).length > 0)
+        const hasValidationErrors = formattedeventAndSubEvents
+            .some(_event => Object.keys(doValidations(_event, getContentLanguages(_event), PUBLICATION_STATUS.PUBLIC)).length > 0)
 
         return !hasValidationErrors
     }

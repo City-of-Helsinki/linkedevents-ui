@@ -148,7 +148,7 @@ class EventPage extends React.Component {
         const userType = get(user, 'userType')
         const isDraft = event.publication_status === PUBLICATION_STATUS.DRAFT
         const isAdmin = userType === USER_TYPE.ADMIN
-        const editEventButton = this.getActionButton('edit', this.openEventInEditor)
+        const editEventButton = this.getActionButton('edit', this.openEventInEditor, false)
         const publishEventButton = this.getActionButton('publish')
         const cancelEventButton = this.getActionButton('cancel')
         const deleteEventButton = this.getActionButton('delete')
@@ -175,18 +175,20 @@ class EventPage extends React.Component {
 
     /**
      * Returns a button for the given action
-     * @param action    Action to run
-     * @param onClick   onClick function that should be used instead of the default one
+     * @param action        Action to run
+     * @param customAction  Custom action that should be run instead of the default one
+     * @param confirm       Whether confirmation modal should be shown before running action
      * @returns {*}
      */
-    getActionButton = (action, onClick) => {
+    getActionButton = (action, customAction, confirm = true) => {
         const {event, subEvents, loading} = this.state
 
         return <EventActionButton
             action={action}
+            confirmAction={confirm}
+            customAction={customAction}
             event={event}
             loading={loading}
-            onClick={onClick}
             runAfterAction={this.handleConfirmedAction}
             subEvents={subEvents}
         />

@@ -312,7 +312,7 @@ export class Moderation extends React.Component {
         >
             {selectedRows.length > 1 &&
             <React.Fragment>
-                <FormattedMessage id={`${action}-events`}/>
+                <FormattedMessage id={`${action}-events-multi`}/>
                 <span className="draft-actions--button-count">{`(${selectedRows.length})`}</span>
             </React.Fragment>
             }
