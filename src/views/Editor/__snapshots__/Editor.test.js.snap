@@ -9,7 +9,7 @@ exports[`Editor Snapshot should render view correctly when creating new event fr
   >
     <h1>
       <FormattedMessage
-        id="create-event"
+        id="create-events"
         values={Object {}}
       />
     </h1>
@@ -965,18 +965,15 @@ exports[`Editor Snapshot should render view correctly when creating new event fr
     <div
       className="buttons-group container"
     >
-      <WithStyles(Button)
-        className="editor-update-button"
-        color="primary"
-        disabled={false}
+      <Connect(InjectIntl(EventActionButton))
+        action="update"
+        event={Object {}}
+        eventIsPublished={false}
+        loading={false}
         onClick={[Function]}
-        raised={true}
-      >
-        <FormattedMessage
-          id="event-action-save-new"
-          values={Object {}}
-        />
-      </WithStyles(Button)>
+        runAfterAction={[Function]}
+        subEvents={Array []}
+      />
     </div>
   </div>
 </div>
@@ -991,7 +988,7 @@ exports[`Editor Snapshot should render view correctly when editing existing even
   >
     <h1>
       <FormattedMessage
-        id="edit-event"
+        id="edit-events"
         values={Object {}}
       />
     </h1>
@@ -1961,7 +1958,7 @@ exports[`Editor Snapshot should render view correctly when new event 1`] = `
   >
     <h1>
       <FormattedMessage
-        id="create-event"
+        id="create-events"
         values={Object {}}
       />
     </h1>
@@ -2667,18 +2664,15 @@ exports[`Editor Snapshot should render view correctly when new event 1`] = `
     <div
       className="buttons-group container"
     >
-      <WithStyles(Button)
-        className="editor-update-button"
-        color="primary"
-        disabled={false}
+      <Connect(InjectIntl(EventActionButton))
+        action="update"
+        event={Object {}}
+        eventIsPublished={false}
+        loading={false}
         onClick={[Function]}
-        raised={true}
-      >
-        <FormattedMessage
-          id="event-action-save-new"
-          values={Object {}}
-        />
-      </WithStyles(Button)>
+        runAfterAction={[Function]}
+        subEvents={Array []}
+      />
     </div>
   </div>
 </div>
