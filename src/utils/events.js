@@ -2,6 +2,7 @@ import client from '../api/client'
 import moment from 'moment'
 import constants from '../constants'
 import {get, isUndefined, set} from 'lodash'
+import {getFirstMultiLanguageFieldValue} from './helpers'
 
 const {PUBLICATION_STATUS, EVENT_STATUS} = constants
 
@@ -43,27 +44,26 @@ export class EventQueryParams {
  * @param fetchSuper    Whether super event data should be fetched for the given event
  * @returns {Promise<*>}    Returns a promise containing event, sub event and possibly super event data depending on given params
  */
-export const fetchEvent = (eventId, queryParams, fetchSuper = false) =>
-    new Promise(async (resolve) => {
-        try {
-            const eventResponse =  await client.get(`event/${eventId}`, queryParams.values)
-            const event = eventResponse.data
-            const subEvents = event.sub_events
-            const superEventId = getSuperEventId(event)
+export const fetchEvent = async (eventId, queryParams, fetchSuper = false) => {
+    try {
+        const eventResponse =  await client.get(`event/${eventId}`, queryParams.values)
+        const event = eventResponse.data
+        const subEvents = event.sub_events
+        const superEventId = getSuperEventId(event)
 
-            if (!fetchSuper) {
-                resolve([event, subEvents])
-            } else if (fetchSuper && superEventId) {
-                const superEventResponse =  await client.get(`event/${superEventId}`, queryParams.values)
-                const superEvent =  superEventResponse.data
-                resolve([event, subEvents, superEvent])
-            } else {
-                resolve([event, subEvents, null])
-            }
-        } catch (e) {
-            throw Error(e)
+        if (!fetchSuper) {
+            return [event, subEvents]
+        } else if (fetchSuper && superEventId) {
+            const superEventResponse =  await client.get(`event/${superEventId}`, queryParams.values)
+            const superEvent =  superEventResponse.data
+            return [event, subEvents, superEvent]
+        } else {
+            return [event, subEvents, null]
         }
-    })
+    } catch (e) {
+        throw Error(e)
+    }
+}
 
 /**
  * Fetches events based on given parameters
@@ -244,20 +244,20 @@ export const getEventsWithSubEvents = (eventData) => eventData
  * @param eventsWithSubEvents   Array containing all the ID's of events in the event data that have sub events
  * @returns {Promise<object[]>}
  */
-export const appendEventDataWithSubEvents = (eventData, eventsWithSubEvents) =>
-    new Promise(async (resolve, reject) => {
-        const queryParams = new EventQueryParams()
-        queryParams.super_event = eventsWithSubEvents.join()
-        queryParams.show_all = true
+export const appendEventDataWithSubEvents = async (eventData, eventsWithSubEvents) => {
+    const queryParams = new EventQueryParams()
+    queryParams.super_event = eventsWithSubEvents.join()
+    queryParams.show_all = true
 
-        fetchEvents(queryParams)
-            .then(response => {
-                const subEventData = response.data.data
-                eventData = [...eventData, ...subEventData]
-                resolve(eventData)
-            })
-            .catch(error => reject(new Error(error)))
-    })
+    try {
+        const response = await fetchEvents(queryParams)
+        const subEventData = response.data.data
+
+        return [...eventData, ...subEventData]
+    } catch (e) {
+        throw Error(e)
+    }
+}
 
 /**
  * Recursively maps sub event data to super events (umbrella & recurring)
@@ -320,4 +320,21 @@ export const mapSubEventDataToSuperEvents = (eventData) => {
         }, [])
         // filter out sub events from the event data
         .filter(event => !subEvents.includes(event.id))
+}
+
+/**
+ * Returns the name of the event
+ * @param event   Event date
+ * @returns {string|null}
+ */
+export const getEventName = (event) => {
+    if (event.name ) {
+        return getFirstMultiLanguageFieldValue(event.name)
+    }
+    else if (event.headline) {
+        return getFirstMultiLanguageFieldValue(event.headline)
+    }
+    else {
+        return null
+    }
 }

@@ -37,7 +37,7 @@ class EventRow extends React.Component {
         this.setState({isSubEvent, isSuperEvent, superEventType})
     }
 
-    toggleSubEvent = () => {
+    toggleSubEvent = async () => {
         const {event, user} = this.props
         const {subEvents, showSubEvents, isSuperEvent} = this.state
         const userType = get(user, 'userType')
@@ -55,9 +55,12 @@ class EventRow extends React.Component {
             queryParams.show_all = userType === USER_TYPE.REGULAR ? true : null
             queryParams.admin_user = userType === USER_TYPE.ADMIN ? true : null
 
-            fetchEvents(queryParams)
-                .then(events => this.setState({subEvents: events.data.data}))
-                .finally(() => this.setState({isFetching: false}))
+            try {
+                const response = await fetchEvents(queryParams)
+                this.setState({subEvents: response.data.data})
+            } finally {
+                this.setState({isFetching: false})
+            }
         } else {
             this.setState({showSubEvents: !showSubEvents})
         }

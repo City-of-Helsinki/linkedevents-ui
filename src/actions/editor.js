@@ -18,6 +18,7 @@ import {setFlashMsg, clearFlashMsg} from './app'
 import {doValidations} from 'src/validation/validator.js'
 import getContentLanguages from '../utils/language'
 import client from '../api/client'
+import {getSuperEventId} from '../utils/events'
 
 const {PUBLICATION_STATUS, SUPER_EVENT_TYPE_RECURRING, EVENT_CREATION} = constants
 
@@ -301,9 +302,7 @@ export const executeSendRequest = (
         // use the first item to get the publication status and super event ID.
         if (Array.isArray(data)) {
             data = data[0]
-
-            const superEventUrl = get(data, ['super_event', '@id'])
-            createdEventId = superEventUrl.substring(superEventUrl.indexOf('/event/') + '/event/'.length, superEventUrl.lastIndexOf('/'))
+            createdEventId = getSuperEventId(data)
         }
 
         // flash message is shown according to the actionName value

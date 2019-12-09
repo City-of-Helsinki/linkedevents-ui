@@ -1,30 +1,20 @@
 import constants from '../../../constants'
-import {getBadge, getFirstMultiLanguageFieldValue} from '../../../utils/helpers'
+import {getBadge} from '../../../utils/helpers'
 import {KeyboardArrowDown, KeyboardArrowRight} from 'material-ui-icons'
 import {Link} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import React from 'react'
 import {TableCell} from 'material-ui'
+import {getEventName} from '../../../utils/events'
 
 const NameCell = props => {
     const {event, nestLevel, isSuperEvent, superEventType, hasSubEvents, showSubEvents, toggleSubEvent} = props
     const draft = event.publication_status === constants.PUBLICATION_STATUS.DRAFT
     const cancelled = event.event_status === constants.EVENT_STATUS.CANCELLED
+    const name = getEventName(event)
     const indentationStyle = {
         paddingLeft: `${nestLevel * 24}px`,
         fontWeight: nestLevel === 1 && isSuperEvent ? 'bold' : 'normal',
-    }
-
-    let name = null
-
-    if (event.name ) {
-        name = getFirstMultiLanguageFieldValue(event.name)
-    }
-    else if (event.headline) {
-        name = getFirstMultiLanguageFieldValue(event.headline)
-    }
-    else {
-        name = '<event>'
     }
 
     return (

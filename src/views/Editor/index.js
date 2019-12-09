@@ -6,7 +6,6 @@ import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 import {get} from 'lodash'
 import PropTypes from 'prop-types'
 import {Button, CircularProgress} from 'material-ui'
-import Tooltip from 'material-ui/Tooltip'
 import Close from 'material-ui-icons/Close'
 import {
     executeSendRequest as executeSendRequestAction,
@@ -17,18 +16,13 @@ import {
 } from '../../actions/editor'
 import {confirmAction, clearFlashMsg as clearFlashMsgAction} from '../../actions/app'
 import constants from '../../constants'
-import {checkEventEditability} from '../../utils/checkEventEditability'
 import FormFields from '../../components/FormFields'
-import showConfirmationModal from '../../utils/confirm'
-import {
-    appendEventDataWithSubEvents,
-    EventQueryParams,
-    fetchEvent,
-    getEventsWithSubEvents,
-} from '../../utils/events'
+import {EventQueryParams, fetchEvent} from '../../utils/events'
 import {push} from 'react-router-redux'
 import moment from 'moment'
 import {hasAffiliatedOrganizations} from '../../utils/user'
+import EventActionButton from '../../components/EventActionButton/EventActionButton'
+import {scrollToTop} from '../../utils/helpers'
 
 const {PUBLICATION_STATUS, SUPER_EVENT_TYPE_UMBRELLA, USER_TYPE} = constants
 
@@ -91,7 +85,7 @@ export class EditorPage extends React.Component {
     /**
      * Fetches the event, sub event and super event data for the event that is being updated
      */
-    fetchEventData = () => {
+    fetchEventData = async () => {
         const {setEventForEditing} = this.props
         const eventId = get(this.props, ['match', 'params', 'eventId'])
 
@@ -105,13 +99,15 @@ export class EditorPage extends React.Component {
         queryParams.include = 'keywords,location,audience,in_language,external_links,image,sub_events'
         queryParams.nocache = moment().unix()
 
-        fetchEvent(eventId, queryParams, true)
-            .then(eventData => {
-                const [event, subEvents, superEvent] = eventData
-                this.setState({event, superEvent, subEvents, loading: false})
-                setEventForEditing(event)
-            })
-            .catch(() => this.setState({loading: false}))
+        try {
+            const eventData = await fetchEvent(eventId, queryParams, true)
+            const [event, subEvents, superEvent] = eventData
+
+            this.setState({event, subEvents, superEvent})
+            setEventForEditing(event)
+        } finally {
+            this.setState({loading: false})
+        }
     }
 
     /**
@@ -153,58 +149,6 @@ export class EditorPage extends React.Component {
     }
 
     /**
-     * Returns a button for the given action
-     * @param action    Action to run
-     * @param onClick   onClick function that should be used instead of the default one
-     * @returns {*}
-     */
-    getActionButton = (action, onClick) => {
-        const eventIsPublished = this.eventIsPublished()
-        const {event, loading, isRegularUser} = this.state
-        const {user, editor, intl} = this.props
-        const formHasSubEvents = get(editor, ['values', 'sub_events'], []).length > 0
-        const isDraft = get(event, 'publication_status') === PUBLICATION_STATUS.DRAFT
-        const {editable, explanationId} = checkEventEditability(user, event, action)
-        const disabled = !editable || loading
-
-        let color = 'default'
-        let buttonLabel = formHasSubEvents ? `${action}-events` : `${action}-event`
-
-        if (action === 'return') {
-            buttonLabel = 'return-without-saving'
-        }
-        if (action === 'update') {
-            color = 'primary'
-            buttonLabel = isRegularUser
-                ? isDraft ? 'event-action-save-draft-existing' : 'event-action-save-draft-new'
-                : eventIsPublished ? 'event-action-save-existing' : 'event-action-save-new'
-
-            if (!eventIsPublished && formHasSubEvents) {
-                buttonLabel = 'event-action-save-multiple'
-            }
-        }
-        if (action === 'cancel' || action === 'delete') {
-            color = 'accent'
-        }
-
-        const button = <Button
-            raised
-            disabled={disabled}
-            className={`editor-${action}-button`}
-            onClick={() => onClick ? onClick() : this.confirmAction(action)}
-            color={color}
-        >
-            <FormattedMessage id={buttonLabel}/>
-        </Button>
-
-        return disabled && explanationId
-            ? <Tooltip title={intl.formatMessage({id: explanationId})}>
-                <span>{button}</span>
-            </Tooltip>
-            : button
-    }
-
-    /**
      * Saves the editor changes
      */
     saveChanges = () => {
@@ -220,49 +164,46 @@ export class EditorPage extends React.Component {
     }
 
     /**
-     * Opens a confirmation modal and runs the given action
-     * @param action    Action to run
-     */
-    confirmAction = (action) => {
-        const {confirm, intl, routerPush} = this.props;
-        const {event, subEvents} = this.state
-        const customAction = action === 'update' ? this.saveChanges : undefined
-        let eventData = [event, ...subEvents]
-
-        // opens the confirm modal
-        const doConfirm = (data) => {
-            showConfirmationModal(data, action, confirm, intl, event.publication_status, customAction)
-                .then(() => {
-                    // navigate to event listing after delete action
-                    if (action === 'delete') {
-                        routerPush('/')
-                    }
-                    // navigate to event view after cancel action
-                    if (action === 'cancel') {
-                        routerPush(`/event/${event.id}`)
-                    }
-                })
-        }
-
-        // get the id's of events that have sub events
-        // don't re-fetch sub event data for the event that the action is run for, as we already have it
-        const eventsWithSubEvents = getEventsWithSubEvents(eventData)
-            .filter(eventId => eventId !== event.id)
-
-        // we need to append the event data with sub events of recurring events,
-        // when we're running the action for an umbrella event
-        eventsWithSubEvents.length > 0
-            ? appendEventDataWithSubEvents(eventData, eventsWithSubEvents)
-                .then((appendedData) => doConfirm(appendedData))
-            : doConfirm(eventData)
-    }
-
-    /**
      * Navigates to the moderation page
      */
     navigateToModeration = () => {
         const {routerPush} = this.props
         routerPush('/moderation')
+    }
+
+    /**
+     * Returns a button for the given action
+     * @param action    Action to run
+     * @param onClick   onClick function that should be used instead of the default one
+     * @returns {*}
+     */
+    getActionButton = (action, onClick) => {
+        const {event, subEvents, loading} = this.state
+        const eventIsPublished = this.eventIsPublished()
+
+        return <EventActionButton
+            action={action}
+            event={event}
+            eventIsPublished={eventIsPublished}
+            loading={loading}
+            onClick={onClick}
+            runAfterAction={this.handleConfirmedAction}
+            subEvents={subEvents}
+        />
+    }
+
+    handleConfirmedAction = (action, event) => {
+        const {routerPush} = this.props;
+
+        // navigate to event listing after delete action
+        if (action === 'delete') {
+            routerPush('/')
+        }
+        // navigate to event view after cancel action
+        if (action === 'cancel') {
+            routerPush(`/event/${event.id}`)
+            scrollToTop()
+        }
     }
 
     render() {
@@ -273,8 +214,8 @@ export class EditorPage extends React.Component {
         const isDraft = get(event, ['publication_status']) === PUBLICATION_STATUS.DRAFT
         const hasSubEvents = subEvents && subEvents.length > 0
         const headerTextId = editMode === 'update'
-            ? 'edit-event'
-            : 'create-event'
+            ? 'edit-events'
+            : 'create-events'
 
         // TODO: fix flow for non-authorized users
         if (user && !user.organization && sentinel) {

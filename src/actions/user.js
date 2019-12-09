@@ -43,54 +43,50 @@ function saveUserToLocalStorage(user) {
     localStorage.setItem('user', JSON.stringify(modifiedUser))
 }
 
-export const retrieveUserFromSession = () => {
-    return async (dispatch) => {
-        try {
-            const meResponse = await axios.get(`auth/me?${+new Date()}`)
-            const user = meResponse.data
+export const retrieveUserFromSession = () => async (dispatch) => {
+    try {
+        const meResponse = await axios.get(`auth/me?${+new Date()}`)
+        const user = meResponse.data
 
-            if (user.token) {
-                const userResponse = await client.get(`user/${user.username}`, {}, {
-                    headers: {Authorization: `JWT ${user.token}`},
-                })
-                const userData = userResponse.data
-                const permissions = []
+        if (user.token) {
+            const userResponse = await client.get(`user/${user.username}`, {}, {
+                headers: {Authorization: `JWT ${user.token}`},
+            })
+            const userData = userResponse.data
+            const permissions = []
 
-                if (get(userData, 'admin_organizations', []).length > 0) {
-                    permissions.push(USER_TYPE.ADMIN)
-                }
-                if (get(userData, 'organization_memberships', []).length > 0) {
-                    permissions.push(USER_TYPE.REGULAR)
-                }
-
-                const mergedUser = {
-                    ...user,
-                    organization: get(userData, 'organization', null),
-                    adminOrganizations: get(userData, 'admin_organizations', null),
-                    organizationMemberships: get(userData, 'organization_memberships', null),
-                    permissions,
-                    userType: getUserType(permissions),
-                }
-
-                Promise.all(getAdminOrganizations(mergedUser))
-                    .then(adminOrganizations => {
-                        // store data of all the organizations that the user is admin in
-                        mergedUser.adminOrganizationData = adminOrganizations
-                            .reduce((acc, organization) => set(acc, `${organization.data.id}`, organization.data), {})
-                        // get the affiliated organizations
-                        mergedUser.affiliatedOrganizations = adminOrganizations
-                            .filter(organization => get(organization, ['data', 'is_affiliated'], false))
-                            .map(organization => organization.data.id)
-                    })
-                    .finally(() => {
-                        saveUserToLocalStorage(mergedUser)
-                        dispatch(receiveUserData(mergedUser))
-                        dispatch(setEditorAuthFlashMsg())
-                    })
+            if (get(userData, 'admin_organizations', []).length > 0) {
+                permissions.push(USER_TYPE.ADMIN)
             }
-        } catch (e) {
-            throw Error(e)
+            if (get(userData, 'organization_memberships', []).length > 0) {
+                permissions.push(USER_TYPE.REGULAR)
+            }
+
+            const mergedUser = {
+                ...user,
+                organization: get(userData, 'organization', null),
+                adminOrganizations: get(userData, 'admin_organizations', null),
+                organizationMemberships: get(userData, 'organization_memberships', null),
+                permissions,
+                userType: getUserType(permissions),
+            }
+
+            const adminOrganizations = await Promise.all(getAdminOrganizations(mergedUser))
+
+            // store data of all the organizations that the user is admin in
+            mergedUser.adminOrganizationData = adminOrganizations
+                .reduce((acc, organization) => set(acc, `${organization.data.id}`, organization.data), {})
+            // get the affiliated organizations
+            mergedUser.affiliatedOrganizations = adminOrganizations
+                .filter(organization => get(organization, ['data', 'is_affiliated'], false))
+                .map(organization => organization.data.id)
+
+            saveUserToLocalStorage(mergedUser)
+            dispatch(receiveUserData(mergedUser))
+            dispatch(setEditorAuthFlashMsg())
         }
+    } catch (e) {
+        throw Error(e)
     }
 }
 

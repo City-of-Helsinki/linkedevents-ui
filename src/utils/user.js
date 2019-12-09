@@ -8,9 +8,9 @@ const {USER_TYPE} = constants
  * Returns a promise containing data for the given organization
  * @param organizationId  Organization ID
  */
-export const getOrganization = (organizationId) => {
+export const getOrganization = async (organizationId) => {
     try {
-        return client.get(`organization/${organizationId}`)
+        return await client.get(`organization/${organizationId}`)
     } catch (e) {
         throw Error(e)
     }

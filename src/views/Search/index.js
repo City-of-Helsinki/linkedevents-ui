@@ -16,7 +16,7 @@ class SearchPage extends React.Component {
         searchExecuted: false,
     }
 
-    searchEvents = (searchQuery, startDate, endDate) => {
+    searchEvents = async (searchQuery, startDate, endDate) => {
         if (!searchQuery && (!startDate || !endDate)) {
             return
         }
@@ -31,9 +31,12 @@ class SearchPage extends React.Component {
         if (startDate) queryParams.start = startDate.format('YYYY-MM-DD')
         if (endDate) queryParams.end = endDate.format('YYYY-MM-DD')
 
-        fetchEvents(queryParams)
-            .then(response => this.setState({events: response.data.data, searchExecuted: true}))
-            .finally(() => this.setState({loading: false}))
+        try {
+            const response = await fetchEvents(queryParams)
+            this.setState({events: response.data.data, searchExecuted: true})
+        } finally {
+            this.setState({loading: false})
+        }
     }
 
     getResults = () => {

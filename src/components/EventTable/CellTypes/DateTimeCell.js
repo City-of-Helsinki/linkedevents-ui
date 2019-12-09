@@ -1,14 +1,11 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import moment from 'moment'
 import {TableCell} from 'material-ui'
+import {getDate, getDateTime} from '../../../utils/helpers'
 
 const DateTimeCell = props => {
     const {event, start, end, time, lastModified, datePublished} = props
-    let startTime, endTime, lastModifiedTime, datePublishedTime
-
-    const getDate = date => moment(date).format('D.M.YYYY')
-    const getDateTime = date => moment(date).format('D.M.YYYY HH:mm')
+    let startTime, endTime
 
     if (start && event.start_time) {
         startTime = time
@@ -20,16 +17,6 @@ const DateTimeCell = props => {
             ? getDateTime(event.end_time)
             : getDate(event.end_time)
     }
-    if (lastModified && event.last_modified_time) {
-        lastModifiedTime = time
-            ? getDateTime(event.last_modified_time)
-            : getDate(event.last_modified_time)
-    }
-    if (datePublished && event.date_published) {
-        datePublishedTime = time
-            ? getDateTime(event.date_published)
-            : getDate(event.date_published)
-    }
 
     return (
         <TableCell>
@@ -39,11 +26,19 @@ const DateTimeCell = props => {
             {endTime &&
                 <span>{`${startTime ? ' - ' : ''}${endTime}`}</span>
             }
-            {lastModifiedTime &&
-                <span>{lastModifiedTime}</span>
+            {lastModified && event.last_modified_time &&
+                <span>
+                    {time
+                        ? getDateTime(event.last_modified_time)
+                        : getDate(event.last_modified_time)}
+                </span>
             }
-            {datePublishedTime &&
-                <span>{datePublishedTime}</span>
+            {datePublished && event.date_published &&
+                <span>
+                    {time
+                        ? getDateTime(event.date_published)
+                        : getDate(event.date_published)}
+                </span>
             }
         </TableCell>
     )

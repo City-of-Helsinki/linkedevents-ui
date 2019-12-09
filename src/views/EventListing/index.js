@@ -47,27 +47,31 @@ export class EventListing extends React.Component {
     /**
      * Fetches the table data
      */
-    fetchTableData = () => {
+    fetchTableData = async () => {
         const queryParams = this.getDefaultEventQueryParams()
 
         this.setLoading(false)
 
-        fetchEvents(queryParams)
-            .then(response => {
-                this.setState({tableData: {
-                    ...this.state.tableData,
+        try {
+            const response = await fetchEvents(queryParams)
+
+            this.setState(state => ({
+                tableData: {
+                    ...state.tableData,
                     events: response.data.data,
                     count: response.data.meta.count,
-                }})
-            })
-            .finally(() => this.setLoading(true))
+                },
+            }))
+        } finally {
+            this.setLoading(true)
+        }
     }
 
     /**
      * Handles table column sort changes
      * @param columnName    The column that should be sorted
      */
-    handleSortChange = (columnName) => {
+    handleSortChange = async (columnName) => {
         const {sortBy, sortDirection} = this.state.tableData
         const updatedSortDirection = getSortDirection(sortBy, columnName, sortDirection)
         const queryParams = this.getDefaultEventQueryParams()
@@ -75,18 +79,22 @@ export class EventListing extends React.Component {
 
         this.setLoading(false)
 
-        fetchEvents(queryParams)
-            .then(response => {
-                this.setState({tableData: {
-                    ...this.state.tableData,
+        try {
+            const response = await fetchEvents(queryParams)
+
+            this.setState(state => ({
+                tableData: {
+                    ...state.tableData,
                     events: response.data.data,
                     count: response.data.meta.count,
                     paginationPage: 0,
                     sortBy: columnName,
                     sortDirection: updatedSortDirection,
-                }})
-            })
-            .finally(() => this.setLoading(true))
+                },
+            }))
+        } finally {
+            this.setLoading(true)
+        }
     }
 
     /**
@@ -94,46 +102,54 @@ export class EventListing extends React.Component {
      * @param event
      * @param newPage   The new page number
      */
-    handlePageChange = (event, newPage) => {
+    handlePageChange = async (event, newPage) => {
         const queryParams = this.getDefaultEventQueryParams()
         queryParams.page = newPage + 1
 
         this.setLoading(false)
 
-        fetchEvents(queryParams)
-            .then(response => {
-                this.setState({tableData: {
-                    ...this.state.tableData,
+        try {
+            const response = await fetchEvents(queryParams)
+
+            this.setState(state => ({
+                tableData: {
+                    ...state.tableData,
                     events: response.data.data,
                     count: response.data.meta.count,
                     paginationPage: newPage,
-                }})
-            })
-            .finally(() => this.setLoading(true))
+                },
+            }))
+        } finally {
+            this.setLoading(true)
+        }
     }
 
     /**
      * Handles table page size changes
      * @param   event   Page size selection event data
      */
-    handlePageSizeChange = (event) => {
+    handlePageSizeChange = async (event) => {
         const pageSize = event.target.value
         const queryParams = this.getDefaultEventQueryParams()
         queryParams.page_size = pageSize
 
         this.setLoading(false)
 
-        fetchEvents(queryParams)
-            .then(response => {
-                this.setState({tableData: {
-                    ...this.state.tableData,
+        try {
+            const response = await fetchEvents(queryParams)
+
+            this.setState(state => ({
+                tableData: {
+                    ...state.tableData,
                     events: response.data.data,
                     count: response.data.meta.count,
                     paginationPage: 0,
                     pageSize: pageSize,
-                }})
-            })
-            .finally(() => this.setLoading(true))
+                },
+            }))
+        } finally {
+            this.setLoading(true)
+        }
     }
 
     /**
@@ -141,9 +157,12 @@ export class EventListing extends React.Component {
      * @param fetchComplete Whether the fetch has completed
      */
     setLoading = (fetchComplete) => {
-        const updatedState = {...this.state}
-        updatedState.tableData.fetchComplete = fetchComplete
-        this.setState(updatedState)
+        this.setState(state => ({
+            tableData: {
+                ...state.tableData,
+                fetchComplete,
+            },
+        }))
     }
 
     getPublicationStatus = () => {

@@ -5,7 +5,7 @@ import {Button} from 'material-ui'
 import {FormattedMessage, injectIntl} from 'react-intl'
 import EventTable from '../../components/EventTable/EventTable'
 import {connect} from 'react-redux'
-import {isNull, zipObject, each, uniq} from 'lodash'
+import {isNull, zipObject, each, uniq, set} from 'lodash'
 import constants from '../../constants'
 import {
     appendEventDataWithSubEvents,
@@ -76,7 +76,7 @@ export class Moderation extends React.Component {
      * Fetches the data for the given table(s) and saves it to the state
      * @param tables    The table(s) that data should be fetched for
      */
-    fetchTableData = (tables) => {
+    fetchTableData = async (tables) => {
         // promises containing the table data
         const fetchedData = tables.map(table => {
             const queryParams = this.getDefaultEventQueryParams(table)
@@ -88,25 +88,22 @@ export class Moderation extends React.Component {
 
         this.setLoading(false, tables)
 
-        Promise.all(fetchedData)
-            .then(values => {
-                const tableKeys = tables.map(table => `${table}Data`)
-                // map fetched data to the tables
-                const tableData = zipObject(tableKeys, values)
-                let updatedState = {...this.state}
+        try {
+            const values = await Promise.all(fetchedData)
+            const tableKeys = tables.map(table => `${table}Data`)
+            // map fetched data to the tables
+            const tableData = zipObject(tableKeys, values)
 
-                each(tableData, (values, key) => {
-                    updatedState[key] = {
-                        ...this.state[key],
-                        events: values.data.data,
-                        count: values.data.meta.count,
-                        selectedRows: [],
-                    }
-                })
-
-                this.setState({...updatedState})
-            })
-            .finally(() => this.setLoading(true, tables))
+            this.setState(state => Object.keys(tableData)
+                .reduce((acc, key) => set(acc, key, {
+                    ...state[key],
+                    events: tableData[key].data.data,
+                    count: tableData[key].data.meta.count,
+                    selectedRows: [],
+                }), {}))
+        } finally {
+            this.setLoading(true, tables)
+        }
     }
 
     /**
@@ -117,15 +114,17 @@ export class Moderation extends React.Component {
      * @param selectAll Whether all rows should be selected
      */
     handleRowSelect = (checked, id, table, selectAll = false) => {
-        const tableData = this.state[`${table}Data`]
-        const {invalidRows} = tableData
-        const selectedRows = getSelectedRows(tableData, checked, id, table, selectAll, invalidRows)
-
         // set selected rows
-        this.setState({[`${table}Data`]: {
-            ...tableData,
-            selectedRows,
-        }})
+        this.setState(state => {
+            const tableData = state[`${table}Data`]
+            const {invalidRows} = tableData
+            const selectedRows = getSelectedRows(tableData, checked, id, table, selectAll, invalidRows)
+
+            return {[`${table}Data`]: {
+                ...tableData,
+                selectedRows,
+            }}
+        })
     }
 
     /**
@@ -165,7 +164,7 @@ export class Moderation extends React.Component {
      * @param columnName    The column that should be sorted
      * @param table         The table that the sorting was changed for
      */
-    handleSortChange = (columnName, table) => {
+    handleSortChange = async (columnName, table) => {
         const tableData = this.state[`${table}Data`]
         const oldSortBy = tableData.sortBy
         const oldSortDirection = tableData.sortDirection
@@ -176,17 +175,19 @@ export class Moderation extends React.Component {
 
         this.setLoading(false, [table])
 
-        fetchEvents(queryParams)
-            .then(response => {
-                this.setState({[`${table}Data`]: {
-                    ...tableData,
-                    events: response.data.data,
-                    count: response.data.meta.count,
-                    sortBy: columnName,
-                    sortDirection: sortDirection,
-                }})
-            })
-            .finally(() => this.setLoading(true, [table]))
+        try {
+            const response = await fetchEvents(queryParams)
+
+            this.setState(state => ({[`${table}Data`]: {
+                ...state[`${table}Data`],
+                events: response.data.data,
+                count: response.data.meta.count,
+                sortBy: columnName,
+                sortDirection: sortDirection,
+            }}))
+        } finally {
+            this.setLoading(true, [table])
+        }
     }
 
     /**
@@ -195,23 +196,24 @@ export class Moderation extends React.Component {
      * @param newPage   The new page number
      * @param table     The table that the pagination page was changed for
      */
-    handlePageChange = (event, newPage, table) => {
-        const tableData = this.state[`${table}Data`]
+    handlePageChange = async (event, newPage, table) => {
         const queryParams = this.getDefaultEventQueryParams(table)
         queryParams.page = newPage + 1
 
         this.setLoading(false, [table])
 
-        fetchEvents(queryParams)
-            .then(response => {
-                this.setState({[`${table}Data`]: {
-                    ...tableData,
-                    events: response.data.data,
-                    count: response.data.meta.count,
-                    paginationPage: newPage,
-                }})
-            })
-            .finally(() => this.setLoading(true, [table]))
+        try {
+            const response = await fetchEvents(queryParams)
+
+            this.setState(state => ({[`${table}Data`]: {
+                ...state[`${table}Data`],
+                events: response.data.data,
+                count: response.data.meta.count,
+                paginationPage: newPage,
+            }}))
+        } finally {
+            this.setLoading(true, [table])
+        }
     }
 
     /**
@@ -219,25 +221,26 @@ export class Moderation extends React.Component {
      * @param   event   Page size selection event data
      * @param   table   The table that the page size was changed for
      */
-    handlePageSizeChange = (event, table) => {
-        const tableData = this.state[`${table}Data`]
+    handlePageSizeChange = async (event, table) => {
         const pageSize = event.target.value
         const queryParams = this.getDefaultEventQueryParams(table)
         queryParams.pageSize = pageSize
 
         this.setLoading(false, [table])
 
-        fetchEvents(queryParams)
-            .then(response => {
-                this.setState({[`${table}Data`]: {
-                    ...tableData,
-                    events: response.data.data,
-                    count: response.data.meta.count,
-                    paginationPage: 0,
-                    pageSize: pageSize,
-                }})
-            })
-            .finally(() => this.setLoading(true, [table]))
+        try {
+            const response = await fetchEvents(queryParams)
+
+            this.setState(state => ({[`${table}Data`]: {
+                ...state[`${table}Data`],
+                events: response.data.data,
+                count: response.data.meta.count,
+                paginationPage: 0,
+                pageSize: pageSize,
+            }}))
+        } finally {
+            this.setLoading(true, [table])
+        }
     }
 
     /**
@@ -246,9 +249,11 @@ export class Moderation extends React.Component {
      * @param tables        Tables for which the loading state should be updated
      */
     setLoading = (fetchComplete, tables) => {
-        const updatedState = {...this.state}
-        tables.forEach(table => updatedState[`${table}Data`].fetchComplete = fetchComplete)
-        this.setState(updatedState)
+        this.setState(state => tables
+            .reduce((acc, table) => set(acc, `${table}Data`, {
+                ...state[`${table}Data`],
+                fetchComplete,
+            }), {}))
     }
 
     /**
@@ -312,7 +317,7 @@ export class Moderation extends React.Component {
             </React.Fragment>
             }
             {selectedRows.length <= 1 &&
-                <FormattedMessage id={`${action}-event`}/>
+                <FormattedMessage id={`${action}-events`}/>
             }
         </Button>
     }

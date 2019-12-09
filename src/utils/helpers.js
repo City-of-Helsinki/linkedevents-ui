@@ -2,6 +2,7 @@ import {isArray, isNil, isNull, set, some, get, keys} from 'lodash';
 import constants from '../constants'
 import {FormattedMessage} from 'react-intl'
 import React from 'react'
+import moment from 'moment'
 
 const {VALIDATION_RULES, CHARACTER_LIMIT} = constants
 
@@ -146,4 +147,52 @@ export const getBadge = type => {
             <FormattedMessage id={type} />
         </span>
     )
+}
+
+/**
+ * Returns a formatted date
+ * @param date  Date to format
+ * @returns {string}
+ */
+export const getDate = date => moment(date).format('D.M.YYYY')
+
+/**
+ * Returns a formatted date time
+ * @param date  Date to format
+ * @returns {string}
+ */
+export const getDateTime = date => moment(date).format('D.M.YYYY HH:mm')
+
+/**
+ * todo
+ * @param action
+ * @param isRegularUser
+ * @param isDraft
+ * @param eventIsPublished
+ * @param formHasSubEvents
+ * @returns {string}
+ */
+export const getButtonLabel = (
+    action,
+    isRegularUser,
+    isDraft,
+    eventIsPublished,
+    formHasSubEvents
+) => {
+    let buttonLabel = `${action}-events`
+
+    if (action === 'return') {
+        buttonLabel = 'return-without-saving'
+    }
+    if (action === 'update') {
+        buttonLabel = isRegularUser
+            ? isDraft ? 'event-action-save-draft-existing' : 'event-action-save-draft-new'
+            : eventIsPublished ? 'event-action-save-existing' : 'event-action-save-new'
+
+        if (!eventIsPublished && formHasSubEvents) {
+            buttonLabel = 'event-action-save-multiple'
+        }
+    }
+
+    return buttonLabel
 }

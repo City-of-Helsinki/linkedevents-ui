@@ -132,38 +132,21 @@ const showConfirmationModal = (
     customAction,
 ) => new Promise((resolve) => {
     const eventIds = eventData.map(item => item.id)
-    const multipleEvents = eventData.length > 1
     const isDraft = publicationStatus === PUBLICATION_STATUS.DRAFT
 
     // set the modal texts based on the action to run
-    let message = multipleEvents ? `confirm-${action}-multi` : `confirm-${action}`
-    const actionButtonLabel = multipleEvents ? `${action}-events` : `${action}-event`
+    const actionButtonLabel = `${action}-events`
+    const message = isDraft
+        ? `confirm-${action}-draft`
+        : `confirm-${action}`
     const warningMessage = isDraft
         ? `${action}-draft`
         : action
 
-    let modalStyle
+    let modalStyle = 'message'
 
-
-    switch (action) {
-        case 'publish':
-            modalStyle = 'message'
-            break
-        case 'update':
-            modalStyle = 'message'
-            if (isDraft) {
-                message = message.replace(action, `${action}-draft`)
-            }
-            break
-        case 'cancel':
-            modalStyle = 'warning'
-            break
-        case 'delete':
-            modalStyle = 'warning'
-            if (isDraft) {
-                message = message.replace(action, `${action}-draft`)
-            }
-            break
+    if (action === 'cancel' || action === 'delete') {
+        modalStyle = 'warning'
     }
 
     const confirmActionMapping = {
