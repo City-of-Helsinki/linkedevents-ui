@@ -7,18 +7,18 @@ import {Button} from 'material-ui'
 import {push} from 'react-router-redux'
 import PropTypes from 'prop-types'
 
-import {setFlashMsg as setFlashMsgAction, clearFlashMsg as clearFlashMsgAction} from '../../actions/app'
+import {setFlashMsg as setFlashMsgAction} from '../../actions/app'
 
 import CONSTANTS from '../../constants'
 
 class EventCreated extends React.Component {
 
-    UNSAFE_componentWillMount() {
-        const {match, setFlashMsg, clearFlashMsg, routerPush} = this.props
-        if(match.params.action !== CONSTANTS.EVENT_CREATION.UPDATE) {
+    componentDidMount() {
+        const {match, setFlashMsg, routerPush} = this.props
+
+        if (match.params.action !== CONSTANTS.EVENT_CREATION.UPDATE) {
             let headerTranslationId = this.getEventHeaderTranslationId()
             setFlashMsg(headerTranslationId, CONSTANTS.EVENT_CREATION.SUCCESS)
-            clearFlashMsg()
             routerPush(`/event/${this.props.match.params.eventId}`)
         }
     }
@@ -42,14 +42,12 @@ class EventCreated extends React.Component {
 
     getEventHeaderTranslationId() {
         const EVENT_CREATION = CONSTANTS.EVENT_CREATION
-        const {events: {event}, match} = this.props
 
         let headerTranslationId
 
         switch(this.props.match.params.action) {
             case EVENT_CREATION.CREATE:
-                headerTranslationId = typeof event.super_event === 'object' ? 
-                    EVENT_CREATION.CREATE_SUCCESS : EVENT_CREATION.MULTIPLE_EVENTS_SUCCESS
+                headerTranslationId = EVENT_CREATION.CREATE_SUCCESS
                 break;
             case EVENT_CREATION.UPDATE:
                 headerTranslationId = EVENT_CREATION.UPDATE_SUCCESS
@@ -97,7 +95,6 @@ class EventCreated extends React.Component {
 EventCreated.propTypes = {
     match: PropTypes.object,
     setFlashMsg: PropTypes.func,
-    clearFlashMsg: PropTypes.func,
     events: PropTypes.object,
     routerPush: PropTypes.func,
 }
@@ -110,9 +107,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     setFlashMsg: (id, status) => dispatch(setFlashMsgAction(id, status)),
-    clearFlashMsg: ()=> setTimeout(()=>{
-        dispatch(clearFlashMsgAction())
-    }, 5000),
     routerPush: (url) => dispatch(push(url)),
     
 })

@@ -26,7 +26,6 @@ exports[`Editor Snapshot should render view correctly when creating new event fr
           id="clear-form"
           values={Object {}}
         />
-         
         <pure(Close) />
       </WithStyles(Button)>
     </span>
@@ -42,7 +41,6 @@ exports[`Editor Snapshot should render view correctly when creating new event fr
             "fi",
             "sv",
           ],
-          "isSending": false,
           "keywordSets": Array [
             Object {
               "@context": "http://schema.org",
@@ -929,46 +927,53 @@ exports[`Editor Snapshot should render view correctly when creating new event fr
           },
         }
       }
+      event={Object {}}
       setDirtyState={[Function]}
+      superEvent={Object {}}
+      user={
+        Object {
+          "_json": Object {
+            "date_joined": "2017-11-27T08:07:41.123918Z",
+            "department_name": null,
+            "email": "foo@foo.com",
+            "first_name": "",
+            "last_login": "2018-01-19T07:33:42.102250Z",
+            "last_name": "",
+            "username": "u-ajbd4wwtjii6pgsbyks5pa3yvq",
+            "uuid": "0a423e5a-d34a-11e7-9a41-c2a5d78378ac",
+          },
+          "_raw": "{\\"last_login\\":\\"2018-01-19T07:33:42.102250Z\\",\\"username\\":\\"u-ajbd4wwtjii6pgsbyks5pa3yvq\\",\\"email\\":\\"foo@foo.com\\",\\"date_joined\\":\\"2017-11-27T08:07:41.123918Z\\",\\"first_name\\":\\"\\",\\"last_name\\":\\"\\",\\"uuid\\":\\"0a423e5a-d34a-11e7-9a41-c2a5d78378ac\\",\\"department_name\\":null}",
+          "emails": Array [
+            Object {
+              "value": "foo@foo.com",
+            },
+          ],
+          "firstName": "",
+          "id": "0a423e5a-d34a-11e7-9a41-c2a5d78378ac",
+          "lastName": "",
+          "organization": "ahjo:02100",
+          "provider": "helsinki",
+          "token": "sometoken",
+          "username": "u-bjbd4wwtjii6pgsbyks5pa3yvq",
+        }
+      }
     />
   </div>
   <div
     className="editor-action-buttons"
   >
     <div
-      className="container"
+      className="buttons-group container"
     >
-      <div
-        className="row"
-      >
-        <Component
-          component="div"
-          loaded={true}
-          loadedClassName="loadedContent"
-          parentClassName="loader"
-          scale={1}
-        />
-        <div
-          className="buttons-group"
-        >
-          <div
-            className="actions"
-          >
-            <div />
-            <WithStyles(Button)
-              color="primary"
-              disabled={false}
-              onClick={[Function]}
-              raised={true}
-            >
-              <FormattedMessage
-                id="event-action-save-new"
-                values={Object {}}
-              />
-            </WithStyles(Button)>
-          </div>
-        </div>
-      </div>
+      <Connect(InjectIntl(EventActionButton))
+        action="update"
+        event={Object {}}
+        eventIsPublished={false}
+        loading={false}
+        onClick={[Function]}
+        runAfterAction={[Function]}
+        subEvents={Array []}
+      />
     </div>
   </div>
 </div>
@@ -1000,7 +1005,6 @@ exports[`Editor Snapshot should render view correctly when editing existing even
           id="clear-form"
           values={Object {}}
         />
-         
         <pure(Close) />
       </WithStyles(Button)>
     </span>
@@ -1016,7 +1020,6 @@ exports[`Editor Snapshot should render view correctly when editing existing even
             "fi",
             "sv",
           ],
-          "isSending": false,
           "keywordSets": Array [
             Object {
               "@context": "http://schema.org",
@@ -1903,70 +1906,45 @@ exports[`Editor Snapshot should render view correctly when editing existing even
           },
         }
       }
+      event={Object {}}
       setDirtyState={[Function]}
+      superEvent={Object {}}
+      user={
+        Object {
+          "_json": Object {
+            "date_joined": "2017-11-27T08:07:41.123918Z",
+            "department_name": null,
+            "email": "foo@foo.com",
+            "first_name": "",
+            "last_login": "2018-01-19T07:33:42.102250Z",
+            "last_name": "",
+            "username": "u-ajbd4wwtjii6pgsbyks5pa3yvq",
+            "uuid": "0a423e5a-d34a-11e7-9a41-c2a5d78378ac",
+          },
+          "_raw": "{\\"last_login\\":\\"2018-01-19T07:33:42.102250Z\\",\\"username\\":\\"u-ajbd4wwtjii6pgsbyks5pa3yvq\\",\\"email\\":\\"foo@foo.com\\",\\"date_joined\\":\\"2017-11-27T08:07:41.123918Z\\",\\"first_name\\":\\"\\",\\"last_name\\":\\"\\",\\"uuid\\":\\"0a423e5a-d34a-11e7-9a41-c2a5d78378ac\\",\\"department_name\\":null}",
+          "emails": Array [
+            Object {
+              "value": "foo@foo.com",
+            },
+          ],
+          "firstName": "",
+          "id": "0a423e5a-d34a-11e7-9a41-c2a5d78378ac",
+          "lastName": "",
+          "organization": "ahjo:02100",
+          "provider": "helsinki",
+          "token": "sometoken",
+          "username": "u-bjbd4wwtjii6pgsbyks5pa3yvq",
+        }
+      }
     />
   </div>
   <div
     className="editor-action-buttons"
   >
-    <div
-      className="container"
-    >
-      <div
-        className="row"
-      >
-        <Component
-          component="div"
-          loaded={true}
-          loadedClassName="loadedContent"
-          parentClassName="loader"
-          scale={1}
-        />
-        <div
-          className="buttons-group"
-        >
-          <div
-            className="actions"
-          >
-            <div>
-              <WithStyles(Button)
-                color="accent"
-                disabled={false}
-                onClick={[Function]}
-                raised={true}
-              >
-                <FormattedMessage
-                  id="delete-events"
-                  values={Object {}}
-                />
-              </WithStyles(Button)>
-              <WithStyles(Button)
-                color="accent"
-                disabled={false}
-                onClick={[Function]}
-                raised={true}
-              >
-                <FormattedMessage
-                  id="cancel-events"
-                  values={Object {}}
-                />
-              </WithStyles(Button)>
-            </div>
-            <WithStyles(Button)
-              color="primary"
-              disabled={false}
-              onClick={[Function]}
-              raised={true}
-            >
-              <FormattedMessage
-                id="event-action-save-existing"
-                values={Object {}}
-              />
-            </WithStyles(Button)>
-          </div>
-        </div>
-      </div>
-    </div>
+    <WithStyles(CircularProgress)
+      className="loading-spinner"
+      size={50}
+    />
   </div>
 </div>
 `;
@@ -1997,7 +1975,6 @@ exports[`Editor Snapshot should render view correctly when new event 1`] = `
           id="clear-form"
           values={Object {}}
         />
-         
         <pure(Close) />
       </WithStyles(Button)>
     </span>
@@ -2012,7 +1989,6 @@ exports[`Editor Snapshot should render view correctly when new event 1`] = `
           "contentLanguages": Array [
             "fi",
           ],
-          "isSending": false,
           "keywordSets": Array [
             Object {
               "@context": "http://schema.org",
@@ -2650,46 +2626,53 @@ exports[`Editor Snapshot should render view correctly when new event 1`] = `
           },
         }
       }
+      event={Object {}}
       setDirtyState={[Function]}
+      superEvent={Object {}}
+      user={
+        Object {
+          "_json": Object {
+            "date_joined": "2017-11-27T08:07:41.123918Z",
+            "department_name": null,
+            "email": "foo@foo.com",
+            "first_name": "",
+            "last_login": "2018-01-19T07:33:42.102250Z",
+            "last_name": "",
+            "username": "u-ajbd4wwtjii6pgsbyks5pa3yvq",
+            "uuid": "0a423e5a-d34a-11e7-9a41-c2a5d78378ac",
+          },
+          "_raw": "{\\"last_login\\":\\"2018-01-19T07:33:42.102250Z\\",\\"username\\":\\"u-ajbd4wwtjii6pgsbyks5pa3yvq\\",\\"email\\":\\"foo@foo.com\\",\\"date_joined\\":\\"2017-11-27T08:07:41.123918Z\\",\\"first_name\\":\\"\\",\\"last_name\\":\\"\\",\\"uuid\\":\\"0a423e5a-d34a-11e7-9a41-c2a5d78378ac\\",\\"department_name\\":null}",
+          "emails": Array [
+            Object {
+              "value": "foo@foo.com",
+            },
+          ],
+          "firstName": "",
+          "id": "0a423e5a-d34a-11e7-9a41-c2a5d78378ac",
+          "lastName": "",
+          "organization": "ahjo:02100",
+          "provider": "helsinki",
+          "token": "sometoken",
+          "username": "u-bjbd4wwtjii6pgsbyks5pa3yvq",
+        }
+      }
     />
   </div>
   <div
     className="editor-action-buttons"
   >
     <div
-      className="container"
+      className="buttons-group container"
     >
-      <div
-        className="row"
-      >
-        <Component
-          component="div"
-          loaded={true}
-          loadedClassName="loadedContent"
-          parentClassName="loader"
-          scale={1}
-        />
-        <div
-          className="buttons-group"
-        >
-          <div
-            className="actions"
-          >
-            <div />
-            <WithStyles(Button)
-              color="primary"
-              disabled={false}
-              onClick={[Function]}
-              raised={true}
-            >
-              <FormattedMessage
-                id="event-action-save-new"
-                values={Object {}}
-              />
-            </WithStyles(Button)>
-          </div>
-        </div>
-      </div>
+      <Connect(InjectIntl(EventActionButton))
+        action="update"
+        event={Object {}}
+        eventIsPublished={false}
+        loading={false}
+        onClick={[Function]}
+        runAfterAction={[Function]}
+        subEvents={Array []}
+      />
     </div>
   </div>
 </div>

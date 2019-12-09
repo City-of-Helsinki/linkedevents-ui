@@ -1,75 +1,56 @@
-
 import './index.scss'
-import 'style-loader!vendor/stylesheets/typeahead.css'
 
 import React from 'react'
-import Loader from 'react-loader'
 import {connect} from 'react-redux'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
-import {get, isEqual, keys} from 'lodash'
+import {get} from 'lodash'
 import PropTypes from 'prop-types'
-import {Button} from 'material-ui'
-import Tooltip from 'material-ui/Tooltip'
+import {Button, CircularProgress} from 'material-ui'
 import Close from 'material-ui-icons/Close'
-import {getStringWithLocale} from '../../utils/locale'
 import {
-    fetchEventForEditing as fetchEventForEditingAction,
-    deleteEvent as deleteEventAction,
-    cancelEvent as cancelEventAction,
-    sendData as sendDataAction,
+    executeSendRequest as executeSendRequestAction,
     clearData as clearDataAction,
-    setValidationErrors as setValidationErrorsAction,
     setEditorAuthFlashMsg as setEditorAuthFlashMsgAction,
     setLanguages as setLanguageAction,
+    setEventForEditing as setEventForEditingAction,
 } from '../../actions/editor'
 import {confirmAction, clearFlashMsg as clearFlashMsgAction} from '../../actions/app'
-import {
-    fetchSubEvents as fetchSubEventsAction,
-    clearSubEvents as clearSubEventsAction,
-} from '../../actions/subEvents'
-import {
-    clearEventDetails as clearEventDetailsAction,
-    clearSuperEventDetails as clearSuperEventDetailsAction,
-} from '../../actions/events'
 import constants from '../../constants'
-import {checkEventEditability} from '../../utils/checkEventEditability'
 import FormFields from '../../components/FormFields'
-import {mapUIDataToAPIFormat} from '../../utils/formDataMapping';
-import {getConfirmationMarkup} from '../../utils/helpers'
-import getContentLanguages from '../../utils/language'
+import {EventQueryParams, fetchEvent} from '../../utils/events'
+import {push} from 'react-router-redux'
+import moment from 'moment'
+import {hasAffiliatedOrganizations} from '../../utils/user'
+import EventActionButton from '../../components/EventActionButton/EventActionButton'
+import {scrollToTop} from '../../utils/helpers'
+
+const {PUBLICATION_STATUS, SUPER_EVENT_TYPE_UMBRELLA, USER_TYPE} = constants
 
 // sentinel for authentication alert
 let sentinel = true
 
 export class EditorPage extends React.Component {
-    constructor(props) {
-        super(props)
-        
-        this.handler = (ev) => {
-            ev.preventDefault();
-            if (this.state.isDirty) {
-                (ev || window.event).returnValue = null;
-                this.state = {}
-            }
-        }
-        this.state = {
-            canSubmit: false,
-            disabled: false,
-            isDirty: false,
-        }
 
-        this.setDirtyState = this.setDirtyState.bind(this)
-        this.clearEventData = this.clearEventData.bind(this)
-        this.form = React.createRef()
+    form = React.createRef()
+
+    state = {
+        event: {},
+        superEvent: {},
+        subEvents: [],
+        loading: false,
+        isDirty: false,
+        isRegularUser: false,
     }
 
     componentDidMount() {
-        window.addEventListener('beforeunload', this.handler)
         this.props.setEditorAuthFlashMsg()
         const params = get(this.props, ['match', 'params'])
+        const isRegularUser = get(this.props, ['user', 'userType']) === USER_TYPE.REGULAR
+
+        this.setState({isRegularUser})
 
         if(params.action === 'update' && params.eventId) {
-            this.fetchEventData(params.eventId)
+            this.fetchEventData()
         }
     }
 
@@ -77,45 +58,65 @@ export class EditorPage extends React.Component {
         const prevParams = get(prevProps, ['match', 'params'], {})
         const currParams = get(this.props, ['match', 'params'], {})
 
-        const {values, contentLanguages} = this.props.editor
-        const newContentLanguages = getContentLanguages(values)
-
-        // set correct content languages based on editor values
-        if (newContentLanguages.length && !isEqual(newContentLanguages, contentLanguages)) {
-            this.props.setLanguages(newContentLanguages)
-        }
-
         // check if the editing mode or if the eventId params changed
         if (prevParams.action !== currParams.action || prevParams.eventId !== currParams.eventId) {
             currParams.action  === 'update'
-                ? this.fetchEventData(currParams.eventId)
+                ? this.fetchEventData()
                 : this.clearEventData()
+
+            if (currParams.action === 'update') {
+                this.fetchEventData()
+            } else {
+                this.clearEventData()
+                this.setState({
+                    event: {},
+                    superEvent: {},
+                    subEvents: [],
+                })
+            }
         }
     }
 
     componentWillUnmount() {
-        window.removeEventListener('beforeunload', this.handler)
-        this.props.setValidationErrors({})
         this.props.clearFlashMsg()
         this.clearEventData()
     }
 
-    fetchEventData(eventId) {
-        const {fetchEventForEditing, fetchSubEvents, user} = this.props
-        fetchEventForEditing(eventId, user)
-        fetchSubEvents(eventId, user)
+    /**
+     * Fetches the event, sub event and super event data for the event that is being updated
+     */
+    fetchEventData = async () => {
+        const {setEventForEditing} = this.props
+        const eventId = get(this.props, ['match', 'params', 'eventId'])
+
+        if (!eventId) {
+            return
+        }
+
+        this.setState({loading: true})
+
+        const queryParams = new EventQueryParams()
+        queryParams.include = 'keywords,location,audience,in_language,external_links,image,sub_events'
+        queryParams.nocache = moment().unix()
+
+        try {
+            const eventData = await fetchEvent(eventId, queryParams, true)
+            const [event, subEvents, superEvent] = eventData
+
+            this.setState({event, subEvents, superEvent})
+            setEventForEditing(event)
+        } finally {
+            this.setState({loading: false})
+        }
     }
 
     /**
      * Clears the editor data and the event, super event and sub events from the store
      */
-    clearEventData() {
-        const {clearData, clearEventDetails, clearSuperEventDetails, clearSubEvents} = this.props
+    clearEventData = () => {
+        const {clearData} = this.props
         clearData()
-        clearEventDetails()
-        clearSuperEventDetails()
-        clearSubEvents()
-        
+
         // Reset the state of the HelDatePicker and HelTimePicker components
         this.form.current.refs.start_time.refs.date.resetDate();
         this.form.current.refs.start_time.resetTime();
@@ -124,197 +125,97 @@ export class EditorPage extends React.Component {
         this.form.current.refs.end_time.resetTime();
     }
 
-    setDirtyState() {
+    setDirtyState = () => {
         if (!this.state.isDirty) {
             this.setState({isDirty: true})
         }
     }
 
-    enableButton() {
-        return this.setState({
-            canSubmit: true,
-        });
-    }
-
-    disableButton() {
-        return this.setState({
-            canSubmit: false,
-        });
-    }
-
-    getDeleteButton(disabled = false) {
-        if(this.props.match.params.action === 'update') {
-            return (
-                <Button
-                    raised
-                    disabled={disabled}
-                    onClick={ (e) => this.confirmDelete(e) }
-                    color="accent"
-                >
-                    <FormattedMessage id="delete-events"/>
-                </Button>
-            )
-        }
-    }
-
-    get getSubEvents() {
-        return get(this.props, ['subEvents', 'items'], [])
-    }
-
-    eventExists() {
+    eventIsPublished = () => {
         if (this.props.match.params.action !== 'update') {
             // we are not updating an existing event
             return false
         }
-        let publicationStatus = _.get(this.props, 'editor.values.publication_status')
+        let publicationStatus = get(this.props, 'editor.values.publication_status')
         if (!publicationStatus) {
             // if the field is missing, the user is not logged in, so the event is public
             return true
         }
-        if (publicationStatus === constants.PUBLICATION_STATUS.PUBLIC) {
+        if (publicationStatus === PUBLICATION_STATUS.PUBLIC) {
             return true
         }
         // the publication status field exists and the event is not public
         return false
     }
 
-    getCancelButton(disabled = false) {
-        if(this.eventExists()) {
-            return (
-                <Button
-                    raised
-                    disabled={disabled}
-                    onClick={ (e) => this.confirmCancel(e)}
-                    color="accent"><FormattedMessage id="cancel-events"/></Button>
-            )
-        } else {
-            return null
-        }
-    }
+    /**
+     * Saves the editor changes
+     */
+    saveChanges = () => {
+        const {subEvents, isRegularUser} = this.state
+        const {match, editor: {values: formValues}, executeSendRequest} = this.props
+        const updateExisting = get(match, ['params', 'action']) === 'update'
+        const publicationStatus = isRegularUser
+            ? PUBLICATION_STATUS.DRAFT
+            : PUBLICATION_STATUS.PUBLIC
 
-    getSaveButtons(disabled = false) {
-        const eventExists = this.eventExists()
-        const hasSubEvents = eventExists && this.getSubEvents.length > 0
-        let labelTextId = this.props.editor.isSending
-            ? (eventExists ? 'event-action-save-existing-active' : 'event-action-save-new-active')
-            : (eventExists ? 'event-action-save-existing' : 'event-action-save-new')
-
-        if (_.keys(this.props.editor.values.sub_events).length > 0 && !eventExists) {
-            labelTextId = this.props.editor.isSending ? 'event-action-save-multiple-active' : 'event-action-save-multiple'
-        }
-
-        return (
-            <Button
-                raised
-                color="primary"
-                disabled={disabled}
-                onClick={ (e) => hasSubEvents ? this.confirmUpdate() : this.saveAsPublished(e) }
-            ><FormattedMessage id={labelTextId}/></Button>
-        )
-    }
-
-    getActionButtons() {
-        let {eventIsEditable, eventEditabilityExplanation} = checkEventEditability(this.props.user, this.props.editor.values)
-    
-        let disabled = this.props.editor.isSending || !eventIsEditable
-        let buttons = (
-            <div className="actions">
-                <div>
-                    {this.getDeleteButton(disabled)}
-                    {this.getCancelButton(disabled)}
-                </div>
-                {this.getSaveButtons(disabled)}
-            </div>
-        )
-        return (
-            <div className='buttons-group'>
-                {eventIsEditable ? buttons :
-                    <Tooltip title={eventEditabilityExplanation}>
-                        <span>{buttons}</span>
-                    </Tooltip>
-                }
-            </div>
-        )
-    }
-
-    saveAsDraft(event) {
-        let doUpdate = this.props.match.params.action === 'update'
         this.setState({isDirty: false})
-        this.props.sendData(doUpdate, constants.PUBLICATION_STATUS.DRAFT)
+        executeSendRequest(formValues, updateExisting, publicationStatus, subEvents)
     }
 
-    saveAsPublished(event) {
-        let doUpdate = this.props.match.params.action === 'update'
-        this.setState({isDirty: false})
-        this.props.sendData(doUpdate, constants.PUBLICATION_STATUS.PUBLIC)
+    /**
+     * Navigates to the moderation page
+     */
+    navigateToModeration = () => {
+        const {routerPush} = this.props
+        routerPush('/moderation')
     }
 
-    confirmUpdate() {
-        this.props.confirm(
-            'confirm-update',
-            'message',
-            'save',
-            {
-                action: () => this.saveAsPublished(),
-                additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
-                additionalMarkup: getConfirmationMarkup('update', this.props.intl, this.getSubEvents),
-            }
-        )
+    /**
+     * Returns a button for the given action
+     * @param action    Action to run
+     * @param onClick   onClick function that should be used instead of the default one
+     * @returns {*}
+     */
+    getActionButton = (action, onClick) => {
+        const {event, subEvents, loading} = this.state
+        const eventIsPublished = this.eventIsPublished()
+
+        return <EventActionButton
+            action={action}
+            event={event}
+            eventIsPublished={eventIsPublished}
+            loading={loading}
+            onClick={onClick}
+            runAfterAction={this.handleConfirmedAction}
+            subEvents={subEvents}
+        />
     }
 
-    confirmDelete() {
-        // TODO: maybe do a decorator for confirmable actions etc...?
-        const {user, deleteEvent, editor} = this.props;
-        const eventId = this.props.match.params.eventId;
+    handleConfirmedAction = (action, event) => {
+        const {routerPush} = this.props;
 
-        this.props.confirm(
-            'confirm-delete',
-            'warning',
-            'delete-events',
-            {
-                action: () => deleteEvent(eventId, user, editor.values),
-                additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
-                additionalMarkup: getConfirmationMarkup('delete', this.props.intl, this.getSubEvents),
-            }
-        )
-    }
-
-    confirmCancel() {
-        // TODO: maybe do a decorator for confirmable actions etc...?
-        const {user, editor,cancelEvent} = this.props;
-        const eventId = this.props.match.params.eventId;
-
-        this.props.confirm(
-            'confirm-cancel',
-            'warning',
-            'cancel-events',
-            {
-                action: () => cancelEvent(eventId, user, mapUIDataToAPIFormat(editor.values)),
-                additionalMsg: getStringWithLocale(this.props, 'editor.values.name', 'fi'),
-                additionalMarkup: getConfirmationMarkup('cancel', this.props.intl, this.getSubEvents),
-            }
-        )
+        // navigate to event listing after delete action
+        if (action === 'delete') {
+            routerPush('/')
+        }
+        // navigate to event view after cancel action
+        if (action === 'cancel') {
+            routerPush(`/event/${event.id}`)
+            scrollToTop()
+        }
     }
 
     render() {
         const {editor, user, match, organizations, intl} = this.props
-        const headerTextId = match.params.action === 'update'
-            ? `edit-${appSettings.ui_mode}`
-            : `create-${appSettings.ui_mode}`
-        let clearButton = null
-
-        if (keys(editor.values).length) {
-            clearButton = (
-                <Button
-                    raised
-                    onClick={this.clearEventData}
-                    color="primary"
-                    className="pull-right"
-                >
-                    <FormattedMessage id="clear-form"/> <Close/>
-                </Button>
-            )
-        }
+        const {event, subEvents, superEvent, loading} = this.state
+        const editMode = get(match, ['params', 'action'])
+        const isUmbrellaEvent = get(editor, ['values', 'super_event_type']) === SUPER_EVENT_TYPE_UMBRELLA
+        const isDraft = get(event, ['publication_status']) === PUBLICATION_STATUS.DRAFT
+        const hasSubEvents = subEvents && subEvents.length > 0
+        const headerTextId = editMode === 'update'
+            ? 'edit-events'
+            : 'create-events'
 
         // TODO: fix flow for non-authorized users
         if (user && !user.organization && sentinel) {
@@ -329,27 +230,45 @@ export class EditorPage extends React.Component {
                         <FormattedMessage id={headerTextId}/>
                     </h1>
                     <span className="controls">
-                        {clearButton}
+                        <Button
+                            raised
+                            onClick={this.clearEventData}
+                            color="primary"
+                            className="pull-right"
+                        >
+                            <FormattedMessage id="clear-form"/><Close/>
+                        </Button>
                     </span>
                 </div>
 
                 <div className="container">
                     <FormFields
                         ref={this.form}
-                        action={match.params.action}
+                        action={editMode}
                         editor={editor}
+                        event={event}
+                        superEvent={superEvent}
+                        user={user}
                         organizations={organizations}
                         setDirtyState={this.setDirtyState}
                     />
                 </div>
 
                 <div className="editor-action-buttons">
-                    <div className="container">
-                        <div className="row">
-                            <Loader loaded={!editor.isSending} scale={1}/>
-                            {this.getActionButtons()}
+                    {loading
+                        ? <CircularProgress className="loading-spinner" size={50}/>
+                        : <div className='buttons-group container'>
+                            {editMode === 'update' && this.getActionButton('cancel')}
+                            {editMode === 'update' && this.getActionButton('delete')}
+                            {isDraft && hasAffiliatedOrganizations(user) &&
+                                this.getActionButton('return', this.navigateToModeration)}
+                            {// show confirmation modal when the updated event has sub events and isn't an umbrella event, otherwise save directly
+                                this.getActionButton(
+                                    'update',
+                                    !hasSubEvents || isUmbrellaEvent ? this.saveChanges : undefined
+                                )}
                         </div>
-                    </div>
+                    }
                 </div>
             </div>
         )
@@ -358,49 +277,41 @@ export class EditorPage extends React.Component {
 
 const mapStateToProps = (state) => ({
     editor: state.editor,
-    subEvents: state.subEvents,
     user: state.user,
     organizations: state.organizations.admin,
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchEventForEditing: (eventId, user) => dispatch(fetchEventForEditingAction(eventId, user)),
-    fetchSubEvents: (eventId, user) => dispatch(fetchSubEventsAction(eventId, user)),
+    setEventForEditing: (eventId, user) => dispatch(setEventForEditingAction(eventId, user)),
     clearData: () => dispatch(clearDataAction()),
-    clearEventDetails: () => dispatch(clearEventDetailsAction()),
-    clearSuperEventDetails: () => dispatch(clearSuperEventDetailsAction()),
-    clearSubEvents: () => dispatch(clearSubEventsAction()),
-    setValidationErrors: (errors) => dispatch(setValidationErrorsAction(errors)),
     setEditorAuthFlashMsg: () => dispatch(setEditorAuthFlashMsgAction()),
     setLanguages: (languages) => dispatch(setLanguageAction(languages)),
     clearFlashMsg: () => dispatch(clearFlashMsgAction()),
-    sendData: (updateExisting, publicationStatus) =>
-        dispatch(sendDataAction(updateExisting, publicationStatus)),
+    executeSendRequest: (formValues, updateExisting, publicationStatus, subEvents) =>
+        dispatch(executeSendRequestAction(formValues, updateExisting, publicationStatus, subEvents)),
     confirm: (msg, style, actionButtonLabel, data) => dispatch(confirmAction(msg, style, actionButtonLabel, data)),
-    deleteEvent: (eventId, user, values) => dispatch(deleteEventAction(eventId, user, values)),
-    cancelEvent: (eventId, user, values) => dispatch(cancelEventAction(eventId, user, values)),
+    routerPush: (url) => dispatch(push(url)),
 })
 
 EditorPage.propTypes = {
     match: PropTypes.object,
-    fetchEventForEditing: PropTypes.func,
-    fetchSubEvents: PropTypes.func,
-    setValidationErrors: PropTypes.func,
+    intl: intlShape.isRequired,
+    editor: PropTypes.object,
+    user: PropTypes.object,
+    organizations: PropTypes.arrayOf(PropTypes.object),
+    setEventForEditing: PropTypes.func,
+    clearData: PropTypes.func,
     setEditorAuthFlashMsg: PropTypes.func,
     setLanguages: PropTypes.func,
     clearFlashMsg: PropTypes.func,
-    clearData: PropTypes.func,
-    clearEventDetails: PropTypes.func,
-    clearSuperEventDetails: PropTypes.func,
-    clearSubEvents: PropTypes.func,
-    user: PropTypes.object,
-    editor: PropTypes.object,
-    subEvents: PropTypes.object,
-    sendData: PropTypes.func,
+    executeSendRequest: PropTypes.func,
     confirm: PropTypes.func,
-    deleteEvent: PropTypes.func,
-    cancelEvent: PropTypes.func,
-    intl: intlShape.isRequired,
-    organizations: PropTypes.arrayOf(PropTypes.object),
+    routerPush: PropTypes.func,
+    event: PropTypes.object,
+    superEvent: PropTypes.object,
+    subEvents: PropTypes.array,
+    loading: PropTypes.bool,
+    isDirty: PropTypes.bool,
+    isRegularUser: PropTypes.bool,
 }
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(EditorPage))

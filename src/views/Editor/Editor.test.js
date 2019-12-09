@@ -56,8 +56,6 @@ describe('Editor Snapshot', () => {
                 },
             },
             setEditorAuthFlashMsg: jest.fn(),
-            fetchEventForEditing: jest.fn(),
-            fetchSubEvents: jest.fn(),
             ...initialStoreExistingEvent,
         } // Props which are added to component
         const wrapper = shallow(<EditorPage {...componentProps} />)

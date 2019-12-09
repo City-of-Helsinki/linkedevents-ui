@@ -1,8 +1,11 @@
 import {isArray, isNil, isNull, set, some, get, keys} from 'lodash';
-import CONSTANTS from '../constants'
-import moment from 'moment';
+import constants from '../constants'
+import {FormattedMessage} from 'react-intl'
+import React from 'react'
+import moment from 'moment'
 
-const {VALIDATION_RULES, CHARACTER_LIMIT} = CONSTANTS
+const {VALIDATION_RULES, CHARACTER_LIMIT} = constants
+
 /**
  * Get text limit base on it's rule
  * @param {string} Rulename - Validation rule
@@ -97,42 +100,6 @@ export const nullifyMultiLanguageValues = (formValues, contentLanguages) => {
 }
 
 /**
- * Returns the additional markup for the confirmation dialog based on given action type
- * @param action        Either 'update', 'delete' or 'cancel'
- * @param intl          React Intl
- * @param subEvents     Possible sub events for the event
- * @returns {string}    Markup for the confirmation dialog
- */
-export const getConfirmationMarkup = (action, intl, subEvents = [])  => {
-    const warningText = `<p>${intl.formatMessage({id: `editor-${action}-warning`})}</p>`
-    let subEventWarningText = intl.formatMessage({id: `editor-${action}-subevents-warning`})
-    subEventWarningText = subEventWarningText === `editor-${action}-subevents-warning`
-        ? ''
-        : `<p>${subEventWarningText}</p>`
-    // returns the value of the first language that has a value
-    const getSubEventName = field => get(field, keys(field).find(key => !isNil(field[key])), '')
-    const subEventNames = subEvents
-        // sort sub events by start time
-        .sort((a, b) => moment(a.start_time).unix() - moment(b.start_time).unix())
-        .map((subEvent, index) => `${index === 0 ? '' : '</br>'}<strong>${getSubEventName(subEvent.name)}</strong> (${moment(subEvent.start_time).format('DD.MM.YYYY')})`)
-
-    return subEventNames.length > 0
-        ? `${warningText}${subEventWarningText}${subEventNames}`
-        : warningText
-}
-
-/**
- * Returns the event id from given URL
- * @param url                     URL to get the event ID from
- * @returns {string|undefined}    Event ID
- */
-export const getEventIdFromUrl = url  => {
-    return typeof url === 'string'
-        ? url.substring(url.indexOf('/event/') + '/event/'.length, url.lastIndexOf('/'))
-        : undefined
-}
-
-/**
  * Scrolls to the top of the page
  */
 export const scrollToTop = ()  => window.scrollTo(0, 0)
@@ -150,4 +117,82 @@ export const getFirstMultiLanguageFieldValue = (field, contentLanguages = null) 
     return isArray(contentLanguages)
         ? get(field, keys(field).filter(key => contentLanguages.includes(key)).find(key => !isNil(field[key])), '')
         : get(field, keys(field).find(key => !isNil(field[key])), '')
+}
+
+/**
+ * Returns a badge for the given type
+ * @param type
+ * @returns {*}
+ */
+export const getBadge = type => {
+    let badgeType = 'primary'
+
+    switch (type) {
+        case 'series':
+            badgeType = 'success'
+            break
+        case 'umbrella':
+            badgeType = 'info'
+            break
+        case 'draft':
+            badgeType = 'warning'
+            break
+        case 'cancelled':
+            badgeType = 'danger'
+            break
+    }
+
+    return (
+        <span className={`badge badge-${badgeType} text-uppercase tag-space`}>
+            <FormattedMessage id={type} />
+        </span>
+    )
+}
+
+/**
+ * Returns a formatted date
+ * @param date  Date to format
+ * @returns {string}
+ */
+export const getDate = date => moment(date).format('D.M.YYYY')
+
+/**
+ * Returns a formatted date time
+ * @param date  Date to format
+ * @returns {string}
+ */
+export const getDateTime = date => moment(date).format('D.M.YYYY HH:mm')
+
+/**
+ * todo
+ * @param action
+ * @param isRegularUser
+ * @param isDraft
+ * @param eventIsPublished
+ * @param formHasSubEvents
+ * @returns {string}
+ */
+export const getButtonLabel = (
+    action,
+    isRegularUser,
+    isDraft,
+    eventIsPublished,
+    formHasSubEvents
+) => {
+    let buttonLabel = `${action}-events`
+
+    if (action === 'return') {
+        buttonLabel = 'return-without-saving'
+    }
+    if (action === 'update') {
+        buttonLabel = isRegularUser
+            ? isDraft ? 'event-action-save-draft-existing' : 'event-action-save-draft-new'
+            : eventIsPublished ? 'event-action-save-existing' : 'event-action-save-new'
+
+        if (!eventIsPublished && formHasSubEvents) {
+            buttonLabel = 'event-action-save-multiple'
+        }
+    }
+
+    return buttonLabel
 }

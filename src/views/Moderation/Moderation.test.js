@@ -5,8 +5,8 @@ import {shallow} from 'enzyme'
 import renderer from 'react-test-renderer'
 
 import testReduxIntWrapper from '../../../__mocks__/testReduxIntWrapper'
-import ConnectedEventListing, {EventListing} from './index'
 import {mockCurrentTime, resetMockDate} from '../../../__mocks__/testMocks';
+import ConnectedModeration, {Moderation} from './Moderation'
 
 const mockStore = configureStore([thunk])
 const initialStore = {
@@ -21,7 +21,7 @@ const initialStore = {
     },
 }
 
-describe('EventListing Snapshot', () => {
+describe('Moderation Snapshot', () => {
     let store;
 
     beforeEach(() => {
@@ -34,19 +34,24 @@ describe('EventListing Snapshot', () => {
 
     it('should render view by default', () => {
         const componentProps = {
-            login: jest.fn(),
+            confirm: jest.fn(),
+            routerPush: jest.fn(),
+            setFlashMsg: jest.fn(),
             user: {},
         };
-        const wrapper = shallow(<EventListing {...componentProps} />);
+        const wrapper = shallow(<Moderation {...componentProps} />);
         expect(wrapper).toMatchSnapshot();
     })
 
     it('should render view correctly', () => {
         store = mockStore(initialStore)
         const componentProps = {
-            login: jest.fn(),
-        } // Props which are added to component
-        const componentToTest = <ConnectedEventListing {...componentProps} />
+            confirm: jest.fn(),
+            routerPush: jest.fn(),
+            setFlashMsg: jest.fn(),
+            user: {},
+        };
+        const componentToTest = <ConnectedModeration {...componentProps} />
         const wrapper = renderer.create(testReduxIntWrapper(store, componentToTest))
 
         expect(wrapper).toMatchSnapshot()

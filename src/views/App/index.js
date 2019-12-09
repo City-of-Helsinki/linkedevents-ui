@@ -133,7 +133,7 @@ class App extends React.Component {
                         <Modal.Header closeButton>
                         </Modal.Header>
                         <Modal.Body>
-                            <p>{confirmMsg}</p>
+                            <p><strong>{confirmMsg}</strong></p>
                             <p><strong>{additionalMsg}</strong></p>
                             <div dangerouslySetInnerHTML={getMarkup()}/>
                         </Modal.Body>

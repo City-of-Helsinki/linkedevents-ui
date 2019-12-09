@@ -1,6 +1,8 @@
-.loader {
-    position: relative;
-    top: 115px;
+.search-loading-spinner {
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+    width: 100%;
 }
 
 .search-no-results {

@@ -11,13 +11,7 @@ import {setLanguages as setLanguageAction} from 'src/actions/editor.js'
 
 class HelLanguageSelect extends React.Component {
 
-    constructor(props) {
-        super(props)
-
-        this.onChange = this.onChange.bind(this)
-    }
-
-    onChange() {
+    onChange = () => {
         const {options} = this.props
         const checkedOptions = options
             .filter((option, index) => this[`checkRef${index}`].checked)
@@ -31,10 +25,11 @@ class HelLanguageSelect extends React.Component {
     }
 
     render() {
-        let checkboxes = this.props.options.map((item, index) => {
-            const checkedOptions = this.props.checked;
-            let checked = checkedOptions && checkedOptions.includes(item.value)
-            let disabled = checked && checkedOptions && checkedOptions.length === 1
+        const {options, checked} = this.props
+        const checkboxes = options.map((item, index) => {
+            const checkedOptions = checked;
+            const isChecked = checkedOptions && checkedOptions.includes(item.value)
+            const disabled = isChecked && checkedOptions && checkedOptions.length === 1
 
             return (<Checkbox
                 style={{width: 'auto'}}
@@ -42,7 +37,7 @@ class HelLanguageSelect extends React.Component {
                 inputRef={ref => this[`checkRef${index}`] = ref}
                 key={index}
                 name={item.value}
-                checked={checked}
+                checked={isChecked}
                 disabled={disabled}
                 onChange={this.onChange}
             >

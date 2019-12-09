@@ -12,7 +12,7 @@ import {
 } from 'react-intl'
 import {getStringWithLocale} from '../../utils/locale'
 import constants from '../../constants'
-import {getEventIdFromUrl, getFirstMultiLanguageFieldValue, scrollToTop} from '../../utils/helpers'
+import {getFirstMultiLanguageFieldValue, scrollToTop} from '../../utils/helpers'
 import {Link} from 'react-router-dom'
 
 const NoValue = (props) => {
@@ -254,8 +254,7 @@ const EventDetails = (props) => {
 
     const isUmbrellaEvent = rawData.super_event_type === constants.SUPER_EVENT_TYPE_UMBRELLA
     const isRecurringEvent = rawData.super_event_type === constants.SUPER_EVENT_TYPE_RECURRING
-    const superEventUrl = get(rawData, ['super_event', '@id'])
-    const superEventId = getEventIdFromUrl(superEventUrl)
+    const superEventId = get(superEvent, 'id')
     const superEventName = getFirstMultiLanguageFieldValue(get(superEvent, 'name'))
     const superEventIsUmbrellaEvent = get(superEvent, 'super_event_type') === constants.SUPER_EVENT_TYPE_UMBRELLA
     const superEventIsRecurringEvent = get(superEvent, 'super_event_type') === constants.SUPER_EVENT_TYPE_RECURRING

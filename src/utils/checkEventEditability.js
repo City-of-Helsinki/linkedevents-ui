@@ -1,30 +1,40 @@
 import constants from '../constants'
 import moment from 'moment'
+import {get} from 'lodash'
+import {doValidations} from '../validation/validator'
+import getContentLanguages from './language'
+import {mapAPIDataToUIFormat} from './formDataMapping'
 
-export function userMayEdit(user, event) {
+const {PUBLICATION_STATUS, EVENT_STATUS, USER_TYPE, SUPER_EVENT_TYPE_UMBRELLA} = constants
+
+export const userMayEdit = (user, event) => {
+    const adminOrganizations = get(user, 'adminOrganizations')
+    const userOrganization = get(user, 'organization')
+    const eventOrganization = get(event, 'organization')
+    const organizationMemberships = get(user, 'organizationMemberships')
+    const publicationStatus = get(event, 'publication_status')
+
     let userMayEdit = false
+
     // For simplicity, support both old and new user api.
     // Check admin_organizations and organization_membership, but fall back to user.organization if needed
-    if (user && user.adminOrganizations) {
+    if (adminOrganizations) {
     // TODO: in the future, we will need information (currently not present) on whether event.organization is
-    // a suborganization of the user admin_organization. This should be done in the API by e.g.
-    // including all superorganizations of a suborganization in the suborganization API JSON,
+    // a sub-organization of the user admin_organization. This should be done in the API by e.g.
+    // including all super-organizations of a sub-organization in the sub-organization API JSON,
     // and fetching that json for the event organization.
-        userMayEdit = (event && user && event.organization &&
-        user.adminOrganizations.includes(event.organization))
+        userMayEdit = adminOrganizations.includes(eventOrganization)
     } else {
-        userMayEdit = (event && user && event.organization &&
-        user.organization === event.organization)
+        userMayEdit = eventOrganization === userOrganization
     }
 
     // exceptions to the above:
-    if (user && user.organizationMemberships && !userMayEdit) {
+    if (organizationMemberships && !userMayEdit) {
     // non-admins may still edit drafts if they are organization members
-        userMayEdit = (event && user && event.organization &&
-        user.organizationMemberships.includes(event.organization) &&
-        event.publication_status == constants.PUBLICATION_STATUS.DRAFT )
+        userMayEdit = organizationMemberships.includes(eventOrganization)
+            && publicationStatus === PUBLICATION_STATUS.DRAFT
     }
-    if (user && (user.organization || user.adminOrganizations) && !event.organization) {
+    if ((userOrganization || adminOrganizations) && !eventOrganization) {
     // if event has no organization, we are creating a new event. it is allowed for users with organizations,
     // disallowed for everybody else. event organization is set by the API when POSTing.
         userMayEdit = true
@@ -33,39 +43,68 @@ export function userMayEdit(user, event) {
     return userMayEdit
 }
 
-export function eventIsCancelled(event) {
-    let eventIsCancelled = (event && event.event_status == constants.EVENT_STATUS.CANCELLED)
-    return eventIsCancelled
+export const userCanDoAction = (user, event, action) => {
+    const isUmbrellaEvent = get(event, 'super_event_type') === SUPER_EVENT_TYPE_UMBRELLA
+    const isDraft = get(event, 'publication_status') === PUBLICATION_STATUS.DRAFT
+    const isPublic = get(event, 'publication_status') === PUBLICATION_STATUS.PUBLIC
+    const isRegularUser = get(user, 'userType') === USER_TYPE.REGULAR
+
+    if (action === 'publish') {
+        if (!event.id) {
+            return false
+        }
+        // get event sub events and map them to UI format, so that we can validate them
+        const subEvents = Object.keys(event.sub_events)
+            .map(key => mapAPIDataToUIFormat(event.sub_events[key]))
+        // combine event with sub events
+        const eventAndSubEvents = [event, ...subEvents]
+        // run validation against all events to see if any of them fail
+        const hasValidationErrors = eventAndSubEvents
+            .some(event => Object.keys(doValidations(event, getContentLanguages(event), PUBLICATION_STATUS.PUBLIC)).length > 0)
+
+        return !hasValidationErrors
+    }
+    if (action === 'cancel') {
+        return !(isDraft || (isRegularUser && isPublic))
+    }
+    if (action === 'edit' || action === 'update' || action === 'delete') {
+        return !(isRegularUser && (isUmbrellaEvent || isPublic))
+    }
+
+    return true
 }
 
-export function eventIsInThePast(event) {
-    //Check if event (end time) is in the past. If event is in the past then editing is not allowed
-    let eventIsInThePast = false
-    if (event && event.end_time) {
-    //Convert to moment object
-        let endTime = moment(event.end_time, moment.defaultFormatUtc)
-        let currentDate = moment()
-        if (currentDate.diff(endTime) > 0) {
-            //Event is in the past
-            eventIsInThePast = true
+export const checkEventEditability = (user, event, action) => {
+    const userMayEdit = module.exports.userMayEdit(user, event)
+    const userCanDoAction = module.exports.userCanDoAction(user, event, action)
+    const isDraft = get(event, 'publication_status') === PUBLICATION_STATUS.DRAFT
+    const endTime = get(event, 'end_time', '')
+    const eventIsInThePast = moment(endTime, moment.defaultFormatUtc).isBefore(moment());
+    const eventIsCancelled = get(event, 'event_status') === EVENT_STATUS.CANCELLED
+
+    const getExplanationId = () => {
+        if (isDraft && action === 'cancel') {
+            return 'draft-cancel'
+        }
+        if (!userCanDoAction && action === 'publish') {
+            return 'event-validation-errors'
+        }
+        if (eventIsInThePast) {
+            return 'event-in-the-past'
+        }
+        if (eventIsCancelled) {
+            return 'event-canceled'
+        }
+        if (!userMayEdit || !userCanDoAction) {
+            return 'user-no-rights'
         }
     }
-    return eventIsInThePast
-}
 
-export function checkEventEditability(user, event) {
-    let eventEditabilityExplanation = ''
-    let eventIsInThePast = module.exports.eventIsInThePast(event)
-    if (eventIsInThePast) {
-        eventEditabilityExplanation = 'Menneisyydessä olevia tapahtumia ei voi muokata.'
-    }
-    let eventIsCancelled = module.exports.eventIsCancelled(event)
-    if (eventIsCancelled) {
-        eventEditabilityExplanation = 'Peruttuja tapahtumia ei voi muokata.'
-    }
-    let userMayEdit = module.exports.userMayEdit(user, event)
-    if (!userMayEdit) {
-        eventEditabilityExplanation = 'Sinulla ei ole oikeuksia muokata tätä tapahtumaa.'
-    }
-    return {eventIsEditable: !eventIsInThePast && !eventIsCancelled && userMayEdit, eventEditabilityExplanation}
+    const explanationId = getExplanationId()
+    const editable = !eventIsInThePast
+        && !eventIsCancelled
+        && userMayEdit
+        && userCanDoAction
+
+    return {editable, explanationId}
 }
