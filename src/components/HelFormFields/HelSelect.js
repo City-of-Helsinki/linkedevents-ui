@@ -129,6 +129,7 @@ const HelSelect = (props) => {
             {item.label}
             {item && typeof item.n_events === 'number' &&
                 <small>
+                    <br/>
                     {intl.formatMessage(
                         {id: `format-select-count`},
                         {count: item.n_events}
