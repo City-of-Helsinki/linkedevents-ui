@@ -18,7 +18,7 @@ const OrganizationSelector = (props) => {
                 <FormControl value={label} disabled />
             ) : options.length > 1 ? (
                 <Select
-                    clearable={false}
+                    isClearable={false}
                     defaultValue={options[0]}
                     value={selectedOption}
                     options={options}
