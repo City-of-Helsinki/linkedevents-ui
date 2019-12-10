@@ -13,6 +13,8 @@ const {PUBLICATION_STATUS} = constants
 const ValidationCell = props => {
     const {event, intl, handleInvalidRow} = props
     const formattedEvent = mapAPIDataToUIFormat(event)
+    // don't validate sub_events as they will be validated separately
+    formattedEvent.sub_events = []
     const validations = doValidations(formattedEvent, getContentLanguages(formattedEvent), PUBLICATION_STATUS.PUBLIC)
     const hasValidationErrors = Object.keys(validations).length > 0
 

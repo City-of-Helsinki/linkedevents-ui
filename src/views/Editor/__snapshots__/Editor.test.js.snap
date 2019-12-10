@@ -967,10 +967,11 @@ exports[`Editor Snapshot should render view correctly when creating new event fr
     >
       <Connect(InjectIntl(EventActionButton))
         action="update"
+        confirmAction={false}
+        customAction={[Function]}
         event={Object {}}
         eventIsPublished={false}
         loading={false}
-        onClick={[Function]}
         runAfterAction={[Function]}
         subEvents={Array []}
       />
@@ -2666,10 +2667,11 @@ exports[`Editor Snapshot should render view correctly when new event 1`] = `
     >
       <Connect(InjectIntl(EventActionButton))
         action="update"
+        confirmAction={false}
+        customAction={[Function]}
         event={Object {}}
         eventIsPublished={false}
         loading={false}
-        onClick={[Function]}
         runAfterAction={[Function]}
         subEvents={Array []}
       />

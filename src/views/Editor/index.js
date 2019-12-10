@@ -173,20 +173,22 @@ export class EditorPage extends React.Component {
 
     /**
      * Returns a button for the given action
-     * @param action    Action to run
-     * @param onClick   onClick function that should be used instead of the default one
+     * @param action        Action to run
+     * @param customAction  Custom action that should be run instead of the default one
+     * @param confirm       Whether confirmation modal should be shown before running action
      * @returns {*}
      */
-    getActionButton = (action, onClick) => {
+    getActionButton = (action, customAction, confirm = true) => {
         const {event, subEvents, loading} = this.state
         const eventIsPublished = this.eventIsPublished()
 
         return <EventActionButton
             action={action}
+            confirmAction={confirm}
+            customAction={customAction}
             event={event}
             eventIsPublished={eventIsPublished}
             loading={loading}
-            onClick={onClick}
             runAfterAction={this.handleConfirmedAction}
             subEvents={subEvents}
         />
@@ -261,11 +263,12 @@ export class EditorPage extends React.Component {
                             {editMode === 'update' && this.getActionButton('cancel')}
                             {editMode === 'update' && this.getActionButton('delete')}
                             {isDraft && hasAffiliatedOrganizations(user) &&
-                                this.getActionButton('return', this.navigateToModeration)}
+                                this.getActionButton('return', this.navigateToModeration, false)}
                             {// show confirmation modal when the updated event has sub events and isn't an umbrella event, otherwise save directly
                                 this.getActionButton(
                                     'update',
-                                    !hasSubEvents || isUmbrellaEvent ? this.saveChanges : undefined
+                                    this.saveChanges,
+                                    hasSubEvents && !isUmbrellaEvent
                                 )}
                         </div>
                     }
