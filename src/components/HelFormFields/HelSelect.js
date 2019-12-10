@@ -1,81 +1,195 @@
 import './HelSelect.scss'
 
 import PropTypes from 'prop-types';
-
 import React from 'react'
-
-import fetch from 'isomorphic-fetch'
-import Select from 'react-select'
-
+import AsyncSelect from 'react-select/async'
+import {createFilter} from 'react-select'
+import {setData as setDataAction} from '../../actions/editor'
 import {connect} from 'react-redux'
-import {setData} from '../../actions/editor'
+import {get, isNil} from 'lodash'
 import ValidationPopover from '../ValidationPopover'
+import client from '../../api/client'
+import {injectIntl} from 'react-intl'
 
-class HelSelect extends React.Component {
+const HelSelect = (props) => {
+    const {
+        intl,
+        setData,
+        isClearable,
+        isMultiselect,
+        name,
+        setDirtyState,
+        resource,
+        legend,
+        selectedValue,
+        validationErrors,
+        placeholderId,
+    } = props
 
-    static contextTypes = {
-        intl: PropTypes.object,
-        dispatch: PropTypes.func,
-    };
+    const onChange = (value) => {
+        if (isNil(value)) {
+            setData({[name]: null})
+        } else {
+            if (name === 'keywords') {
+                setData({[name]: value})
+            }
+            if (name === 'location') {
+                setData({[name]: {
+                    name: {fi: value.label},
+                    id: value.value,
+                    '@id': value['@id'],
+                }})
+            }
+        }
 
-    onChange(value) {
-        let obj = {}
-        obj[this.props.name] = value
-        this.context.dispatch(setData(obj))
-
-        if (this.props.setDirtyState) {
-            this.props.setDirtyState()
+        if (setDirtyState) {
+            setDirtyState()
         }
     }
 
-    getOptions(input) {
-        return fetch(this.props.dataSource + encodeURI(input))
-            .then((response) => {
-                return response.json();
-            }).then((json) => {
-                return _.map(json.data, (item) => ({
-                    label: item.name.fi, // TODO: use locale
-                    value: `/v1/${this.props.resource}/${item.id}/`,
+    const getKeywordOptions = async (input) => {
+        const queryParams = {
+            show_all_keywords: 1,
+            data_source: 'yso',
+            text: input,
+        }
+
+        try {
+            const response = await client.get(`${resource}`, queryParams)
+            const options = response.data.data
+
+            return options.map(item => ({
+                label: item.name.fi,
+                value: `/v1/${resource}/${item.id}/`,
+                n_events: item.n_events,
+            }))
+        } catch (e) {
+            throw Error(e)
+
+        }
+    }
+
+    const getLocationOptions = async (input) => {
+        const queryParams = {
+            show_all_places: 1,
+            text: input,
+        }
+
+        try {
+            const response = await client.get(`${resource}`, queryParams)
+            const options = response.data.data
+
+            return options.map(item => {
+                let label = get(item, ['name', 'fi'], '')
+
+                if (item.data_source !== 'osoite' && item.street_address) {
+                    label = `${label} (${item.street_address.fi})`
+                }
+
+                return {
+                    label,
+                    value: item.id,
+                    '@id': `/v1/${resource}/${item.id}/`,
+                    id: item.id,
                     n_events: item.n_events,
-                }));
-            }).then((json) => {
-                return {options: json};
+                }
             })
+        } catch (e) {
+            throw Error(e)
+
+        }
     }
 
-    optionRenderer(item) {
-        return `${item.label} (${item.n_events} tapahtumaa)`
+    const getOptions = async (input) => {
+        if (name === 'keywords') {
+            return getKeywordOptions(input)
+        }
+        if (name === 'location') {
+            return getLocationOptions(input)
+        }
     }
 
-    render() {
-        return (
-            <div className="hel-select col-lg-6">
-                <legend>{this.props.legend} <ValidationPopover small={true} validationErrors={this.props.validationErrors} /></legend>
-                <Select.Async
-                    multi
-                    value={this.props.selectedValues}
-                    loadOptions={ (val) => this.getOptions(val)  }
-                    onChange={ (val) => this.onChange(val) }
-                    ignoreAccents={false}
-                    autoload={false}
-                    optionRenderer={this.optionRenderer}
+    const getDefaultValue = () => {
+        if (!selectedValue) {
+            return null
+        }
+        if (name === 'keywords') {
+            return selectedValue.map(item => ({label: item.label, value: item.value}))
+        }
+        if (name === 'location') {
+            return ({
+                label: selectedValue.name.fi,
+                value: selectedValue.id,
+            })
+        }
+    }
+
+    const formatOption = (item) => (
+        <React.Fragment>
+            {item.label}
+            {item && typeof item.n_events === 'number' &&
+                <small>
+                    {intl.formatMessage(
+                        {id: `format-select-count`},
+                        {count: item.n_events}
+                    )}
+                </small>
+            }
+        </React.Fragment>
+    )
+
+    return (
+        <React.Fragment>
+            <legend>{legend}
+                <ValidationPopover
+                    small={true}
+                    validationErrors={validationErrors}
                 />
-            </div>
-        )
-    }
+            </legend>
+            <AsyncSelect
+                isClearable={isClearable}
+                isMulti={isMultiselect}
+                value={getDefaultValue()}
+                loadOptions={getOptions}
+                onChange={onChange}
+                placeholder={intl.formatMessage({id: placeholderId})}
+                loadingMessage={() => intl.formatMessage({id: 'loading'})}
+                noOptionsMessage={() => intl.formatMessage({id: 'search-no-results'})}
+                filterOption={createFilter({ignoreAccents: false})}
+                formatOptionLabel={formatOption}
+            />
+        </React.Fragment>
+    )
+}
+
+HelSelect.defaultProps = {
+    placeholderId: 'select',
+    isClearable: true,
+    isMultiselect: false,
 }
 
 HelSelect.propTypes = {
+    intl: PropTypes.object,
+    setData: PropTypes.func,
     name: PropTypes.string,
+    isClearable: PropTypes.bool,
+    isMultiselect: PropTypes.bool,
     setDirtyState: PropTypes.func,
-    dataSource: PropTypes.string,
     resource: PropTypes.string,
     legend: PropTypes.string,
     validationErrors: PropTypes.oneOfType([
         PropTypes.array,
         PropTypes.object,
     ]),
-    selectedValues: PropTypes.array,
+    selectedValue: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object,
+    ]),
+    placeholderId: PropTypes.string,
 }
 
-export default HelSelect
+const mapDispatchToProps = (dispatch) => ({
+    setData: (value) => dispatch(setDataAction(value)),
+})
+
+export default connect(null, mapDispatchToProps)(injectIntl(HelSelect))

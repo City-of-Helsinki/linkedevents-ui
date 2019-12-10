@@ -1,17 +1,17 @@
 import PropTypes from 'prop-types';
 import React from 'react'
-import Select from 'react-select'
+import AsyncSelect from 'react-select/async'
+import {createFilter} from 'react-select'
 import client from '../../../api/client'
 import {setData} from '../../../actions/editor'
 import {FormattedMessage} from 'react-intl'
 import {SideField} from '../../FormFields'
-import {get, isNil, isNull, isUndefined} from 'lodash'
-import {connect} from 'react-redux'
+import {get, isNull, isUndefined} from 'lodash'
 import UmbrellaCheckbox from './UmbrellaCheckbox'
 import {Link} from 'react-router-dom'
 import {getFirstMultiLanguageFieldValue, scrollToTop} from '../../../utils/helpers'
 import constants from '../../../constants'
-import {getEventIdFromUrl, getSuperEventId} from '../../../utils/events'
+import {getSuperEventId} from '../../../utils/events'
 
 class UmbrellaSelector extends React.Component {
 
@@ -38,12 +38,9 @@ class UmbrellaSelector extends React.Component {
      * @returns Dropdown options for the select component
      */
     async getOptions(input) {
-        if (input.length === 0) {
-            return
-        }
         try {
             const response = await client.get('event', {super_event_type: 'umbrella', text: input})
-            return {options: response.data.data.map(item => ({label: getFirstMultiLanguageFieldValue(item.name), value: item['@id']}))}
+            return response.data.data.map(item => ({label: getFirstMultiLanguageFieldValue(item.name), value: item['@id']}))
         } catch (error) {
             new Error(error)
         }
@@ -170,8 +167,15 @@ class UmbrellaSelector extends React.Component {
      * @param selectedEvent Data for the selected event
      */
     handleChange = selectedEvent => {
-        this.context.dispatch(setData({super_event: {'@id': selectedEvent.value}}))
-        this.setState({selectedUmbrellaEvent: selectedEvent})
+        if (isNull(selectedEvent)) {
+            this.setState({
+                selectedUmbrellaEvent: {},
+            })
+            this.context.dispatch(setData({super_event: null}))
+        } else {
+            this.context.dispatch(setData({super_event: {'@id': selectedEvent.value}}))
+            this.setState({selectedUmbrellaEvent: selectedEvent})
+        }
     }
 
     /**
@@ -255,15 +259,20 @@ class UmbrellaSelector extends React.Component {
 
                     {hasUmbrellaEvent &&
                     <React.Fragment>
-                        <Select.Async
+                        <AsyncSelect
+                            isClearable
+                            defaultOptions
                             value={selectedUmbrellaEvent}
-                            labelKey="label"
                             loadOptions={this.getOptions}
                             onFocus={this.hideSelectTip}
                             onChange={this.handleChange}
-                            ignoreAccents={false}
-                            autoload={false}
+                            placeholder={this.context.intl.formatMessage({id: 'select'})}
+                            loadingMessage={() => this.context.intl.formatMessage({id: 'loading'})}
+                            noOptionsMessage={() => this.context.intl.formatMessage({id: 'search-no-results'})}
+                            filterOption={createFilter({ignoreAccents: false})}
                         />
+
+
                         {showSelectTip &&
                             <span><small><FormattedMessage id="event-has-umbrella-select-tip"/></small></span>
                         }

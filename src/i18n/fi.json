@@ -35,6 +35,8 @@
     "cancelled": "Peruutettu",
     "series": "Sarja",
     "umbrella": "Kattotapahtuma",
+    "loading": "Ladataan...",
+    "select": "Valitse...",
 
     "links-to-events": "Kytkökset muihin tapahtumiin",
     "no-links-to-events": "Ei kytköksiä.",
@@ -290,5 +292,7 @@
     "event-in-the-past": "Menneisyydessä olevia tapahtumia ei voi muokata.",
     "event-canceled": "Peruttuja tapahtumia ei voi muokata.",
     "user-no-rights": "Sinulla ei ole oikeuksia muokata tätä tapahtumaa.",
-    "return-without-saving": "Palaa tekemättä muutoksia"
+    "return-without-saving": "Palaa tekemättä muutoksia",
+
+    "format-select-count": " ({count} tapahtumaa)"
 }

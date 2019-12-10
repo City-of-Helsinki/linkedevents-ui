@@ -35,6 +35,8 @@
     "cancelled": "Cancelled",
     "series": "Series",
     "umbrella": "Umbrella",
+    "loading": "Loading...",
+    "select": "Select...",
 
     "links-to-events": "Links to other events",
     "no-links-to-events": "No links.",
@@ -287,5 +289,7 @@
     "event-in-the-past": "Past events can't be edited.",
     "event-canceled": "Cancelled events can't be edited.",
     "user-no-rights": "You have insufficient rights to edit this event.",
-    "return-without-saving": "Return without changes"
+    "return-without-saving": "Return without changes",
+
+    "format-select-count": " ({count} events)"
 }
