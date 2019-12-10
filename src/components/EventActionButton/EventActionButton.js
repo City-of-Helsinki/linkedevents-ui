@@ -18,8 +18,7 @@ const {PUBLICATION_STATUS, USER_TYPE} = constants
  * @param props
  */
 const confirmEventAction = (props) => {
-    const {action, event, subEvents, confirm, intl, runAfterAction} = props;
-    const customAction = action === 'update' ? this.saveChanges : undefined
+    const {action, event, subEvents, confirm, intl, runAfterAction, customAction} = props;
     const eventData = [event, ...subEvents]
 
     // opens the confirm modal
@@ -47,10 +46,11 @@ const EventActionButton = (props) => {
         editor,
         user,
         action,
+        confirmAction,
+        customAction,
         event,
         eventIsPublished,
         loading,
-        onClick,
     } = props
 
     const isRegularUser = get(user, 'userType') === USER_TYPE.REGULAR
@@ -73,7 +73,7 @@ const EventActionButton = (props) => {
         raised
         disabled={disabled}
         className={`editor-${action}-button`}
-        onClick={() => onClick ? onClick() : confirmEventAction(props)}
+        onClick={() => confirmAction ? confirmEventAction(props) : customAction()}
         color={color}
     >
         <FormattedMessage id={buttonLabel}/>
@@ -97,10 +97,11 @@ EventActionButton.propTypes = {
     user: PropTypes.object,
     confirm: PropTypes.func,
     action: PropTypes.string,
+    confirmAction: PropTypes.bool,
+    customAction: PropTypes.func,
     event: PropTypes.object,
     eventIsPublished: PropTypes.bool,
     loading: PropTypes.bool,
-    onClick: PropTypes.func,
     runAfterAction: PropTypes.func,
     subEvents: PropTypes.array,
 }
