@@ -253,14 +253,9 @@ OffersValue.propTypes = {
 const EventDetails = (props) => {
     const {editor, values, intl, rawData, publisher, superEvent} = props
 
-    // todo: cleanup (create helper?)
-    const helsinkiTopicKeywordSet = get(editor, 'keywordSets', [])
-        .find(item => item.id === 'helsinki:topics')
-    const mainCategories = values.keywords
-        .filter(item => helsinkiTopicKeywordSet.keywords.find(keyword => keyword['@id'] === item.value))
-
-    const mainCategoryOptions = mapKeywordSetToForm(editor.keywordSets, 'helsinki:topics')
-    const mainCategoryValues = mainCategoryOptions.map(item => item.value)
+    const mainCategoryValues = mapKeywordSetToForm(editor.keywordSets, 'helsinki:topics')
+        .map(item => item.value)
+    const mainCategoryKeywords = values.keywords.filter(item => mainCategoryValues.includes(item.value))
     const nonMainCategoryKeywords = values.keywords.filter(item => !mainCategoryValues.includes(item.value))
 
     const isUmbrellaEvent = rawData.super_event_type === constants.SUPER_EVENT_TYPE_UMBRELLA
@@ -317,7 +312,7 @@ const EventDetails = (props) => {
                 {intl.formatMessage({id: 'event-categorization'})}
             </FormHeader>
 
-            <OptionGroup values={mainCategories} labelKey="main-categories"/>
+            <OptionGroup values={mainCategoryKeywords} labelKey="main-categories"/>
             <OptionGroup values={nonMainCategoryKeywords} labelKey="hel-keywords"/>
             <OptionGroup values={rawData['audience']} labelKey="hel-target-groups"/>
             <OptionGroup values={rawData['in_language']} labelKey="hel-event-languages"/>
