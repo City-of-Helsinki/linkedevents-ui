@@ -1,3 +1,17 @@
+import PropTypes from 'prop-types'
+
+const TABLE_COLUMNS = [
+    'checkbox',
+    'name',
+    'publisher',
+    'start_time',
+    'end_time',
+    'last_modified_time',
+    'date_published',
+    'event_time',
+    'validation',
+]
+
 const constants = {
     API_HEADERS: {
         'Accept': 'application/json',
@@ -10,28 +24,7 @@ const constants = {
     APP_DO_ACTION: 'APP_DO_ACTION',
     APP_CANCEL_ACTION: 'APP_CANCEL_ACTION',
 
-    REQUEST_EVENTS: 'REQUEST_EVENTS',
-    RECEIVE_EVENTS: 'RECEIVE_EVENTS',
-    RECEIVE_SUPER_EVENT: 'RECEIVE_SUPER_EVENT',
     RECEIVE_EVENT_FOR_EDITING: 'RECEIVE_EVENT_FOR_EDITING',
-    RECEIVE_EVENTS_ERROR: 'RECEIVE_EVENTS_ERROR',
-    RECEIVE_EVENT_DETAILS: 'RECEIVE_EVENT_DETAILS',
-    REQUEST_EVENT: 'REQUEST_EVENT',
-    RECEIVE_EVENT_DETAILS_ERROR: 'RECEIVE_EVENT_DETAILS_ERROR',
-    CLEAR_EVENT_DETAILS: 'CLEAR_EVENT_DETAILS',
-    CLEAR_SUPER_EVENT_DETAILS: 'CLEAR_SUPER_EVENT_DETAILS',
-    EVENT_DELETED: 'EVENT_DELETED',
-    REQUEST_USER_EVENTS: 'REQUEST_USER_EVENTS',
-    RECEIVE_USER_EVENTS: 'RECEIVE_USER_EVENTS',
-    RECEIVE_USER_EVENTS_ERROR: 'RECEIVE_USER_EVENTS_ERROR',
-    RESET_USER_EVENTS_FETCHING: 'RESET_USER_EVENTS_FETCHING',
-    SET_USER_EVENTS_SORTORDER: 'SET_USER_EVENTS_SORTORDER',
-    REQUEST_SUB_EVENTS: 'REQUEST_SUB_EVENTS',
-    RECEIVE_SUB_EVENTS: 'RECEIVE_SUB_EVENTS',
-    RECEIVE_SUB_EVENTS_ERROR: 'RECEIVE_SUB_EVENTS_ERROR',
-    RECEIVE_SUB_EVENTS_FROM_SUPER: 'RECEIVE_SUB_EVENTS_FROM_SUPER',
-    REQUEST_SUB_EVENTS_FROM_SUPER: 'REQUEST_SUB_EVENTS_FROM_SUPER',
-    CLEAR_SUB_EVENTS: 'CLEAR_SUB_EVENTS',
 
     REQUEST_IMAGES: 'REQUEST_IMAGES',
     RECEIVE_IMAGES: 'RECEIVE_IMAGES',
@@ -54,9 +47,6 @@ const constants = {
     EDITOR_SETLANGUAGES: 'EDITOR_SETLANGUAGES',
     EDITOR_REPLACEDATA: 'EDITOR_REPLACEDATA',
     EDITOR_CLEARDATA: 'EDITOR_CLEARDATA',
-    EDITOR_SENDDATA: 'EDITOR_SENDDATA',
-    EDITOR_SENDDATA_COMPLETE: 'EDITOR_SENDDATACOMPLETE',
-    EDITOR_SENDDATA_ERROR: 'EDITOR_SENDDATA_ERROR',
     EDITOR_SENDDATA_SUCCESS: 'EDITOR_SENDDATA_SUCCESS',
     SET_VALIDATION_ERRORS: 'SET_VALIDATION_ERRORS',
     VALIDATE_FOR: 'VALIDATE_FOR',
@@ -155,6 +145,28 @@ const constants = {
         MEDIUM_STRING: 400,
         LONG_STRING: 5000,
     },
+
+    USER_TYPE: {
+        ADMIN: 'admin',
+        REGULAR: 'regular',
+    },
+
+    TABLE_COLUMNS: TABLE_COLUMNS,
+
+    TABLE_DATA_SHAPE: PropTypes.shape({
+        events: PropTypes.array,
+        count: PropTypes.number,
+        paginationPage: PropTypes.number,
+        pageSize: PropTypes.number,
+        fetchComplete: PropTypes.bool,
+        sortBy: PropTypes.string,
+        sortDirection: PropTypes.string,
+        tableColumns: PropTypes.arrayOf(
+            PropTypes.oneOf(TABLE_COLUMNS),
+        ),
+        selectedRows: PropTypes.array,
+        invalidRows: PropTypes.array,
+    }),
 }
 
 export default constants

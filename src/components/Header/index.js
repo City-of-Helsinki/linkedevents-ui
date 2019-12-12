@@ -24,13 +24,37 @@ import HelpOutline from 'material-ui-icons/HelpOutline'
 import Person from 'material-ui-icons/Person'
 
 import {Link} from 'react-router-dom'
-import CONSTANTS from '../../constants'
+import constants from '../../constants'
 
 import cityOfHelsinkiLogo from '../../assets/images/helsinki-logo.svg'
+import {hasAffiliatedOrganizations} from '../../utils/user'
+import {get} from 'lodash'
+
+const {USER_TYPE, APPLICATION_SUPPORT_TRANSLATION} = constants
 
 class HeaderBar extends React.Component {
     state = {
         navBarOpen: false,
+        showModerationLink: false,
+    }
+
+    componentDidMount() {
+        const {user} = this.props
+
+        if (user) {
+            const showModerationLink = get(user, 'userType') === USER_TYPE.ADMIN && hasAffiliatedOrganizations(user)
+            this.setState({showModerationLink})
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, prevContext) {
+        const {user} = this.props
+        const oldUser = prevProps.user
+
+        if (oldUser !== user) {
+            const showModerationLink = get(user, 'userType') === USER_TYPE.ADMIN && hasAffiliatedOrganizations(user)
+            this.setState({showModerationLink})
+        }
     }
 
     changeLanguage = (e) => {
@@ -48,11 +72,13 @@ class HeaderBar extends React.Component {
 
     render() {
         const {user, routerPush, logout, login, location} = this.props 
-        const languages = CONSTANTS.APPLICATION_SUPPORT_TRANSLATION
+        const {showModerationLink} = this.state
+        const languages = APPLICATION_SUPPORT_TRANSLATION
 
         const toMainPage = () => routerPush('/');
         const toSearchPage = () => routerPush('/search');
         const toHelpPage = () => routerPush('/help');
+        const toModerationPage = () => routerPush('/moderation');
 
         const isInsideForm = location.pathname.startsWith('/event/create/new');
 
@@ -94,7 +120,13 @@ class HeaderBar extends React.Component {
                     <div className="linked-events-bar__links">
                         <Hidden smDown>
                             <div className="linked-events-bar__links__list">
-                                <NavLinks toMainPage={toMainPage} toSearchPage={toSearchPage} toHelpPage={toHelpPage} />
+                                <NavLinks
+                                    showModerationLink={showModerationLink}
+                                    toMainPage={toMainPage}
+                                    toSearchPage={toSearchPage}
+                                    toHelpPage={toHelpPage}
+                                    toModerationPage={toModerationPage}
+                                />
                             </div>
                         </Hidden>
                         <div />
@@ -110,9 +142,11 @@ class HeaderBar extends React.Component {
                                 <Drawer anchor='right' open={this.state.navBarOpen} ModalProps={{onBackdropClick: this.toggleNavbar}}>
                                     <div className="menu-drawer-mobile">
                                         <NavLinks
+                                            showModerationLink={showModerationLink}
                                             toMainPage={this.getNavigateMobile(toMainPage)}
                                             toSearchPage={this.getNavigateMobile(toSearchPage)}
                                             toHelpPage={this.getNavigateMobile(toHelpPage)}
+                                            toModerationPage={this.getNavigateMobile(toModerationPage)}
                                         />
                                     </div> 
                                 </Drawer>
@@ -126,20 +160,25 @@ class HeaderBar extends React.Component {
 }
 
 const NavLinks = (props) => {
-    const {toMainPage, toSearchPage, toHelpPage} = props;
+    const {showModerationLink, toMainPage, toSearchPage, toHelpPage, toModerationPage} = props;
     return (
         <React.Fragment>
             <Button onClick={toMainPage}><FormattedMessage id={`${appSettings.ui_mode}-management`}/></Button>
             <Button onClick={toSearchPage}><FormattedMessage id={`search-${appSettings.ui_mode}`}/></Button>
             <Button onClick={toHelpPage}> <FormattedMessage id="more-info"/></Button>
+            {showModerationLink &&
+                <Button onClick={toModerationPage}> <FormattedMessage id="moderation-page"/></Button>
+            }
         </React.Fragment>
     );
 };
 
 NavLinks.propTypes = {
+    showModerationLink: PropTypes.bool,
     toMainPage: PropTypes.func,
     toSearchPage: PropTypes.func,
     toHelpPage: PropTypes.func,
+    toModerationPage: PropTypes.func,
 }
 
 // Adds dispatch to this.props for calling actions, add user from store to props
@@ -151,6 +190,8 @@ HeaderBar.propTypes = {
     userLocale: PropTypes.object,
     setLocale: PropTypes.func,
     location: PropTypes.object,
+    navBarOpen: PropTypes.bool,
+    showModerationLink: PropTypes.bool,
 }
 
 const mapStateToProps = (state) => ({

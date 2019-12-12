@@ -2,8 +2,6 @@
     "login": "Login",
     "logout": "Logout",
     "linked-events": "Linked Events",
-    "create-events": "Create a new event",
-    "edit-events": "Edit the event",
     "copy-event-to-draft": "Copy to draft",
     "search-events": "Search events",
     "no-events": "No events do show.",
@@ -17,19 +15,31 @@
     "welcome": "Welcome",
     "submit": "Submit",
     "cancel": "Cancel",
+    "create-events": "Create a new event",
+    "edit-events": "Edit the event",
+    "update-events": "Save",
     "delete-events": "Delete event",
     "cancel-events": "Cancel event",
+    "publish-events": "Publish event",
+    "delete-events-multi": "Delete events",
+    "publish-events-multi": "Publish events",
     "save": "Save",
     "confirm-action-header": "Confirm",
     "confirm-update": "Save event",
+    "confirm-update-draft": "Save draft",
     "confirm-delete": "Delete event",
+    "confirm-delete-draft": "Delete draft",
     "confirm-cancel": "Cancel event",
+    "confirm-publish": "Publish event",
+    "confirm-publish-draft": "Publish draft",
     "delete": "Delete",
     "confirm": "Confirm",
     "draft": "Draft",
     "cancelled": "Cancelled",
     "series": "Series",
     "umbrella": "Umbrella",
+    "loading": "Loading...",
+    "select": "Select...",
 
     "links-to-events": "Links to other events",
     "no-links-to-events": "No links.",
@@ -39,10 +49,14 @@
     "sub-event-of-series": "This event is part of a series: ",
     "sub-event-of-umbrella": "This event has an umbrella event: ",
 
-    "event-sort-title": "Title",
-    "event-sort-starttime": "Event starts",
-    "event-sort-endtime": "Event ends",
-    "event-sort-last-modified": "Last modified",
+    "event-sort-name": "Title",
+    "event-sort-start_time": "Event starts",
+    "event-sort-end_time": "Event ends",
+    "event-sort-last_modified_time": "Last modified",
+    "event-sort-publisher": "Publisher",
+    "event-sort-event_time": "",
+    "event-sort-date_published": "Published",
+    "event-sort-validation": " ",
 
     "event-page-error": "Event not found or you don't have the permission to view it.",
     "event-page-loading": "Loading event...",
@@ -69,12 +83,12 @@
     "event-provider": "Event organizer",
     "event-provider-input": "Event organizer (if different than the publisher)",
     "event-publisher": "Event publisher",
-    "event-publisher-info": "Publisher: {publisher}, {publishedAt}",
-    "event-publisher-info-with-created-by": "Publisher: {publisher} / {createdBy}, {publishedAt}",
+    "event-publisher-info": "Publisher: {publisher}",
 
     "events-management": "Manage events",
     "events-management-prompt": "to manage events.",
     "events-management-description": "Browse and edit drafts and published events of your organization.",
+    "events-management-description-regular-user": "Published events can not be edited.",
     "events-management-no-results": "No editable events found.",
    
     "event-image": "Event image (click to change)",
@@ -185,6 +199,8 @@
     "event-posted": "Event submitted!",
     "no-connection": "No connection to the server!",
 
+    "event-action-save-draft-new": "Send for review",
+    "event-action-save-draft-existing": "Update submission",
     "event-action-save-new": "Publish event",
     "event-action-save-new-active": "Publishing event",
     "event-action-save-existing": "Save changes to published event",
@@ -218,11 +234,23 @@
     "hel-target-groups": "Target groups",
     "hel-main-categories": "Hel.fi main categories",
 
+    "editor-publish-draft-warning": "N.B. The event will be published on the Internet. The original submitter can no longer edit the event.",
+    "editor-publish-draft-extra-warning": "The following events will be published:",
+
     "editor-update-warning": "The changes will effect all the events in the series. Any previous changes to the selected events will be lost. Are you sure you want to continue?",
-    "editor-delete-subevents-warning": "The following subevents will be deleted:",
-    "editor-delete-warning": "WARNING: This action will delete the event permanently. You may cancel or postpone the event if needed.",
-    "editor-cancel-subevents-warning": "The following subevents will also be cancelled:",
+    "editor-update-extra-warning": "The changes will effect the following events:",
+
+    "editor-update-draft-warning": "The changes will effect all the events in the series. Any previous changes to the selected events will be lost. Are you sure you want to continue?",
+    "editor-update-draft-extra-warning": "The changes will effect the following events:",
+
     "editor-cancel-warning": "WARNING: This action will cancel the event. You can also delete an event, if it was erroneously entered.",
+    "editor-cancel-extra-warning": "The following events will be cancelled:",
+
+    "editor-delete-warning": "WARNING: This action will delete the event permanently. You may cancel or postpone the event if needed.",
+    "editor-delete-extra-warning": "The following events will be deleted:",
+    "editor-delete-draft-warning": "WARNING. The event will be permanently deleted. You can also contact the original submitter about editing their post.",
+    "editor-delete-draft-extra-warning": "The following events will be deleted:",
+
     "editor-sentinel-alert": "You can view the form, but you don't have the permission to publish or edit events. You are not logged in or your login has expired.",
     "editor-authorization-required": "You must be logged in to edit events.",
 
@@ -251,5 +279,20 @@
     "edit-courses": "Edit the course",
     "search-courses": "Search for courses",
     "more-info": "More info",
-    "courses-management": "Course management"
+    "courses-management": "Course management",
+
+    "moderation-page": "Moderate events",
+    "moderation-page-draft-heading": "Waiting approval",
+    "moderation-page-published-heading": "Published events",
+
+    "table-events-per-page": "Events per page",
+
+    "draft-cancel": "Event drafts can't be cancelled.",
+    "event-validation-errors": "Event data incomplete. Edit the event before publishing.",
+    "event-in-the-past": "Past events can't be edited.",
+    "event-canceled": "Cancelled events can't be edited.",
+    "user-no-rights": "You have insufficient rights to edit this event.",
+    "return-without-saving": "Return without changes",
+
+    "format-select-count": " ({count} events)"
 }

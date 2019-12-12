@@ -1,0 +1,110 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Moderation Snapshot should render view by default 1`] = `
+<div
+  className="container"
+>
+  <h1>
+    <FormattedMessage
+      id="moderation-page"
+      values={Object {}}
+    />
+  </h1>
+  <h2>
+    <FormattedMessage
+      id="moderation-page-draft-heading"
+      values={Object {}}
+    />
+  </h2>
+  <InjectIntl(EventTable)
+    count={null}
+    events={Array []}
+    fetchComplete={true}
+    handleInvalidRows={[Function]}
+    handlePageChange={[Function]}
+    handlePageSizeChange={[Function]}
+    handleRowSelect={[Function]}
+    handleSortChange={[Function]}
+    invalidRows={Array []}
+    pageSize={10}
+    paginationPage={0}
+    selectedRows={Array []}
+    sortBy="last_modified_time"
+    sortDirection="desc"
+    tableColumns={
+      Array [
+        "checkbox",
+        "name",
+        "publisher",
+        "event_time",
+        "last_modified_time",
+        "validation",
+      ]
+    }
+    tableName="draft"
+    user={Object {}}
+  />
+  <h2>
+    <FormattedMessage
+      id="moderation-page-published-heading"
+      values={Object {}}
+    />
+  </h2>
+  <InjectIntl(EventTable)
+    count={null}
+    events={Array []}
+    fetchComplete={true}
+    handleInvalidRows={[Function]}
+    handlePageChange={[Function]}
+    handlePageSizeChange={[Function]}
+    handleRowSelect={[Function]}
+    handleSortChange={[Function]}
+    pageSize={10}
+    paginationPage={0}
+    sortBy="date_published"
+    sortDirection="desc"
+    tableColumns={
+      Array [
+        "name",
+        "publisher",
+        "event_time",
+        "date_published",
+      ]
+    }
+    tableName="published"
+    user={Object {}}
+  />
+</div>
+`;
+
+exports[`Moderation Snapshot should render view correctly 1`] = `
+<div
+  className="container"
+>
+  <h1>
+    <span>
+      Moderoi tapahtumia
+    </span>
+  </h1>
+  <h2>
+    <span>
+      Odottaa hyväksyntää
+    </span>
+  </h2>
+  <strong>
+    <span>
+      Ei tapahtumia mitä näyttää.
+    </span>
+  </strong>
+  <h2>
+    <span>
+      Julkaistut tapahtumat
+    </span>
+  </h2>
+  <strong>
+    <span>
+      Ei tapahtumia mitä näyttää.
+    </span>
+  </strong>
+</div>
+`;

@@ -1,69 +1,73 @@
 import './index.scss'
 
 import React from 'react'
-import {connect} from 'react-redux'
 import {FormattedMessage} from 'react-intl'
 import PropTypes from 'prop-types'
-
 import EventGrid from '../../components/EventGrid'
 import SearchBar from '../../components/SearchBar'
-import Loader from 'react-loader'
-
-import {fetchEvents as fetchEventsAction} from '../../actions/events'
+import {EventQueryParams, fetchEvents} from '../../utils/events'
+import {CircularProgress} from 'material-ui'
 
 class SearchPage extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {searchExecuted: false}
+
+    state = {
+        events: [],
+        loading: false,
+        searchExecuted: false,
     }
 
-    searchEvents(searchQuery, startDate, endDate) {
+    searchEvents = async (searchQuery, startDate, endDate) => {
         if (!searchQuery && (!startDate || !endDate)) {
             return
         }
 
-        this.props.fetchEvents(searchQuery, startDate, endDate)
-        this.setState({searchExecuted: true})
+        this.setState({loading: true})
+
+        const queryParams = new EventQueryParams()
+        queryParams.page_size = 100
+        queryParams.sort = 'start_time'
+        queryParams.nocache = Date.now()
+        queryParams.setText(searchQuery)
+        if (startDate) queryParams.start = startDate.format('YYYY-MM-DD')
+        if (endDate) queryParams.end = endDate.format('YYYY-MM-DD')
+
+        try {
+            const response = await fetchEvents(queryParams)
+            this.setState({events: response.data.data, searchExecuted: true})
+        } finally {
+            this.setState({loading: false})
+        }
     }
 
-    getResults() {
-        if (this.state.searchExecuted && !this.props.events.length > 0) {
-            return <div className="search-no-results"><FormattedMessage id="search-no-results"/></div>
-        }
-        return <EventGrid events={this.props.events} apiErrorMsg={''}/>
+    getResults = () => {
+        const {searchExecuted, events} = this.state
+
+        return searchExecuted && !events.length > 0
+            ? <div className="search-no-results"><FormattedMessage id="search-no-results"/></div>
+            : <EventGrid events={events} />
     }
 
     render() {
+        const {loading} = this.state
+
         return (
             <div className="container">
                 <h1><FormattedMessage id={`search-${appSettings.ui_mode}`}/></h1>
                 <p><FormattedMessage id="search-events-description"/></p>
                 <SearchBar onFormSubmit={(query, start, end) => this.searchEvents(query, start, end)}/>
-                <Loader loaded={!this.props.isFetching} scale={3}>
-                    {this.getResults()}
-                </Loader>
+                {loading
+                    ? <div className="search-loading-spinner"><CircularProgress size={80} /></div>
+                    : this.getResults()
+                }
             </div>
         )
     }
 }
 
 SearchPage.propTypes = {
-    isFetching: PropTypes.bool,
-    fetchEvents: PropTypes.func,
     events: PropTypes.array,
+    loading: PropTypes.bool,
+    searchExecuted: PropTypes.bool,
 }
 
-const mapStateToProps = (state) => {
-    return {
-        events: state.events.items,
-        isFetching: state.events.isFetching,
-        apiErrorMsg: state.events.apiErrorMsg,
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        fetchEvents: (searchQuery, startDate, endDate) => dispatch(fetchEventsAction(searchQuery, startDate, endDate)),
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(SearchPage)
+export default SearchPage

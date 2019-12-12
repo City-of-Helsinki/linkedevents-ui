@@ -2,8 +2,6 @@
     "login": "Kirjaudu sisään",
     "logout": "Kirjaudu ulos",
     "linked-events": "Linked Events",
-    "create-events": "Lisää uusi tapahtuma",
-    "edit-events": "Muokkaa tapahtumaa",
     "copy-event-to-draft": "Kopioi uuden tapahtuman pohjaksi",
     "search-events": "Etsi tapahtumia",
     "no-events": "Ei tapahtumia mitä näyttää.",
@@ -17,19 +15,31 @@
     "welcome": "Tervetuloa",
     "submit": "Lähetä",
     "cancel": "Kumoa",
+    "create-events": "Lisää uusi tapahtuma",
+    "edit-events": "Muokkaa tapahtumaa",
+    "update-events": "Tallenna",
     "delete-events": "Poista tapahtuma",
     "cancel-events": "Peruuta tapahtuma",
+    "publish-events": "Julkaise tapahtuma",
+    "delete-events-multi": "Poista tapahtumat",
+    "publish-events-multi": "Julkaise tapahtumat",
     "save": "Tallenna",
     "confirm-action-header": "Varmista toiminto",
     "confirm-update": "Varmista tapahtuman tallentaminen",
+    "confirm-update-draft": "Varmista luonnoksen tallentaminen",
     "confirm-delete": "Varmista tapahtuman poistaminen",
+    "confirm-delete-draft": "Varmista luonnoksen poistaminen",
     "confirm-cancel": "Varmista tapahtuman peruminen",
+    "confirm-publish": "Varmista tapahtuman julkaiseminen",
+    "confirm-publish-draft": "Varmista luonnoksen julkaiseminen",
     "delete": "Poista",
     "confirm": "Suorita",
     "draft": "Luonnos",
     "cancelled": "Peruutettu",
     "series": "Sarja",
     "umbrella": "Kattotapahtuma",
+    "loading": "Ladataan...",
+    "select": "Valitse...",
 
     "links-to-events": "Kytkökset muihin tapahtumiin",
     "no-links-to-events": "Ei kytköksiä.",
@@ -39,10 +49,14 @@
     "sub-event-of-series": "Tämä tapahtuma kuuluu sarjaan: ",
     "sub-event-of-umbrella": "Tällä tapahtumalla on kattotapahtuma: ",
 
-    "event-sort-title": "Otsikko",
-    "event-sort-starttime": "Tapahtuma alkaa",
-    "event-sort-endtime": "Tapahtuma päättyy",
-    "event-sort-last-modified": "Muokattu viimeksi",
+    "event-sort-name": "Otsikko",
+    "event-sort-start_time": "Tapahtuma alkaa",
+    "event-sort-end_time": "Tapahtuma päättyy",
+    "event-sort-last_modified_time": "Muokattu viimeksi",
+    "event-sort-publisher": "Julkaisija",
+    "event-sort-event_time": "Tapahtuma-aika",
+    "event-sort-date_published": "Hyväksytty",
+    "event-sort-validation": " ",
 
     "event-page-error": "Tapahtumaa ei löytynyt tai sinulla ei ole oikeuksia katsella sitä.",
     "event-page-loading": "Ladataan tapahtumaa...",
@@ -69,11 +83,12 @@
     "event-provider": "Tapahtuman järjestäjä",
     "event-provider-input": "Tapahtuman järjestäjä (jos eri kuin julkaisija)",
     "event-publisher": "Tapahtuman julkaisija",
-    "event-publisher-info": "Julkaisija: {publisher}, {publishedAt}",
-    "event-publisher-info-with-created-by": "Julkaisija: {publisher} / {createdBy}, {publishedAt}",
+    "event-publisher-info": "Julkaisija: {publisher}",
+
     "events-management": "Tapahtumien hallinta",
     "events-management-prompt": "muokataksesi tapahtumia.",
     "events-management-description": "Selaa ja muokkaa oman organisaatiosi julkisia tapahtumia sekä luonnoksia. Voit lisätä uuden tapahtuman yläpalkista.",
+    "events-management-description-regular-user": "Julkaistuja tapahtumia ei voi muokata.",
     "events-management-no-results": "Yhtäkään muokattavaa tapahtumaa ei löytynyt.",
 
     "event-image": "Tapahtuman kuva (klikkaa vaihtaaksesi)",
@@ -184,6 +199,8 @@
     "event-posted": "Tapahtuma lähetettiin onnistuneesti!",
     "no-connection": "Ei yhteyttä palvelimelle!",
 
+    "event-action-save-draft-new": "Lähetä tarkastettavaksi",
+    "event-action-save-draft-existing": "Päivitä ehdotusta",
     "event-action-save-new": "Julkaise tapahtuma",
     "event-action-save-new-active": "Julkaistaan tapahtumaa",
     "event-action-save-existing": "Tallenna muutokset julkaistuun tapahtumaan",
@@ -217,11 +234,23 @@
     "hel-target-groups": "Kohderyhmät",
     "hel-main-categories": "Hel.fi-pääkategoriat",
 
+    "editor-publish-draft-warning": "HUOM. Tämä toiminto julkaisee tapahtuman Internetiin. Tapahtumaehdotuksen alkuperäinen tekijä ei voi enää muokata tapahtumaa.",
+    "editor-publish-draft-extra-warning": "Seuraavat tapahtumat julkaistaan:",
+
     "editor-update-warning": "Tiedot tallennetaan kaikkiin tapahtumiin tässä sarjassa. Näihin tapahtumiin tehdyt muutokset menetetään. Oletko varma että haluat jatkaa?",
-    "editor-delete-subevents-warning": "Poistaessasi tämän tapahtuman myös seuraavat alitapahtumat poistetaan:",
-    "editor-delete-warning": "VAROITUS: Tämä toiminto poistaa tapahtuman lopullisesti. Voit tarvittaessa myös perua tapahtuman tai lykätä sitä.",
-    "editor-cancel-subevents-warning": "Samalla myös seuraavat alitapahtumat peruutetaan:",
+    "editor-update-extra-warning": "Tiedot tallennetaan seuraaviin tapahtumiin:",
+
+    "editor-update-draft-warning": "Tiedot tallennetaan kaikkiin tapahtumiin tässä sarjassa. Näihin tapahtumiin tehdyt muutokset menetetään. Oletko varma että haluat jatkaa?",
+    "editor-update-draft-extra-warning": "Tiedot tallennetaan seuraaviin tapahtumiin:",
+
     "editor-cancel-warning": "VAROITUS: Tämä toiminto peruuttaa tapahtuman. Voit myös poistaa sellaisen tapahtuman, jonka syötit vahingossa.",
+    "editor-cancel-extra-warning": "Seuraavat tapahtumat peruutetaan:",
+
+    "editor-delete-warning": "VAROITUS: Tämä toiminto poistaa tapahtuman lopullisesti. Voit tarvittaessa myös perua tapahtuman tai lykätä sitä.",
+    "editor-delete-extra-warning": "Seuraavat tapahtumat poistetaan:",
+    "editor-delete-draft-warning": "VAROITUS: Tämä toiminto poistaa tapahtuman lopullisesti. Voit tarvittaessa myös pyytää, että tapahtumaehdotuksen tekijä muokkaa ilmoitustaan.",
+    "editor-delete-draft-extra-warning": "Seuraavat tapahtumat poistetaan:",
+
     "editor-sentinel-alert": "Voit katsella lomaketta, mutta sinulla ei ole oikeuksia julkaista tai muokata tapahtumia. Et ole kirjautunut sisään tai kirjautumisesi on vanhentunut.",
     "editor-authorization-required": "Jos haluat julkaista tapahtuman, kirjaudu ensin sisään.",
 
@@ -243,10 +272,8 @@
     "editor-tip-umbrella-sub-event-link": "sarjan ylätapahtumasta",
 
     "image-caption-limit": "Kuvaus eli kuvan alt-teksti (korkeintaan {limit} merkkiä)",
-
     "add-more": "Lisää kerrat",
     "play-date-label": "Toistopäivät",
-
     "linked-courses": "Linked Courses",
     "create-courses": "Lisää uusi kurssi",
     "edit-courses": "Muokkaa kurssia",
@@ -258,5 +285,20 @@
     "image-caption-limit-for-min-and-max": "Kuvaus eli kuvan alt-teksti (pituus vähintään {minLength} ja korkeintaan {maxLength} merkkiä)",
     "delete-from-filesystem": "Poista kuva järjestelmästä",
     "edit-selected-image": "Muokkaa valittua kuvaa",
-    "attach-image-to-event": "Lisää kuva tapahtumaan"
+    "attach-image-to-event": "Lisää kuva tapahtumaan",
+
+    "moderation-page": "Moderoi tapahtumia",
+    "moderation-page-draft-heading": "Odottaa hyväksyntää",
+    "moderation-page-published-heading": "Julkaistut tapahtumat",
+
+    "table-events-per-page": "Tapahtumia per sivu",
+
+    "draft-cancel": "Tapahtumaluonnoksia ei voi perua.",
+    "event-validation-errors": "Tapahtumatiedoissa on puutteita. Muokkaa tapahtumaa ennen julkaisua.",
+    "event-in-the-past": "Menneisyydessä olevia tapahtumia ei voi muokata.",
+    "event-canceled": "Peruttuja tapahtumia ei voi muokata.",
+    "user-no-rights": "Sinulla ei ole oikeuksia muokata tätä tapahtumaa.",
+    "return-without-saving": "Palaa tekemättä muutoksia",
+
+    "format-select-count": " ({count} tapahtumaa)"
 }

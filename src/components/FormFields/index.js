@@ -6,7 +6,6 @@ import {FormattedMessage} from 'react-intl'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import ImagePickerForm from '../ImagePicker'
 import {
-    HelAutoComplete,
     MultiLanguageField,
     HelTextField,
     HelLabeledCheckboxGroup,
@@ -23,12 +22,13 @@ import Add from 'material-ui-icons/Add'
 import Autorenew from 'material-ui-icons/Autorenew'
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from '../../utils/apiDataMapping'
 import {setEventData, setData} from '../../actions/editor'
-import {pickBy} from 'lodash'
+import {get, pickBy} from 'lodash'
 import API from '../../api'
 import CONSTANTS from '../../constants'
 import {fetchUserAdminOrganization} from '../../actions/organization';
 import OrganizationSelector from '../HelFormFields/OrganizationSelector';
 import UmbrellaSelector from '../HelFormFields/UmbrellaSelector/UmbrellaSelector'
+import {ControlLabel, FormControl} from 'react-bootstrap'
 
 let FormHeader = (props) => (
     <div className="row">
@@ -152,15 +152,17 @@ class FormFields extends React.Component {
             }
 
         }
+        const {event, superEvent, user} = this.props
         const {values, validationErrors, contentLanguages} = this.props.editor
         const formType = this.props.action
         const isSuperEvent = values.super_event_type === CONSTANTS.SUPER_EVENT_TYPE_RECURRING
 
-        const {VALIDATION_RULES, DEFAULT_CHARACTER_LIMIT} = CONSTANTS
+        const {VALIDATION_RULES, DEFAULT_CHARACTER_LIMIT, USER_TYPE} = CONSTANTS
         const addedEvents = pickBy(values.sub_events, event => !event['@id'])
         const newEvents = this.generateNewEventFields(addedEvents)
         const publisherOptions = this.props.organizations.map(org => ({label: org.name, value: org.id}));
         const selectedPublisher = publisherOptions.find(option => option.value === values['organization']) || {};
+        const isRegularUser = get(user, 'userType') === USER_TYPE.REGULAR
         
         return (
             <div>
@@ -323,19 +325,27 @@ class FormFields extends React.Component {
                     <FormattedMessage id="event-location-fields-header" />
                 </FormHeader>
                 <div className="row location-row">
-                    <div className="col-sm-6">
-                        <HelAutoComplete
+                    <div className="col-sm-6 hel-select">
+                        <HelSelect
+                            selectedValue={values['location']}
+                            legend={this.context.intl.formatMessage({id: 'event-location'})}
                             ref="location"
                             name="location"
-                            dataSource={`${appSettings.api_base}/place/?show_all_places=1&text=`}
                             resource="place"
-                            required={true}
                             validationErrors={validationErrors['location']}
-                            defaultValue={values['location']}
-                            label={this.context.intl.formatMessage({id: 'event-location'})}
-                            placeholder={this.context.intl.formatMessage({id: 'event-location'})}
                             setDirtyState={this.props.setDirtyState}
                         />
+                        <div className="hel-text-field">
+                            <ControlLabel className="hel-label">
+                                {this.context.intl.formatMessage({id: 'event-location-id'})}
+                            </ControlLabel>
+
+                            <FormControl
+                                value={values['location'] && values['location'].id ? values['location'].id : ''}
+                                ref="text"
+                                disabled
+                            />
+                        </div>
                         <CopyToClipboard text={values['location'] ? values['location'].id : ''}>
                             <button className="clipboard-copy-button" title={this.context.intl.formatMessage({id: 'copy-to-clipboard'})}>
                                 <i className="material-icons">&#xE14D;</i>
@@ -427,21 +437,23 @@ class FormFields extends React.Component {
                     <FormattedMessage id="event-categorization" />
                 </FormHeader>
                 <div className="row keyword-row">
-                    <HelSelect
-                        selectedValues={values['keywords']}
-                        legend={this.context.intl.formatMessage({id: 'event-keywords'})}
-                        ref="keywords"
-                        name="keywords"
-                        resource="keyword"
-                        dataSource={`${appSettings.api_base}/keyword/?show_all_keywords=1&data_source=yso&text=`}
-                        validationErrors={validationErrors['keywords']}
-                        setDirtyState={this.props.setDirtyState}
-                    />
-                    <CopyToClipboard text={values['keywords'] ? this.getKeywords(values['keywords']) : ''}>
-                        <button className="clipboard-copy-button" title={this.context.intl.formatMessage({id: 'copy-to-clipboard'})}>
-                            <i className="material-icons">&#xE14D;</i>
-                        </button>
-                    </CopyToClipboard>
+                    <div className="col-sm-6 hel-select">
+                        <HelSelect
+                            isMultiselect
+                            selectedValue={values['keywords']}
+                            legend={this.context.intl.formatMessage({id: 'event-keywords'})}
+                            ref="keywords"
+                            name="keywords"
+                            resource="keyword"
+                            validationErrors={validationErrors['keywords']}
+                            setDirtyState={this.props.setDirtyState}
+                        />
+                        <CopyToClipboard text={values['keywords'] ? this.getKeywords(values['keywords']) : ''}>
+                            <button className="clipboard-copy-button" title={this.context.intl.formatMessage({id: 'copy-to-clipboard'})}>
+                                <i className="material-icons">&#xE14D;</i>
+                            </button>
+                        </CopyToClipboard>
+                    </div>
                     <SideField><p className="tip"><FormattedMessage id="editor-tip-keywords"/></p></SideField>
                     <HelLabeledCheckboxGroup
                         groupLabel={<FormattedMessage id="hel-main-categories"/>}
@@ -559,11 +571,14 @@ class FormFields extends React.Component {
                         </div>
                     </div>
                 }
-
-                <FormHeader>
-                    <FormattedMessage id="event-umbrella" />
-                </FormHeader>
-                <UmbrellaSelector editor={this.props.editor} />
+                {!isRegularUser &&
+                    <React.Fragment>
+                        <FormHeader>
+                            <FormattedMessage id="event-umbrella" />
+                        </FormHeader>
+                        <UmbrellaSelector editor={this.props.editor} event={event} superEvent={superEvent}/>
+                    </React.Fragment>
+                }
             </div>
         )
     }
@@ -575,6 +590,9 @@ FormFields.propTypes = {
     showNewEvents: PropTypes.bool,
     showRecurringEvent: PropTypes.bool,
     editor: PropTypes.object,
+    event: PropTypes.object,
+    superEvent: PropTypes.object,
+    user: PropTypes.object,
     setDirtyState: PropTypes.func,
     action: PropTypes.oneOf(['update', 'create']),
     organizations: PropTypes.arrayOf(PropTypes.object),
