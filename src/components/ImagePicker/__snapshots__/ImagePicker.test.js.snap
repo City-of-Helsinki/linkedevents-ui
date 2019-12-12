@@ -91,23 +91,18 @@ exports[`Image add form ImagePicker component should render view by default 1`] 
       closeButton={false}
       closeLabel="Close"
     >
-      <WithStyles(Button)
-        color="primary"
+      <button
+        aria-label="Close"
+        className="close"
+        data-dismiss="modal"
         onClick={[Function]}
-        raised={true}
-        style={
-          Object {
-            "float": "right",
-            "height": "36px",
-            "lineHeight": "1.5",
-          }
-        }
       >
-        <FormattedMessage
-          id="ready"
-          values={Object {}}
-        />
-      </WithStyles(Button)>
+        <span
+          aria-hidden="true"
+        >
+          ×
+        </span>
+      </button>
       <ModalTitle
         bsClass="modal-title"
         componentClass="h4"
@@ -118,7 +113,6 @@ exports[`Image add form ImagePicker component should render view by default 1`] 
           values={Object {}}
         />
       </ModalTitle>
-      <br />
       <input
         onChange={[Function]}
         style={
@@ -129,46 +123,45 @@ exports[`Image add form ImagePicker component should render view by default 1`] 
         type="file"
       />
       <WithStyles(Button)
+        className="upload-img"
         color="primary"
         onClick={[Function]}
         raised={true}
-        style={
-          Object {
-            "height": "36px",
-            "lineHeight": "1.5",
-            "margin": "0 0 15px 0",
-          }
-        }
       >
         <FormattedMessage
           id="upload-image"
           values={Object {}}
         />
       </WithStyles(Button)>
-      <br />
-      <FormattedMessage
-        id="use-external-image-url"
-        values={Object {}}
-      />
-      <br />
-      <input
-        id="externalImageURL"
-        onSubmit={[Function]}
-        placeholder="URL"
-      />
-      <WithStyles(Button)
-        onClick={[Function]}
-        raised={true}
-        style={
-          Object {
-            "height": "36px",
-            "lineHeight": "1.5",
-            "margin": "0 0 0 10px",
-          }
-        }
+      <div
+        className="external-file-upload"
       >
-        OK
-      </WithStyles(Button)>
+        <div
+          className="hel-text-field"
+        >
+          <label
+            className="hel-label"
+          >
+            Tai syötä ulkoisen kuvan osoite (url)
+          </label>
+          <input
+            className="form-control"
+            id="externalImageURL"
+            onSubmit={[Function]}
+          />
+        </div>
+        <WithStyles(Button)
+          className="attach-external"
+          color="primary"
+          onClick={[Function]}
+          raised={true}
+        >
+          <FormattedMessage
+            id="attach-image-to-event"
+            values={Object {}}
+          />
+        </WithStyles(Button)>
+      </div>
     </ModalHeader>
     <ModalBody
       bsClass="modal-body"
@@ -184,6 +177,50 @@ exports[`Image add form ImagePicker component should render view by default 1`] 
           values={Object {}}
         />
       </ModalTitle>
+      <div
+        className="button-row"
+      >
+        <WithStyles(Button)
+          className="delete"
+          color="accent"
+          disabled={true}
+          onClick={[Function]}
+          primary="false"
+          raised={true}
+        >
+          <FormattedMessage
+            id="delete-from-filesystem"
+            values={Object {}}
+          />
+        </WithStyles(Button)>
+        <div
+          className="wrapper-right"
+        >
+          <WithStyles(Button)
+            className="edit"
+            disabled={true}
+            onClick={[Function]}
+            primary="false"
+            raised={true}
+          >
+            <FormattedMessage
+              id="edit-selected-image"
+              values={Object {}}
+            />
+          </WithStyles(Button)>
+          <WithStyles(Button)
+            className="attach"
+            color="primary"
+            onClick={[Function]}
+            raised={true}
+          >
+            <FormattedMessage
+              id="attach-image-to-event"
+              values={Object {}}
+            />
+          </WithStyles(Button)>
+        </div>
+      </div>
       <Connect(ImageGalleryGrid)
         editor={
           Object {
@@ -204,42 +241,7 @@ exports[`Image add form ImagePicker component should render view by default 1`] 
     <ModalFooter
       bsClass="modal-footer"
       componentClass="div"
-    >
-      <WithStyles(Button)
-        disabled={true}
-        onClick={[Function]}
-        primary="false"
-        raised={true}
-        style={
-          Object {
-            "height": "36px",
-            "lineHeight": "1.5",
-            "margin": "0 10px 0 0",
-          }
-        }
-      >
-        <FormattedMessage
-          id="delete"
-          values={Object {}}
-        />
-      </WithStyles(Button)>
-      <WithStyles(Button)
-        color="primary"
-        onClick={[Function]}
-        raised={true}
-        style={
-          Object {
-            "height": "36px",
-            "lineHeight": "1.5",
-          }
-        }
-      >
-        <FormattedMessage
-          id="ready"
-          values={Object {}}
-        />
-      </WithStyles(Button)>
-    </ModalFooter>
+    />
   </Modal>
 </div>
 `;
