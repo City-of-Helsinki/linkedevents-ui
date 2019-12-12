@@ -66,6 +66,12 @@ export class ImagePicker extends React.Component {
             )
         }
     }
+    
+    handleEdit() {
+        this.setState({
+            edit: true,
+        });
+    }
 
     closeGalleryModal() {
         this.setState({open: false})
@@ -75,7 +81,32 @@ export class ImagePicker extends React.Component {
     }
 
     render() {
-        let bgStyle = {backgroundImage: 'url(' + getIfExists(this.props.editor.values, 'image.url', '') + ')'}
+        let bgStyle = {backgroundImage: 'url(' + getIfExists(this.props.editor.values, 'image.url', '') + ')'};
+    
+        let editModal;
+        
+        if (this.state.edit && this.state.thumbnailUrl) {
+            /* When adding a new image from hard drive */
+            editModal = <ImageEdit
+                imageFile={this.state.imageFile}
+                thumbnailUrl={this.state.thumbnailUrl}
+                close={() => this.setState({edit: false})}
+            />;
+        } else if (this.state.edit && ! this.state.thumbnailUrl) {
+            /* When editing existing image by pressing the edit button on top of the grid */
+            editModal = <ImageEdit
+                id={this.props.editor.values.image.id}
+                defaultName={this.props.editor.values.image.name}
+                defaultPhotographerName={this.props.editor.values.image.photographer_name}
+                thumbnailUrl={this.props.editor.values.image.url}
+                license={this.props.editor.values.image.license}
+                close={() => this.setState({edit: false})}
+                updateExisting
+            />;
+        }
+        
+        
+        
         return (
             <div className="image-picker">
                 <div>
@@ -146,7 +177,8 @@ export class ImagePicker extends React.Component {
                                     className={'edit'}
                                     raised
                                     primary={'false'}
-                                    disabled={isEmpty(this.props.editor.values.image)}><FormattedMessage id="edit-selected-image"/>
+                                    disabled={isEmpty(this.props.editor.values.image)}
+                                    onClick={() => this.handleEdit()}><FormattedMessage id="edit-selected-image"/>
                                 </Button>
                                 <Button
                                     className={'attach'}
@@ -164,15 +196,7 @@ export class ImagePicker extends React.Component {
                     </Modal.Footer>
 
                 </Modal>
-                {   this.state.edit &&
-                    this.state.thumbnailUrl &&
-                    <ImageEdit
-                        imageFile={this.state.imageFile}
-                        thumbnailUrl={this.state.thumbnailUrl}
-                        close={() => this.setState({edit: false, open: false})}
-                    />
-                }
-                { this.props.children }
+                {editModal}
             </div>
         )
     }

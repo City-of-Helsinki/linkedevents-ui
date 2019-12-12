@@ -8,7 +8,7 @@ import {connect} from 'react-redux'
 import {selectImage as selectImageAction} from 'src/actions/userImages'
 import ImageEdit from '../ImageEdit'
 
-class ImageThumbnail extends React.Component {
+class ImageThumbnail extends React.PureComponent {
 
     constructor(props) {
         super(props)
@@ -38,7 +38,21 @@ class ImageThumbnail extends React.Component {
             )
         }
 
-        let bgStyle = {backgroundImage: 'url(' + this.props.url + ')'}
+        let bgStyle = {backgroundImage: 'url(' + this.props.url + ')'};
+        
+        let editModal = null;
+        
+        if (this.state.edit) {
+            editModal = <ImageEdit
+                id={this.props.data.id}
+                defaultName={this.props.data.name}
+                defaultPhotographerName={this.props.data.photographer_name}
+                thumbnailUrl={this.props.url}
+                license={this.props.data.license}
+                close={() => this.setState({edit: false})}
+                updateExisting
+            />;
+        }
 
         return (
             <div className="col-md-3 col-xs-12" onClick={this.selectThis} id={this.props.data.id}>
@@ -47,17 +61,7 @@ class ImageThumbnail extends React.Component {
                     <div className="name edit-image" onClick={() => this.setState({edit: true})}>
                         <span className={'image-title'}>{this.props.data.name || <FormattedMessage id="edit-image"/>}</span><i className="material-icons edit-icon">&#xE869;</i></div>
                 </div>
-                {   this.state.edit &&
-                    <ImageEdit
-                        id={this.props.data.id}
-                        defaultName={this.props.data.name}
-                        defaultPhotographerName={this.props.data.photographer_name}
-                        thumbnailUrl={this.props.url}
-                        license={this.props.data.license}
-                        close={() => this.setState({edit: false})}
-                        updateExisting
-                    />
-                }
+                { editModal }
             </div>
         )
     }
