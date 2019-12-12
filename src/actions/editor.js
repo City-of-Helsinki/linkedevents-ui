@@ -389,73 +389,47 @@ export const sendRecurringData = (
     }
 }
 
-// Fetch Hel.fi main category and audience keywords
-export function fetchKeywordSets() {
-    return (dispatch) => {
-        let url = `${appSettings.api_base}/keyword_set/?include=keywords`
+// Fetch keyword sets
+export const fetchKeywordSets = () => async (dispatch) => {
+    try {
+        const response = await client.get('keyword_set', {include: 'keywords'})
+        const keywordSets = response.data.data
 
-        return fetch(url).then((response) => {
-
-            // Try again after a delay
-            if (response.status >= 400) {
-                setTimeout(e => dispatch(fetchKeywordSets()), 5000);
-                return null
-            }
-            return response.json()
-        })
-            .then(json => {
-                if(json) {
-                    return dispatch(receiveKeywordSets(json))
-                }
-            })
-            .catch(e => {
-                // Error happened while fetching ajax (connection or javascript)
-            })
+        dispatch(receiveKeywordSets(keywordSets))
+    } catch (e) {
+        throw Error(e)
     }
 }
 
 // Receive Hel.fi main category and audience keywords
-export function receiveKeywordSets(json) {
-    localStorage.setItem('KEYWORDSETS', JSON.stringify(json.data))
+export const receiveKeywordSets = (keywordSets) => {
+    localStorage.setItem('KEYWORDSETS', JSON.stringify(keywordSets))
 
     return {
         type: constants.EDITOR_RECEIVE_KEYWORDSETS,
-        keywordSets: json.data,
+        keywordSets,
     }
 }
 
-// Fetch Hel.fi languages
-export function fetchLanguages() {
-    return (dispatch) => {
-        let url = `${appSettings.api_base}/language/`
+// Fetch languages
+export const fetchLanguages = () => async (dispatch) => {
+    try {
+        const response = await client.get('language')
+        const languages = response.data.data
 
-        // Try again after a delay
-        return fetch(url).then((response) => {
-            if (response.status >= 400) {
-                setTimeout(e => dispatch(fetchLanguages()), 5000);
-                return null
-            } else {
-                return response.json()
-            }
-        })
-            .then(json => {
-                if(json) {
-                    return dispatch(receiveLanguages(json))
-                }
-            })
-            .catch(e => {
-                // Error happened while fetching ajax (connection or javascript)
-            })
+        dispatch(receiveLanguages(languages))
+    } catch (e) {
+        throw Error(e)
     }
 }
 
-// Receive Hel.fi main category and audience keywords
-export function receiveLanguages(json) {
-    localStorage.setItem('LANGUAGES', JSON.stringify(json.data))
+// Receive languages
+export const receiveLanguages = (languages) => {
+    localStorage.setItem('LANGUAGES', JSON.stringify(languages))
 
     return {
         type: constants.EDITOR_RECEIVE_LANGUAGES,
-        languages: json.data,
+        languages,
     }
 }
 

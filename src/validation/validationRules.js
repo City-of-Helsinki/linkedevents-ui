@@ -216,6 +216,10 @@ var validations = {
         }
         return false
     },
+    atLeastOneMainCategory(values, value) {
+        return CONSTANT.MAIN_CATEGORY_MAPPING
+            .some(item => value.find(_item => _item.value.includes(item)))
+    },
     shortString: function shortString(values, value) {
         return textLimitValidator(value, CONSTANT.CHARACTER_LIMIT.SHORT_STRING)
     },

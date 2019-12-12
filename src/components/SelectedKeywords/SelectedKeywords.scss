@@ -1,0 +1,25 @@
+@import '../../assets/colors';
+
+.keyword-chip-container {
+    margin: 10px 0 20px;
+
+    .keyword-chip-item {
+        background-color: $hel-coat;
+        color: white;
+        font-weight: 400;
+        margin: 10px 10px 0 0;
+        text-transform: capitalize;
+
+        &:focus {
+            background-color: $hel-coat;
+        }
+
+        > svg {
+            color: white;
+
+            &:hover {
+                color: darken(white, 10%);
+            }
+        }
+    }
+}
