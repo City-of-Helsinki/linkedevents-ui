@@ -38,7 +38,7 @@ class ImageThumbnail extends React.PureComponent {
             )
         }
 
-        let bgStyle = {backgroundImage: 'url(' + this.props.url + ')'};
+        const bgStyle = {backgroundImage: 'url(' + this.props.url + ')'};
         
         let editModal = null;
         

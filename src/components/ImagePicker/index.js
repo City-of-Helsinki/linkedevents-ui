@@ -81,9 +81,9 @@ export class ImagePicker extends React.Component {
     }
 
     render() {
-        let bgStyle = {backgroundImage: 'url(' + getIfExists(this.props.editor.values, 'image.url', '') + ')'};
+        const bgStyle = {backgroundImage: 'url(' + getIfExists(this.props.editor.values, 'image.url', '') + ')'};
     
-        let editModal;
+        let editModal = null;
         
         if (this.state.edit && this.state.thumbnailUrl) {
             /* When adding a new image from hard drive */
@@ -148,7 +148,7 @@ export class ImagePicker extends React.Component {
                         
                         <div className={'external-file-upload'}>
                             <div className="hel-text-field">
-                                <label className="hel-label">Tai syötä ulkoisen kuvan osoite (url)</label>
+                                <label className="hel-label"><FormattedMessage id="upload-image-from-url"/></label>
                                 <input id="externalImageURL" className="form-control" onSubmit={this.handleExternalImageSave} ref={(ref) => this.externalImageURL = ref}/>
                             </div>
                             <Button

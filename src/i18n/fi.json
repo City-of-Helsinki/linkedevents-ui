@@ -300,5 +300,6 @@
     "user-no-rights": "Sinulla ei ole oikeuksia muokata tätä tapahtumaa.",
     "return-without-saving": "Palaa tekemättä muutoksia",
 
-    "format-select-count": " ({count} tapahtumaa)"
+    "format-select-count": " ({count} tapahtumaa)",
+    "upload-image-from-url": "Tai syötä ulkoisen kuvan osoite (url)"
 }

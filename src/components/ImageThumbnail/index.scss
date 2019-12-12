@@ -2,7 +2,6 @@
 
 .modal-header {
     padding: 0 24px;
-    // margin: 1rem 0;
 
     button {
         &.upload-img {
@@ -29,9 +28,8 @@
             vertical-align: bottom;
             width: initial;
 
-            externalImageURL {
-                min-width: 300px;
-                width: initial;
+            #externalImageURL {
+                width: 100%;
             }
         }
     }
@@ -119,9 +117,5 @@ ul.pagination {
 
     .edit {
         margin-right: 1rem;
-    }
-
-    .attach {
-        // justify-self: end;
     }
 }
