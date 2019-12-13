@@ -142,7 +142,10 @@ exports[`Image add form ImagePicker component should render view by default 1`] 
           <label
             className="hel-label"
           >
-            Tai syötä ulkoisen kuvan osoite (url)
+            <FormattedMessage
+              id="upload-image-from-url"
+              values={Object {}}
+            />
           </label>
           <input
             className="form-control"
