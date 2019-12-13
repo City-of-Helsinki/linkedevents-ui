@@ -11,46 +11,44 @@ import {connect} from 'react-redux'
 import {CopyToClipboard} from 'react-copy-to-clipboard'
 import {ContentCopy} from 'material-ui-icons'
 
-const HelKeywordSelector = (props) => {
-    const {intl, setDirtyState, setData} = props
-    const {values, keywordSets, validationErrors} = props.editor
+const handleKeywordChange = (checkedOptions, keywords, mainCategoryOptions, setData) => {
+    let updatedKeywords
 
+    if (Array.isArray(checkedOptions)) {
+        const mainCategoryValues = mainCategoryOptions.map(item => item.value)
+        const mappedMainCategoryKeywords = mainCategoryOptions.filter(item => checkedOptions.includes(item.value))
+        const nonMainCategoryKeywords = keywords.filter(item => !mainCategoryValues.includes(item.value))
+
+        updatedKeywords = uniqBy([...mappedMainCategoryKeywords, ...nonMainCategoryKeywords], 'value')
+    } else {
+        updatedKeywords = uniqBy([...keywords, checkedOptions], 'value')
+    }
+
+    setData({keywords: updatedKeywords})
+}
+
+const handleKeywordDelete = (deletedItem, keywords, setData) => {
+    const updatedSelectedKeywords = keywords
+        .filter(item => item.value !== deletedItem.value)
+
+    setData({keywords: updatedSelectedKeywords})
+}
+
+const getKeywordIds = (keywords) => keywords
+    .map(item => {
+        const value = item.value
+        const searchKey = 'keyword/'
+        const startIndex = value.indexOf(searchKey) + searchKey.length
+        const endIndex = value.length - 1
+
+        return value.substring(startIndex, endIndex)
+    })
+    .join()
+
+const HelKeywordSelector = ({intl, editor, setDirtyState, setData}) => {
+    const {values, keywordSets, validationErrors} = editor
     const keywords = get(values, 'keywords', [])
     const mainCategoryOptions = mapKeywordSetToForm(keywordSets, 'helsinki:topics')
-
-    const handleKeywordChange = (checkedOptions) => {
-        let updatedKeywords = []
-
-        if (Array.isArray(checkedOptions)) {
-            const mainCategoryValues = mainCategoryOptions.map(item => item.value)
-            const mappedMainCategoryKeywords = mainCategoryOptions.filter(item => checkedOptions.includes(item.value))
-            const nonMainCategoryKeywords = keywords.filter(item => !mainCategoryValues.includes(item.value))
-
-            updatedKeywords = uniqBy([...mappedMainCategoryKeywords, ...nonMainCategoryKeywords], 'value')
-        } else {
-            updatedKeywords = uniqBy([...keywords, checkedOptions], 'value')
-        }
-
-        setData({keywords: updatedKeywords})
-    }
-
-    const handleKeywordDelete = (deletedItem) => {
-        const updatedSelectedKeywords = keywords
-            .filter(item => item.value !== deletedItem.value)
-
-        setData({keywords: updatedSelectedKeywords})
-    }
-
-    const getKeywordIds = () => keywords
-        .map(item => {
-            const value = item.value
-            const searchKey = 'keyword/'
-            const startIndex = value.indexOf(searchKey) + searchKey.length
-            const endIndex = value.length - 1
-
-            return value.substring(startIndex, endIndex)
-        })
-        .join()
 
     return (
         <React.Fragment>
@@ -62,7 +60,7 @@ const HelKeywordSelector = (props) => {
                 itemClassName="col-md-12 col-lg-6"
                 options={mainCategoryOptions}
                 setDirtyState={setDirtyState}
-                customOnChangeHandler={handleKeywordChange}
+                customOnChangeHandler={(checkedOptions) => handleKeywordChange(checkedOptions, keywords, mainCategoryOptions, setData)}
             />
             <SideField>
                 <p className="tip">
@@ -75,16 +73,16 @@ const HelKeywordSelector = (props) => {
                     name="keywords"
                     resource="keyword"
                     setDirtyState={setDirtyState}
-                    customOnChangeHandler={handleKeywordChange}
+                    customOnChangeHandler={(selectedOption) => handleKeywordChange(selectedOption, keywords, mainCategoryOptions, setData)}
                 />
-                <CopyToClipboard text={values['keywords'] ? getKeywordIds() : ''}>
+                <CopyToClipboard text={values['keywords'] ? getKeywordIds(keywords) : ''}>
                     <button className="clipboard-copy-button" title={intl.formatMessage({id: 'copy-to-clipboard'})}>
                         <ContentCopy />
                     </button>
                 </CopyToClipboard>
                 <SelectedKeywords
                     selectedKeywords={keywords}
-                    onDelete={handleKeywordDelete}
+                    onDelete={(deletedItem) => handleKeywordDelete(deletedItem, keywords, setData)}
                 />
             </div>
             <SideField>

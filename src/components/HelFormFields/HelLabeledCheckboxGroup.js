@@ -7,6 +7,26 @@ import {connect} from 'react-redux'
 import {setData as setDataAction} from '../../actions/editor'
 import ValidationPopover from '../ValidationPopover'
 
+const handleChange = (refs, {options, name, customOnChangeHandler, setDirtyState, setData}) => {
+    const checkedOptions = options
+        .filter((option, index) => refs[`checkRef${index}`].checked)
+        .map(checkedOption => checkedOption.value)
+
+    // let the custom handler handle the change if given
+    if (typeof customOnChangeHandler === 'function') {
+        customOnChangeHandler(checkedOptions)
+        // otherwise set data
+    } else {
+        if (name) {
+            setData({[name]: checkedOptions})
+        }
+    }
+
+    if (setDirtyState) {
+        setDirtyState()
+    }
+}
+
 const HelLabeledCheckboxGroup = (props) => {
     const {options, name, selectedValues, itemClassName, groupLabel, validationErrors} = props
     const refs = useRef({}).current;
@@ -15,28 +35,6 @@ const HelLabeledCheckboxGroup = (props) => {
             ? item.value
             : item
     })
-
-    const handleChange = () => {
-        const {options, name, customOnChangeHandler, setDirtyState, setData} = props
-
-        const checkedOptions = options
-            .filter((option, index) => refs[`checkRef${index}`].checked)
-            .map(checkedOption => checkedOption.value)
-
-        // let the custom handler handle the change if given
-        if (typeof customOnChangeHandler === 'function') {
-            customOnChangeHandler(checkedOptions)
-        // otherwise set data
-        } else {
-            if (name) {
-                setData({[name]: checkedOptions})
-            }
-        }
-
-        if (setDirtyState) {
-            setDirtyState()
-        }
-    }
 
     return (
         <fieldset className="checkbox-group col-sm-6">
@@ -58,7 +56,7 @@ const HelLabeledCheckboxGroup = (props) => {
                                 name={`${name}.${item.value}`}
                                 inputRef={ref => refs[`checkRef${index}`] = ref}
                                 checked={checked}
-                                onChange={handleChange}
+                                onChange={() => handleChange(refs, props)}
                             >
                                 {item.label}
                             </Checkbox>
