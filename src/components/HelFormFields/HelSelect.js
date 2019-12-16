@@ -110,7 +110,7 @@ const HelSelect = (props) => {
     }
 
     const getDefaultValue = () => {
-        if (!selectedValue) {
+        if (!selectedValue || Object.keys(selectedValue).length === 0) {
             return null
         }
         if (name === 'keywords') {

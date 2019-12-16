@@ -37,7 +37,7 @@ export const hasAffiliatedOrganizations = user =>
  * @param user  User data
  */
 export const getOrganizationMembershipIds = user => {
-    if (!user.userType ) {
+    if (!get(user, 'userType')) {
         return null
     }
     if (user.userType === USER_TYPE.ADMIN) {

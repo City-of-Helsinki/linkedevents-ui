@@ -63,6 +63,7 @@
 
     "ready": "Ready",
     "clear-form": "Clear form",
+    "validate-form": "Validate form",
 
     "event-presented-in-languages": "This event will be presented in following languages.",
     
@@ -88,7 +89,7 @@
     "events-management": "Manage events",
     "events-management-prompt": "to manage events.",
     "events-management-description": "Browse and edit drafts and published events of your organization.",
-    "events-management-description-regular-user": "Published events can not be edited.",
+    "events-management-description-regular-user": "Browse and edit drafts of your organization. Published events can not be edited.",
     "events-management-no-results": "No editable events found.",
    
     "event-image": "Event image (click to change)",
@@ -216,7 +217,7 @@
     "event-creation-create-success": "Event saved!",
     "event-creation-delete-success": "Event deleted!",
     "event-creation-cancel-success": "Event cancelled!",
-    "event-creation-publish-success": "Event published!",
+    "event-creation-publish-success": "The event was successfully published!",
 
     "image-creation-success": "Image created!",
     "image-creation-error": "Error while creating image.",
@@ -241,7 +242,9 @@
     "editor-update-extra-warning": "The changes will effect the following events:",
 
     "editor-update-draft-warning": "The changes will effect all the events in the series. Any previous changes to the selected events will be lost. Are you sure you want to continue?",
+    "editor-update-draft-draft-warning": "The changes will effect all the events in the series. Any previous changes to the selected events will be lost. Are you sure you want to continue?",
     "editor-update-draft-extra-warning": "The changes will effect the following events:",
+    "editor-update-draft-draft-extra-warning": "The changes will effect the following events:",
 
     "editor-cancel-warning": "WARNING: This action will cancel the event. You can also delete an event, if it was erroneously entered.",
     "editor-cancel-extra-warning": "The following events will be cancelled:",
@@ -284,14 +287,17 @@
     "moderation-page": "Moderate events",
     "moderation-page-draft-heading": "Waiting approval",
     "moderation-page-published-heading": "Published events",
+    "moderation-page-published-description": "Drafts published under an existing umbrella event will not be shown here.",
 
     "table-events-per-page": "Events per page",
 
     "draft-cancel": "Event drafts can't be cancelled.",
+    "draft-publish-subevent": "A sub event of a series cannot be published.",
     "event-validation-errors": "Event data incomplete. Edit the event before publishing.",
     "event-in-the-past": "Past events can't be edited.",
     "event-canceled": "Cancelled events can't be edited.",
-    "user-no-rights": "You have insufficient rights to edit this event.",
+    "user-no-rights-edit": "You have insufficient rights to edit this event.",
+    "user-no-rights-create": "You have insufficient rights to create events.",
     "return-without-saving": "Return without changes",
 
     "format-select-count": " ({count} events)"

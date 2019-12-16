@@ -80,8 +80,12 @@ function mapUIDataToAPIFormat(values) {
     obj.publisher = values.organization
 
     // Location data
-    obj.location = {'@id': values.location['@id']}
-    obj.location_extra_info = _nullifyEmptyStrings(values.location_extra_info)
+    if (values.location) {
+        obj.location = {'@id': values.location['@id']}
+    }
+    if (values.location_extra_info) {
+        obj.location_extra_info = _nullifyEmptyStrings(values.location_extra_info)
+    }
 
     // Image data
     obj.images = []

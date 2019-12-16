@@ -380,7 +380,10 @@ export class Moderation extends React.Component {
                 }
                 {user && moderationTables.map(table => (
                     <React.Fragment key={`${table.name}-table-fragment`}>
-                        <h2><FormattedMessage id={`moderation-page-${table.name}-heading`}/></h2>
+                        <h2><FormattedMessage id={`moderation-page-${table.name}-heading`} /></h2>
+                        {table.name === 'published' &&
+                            <p><FormattedMessage id="moderation-page-published-description" /></p>
+                        }
                         <EventTable
                             tableName={table.name}
                             tableColumns={table.data.tableColumns}

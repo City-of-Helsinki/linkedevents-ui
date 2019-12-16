@@ -5,25 +5,27 @@ import constants from '../../../constants'
 
 const {TABLE_COLUMNS} = constants
 
-const TableHeaderCell = (props) => {
-    const {
-        isActive,
-        sortDirection,
-        name,
-        events = [],
-        tableName,
-        selectedRows = [],
-        handleRowSelect,
-        handleSortChange,
-        fetchComplete,
-    } = props
+const TableHeaderCell = ({
+    children,
+    isActive,
+    sortDirection,
+    name,
+    events,
+    tableName,
+    invalidRows,
+    selectedRows,
+    handleRowSelect,
+    handleSortChange,
+    fetchComplete,
+}) => {
+    const checked = fetchComplete && invalidRows.length + selectedRows.length === events.length
 
     return (
         <React.Fragment>
             {name === 'checkbox' &&
             <TableCell className="checkbox">
                 <Checkbox
-                    checked={fetchComplete && selectedRows.length === events.length}
+                    checked={checked}
                     onChange={(e, checked) => handleRowSelect(checked, undefined, tableName, true)}
                 />
             </TableCell>
@@ -39,13 +41,19 @@ const TableHeaderCell = (props) => {
                     direction={sortDirection}
                     onClick={() => handleSortChange(name, tableName)}
                 >
-                    {props.children}
+                    {children}
                 </TableSortLabel>
             </TableCell>
             }
 
         </React.Fragment>
     )
+}
+
+TableHeaderCell.defaultProps = {
+    events: [],
+    invalidRows: [],
+    selectedRows: [],
 }
 
 TableHeaderCell.propTypes = {
@@ -55,6 +63,7 @@ TableHeaderCell.propTypes = {
     name: PropTypes.oneOf(TABLE_COLUMNS),
     tableName: PropTypes.string,
     events: PropTypes.array,
+    invalidRows: PropTypes.array,
     selectedRows: PropTypes.array,
     handleRowSelect: PropTypes.func,
     handleSortChange: PropTypes.func,
