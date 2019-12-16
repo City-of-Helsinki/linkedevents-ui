@@ -284,6 +284,9 @@
     "edit-image": "Muokkaa kuvaa",
     "The name must be defined.": "Tiedostolla tulee olla nimi",
     "image-caption-limit-for-min-and-max": "Kuvaus eli kuvan alt-teksti (pituus vähintään {minLength} ja korkeintaan {maxLength} merkkiä)",
+    "delete-from-filesystem": "Poista kuva järjestelmästä",
+    "edit-selected-image": "Muokkaa valittua kuvaa",
+    "attach-image-to-event": "Lisää kuva tapahtumaan",
 
     "moderation-page": "Moderoi tapahtumia",
     "moderation-page-draft-heading": "Odottaa hyväksyntää",
@@ -298,5 +301,6 @@
     "user-no-rights": "Sinulla ei ole oikeuksia muokata tätä tapahtumaa.",
     "return-without-saving": "Palaa tekemättä muutoksia",
 
-    "format-select-count": " ({count} tapahtumaa)"
+    "format-select-count": " ({count} tapahtumaa)",
+    "upload-image-from-url": "Tai syötä ulkoisen kuvan osoite (url)"
 }

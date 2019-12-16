@@ -66,6 +66,12 @@ export class ImagePicker extends React.Component {
             )
         }
     }
+    
+    handleEdit() {
+        this.setState({
+            edit: true,
+        });
+    }
 
     closeGalleryModal() {
         this.setState({open: false})
@@ -75,7 +81,32 @@ export class ImagePicker extends React.Component {
     }
 
     render() {
-        let bgStyle = {backgroundImage: 'url(' + getIfExists(this.props.editor.values, 'image.url', '') + ')'}
+        const bgStyle = {backgroundImage: 'url(' + getIfExists(this.props.editor.values, 'image.url', '') + ')'};
+    
+        let editModal = null;
+        
+        if (this.state.edit && this.state.thumbnailUrl) {
+            /* When adding a new image from hard drive */
+            editModal = <ImageEdit
+                imageFile={this.state.imageFile}
+                thumbnailUrl={this.state.thumbnailUrl}
+                close={() => this.setState({edit: false})}
+            />;
+        } else if (this.state.edit && ! this.state.thumbnailUrl) {
+            /* When editing existing image by pressing the edit button on top of the grid */
+            editModal = <ImageEdit
+                id={this.props.editor.values.image.id}
+                defaultName={this.props.editor.values.image.name}
+                defaultPhotographerName={this.props.editor.values.image.photographer_name}
+                thumbnailUrl={this.props.editor.values.image.url}
+                license={this.props.editor.values.image.license}
+                close={() => this.setState({edit: false})}
+                updateExisting
+            />;
+        }
+        
+        
+        
         return (
             <div className="image-picker">
                 <div>
@@ -96,62 +127,76 @@ export class ImagePicker extends React.Component {
                     width="600px"
                 >
                     <Modal.Header>
-                        <Button
-                            raised
+                        <button
                             onClick={() => this.closeGalleryModal()}
-                            style={{float:'right',lineHeight:'1.5',height:'36px'}}
-                            color="primary"><FormattedMessage id="ready"/>
-                        </Button>
+                            className='close'
+                            data-dismiss='modal'
+                            aria-label='Close'
+                        ><span aria-hidden="true">&times;</span>
+                        </button>
 
                         <Modal.Title id='ModalHeader'><FormattedMessage id="new-image" /></Modal.Title>
-                        <br />
+                        
                         <input onChange={(e) => this.handleUpload(e)} style={{display: 'none'}} type="file" ref={(ref) => this.hiddenFileInput = ref} />
                         <Button
+                            className={'upload-img'}
                             raised
                             onClick={() => this.clickHiddenUploadInput()}
-                            color="primary"
-                            style={{margin:'0 0 15px 0',lineHeight:'1.5',height:'36px'}}><FormattedMessage id="upload-image" />
+                            color="primary">
+                            <FormattedMessage id="upload-image" />
                         </Button>
-                        <br />
-                        <FormattedMessage id="use-external-image-url" />
-                        <br />
-                        <input id="externalImageURL" onSubmit={this.handleExternalImageSave} placeholder={'URL'} ref={(ref) => this.externalImageURL = ref} />
-                        <Button
-                            raised
-                            onClick={() => this.handleExternalImageSave()}
-                            style={{margin:'0 0 0 10px',lineHeight:'1.5',height:'36px'}}>OK</Button>
+                        
+                        <div className={'external-file-upload'}>
+                            <div className="hel-text-field">
+                                <label className="hel-label"><FormattedMessage id="upload-image-from-url"/></label>
+                                <input id="externalImageURL" className="form-control" onSubmit={this.handleExternalImageSave} ref={(ref) => this.externalImageURL = ref}/>
+                            </div>
+                            <Button
+                                className={'attach-external'}
+                                raised
+                                color={'primary'}
+                                onClick={() => this.handleExternalImageSave()}><FormattedMessage id="attach-image-to-event"/>
+                            </Button>
+                        </div>
                     </Modal.Header>
                     <Modal.Body>
                         <Modal.Title id='ModalBodyTitle'><FormattedMessage id="use-existing-image"/></Modal.Title>
+    
+                        <div className={'button-row'}>
+                            <Button
+                                className={'delete'}
+                                color={'accent'}
+                                raised
+                                onClick={() => this.handleDelete()}
+                                primary={'false'}
+                                disabled={isEmpty(this.props.editor.values.image)}><FormattedMessage id="delete-from-filesystem"/>
+                            </Button>
+    
+                            <div className={'wrapper-right'}>
+                                <Button
+                                    className={'edit'}
+                                    raised
+                                    primary={'false'}
+                                    disabled={isEmpty(this.props.editor.values.image)}
+                                    onClick={() => this.handleEdit()}><FormattedMessage id="edit-selected-image"/>
+                                </Button>
+                                <Button
+                                    className={'attach'}
+                                    raised
+                                    onClick={() => this.closeGalleryModal()}
+                                    color="primary"><FormattedMessage id="attach-image-to-event"/>
+                                </Button>
+                            </div>
+                        </div>
+                        
                         <ImageGalleryGrid editor={this.props.editor} user={this.props.user} images={this.props.images} />
                         <div style={{clear:'both'}} />
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button
-                            raised
-                            onClick={() => this.handleDelete()}
-                            primary={'false'}
-                            style={{margin:'0 10px 0 0',lineHeight:'1.5',height:'36px'}}
-                            disabled={isEmpty(this.props.editor.values.image)}><FormattedMessage id="delete"/>
-                        </Button>
-                        <Button
-                            raised
-                            onClick={() => this.closeGalleryModal()}
-                            style={{lineHeight:'1.5',height:'36px'}}
-                            color="primary"><FormattedMessage id="ready"/>
-                        </Button>
                     </Modal.Footer>
 
                 </Modal>
-                {   this.state.edit &&
-                    this.state.thumbnailUrl &&
-                    <ImageEdit
-                        imageFile={this.state.imageFile}
-                        thumbnailUrl={this.state.thumbnailUrl}
-                        close={() => this.setState({edit: false, open: false})}
-                    />
-                }
-                { this.props.children }
+                {editModal}
             </div>
         )
     }
