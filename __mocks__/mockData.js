@@ -1029,10 +1029,6 @@ export const mockEditorExistingEvent = {
             },
         ],
         sub_events: {},
-        hel_main: [
-            'https://api.hel.fi/linkedevents-test/v1/keyword/helfi:12/',
-            'https://api.hel.fi/linkedevents-test/v1/keyword/helfi:13/',
-        ],
         keywords: [
             {
                 value: 'https://api.hel.fi/linkedevents-test/v1/keyword/yso:p360/',

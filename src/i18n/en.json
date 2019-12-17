@@ -144,7 +144,7 @@
     "instagram-url": "Instagram (url)",
 
     "event-categorization": "Categorization",
-    "event-keywords": "Keywords",
+    "event-keywords": "Add other keywords",
 
     "event-umbrella": "Umbrella events",
     "event-is-umbrella": "This event is an umbrella event.",
@@ -172,6 +172,7 @@
     "validation-isDate": "Enter the date in the correct format dd.mm.yyyy or d.m.yyyy",
     "validation-isInt": "The input need to be number",
     "validation-atLeastOne": "At least one item must be selected",
+    "validation-atLeastOneMainCategory": "At least one main category must be selected",
     "validation-required": "This field is required",
     "validation-requiredForCourses": "This field is required",
     "validation-requiredMulti": "This field is required",
@@ -232,7 +233,7 @@
 
     "hel-keywords": "Keywords",
     "hel-target-groups": "Target groups",
-    "hel-main-categories": "Hel.fi main categories",
+    "main-categories": "Main categories",
 
     "editor-publish-draft-warning": "N.B. The event will be published on the Internet. The original submitter can no longer edit the event.",
     "editor-publish-draft-extra-warning": "The following events will be published:",

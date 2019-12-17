@@ -43,11 +43,12 @@ export const userMayEdit = (user, event) => {
     return userMayEdit
 }
 
-export const userCanDoAction = (user, event, action) => {
+export const userCanDoAction = (user, event, action, editor) => {
     const isUmbrellaEvent = get(event, 'super_event_type') === SUPER_EVENT_TYPE_UMBRELLA
     const isDraft = get(event, 'publication_status') === PUBLICATION_STATUS.DRAFT
     const isPublic = get(event, 'publication_status') === PUBLICATION_STATUS.PUBLIC
     const isRegularUser = get(user, 'userType') === USER_TYPE.REGULAR
+    const {keywordSets} = editor
 
     if (action === 'publish') {
         if (!event.id) {
@@ -60,7 +61,7 @@ export const userCanDoAction = (user, event, action) => {
         const formattedeventAndSubEvents = [mapAPIDataToUIFormat(event), ...subEvents]
         // run validation against all events to see if any of them fail
         const hasValidationErrors = formattedeventAndSubEvents
-            .some(_event => Object.keys(doValidations(_event, getContentLanguages(_event), PUBLICATION_STATUS.PUBLIC)).length > 0)
+            .some(_event => Object.keys(doValidations(_event, getContentLanguages(_event), PUBLICATION_STATUS.PUBLIC, keywordSets)).length > 0)
 
         return !hasValidationErrors
     }
@@ -74,9 +75,9 @@ export const userCanDoAction = (user, event, action) => {
     return true
 }
 
-export const checkEventEditability = (user, event, action) => {
+export const checkEventEditability = (user, event, action, editor) => {
     const userMayEdit = module.exports.userMayEdit(user, event)
-    const userCanDoAction = module.exports.userCanDoAction(user, event, action)
+    const userCanDoAction = module.exports.userCanDoAction(user, event, action, editor)
     const isDraft = get(event, 'publication_status') === PUBLICATION_STATUS.DRAFT
     const endTime = get(event, 'end_time', '')
     const eventIsInThePast = moment(endTime, moment.defaultFormatUtc).isBefore(moment());

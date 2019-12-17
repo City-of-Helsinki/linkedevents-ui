@@ -33,7 +33,6 @@ const draftValidations = {
 const publicValidations = {
     name: [VALIDATION_RULES.REQUIRE_MULTI, VALIDATION_RULES.REQUIRED_IN_CONTENT_LANGUAGE],
     location: [VALIDATION_RULES.REQUIRE_AT_ID],
-    hel_main: [VALIDATION_RULES.AT_LEAST_ONE],
     start_time: [VALIDATION_RULES.REQUIRED_STRING, VALIDATION_RULES.DEFAULT_END_IN_FUTURE], // Datetime is saved as ISO string
     end_time: [VALIDATION_RULES.AFTER_START_TIME, VALIDATION_RULES.IN_THE_FUTURE],
     price: [VALIDATION_RULES.HAS_PRICE],
@@ -47,7 +46,7 @@ const publicValidations = {
         start_time: [VALIDATION_RULES.REQUIRED_STRING, VALIDATION_RULES.DEFAULT_END_IN_FUTURE],
         end_time: [VALIDATION_RULES.AFTER_START_TIME, VALIDATION_RULES.IN_THE_FUTURE],
     },
-    keywords: [VALIDATION_RULES.AT_LEAST_ONE],
+    keywords: [VALIDATION_RULES.AT_LEAST_ONE_MAIN_CATEGORY],
     audience_min_age: [VALIDATION_RULES.IS_INT],
     audience_max_age: [VALIDATION_RULES.IS_INT],
     enrolment_end_time: [VALIDATION_RULES.AFTER_ENROLMENT_START_TIME, VALIDATION_RULES.IN_THE_FUTURE],
@@ -59,15 +58,16 @@ const publicValidations = {
  * Run draft/public validations depending which document
  * @return {object} Validation errors object
  */
-export function doValidations(values, languages, validateFor) {
+export function doValidations(values, languages, validateFor, keywordSets) {
+
     // Public validations
     if(validateFor === PUBLICATION_STATUS.PUBLIC) {
-        return runValidationWithSettings(values, languages, publicValidations)
+        return runValidationWithSettings(values, languages, publicValidations, keywordSets)
     }
 
     // Do draft validations
     else if (validateFor === PUBLICATION_STATUS.DRAFT) {
-        return runValidationWithSettings(values, languages, draftValidations)
+        return runValidationWithSettings(values, languages, draftValidations, keywordSets)
     }
 
     else {
@@ -75,7 +75,7 @@ export function doValidations(values, languages, validateFor) {
     }
 }
 
-function runValidationWithSettings(values, languages, settings) {
+function runValidationWithSettings(values, languages, settings, keywordSets) {
     let obj = {}
 
     // Add content languages to values to have them available in the validations
@@ -98,6 +98,9 @@ function runValidationWithSettings(values, languages, settings) {
         // validate offers
         } else if (key === 'price') {
             errors = validateOffers(valuesWithLanguages)
+        // validate keywords
+        } else if (key === 'keywords') {
+            errors = validations.map(validation => validationFn[validation](valuesWithLanguages, valuesWithLanguages[key], keywordSets) ? null : validation)
         } else {
             errors = validations.map(validation => validationFn[validation](valuesWithLanguages, valuesWithLanguages[key]) ? null : validation)
         }

@@ -79,47 +79,24 @@ export const fetchEvents = async (queryParams) => {
 }
 
 /**
- * Publishes an event
- * @param eventData  Event that should be published
- * @returns {Promise}
- */
-export const publishEvent = async (eventData) => {
-    const updatedEventData = {
-        ...eventData,
-        date_published: moment().utc().format(),
-        publication_status: PUBLICATION_STATUS.PUBLIC,
-    }
-
-    try {
-        return await client.put(`event/${eventData.id}`, updatedEventData)
-    } catch (e) {
-        throw Error(e)
-    }
-}
-
-/**
  * Publishes given events
  * @param eventData  Event data
  * @returns {Promise}
  */
-export const publishEvents = async (eventData) => Promise.all(eventData.map(publishEvent))
+export const publishEvents = async (eventData) => {
+    const updatedEventData = eventData
+        .map(event => ({
+            ...event,
+            date_published: moment().utc().format(),
+            publication_status: PUBLICATION_STATUS.PUBLIC,
+        }))
 
-// todo: uncomment the below lines and remove the old publishEvents method when batch PUT works.
-// now we do a request for every event that we publish instead of just one.
-// export const publishEvents = async (eventData) => {
-//     const updatedEventData = eventData
-//         .map(event => ({
-//             ...event,
-//             date_published: moment().utc().format(),
-//             publication_status: PUBLICATION_STATUS.PUBLIC,
-//         }))
-//
-//     try {
-//         return await client.put('event', updatedEventData)
-//     } catch (e) {
-//         throw Error(e)
-//     }
-// }
+    try {
+        return await client.put('event', updatedEventData)
+    } catch (e) {
+        throw Error(e)
+    }
+}
 
 /**
  * Deletes an event
@@ -142,45 +119,23 @@ export const deleteEvent = async (eventId) => {
 export const deleteEvents = async (eventIds) => Promise.all(eventIds.map(deleteEvent))
 
 /**
- * Cancels an event
- * @param eventData  Data for the event that should be canceled
- * @returns {Promise}
- */
-export const cancelEvent = async (eventData) => {
-    const updatedEventData = {
-        ...eventData,
-        event_status: EVENT_STATUS.CANCELLED,
-    }
-
-    try {
-        return await client.put(`event/${eventData.id}`, updatedEventData)
-    } catch (e) {
-        throw Error(e)
-    }
-}
-
-/**
  * Cancels given events
  * @param eventData  Data for the events that should be canceled
  * @returns {Promise}
  */
-export const cancelEvents = async (eventData) => Promise.all(eventData.map(cancelEvent))
+export const cancelEvents = async (eventData) => {
+    const updatedEventData = eventData
+        .map(event => ({
+            ...event,
+            event_status: EVENT_STATUS.CANCELLED,
+        }))
 
-// todo: uncomment the below lines and remove the old cancelEvents method when batch PUT works.
-// now we do a request for every event that we cancel instead of just one.
-// export const cancelEvents = async (eventData) => {
-//     const updatedEventData = eventData
-//         .map(event => ({
-//             ...event,
-//             event_status: EVENT_STATUS.CANCELLED,
-//         }))
-//
-//     try {
-//         return await client.put('event', updatedEventData)
-//     } catch (e) {
-//         throw Error(e)
-//     }
-// }
+    try {
+        return await client.put('event', updatedEventData)
+    } catch (e) {
+        throw Error(e)
+    }
+}
 
 /**
  * Returns the data for the given ID's

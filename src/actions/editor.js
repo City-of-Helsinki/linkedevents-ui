@@ -98,12 +98,13 @@ export function setLanguages(languages) {
  * @param  {obj} formData     new form values to replace all existing values
  */
 export function replaceData(formData) {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+        const {keywordSets} = getState().editor
         let formObject = mapAPIDataToUIFormat(formData)
         const publicationStatus = formObject.publication_status || PUBLICATION_STATUS.PUBLIC
 
         // run the validation before copy to a draft
-        const validationErrors = doValidations(formObject, getContentLanguages(formObject), publicationStatus)
+        const validationErrors = doValidations(formObject, getContentLanguages(formObject), publicationStatus, keywordSets)
 
         // empty id, event_status, and any field that has validation errors
         keys(validationErrors).map(field => {
@@ -163,6 +164,7 @@ export function validateFor(publicationStatus) {
  * @param updateExisting    Whether we're updating an existing event
  * @param publicationStatus Publication status
  * @param dispatch
+ * @param keywordSets       Keyword sets that are passed to the validator, so that we can validate against them
  * @returns {{}|*}
  */
 export const prepareFormValues = (
@@ -171,7 +173,8 @@ export const prepareFormValues = (
     user,
     updateExisting,
     publicationStatus,
-    dispatch
+    dispatch,
+    keywordSets,
 ) => {
     // exclude all existing sub events from editing form
     if (updateExisting) {
@@ -189,7 +192,7 @@ export const prepareFormValues = (
     const cleanedFormValues = {...formValues, ...nullifyMultiLanguageValues(formValues, contentLanguages)}
 
     // Run validations
-    const validationErrors = doValidations(cleanedFormValues, contentLanguages, publicationStatus)
+    const validationErrors = doValidations(cleanedFormValues, contentLanguages, publicationStatus, keywordSets)
 
     // There are validation errors, don't continue sending
     if (keys(validationErrors).length > 0) {
@@ -254,7 +257,7 @@ export const executeSendRequest = (
 ) => async (dispatch, getState) => {
 
     // get needed information from the state
-    const {contentLanguages} = getState().editor
+    const {keywordSets, contentLanguages} = getState().editor
     const user = getState().user
 
     // check publication status to decide whether to allow the request to happen
@@ -268,14 +271,14 @@ export const executeSendRequest = (
     let preparedFormValues
 
     if (!Array.isArray(formValues)) {
-        preparedFormValues = prepareFormValues(formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch)
+        preparedFormValues = prepareFormValues(formValues, contentLanguages, user, updateExisting, publicationStatus, dispatch, keywordSets)
 
         if (!preparedFormValues || !keys(preparedFormValues).length > 0) {
             return
         }
     } else if (Array.isArray(formValues) && formValues.length > 0) {
         preparedFormValues = formValues
-            .map(formObject => prepareFormValues(formObject, contentLanguages, user, updateExisting, publicationStatus, dispatch))
+            .map(formObject => prepareFormValues(formObject, contentLanguages, user, updateExisting, publicationStatus, dispatch, keywordSets))
             .filter(preparedFormObject => !isUndefined(preparedFormObject))
 
         if (!preparedFormValues.length > 0) {
@@ -389,73 +392,47 @@ export const sendRecurringData = (
     }
 }
 
-// Fetch Hel.fi main category and audience keywords
-export function fetchKeywordSets() {
-    return (dispatch) => {
-        let url = `${appSettings.api_base}/keyword_set/?include=keywords`
+// Fetch keyword sets
+export const fetchKeywordSets = () => async (dispatch) => {
+    try {
+        const response = await client.get('keyword_set', {include: 'keywords'})
+        const keywordSets = response.data.data
 
-        return fetch(url).then((response) => {
-
-            // Try again after a delay
-            if (response.status >= 400) {
-                setTimeout(e => dispatch(fetchKeywordSets()), 5000);
-                return null
-            }
-            return response.json()
-        })
-            .then(json => {
-                if(json) {
-                    return dispatch(receiveKeywordSets(json))
-                }
-            })
-            .catch(e => {
-                // Error happened while fetching ajax (connection or javascript)
-            })
+        dispatch(receiveKeywordSets(keywordSets))
+    } catch (e) {
+        throw Error(e)
     }
 }
 
 // Receive Hel.fi main category and audience keywords
-export function receiveKeywordSets(json) {
-    localStorage.setItem('KEYWORDSETS', JSON.stringify(json.data))
+export const receiveKeywordSets = (keywordSets) => {
+    localStorage.setItem('KEYWORDSETS', JSON.stringify(keywordSets))
 
     return {
         type: constants.EDITOR_RECEIVE_KEYWORDSETS,
-        keywordSets: json.data,
+        keywordSets,
     }
 }
 
-// Fetch Hel.fi languages
-export function fetchLanguages() {
-    return (dispatch) => {
-        let url = `${appSettings.api_base}/language/`
+// Fetch languages
+export const fetchLanguages = () => async (dispatch) => {
+    try {
+        const response = await client.get('language')
+        const languages = response.data.data
 
-        // Try again after a delay
-        return fetch(url).then((response) => {
-            if (response.status >= 400) {
-                setTimeout(e => dispatch(fetchLanguages()), 5000);
-                return null
-            } else {
-                return response.json()
-            }
-        })
-            .then(json => {
-                if(json) {
-                    return dispatch(receiveLanguages(json))
-                }
-            })
-            .catch(e => {
-                // Error happened while fetching ajax (connection or javascript)
-            })
+        dispatch(receiveLanguages(languages))
+    } catch (e) {
+        throw Error(e)
     }
 }
 
-// Receive Hel.fi main category and audience keywords
-export function receiveLanguages(json) {
-    localStorage.setItem('LANGUAGES', JSON.stringify(json.data))
+// Receive languages
+export const receiveLanguages = (languages) => {
+    localStorage.setItem('LANGUAGES', JSON.stringify(languages))
 
     return {
         type: constants.EDITOR_RECEIVE_LANGUAGES,
-        languages: json.data,
+        languages,
     }
 }
 

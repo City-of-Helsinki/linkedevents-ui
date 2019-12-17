@@ -14,6 +14,7 @@ import {getStringWithLocale} from '../../utils/locale'
 import constants from '../../constants'
 import {getFirstMultiLanguageFieldValue, scrollToTop} from '../../utils/helpers'
 import {Link} from 'react-router-dom'
+import {mapKeywordSetToForm} from '../../utils/apiDataMapping'
 
 const NoValue = (props) => {
     let header = props.labelKey ? (<span><FormattedMessage id={`${props.labelKey}`}/>&nbsp;</span>) : null
@@ -250,7 +251,12 @@ OffersValue.propTypes = {
 }
 
 const EventDetails = (props) => {
-    const {values, intl, rawData, publisher, superEvent} = props
+    const {editor, values, intl, rawData, publisher, superEvent} = props
+
+    const mainCategoryValues = mapKeywordSetToForm(editor.keywordSets, 'helsinki:topics')
+        .map(item => item.value)
+    const mainCategoryKeywords = values.keywords.filter(item => mainCategoryValues.includes(item.value))
+    const nonMainCategoryKeywords = values.keywords.filter(item => !mainCategoryValues.includes(item.value))
 
     const isUmbrellaEvent = rawData.super_event_type === constants.SUPER_EVENT_TYPE_UMBRELLA
     const isRecurringEvent = rawData.super_event_type === constants.SUPER_EVENT_TYPE_RECURRING
@@ -258,15 +264,6 @@ const EventDetails = (props) => {
     const superEventName = getFirstMultiLanguageFieldValue(get(superEvent, 'name'))
     const superEventIsUmbrellaEvent = get(superEvent, 'super_event_type') === constants.SUPER_EVENT_TYPE_UMBRELLA
     const superEventIsRecurringEvent = get(superEvent, 'super_event_type') === constants.SUPER_EVENT_TYPE_RECURRING
-
-    // NOTE: Currently don't show not selected options
-
-    // let helMainOptions = mapKeywordSetToForm(keywordSets, 'helfi:topics')
-    // let helTargetOptions = mapKeywordSetToForm(keywordSets, 'helfi:audiences')
-    // let helEventLangOptions = mapLanguagesSetToForm(languages)
-    let helfiCategories = _.map(values.hel_main, (id) => (
-        _.find(rawData.keywords, (item) => (id.indexOf(item['@id']) > -1))
-    ))
 
     return (
         <div className="event-details">
@@ -315,8 +312,8 @@ const EventDetails = (props) => {
                 {intl.formatMessage({id: 'event-categorization'})}
             </FormHeader>
 
-            <OptionGroup values={helfiCategories} labelKey="hel-main-categories"/>
-            <OptionGroup values={values['keywords']} labelKey="hel-keywords"/>
+            <OptionGroup values={mainCategoryKeywords} labelKey="main-categories"/>
+            <OptionGroup values={nonMainCategoryKeywords} labelKey="hel-keywords"/>
             <OptionGroup values={rawData['audience']} labelKey="hel-target-groups"/>
             <OptionGroup values={rawData['in_language']} labelKey="hel-event-languages"/>
 
@@ -393,6 +390,7 @@ EventDetails.propTypes = {
     rawData: PropTypes.object,
     intl: intlShape,
     publisher: PropTypes.object,
+    editor: PropTypes.object,
 }
 
 export default injectIntl(EventDetails)

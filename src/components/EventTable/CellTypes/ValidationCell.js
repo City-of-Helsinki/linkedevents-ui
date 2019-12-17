@@ -7,15 +7,16 @@ import {injectIntl} from 'react-intl'
 import {doValidations} from '../../../validation/validator'
 import getContentLanguages from '../../../utils/language'
 import {mapAPIDataToUIFormat} from '../../../utils/formDataMapping'
+import {connect} from 'react-redux'
 
 const {PUBLICATION_STATUS} = constants
 
 const ValidationCell = props => {
-    const {event, intl, handleInvalidRow} = props
+    const {event, intl, editor, handleInvalidRow} = props
     const formattedEvent = mapAPIDataToUIFormat(event)
     // don't validate sub_events as they will be validated separately
     formattedEvent.sub_events = []
-    const validations = doValidations(formattedEvent, getContentLanguages(formattedEvent), PUBLICATION_STATUS.PUBLIC)
+    const validations = doValidations(formattedEvent, getContentLanguages(formattedEvent), PUBLICATION_STATUS.PUBLIC, editor.keywordSets)
     const hasValidationErrors = Object.keys(validations).length > 0
 
     if (hasValidationErrors) {
@@ -35,8 +36,13 @@ const ValidationCell = props => {
 
 ValidationCell.propTypes = {
     intl: PropTypes.object,
+    editor: PropTypes.object,
     event: PropTypes.object,
     handleInvalidRow: PropTypes.func,
 }
 
-export default injectIntl(ValidationCell)
+const mapStateToProps = (state) => ({
+    editor: state.editor,
+})
+
+export default connect(mapStateToProps, null)(injectIntl(ValidationCell))

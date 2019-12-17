@@ -117,8 +117,13 @@ legend {
     font-size: 22px;
     font-weight: 300;
 
+    .material-icons {
+        padding-left: 0;
+    }
+
     label {
         margin-left: 1rem;
+        text-transform: capitalize;
     }
 }
 

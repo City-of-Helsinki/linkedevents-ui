@@ -144,7 +144,7 @@
     "instagram-url": "Instagram (url)",
 
     "event-categorization": "Tapahtuman luokittelu",
-    "event-keywords": "Tapahtuman asiasanat",
+    "event-keywords": "Lisää muita asiasanoja",
 
     "event-umbrella": "Kattotapahtumat",
     "event-is-umbrella": "Tämä tapahtuma on kattotapahtuma.",
@@ -172,6 +172,7 @@
     "validation-isDate": "Kirjoita päivämäärä muodossa pp.kk.vvvv tai p.k.vvvv",
     "validation-isInt": "Tulon on oltava numero",
     "validation-atLeastOne": "Valitse vähintään yksi",
+    "validation-atLeastOneMainCategory": "Valitse vähintään yksi pääkategoria",
     "validation-required": "Tämä kenttä vaaditaan",
     "validation-requiredForCourses": "Tämä kenttä vaaditaan",
     "validation-requiredMulti": "Tämä kenttä vaaditaan",
@@ -232,7 +233,7 @@
 
     "hel-keywords": "Avainsanat",
     "hel-target-groups": "Kohderyhmät",
-    "hel-main-categories": "Hel.fi-pääkategoriat",
+    "main-categories": "Pääkategoriat",
 
     "editor-publish-draft-warning": "HUOM. Tämä toiminto julkaisee tapahtuman Internetiin. Tapahtumaehdotuksen alkuperäinen tekijä ei voi enää muokata tapahtumaa.",
     "editor-publish-draft-extra-warning": "Seuraavat tapahtumat julkaistaan:",
