@@ -1,106 +1,81 @@
+import './HelLabeledCheckboxGroup.scss'
+
 import PropTypes from 'prop-types';
-import React from 'react'
-import PureRenderMixin from 'react-addons-pure-render-mixin'
+import React, {useRef} from 'react'
 import {Checkbox} from 'react-bootstrap'
-
-import {map, isEqual} from 'lodash'
-
 import {connect} from 'react-redux'
-import {setData} from '../../actions/editor'
-
+import {setData as setDataAction} from '../../actions/editor'
 import ValidationPopover from '../ValidationPopover'
 
-// NOTE: Not using ES6 classes because of the needed mixins
-class HelLabeledCheckboxGroup extends React.Component {
-    constructor(props) {
-        super(props)
+const handleChange = (refs, {options, name, customOnChangeHandler, setDirtyState, setData}) => {
+    const checkedOptions = options
+        .filter((option, index) => refs[`checkRef${index}`].checked)
+        .map(checkedOption => checkedOption.value)
 
-        this.handleChange = this.handleChange.bind(this)
-    }
-    
-    handleChange() {
-        const {options} = this.props
-
-        let checked = options.reduce((ac, op, index) => {
-            if(this[`checkRef${index}`].checked) {
-                ac.push(this[`checkRef${index}`]) 
-            }
-            return ac
-        }, [])
-
-        let checkedNames = map(checked, (checkbox) => (checkbox.value) )
-
-        if(this.props.name) {
-            let obj = {}
-            obj[this.props.name] = checkedNames
-            this.context.dispatch(setData(obj))
-        }
-
-        if(typeof this.props.onChange === 'function') {
-            this.props.onChange(checkedNames)
-        }
-
-        if (this.props.setDirtyState) {
-            this.props.setDirtyState()
+    // let the custom handler handle the change if given
+    if (typeof customOnChangeHandler === 'function') {
+        customOnChangeHandler(checkedOptions)
+        // otherwise set data
+    } else {
+        if (name) {
+            setData({[name]: checkedOptions})
         }
     }
 
-    shouldComponentUpdate(nextProps) {
-        if(isEqual(nextProps.selectedValues, this.props.selectedValues)) {
-            //return false;
-        }
-
-        return true;
-    }
-
-    render() {
-        let self = this
-        let checkboxes = this.props.options.map((item, index) => {
-            let selectedValues = this.props.selectedValues || []
-            let checked = (selectedValues.indexOf(item.value) > -1)
-
-            return (
-                <span key={index} className={(this.props.itemClassName || '')}>
-                    <Checkbox
-                        className="hel-checkbox"
-                        value={item.value}
-                        name={this.props.name + '.' + item.value}
-                        inputRef={ref => this[`checkRef${index}`] = ref}
-                        checked={checked}
-                        onChange={self.handleChange}
-                    >{item.label}</Checkbox>
-                </span>
-            )
-        },this)
-
-        // view half-width checkboxes in two columns
-        const left_column = checkboxes.slice(0, Math.floor((checkboxes.length + 1) / 2))
-        const right_column = checkboxes.slice(Math.floor((checkboxes.length + 1) / 2), checkboxes.length)
-        
-        checkboxes = [
-            <div className="left_column col-sm-6" key="1">{left_column}</div>,
-            <div className="right_column col-sm-6" key="2">{right_column}</div>,
-        ]
-
-        return (
-            <fieldset className="checkbox-group col-lg-6">
-                <div><span className="legend" style={{position:'relative', width:'auto'}}>{this.props.groupLabel} <ValidationPopover validationErrors={this.props.validationErrors} /></span></div>
-                <div className='row'>
-                    {checkboxes}
-                </div>
-            </fieldset>
-        )
+    if (setDirtyState) {
+        setDirtyState()
     }
 }
 
-HelLabeledCheckboxGroup.contextTypes = {
-    intl: PropTypes.object,
-    dispatch: PropTypes.func,
+const HelLabeledCheckboxGroup = (props) => {
+    const {options, name, selectedValues, itemClassName, groupLabel, validationErrors} = props
+    const refs = useRef({}).current;
+    const checkedOptions = selectedValues.map(item => {
+        return typeof item === 'object' && Object.keys(item).includes('value')
+            ? item.value
+            : item
+    })
+
+    return (
+        <fieldset className="checkbox-group col-sm-6">
+            <div>
+                <span className="legend">
+                    {groupLabel}
+                    <ValidationPopover validationErrors={validationErrors} />
+                </span>
+            </div>
+            <div className='row'>
+                {options.map((item, index) => {
+                    const checked = checkedOptions.includes(item.value)
+
+                    return (
+                        <span key={`hel-checkbox-${index}`} className={(itemClassName || '')}>
+                            <Checkbox
+                                className="hel-checkbox"
+                                value={item.value}
+                                name={`${name}.${item.value}`}
+                                inputRef={ref => refs[`checkRef${index}`] = ref}
+                                checked={checked}
+                                onChange={() => handleChange(refs, props)}
+                            >
+                                {item.label}
+                            </Checkbox>
+                        </span>
+                    )
+                })}
+            </div>
+        </fieldset>
+    )
+}
+
+HelLabeledCheckboxGroup.defaultProps = {
+    selectedValues: [],
 }
 
 HelLabeledCheckboxGroup.propTypes = {
     name: PropTypes.string,
-    onChange: PropTypes.func,
+    customOnChangeHandler: PropTypes.func,
+    setData: PropTypes.func,
     setDirtyState: PropTypes.func,
     selectedValues: PropTypes.array,
     options: PropTypes.array,
@@ -112,4 +87,8 @@ HelLabeledCheckboxGroup.propTypes = {
     ]),
 }
 
-export default HelLabeledCheckboxGroup
+const mapDispatchToProps = (dispatch) => ({
+    setData: (value) => dispatch(setDataAction(value)),
+})
+
+export default connect(null, mapDispatchToProps)(HelLabeledCheckboxGroup)

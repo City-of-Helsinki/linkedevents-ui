@@ -778,10 +778,6 @@ exports[`Editor Snapshot should render view correctly when creating new event fr
             "extlink_facebook": "http://kasvokirja.fi",
             "extlink_instagram": "http://instataan.com",
             "extlink_twitter": "http://twiitti.fi",
-            "hel_main": Array [
-              "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:12/",
-              "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:13/",
-            ],
             "id": "helsinki:afqxukccli",
             "in_language": Array [
               "https://api.hel.fi/linkedevents-test/v1/language/fi/",
@@ -1757,10 +1753,6 @@ exports[`Editor Snapshot should render view correctly when editing existing even
             "extlink_facebook": "http://kasvokirja.fi",
             "extlink_instagram": "http://instataan.com",
             "extlink_twitter": "http://twiitti.fi",
-            "hel_main": Array [
-              "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:12/",
-              "https://api.hel.fi/linkedevents-test/v1/keyword/helfi:13/",
-            ],
             "id": "helsinki:afqxukccli",
             "in_language": Array [
               "https://api.hel.fi/linkedevents-test/v1/language/fi/",

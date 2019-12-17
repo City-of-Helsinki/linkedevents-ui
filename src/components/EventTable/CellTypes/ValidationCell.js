@@ -12,12 +12,12 @@ import {push} from 'react-router-redux'
 
 const {PUBLICATION_STATUS} = constants
 
-const ValidationCell = ({event, intl, handleInvalidRow, routerPush}) => {
+const ValidationCell = ({event, intl, editor, handleInvalidRow, routerPush}) => {
     const [hover, setHover] = useState(false);
     const formattedEvent = mapAPIDataToUIFormat(event)
     // don't validate sub_events as they will be validated separately
     formattedEvent.sub_events = []
-    const validations = doValidations(formattedEvent, getContentLanguages(formattedEvent), PUBLICATION_STATUS.PUBLIC)
+    const validations = doValidations(formattedEvent, getContentLanguages(formattedEvent), PUBLICATION_STATUS.PUBLIC, editor.keywordSets)
     const hasValidationErrors = Object.keys(validations).length > 0
 
     if (hasValidationErrors) {
@@ -45,12 +45,17 @@ const ValidationCell = ({event, intl, handleInvalidRow, routerPush}) => {
 ValidationCell.propTypes = {
     routerPush: PropTypes.func,
     intl: PropTypes.object,
+    editor: PropTypes.object,
     event: PropTypes.object,
     handleInvalidRow: PropTypes.func,
 }
+
+const mapStateToProps = (state) => ({
+    editor: state.editor,
+})
 
 const mapDispatchToProps = (dispatch) => ({
     routerPush: (url) => dispatch(push(url)),
 })
 
-export default connect(null, mapDispatchToProps)(injectIntl(ValidationCell))
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(ValidationCell))

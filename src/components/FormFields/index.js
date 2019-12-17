@@ -14,6 +14,7 @@ import {
     HelSelect,
     HelOffersField,
     NewEvent,
+    HelKeywordSelector,
 } from 'src/components/HelFormFields'
 import RecurringEvent from 'src/components/RecurringEvent'
 import {Button} from 'material-ui'
@@ -117,18 +118,6 @@ class FormFields extends React.Component {
         return newEvents
     }
 
-    getKeywords(keywords) {
-        const regExp = /keyword\/\s*([^\n\r]*)\//i
-        const keywordIds = []
-
-        for (const key in keywords) {
-            const match = regExp.exec(keywords[key].value)
-            keywordIds.push(match[1])
-        }
-
-        return keywordIds.join()
-    }
-
     trimmedDescription() {
         let descriptions = Object.assign({}, this.props.editor.values['description'])
         for (const lang in descriptions) {
@@ -140,9 +129,8 @@ class FormFields extends React.Component {
     }
 
     render() {
-        let helMainOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helfi:topics')
-        let helTargetOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helsinki:audiences')
-        let helEventLangOptions = mapLanguagesSetToForm(this.props.editor.languages)
+        const helTargetOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helsinki:audiences')
+        const helEventLangOptions = mapLanguagesSetToForm(this.props.editor.languages)
 
         const getAddRecurringEventButtonColor = (showRecurringEvent) => {
             if (showRecurringEvent == true) {
@@ -152,12 +140,12 @@ class FormFields extends React.Component {
             }
 
         }
-        const {event, superEvent, user} = this.props
-        const {values, validationErrors, contentLanguages} = this.props.editor
+        const {event, superEvent, user, editor} = this.props
+        const {values, validationErrors, contentLanguages} = editor
         const formType = this.props.action
         const isSuperEvent = values.super_event_type === CONSTANTS.SUPER_EVENT_TYPE_RECURRING
 
-        const {VALIDATION_RULES, DEFAULT_CHARACTER_LIMIT, USER_TYPE} = CONSTANTS
+        const {VALIDATION_RULES, USER_TYPE} = CONSTANTS
         const addedEvents = pickBy(values.sub_events, event => !event['@id'])
         const newEvents = this.generateNewEventFields(addedEvents)
         const publisherOptions = this.props.organizations.map(org => ({label: org.name, value: org.id}));
@@ -437,35 +425,11 @@ class FormFields extends React.Component {
                     <FormattedMessage id="event-categorization" />
                 </FormHeader>
                 <div className="row keyword-row">
-                    <div className="col-sm-6 hel-select">
-                        <HelSelect
-                            isMultiselect
-                            selectedValue={values['keywords']}
-                            legend={this.context.intl.formatMessage({id: 'event-keywords'})}
-                            ref="keywords"
-                            name="keywords"
-                            resource="keyword"
-                            validationErrors={validationErrors['keywords']}
-                            setDirtyState={this.props.setDirtyState}
-                        />
-                        <CopyToClipboard text={values['keywords'] ? this.getKeywords(values['keywords']) : ''}>
-                            <button className="clipboard-copy-button" title={this.context.intl.formatMessage({id: 'copy-to-clipboard'})}>
-                                <i className="material-icons">&#xE14D;</i>
-                            </button>
-                        </CopyToClipboard>
-                    </div>
-                    <SideField><p className="tip"><FormattedMessage id="editor-tip-keywords"/></p></SideField>
-                    <HelLabeledCheckboxGroup
-                        groupLabel={<FormattedMessage id="hel-main-categories"/>}
-                        selectedValues={values['hel_main']}
-                        ref="hel_main"
-                        name="hel_main"
-                        validationErrors={validationErrors['hel_main']}
-                        itemClassName="col-md-12 col-lg-6"
-                        options={helMainOptions}
+                    <HelKeywordSelector
+                        editor={editor}
+                        intl={this.context.intl}
                         setDirtyState={this.props.setDirtyState}
                     />
-                    <SideField><p className="tip"><FormattedMessage id="editor-tip-hel-main-category"/></p></SideField>
                 </div>
                 <div className="row">
                     <HelLabeledCheckboxGroup

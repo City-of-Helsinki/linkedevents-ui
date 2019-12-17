@@ -215,6 +215,7 @@ class EventPage extends React.Component {
 
     render() {
         const {event, superEvent, loading, publisher} = this.state
+        const {editor} = this.props
 
         const formattedEvent = mapAPIDataToUIFormat(this.state.event)
         const isUmbrellaEvent = event.super_event_type === SUPER_EVENT_TYPE_UMBRELLA
@@ -248,6 +249,7 @@ class EventPage extends React.Component {
                     superEvent={superEvent}
                     rawData={event}
                     publisher={publisher}
+                    editor={editor}
                 />
                 <footer>
                     {this.getEventActions()}
@@ -259,6 +261,7 @@ class EventPage extends React.Component {
 
 EventPage.propTypes = {
     intl: intlShape.isRequired,
+    editor: PropTypes.object,
     user: PropTypes.object,
     match: PropTypes.object,
     events: PropTypes.object,
@@ -272,6 +275,7 @@ EventPage.propTypes = {
 
 const mapStateToProps = (state) => ({
     user: state.user,
+    editor: state.editor,
 })
 
 const mapDispatchToProps = (dispatch) => ({

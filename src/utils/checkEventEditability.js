@@ -49,12 +49,13 @@ export const userMayEdit = (user, event) => {
     return userMayEdit
 }
 
-export const userCanDoAction = (user, event, action) => {
+export const userCanDoAction = (user, event, action, editor) => {
     const isUmbrellaEvent = get(event, 'super_event_type') === SUPER_EVENT_TYPE_UMBRELLA
     const isDraft = get(event, 'publication_status') === PUBLICATION_STATUS.DRAFT
     const isPublic = get(event, 'publication_status') === PUBLICATION_STATUS.PUBLIC
     const isRegularUser = get(user, 'userType') === USER_TYPE.REGULAR
     const isSubEvent = !isUndefined(get(event, ['super_event', '@id']))
+    const {keywordSets} = editor
 
     if (action === 'publish') {
         if (!event.id || (isDraft && isSubEvent)) {
@@ -63,8 +64,8 @@ export const userCanDoAction = (user, event, action) => {
         // format event, so that we can validate it
         const formattedEvent = mapAPIDataToUIFormat(event)
         // validate
-        const validations = doValidations(formattedEvent, getContentLanguages(formattedEvent), PUBLICATION_STATUS.PUBLIC)
-        // check if there as errors
+        const validations = doValidations(formattedEvent, getContentLanguages(formattedEvent), PUBLICATION_STATUS.PUBLIC, keywordSets)
+        // check if there are errors
         const hasValidationErrors = Object.keys(validations).length > 0
 
         return !hasValidationErrors
@@ -82,9 +83,9 @@ export const userCanDoAction = (user, event, action) => {
     return true
 }
 
-export const checkEventEditability = (user, event, action) => {
+export const checkEventEditability = (user, event, action, editor) => {
     const userMayEdit = module.exports.userMayEdit(user, event)
-    const userCanDoAction = module.exports.userCanDoAction(user, event, action)
+    const userCanDoAction = module.exports.userCanDoAction(user, event, action, editor)
     const isDraft = get(event, 'publication_status') === PUBLICATION_STATUS.DRAFT
     const endTime = get(event, 'end_time', '')
     const eventIsInThePast = moment(endTime, moment.defaultFormatUtc).isBefore(moment());

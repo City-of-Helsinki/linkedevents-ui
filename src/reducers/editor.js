@@ -72,7 +72,7 @@ function update(state = initialState, action) {
         let validationErrors = Object.assign({}, state.validationErrors)
         // If there are validation errors, check if they are fixed
         if (_.keys(state.validationErrors).length > 0) {
-            validationErrors = doValidations(newValues, state.contentLanguages, state.validateFor || constants.PUBLICATION_STATUS.PUBLIC)
+            validationErrors = doValidations(newValues, state.contentLanguages, state.validateFor || constants.PUBLICATION_STATUS.PUBLIC, state.keywordSets)
         }
 
         if (action.event) {
@@ -118,7 +118,7 @@ function update(state = initialState, action) {
         let validationErrors = Object.assign({}, state.validationErrors)
         // If there are validation errors in sub_events, check if they are fixed
         if (state.validationErrors.sub_events) {
-            validationErrors = doValidations(newValues, state.contentLanguages, state.validateFor || constants.PUBLICATION_STATUS.PUBLIC)
+            validationErrors = doValidations(newValues, state.contentLanguages, state.validateFor || constants.PUBLICATION_STATUS.PUBLIC, state.keywordSets)
         }
 
         const x = Object.assign({}, state, {

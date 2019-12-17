@@ -57,7 +57,7 @@ const EventActionButton = (props) => {
     const isRegularUser = get(user, 'userType') === USER_TYPE.REGULAR
     const formHasSubEvents = get(editor, ['values', 'sub_events'], []).length > 0
     const isDraft = get(event, 'publication_status') === PUBLICATION_STATUS.DRAFT
-    const {editable, explanationId} = checkEventEditability(user, event, action)
+    const {editable, explanationId} = checkEventEditability(user, event, action, editor)
     const disabled = !editable || loading
 
     let color = 'default'

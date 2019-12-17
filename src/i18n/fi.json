@@ -145,7 +145,7 @@
     "instagram-url": "Instagram (url)",
 
     "event-categorization": "Tapahtuman luokittelu",
-    "event-keywords": "Tapahtuman asiasanat",
+    "event-keywords": "Lisää muita asiasanoja",
 
     "event-umbrella": "Kattotapahtumat",
     "event-is-umbrella": "Tämä tapahtuma on kattotapahtuma.",
@@ -173,6 +173,7 @@
     "validation-isDate": "Kirjoita päivämäärä muodossa pp.kk.vvvv tai p.k.vvvv",
     "validation-isInt": "Tulon on oltava numero",
     "validation-atLeastOne": "Valitse vähintään yksi",
+    "validation-atLeastOneMainCategory": "Valitse vähintään yksi pääkategoria",
     "validation-required": "Tämä kenttä vaaditaan",
     "validation-requiredForCourses": "Tämä kenttä vaaditaan",
     "validation-requiredMulti": "Tämä kenttä vaaditaan",
@@ -233,7 +234,7 @@
 
     "hel-keywords": "Avainsanat",
     "hel-target-groups": "Kohderyhmät",
-    "hel-main-categories": "Hel.fi-pääkategoriat",
+    "main-categories": "Pääkategoriat",
 
     "editor-publish-draft-warning": "HUOM. Tämä toiminto julkaisee tapahtuman Internetiin. Tapahtumaehdotuksen alkuperäinen tekijä ei voi enää muokata tapahtumaa.",
     "editor-publish-draft-extra-warning": "Seuraavat tapahtumat julkaistaan:",
@@ -286,6 +287,9 @@
     "edit-image": "Muokkaa kuvaa",
     "The name must be defined.": "Tiedostolla tulee olla nimi",
     "image-caption-limit-for-min-and-max": "Kuvaus eli kuvan alt-teksti (pituus vähintään {minLength} ja korkeintaan {maxLength} merkkiä)",
+    "delete-from-filesystem": "Poista kuva järjestelmästä",
+    "edit-selected-image": "Muokkaa valittua kuvaa",
+    "attach-image-to-event": "Lisää kuva tapahtumaan",
 
     "moderation-page": "Moderoi tapahtumia",
     "moderation-page-draft-heading": "Odottaa hyväksyntää",
@@ -303,5 +307,6 @@
     "user-no-rights-create": "Sinulla ei ole oikeuksia julkaista tapahtumia.",
     "return-without-saving": "Palaa tekemättä muutoksia",
 
-    "format-select-count": " ({count} tapahtumaa)"
+    "format-select-count": " ({count} tapahtumaa)",
+    "upload-image-from-url": "Tai syötä ulkoisen kuvan osoite (url)"
 }

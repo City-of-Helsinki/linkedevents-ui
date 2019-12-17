@@ -1,3 +1,43 @@
+@import "../../assets/_colors.scss";
+
+.modal-header {
+    padding: 0 24px;
+
+    button {
+        &.upload-img {
+            margin: 1rem 0 2rem 15px;
+        }
+
+        &.close {
+            position: relative;
+        }
+
+        &.attach-external {
+            display: inline-block;
+        }
+    }
+
+    .external-file-upload {
+        margin-bottom: 1.5rem;
+        padding: 0 15px;
+
+        .hel-text-field {
+            display: inline-block;
+            margin: 0 1rem 0 0;
+            min-width: 450px;
+            vertical-align: bottom;
+            width: initial;
+
+            #externalImageURL {
+                width: 100%;
+            }
+        }
+    }
+}
+.modal-title {
+    padding: 0 15px;
+}
+
 .image-thumb {
     position: relative;
     height: 228px;
@@ -5,6 +45,10 @@
     margin-bottom: 15px;
     overflow: hidden;
     border: 1px solid gray;
+
+    &.selected {
+        border: 4px solid $hel-coat;
+    }
 
     .thumbnail {
         position: absolute;
@@ -46,10 +90,32 @@
     }
 }
 
-.selected {
-    border: 4px solid lime;
-}
-
 ul.pagination {
     flex-wrap: wrap;
+}
+
+
+.button-row {
+    display: inline-grid;
+    grid-template-columns: auto auto;
+    margin: 1rem 0;
+    padding: 0 15px;
+    width: 100%;
+
+    button {
+        display: inline-block;
+    }
+
+    .wrapper-right {
+        display: inline-block;
+        justify-self: end;
+    }
+
+    .delete {
+        justify-self: start;
+    }
+
+    .edit {
+        margin-right: 1rem;
+    }
 }

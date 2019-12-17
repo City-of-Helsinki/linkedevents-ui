@@ -66,7 +66,7 @@
     "validate-form": "Validate form",
 
     "event-presented-in-languages": "This event will be presented in following languages.",
-    
+
     "in-fi": "In Finnish",
     "in-en": "In English",
     "in-sv": "In Swedish",
@@ -75,7 +75,7 @@
     "in-ar": "In Arabic",
 
     "no-value": "-field is empty.",
-    
+
     "event-description-fields-header": "Event description",
     "event-headline": "Title",
     "event-short-description": "Short description",
@@ -91,7 +91,7 @@
     "events-management-description": "Browse and edit drafts and published events of your organization.",
     "events-management-description-regular-user": "Browse and edit drafts of your organization. Published events can not be edited.",
     "events-management-no-results": "No editable events found.",
-   
+
     "event-image": "Event image (click to change)",
     "new-image": "Add a new image",
     "upload-image": "Upload image from your hard disk",
@@ -145,7 +145,7 @@
     "instagram-url": "Instagram (url)",
 
     "event-categorization": "Categorization",
-    "event-keywords": "Keywords",
+    "event-keywords": "Add other keywords",
 
     "event-umbrella": "Umbrella events",
     "event-is-umbrella": "This event is an umbrella event.",
@@ -173,6 +173,7 @@
     "validation-isDate": "Enter the date in the correct format dd.mm.yyyy or d.m.yyyy",
     "validation-isInt": "The input need to be number",
     "validation-atLeastOne": "At least one item must be selected",
+    "validation-atLeastOneMainCategory": "At least one main category must be selected",
     "validation-required": "This field is required",
     "validation-requiredForCourses": "This field is required",
     "validation-requiredMulti": "This field is required",
@@ -233,7 +234,7 @@
 
     "hel-keywords": "Keywords",
     "hel-target-groups": "Target groups",
-    "hel-main-categories": "Hel.fi main categories",
+    "main-categories": "Main categories",
 
     "editor-publish-draft-warning": "N.B. The event will be published on the Internet. The original submitter can no longer edit the event.",
     "editor-publish-draft-extra-warning": "The following events will be published:",
@@ -283,6 +284,12 @@
     "search-courses": "Search for courses",
     "more-info": "More info",
     "courses-management": "Course management",
+    "edit-image": "Edit image",
+    "The name must be defined.": "The filename must be defined",
+    "image-caption-limit-for-min-and-max": "Alt text for the image (the min length is {minLength} and max length {maxLength} characters)",
+    "delete-from-filesystem": "Delete image from the file system",
+    "edit-selected-image": "Edit the selected image",
+    "attach-image-to-event": "Attach image to event",
 
     "moderation-page": "Moderate events",
     "moderation-page-draft-heading": "Waiting approval",
@@ -300,5 +307,6 @@
     "user-no-rights-create": "You have insufficient rights to create events.",
     "return-without-saving": "Return without changes",
 
-    "format-select-count": " ({count} events)"
+    "format-select-count": " ({count} events)",
+    "upload-image-from-url": "Upload image from url"
 }

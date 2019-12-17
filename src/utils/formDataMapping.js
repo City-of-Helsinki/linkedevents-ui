@@ -108,11 +108,6 @@ function mapUIDataToAPIFormat(values) {
         obj.keywords = map(values.keywords, (item) => ({'@id': item.value}))
     }
 
-    if(values.hel_main && values.hel_main.length !== undefined) {
-        obj.keywords = obj.keywords || []
-        obj.keywords = obj.keywords.concat(map(values.hel_main, (item) => ({'@id': item})))
-    }
-
     if(values.audience && values.audience.length !== undefined) {
         const audiences = _addHelFiAudienceKeywords(values.audience)
         obj.audience = map(audiences, (item) => ({'@id': item}))
@@ -207,24 +202,8 @@ function mapAPIDataToUIFormat(values) {
     // Subevents: from array to object
     obj.sub_events = {...values.sub_events}
 
-    // TODO: Filter hel_main categories from keywords, non-hel_main categories from hel_main
-    //
-    let keywords = cloneDeep(values.keywords)
-
-    let hel_main_items = remove(keywords, item => {
-        return (item.id.indexOf('helfi:') > -1)
-    })
-
-    obj.hel_main = map(hel_main_items, (item) => { return item['@id'] })
-
     // Keywords, audience, languages
-    obj.keywords = map(keywords, (item) => ({value: item['@id'], label: (getStringWithLocale(item, 'name') || item['id'])}))
-
-    // Filter somehow the hel_main keyword values from keywords
-    // obj.keywords = filter(obj.keywords, (item) => {
-    //     console.log(obj.hel_main.indexOf(item.value) === -1)
-    //     return (obj.hel_main.indexOf(item.value) === -1)
-    // });
+    obj.keywords = map(values.keywords, (item) => ({value: item['@id'], label: (getStringWithLocale(item, 'name') || item['id'])}))
 
     if(values.audience) {
         obj.audience = map(values.audience, item => item['@id'])
