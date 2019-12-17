@@ -168,29 +168,6 @@ const constants = {
         selectedRows: PropTypes.array,
         invalidRows: PropTypes.array,
     }),
-
-    MAIN_CATEGORY_MAPPING: [
-        'yso:p1235',
-        'yso:p1947',
-        'yso:p14004',
-        'yso:p11185',
-        'yso:p360',
-        'yso:p2739',
-        'yso:p316',
-        'yso:p916',
-        'yso:p15875',
-        'yso:p1808',
-        'yso:p5121',
-        'yso:p2149',
-        'yso:p10727',
-        'yso:p6062',
-        'yso:p3670',
-        'yso:p1278',
-        'yso:p2625',
-        'yso:p19245',
-        'yso:p2771',
-        'yso:p965',
-    ],
 }
 
 export default constants

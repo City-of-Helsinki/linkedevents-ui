@@ -58,15 +58,16 @@ const publicValidations = {
  * Run draft/public validations depending which document
  * @return {object} Validation errors object
  */
-export function doValidations(values, languages, validateFor) {
+export function doValidations(values, languages, validateFor, keywordSets) {
+
     // Public validations
     if(validateFor === PUBLICATION_STATUS.PUBLIC) {
-        return runValidationWithSettings(values, languages, publicValidations)
+        return runValidationWithSettings(values, languages, publicValidations, keywordSets)
     }
 
     // Do draft validations
     else if (validateFor === PUBLICATION_STATUS.DRAFT) {
-        return runValidationWithSettings(values, languages, draftValidations)
+        return runValidationWithSettings(values, languages, draftValidations, keywordSets)
     }
 
     else {
@@ -74,7 +75,7 @@ export function doValidations(values, languages, validateFor) {
     }
 }
 
-function runValidationWithSettings(values, languages, settings) {
+function runValidationWithSettings(values, languages, settings, keywordSets) {
     let obj = {}
 
     // Add content languages to values to have them available in the validations
@@ -97,6 +98,9 @@ function runValidationWithSettings(values, languages, settings) {
         // validate offers
         } else if (key === 'price') {
             errors = validateOffers(valuesWithLanguages)
+        // validate keywords
+        } else if (key === 'keywords') {
+            errors = validations.map(validation => validationFn[validation](valuesWithLanguages, valuesWithLanguages[key], keywordSets) ? null : validation)
         } else {
             errors = validations.map(validation => validationFn[validation](valuesWithLanguages, valuesWithLanguages[key]) ? null : validation)
         }
