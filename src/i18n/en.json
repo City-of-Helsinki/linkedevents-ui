@@ -232,8 +232,8 @@
     "search-date-placeholder": "dd.mm.yyyy",
     "copy-to-clipboard": "Copy to clipboard",
 
-    "hel-keywords": "Keywords",
     "hel-target-groups": "Target groups",
+    "additional-keywords": "Other keywords",
     "main-categories": "Main categories",
 
     "editor-publish-draft-warning": "N.B. The event will be published on the Internet. The original submitter can no longer edit the event.",

@@ -8,10 +8,17 @@
         color: white;
         font-weight: 400;
         margin: 10px 10px 0 0;
-        text-transform: capitalize;
 
         &:focus {
             background-color: $hel-coat;
+        }
+
+        span {
+            display: block;
+
+            &:first-letter {
+                text-transform: capitalize;
+            }
         }
 
         > svg {

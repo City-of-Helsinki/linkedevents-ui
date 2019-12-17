@@ -232,8 +232,8 @@
     "search-date-placeholder": "pp.kk.vvvv",
     "copy-to-clipboard": "Kopioi leikepöydälle",
 
-    "hel-keywords": "Avainsanat",
     "hel-target-groups": "Kohderyhmät",
+    "additional-keywords": "Muut avainsanat",
     "main-categories": "Pääkategoriat",
 
     "editor-publish-draft-warning": "HUOM. Tämä toiminto julkaisee tapahtuman Internetiin. Tapahtumaehdotuksen alkuperäinen tekijä ei voi enää muokata tapahtumaa.",

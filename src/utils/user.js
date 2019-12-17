@@ -25,6 +25,14 @@ export const getAdminOrganizations = user =>
         .map(getOrganization)
 
 /**
+ * Returns a promise containing data for the regular organizations that the given user belongs to
+ * @param user  User data
+ */
+export const getRegularOrganizations = user =>
+    get(user, 'organizationMemberships', [])
+        .map(getOrganization)
+
+/**
  * Returns whether the given user has any affiliated organizations
  * @param user  User data
  */

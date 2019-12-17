@@ -123,7 +123,10 @@ legend {
 
     label {
         margin-left: 1rem;
-        text-transform: capitalize;
+
+        &:first-letter {
+            text-transform: capitalize;
+        }
     }
 }
 

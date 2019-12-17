@@ -235,9 +235,9 @@ export class EditorPage extends React.Component {
 
     validateEvent = () => {
         const {event} = this.state
-        const {setValidationErrors, setFlashMsg} = this.props
+        const {setValidationErrors, setFlashMsg, editor: {keywordSets}} = this.props
         const formattedEvent = mapAPIDataToUIFormat(event)
-        const validationErrors = doValidations(formattedEvent, getContentLanguages(formattedEvent), PUBLICATION_STATUS.PUBLIC)
+        const validationErrors = doValidations(formattedEvent, getContentLanguages(formattedEvent), PUBLICATION_STATUS.PUBLIC, keywordSets)
 
         Object.keys(validationErrors).length > 0
             ? setValidationErrors(validationErrors)
@@ -245,7 +245,7 @@ export class EditorPage extends React.Component {
     }
 
     render() {
-        const {editor, user, match, organizations, intl} = this.props
+        const {editor, user, match, intl} = this.props
         const {event, subEvents, superEvent, loading} = this.state
         const userType = user && user.userType
         const editMode = get(match, ['params', 'action'])
@@ -297,7 +297,6 @@ export class EditorPage extends React.Component {
                         event={event}
                         superEvent={superEvent}
                         user={user}
-                        organizations={organizations}
                         setDirtyState={this.setDirtyState}
                     />
                 </div>
@@ -342,7 +341,6 @@ export class EditorPage extends React.Component {
 const mapStateToProps = (state) => ({
     editor: state.editor,
     user: state.user,
-    organizations: state.organizations.admin,
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -364,7 +362,6 @@ EditorPage.propTypes = {
     intl: intlShape.isRequired,
     editor: PropTypes.object,
     user: PropTypes.object,
-    organizations: PropTypes.arrayOf(PropTypes.object),
     setEventForEditing: PropTypes.func,
     clearData: PropTypes.func,
     setFlashMsg: PropTypes.func,
