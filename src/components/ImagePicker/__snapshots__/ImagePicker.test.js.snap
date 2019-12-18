@@ -6,26 +6,30 @@ exports[`Image add form ImagePicker component should render correctly with data 
 >
   <div>
     <div
-      className="img-preview"
-      onClick={[Function]}
+      className="MuiCircularProgress-root-1 MuiCircularProgress-primaryColor-2 loading-spinner"
+      role="progressbar"
       style={
         Object {
-          "backgroundImage": "url()",
+          "height": 50,
+          "width": 50,
         }
       }
-    />
-    <div>
-      <i
-        className="material-icons"
+    >
+      <svg
+        className="MuiCircularProgress-svgIndeterminate-4"
+        viewBox="0 0 50 50"
       >
-        
-      </i>
+        <circle
+          className="MuiCircularProgress-circle-6 MuiCircularProgress-circleIndeterminate-7"
+          cx={25}
+          cy={25}
+          fill="none"
+          r={20}
+          strokeWidth={3.6}
+          style={Object {}}
+        />
+      </svg>
     </div>
-    <label>
-      <span>
-        Lisää tapahtumalle kuva tai valitse kuvapankista
-      </span>
-    </label>
   </div>
 </div>
 `;
@@ -35,28 +39,10 @@ exports[`Image add form ImagePicker component should render view by default 1`] 
   className="image-picker"
 >
   <div>
-    <div
-      className="img-preview"
-      onClick={[Function]}
-      style={
-        Object {
-          "backgroundImage": "url()",
-        }
-      }
+    <WithStyles(CircularProgress)
+      className="loading-spinner"
+      size={50}
     />
-    <div>
-      <i
-        className="material-icons"
-      >
-        
-      </i>
-    </div>
-    <label>
-      <FormattedMessage
-        id="choose-image"
-        values={Object {}}
-      />
-    </label>
   </div>
   <Modal
     animation={true}
