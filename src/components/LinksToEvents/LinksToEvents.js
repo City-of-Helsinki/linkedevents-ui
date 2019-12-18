@@ -1,14 +1,20 @@
 import './LinksToEvents.scss'
 
 import React from 'react'
-import {FormattedMessage} from 'react-intl'
+import PropTypes from 'prop-types'
 import constants from '../../constants'
+import {FormattedMessage} from 'react-intl'
 import {Link} from 'react-router-dom'
 import {getBadge, getFirstMultiLanguageFieldValue, scrollToTop} from '../../utils/helpers'
 import moment from 'moment'
-import get from 'lodash/get'
-import PropTypes from 'prop-types'
-import {isNull} from 'lodash'
+import {isNull, get} from 'lodash'
+
+const {
+    EVENT_STATUS,
+    PUBLICATION_STATUS,
+    SUPER_EVENT_TYPE_RECURRING,
+    SUPER_EVENT_TYPE_UMBRELLA,
+} = constants
 
 const getSuperEventLinks = (event, type) => (
     <React.Fragment>
@@ -21,9 +27,9 @@ const getSuperEventLinks = (event, type) => (
                     <FormattedMessage id={`sub-events-for-${type}`} />
                 </p>
                 {event.sub_events.map(subEvent => {
-                    const isCancelled = subEvent.event_status === constants.EVENT_STATUS.CANCELLED
-                    const isRecurringEvent = subEvent.super_event_type === constants.SUPER_EVENT_TYPE_RECURRING
-                    const isDraft = subEvent.publication_status === constants.PUBLICATION_STATUS.DRAFT
+                    const isCancelled = subEvent.event_status === EVENT_STATUS.CANCELLED
+                    const isRecurringEvent = subEvent.super_event_type === SUPER_EVENT_TYPE_RECURRING
+                    const isDraft = subEvent.publication_status === PUBLICATION_STATUS.DRAFT
 
                     return (
                         <p key={subEvent.id}
@@ -59,10 +65,10 @@ const getSubEventLinks = (type, superEventId, superEventName) => (
 )
 
 const LinksToEvents = ({event, superEvent}) => {
-    const isUmbrellaEvent = event.super_event_type === constants.SUPER_EVENT_TYPE_UMBRELLA
-    const isRecurringEvent = event.super_event_type === constants.SUPER_EVENT_TYPE_RECURRING
-    const superEventIsUmbrellaEvent = !isNull(superEvent) && superEvent.super_event_type === constants.SUPER_EVENT_TYPE_UMBRELLA
-    const superEventIsRecurringEvent = !isNull(superEvent) && superEvent.super_event_type === constants.SUPER_EVENT_TYPE_RECURRING
+    const isUmbrellaEvent = event.super_event_type === SUPER_EVENT_TYPE_UMBRELLA
+    const isRecurringEvent = event.super_event_type === SUPER_EVENT_TYPE_RECURRING
+    const superEventIsUmbrellaEvent = !isNull(superEvent) && superEvent.super_event_type === SUPER_EVENT_TYPE_UMBRELLA
+    const superEventIsRecurringEvent = !isNull(superEvent) && superEvent.super_event_type === SUPER_EVENT_TYPE_RECURRING
     const superEventId = !isNull(superEvent) && superEvent.id
     const superEventName = getFirstMultiLanguageFieldValue(get(superEvent, 'name'))
 
