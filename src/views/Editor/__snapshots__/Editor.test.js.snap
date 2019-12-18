@@ -17,7 +17,6 @@ exports[`Editor Snapshot should render view correctly when creating new event fr
       className="controls"
     >
       <WithStyles(Button)
-        className="pull-right"
         color="primary"
         onClick={[Function]}
         raised={true}
@@ -993,7 +992,6 @@ exports[`Editor Snapshot should render view correctly when editing existing even
       className="controls"
     >
       <WithStyles(Button)
-        className="pull-right"
         color="primary"
         onClick={[Function]}
         raised={true}
@@ -1959,7 +1957,6 @@ exports[`Editor Snapshot should render view correctly when new event 1`] = `
       className="controls"
     >
       <WithStyles(Button)
-        className="pull-right"
         color="primary"
         onClick={[Function]}
         raised={true}

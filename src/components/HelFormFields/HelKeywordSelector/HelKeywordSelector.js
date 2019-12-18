@@ -3,7 +3,7 @@ import {FormattedMessage} from 'react-intl'
 import SelectedKeywords from '../../SelectedKeywords/SelectedKeywords'
 import React from 'react'
 import {SideField} from '../../FormFields'
-import {get, uniqBy} from 'lodash'
+import {get, isNil, uniqBy} from 'lodash'
 import {mapKeywordSetToForm} from '../../../utils/apiDataMapping'
 import {setData as setDataAction} from '../../../actions/editor'
 import PropTypes from 'prop-types'
@@ -12,6 +12,10 @@ import {CopyToClipboard} from 'react-copy-to-clipboard'
 import {ContentCopy} from 'material-ui-icons'
 
 const handleKeywordChange = (checkedOptions, keywords, mainCategoryOptions, setData) => {
+    if (isNil(checkedOptions)) {
+        return
+    }
+
     let updatedKeywords
 
     if (Array.isArray(checkedOptions)) {
@@ -35,6 +39,7 @@ const handleKeywordDelete = (deletedItem, keywords, setData) => {
 }
 
 const getKeywordIds = (keywords) => keywords
+    .filter(item => item)
     .map(item => {
         const value = item.value
         const searchKey = 'keyword/'

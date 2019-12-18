@@ -4,7 +4,7 @@ import {set, get} from 'lodash'
 import {setEditorAuthFlashMsg} from './editor'
 import client from '../api/client'
 import axios from 'axios'
-import {getAdminOrganizations} from '../utils/user'
+import {getAdminOrganizations, getRegularOrganizations} from '../utils/user'
 
 const {RECEIVE_USERDATA, CLEAR_USERDATA, USER_TYPE} = constants
 
@@ -72,9 +72,13 @@ export const retrieveUserFromSession = () => async (dispatch) => {
             }
 
             const adminOrganizations = await Promise.all(getAdminOrganizations(mergedUser))
+            const regularOrganizations = await Promise.all(getRegularOrganizations(mergedUser))
 
             // store data of all the organizations that the user is admin in
             mergedUser.adminOrganizationData = adminOrganizations
+                .reduce((acc, organization) => set(acc, `${organization.data.id}`, organization.data), {})
+            // store data of all the organizations where the user is a regular user
+            mergedUser.regularOrganizationData = regularOrganizations
                 .reduce((acc, organization) => set(acc, `${organization.data.id}`, organization.data), {})
             // get the affiliated organizations
             mergedUser.affiliatedOrganizations = adminOrganizations

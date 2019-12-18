@@ -29,7 +29,7 @@ export class EventListing extends React.Component {
     componentDidMount() {
         const {user} = this.props
 
-        if (!isNull(user)) {
+        if (!isNull(user) && !isNull(getOrganizationMembershipIds(user))) {
             this.fetchTableData()
         }
     }
@@ -39,7 +39,7 @@ export class EventListing extends React.Component {
         const oldUser = prevProps.user
 
         // fetch data if user logged in
-        if (isNull(oldUser) && user) {
+        if (isNull(oldUser) && user && !isNull(getOrganizationMembershipIds(user))) {
             this.fetchTableData()
         }
     }
@@ -221,8 +221,12 @@ export class EventListing extends React.Component {
         return (
             <div className="container">
                 {header}
-                <p><FormattedMessage id="events-management-description"/></p>
-                {isRegularUser && <p><FormattedMessage id="events-management-description-regular-user"/></p>}
+                <p>
+                    {isRegularUser
+                        ? <FormattedMessage id="events-management-description-regular-user"/>
+                        : <FormattedMessage id="events-management-description"/>
+                    }
+                </p>
                 <EventTable
                     events={events}
                     user={user}

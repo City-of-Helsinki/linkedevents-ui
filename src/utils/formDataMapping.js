@@ -1,4 +1,4 @@
-import {find, clone, map, lastIndexOf, forOwn, every, includes, isEmpty, cloneDeep, remove, values, set} from 'lodash'
+import {find, map, forOwn, isEmpty, values, set} from 'lodash'
 import constants from 'src/constants.js'
 import moment from 'moment'
 import 'moment-timezone'
@@ -9,39 +9,7 @@ export {
     mapAPIDataToUIFormat,
 }
 
-// hel.fi audience keywords that correspond to YSO audience keywords need to be posted also for now
-
-const helFiYsoAudienceMapping = {
-    'helfi:1': ['yso:p4354', 'yso:p13050'],
-    'helfi:2': ['yso:p11617'],
-    'helfi:3': ['yso:p6165'],
-    'helfi:4': ['yso:p7179'],
-    'helfi:5': ['yso:p2434'],
-    'helfi:6': ['yso:p3128'],
-    'helfi:7': ['yso:p1393'],
-}
-
-function _addHelFiAudienceKeywords(original_audiences) {
-    let audiences = clone(original_audiences)
-
-    const audienceIds = map(audiences, function(audience) {
-    // parse keyword ID from keyword URL
-        return audience.slice(lastIndexOf(audience, '/', audience.length - 2) + 1, -1)
-    })
-
-    // iterate hel.fi keywords
-    forOwn(helFiYsoAudienceMapping, function(ysoIDs, helFiID) {
-
-    // check that every YSO keyword for the current hel.fi keyword is selected
-        const containsEveryYso = every(ysoIDs, function(ysoID) {
-            return includes(audienceIds, ysoID)
-        })
-        if (containsEveryYso) {
-            audiences.push(`${appSettings.api_base}/keyword/` + helFiID + '/')
-        }
-    })
-    return audiences
-}
+const {EVENT_STATUS, PUBLICATION_STATUS} = constants
 
 function _nullifyEmptyStrings(multiLangObject) {
     forOwn(multiLangObject, function(value, language) {
@@ -73,15 +41,19 @@ function mapUIDataToAPIFormat(values) {
     obj.description = _nullifyEmptyStrings(values.description)
     obj.info_url = _nullifyEmptyStrings(values.info_url)
     obj.provider = _nullifyEmptyStrings(values.provider)
-    obj.event_status = values.event_status || constants.EVENT_STATUS.SCHEDULED
-    obj.publication_status = values.publication_status || constants.PUBLICATION_STATUS.DRAFT
+    obj.event_status = values.event_status || EVENT_STATUS.SCHEDULED
+    obj.publication_status = values.publication_status || PUBLICATION_STATUS.DRAFT
     obj.super_event_type = values.super_event_type
     obj.super_event = values.super_event
     obj.publisher = values.organization
 
     // Location data
-    obj.location = {'@id': values.location['@id']}
-    obj.location_extra_info = _nullifyEmptyStrings(values.location_extra_info)
+    if (values.location) {
+        obj.location = {'@id': values.location['@id']}
+    }
+    if (values.location_extra_info) {
+        obj.location_extra_info = _nullifyEmptyStrings(values.location_extra_info)
+    }
 
     // Image data
     obj.images = []
@@ -105,8 +77,7 @@ function mapUIDataToAPIFormat(values) {
     }
 
     if(values.audience && values.audience.length !== undefined) {
-        const audiences = _addHelFiAudienceKeywords(values.audience)
-        obj.audience = map(audiences, (item) => ({'@id': item}))
+        obj.audience = map(values.audience, (item) => ({'@id': item}))
     }
 
     if(values.in_language) {
@@ -319,6 +290,8 @@ export const createSubEventsFromFormValues = (formValues, updateExisting, superE
 export const updateSubEventsFromFormValues = (formValues, subEventsToUpdate) => {
     const keysToUpdate = ['start_time', 'end_time', 'id', 'super_event', 'super_event_type']
     // update form data with sub event data where applicable
-    return subEventsToUpdate.map(subEvent =>
-        keysToUpdate.reduce((acc, key) => set(acc, key, subEvent[key]), {...formValues}))
+    return subEventsToUpdate
+        // don't update canceled events
+        .filter(subEvent => subEvent.event_status !== EVENT_STATUS.CANCELLED)
+        .map(subEvent => keysToUpdate.reduce((acc, key) => set(acc, key, subEvent[key]), {...formValues}))
 }

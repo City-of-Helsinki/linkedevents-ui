@@ -313,7 +313,7 @@ const EventDetails = (props) => {
             </FormHeader>
 
             <OptionGroup values={mainCategoryKeywords} labelKey="main-categories"/>
-            <OptionGroup values={nonMainCategoryKeywords} labelKey="hel-keywords"/>
+            <OptionGroup values={nonMainCategoryKeywords} labelKey="additional-keywords"/>
             <OptionGroup values={rawData['audience']} labelKey="hel-target-groups"/>
             <OptionGroup values={rawData['in_language']} labelKey="hel-event-languages"/>
 

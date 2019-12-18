@@ -31,28 +31,26 @@ const paginationTheme = createMuiTheme({
     },
 })
 
-const EventTable = (props) => {
-    const {
-        intl,
-        events,
-        tableName,
-        tableColumns,
-        count,
-        selectedRows,
-        invalidRows,
-        handleRowSelect,
-        handleInvalidRows,
-        handleSortChange,
-        handlePageChange,
-        handlePageSizeChange,
-        paginationPage,
-        sortBy,
-        sortDirection,
-        pageSize,
-        pageSizeOptions,
-        fetchComplete,
-    } = props
-
+const EventTable = ({
+    intl,
+    events,
+    tableName,
+    tableColumns,
+    count,
+    selectedRows,
+    invalidRows,
+    handleRowSelect,
+    handleInvalidRows,
+    handleSortChange,
+    handlePageChange,
+    handlePageSizeChange,
+    paginationPage,
+    sortBy,
+    sortDirection,
+    pageSize,
+    pageSizeOptions,
+    fetchComplete,
+}) => {
     const hasResults = events.length > 0 || fetchComplete === false
 
     if (!hasResults) {
@@ -88,6 +86,7 @@ const EventTable = (props) => {
                             events={events}
                             isActive={isActive}
                             sortDirection={sortDirection}
+                            invalidRows={invalidRows}
                             selectedRows={selectedRows}
                             handleRowSelect={handleRowSelect}
                             handleSortChange={handleSortChange}

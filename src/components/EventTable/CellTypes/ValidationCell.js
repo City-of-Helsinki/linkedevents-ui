@@ -1,18 +1,19 @@
 import constants from '../../../constants'
-import {ErrorOutline} from 'material-ui-icons'
+import {ErrorOutline, Edit} from 'material-ui-icons'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, {useState} from 'react'
 import {TableCell, Tooltip} from 'material-ui'
 import {injectIntl} from 'react-intl'
 import {doValidations} from '../../../validation/validator'
 import getContentLanguages from '../../../utils/language'
 import {mapAPIDataToUIFormat} from '../../../utils/formDataMapping'
 import {connect} from 'react-redux'
+import {push} from 'react-router-redux'
 
 const {PUBLICATION_STATUS} = constants
 
-const ValidationCell = props => {
-    const {event, intl, editor, handleInvalidRow} = props
+const ValidationCell = ({event, intl, editor, handleInvalidRow, routerPush}) => {
+    const [hover, setHover] = useState(false);
     const formattedEvent = mapAPIDataToUIFormat(event)
     // don't validate sub_events as they will be validated separately
     formattedEvent.sub_events = []
@@ -26,8 +27,15 @@ const ValidationCell = props => {
     return (
         <TableCell className="validation-cell">
             {hasValidationErrors &&
-                <Tooltip title={intl.formatMessage({id: 'event-validation-errors'})}>
-                    <ErrorOutline />
+                <Tooltip
+                    onMouseEnter={() => setHover(true)}
+                    onMouseLeave={() => setHover(false)}
+                    title={intl.formatMessage({id: 'event-validation-errors'})}
+                >
+                    <span>
+                        {!hover && <ErrorOutline />}
+                        {hover && <Edit onClick={() => routerPush(`/event/update/${event.id}`)} />}
+                    </span>
                 </Tooltip>
             }
         </TableCell>
@@ -35,6 +43,7 @@ const ValidationCell = props => {
 }
 
 ValidationCell.propTypes = {
+    routerPush: PropTypes.func,
     intl: PropTypes.object,
     editor: PropTypes.object,
     event: PropTypes.object,
@@ -45,4 +54,8 @@ const mapStateToProps = (state) => ({
     editor: state.editor,
 })
 
-export default connect(mapStateToProps, null)(injectIntl(ValidationCell))
+const mapDispatchToProps = (dispatch) => ({
+    routerPush: (url) => dispatch(push(url)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(ValidationCell))

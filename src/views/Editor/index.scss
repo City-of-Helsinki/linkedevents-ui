@@ -12,6 +12,10 @@ $actionBtnHeight: 60px;
 
         .controls {
             margin-left: auto;
+
+            button:not(:first-of-type) {
+                margin-left: 15px;
+            }
         }
     }
 
@@ -137,7 +141,9 @@ $actionBtnHeight: 60px;
 
             button {
                 height: $actionBtnHeight;
+            }
 
+            > * {
                 &:not(:first-child) {
                     margin-left: 15px;
                 }

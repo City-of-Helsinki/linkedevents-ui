@@ -1,3 +1,5 @@
+@import '../../assets/colors';
+
 $checkbox-column-width: 50px;
 
 .draft-row {
@@ -30,11 +32,36 @@ $checkbox-column-width: 50px;
         width: auto;
     }
 
+    td.name-cell {
+        & > div {
+            align-items: center;
+            display: flex;
+
+            a {
+                margin-left: 10px;
+            }
+        }
+    }
+
     th.validation-cell,
     td.validation-cell {
         padding: 0;
         text-align: center;
         width: $checkbox-column-width;
+
+        div {
+            cursor: pointer;
+
+            &:hover {
+                color: $hel-coat
+            }
+
+            span {
+                display: inline-block;
+                height: 24px;
+                width: 24px;
+            }
+        }
     }
 
     td, th {
@@ -70,9 +97,6 @@ $checkbox-column-width: 50px;
 }
 
 .sub-event-toggle {
-    height: 40px;
-    width: 40px;
-
     &:hover {
         cursor: pointer;
     }

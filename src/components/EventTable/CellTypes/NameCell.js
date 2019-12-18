@@ -18,24 +18,26 @@ const NameCell = props => {
     }
 
     return (
-        <TableCell style={indentationStyle}>
-            {isSuperEvent && hasSubEvents &&
-                <span
-                    className='sub-event-toggle tag-space'
-                    onClick={toggleSubEvent}
-                >
-                    {showSubEvents ? <KeyboardArrowDown /> : <KeyboardArrowRight />}
-                </span>
-            }
-            {cancelled && getBadge('cancelled')}
-            {draft && getBadge('draft')}
-            {isSuperEvent && superEventType === constants.SUPER_EVENT_TYPE_UMBRELLA &&
-                getBadge('umbrella')
-            }
-            {isSuperEvent && superEventType === constants.SUPER_EVENT_TYPE_RECURRING &&
-                getBadge('series')
-            }
-            <Link to={`/event/${event.id}`}>{name}</Link>
+        <TableCell style={indentationStyle} className="name-cell">
+            <div>
+                {isSuperEvent && hasSubEvents &&
+                    <span
+                        className='sub-event-toggle tag-space'
+                        onClick={toggleSubEvent}
+                    >
+                        {showSubEvents ? <KeyboardArrowDown /> : <KeyboardArrowRight />}
+                    </span>
+                }
+                {cancelled && getBadge('cancelled')}
+                {draft && getBadge('draft')}
+                {isSuperEvent && superEventType === constants.SUPER_EVENT_TYPE_UMBRELLA &&
+                    getBadge('umbrella')
+                }
+                {isSuperEvent && superEventType === constants.SUPER_EVENT_TYPE_RECURRING &&
+                    getBadge('series')
+                }
+                <Link to={`/event/${event.id}`}>{name}</Link>
+            </div>
         </TableCell>
     )
 }

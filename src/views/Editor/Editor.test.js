@@ -40,6 +40,7 @@ describe('Editor Snapshot', () => {
                     eventId: 'new?_k=dn954b',
                 },
             },
+            setFlashMsg: jest.fn(),
             setEditorAuthFlashMsg: jest.fn(),
             ...initialStoreNewEvent,
         } // Props which are added to component
@@ -55,6 +56,7 @@ describe('Editor Snapshot', () => {
                     eventId: 'helsinki:afqxukccli',
                 },
             },
+            setFlashMsg: jest.fn(),
             setEditorAuthFlashMsg: jest.fn(),
             ...initialStoreExistingEvent,
         } // Props which are added to component
@@ -70,6 +72,7 @@ describe('Editor Snapshot', () => {
                     eventId: 'new?_k=dn954b',
                 },
             },
+            setFlashMsg: jest.fn(),
             setEditorAuthFlashMsg: jest.fn(),
             ...initialStoreExistingEvent,
         } // Props which are added to component

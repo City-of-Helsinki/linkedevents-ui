@@ -228,7 +228,8 @@ class UmbrellaSelector extends React.Component {
     hideSelectTip = () => this.setState({showSelectTip: false})
 
     render() {
-        const {event, showSelectTip, selectedUmbrellaEvent, isUmbrellaEvent, hasUmbrellaEvent, superEventSuperEventType} = this.state
+        const {showSelectTip, selectedUmbrellaEvent, isUmbrellaEvent, hasUmbrellaEvent, superEventSuperEventType} = this.state
+        const {event} = this.props
         // the super event id of the event that is being edited
         const superEventId = getSuperEventId(event)
         // whether the event being edited is a sub event

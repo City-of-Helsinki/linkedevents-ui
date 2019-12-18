@@ -26,7 +26,6 @@ import {setEventData, setData} from '../../actions/editor'
 import {get, pickBy} from 'lodash'
 import API from '../../api'
 import CONSTANTS from '../../constants'
-import {fetchUserAdminOrganization} from '../../actions/organization';
 import OrganizationSelector from '../HelFormFields/OrganizationSelector';
 import UmbrellaSelector from '../HelFormFields/UmbrellaSelector/UmbrellaSelector'
 import {ControlLabel, FormControl} from 'react-bootstrap'
@@ -62,15 +61,12 @@ class FormFields extends React.Component {
         showRecurringEvent: false,
     }
 
-    componentDidMount () {
-        this.context.dispatch(fetchUserAdminOrganization());
-    }
+    componentDidMount() {
+        const {action} = this.props;
 
-    componentDidUpdate (prevProps) {
-        const {organizations, action} = this.props;
         // set default value for organization if user is creating new event
-        if (prevProps.organizations.length <= 0 && organizations.length > 0 && action === 'create') {
-            this.context.dispatch(setData({organization: organizations[0].id}));
+        if (action === 'create') {
+            this.setDefaultOrganization()
         }
     }
 
@@ -88,6 +84,14 @@ class FormFields extends React.Component {
 
     showNewEventDialog() {
         this.setState({showNewEvents: !this.state.showNewEvents})
+    }
+
+    setDefaultOrganization = () => {
+        const {user} = this.props;
+        const userType = get(user, 'userType')
+        const defaultOrganizationData = get(user, [`${userType}OrganizationData`, `${user.organization}`], {})
+
+        this.context.dispatch(setData({organization: defaultOrganizationData.id}));
     }
 
     addNewEventDialog() {
@@ -148,10 +152,14 @@ class FormFields extends React.Component {
         const {VALIDATION_RULES, USER_TYPE} = CONSTANTS
         const addedEvents = pickBy(values.sub_events, event => !event['@id'])
         const newEvents = this.generateNewEventFields(addedEvents)
-        const publisherOptions = this.props.organizations.map(org => ({label: org.name, value: org.id}));
+        const userType = get(user, 'userType')
+        const isRegularUser = userType === USER_TYPE.REGULAR
+        const organizationData = get(user, `${userType}OrganizationData`, {})
+        const publisherOptions = Object.keys(organizationData)
+            .map(id => ({label: organizationData[id].name, value: id}))
+
         const selectedPublisher = publisherOptions.find(option => option.value === values['organization']) || {};
-        const isRegularUser = get(user, 'userType') === USER_TYPE.REGULAR
-        
+
         return (
             <div>
                 <div className="col-sm-12 highlighted-block">
@@ -559,7 +567,6 @@ FormFields.propTypes = {
     user: PropTypes.object,
     setDirtyState: PropTypes.func,
     action: PropTypes.oneOf(['update', 'create']),
-    organizations: PropTypes.arrayOf(PropTypes.object),
 }
 
 FormFields.contextTypes = {
