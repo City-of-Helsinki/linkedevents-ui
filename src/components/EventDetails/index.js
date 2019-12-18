@@ -11,10 +11,8 @@ import {
     intlShape,
 } from 'react-intl'
 import {getStringWithLocale} from '../../utils/locale'
-import constants from '../../constants'
-import {getFirstMultiLanguageFieldValue, scrollToTop} from '../../utils/helpers'
-import {Link} from 'react-router-dom'
 import {mapKeywordSetToForm} from '../../utils/apiDataMapping'
+import LinksToEvents from '../LinksToEvents/LinksToEvents'
 
 const NoValue = (props) => {
     let header = props.labelKey ? (<span><FormattedMessage id={`${props.labelKey}`}/>&nbsp;</span>) : null
@@ -258,13 +256,6 @@ const EventDetails = (props) => {
     const mainCategoryKeywords = values.keywords.filter(item => mainCategoryValues.includes(item.value))
     const nonMainCategoryKeywords = values.keywords.filter(item => !mainCategoryValues.includes(item.value))
 
-    const isUmbrellaEvent = rawData.super_event_type === constants.SUPER_EVENT_TYPE_UMBRELLA
-    const isRecurringEvent = rawData.super_event_type === constants.SUPER_EVENT_TYPE_RECURRING
-    const superEventId = get(superEvent, 'id')
-    const superEventName = getFirstMultiLanguageFieldValue(get(superEvent, 'name'))
-    const superEventIsUmbrellaEvent = get(superEvent, 'super_event_type') === constants.SUPER_EVENT_TYPE_UMBRELLA
-    const superEventIsRecurringEvent = get(superEvent, 'super_event_type') === constants.SUPER_EVENT_TYPE_RECURRING
-
     return (
         <div className="event-details">
             <ImageValue labelKey="event-image" value={values['image']}/>
@@ -342,44 +333,10 @@ const EventDetails = (props) => {
             <FormHeader>
                 {intl.formatMessage({id: 'links-to-events'})}
             </FormHeader>
-            {isUmbrellaEvent &&
-                <p className="link-to-events-text">
-                    <FormattedMessage id="super-event-of-umbrella" />
-                </p>
-            }
-            {isRecurringEvent &&
-                <p className="link-to-events-text">
-                    <FormattedMessage id="super-event-of-series" />
-                </p>
-            }
-            {superEventIsUmbrellaEvent && superEventId &&
-                <p className="link-to-events-text">
-                    <FormattedMessage id="sub-event-of-umbrella" />
-                    <Link
-                        to={`/event/${superEventId}`}
-                        onClick={scrollToTop}
-                    >
-                        <span>{superEventName}</span>
-                    </Link>
-                </p>
-            }
-            {superEventIsRecurringEvent && superEventId &&
-                <p className="link-to-events-text">
-                    <FormattedMessage id="sub-event-of-series" />
-                    <Link
-                        to={`/event/${superEventId}`}
-                        onClick={scrollToTop}
-                    >
-                        <span>{superEventName}</span>
-                    </Link>
-                </p>
-            }
-            {!isUmbrellaEvent && !isRecurringEvent && !superEventIsUmbrellaEvent && !superEventIsRecurringEvent &&
-                <p className="link-to-events-text">
-                    <FormattedMessage id="no-links-to-events" />
-                </p>
-
-            }
+            <LinksToEvents
+                event={rawData}
+                superEvent={superEvent}
+            />
         </div>
     )
 }

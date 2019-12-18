@@ -48,6 +48,8 @@
     "super-event-of-umbrella": "Tämä tapahtuma on kattotapahtuma.",
     "sub-event-of-series": "Tämä tapahtuma kuuluu sarjaan: ",
     "sub-event-of-umbrella": "Tällä tapahtumalla on kattotapahtuma: ",
+    "sub-events-for-series": "Sarjan alatapahtumat:",
+    "sub-events-for-umbrella": "Kattotapahtuman alatapahtumat:",
 
     "event-sort-name": "Otsikko",
     "event-sort-start_time": "Tapahtuma alkaa",
