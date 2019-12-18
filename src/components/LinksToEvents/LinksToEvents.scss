@@ -1,0 +1,15 @@
+.links-to-events {
+    &--text {
+        font-size: 20px;
+        margin-bottom: 0;
+        padding-bottom: 1rem;
+    }
+
+    &--link {
+        margin: 0;
+
+        & ~ & {
+            margin-top: 0.5rem;
+        }
+    }
+}

@@ -48,6 +48,8 @@
     "super-event-of-umbrella": "This is an umbrella event.",
     "sub-event-of-series": "This event is part of a series: ",
     "sub-event-of-umbrella": "This event has an umbrella event: ",
+    "sub-events-for-series": "Series' subevents:",
+    "sub-events-for-umbrella": "Umbrella subevents:",
 
     "event-sort-name": "Title",
     "event-sort-start_time": "Event starts",
