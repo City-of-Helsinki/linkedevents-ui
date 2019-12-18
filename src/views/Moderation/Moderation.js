@@ -80,8 +80,6 @@ export class Moderation extends React.Component {
         // promises containing the table data
         const fetchedData = tables.map(table => {
             const queryParams = this.getDefaultEventQueryParams(table)
-            queryParams.include = table === 'draft' ? 'keywords,sub_events' : null
-            queryParams.admin_user = table === 'draft' ? true : null
 
             return fetchEvents(queryParams)
         })
@@ -178,13 +176,22 @@ export class Moderation extends React.Component {
         try {
             const response = await fetchEvents(queryParams)
 
-            this.setState(state => ({[`${table}Data`]: {
-                ...state[`${table}Data`],
-                events: response.data.data,
-                count: response.data.meta.count,
-                sortBy: columnName,
-                sortDirection: sortDirection,
-            }}))
+            this.setState(state => {
+                const tableData = {...state[`${table}Data`]}
+
+                // reset invalid rows for draft table
+                if (table === 'draft') {
+                    tableData.invalidRows = []
+                }
+
+                return {[`${table}Data`]: {
+                    ...tableData,
+                    events: response.data.data,
+                    count: response.data.meta.count,
+                    sortBy: columnName,
+                    sortDirection: sortDirection,
+                }}
+            })
         } finally {
             this.setLoading(true, [table])
         }
@@ -205,12 +212,21 @@ export class Moderation extends React.Component {
         try {
             const response = await fetchEvents(queryParams)
 
-            this.setState(state => ({[`${table}Data`]: {
-                ...state[`${table}Data`],
-                events: response.data.data,
-                count: response.data.meta.count,
-                paginationPage: newPage,
-            }}))
+            this.setState(state => {
+                const tableData = {...state[`${table}Data`]}
+
+                // reset invalid rows for draft table
+                if (table === 'draft') {
+                    tableData.invalidRows = []
+                }
+
+                return {[`${table}Data`]: {
+                    ...tableData,
+                    events: response.data.data,
+                    count: response.data.meta.count,
+                    paginationPage: newPage,
+                }}
+            })
         } finally {
             this.setLoading(true, [table])
         }
@@ -224,20 +240,29 @@ export class Moderation extends React.Component {
     handlePageSizeChange = async (event, table) => {
         const pageSize = event.target.value
         const queryParams = this.getDefaultEventQueryParams(table)
-        queryParams.pageSize = pageSize
+        queryParams.page_size = pageSize
 
         this.setLoading(false, [table])
 
         try {
             const response = await fetchEvents(queryParams)
 
-            this.setState(state => ({[`${table}Data`]: {
-                ...state[`${table}Data`],
-                events: response.data.data,
-                count: response.data.meta.count,
-                paginationPage: 0,
-                pageSize: pageSize,
-            }}))
+            this.setState(state => {
+                const tableData = {...state[`${table}Data`]}
+
+                // reset invalid rows for draft table
+                if (table === 'draft') {
+                    tableData.invalidRows = []
+                }
+
+                return {[`${table}Data`]: {
+                    ...tableData,
+                    events: response.data.data,
+                    count: response.data.meta.count,
+                    paginationPage: 0,
+                    pageSize: pageSize,
+                }}
+            })
         } finally {
             this.setLoading(true, [table])
         }
@@ -279,6 +304,8 @@ export class Moderation extends React.Component {
         const {pageSize, sortBy, sortDirection} = this.state[`${table}Data`]
 
         const queryParams = new EventQueryParams()
+        queryParams.include = table === 'draft' ? 'keywords,sub_events' : null
+        queryParams.admin_user = table === 'draft' ? true : null
         queryParams.super_event = 'none'
         queryParams.publication_status = this.getPublicationStatus(table)
         queryParams.setPublisher(affiliatedOrganizations)

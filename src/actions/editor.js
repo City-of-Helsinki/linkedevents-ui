@@ -267,6 +267,8 @@ export const executeSendRequest = (
         return
     }
 
+    dispatch(validateFor(publicationStatus))
+
     // prepare the body of the request (event object/array)
     let preparedFormValues
 
@@ -285,8 +287,6 @@ export const executeSendRequest = (
             return
         }
     }
-
-    dispatch(validateFor(publicationStatus))
 
     const url = updateExisting && !updatingSubEvents
         ? `event/${formValues.id}`
@@ -377,7 +377,7 @@ export const sendRecurringData = (
 ) => (dispatch) => {
     // this tells the executeSendRequest method whether we're updating sub events
     const updatingSubEvents = updateExisting
-    let subEventsToSend = updateExisting
+    const subEventsToSend = updateExisting
         ? updateSubEventsFromFormValues(formValues, subEvents)
         : createSubEventsFromFormValues(formValues, updateExisting, superEventUrl)
 

@@ -70,7 +70,7 @@ export const userCanDoAction = (user, event, action, editor) => {
 
         return !hasValidationErrors
     }
-    if (action === 'update' && isDraft && isSubEvent) {
+    if (action === 'update' && isDraft && isSubEvent && !isRegularUser) {
         return false
     }
     if (action === 'cancel') {
