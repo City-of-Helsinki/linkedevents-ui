@@ -1,9 +1,10 @@
 import constants from '../constants'
 import moment from 'moment'
-import {get} from 'lodash'
+import {get, isNull, isUndefined} from 'lodash'
 import {doValidations} from '../validation/validator'
 import getContentLanguages from './language'
 import {mapAPIDataToUIFormat} from './formDataMapping'
+import {getOrganizationMembershipIds} from './user'
 
 const {PUBLICATION_STATUS, EVENT_STATUS, USER_TYPE, SUPER_EVENT_TYPE_UMBRELLA} = constants
 
@@ -13,9 +14,14 @@ export const userMayEdit = (user, event) => {
     const eventOrganization = get(event, 'organization')
     const organizationMemberships = get(user, 'organizationMemberships')
     const publicationStatus = get(event, 'publication_status')
+    const userHasOrganizations = !isNull(getOrganizationMembershipIds(user))
 
     let userMayEdit = false
 
+    // users that don't belong to any organization are not allowed to edit
+    if (!userHasOrganizations) {
+        return false
+    }
     // For simplicity, support both old and new user api.
     // Check admin_organizations and organization_membership, but fall back to user.organization if needed
     if (adminOrganizations) {
@@ -43,26 +49,29 @@ export const userMayEdit = (user, event) => {
     return userMayEdit
 }
 
-export const userCanDoAction = (user, event, action) => {
+export const userCanDoAction = (user, event, action, editor) => {
     const isUmbrellaEvent = get(event, 'super_event_type') === SUPER_EVENT_TYPE_UMBRELLA
     const isDraft = get(event, 'publication_status') === PUBLICATION_STATUS.DRAFT
     const isPublic = get(event, 'publication_status') === PUBLICATION_STATUS.PUBLIC
     const isRegularUser = get(user, 'userType') === USER_TYPE.REGULAR
+    const isSubEvent = !isUndefined(get(event, ['super_event', '@id']))
+    const {keywordSets} = editor
 
     if (action === 'publish') {
-        if (!event.id) {
+        if (!event.id || (isDraft && isSubEvent)) {
             return false
         }
-        // get event sub events and map them to UI format, so that we can validate them
-        const subEvents = Object.keys(event.sub_events)
-            .map(key => mapAPIDataToUIFormat(event.sub_events[key]))
-        // combine event with sub events
-        const formattedeventAndSubEvents = [mapAPIDataToUIFormat(event), ...subEvents]
-        // run validation against all events to see if any of them fail
-        const hasValidationErrors = formattedeventAndSubEvents
-            .some(_event => Object.keys(doValidations(_event, getContentLanguages(_event), PUBLICATION_STATUS.PUBLIC)).length > 0)
+        // format event, so that we can validate it
+        const formattedEvent = mapAPIDataToUIFormat(event)
+        // validate
+        const validations = doValidations(formattedEvent, getContentLanguages(formattedEvent), PUBLICATION_STATUS.PUBLIC, keywordSets)
+        // check if there are errors
+        const hasValidationErrors = Object.keys(validations).length > 0
 
         return !hasValidationErrors
+    }
+    if (action === 'update' && isDraft && isSubEvent && !isRegularUser) {
+        return false
     }
     if (action === 'cancel') {
         return !(isDraft || (isRegularUser && isPublic))
@@ -74,17 +83,21 @@ export const userCanDoAction = (user, event, action) => {
     return true
 }
 
-export const checkEventEditability = (user, event, action) => {
+export const checkEventEditability = (user, event, action, editor) => {
     const userMayEdit = module.exports.userMayEdit(user, event)
-    const userCanDoAction = module.exports.userCanDoAction(user, event, action)
+    const userCanDoAction = module.exports.userCanDoAction(user, event, action, editor)
     const isDraft = get(event, 'publication_status') === PUBLICATION_STATUS.DRAFT
     const endTime = get(event, 'end_time', '')
     const eventIsInThePast = moment(endTime, moment.defaultFormatUtc).isBefore(moment());
     const eventIsCancelled = get(event, 'event_status') === EVENT_STATUS.CANCELLED
+    const isSubEvent = !isUndefined(get(event, ['super_event', '@id']))
 
     const getExplanationId = () => {
         if (isDraft && action === 'cancel') {
             return 'draft-cancel'
+        }
+        if (!userCanDoAction && (action === 'publish' || action === 'update') && isSubEvent) {
+            return 'draft-publish-subevent'
         }
         if (!userCanDoAction && action === 'publish') {
             return 'event-validation-errors'
@@ -96,7 +109,7 @@ export const checkEventEditability = (user, event, action) => {
             return 'event-canceled'
         }
         if (!userMayEdit || !userCanDoAction) {
-            return 'user-no-rights'
+            return 'user-no-rights-edit'
         }
     }
 

@@ -58,6 +58,9 @@ class EventCreated extends React.Component {
             case EVENT_CREATION.DELETE:
                 headerTranslationId = EVENT_CREATION.DELETE_SUCCESS
                 break;
+            case EVENT_CREATION.PUBLISH:
+                headerTranslationId = EVENT_CREATION.PUBLISH_SUCCESS
+                break;
             case EVENT_CREATION.SAVE_DRAFT:
                 headerTranslationId = EVENT_CREATION.SAVE_DRAFT_SUCCESS
                 break;

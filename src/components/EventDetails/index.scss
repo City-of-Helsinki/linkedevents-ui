@@ -117,8 +117,16 @@ legend {
     font-size: 22px;
     font-weight: 300;
 
+    .material-icons {
+        padding-left: 0;
+    }
+
     label {
         margin-left: 1rem;
+
+        &:first-letter {
+            text-transform: capitalize;
+        }
     }
 }
 
@@ -153,10 +161,4 @@ legend {
 .event-image {
     max-height: 16em;
     max-width: 70%;
-}
-
-.link-to-events-text {
-    font-size: 20px;
-    margin-bottom: 0;
-    padding-bottom: 1rem;
 }

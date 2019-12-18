@@ -7,6 +7,7 @@ import HelDateTimeField from './HelDateTimeField.js'
 import HelSelect from './HelSelect.js'
 import HelOffersField from './HelOffersField.js'
 import NewEvent from './NewEvent.js'
+import HelKeywordSelector from './HelKeywordSelector/HelKeywordSelector'
 
 export {
     HelTextField,
@@ -18,4 +19,5 @@ export {
     HelDateTimeField,
     HelOffersField,
     NewEvent,
+    HelKeywordSelector,
 }

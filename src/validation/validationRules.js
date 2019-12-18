@@ -3,6 +3,7 @@ import moment from 'moment'
 import {includes, every, isNull} from 'lodash';
 import CONSTANT from '../constants'
 import {textLimitValidator} from '../utils/helpers'
+import {mapKeywordSetToForm} from '../utils/apiDataMapping'
 /**
  * Notice that all the validation functions follow the Formsy's parameter setup (values, value)
  * where values are all the form valus and value the tested field value
@@ -215,6 +216,14 @@ var validations = {
             return true
         }
         return false
+    },
+    atLeastOneMainCategory(values, value, keywordSets) {
+        if (!value) {
+            return false
+        }
+        return mapKeywordSetToForm(keywordSets, 'helsinki:topics')
+            .map(item => item.value)
+            .some(item => value.find(_item => _item.value.includes(item)))
     },
     shortString: function shortString(values, value) {
         return textLimitValidator(value, CONSTANT.CHARACTER_LIMIT.SHORT_STRING)

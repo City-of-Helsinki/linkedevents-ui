@@ -24,21 +24,28 @@ const HelSelect = (props) => {
         selectedValue,
         validationErrors,
         placeholderId,
+        customOnChangeHandler,
     } = props
 
     const onChange = (value) => {
-        if (isNil(value)) {
-            setData({[name]: null})
+        // let the custom handler handle the change if given
+        if (typeof customOnChangeHandler === 'function') {
+            customOnChangeHandler(value)
+        // otherwise set data
         } else {
-            if (name === 'keywords') {
-                setData({[name]: value})
-            }
-            if (name === 'location') {
-                setData({[name]: {
-                    name: {fi: value.label},
-                    id: value.value,
-                    '@id': value['@id'],
-                }})
+            if (isNil(value)) {
+                setData({[name]: null})
+            } else {
+                if (name === 'keywords') {
+                    setData({[name]: value})
+                }
+                if (name === 'location') {
+                    setData({[name]: {
+                        name: {fi: value.label},
+                        id: value.value,
+                        '@id': value['@id'],
+                    }})
+                }
             }
         }
 
@@ -59,13 +66,12 @@ const HelSelect = (props) => {
             const options = response.data.data
 
             return options.map(item => ({
+                value: item['@id'],
                 label: item.name.fi,
-                value: `/v1/${resource}/${item.id}/`,
                 n_events: item.n_events,
             }))
         } catch (e) {
             throw Error(e)
-
         }
     }
 
@@ -110,7 +116,7 @@ const HelSelect = (props) => {
     }
 
     const getDefaultValue = () => {
-        if (!selectedValue) {
+        if (!selectedValue || Object.keys(selectedValue).length === 0) {
             return null
         }
         if (name === 'keywords') {
@@ -187,6 +193,7 @@ HelSelect.propTypes = {
         PropTypes.object,
     ]),
     placeholderId: PropTypes.string,
+    customOnChangeHandler: PropTypes.func,
 }
 
 const mapDispatchToProps = (dispatch) => ({

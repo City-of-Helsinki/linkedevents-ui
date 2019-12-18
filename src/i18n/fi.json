@@ -48,6 +48,8 @@
     "super-event-of-umbrella": "Tämä tapahtuma on kattotapahtuma.",
     "sub-event-of-series": "Tämä tapahtuma kuuluu sarjaan: ",
     "sub-event-of-umbrella": "Tällä tapahtumalla on kattotapahtuma: ",
+    "sub-events-for-series": "Sarjan alatapahtumat:",
+    "sub-events-for-umbrella": "Kattotapahtuman alatapahtumat:",
 
     "event-sort-name": "Otsikko",
     "event-sort-start_time": "Tapahtuma alkaa",
@@ -63,6 +65,7 @@
 
     "ready": "Valmis",
     "clear-form": "Tyhjennä kentät",
+    "validate-form": "Tarkista puuttuvat tiedot",
 
     "event-presented-in-languages": "Tapahtumatiedot syötetään",
 
@@ -88,7 +91,7 @@
     "events-management": "Tapahtumien hallinta",
     "events-management-prompt": "muokataksesi tapahtumia.",
     "events-management-description": "Selaa ja muokkaa oman organisaatiosi julkisia tapahtumia sekä luonnoksia. Voit lisätä uuden tapahtuman yläpalkista.",
-    "events-management-description-regular-user": "Julkaistuja tapahtumia ei voi muokata.",
+    "events-management-description-regular-user": "Selaa ja muokkaa oman organisaatiosi luonnoksia ja selaa julkisia tapahtumia. Voit lisätä uuden tapahtuman yläpalkista. Julkaistuja tapahtumia ei voi muokata.",
     "events-management-no-results": "Yhtäkään muokattavaa tapahtumaa ei löytynyt.",
 
     "event-image": "Tapahtuman kuva (klikkaa vaihtaaksesi)",
@@ -144,7 +147,7 @@
     "instagram-url": "Instagram (url)",
 
     "event-categorization": "Tapahtuman luokittelu",
-    "event-keywords": "Tapahtuman asiasanat",
+    "event-keywords": "Lisää muita asiasanoja",
 
     "event-umbrella": "Kattotapahtumat",
     "event-is-umbrella": "Tämä tapahtuma on kattotapahtuma.",
@@ -172,6 +175,7 @@
     "validation-isDate": "Kirjoita päivämäärä muodossa pp.kk.vvvv tai p.k.vvvv",
     "validation-isInt": "Tulon on oltava numero",
     "validation-atLeastOne": "Valitse vähintään yksi",
+    "validation-atLeastOneMainCategory": "Valitse vähintään yksi pääkategoria",
     "validation-required": "Tämä kenttä vaaditaan",
     "validation-requiredForCourses": "Tämä kenttä vaaditaan",
     "validation-requiredMulti": "Tämä kenttä vaaditaan",
@@ -230,9 +234,9 @@
     "search-date-placeholder": "pp.kk.vvvv",
     "copy-to-clipboard": "Kopioi leikepöydälle",
 
-    "hel-keywords": "Avainsanat",
     "hel-target-groups": "Kohderyhmät",
-    "hel-main-categories": "Hel.fi-pääkategoriat",
+    "additional-keywords": "Muut avainsanat",
+    "main-categories": "Pääkategoriat",
 
     "editor-publish-draft-warning": "HUOM. Tämä toiminto julkaisee tapahtuman Internetiin. Tapahtumaehdotuksen alkuperäinen tekijä ei voi enää muokata tapahtumaa.",
     "editor-publish-draft-extra-warning": "Seuraavat tapahtumat julkaistaan:",
@@ -241,7 +245,9 @@
     "editor-update-extra-warning": "Tiedot tallennetaan seuraaviin tapahtumiin:",
 
     "editor-update-draft-warning": "Tiedot tallennetaan kaikkiin tapahtumiin tässä sarjassa. Näihin tapahtumiin tehdyt muutokset menetetään. Oletko varma että haluat jatkaa?",
+    "editor-update-draft-draft-warning": "Tiedot tallennetaan kaikkiin tapahtumiin tässä sarjassa. Näihin tapahtumiin tehdyt muutokset menetetään. Oletko varma että haluat jatkaa?",
     "editor-update-draft-extra-warning": "Tiedot tallennetaan seuraaviin tapahtumiin:",
+    "editor-update-draft-draft-extra-warning": "Tiedot tallennetaan seuraaviin tapahtumiin:",
 
     "editor-cancel-warning": "VAROITUS: Tämä toiminto peruuttaa tapahtuman. Voit myös poistaa sellaisen tapahtuman, jonka syötit vahingossa.",
     "editor-cancel-extra-warning": "Seuraavat tapahtumat peruutetaan:",
@@ -290,14 +296,17 @@
     "moderation-page": "Moderoi tapahtumia",
     "moderation-page-draft-heading": "Odottaa hyväksyntää",
     "moderation-page-published-heading": "Julkaistut tapahtumat",
+    "moderation-page-published-description": "Jos julkaisit tapahtumaehdotuksen valmiin kattotapahtuman alle, sitä ei näytetä tässä näkymässä.",
 
     "table-events-per-page": "Tapahtumia per sivu",
 
     "draft-cancel": "Tapahtumaluonnoksia ei voi perua.",
+    "draft-publish-subevent": "Sarjan alatapahtumia ei voi julkaista.",
     "event-validation-errors": "Tapahtumatiedoissa on puutteita. Muokkaa tapahtumaa ennen julkaisua.",
     "event-in-the-past": "Menneisyydessä olevia tapahtumia ei voi muokata.",
     "event-canceled": "Peruttuja tapahtumia ei voi muokata.",
-    "user-no-rights": "Sinulla ei ole oikeuksia muokata tätä tapahtumaa.",
+    "user-no-rights-edit": "Sinulla ei ole oikeuksia muokata tätä tapahtumaa.",
+    "user-no-rights-create": "Sinulla ei ole oikeuksia julkaista tapahtumia.",
     "return-without-saving": "Palaa tekemättä muutoksia",
 
     "format-select-count": " ({count} tapahtumaa)",

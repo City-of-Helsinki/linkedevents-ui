@@ -48,6 +48,7 @@ const EventActionButton = (props) => {
         action,
         confirmAction,
         customAction,
+        customButtonLabel,
         event,
         eventIsPublished,
         loading,
@@ -56,13 +57,13 @@ const EventActionButton = (props) => {
     const isRegularUser = get(user, 'userType') === USER_TYPE.REGULAR
     const formHasSubEvents = get(editor, ['values', 'sub_events'], []).length > 0
     const isDraft = get(event, 'publication_status') === PUBLICATION_STATUS.DRAFT
-    const {editable, explanationId} = checkEventEditability(user, event, action)
+    const {editable, explanationId} = checkEventEditability(user, event, action, editor)
     const disabled = !editable || loading
 
     let color = 'default'
-    const buttonLabel = getButtonLabel(action, isRegularUser, isDraft, eventIsPublished, formHasSubEvents)
+    const buttonLabel = customButtonLabel || getButtonLabel(action, isRegularUser, isDraft, eventIsPublished, formHasSubEvents)
 
-    if (action === 'publish' || action === 'update' || action === 'edit') {
+    if (action === 'publish' || action.includes('update') || action === 'edit') {
         color = 'primary'
     }
     if (action === 'cancel' || action === 'delete') {
@@ -99,6 +100,7 @@ EventActionButton.propTypes = {
     action: PropTypes.string,
     confirmAction: PropTypes.bool,
     customAction: PropTypes.func,
+    customButtonLabel: PropTypes.string,
     event: PropTypes.object,
     eventIsPublished: PropTypes.bool,
     loading: PropTypes.bool,

@@ -3,7 +3,7 @@ import './index.scss'
 import React from 'react'
 import {connect} from 'react-redux'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
-import {get} from 'lodash'
+import {get, isNull} from 'lodash'
 import PropTypes from 'prop-types'
 import {Button, CircularProgress} from 'material-ui'
 import Close from 'material-ui-icons/Close'
@@ -13,16 +13,20 @@ import {
     setEditorAuthFlashMsg as setEditorAuthFlashMsgAction,
     setLanguages as setLanguageAction,
     setEventForEditing as setEventForEditingAction,
+    setValidationErrors as setValidationErrorsAction,
 } from '../../actions/editor'
-import {confirmAction, clearFlashMsg as clearFlashMsgAction} from '../../actions/app'
+import {confirmAction, clearFlashMsg as clearFlashMsgAction, setFlashMsg as setFlashMsgAction} from '../../actions/app'
 import constants from '../../constants'
 import FormFields from '../../components/FormFields'
 import {EventQueryParams, fetchEvent} from '../../utils/events'
 import {push} from 'react-router-redux'
 import moment from 'moment'
-import {hasAffiliatedOrganizations} from '../../utils/user'
+import {getOrganizationMembershipIds, hasAffiliatedOrganizations} from '../../utils/user'
 import EventActionButton from '../../components/EventActionButton/EventActionButton'
 import {scrollToTop} from '../../utils/helpers'
+import {doValidations} from '../../validation/validator'
+import {mapAPIDataToUIFormat} from '../../utils/formDataMapping'
+import getContentLanguages from '../../utils/language'
 
 const {PUBLICATION_STATUS, SUPER_EVENT_TYPE_UMBRELLA, USER_TYPE} = constants
 
@@ -43,13 +47,20 @@ export class EditorPage extends React.Component {
     }
 
     componentDidMount() {
-        this.props.setEditorAuthFlashMsg()
-        const params = get(this.props, ['match', 'params'])
-        const isRegularUser = get(this.props, ['user', 'userType']) === USER_TYPE.REGULAR
+        const {user, match, setFlashMsg, setEditorAuthFlashMsg} = this.props
+
+        setEditorAuthFlashMsg()
+
+        const params = get(match, 'params')
+        const isRegularUser = get(user, 'userType') === USER_TYPE.REGULAR
+        const userHasOrganizations = !isNull(getOrganizationMembershipIds(user))
 
         this.setState({isRegularUser})
 
-        if(params.action === 'update' && params.eventId) {
+        if (user && !userHasOrganizations) {
+            setFlashMsg('user-no-rights-create', 'error', {sticky: true})
+        }
+        if (params.action === 'update' && params.eventId) {
             this.fetchEventData()
         }
     }
@@ -60,10 +71,6 @@ export class EditorPage extends React.Component {
 
         // check if the editing mode or if the eventId params changed
         if (prevParams.action !== currParams.action || prevParams.eventId !== currParams.eventId) {
-            currParams.action  === 'update'
-                ? this.fetchEventData()
-                : this.clearEventData()
-
             if (currParams.action === 'update') {
                 this.fetchEventData()
             } else {
@@ -164,6 +171,17 @@ export class EditorPage extends React.Component {
     }
 
     /**
+     * Saves the editor changes to a draft event without publishing
+     */
+    saveChangesToDraft = () => {
+        const {subEvents} = this.state
+        const {editor: {values: formValues}, executeSendRequest} = this.props
+
+        this.setState({isDirty: false})
+        executeSendRequest(formValues, true, PUBLICATION_STATUS.DRAFT, subEvents)
+    }
+
+    /**
      * Navigates to the moderation page
      */
     navigateToModeration = () => {
@@ -173,12 +191,13 @@ export class EditorPage extends React.Component {
 
     /**
      * Returns a button for the given action
-     * @param action        Action to run
-     * @param customAction  Custom action that should be run instead of the default one
-     * @param confirm       Whether confirmation modal should be shown before running action
+     * @param action            Action to run
+     * @param customAction      Custom action that should be run instead of the default one
+     * @param confirm           Whether confirmation modal should be shown before running action
+     * @param customButtonLabel ID of text to use as button label
      * @returns {*}
      */
-    getActionButton = (action, customAction, confirm = true) => {
+    getActionButton = (action, customAction, confirm = true, customButtonLabel) => {
         const {event, subEvents, loading} = this.state
         const eventIsPublished = this.eventIsPublished()
 
@@ -186,6 +205,7 @@ export class EditorPage extends React.Component {
             action={action}
             confirmAction={confirm}
             customAction={customAction}
+            customButtonLabel={customButtonLabel}
             event={event}
             eventIsPublished={eventIsPublished}
             loading={loading}
@@ -195,11 +215,16 @@ export class EditorPage extends React.Component {
     }
 
     handleConfirmedAction = (action, event) => {
-        const {routerPush} = this.props;
+        const {routerPush, user} = this.props;
+        const isDraft = event.publication_status === PUBLICATION_STATUS.DRAFT
 
-        // navigate to event listing after delete action
+        // navigate to moderation if an admin deleted a draft event, otherwise navigate to event listing
         if (action === 'delete') {
-            routerPush('/')
+            if (isDraft && hasAffiliatedOrganizations(user)) {
+                this.navigateToModeration();
+            } else {
+                routerPush('/')
+            }
         }
         // navigate to event view after cancel action
         if (action === 'cancel') {
@@ -208,12 +233,25 @@ export class EditorPage extends React.Component {
         }
     }
 
+    validateEvent = () => {
+        const {event} = this.state
+        const {setValidationErrors, setFlashMsg, editor: {keywordSets}} = this.props
+        const formattedEvent = mapAPIDataToUIFormat(event)
+        const validationErrors = doValidations(formattedEvent, getContentLanguages(formattedEvent), PUBLICATION_STATUS.PUBLIC, keywordSets)
+
+        Object.keys(validationErrors).length > 0
+            ? setValidationErrors(validationErrors)
+            : setFlashMsg('no-validation-errors', 'success')
+    }
+
     render() {
-        const {editor, user, match, organizations, intl} = this.props
+        const {editor, user, match, intl} = this.props
         const {event, subEvents, superEvent, loading} = this.state
+        const userType = user && user.userType
         const editMode = get(match, ['params', 'action'])
         const isUmbrellaEvent = get(editor, ['values', 'super_event_type']) === SUPER_EVENT_TYPE_UMBRELLA
         const isDraft = get(event, ['publication_status']) === PUBLICATION_STATUS.DRAFT
+        const isAdminUser = userType === USER_TYPE.ADMIN
         const hasSubEvents = subEvents && subEvents.length > 0
         const headerTextId = editMode === 'update'
             ? 'edit-events'
@@ -232,11 +270,19 @@ export class EditorPage extends React.Component {
                         <FormattedMessage id={headerTextId}/>
                     </h1>
                     <span className="controls">
+                        {isAdminUser && isDraft &&
+                            <Button
+                                raised
+                                onClick={this.validateEvent}
+                                color="primary"
+                            >
+                                <FormattedMessage id="validate-form"/>
+                            </Button>
+                        }
                         <Button
                             raised
                             onClick={this.clearEventData}
                             color="primary"
-                            className="pull-right"
                         >
                             <FormattedMessage id="clear-form"/><Close/>
                         </Button>
@@ -251,7 +297,6 @@ export class EditorPage extends React.Component {
                         event={event}
                         superEvent={superEvent}
                         user={user}
-                        organizations={organizations}
                         setDirtyState={this.setDirtyState}
                         loading={this.state.loading}
                     />
@@ -264,13 +309,28 @@ export class EditorPage extends React.Component {
                             {editMode === 'update' && this.getActionButton('cancel')}
                             {editMode === 'update' && this.getActionButton('delete')}
                             {isDraft && hasAffiliatedOrganizations(user) &&
-                                this.getActionButton('return', this.navigateToModeration, false)}
-                            {// show confirmation modal when the updated event has sub events and isn't an umbrella event, otherwise save directly
+                                this.getActionButton('return', this.navigateToModeration, false)
+                            }
+                            {
+                                // button that saves changes to a draft without publishing
+                                // only shown to moderators
+                                isDraft && hasAffiliatedOrganizations(user) &&
+                                this.getActionButton(
+                                    'update-draft',
+                                    this.saveChangesToDraft,
+                                    hasSubEvents && !isUmbrellaEvent,
+                                    'event-action-save-draft-existing'
+                                )
+                            }
+                            {
+                                // show confirmation modal when the updated event has sub events and isn't an umbrella event,
+                                // otherwise save directly
                                 this.getActionButton(
                                     'update',
                                     this.saveChanges,
                                     hasSubEvents && !isUmbrellaEvent
-                                )}
+                                )
+                            }
                         </div>
                     }
                 </div>
@@ -282,14 +342,15 @@ export class EditorPage extends React.Component {
 const mapStateToProps = (state) => ({
     editor: state.editor,
     user: state.user,
-    organizations: state.organizations.admin,
 })
 
 const mapDispatchToProps = (dispatch) => ({
     setEventForEditing: (eventId, user) => dispatch(setEventForEditingAction(eventId, user)),
     clearData: () => dispatch(clearDataAction()),
+    setFlashMsg: (id, status, data) => dispatch(setFlashMsgAction(id, status, data)),
     setEditorAuthFlashMsg: () => dispatch(setEditorAuthFlashMsgAction()),
     setLanguages: (languages) => dispatch(setLanguageAction(languages)),
+    setValidationErrors: (errors) => dispatch(setValidationErrorsAction(errors)),
     clearFlashMsg: () => dispatch(clearFlashMsgAction()),
     executeSendRequest: (formValues, updateExisting, publicationStatus, subEvents) =>
         dispatch(executeSendRequestAction(formValues, updateExisting, publicationStatus, subEvents)),
@@ -302,11 +363,12 @@ EditorPage.propTypes = {
     intl: intlShape.isRequired,
     editor: PropTypes.object,
     user: PropTypes.object,
-    organizations: PropTypes.arrayOf(PropTypes.object),
     setEventForEditing: PropTypes.func,
     clearData: PropTypes.func,
+    setFlashMsg: PropTypes.func,
     setEditorAuthFlashMsg: PropTypes.func,
     setLanguages: PropTypes.func,
+    setValidationErrors: PropTypes.func,
     clearFlashMsg: PropTypes.func,
     executeSendRequest: PropTypes.func,
     confirm: PropTypes.func,

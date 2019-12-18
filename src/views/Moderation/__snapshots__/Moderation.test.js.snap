@@ -50,6 +50,12 @@ exports[`Moderation Snapshot should render view by default 1`] = `
       values={Object {}}
     />
   </h2>
+  <p>
+    <FormattedMessage
+      id="moderation-page-published-description"
+      values={Object {}}
+    />
+  </p>
   <InjectIntl(EventTable)
     count={null}
     events={Array []}
@@ -101,6 +107,11 @@ exports[`Moderation Snapshot should render view correctly 1`] = `
       Julkaistut tapahtumat
     </span>
   </h2>
+  <p>
+    <span>
+      Jos julkaisit tapahtumaehdotuksen valmiin kattotapahtuman alle, sitä ei näytetä tässä näkymässä.
+    </span>
+  </p>
   <strong>
     <span>
       Ei tapahtumia mitä näyttää.
