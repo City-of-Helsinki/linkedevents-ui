@@ -253,6 +253,7 @@ export class EditorPage extends React.Component {
                         user={user}
                         organizations={organizations}
                         setDirtyState={this.setDirtyState}
+                        loading={this.state.loading}
                     />
                 </div>
 

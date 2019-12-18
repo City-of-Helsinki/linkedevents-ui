@@ -5,31 +5,53 @@ import PropTypes from 'prop-types'
 
 import {FormattedMessage, injectIntl} from 'react-intl'
 import Modal from 'react-bootstrap/lib/Modal';
-import {Button} from 'material-ui'
+import {Button, CircularProgress} from 'material-ui'
 import {deleteImage} from 'src/actions/userImages.js'
 import {connect} from 'react-redux'
 import {get as getIfExists, isEmpty} from 'lodash'
 import ImageEdit from '../ImageEdit'
 import ImageGalleryGrid from '../ImageGalleryGrid'
 import {confirmAction} from 'src/actions/app.js'
-import {getStringWithLocale} from 'src/utils/locale'
+
+// Display either the image thumbnail or the "Add an image to the event" text.
+const PreviewImage = (props) => {
+    const backgroundImage = (props.backgroundImage) ? props.backgroundImage : null;
+    const backgroundStyle = {backgroundImage: 'url(' + backgroundImage + ')'};
+    
+    if (backgroundImage) {
+        return (
+            <div>
+                <div className="img-preview" style={backgroundStyle} onClick={() => props.openModalMethod()}/>
+            </div>
+        );
+    } else {
+        return (
+            <div>
+                <div className="img-preview" onClick={() => props.openModalMethod()}/>
+                <div>
+                    <i className="material-icons">&#xE2C6;</i>
+                </div>
+                <label>
+                    <FormattedMessage id="choose-image"/>
+                </label>
+            </div>
+        );
+    }
+};
 
 export class ImagePicker extends React.Component {
 
     constructor(props) {
-        super(props)
-
-        // NB! WIP. "selected"-class of image thumbnails depends on these props
-        // if(this.props.editor.values.image) {
-        //     this.props.images.selected = this.props.editor.values.image
-        // }
+        super(props);
 
         this.state = {
             open: false,
             edit: false,
             imageFile: null,
             thumbnailUrl: null,
-        }
+        };
+    
+        this.openGalleryModal = this.openGalleryModal.bind(this);
     }
 
     clickHiddenUploadInput() {
@@ -76,12 +98,13 @@ export class ImagePicker extends React.Component {
     closeGalleryModal() {
         this.setState({open: false})
     }
+    
     openGalleryModal() {
         this.setState({open: true})
     }
 
     render() {
-        const bgStyle = {backgroundImage: 'url(' + getIfExists(this.props.editor.values, 'image.url', '') + ')'};
+        const backgroundImage = getIfExists(this.props.editor.values, 'image.url', '');
     
         let editModal = null;
         
@@ -105,18 +128,11 @@ export class ImagePicker extends React.Component {
             />;
         }
         
-        
-        
         return (
             <div className="image-picker">
                 <div>
-                    <div className="img-preview" style={bgStyle} onClick={() => this.openGalleryModal()}/>
-                    <div>
-                        <i className="material-icons">&#xE2C6;</i>
-                    </div>
-                    <label>
-                        <FormattedMessage id="choose-image"/>
-                    </label>
+                    { this.props.loading ?
+                        <CircularProgress className="loading-spinner" size={50}/> : <PreviewImage backgroundImage={backgroundImage} openModalMethod={this.openGalleryModal} /> }
                 </div>
 
                 <Modal
@@ -208,7 +224,8 @@ ImagePicker.defaultProps = {
     },
     images: {},
     user: {},
-}
+    loading: true,
+};
 
 ImagePicker.propTypes = {
     editor: PropTypes.object,
@@ -216,7 +233,13 @@ ImagePicker.propTypes = {
     images: PropTypes.object,
     children: PropTypes.element,
     dispatch: PropTypes.func,
-}
+    loading: PropTypes.bool,
+};
+
+PreviewImage.propTypes = {
+    backgroundImage: PropTypes.string,
+    openModalMethod: PropTypes.func,
+};
 
 const mapStateToProps = (state) => ({
     user: state.user,
