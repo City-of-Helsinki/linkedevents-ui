@@ -1,5 +1,6 @@
 import React from 'react'
-import {Checkbox, TableCell, TableSortLabel} from 'material-ui'
+import {TableCell, TableSortLabel} from 'material-ui'
+import {Checkbox} from '@material-ui/core'
 import PropTypes from 'prop-types'
 import constants from '../../../constants'
 
@@ -25,6 +26,8 @@ const TableHeaderCell = ({
             {name === 'checkbox' &&
             <TableCell className="checkbox">
                 <Checkbox
+                    color="primary"
+                    size="small"
                     checked={checked}
                     onChange={(e, checked) => handleRowSelect(checked, undefined, tableName, true)}
                 />

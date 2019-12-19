@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import {Checkbox} from 'react-bootstrap'
+import {FormControlLabel, Checkbox} from '@material-ui/core'
 import Tooltip from 'material-ui/Tooltip'
 
 const UmbrellaCheckbox = props => {
@@ -8,15 +8,19 @@ const UmbrellaCheckbox = props => {
     const tooltipTitle = intl.formatMessage({id: `event-${name.replace('_', '-')}-tooltip`})
 
     const getCheckbox = () => (
-        <Checkbox
-            name={name}
-            className="hel-checkbox"
-            onChange={handleCheck}
-            checked={checked}
-            disabled={disabled}
-        >
-            {props.children}
-        </Checkbox>
+        <FormControlLabel
+            control={
+                <Checkbox
+                    color="primary"
+                    size="small"
+                    name={name}
+                    onChange={handleCheck}
+                    checked={checked}
+                    disabled={disabled}
+                />
+            }
+            label={props.children}
+        />
     )
 
     return (

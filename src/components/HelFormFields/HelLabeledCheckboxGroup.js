@@ -1,8 +1,6 @@
-import './HelLabeledCheckboxGroup.scss'
-
 import PropTypes from 'prop-types';
 import React, {useRef} from 'react'
-import {Checkbox} from 'react-bootstrap'
+import {FormControlLabel, Checkbox} from '@material-ui/core'
 import {connect} from 'react-redux'
 import {setData as setDataAction} from '../../actions/editor'
 import ValidationPopover from '../ValidationPopover'
@@ -37,7 +35,7 @@ const HelLabeledCheckboxGroup = (props) => {
     })
 
     return (
-        <fieldset className="checkbox-group col-sm-6">
+        <fieldset className="col-sm-6">
             <div>
                 <span className="legend">
                     {groupLabel}
@@ -50,16 +48,20 @@ const HelLabeledCheckboxGroup = (props) => {
 
                     return (
                         <span key={`hel-checkbox-${index}`} className={(itemClassName || '')}>
-                            <Checkbox
-                                className="hel-checkbox"
-                                value={item.value}
-                                name={`${name}.${item.value}`}
-                                inputRef={ref => refs[`checkRef${index}`] = ref}
-                                checked={checked}
-                                onChange={() => handleChange(refs, props)}
-                            >
-                                {item.label}
-                            </Checkbox>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        color="primary"
+                                        size="small"
+                                        value={item.value}
+                                        name={`${name}.${item.value}`}
+                                        inputRef={ref => refs[`checkRef${index}`] = ref}
+                                        checked={checked}
+                                        onChange={() => handleChange(refs, props)}
+                                    />
+                                }
+                                label={item.label}
+                            />
                         </span>
                     )
                 })}
