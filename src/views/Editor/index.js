@@ -298,7 +298,7 @@ export class EditorPage extends React.Component {
                         superEvent={superEvent}
                         user={user}
                         setDirtyState={this.setDirtyState}
-                        loading={this.state.loading}
+                        loading={loading}
                     />
                 </div>
 

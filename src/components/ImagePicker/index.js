@@ -50,8 +50,6 @@ export class ImagePicker extends React.Component {
             imageFile: null,
             thumbnailUrl: null,
         };
-    
-        this.openGalleryModal = this.openGalleryModal.bind(this);
     }
 
     clickHiddenUploadInput() {
@@ -99,9 +97,9 @@ export class ImagePicker extends React.Component {
         this.setState({open: false})
     }
     
-    openGalleryModal() {
-        this.setState({open: true})
-    }
+    openGalleryModal = () => {
+        this.setState({open: true});
+    };
 
     render() {
         const backgroundImage = getIfExists(this.props.editor.values, 'image.url', '');
