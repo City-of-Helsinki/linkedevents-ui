@@ -251,7 +251,7 @@ class FormFields extends React.Component {
                     </div>
                     <SideField>
                         <label><FormattedMessage id="event-image"/></label>
-                        <ImagePickerForm label="image-preview" name="image" />
+                        <ImagePickerForm label="image-preview" name="image" loading={this.props.loading} />
                     </SideField>
                 </div>
 
@@ -567,6 +567,7 @@ FormFields.propTypes = {
     user: PropTypes.object,
     setDirtyState: PropTypes.func,
     action: PropTypes.oneOf(['update', 'create']),
+    loading: PropTypes.bool,
 }
 
 FormFields.contextTypes = {
