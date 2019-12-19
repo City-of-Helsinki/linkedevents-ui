@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react'
-import {Button} from 'material-ui'
 
 import MultiLanguageField from 'src/components/HelFormFields/MultiLanguageField'
 import ValidationPopover from 'src/components/ValidationPopover'
 import {setOfferData, deleteOffer} from 'src/actions/editor'
 
-import Delete from 'material-ui-icons/Delete'
-import {FormattedMessage} from 'react-intl'
+import {Button} from '@material-ui/core'
+import {Delete} from '@material-ui/icons'
 
 import CONSTANTS from '../../constants'
 
@@ -128,9 +127,12 @@ class NewOffer extends React.Component {
                 />
 
                 <Button
-                    raised
+                    color="secondary"
+                    variant="contained"
+                    style={buttonStyles}
                     onClick={() => this.deleteOffer()}
-                    style={buttonStyles}><Delete/>
+                >
+                    <Delete/>
                 </Button>
             </div>
         )

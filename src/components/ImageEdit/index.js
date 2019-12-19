@@ -4,7 +4,8 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import {injectIntl, FormattedMessage} from 'react-intl'
 import {Modal} from 'react-bootstrap';
-import {Button} from 'material-ui'
+import {Button, IconButton} from '@material-ui/core'
+import {Close} from '@material-ui/icons'
 import {connect} from 'react-redux'
 
 import FormFields from '../FormFields'
@@ -12,6 +13,7 @@ import HelTextField from '../HelFormFields/HelTextField'
 
 import CONSTANTS from '../../constants'
 import {postImage as postImageAction} from 'src/actions/userImages'
+import {HelTheme} from '../../themes/hel'
 
 class ImageEdit extends React.Component {
 
@@ -51,6 +53,7 @@ class ImageEdit extends React.Component {
         this.setState({[key]: e.target.value})
     }
     render() {
+        const {name, nameMinLength, nameMaxLength, license, photographerName} = this.state
         return (
             <Modal
                 id="image-modal"
@@ -60,12 +63,14 @@ class ImageEdit extends React.Component {
                 width="600px"
             >
                 <Modal.Header>
-                    <Button
-                        raised
-                        onClick={() => this.props.close()}
-                        style={{float:'right'}}
-                        color="primary">Sulje</Button>
-                    <h3>Kuvan tiedot</h3>
+                    <div className="modal-title-container">
+                        <h4>Kuvan tiedot</h4>
+                        <IconButton
+                            onClick={() => this.props.close()}
+                        >
+                            <Close />
+                        </IconButton>
+                    </div>
                 </Modal.Header>
                 <Modal.Body>
                     <form onSubmit={() => this.handleImagePost()} className="row">
@@ -73,15 +78,15 @@ class ImageEdit extends React.Component {
                             <div className="hel-text-field">
                                 <label className="hel-label">
                                     <FormattedMessage id={'image-caption-limit-for-min-and-max'} values={{
-                                        minLength: this.state.nameMinLength,
-                                        maxLength: this.state.nameMaxLength}}/>
+                                        minLength: nameMinLength,
+                                        maxLength: nameMaxLength}}/>
                                     
                                 </label>
                                 <HelTextField
                                     onChange={(e) => this.handleTextChange(e, 'name')}
-                                    defaultValue={this.state.name}
+                                    defaultValue={name}
                                     validations={[CONSTANTS.VALIDATION_RULES.SHORT_STRING]}
-                                    maxLength={this.state.nameMaxLength}
+                                    maxLength={nameMaxLength}
                                 />
                             </div>
                             <div className="hel-text-field">
@@ -90,23 +95,32 @@ class ImageEdit extends React.Component {
                                     type="text"
                                     className="form-control"
                                     onChange={(e) => this.handleTextChange(e, 'photographerName')}
-                                    defaultValue={this.state.photographerName}
+                                    defaultValue={photographerName}
                                 />
                             </div>
                             <h4>Kuvan lisenssi</h4>
                             <div className="form-check">
                                 <label className="edit-label">
-                                    <input value="cc_by" checked={this.state.license === 'cc_by'}  onChange={() => this.setState({license: 'cc_by'})} type="radio" className="form-check-input" />
+                                    <input value="cc_by" checked={license === 'cc_by'}  onChange={() => this.setState({license: 'cc_by'})} type="radio" className="form-check-input" />
                                     Creative Commons BY 4.0
                                 </label>
                                 <label className="edit-label">
-                                    <input value="event_only" checked={this.state.license === 'event_only'} onChange={() => this.setState({license: 'event_only'})} type="radio" className="form-check-input" />
+                                    <input value="event_only" checked={license === 'event_only'} onChange={() => this.setState({license: 'event_only'})} type="radio" className="form-check-input" />
                                     Käyttö rajattu tapahtuman yhteyteen
                                 </label>
                             </div>
                         </div>
                         <img className="col-sm-4 edit-form form-image" src={this.props.thumbnailUrl} />
-                        <button type="submit" className="col-sm-12 btn btn-save-image-data" disabled={(this.state.name.length >= 6) ? false : true}>Tallenna tiedot</button>
+                        <Button
+                            fullWidth
+                            type="submit"
+                            color="primary"
+                            variant="contained"
+                            disabled={name.length < nameMinLength}
+                            style={{margin: HelTheme.spacing(3, 0, 0)}}
+                        >
+                            Tallenna tiedot
+                        </Button>
 
                     </form>
                 </Modal.Body>

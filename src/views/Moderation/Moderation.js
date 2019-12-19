@@ -1,11 +1,11 @@
 require('./moderation.scss')
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Button} from 'material-ui'
+import {Button} from '@material-ui/core'
 import {FormattedMessage, injectIntl} from 'react-intl'
 import EventTable from '../../components/EventTable/EventTable'
 import {connect} from 'react-redux'
-import {isNull, zipObject, each, uniq, set} from 'lodash'
+import {isNull, zipObject, uniq, set} from 'lodash'
 import constants from '../../constants'
 import {
     appendEventDataWithSubEvents,
@@ -326,12 +326,12 @@ export class Moderation extends React.Component {
         let buttonColor = 'primary'
 
         if (action === 'delete') {
-            buttonColor = 'accent'
+            buttonColor = 'secondary'
         }
 
         return <Button
             key={`${table}-${action}-button`}
-            raised
+            variant="contained"
             color={buttonColor}
             className="draft-actions--button"
             disabled={selectedRows.length === 0}

@@ -17,10 +17,8 @@ import {
     HelKeywordSelector,
 } from 'src/components/HelFormFields'
 import RecurringEvent from 'src/components/RecurringEvent'
-import {Button} from 'material-ui'
-// Material-ui Icons
-import Add from 'material-ui-icons/Add'
-import Autorenew from 'material-ui-icons/Autorenew'
+import {Button} from '@material-ui/core'
+import {Add, Autorenew} from '@material-ui/icons'
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from '../../utils/apiDataMapping'
 import {setEventData, setData} from '../../actions/editor'
 import {get, pickBy} from 'lodash'
@@ -29,6 +27,7 @@ import CONSTANTS from '../../constants'
 import OrganizationSelector from '../HelFormFields/OrganizationSelector';
 import UmbrellaSelector from '../HelFormFields/UmbrellaSelector/UmbrellaSelector'
 import {ControlLabel, FormControl} from 'react-bootstrap'
+import {HelTheme} from '../../themes/hel'
 
 let FormHeader = (props) => (
     <div className="row">
@@ -258,7 +257,7 @@ class FormFields extends React.Component {
                 <FormHeader>
                     <FormattedMessage id="event-datetime-fields-header" />
                 </FormHeader>
-                <div className="row">
+                <div className="row date-row">
                     <div className="col-sm-6">
                         <div className="row">
                             <div className="col-xs-12 col-md-6">
@@ -293,19 +292,27 @@ class FormFields extends React.Component {
                             <RecurringEvent toggle={() => this.showRecurringEventDialog()} validationErrors={validationErrors} values={values}/>
                         }
                         <Button
-                            raised
+                            variant="contained"
                             disabled={formType === 'update'}
-                            className="base-material-btn"
                             color="primary"
-                            onClick={ () => this.addNewEventDialog() }
-                        ><Add/> <FormattedMessage id="event-add-new-occasion" /></Button>
+                            onClick={() => this.addNewEventDialog()}
+                            startIcon={<Add/>}
+                            fullWidth
+                            style={{marginTop: HelTheme.spacing(2)}}
+                        >
+                            <FormattedMessage id="event-add-new-occasion" />
+                        </Button>
                         <Button
-                            raised
-                            disabled={formType == 'update'}
-                            className="base-material-btn"
+                            variant="contained"
+                            disabled={formType === 'update'}
                             color={getAddRecurringEventButtonColor(this.state.showRecurringEvent)}
-                            onClick={ () => this.showRecurringEventDialog() }
-                        ><Autorenew/> <FormattedMessage id="event-add-recurring" /></Button>
+                            onClick={() => this.showRecurringEventDialog()}
+                            startIcon={<Autorenew/>}
+                            fullWidth
+                            style={{marginTop: HelTheme.spacing(2)}}
+                        >
+                            <FormattedMessage id="event-add-recurring" />
+                        </Button>
                     </div>
                     <SideField>
                         <div className="tip">

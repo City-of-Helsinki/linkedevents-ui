@@ -7,13 +7,14 @@ import HelCheckbox from './HelCheckbox'
 import NewOffer from './NewOffer'
 import './HelOffersField.scss'
 
-import {Button} from 'material-ui'
+import {Button} from '@material-ui/core'
 
 import {connect} from 'react-redux'
 import {addOffer, setOfferData, setFreeOffers} from 'src/actions/editor.js'
 
 
 import ValidationPopover from '../ValidationPopover'
+import {HelTheme} from '../../themes/hel'
 
 class HelOffersField extends React.Component {
 
@@ -96,11 +97,13 @@ class HelOffersField extends React.Component {
                     { offerDetails }
                 </div>
                 <Button
-                    raised
+                    fullWidth
+                    variant="contained"
                     color="primary"
                     disabled={this.state.isFree}
-                    className="base-material-btn"
-                    onClick={ () => this.addNewOffer() }>
+                    style={{marginTop: HelTheme.spacing(2)}}
+                    onClick={() => this.addNewOffer()}
+                >
                     <FormattedMessage id="event-add-price" />
                 </Button>
             </div>

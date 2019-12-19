@@ -5,8 +5,9 @@ import {connect} from 'react-redux'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 import {get, isNull} from 'lodash'
 import PropTypes from 'prop-types'
-import {Button, CircularProgress} from 'material-ui'
-import Close from 'material-ui-icons/Close'
+import {CircularProgress} from 'material-ui'
+import {Button} from '@material-ui/core'
+import {Close} from '@material-ui/icons'
 import {
     executeSendRequest as executeSendRequestAction,
     clearData as clearDataAction,
@@ -272,7 +273,7 @@ export class EditorPage extends React.Component {
                     <span className="controls">
                         {isAdminUser && isDraft &&
                             <Button
-                                raised
+                                variant="contained"
                                 onClick={this.validateEvent}
                                 color="primary"
                             >
@@ -280,11 +281,12 @@ export class EditorPage extends React.Component {
                             </Button>
                         }
                         <Button
-                            raised
+                            variant="contained"
                             onClick={this.clearEventData}
                             color="primary"
+                            endIcon={<Close/>}
                         >
-                            <FormattedMessage id="clear-form"/><Close/>
+                            <FormattedMessage id="clear-form"/>
                         </Button>
                     </span>
                 </div>

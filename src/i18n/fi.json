@@ -40,6 +40,7 @@
     "umbrella": "Kattotapahtuma",
     "loading": "Ladataan...",
     "select": "Valitse...",
+    "close": "Sulje",
 
     "links-to-events": "Kytkökset muihin tapahtumiin",
     "no-links-to-events": "Ei kytköksiä.",
@@ -308,6 +309,7 @@
     "user-no-rights-edit": "Sinulla ei ole oikeuksia muokata tätä tapahtumaa.",
     "user-no-rights-create": "Sinulla ei ole oikeuksia julkaista tapahtumia.",
     "return-without-saving": "Palaa tekemättä muutoksia",
+    "return-to-events": "Palaa takaisin tapahtumiin",
 
     "format-select-count": " ({count} tapahtumaa)",
     "upload-image-from-url": "Tai syötä ulkoisen kuvan osoite (url)"

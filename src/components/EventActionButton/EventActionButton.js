@@ -7,7 +7,8 @@ import {checkEventEditability} from '../../utils/checkEventEditability'
 import constants from '../../constants'
 import showConfirmationModal from '../../utils/confirm'
 import {appendEventDataWithSubEvents, getEventsWithSubEvents} from '../../utils/events'
-import {Button, Tooltip} from 'material-ui'
+import {Tooltip} from 'material-ui'
+import {Button} from '@material-ui/core'
 import {confirmAction} from '../../actions/app'
 import {getButtonLabel} from '../../utils/helpers'
 
@@ -67,11 +68,11 @@ const EventActionButton = (props) => {
         color = 'primary'
     }
     if (action === 'cancel' || action === 'delete') {
-        color = 'accent'
+        color = 'secondary'
     }
 
     const button = <Button
-        raised
+        variant="contained"
         disabled={disabled}
         className={`editor-${action}-button`}
         onClick={() => confirmAction ? confirmEventAction(props) : customAction()}

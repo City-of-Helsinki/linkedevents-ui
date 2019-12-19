@@ -40,6 +40,7 @@
     "umbrella": "Umbrella",
     "loading": "Loading...",
     "select": "Select...",
+    "close": "Close",
 
     "links-to-events": "Links to other events",
     "no-links-to-events": "No links.",
@@ -308,6 +309,7 @@
     "user-no-rights-edit": "You have insufficient rights to edit this event.",
     "user-no-rights-create": "You have insufficient rights to create events.",
     "return-without-saving": "Return without changes",
+    "return-to-events": "Return back to events",
 
     "format-select-count": " ({count} events)",
     "upload-image-from-url": "Upload image from url"

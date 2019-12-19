@@ -9,7 +9,8 @@ import {connect} from 'react-redux'
 import {FormattedMessage, injectIntl} from 'react-intl'
 
 import HelDatePicker from '../HelFormFields/HelDatePicker'
-import {Button, FormControl, ControlLabel} from 'react-bootstrap'
+import {FormControl, ControlLabel} from 'react-bootstrap'
+import {Button} from '@material-ui/core'
 
 import CONSTANTS from '../../constants'
 
@@ -81,11 +82,12 @@ class SearchBar extends React.Component {
                     </div>
                 </div>
                 <div className="col-sm-4 col-xs-12">
-                    <Button style={{height: '72px'}}
-                        className="mui-raised-button"
-                        type="submit"
+                    <Button
+                        style={{height: '72px'}}
+                        variant="contained"
                         color="primary"
-                        onClick={ (e) => this.handleSubmit(e) }>
+                        onClick={(e) => this.handleSubmit(e)}
+                    >
                         <FormattedMessage id="search-event-button"/>
                     </Button>
                 </div>

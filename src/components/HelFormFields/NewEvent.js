@@ -2,11 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react'
 import HelDateTimeField from '../HelFormFields/HelDateTimeField'
 import './NewEvent.scss'
-import {Button} from 'material-ui'
 import {connect} from 'react-redux'
 import {deleteSubEvent} from 'src/actions/editor.js'
-// Material-ui Icons
-import Delete from 'material-ui-icons/Delete'
+import {Button} from '@material-ui/core'
+import {Delete} from '@material-ui/icons'
 class NewEvent extends React.Component {
     static contextTypes = {
         dispatch: PropTypes.func,
@@ -20,7 +19,7 @@ class NewEvent extends React.Component {
         const buttonStyles = {
             width: '42px',
             minWidth: '42px',
-            height: '36px',
+            height: 'auto',
             position: 'absolute',
             left: '-55px',
             top: '2rem',
@@ -50,10 +49,13 @@ class NewEvent extends React.Component {
                             />
                         </div>
                         <Button
-                            raised
-                            onClick={() => this.deleteSubEvent()}
+                            color="secondary"
+                            variant="contained"
                             style={buttonStyles}
-                        ><Delete/></Button>
+                            onClick={() => this.deleteSubEvent()}
+                        >
+                            <Delete/>
+                        </Button>
                     </div>
                 </div>
             </div>

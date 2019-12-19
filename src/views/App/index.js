@@ -9,7 +9,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 
 import Headerbar from 'src/components/Header'
-import MaterialButton from 'material-ui/Button';
+import {ThemeProvider, Button, IconButton} from '@material-ui/core';
+import {Close} from '@material-ui/icons';
 import {Modal, Well} from 'react-bootstrap';
 
 import {injectIntl, FormattedMessage} from 'react-intl'
@@ -19,7 +20,6 @@ import {retrieveUserFromSession as retrieveUserFromSessionAction} from '../../ac
 
 import {cancelAction, doAction} from 'src/actions/app'
 
-import {MuiThemeProvider} from 'material-ui/styles'
 import {HelTheme} from 'src/themes/hel'
 import Notifications from '../Notification'
 
@@ -75,26 +75,7 @@ class App extends React.Component {
         }
         const getMarkup = () => ({__html: additionalMarkup})
 
-        let buttonStyle = {
-            marginLeft: '10px',
-            color: 'white',
-            backgroundColor: HelTheme.palette.primary.main,
-        }
-
-        let warningButtonStyle = {
-            marginLeft: '10px',
-            color: 'white',
-            backgroundColor: HelTheme.palette.secondary.main,
-        }
-        let useWarningButtonStyle = false
-        if (this.props.app.confirmAction && this.props.app.confirmAction.style === 'warning') {
-            useWarningButtonStyle = true
-        }
-
-        let isWarningModal = false;
-        if(this.props.app.confirmAction && this.props.app.confirmAction.style === 'warning') {
-            isWarningModal = true;
-        }
+        const useWarningButtonStyle = this.props.app.confirmAction && this.props.app.confirmAction.style === 'warning'
 
         let actionButtonLabel = 'confirm'
         if(this.props.app.confirmAction && this.props.app.confirmAction.actionButtonLabel && this.props.app.confirmAction.actionButtonLabel.length > 0) {
@@ -121,7 +102,7 @@ class App extends React.Component {
             }
         }
         return (
-            <MuiThemeProvider theme={HelTheme}>
+            <ThemeProvider theme={HelTheme}>
                 <div>
                     <Headerbar />
                     {organization_missing_msg}
@@ -130,7 +111,13 @@ class App extends React.Component {
                     </div>
                     <Notifications flashMsg={this.props.app.flashMsg} />
                     <Modal show={(!!this.props.app.confirmAction)} dialogClassName="custom-modal" onHide={e => this.props.dispatch(cancelAction())}>
-                        <Modal.Header closeButton>
+                        <Modal.Header>
+                            <IconButton
+                                onClick={() => this.props.dispatch(cancelAction())}
+                                style={{margin: '-4px 0 8px auto'}}
+                            >
+                                <Close />
+                            </IconButton>
                         </Modal.Header>
                         <Modal.Body>
                             <p><strong>{confirmMsg}</strong></p>
@@ -138,21 +125,23 @@ class App extends React.Component {
                             <div dangerouslySetInnerHTML={getMarkup()}/>
                         </Modal.Body>
                         <Modal.Footer>
-                            <MaterialButton 
-                                style={buttonStyle} 
-                                onClick={e => this.props.cancel()}>
+                            <Button
+                                variant="contained"
+                                onClick={() => this.props.cancel()}
+                            >
                                 <FormattedMessage id="cancel" />
-                            </MaterialButton>
-
-                            <MaterialButton 
-                                style={useWarningButtonStyle ? warningButtonStyle : buttonStyle} 
-                                onClick={e => this.props.do(this.props.app.confirmAction.data)}>
+                            </Button>
+                            <Button
+                                variant="contained"
+                                color={useWarningButtonStyle ? 'secondary' : 'primary'}
+                                onClick={() => this.props.do(this.props.app.confirmAction.data)}
+                            >
                                 <FormattedMessage id={actionButtonLabel} />
-                            </MaterialButton>
+                            </Button>
                         </Modal.Footer>
                     </Modal>
                 </div>
-            </MuiThemeProvider>
+            </ThemeProvider>
         )
     }
 }

@@ -5,7 +5,8 @@ import PropTypes from 'prop-types'
 
 import {FormattedMessage, injectIntl} from 'react-intl'
 import Modal from 'react-bootstrap/lib/Modal';
-import {Button} from 'material-ui'
+import {Button, IconButton} from '@material-ui/core'
+import {Close, Build} from '@material-ui/icons'
 import {deleteImage} from 'src/actions/userImages.js'
 import {connect} from 'react-redux'
 import {get as getIfExists, isEmpty} from 'lodash'
@@ -127,22 +128,24 @@ export class ImagePicker extends React.Component {
                     width="600px"
                 >
                     <Modal.Header>
-                        <button
-                            onClick={() => this.closeGalleryModal()}
-                            className='close'
-                            data-dismiss='modal'
-                            aria-label='Close'
-                        ><span aria-hidden="true">&times;</span>
-                        </button>
+                        <div className="modal-title-container">
+                            <Modal.Title id='ModalHeader'>
+                                <FormattedMessage id="new-image" />
+                            </Modal.Title>
+                            <IconButton
+                                onClick={() => this.closeGalleryModal()}
+                            >
+                                <Close/>
+                            </IconButton>
+                        </div>
 
-                        <Modal.Title id='ModalHeader'><FormattedMessage id="new-image" /></Modal.Title>
-                        
                         <input onChange={(e) => this.handleUpload(e)} style={{display: 'none'}} type="file" ref={(ref) => this.hiddenFileInput = ref} />
                         <Button
-                            className={'upload-img'}
-                            raised
+                            className="upload-img"
+                            variant="contained"
+                            color="primary"
                             onClick={() => this.clickHiddenUploadInput()}
-                            color="primary">
+                        >
                             <FormattedMessage id="upload-image" />
                         </Button>
                         
@@ -152,10 +155,12 @@ export class ImagePicker extends React.Component {
                                 <input id="externalImageURL" className="form-control" onSubmit={this.handleExternalImageSave} ref={(ref) => this.externalImageURL = ref}/>
                             </div>
                             <Button
-                                className={'attach-external'}
-                                raised
-                                color={'primary'}
-                                onClick={() => this.handleExternalImageSave()}><FormattedMessage id="attach-image-to-event"/>
+                                className="attach-external"
+                                variant="contained"
+                                color="primary"
+                                onClick={() => this.handleExternalImageSave()}
+                            >
+                                <FormattedMessage id="attach-image-to-event"/>
                             </Button>
                         </div>
                     </Modal.Header>
@@ -164,27 +169,31 @@ export class ImagePicker extends React.Component {
     
                         <div className={'button-row'}>
                             <Button
-                                className={'delete'}
-                                color={'accent'}
-                                raised
+                                className="delete"
+                                color="secondary"
+                                variant="contained"
                                 onClick={() => this.handleDelete()}
-                                primary={'false'}
-                                disabled={isEmpty(this.props.editor.values.image)}><FormattedMessage id="delete-from-filesystem"/>
+                                disabled={isEmpty(this.props.editor.values.image)}
+                            >
+                                <FormattedMessage id="delete-from-filesystem"/>
                             </Button>
     
                             <div className={'wrapper-right'}>
                                 <Button
-                                    className={'edit'}
-                                    raised
-                                    primary={'false'}
+                                    className="edit"
+                                    variant="contained"
                                     disabled={isEmpty(this.props.editor.values.image)}
-                                    onClick={() => this.handleEdit()}><FormattedMessage id="edit-selected-image"/>
+                                    onClick={() => this.handleEdit()}
+                                >
+                                    <FormattedMessage id="edit-selected-image"/>
                                 </Button>
                                 <Button
-                                    className={'attach'}
-                                    raised
+                                    className="attach"
+                                    variant="contained"
                                     onClick={() => this.closeGalleryModal()}
-                                    color="primary"><FormattedMessage id="attach-image-to-event"/>
+                                    color="primary"
+                                >
+                                    <FormattedMessage id="attach-image-to-event"/>
                                 </Button>
                             </div>
                         </div>

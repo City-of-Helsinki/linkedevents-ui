@@ -8,10 +8,9 @@ import moment from 'moment'
 import {some, values, forEach, isEmpty} from 'lodash' 
 
 import DayCheckbox from './DayCheckbox'
-// Material-ui Icons
-import {Add, Close} from 'material-ui-icons'
-import {Button as MaterialButton} from 'material-ui'
-import {Grid, Row, Col, ControlLabel, Button} from 'react-bootstrap'
+import {Button, IconButton} from '@material-ui/core'
+import {Add, Close} from '@material-ui/icons'
+import {Grid, Row, Col, ControlLabel} from 'react-bootstrap'
 
 import {connect} from 'react-redux'
 import {setEventData, sortSubEvents, setData} from 'src/actions/editor'
@@ -23,6 +22,7 @@ import update from 'immutability-helper'
 import CONSTANTS from '../../constants'
 
 import './RecurringEvent.scss'
+import {HelTheme} from '../../themes/hel'
 
 class RecurringEvent extends React.Component {
 
@@ -278,10 +278,12 @@ class RecurringEvent extends React.Component {
         return (
             <div className="recurring-events-modal" onClick={this.props.toggle}>
                 <Grid className="recurring-events" onClick={(e) => this.stop(e)}>
-                    <Button className="recurring-events-modal__close" onClick={this.props.toggle}>
-                        <Close />
-                    </Button>
-                    <h2><FormattedMessage id="event-add-recurring"/></h2>
+                    <div className="recurring-events-modal__header">
+                        <h2><FormattedMessage id="event-add-recurring"/></h2>
+                        <IconButton onClick={this.props.toggle}>
+                            <Close />
+                        </IconButton>
+                    </div>
                     <Row>
                         <Col xs={12} sm={12} className="multi-field repeat-frequency">
                             <div className="dates-label">
@@ -353,12 +355,16 @@ class RecurringEvent extends React.Component {
 
                     <Row>
                         <Col xs={12} sm={12}>
-                            <MaterialButton
-                                className="base-material-btn add-button"
-                                raised
+                            <Button
+                                fullWidth
+                                variant="contained"
                                 color="primary"
-                                onClick={() => this.generateEvents(this.state)}><Add/><FormattedMessage id="add-more"/>
-                            </MaterialButton>
+                                onClick={() => this.generateEvents(this.state)}
+                                style={{marginTop: HelTheme.spacing(2)}}
+                                startIcon={<Add/>}
+                            >
+                                <FormattedMessage id="add-more"/>
+                            </Button>
                         </Col>
                     </Row>
                 </Grid>

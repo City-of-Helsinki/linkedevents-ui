@@ -4,7 +4,8 @@ import EventDetails from 'src/components/EventDetails'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
-import {Button, CircularProgress} from 'material-ui'
+import {CircularProgress} from 'material-ui'
+import {Button} from '@material-ui/core'
 import {push} from 'react-router-redux'
 import {replaceData as replaceDataAction} from 'src/actions/editor.js'
 import {confirmAction} from 'src/actions/app.js'
@@ -163,9 +164,8 @@ class EventPage extends React.Component {
                 {isAdmin && isDraft && publishEventButton}
                 {editEventButton}
                 <Button
-                    raised
+                    variant="contained"
                     disabled={loading}
-                    color="default"
                     onClick={() => this.openEventInEditor('copy')}
                 >
                     <FormattedMessage id="copy-event-to-draft"/>
