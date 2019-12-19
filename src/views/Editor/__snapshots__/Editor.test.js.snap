@@ -923,6 +923,7 @@ exports[`Editor Snapshot should render view correctly when creating new event fr
         }
       }
       event={Object {}}
+      loading={false}
       setDirtyState={[Function]}
       superEvent={Object {}}
       user={
@@ -1898,6 +1899,7 @@ exports[`Editor Snapshot should render view correctly when editing existing even
         }
       }
       event={Object {}}
+      loading={true}
       setDirtyState={[Function]}
       superEvent={Object {}}
       user={
@@ -2617,6 +2619,7 @@ exports[`Editor Snapshot should render view correctly when new event 1`] = `
         }
       }
       event={Object {}}
+      loading={false}
       setDirtyState={[Function]}
       superEvent={Object {}}
       user={
