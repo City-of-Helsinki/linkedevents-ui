@@ -5,9 +5,8 @@ import PropTypes from 'prop-types'
 
 import {FormattedMessage, injectIntl} from 'react-intl'
 import Modal from 'react-bootstrap/lib/Modal';
-import {CircularProgress} from 'material-ui'
-import {Button, IconButton} from '@material-ui/core'
-import {Close} from '@material-ui/icons'
+import {Button, IconButton, CircularProgress} from '@material-ui/core'
+import {Close, Publish} from '@material-ui/icons'
 import {deleteImage} from 'src/actions/userImages.js'
 import {connect} from 'react-redux'
 import {get as getIfExists, isEmpty} from 'lodash'
@@ -28,15 +27,13 @@ const PreviewImage = (props) => {
         );
     } else {
         return (
-            <div>
+            <React.Fragment>
                 <div className="img-preview" onClick={() => props.openModalMethod()}/>
-                <div>
-                    <i className="material-icons">&#xE2C6;</i>
-                </div>
+                <Publish fontSize="large" />
                 <label>
                     <FormattedMessage id="choose-image"/>
                 </label>
-            </div>
+            </React.Fragment>
         );
     }
 };
@@ -130,10 +127,10 @@ export class ImagePicker extends React.Component {
         
         return (
             <div className="image-picker">
-                <div>
-                    { this.props.loading ?
-                        <CircularProgress className="loading-spinner" size={50}/> : <PreviewImage backgroundImage={backgroundImage} openModalMethod={this.openGalleryModal} /> }
-                </div>
+                { this.props.loading
+                    ? <CircularProgress className="loading-spinner" size={60}/>
+                    : <PreviewImage backgroundImage={backgroundImage} openModalMethod={this.openGalleryModal} />
+                }
 
                 <Modal
                     id="image-modal"

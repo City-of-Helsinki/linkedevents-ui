@@ -5,8 +5,7 @@ import {connect} from 'react-redux'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 import {get, isNull} from 'lodash'
 import PropTypes from 'prop-types'
-import {CircularProgress} from 'material-ui'
-import {Button} from '@material-ui/core'
+import {Button, CircularProgress} from '@material-ui/core'
 import {Close} from '@material-ui/icons'
 import {
     executeSendRequest as executeSendRequestAction,

@@ -3,10 +3,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
     TableCell, TableRow, Table, TableHead,
-    TableBody, TablePagination, CircularProgress, TableFooter,
+    TableBody, TablePagination, TableFooter,
 } from 'material-ui'
-import {FormattedMessage, injectIntl} from 'react-intl'
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles'
+import {CircularProgress} from '@material-ui/core'
+import {FormattedMessage, injectIntl} from 'react-intl'
 import EventRow from './EventRow'
 import TableHeaderCell from './CellTypes/TableHeaderCell'
 import constants from '../../constants'

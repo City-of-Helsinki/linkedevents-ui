@@ -28,30 +28,23 @@ $modal-backdrop-opacity: 0.7;
 }
 
 .image-picker {
-
-    position: relative;
-    height: 346px;
-
-    padding-top: 4em;
-    text-align: center;
-
+    align-items: center;
     background-color: $bg-color;
+    border: 1px solid #525a65;
+    color: #525a65;
     cursor: pointer;
-    color: #484848;
-    transition: background 200ms;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    height: 346px;
+    justify-content: center;
+    margin: 15px 0;
     overflow: hidden;
-    border: 1px solid gray;
+    position: relative;
+    text-align: center;
+    transition: background 200ms ease-in-out;
 
     &:hover {
         background-color: darken($bg-color, 4%);
-    }
-
-    i {
-        padding-top: 20px;
-        font-size: 72px;
-        color: #9b9b9b;
     }
 
     label {
@@ -72,14 +65,6 @@ $modal-backdrop-opacity: 0.7;
         background-repeat: no-repeat;
         background-position: 50% 50%;
         z-index: 666;
-    }
-
-    // Center the spinner both horizontally & vertically
-    .loading-spinner {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        position: absolute;
     }
 }
 
