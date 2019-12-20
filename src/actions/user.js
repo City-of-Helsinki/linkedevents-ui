@@ -45,7 +45,7 @@ function saveUserToLocalStorage(user) {
 
 export const retrieveUserFromSession = () => async (dispatch) => {
     try {
-        const meResponse = await axios.get(`auth/me?${+new Date()}`)
+        const meResponse = await axios.get(`/auth/me?${+new Date()}`)
         const user = meResponse.data
 
         if (user.token) {
