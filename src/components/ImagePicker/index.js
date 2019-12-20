@@ -7,7 +7,7 @@ import {FormattedMessage, injectIntl} from 'react-intl'
 import Modal from 'react-bootstrap/lib/Modal';
 import {CircularProgress} from 'material-ui'
 import {Button, IconButton} from '@material-ui/core'
-import {Close, Build} from '@material-ui/icons'
+import {Close} from '@material-ui/icons'
 import {deleteImage} from 'src/actions/userImages.js'
 import {connect} from 'react-redux'
 import {get as getIfExists, isEmpty} from 'lodash'
