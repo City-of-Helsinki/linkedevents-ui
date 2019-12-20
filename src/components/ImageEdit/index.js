@@ -13,7 +13,7 @@ import HelTextField from '../HelFormFields/HelTextField'
 
 import CONSTANTS from '../../constants'
 import {postImage as postImageAction} from 'src/actions/userImages'
-import {HelTheme} from '../../themes/hel'
+import {HelTheme} from '../../themes/hel/material-ui'
 
 class ImageEdit extends React.Component {
 

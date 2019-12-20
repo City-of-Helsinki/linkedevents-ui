@@ -10,6 +10,7 @@ import {get, isNil} from 'lodash'
 import ValidationPopover from '../ValidationPopover'
 import client from '../../api/client'
 import {injectIntl} from 'react-intl'
+import {HelSelectTheme, HelSelectStyles} from '../../themes/hel/react-select'
 
 const HelSelect = (props) => {
     const {
@@ -164,6 +165,8 @@ const HelSelect = (props) => {
                 noOptionsMessage={() => intl.formatMessage({id: 'search-no-results'})}
                 filterOption={createFilter({ignoreAccents: false})}
                 formatOptionLabel={formatOption}
+                styles={HelSelectStyles}
+                theme={HelSelectTheme}
             />
         </React.Fragment>
     )

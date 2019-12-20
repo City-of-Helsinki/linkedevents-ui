@@ -4,6 +4,7 @@ import {FormattedMessage} from 'react-intl';
 import Select from 'react-select';
 import {FormControl} from 'react-bootstrap';
 import {get} from 'lodash';
+import {HelSelectTheme, HelSelectStyles} from '../../themes/hel/react-select'
 
 const OrganizationSelector = (props) => {
     const {formType, selectedOption, options, onChange} = props;
@@ -23,6 +24,8 @@ const OrganizationSelector = (props) => {
                     value={selectedOption}
                     options={options}
                     onChange={onChange}
+                    theme={HelSelectTheme}
+                    styles={HelSelectStyles}
                 />
             ) : (
                 <FormControl value={get(options, '[0].label', '')} disabled />

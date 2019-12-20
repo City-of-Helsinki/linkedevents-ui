@@ -14,7 +14,7 @@ import {addOffer, setOfferData, setFreeOffers} from 'src/actions/editor.js'
 
 
 import ValidationPopover from '../ValidationPopover'
-import {HelTheme} from '../../themes/hel'
+import {HelTheme} from '../../themes/hel/material-ui'
 
 class HelOffersField extends React.Component {
 

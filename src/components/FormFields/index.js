@@ -27,7 +27,7 @@ import CONSTANTS from '../../constants'
 import OrganizationSelector from '../HelFormFields/OrganizationSelector';
 import UmbrellaSelector from '../HelFormFields/UmbrellaSelector/UmbrellaSelector'
 import {ControlLabel, FormControl} from 'react-bootstrap'
-import {HelTheme} from '../../themes/hel'
+import {HelTheme} from '../../themes/hel/material-ui'
 
 let FormHeader = (props) => (
     <div className="row">

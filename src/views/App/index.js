@@ -20,7 +20,7 @@ import {retrieveUserFromSession as retrieveUserFromSessionAction} from '../../ac
 
 import {cancelAction, doAction} from 'src/actions/app'
 
-import {HelTheme} from 'src/themes/hel'
+import {HelTheme} from 'src/themes/hel/material-ui'
 import Notifications from '../Notification'
 
 class App extends React.Component {

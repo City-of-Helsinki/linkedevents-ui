@@ -13,8 +13,9 @@ import {setLocale as setLocaleAction} from 'src/actions/userLocale'
 import {FormattedMessage} from 'react-intl'
 
 // Material-ui Components
-import {Toolbar, Select, MenuItem, Hidden, Drawer} from 'material-ui'
-import {Button} from '@material-ui/core'
+import {Toolbar} from 'material-ui'
+import Select from 'react-select'
+import {Button, Drawer, Hidden} from '@material-ui/core'
 import {Add, Menu, Language, Person} from '@material-ui/icons'
 
 import {Link} from 'react-router-dom'
@@ -23,7 +24,8 @@ import constants from '../../constants'
 import cityOfHelsinkiLogo from '../../assets/images/helsinki-logo.svg'
 import {hasAffiliatedOrganizations} from '../../utils/user'
 import {get} from 'lodash'
-import {HelTheme} from '../../themes/hel'
+import {HelTheme} from '../../themes/hel/material-ui'
+import {HelSelectTheme, HelLanguageSelectStyles} from '../../themes/hel/react-select'
 
 const {USER_TYPE, APPLICATION_SUPPORT_TRANSLATION} = constants
 
@@ -52,8 +54,14 @@ class HeaderBar extends React.Component {
         }
     }
 
-    changeLanguage = (e) => {
-        this.props.setLocale(e.target.value)
+    getLanguageOptions = () =>
+        APPLICATION_SUPPORT_TRANSLATION.map(item => ({
+            label: item.toUpperCase(),
+            value: item,
+        }))
+
+    changeLanguage = (selectedOption) => {
+        this.props.setLocale(selectedOption.value)
     }
 
     toggleNavbar = () => {
@@ -66,9 +74,8 @@ class HeaderBar extends React.Component {
     }
 
     render() {
-        const {user, routerPush, logout, login, location} = this.props 
+        const {user, userLocale, routerPush, logout, login, location} = this.props
         const {showModerationLink} = this.state
-        const languages = APPLICATION_SUPPORT_TRANSLATION
 
         const toMainPage = () => routerPush('/');
         const toSearchPage = () => routerPush('/search');
@@ -90,18 +97,17 @@ class HeaderBar extends React.Component {
                             <div className="language-selector">
                                 <Language className="language-icon"/>
                                 <Select
-                                    className="language-select-box"
-                                    value={this.props.userLocale.locale}
+                                    isClearable={false}
+                                    isSearchable={false}
+                                    value={{
+                                        label: userLocale.locale.toUpperCase(),
+                                        value: userLocale.locale,
+                                    }}
+                                    options={this.getLanguageOptions()}
                                     onChange={this.changeLanguage}
-                                >
-                                    {languages.map((lang, index) => (
-                                        <MenuItem 
-                                            value={lang} 
-                                            key={index}>
-                                            {lang}
-                                        </MenuItem>
-                                    ))}
-                                </Select> 
+                                    styles={HelLanguageSelectStyles}
+                                    theme={HelSelectTheme}
+                                />
                             </div>  
                         </div>
                         {user

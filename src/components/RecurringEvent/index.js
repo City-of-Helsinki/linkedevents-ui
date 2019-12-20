@@ -22,7 +22,7 @@ import update from 'immutability-helper'
 import CONSTANTS from '../../constants'
 
 import './RecurringEvent.scss'
-import {HelTheme} from '../../themes/hel'
+import {HelTheme} from '../../themes/hel/material-ui'
 
 class RecurringEvent extends React.Component {
 
