@@ -1,104 +1,88 @@
 import './index.scss'
 
-import moment from 'moment'
+import React, {useState} from 'react'
 import PropTypes from 'prop-types'
-
-import React from 'react'
-import ReactDOM from 'react-dom'
-import {connect} from 'react-redux'
+import moment from 'moment'
 import {FormattedMessage, injectIntl} from 'react-intl'
-
+import {Button, TextField} from '@material-ui/core'
 import HelDatePicker from '../HelFormFields/HelDatePicker'
-import {FormControl, ControlLabel} from 'react-bootstrap'
-import {Button} from '@material-ui/core'
 
-import CONSTANTS from '../../constants'
+import constants from '../../constants'
+import {HelTheme} from '../../themes/hel/material-ui'
 
-class SearchBar extends React.Component {
+const {VALIDATION_RULES} = constants
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            searchQuery: '',
-            startDate: moment(),
-            endDate: null,
-        }
-    }
+const handleKeyPress = (
+    event,
+    startDate,
+    endDate,
+    onFormSubmit,
+    setSearchQuery
+) => {
+    if (event.key === 'Enter') {
+        const searchQuery = event.target.value
 
-    handleStringChange(event) {
-        this.setState({
-            searchQuery: event.target.value,
-        })
-    }
-
-    handleDateChange(type, date, value) {
-        this.setState({[type]: value})
-    }
-
-    handleSubmit(event) {
-        event.preventDefault()
-        return this.props.onFormSubmit(this.state.searchQuery, this.state.startDate, this.state.endDate)
-    }
-
-    render() {
-        const {VALIDATION_RULES} = CONSTANTS
-        return (
-            <form onSubmit={ (e) => this.handleSubmit(e) } className="row search-bar">
-                <div className="col-sm-2 time-label">
-                    <label><FormattedMessage id="pick-time-range" /></label>
-                </div>
-                <div className="col-xs-8 col-sm-5 col-md-3 start-date">
-                    <HelDatePicker
-                        ref="date"
-                        name="startDate"
-                        defaultValue={this.state.startDate}
-                        validations={[VALIDATION_RULES.IS_DATE]}
-                        placeholder={this.props.intl.formatMessage({id: 'search-date-placeholder'})}
-                        onChange={(date, value) => this.handleDateChange('startDate', date, value)}
-                        onBlur={() => null}
-                    />
-                </div>
-                <div className="col-xs-8 col-sm-5 col-md-3">
-                    <HelDatePicker
-                        ref="date"
-                        name="endDate"
-                        validations={[VALIDATION_RULES.IS_DATE]}
-                        placeholder={this.props.intl.formatMessage({id: 'search-date-placeholder'})}
-                        onChange={(date, value) => this.handleDateChange('endDate', date, value)}
-                        onBlur={() => null}
-                    />
-                </div>
-                <div className="col-sm-8 col-xs-12">
-                    <div className="text-field">
-                        <ControlLabel>
-                            <FormattedMessage id="event-name-or-place"/>
-                        </ControlLabel>
-                        <FormControl
-                            placeholder={this.props.intl.formatMessage({id: 'event-name-or-place'})}
-                            onChange={ (e) => this.handleStringChange(e) }
-                            ref="searchQueryInput"
-                            autoFocus
-                        />
-                    </div>
-                </div>
-                <div className="col-sm-4 col-xs-12">
-                    <Button
-                        style={{height: '72px'}}
-                        variant="contained"
-                        color="primary"
-                        onClick={(e) => this.handleSubmit(e)}
-                    >
-                        <FormattedMessage id="search-event-button"/>
-                    </Button>
-                </div>
-                <p/>
-            </form>
-        )
+        onFormSubmit(searchQuery, startDate, endDate)
+        setSearchQuery(searchQuery)
     }
 }
+
+const SearchBar = ({intl, onFormSubmit}) => {
+    const [startDate, setStartDate] = useState(moment());
+    const [endDate, setEndDate] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+    
+    return (
+        <form className="row search-bar">
+            <div className="col-sm-2 time-label">
+                <label>
+                    <FormattedMessage id="pick-time-range" />
+                </label>
+            </div>
+            <div className="col-xs-8 col-sm-5 col-md-3 start-date">
+                <HelDatePicker
+                    name="startDate"
+                    defaultValue={startDate}
+                    validations={[VALIDATION_RULES.IS_DATE]}
+                    placeholder={intl.formatMessage({id: 'search-date-placeholder'})}
+                    onChange={(date, value) => setStartDate(value)}
+                    onBlur={() => null}
+                />
+            </div>
+            <div className="col-xs-8 col-sm-5 col-md-3">
+                <HelDatePicker
+                    name="endDate"
+                    validations={[VALIDATION_RULES.IS_DATE]}
+                    placeholder={intl.formatMessage({id: 'search-date-placeholder'})}
+                    onChange={(date, value) => setEndDate(value)}
+                    onBlur={() => null}
+                />
+            </div>
+            <div className="col-sm-10 col-xs-12 input-row">
+                <TextField
+                    autoFocus
+                    fullWidth
+                    variant="outlined"
+                    label={intl.formatMessage({id: 'event-name-or-place'})}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyPress={(e) => handleKeyPress(e, startDate, endDate, onFormSubmit, setSearchQuery)}
+                />
+                <Button
+                    style={{marginLeft: HelTheme.spacing(2)}}
+                    variant="contained"
+                    color="primary"
+                    onClick={() => onFormSubmit(searchQuery, startDate, endDate)}
+                >
+                    <FormattedMessage id="search-event-button"/>
+                </Button>
+            </div>
+        </form>
+    )
+}
+
 SearchBar.propTypes = {
     onFormSubmit: PropTypes.func,
     intl: PropTypes.object,
 }
 
-export default connect()(injectIntl(SearchBar))
+export default injectIntl(SearchBar)

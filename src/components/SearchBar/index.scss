@@ -1,4 +1,5 @@
 $search-bar-height: 72px;
+$default-spacing: 8px;
 
 .search-bar {
     .mui-raised-button {
@@ -27,39 +28,18 @@ $search-bar-height: 72px;
         top: 16px;
         right: -5px;
     }
-    .text-field {
-        width: 100%;
 
-        font-size: 20px;
-        font-weight: 300;
-        background: #ffffff;
+    .input-row {
+        align-items: center;
+        display: flex;
+        margin: $default-spacing * 2 0 $default-spacing * 4;
 
-        margin-bottom: 10px;
-
-        height: $search-bar-height;
-
-        input {
-            transition: 100ms border;
-
-            width: 100%;
-            height: 100%;
-
-            font-weight: 300;
-            font-size: 20px;
-
-            padding-left: 20px;
-
-            border: none;
-            border-bottom: 2px solid white;
-
-            &:focus {
-                outline: 0;
-                border-color: rgba(0, 188, 212, 1);
-            }
+        > div {
+            flex: 1 1 auto;
         }
 
-        label {
-            display: none;
+        > button {
+            flex: 1 0 auto;
         }
     }
 }
