@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import {isNil} from 'lodash'
-import {TableCell} from 'material-ui'
+import {TableCell} from '@material-ui/core'
 
 const PublisherCell = props => {
     const {publisher, createdBy, eventName} = props
@@ -15,7 +15,7 @@ const PublisherCell = props => {
     }
 
     return (
-        <TableCell style={{padding: '10px 15px'}}>
+        <TableCell className="publisher-cell">
             <span>
                 {publisher}
                 {creator && email &&

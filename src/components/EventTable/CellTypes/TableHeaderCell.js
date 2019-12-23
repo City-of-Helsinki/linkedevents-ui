@@ -1,6 +1,5 @@
 import React from 'react'
-import {TableCell, TableSortLabel} from 'material-ui'
-import {Checkbox} from '@material-ui/core'
+import {Checkbox, TableCell, TableSortLabel} from '@material-ui/core'
 import PropTypes from 'prop-types'
 import constants from '../../../constants'
 

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import {TableCell} from 'material-ui'
+import {TableCell} from '@material-ui/core'
 import {getDate, getDateTime} from '../../../utils/helpers'
 
 const DateTimeCell = props => {

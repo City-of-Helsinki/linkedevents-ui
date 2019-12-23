@@ -1,10 +1,10 @@
 import constants from '../../../constants'
 import {getBadge} from '../../../utils/helpers'
-import {KeyboardArrowDown, KeyboardArrowRight} from 'material-ui-icons'
 import {Link} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import React from 'react'
-import {TableCell} from 'material-ui'
+import {TableCell} from '@material-ui/core'
+import {KeyboardArrowDown, KeyboardArrowRight} from '@material-ui/icons'
 import {getEventName} from '../../../utils/events'
 
 const NameCell = props => {

@@ -1,8 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import {TableCell, TableRow} from 'material-ui'
-import {Checkbox, CircularProgress} from '@material-ui/core'
+import {Checkbox, CircularProgress, TableCell, TableRow} from '@material-ui/core'
 import {get, isEmpty, isUndefined} from 'lodash'
 import constants from '../../constants'
 import NameCell from './CellTypes/NameCell'
@@ -122,7 +121,10 @@ class EventRow extends React.Component {
 
         return (
             <React.Fragment>
-                <TableRow className={isSubEvent ? 'sub-event-row' : ''}>
+                <TableRow
+                    className={isSubEvent ? 'sub-event-row' : ''}
+                    selected={checked}
+                >
                     {tableColumns.map((type, index) => {
                         if (type === 'checkbox') {
                             return <TableCell
