@@ -18,7 +18,7 @@ import {
 } from 'src/components/HelFormFields'
 import RecurringEvent from 'src/components/RecurringEvent'
 import {Button} from '@material-ui/core'
-import {Add, Autorenew} from '@material-ui/icons'
+import {Add, Autorenew, FileCopyOutlined} from '@material-ui/icons'
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from '../../utils/apiDataMapping'
 import {setEventData, setData} from '../../actions/editor'
 import {get, isNull, pickBy} from 'lodash'
@@ -356,7 +356,7 @@ class FormFields extends React.Component {
                         </div>
                         <CopyToClipboard text={values['location'] ? values['location'].id : ''}>
                             <button className="clipboard-copy-button" title={this.context.intl.formatMessage({id: 'copy-to-clipboard'})}>
-                                <i className="material-icons">&#xE14D;</i>
+                                <FileCopyOutlined />
                             </button>
                         </CopyToClipboard>
                         <MultiLanguageField

@@ -1,3 +1,5 @@
+import './HelLabeledCheckboxGroup.scss'
+
 import PropTypes from 'prop-types';
 import React, {useRef} from 'react'
 import {FormControlLabel, Checkbox} from '@material-ui/core'
@@ -35,13 +37,14 @@ const HelLabeledCheckboxGroup = (props) => {
     })
 
     return (
-        <fieldset className="col-sm-6">
-            <div>
-                <span className="legend">
-                    {groupLabel}
-                    <ValidationPopover validationErrors={validationErrors} />
-                </span>
-            </div>
+        <fieldset className="col-sm-6 hel-checkbox-group">
+            <legend>
+                {groupLabel}
+                <ValidationPopover
+                    small={true}
+                    validationErrors={validationErrors}
+                />
+            </legend>
             <div className='row'>
                 {options.map((item, index) => {
                     const checked = checkedOptions.includes(item.value)

@@ -3,13 +3,9 @@ import ReactDOM from 'react-dom'
 import {Route} from 'react-router'
 import PropTypes from 'prop-types'
 import {withRouter} from 'react-router-dom'
-import createHistory from 'history/createBrowserHistory'
-import {createStore, combineReducers, applyMiddleware, compose} from 'redux'
 import {Provider, connect} from 'react-redux'
-import {ConnectedRouter, routerReducer, routerMiddleware} from 'react-router-redux'
-import thunk from 'redux-thunk'
-
-import reducers from './reducers'
+import {ConnectedRouter} from 'react-router-redux'
+import {Feedback} from '@material-ui/icons';
 
 // Views
 import App from './views/App'
@@ -32,6 +28,7 @@ import {Modal, Button, Glyphicon} from 'react-bootstrap';
 // translation 
 import IntlProviderWrapper from './components/IntlProviderWrapper'
 import store, {history} from './store'
+import {HelTheme} from './themes/hel/material-ui'
 
 // Setup actor for validation. Actor is a viewless component which can listen to store changes
 // and send new actions accordingly. Bind the store as this for function
@@ -144,7 +141,7 @@ class DebugHelper extends React.Component {
             <div id="debughelper">
                 <div id="debughelper_container">
                     <Button bsSize="large" onClick={this.showReportForm}>
-                        <i className="material-icons">feedback</i>
+                        <Feedback style={{marginLeft: HelTheme.spacing(1)}} />
                     </Button>
                 </div>
                 <div id="slide">Jos tapahtumien hallinnassa tai syöttölomakkeen toiminnassa on virhe, klikkaa {`"raportoi virhe"`}&#x2011;nappia,
