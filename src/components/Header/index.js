@@ -13,9 +13,8 @@ import {setLocale as setLocaleAction} from 'src/actions/userLocale'
 import {FormattedMessage} from 'react-intl'
 
 // Material-ui Components
-import {Toolbar} from 'material-ui'
 import Select from 'react-select'
-import {Button, Drawer, Hidden} from '@material-ui/core'
+import {Button, Drawer, Hidden, Toolbar} from '@material-ui/core'
 import {Add, Menu, Language, Person} from '@material-ui/icons'
 
 import {Link} from 'react-router-dom'

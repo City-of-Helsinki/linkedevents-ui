@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import {FormControlLabel, Checkbox} from '@material-ui/core'
-import Tooltip from 'material-ui/Tooltip'
+import {FormControlLabel, Checkbox, Tooltip} from '@material-ui/core'
 
 const UmbrellaCheckbox = props => {
     const {intl, name, checked, disabled, handleCheck} = props

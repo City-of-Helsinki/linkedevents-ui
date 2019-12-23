@@ -53,17 +53,14 @@ $checkbox-column-width: 50px;
         text-align: center;
         width: $checkbox-column-width;
 
-        div {
+        span {
             cursor: pointer;
+            display: inline-block;
+            height: 24px;
+            width: 24px;
 
             &:hover {
                 color: $hel-coat
-            }
-
-            span {
-                display: inline-block;
-                height: 24px;
-                width: 24px;
             }
         }
     }
