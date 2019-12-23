@@ -21,7 +21,7 @@ import {Button} from '@material-ui/core'
 import {Add, Autorenew} from '@material-ui/icons'
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from '../../utils/apiDataMapping'
 import {setEventData, setData} from '../../actions/editor'
-import {get, pickBy} from 'lodash'
+import {get, isNull, pickBy} from 'lodash'
 import API from '../../api'
 import CONSTANTS from '../../constants'
 import OrganizationSelector from '../HelFormFields/OrganizationSelector';
@@ -87,6 +87,11 @@ class FormFields extends React.Component {
 
     setDefaultOrganization = () => {
         const {user} = this.props;
+
+        if (isNull(user)) {
+            return
+        }
+        
         const userType = get(user, 'userType')
         const defaultOrganizationData = get(user, [`${userType}OrganizationData`, `${user.organization}`], {})
 

@@ -103,8 +103,8 @@ export function replaceData(formData) {
         let formObject = mapAPIDataToUIFormat(formData)
         const publicationStatus = formObject.publication_status || PUBLICATION_STATUS.PUBLIC
 
-        // run the validation before copy to a draft
-        const validationErrors = doValidations(formObject, getContentLanguages(formObject), publicationStatus, keywordSets)
+        // run only draft level validation before copying
+        const validationErrors = doValidations(formObject, getContentLanguages(formObject), PUBLICATION_STATUS.DRAFT, keywordSets)
 
         // empty id, event_status, and any field that has validation errors
         keys(validationErrors).map(field => {
@@ -115,6 +115,7 @@ export function replaceData(formData) {
         delete formObject.super_event_type
         formObject.sub_events = {}
 
+        // here, we do more thorough validation
         dispatch(validateFor(publicationStatus))
         dispatch(setValidationErrors({}))
         dispatch({

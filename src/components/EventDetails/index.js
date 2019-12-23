@@ -214,7 +214,7 @@ FormHeader.propTypes = {
 const OffersValue = (props) => {
     const {offers} = props.values
 
-    if (!offers || offers[0] && typeof offers[0] !== 'object') {
+    if (!offers || !offers.length || offers[0] && typeof offers[0] !== 'object') {
         return (<NoValue labelKey={props.labelKey}/>)
     }
 
