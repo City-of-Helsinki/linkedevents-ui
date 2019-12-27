@@ -310,5 +310,6 @@
     "return-without-saving": "Return without changes",
 
     "format-select-count": " ({count} events)",
-    "upload-image-from-url": "Upload image from url"
+    "upload-image-from-url": "Upload image from url",
+    "uploaded-image-size-error": "The allowed maximum size for uploaded images is 2 megabytes (MB)."
 }
