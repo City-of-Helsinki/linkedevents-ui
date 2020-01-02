@@ -310,5 +310,12 @@
     "return-without-saving": "Palaa tekemättä muutoksia",
 
     "format-select-count": " ({count} tapahtumaa)",
-    "upload-image-from-url": "Tai syötä ulkoisen kuvan osoite (url)"
+    "upload-image-from-url": "Tai syötä ulkoisen kuvan osoite (url)",
+    "image-modal-image-info": "Kuvan tiedot",
+    "photographer": "Kuvaaja",
+    "image-modal-license-restricted-to-event": "Käyttö rajattu tapahtuman yhteyteen",
+    "image-modal-image-license": "Image license",
+    "image-modal-view-terms-paragraph-text": "Ennen kuin lisäät uuden kuvan, tutustu",
+    "image-modal-view-terms-link-text": "kuvien lisäämisen ehtoihin ja suosituksiin",
+    "image-modal-save-button-text": "Tallenna tiedot"
 }

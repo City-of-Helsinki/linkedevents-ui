@@ -65,7 +65,7 @@ class ImageEdit extends React.Component {
                         onClick={() => this.props.close()}
                         style={{float:'right'}}
                         color="primary">Sulje</Button>
-                    <h3>Kuvan tiedot</h3>
+                    <h3><FormattedMessage id={'image-modal-image-info'}/></h3>
                 </Modal.Header>
                 <Modal.Body>
                     <form onSubmit={() => this.handleImagePost()} className="row">
@@ -85,7 +85,9 @@ class ImageEdit extends React.Component {
                                 />
                             </div>
                             <div className="hel-text-field">
-                                <label className="hel-label">Kuvaaja</label>
+                                <label className="hel-label">
+                                    <FormattedMessage id={'photographer'}/>
+                                </label>
                                 <input
                                     type="text"
                                     className="form-control"
@@ -93,7 +95,7 @@ class ImageEdit extends React.Component {
                                     defaultValue={this.state.photographerName}
                                 />
                             </div>
-                            <h4>Kuvan lisenssi</h4>
+                            <h4><FormattedMessage id={'image-modal-image-license'}/></h4>
                             <div className="form-check">
                                 <label className="edit-label">
                                     <input value="cc_by" checked={this.state.license === 'cc_by'}  onChange={() => this.setState({license: 'cc_by'})} type="radio" className="form-check-input" />
@@ -101,13 +103,19 @@ class ImageEdit extends React.Component {
                                 </label>
                                 <label className="edit-label">
                                     <input value="event_only" checked={this.state.license === 'event_only'} onChange={() => this.setState({license: 'event_only'})} type="radio" className="form-check-input" />
-                                    Käyttö rajattu tapahtuman yhteyteen
+                                    <FormattedMessage id={'image-modal-license-restricted-to-event'}/>
                                 </label>
                             </div>
+                            
+                            <div className="help-notice">
+                                <p>
+                                    <FormattedMessage id={'image-modal-view-terms-paragraph-text'}/>&nbsp;<a href={'/help#images'} target={'_blank'}><FormattedMessage id={'image-modal-view-terms-link-text'}/></a>.
+                                </p>
+                            </div>
+                            
                         </div>
                         <img className="col-sm-4 edit-form form-image" src={this.props.thumbnailUrl} />
-                        <button type="submit" className="col-sm-12 btn btn-save-image-data" disabled={(this.state.name.length >= 6) ? false : true}>Tallenna tiedot</button>
-
+                        <button type="submit" className="col-sm-12 btn btn-save-image-data" disabled={(this.state.name.length >= 6) ? false : true}><FormattedMessage id={'image-modal-save-button-text'}/></button>
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
