@@ -2,35 +2,53 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import Select from 'react-select';
-import {FormControl} from 'react-bootstrap';
 import {get} from 'lodash';
 import {HelSelectTheme, HelSelectStyles} from '../../themes/hel/react-select'
+import {fade, TextField} from '@material-ui/core'
+import {HelTheme} from '../../themes/hel/material-ui'
+import hel from '../../themes/hel/hel-brand-colors'
 
-const OrganizationSelector = (props) => {
-    const {formType, selectedOption, options, onChange} = props;
+const OrganizationSelector = ({formType, selectedOption, options, onChange}) => {
     const label = selectedOption.label ? selectedOption.label : ''
+    const labelStyles = {
+        color: fade(hel.gray.black, 0.54),
+        display: 'block',
+        margin: `${HelTheme.spacing(2)}px 0 ${HelTheme.spacing(1)}px`,
+    }
 
     return (
-        <div className='hel-text-field'>
-            <label className='hel-label'>
-                <FormattedMessage id='event-publisher' />
-            </label>
+        <React.Fragment>
             {formType === 'update' ? (
-                <FormControl value={label} disabled />
-            ) : options.length > 1 ? (
-                <Select
-                    isClearable={false}
-                    defaultValue={options[0]}
-                    value={selectedOption}
-                    options={options}
-                    onChange={onChange}
-                    theme={HelSelectTheme}
-                    styles={HelSelectStyles}
+                <TextField
+                    fullWidth
+                    disabled
+                    label={<FormattedMessage id='event-publisher' />}
+                    value={label}
                 />
+            ) : options.length > 1 ? (
+                <React.Fragment>
+                    <span style={labelStyles}>
+                        <FormattedMessage id='event-publisher' />
+                    </span>
+                    <Select
+                        isClearable={false}
+                        defaultValue={options[0]}
+                        value={selectedOption}
+                        options={options}
+                        onChange={onChange}
+                        theme={HelSelectTheme}
+                        styles={HelSelectStyles}
+                    />
+                </React.Fragment>
             ) : (
-                <FormControl value={get(options, '[0].label', '')} disabled />
+                <TextField
+                    fullWidth
+                    disabled
+                    label={<FormattedMessage id='event-publisher' />}
+                    value={get(options, '[0].label', '')}
+                />
             )}
-        </div>
+        </React.Fragment>
     );
 };
 

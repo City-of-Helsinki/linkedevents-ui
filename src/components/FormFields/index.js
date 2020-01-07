@@ -17,7 +17,7 @@ import {
     HelKeywordSelector,
 } from 'src/components/HelFormFields'
 import RecurringEvent from 'src/components/RecurringEvent'
-import {Button} from '@material-ui/core'
+import {Button, TextField} from '@material-ui/core'
 import {Add, Autorenew, FileCopyOutlined} from '@material-ui/icons'
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from '../../utils/apiDataMapping'
 import {setEventData, setData} from '../../actions/editor'
@@ -26,7 +26,6 @@ import API from '../../api'
 import CONSTANTS from '../../constants'
 import OrganizationSelector from '../HelFormFields/OrganizationSelector';
 import UmbrellaSelector from '../HelFormFields/UmbrellaSelector/UmbrellaSelector'
-import {ControlLabel, FormControl} from 'react-bootstrap'
 import {HelTheme} from '../../themes/hel/material-ui'
 
 let FormHeader = (props) => (
@@ -343,17 +342,12 @@ class FormFields extends React.Component {
                             validationErrors={validationErrors['location']}
                             setDirtyState={this.props.setDirtyState}
                         />
-                        <div className="hel-text-field">
-                            <ControlLabel className="hel-label">
-                                {this.context.intl.formatMessage({id: 'event-location-id'})}
-                            </ControlLabel>
-
-                            <FormControl
-                                value={values['location'] && values['location'].id ? values['location'].id : ''}
-                                ref="text"
-                                disabled
-                            />
-                        </div>
+                        <TextField
+                            fullWidth
+                            disabled
+                            label={this.context.intl.formatMessage({id: 'event-location-id'})}
+                            value={values['location'] && values['location'].id ? values['location'].id : ''}
+                        />
                         <CopyToClipboard text={values['location'] ? values['location'].id : ''}>
                             <button className="clipboard-copy-button" title={this.context.intl.formatMessage({id: 'copy-to-clipboard'})}>
                                 <FileCopyOutlined />

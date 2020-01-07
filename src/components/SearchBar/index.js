@@ -66,6 +66,7 @@ const SearchBar = ({intl, onFormSubmit}) => {
                     label={intl.formatMessage({id: 'event-name-or-place'})}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyPress={(e) => handleKeyPress(e, startDate, endDate, onFormSubmit, setSearchQuery)}
+                    style={{margin: 0}}
                 />
                 <Button
                     style={{marginLeft: HelTheme.spacing(2)}}

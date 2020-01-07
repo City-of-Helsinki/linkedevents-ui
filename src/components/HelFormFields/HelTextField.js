@@ -1,29 +1,22 @@
-import './HelTextField.scss'
-
 import PropTypes from 'prop-types';
 import React from 'react'
 
-import {FormControl, ControlLabel, HelpBlock} from 'react-bootstrap'
 import {setData} from 'src/actions/editor.js'
-
-import {injectIntl} from 'react-intl'
-
+import {TextField} from '@material-ui/core'
 import validationRules from 'src/validation/validationRules';
 import ValidationPopover from 'src/components/ValidationPopover'
+import constants from '../../constants'
 
-import CONSTANTS from '../../constants'
+const {VALIDATION_RULES, CHARACTER_LIMIT} = constants
 
 class HelTextField extends React.Component {
     constructor(props) {
         super(props)
-        
+
         this.state = {
             error: null,
             value: this.props.defaultValue || '',
         }
-
-        this.handleChange = this.handleChange.bind(this)
-        this.handleBlur = this.handleBlur.bind(this)
     }
 
     static contextTypes = {
@@ -31,9 +24,20 @@ class HelTextField extends React.Component {
         dispatch: PropTypes.func,
     }
 
-    getStringLengthValidationText() {
-        const {VALIDATION_RULES, CHARACTER_LIMIT} = CONSTANTS
+    componentDidMount() {
+        this.setValidationErrorsToState();
+    }
 
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        if(!(_.isEqual(nextProps.defaultValue, this.props.defaultValue))) {
+            // Bootstrap or React textarea has a bug where null value gets interpreted
+            // as uncontrolled, so no updates are done
+            this.setState({value: nextProps.defaultValue ? nextProps.defaultValue : ''})
+        }
+        this.forceUpdate()
+    }
+
+    getStringLengthValidationText() {
         let isShortString = _.find(this.props.validations, i => i === VALIDATION_RULES.SHORT_STRING)
         let isMediumString = _.find(this.props.validations, i => i === VALIDATION_RULES.MEDIUM_STRING)
         let isLongString = _.find(this.props.validations, i => i === VALIDATION_RULES.LONG_STRING)
@@ -41,13 +45,13 @@ class HelTextField extends React.Component {
         let limit
         if (!this.state.error && (isShortString || isMediumString || isLongString)) {
             if(isShortString) {
-                limit = CONSTANTS.CHARACTER_LIMIT.SHORT_STRING
+                limit = CHARACTER_LIMIT.SHORT_STRING
             }
             else if(isMediumString) {
-                limit = CONSTANTS.CHARACTER_LIMIT.MEDIUM_STRING
+                limit = CHARACTER_LIMIT.MEDIUM_STRING
             }
             else if(isLongString) {
-                limit = CONSTANTS.CHARACTER_LIMIT.LONG_STRING
+                limit = CHARACTER_LIMIT.LONG_STRING
             }
             
             const diff =  limit - this.state.value.length.toString()
@@ -64,31 +68,7 @@ class HelTextField extends React.Component {
         return this.inputRef.value
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
-        if(!(_.isEqual(nextProps.defaultValue, this.props.defaultValue))) {
-            // Bootstrap or React textarea has a bug where null value gets interpreted
-            // as uncontrolled, so no updates are done
-            this.setState({value: nextProps.defaultValue ? nextProps.defaultValue : ''})
-        }
-        this.forceUpdate()
-    }
-
-    handleChange(event) {
-        this.setState({
-            value: this.inputRef.value,
-        })
-
-        this.recalculateHeight()
-        this.setValidationErrorsToState()
-
-        if(typeof this.props.onChange === 'function') {
-            this.props.onChange(event, this.inputRef.value)
-        }
-    }
-
     helpText() {
-        const {VALIDATION_RULES} = CONSTANTS
-
         let urlmsg = this.context.intl.formatMessage({id: 'validation-isUrl'})
         let isUrl = _.find(this.props.validations, i => i === VALIDATION_RULES.IS_URL)
 
@@ -100,33 +80,39 @@ class HelTextField extends React.Component {
                 : this.state.error
         }
     }
-    handleBlur(event) {
-    // Apply changes to store if no validation errors, or the props 'forceApplyToStore' is defined
-        if( this.props.name && this.getValidationErrors().length === 0 &&
-            !this.props.name.includes('time') ||
-            this.props.name && this.props.forceApplyToStore) {
-            let obj = {}
-            obj[this.props.name] = this.inputRef.value
-            this.context.dispatch(setData(obj))
-            if (this.props.setDirtyState) {
-                this.props.setDirtyState()
+
+    handleChange = (event) => {
+        const {onChange} = this.props
+        const value = event.target.value
+
+        this.setState({value})
+        this.setValidationErrorsToState()
+
+        if (typeof onChange === 'function') {
+            onChange(event, value)
+        }
+    }
+
+    handleBlur = (event) => {
+        const {name, forceApplyToStore, setDirtyState, onBlur} = this.props
+        const value = event.target.value
+
+        // Apply changes to store if no validation errors, or the prop 'forceApplyToStore' is defined
+        if (
+            name
+            && this.getValidationErrors().length === 0
+            && !name.includes('time') || name
+            && forceApplyToStore
+        ) {
+            this.context.dispatch(setData({[name]: value}))
+
+            if (setDirtyState) {
+                setDirtyState()
             }
         }
 
-        if(typeof this.props.onBlur === 'function') {
-            this.props.onBlur(event, this.inputRef.value)
-        }
-    }
-
-    componentDidMount() {
-        this.setValidationErrorsToState();
-        this.recalculateHeight();
-    }
-
-    recalculateHeight() {
-        if(this.props.multiLine) {
-            this.inputRef.style.height = 0
-            this.inputRef.style.height = this.inputRef.scrollHeight + 2 + 'px';
+        if (typeof onBlur === 'function') {
+            onBlur(event, value)
         }
     }
 
@@ -155,14 +141,8 @@ class HelTextField extends React.Component {
 
         return []
     }
-
-    componentDidUpdate() {
-        this.recalculateHeight()
-    }
     
     setValidationErrorsToState() {
-        const {VALIDATION_RULES, CHARACTER_LIMIT} = CONSTANTS
-
         let errors = this.getValidationErrors()
         
         if(errors.length > 0) {
@@ -194,46 +174,42 @@ class HelTextField extends React.Component {
     }
 
     render () {
-        let {required, label} = this.props
-        let requiredElem = null
-        if(required) {
-            requiredElem = (<span>*</span>)
-        }
+        const {value} = this.state
+        const {
+            required,
+            disabled,
+            label,
+            placeholder,
+            validationErrors,
+            index,
+            name,
+            multiLine,
+        } = this.props
 
-        label = (<span style={{position: 'relative'}}>{label} {requiredElem} <ValidationPopover small={true} validationErrors={this.props.validationErrors} index={this.props.index} /></span>)
+        const fieldLabel = (
+            <span>
+                {label}
+                <ValidationPopover
+                    small={true}
+                    validationErrors={validationErrors}
+                    index={index} />
+            </span>)
 
-        let groupClassName = 'hel-text-field'
-        if(this.props.disabled) {
-            groupClassName += ' disabled'
-        }
-
-        // If no type is given it's either textarea or text
-        let type = ''
-        if(this.props.type) {
-            type = this.props.type
-        } else {
-            type = this.props.multiLine ? 'textarea' : 'input'
-        }
-        
         return (
-            <span style={{position: 'relative'}}>
-                <div className={groupClassName}>
-                    <ControlLabel className="hel-label relative">{label}</ControlLabel>
-                    <FormControl
-                        componentClass={type}
-                        value={this.state.value}
-                        placeholder={this.props.placeholder}
-                        inputRef={ref => this.inputRef = ref}
-                        onChange={this.handleChange}
-                        onBlur={this.handleBlur}
-                        name={this.props.name}
-                        rows="1"
-                        disabled={this.props.disabled}
-                        maxLength={(this.props.maxLength) ? this.props.maxLength : null}
-                    />
-                    <HelpBlock>{this.helpText()}</HelpBlock>
-                </div>
-            </span>
+            <TextField
+                fullWidth
+                name={name}
+                label={fieldLabel}
+                value={value}
+                required={required}
+                placeholder={placeholder}
+                disabled={disabled}
+                onChange={this.handleChange}
+                onBlur={this.handleBlur}
+                multiline={multiLine}
+                inputRef={ref => this.inputRef = ref}
+                helperText={this.helpText()}
+            />
         )
     }
 }
