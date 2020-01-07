@@ -310,5 +310,6 @@
     "return-without-saving": "Palaa tekemättä muutoksia",
 
     "format-select-count": " ({count} tapahtumaa)",
-    "upload-image-from-url": "Tai syötä ulkoisen kuvan osoite (url)"
+    "upload-image-from-url": "Tai syötä ulkoisen kuvan osoite (url)",
+    "error-message-has-been-sent": "Raportti lähetetty onnistuneesti, kiitoksia!"
 }

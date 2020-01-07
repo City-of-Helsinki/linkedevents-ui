@@ -10,15 +10,30 @@ if (appSettings.raven_id) {
  * @param message
  * @param commitHash
  */
-export function report(windowObject, message, commitHash) {
-    Raven.captureMessage('reporting', {
+
+export function report(windowArgumentsObject, message, commitHash) {
+    const reportObject = {
         extra: {
             data: {
-                xdata: JSON.stringify(windowObject),
-                user: (windowObject.user) ? windowObject.user.emails[0].value : null,
                 message: message,
                 commitHash: commitHash,
+                router: windowArgumentsObject.router,
+                userAgent: navigator.userAgent,
+                currentUrl: window.location.href,
+                timestamp: new Date(),
             },
         },
-    });
+    };
+    
+    // User is logged in
+    if (windowArgumentsObject.user !== null) {
+        reportObject.extra.data.user = (windowArgumentsObject.user.emails[0].value !== undefined) ? windowArgumentsObject.user.emails[0].value : null;
+        
+        // When user is editing an event
+        if (windowArgumentsObject.editor.values !== undefined && windowArgumentsObject.editor.values.hasOwnProperty('id')) {
+            reportObject.extra.data.editorValues = windowArgumentsObject.editor.values;
+        }
+    }
+    
+    Raven.captureMessage('reporting', reportObject);
 }
