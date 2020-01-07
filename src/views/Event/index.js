@@ -232,12 +232,14 @@ class EventPage extends React.Component {
                             : getStringWithLocale(event, 'name')
                         }
                     </h1>
-                    <h4>
-                        {isCancelled && getBadge('cancelled')}
-                        {isDraft && getBadge('draft')}
-                        {isUmbrellaEvent && getBadge('umbrella')}
-                        {isRecurringEvent && getBadge('series')}
-                    </h4>
+                    {!loading &&
+                        <h4>
+                            {isCancelled && getBadge('cancelled', 'medium')}
+                            {isDraft && getBadge('draft', 'medium')}
+                            {isUmbrellaEvent && getBadge('umbrella', 'medium')}
+                            {isRecurringEvent && getBadge('series', 'medium')}
+                        </h4>
+                    }
                 </header>
                 {this.getEventActions()}
                 <div className="published-information">

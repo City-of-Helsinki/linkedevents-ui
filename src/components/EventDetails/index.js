@@ -33,7 +33,7 @@ NoValue.propTypes = {
 const CheckedValue = ({checked, labelKey, label}) => (
     <div className="checked-value">
         {checked
-            ? <CheckBox htmlColor={HelTheme.palette.helTram.main} />
+            ? <CheckBox htmlColor={HelTheme.palette.tram.main} />
             : <CheckBoxOutlineBlank />
         }
         <label>
