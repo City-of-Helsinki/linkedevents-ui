@@ -36,10 +36,6 @@ $checkbox-column-width: 50px;
         & > div {
             align-items: center;
             display: flex;
-
-            a {
-                margin-left: 10px;
-            }
         }
     }
 
@@ -49,6 +45,7 @@ $checkbox-column-width: 50px;
 
     th.validation-cell,
     td.validation-cell {
+        min-width: $checkbox-column-width;
         padding: 0;
         text-align: center;
         width: $checkbox-column-width;

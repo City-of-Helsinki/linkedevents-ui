@@ -18,7 +18,9 @@ const TableHeaderCell = ({
     handleSortChange,
     fetchComplete,
 }) => {
-    const checked = fetchComplete && invalidRows.length + selectedRows.length === events.length
+    const checked = fetchComplete
+        && selectedRows.length > 0
+        && invalidRows.length + selectedRows.length === events.length
 
     return (
         <React.Fragment>
