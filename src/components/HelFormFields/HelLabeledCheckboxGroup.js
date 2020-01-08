@@ -30,6 +30,7 @@ const handleChange = (refs, {options, name, customOnChangeHandler, setDirtyState
 const HelLabeledCheckboxGroup = (props) => {
     const {options, name, selectedValues, itemClassName, groupLabel, validationErrors} = props
     const refs = useRef({}).current;
+    const labelRef = useRef(null);
     const checkedOptions = selectedValues.map(item => {
         return typeof item === 'object' && Object.keys(item).includes('value')
             ? item.value
@@ -37,39 +38,41 @@ const HelLabeledCheckboxGroup = (props) => {
     })
 
     return (
-        <fieldset className="col-sm-6 hel-checkbox-group">
-            <legend>
-                {groupLabel}
-                <ValidationPopover
-                    small={true}
-                    validationErrors={validationErrors}
-                />
-            </legend>
-            <div className='row'>
-                {options.map((item, index) => {
-                    const checked = checkedOptions.includes(item.value)
+        <React.Fragment>
+            <fieldset className="col-sm-6 hel-checkbox-group">
+                <legend ref={labelRef}>
+                    {groupLabel}
+                </legend>
+                <div className='row'>
+                    {options.map((item, index) => {
+                        const checked = checkedOptions.includes(item.value)
 
-                    return (
-                        <span key={`hel-checkbox-${index}`} className={(itemClassName || '')}>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        color="primary"
-                                        size="small"
-                                        value={item.value}
-                                        name={`${name}.${item.value}`}
-                                        inputRef={ref => refs[`checkRef${index}`] = ref}
-                                        checked={checked}
-                                        onChange={() => handleChange(refs, props)}
-                                    />
-                                }
-                                label={item.label}
-                            />
-                        </span>
-                    )
-                })}
-            </div>
-        </fieldset>
+                        return (
+                            <span key={`hel-checkbox-${index}`} className={(itemClassName || '')}>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            color="primary"
+                                            size="small"
+                                            value={item.value}
+                                            name={`${name}.${item.value}`}
+                                            inputRef={ref => refs[`checkRef${index}`] = ref}
+                                            checked={checked}
+                                            onChange={() => handleChange(refs, props)}
+                                        />
+                                    }
+                                    label={item.label}
+                                />
+                            </span>
+                        )
+                    })}
+                </div>
+            </fieldset>
+            <ValidationPopover
+                anchor={labelRef.current}
+                validationErrors={validationErrors}
+            />
+        </React.Fragment>
     )
 }
 

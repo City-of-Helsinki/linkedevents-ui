@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react'
-import HelTextField from 'src/components/HelFormFields/HelTextField'
 import RecurringDateRangePicker from './RecurringDateRangePicker'
 import RecurringTimePicker from './RecurringTimePicker'
 import {FormattedMessage} from 'react-intl'
@@ -8,7 +7,7 @@ import moment from 'moment'
 import {some, values, forEach, isEmpty} from 'lodash' 
 
 import DayCheckbox from './DayCheckbox'
-import {Button, IconButton} from '@material-ui/core'
+import {Button, IconButton, TextField, withStyles} from '@material-ui/core'
 import {Add, Close} from '@material-ui/icons'
 
 import {setEventData, sortSubEvents} from 'src/actions/editor'
@@ -20,6 +19,17 @@ import CONSTANTS from '../../constants'
 
 import './RecurringEvent.scss'
 import {HelTheme} from '../../themes/hel/material-ui'
+
+const RepetitionTextField = withStyles({
+    root: {
+        margin: 0,
+        width: 40,
+        '& input': {
+            padding: `${HelTheme.spacing(0.5)}px ${HelTheme.spacing(1)}px`,
+            textAlign: 'center',
+        },
+    },
+})(TextField)
 
 class RecurringEvent extends React.Component {
 
@@ -45,6 +55,12 @@ class RecurringEvent extends React.Component {
         this.onTimeChange = this.onTimeChange.bind(this)
 
         const {values: {start_time, end_time}} = this.props;
+
+        this.repetitionRef = React.createRef()
+        this.playDateRef = React.createRef()
+        this.startTimeRef = React.createRef()
+        this.endTimeRef = React.createRef()
+
         this.state = {
             weekInterval: 1,
             daysSelected: {
@@ -236,8 +252,8 @@ class RecurringEvent extends React.Component {
         const newDays = Object.assign({}, this.state.daysSelected, {[key]: value})
         this.setState({daysSelected: newDays})
     }
-    weekIntervalChange (event, value) {
-        this.setState({weekInterval: value})
+    weekIntervalChange (event) {
+        this.setState({weekInterval: event.target.value})
     }
     generateCheckboxes (days) {
         const dayElements = []
@@ -287,17 +303,20 @@ class RecurringEvent extends React.Component {
                                 <FormattedMessage id="repetition-interval-label"/>
                             </div>
                             
-                            <div>
+                            <div className="repetition-count" ref={this.repetitionRef}>
                                 <FormattedMessage id="repeated" />
-                                <div className="repetition-count">
-                                    <HelTextField
-                                        onBlur={() => this.clearErrors()}
-                                        onChange={this.weekIntervalChange}
-                                        validationErrors={(this.state.errors.isMoreThanOne ? [VALIDATION_RULES.IS_MORE_THAN_ONE] : null)}
-                                        defaultValue={this.state.weekInterval}
-                                    />
-                                </div>
+                                <RepetitionTextField
+                                    value={this.state.weekInterval}
+                                    onFocus={event => event.target.select()}
+                                    onBlur={() => this.clearErrors()}
+                                    onChange={this.weekIntervalChange}
+                                />
                                 <FormattedMessage id="repetition-interval" />
+                                <ValidationPopover
+                                    inModal
+                                    anchor={this.repetitionRef.current}
+                                    validationErrors={(this.state.errors.isMoreThanOne ? [VALIDATION_RULES.IS_MORE_THAN_ONE] : null)}
+                                />
                             </div>
                         </div>
                     </div>
@@ -305,11 +324,19 @@ class RecurringEvent extends React.Component {
                     <div className="row">
                         <div className="col-xs-12 col-sm-12">
                             <span className="play-date">
-                                <div className="play-date-label">
+                                <div className="play-date-label" ref={this.playDateRef}>
                                     <FormattedMessage id="play-date-label" />
                                 </div>
-                                <ValidationPopover small={true} validationErrors={(this.state.errors.atLeastOneIsTrue ? [VALIDATION_RULES.AT_LEAST_ONE_IS_TRUE] : null)} />
-                                <ValidationPopover small={true} validationErrors={(this.state.errors.daysWithinInterval ? [VALIDATION_RULES.DAY_WITHIN_INTERVAL] : null)} />
+                                <ValidationPopover
+                                    inModal
+                                    anchor={this.playDateRef.current}
+                                    validationErrors={(this.state.errors.atLeastOneIsTrue ? [VALIDATION_RULES.AT_LEAST_ONE_IS_TRUE] : null)}
+                                />
+                                <ValidationPopover
+                                    inModal
+                                    anchor={this.playDateRef.current}
+                                    validationErrors={(this.state.errors.daysWithinInterval ? [VALIDATION_RULES.DAY_WITHIN_INTERVAL] : null)}
+                                />
                             </span>
                         </div>
                     </div>
@@ -340,13 +367,36 @@ class RecurringEvent extends React.Component {
 
                     <div className="row">
                         <div className="col-xs-12 col-sm-6 multi-field recurring-times">
-                            <span className="label-wrapper"><FormattedMessage id="repetition-start-time" /><ValidationPopover small={true} validationErrors={(this.state.errors.isTime ? [VALIDATION_RULES.IS_TIME] : null)} /></span>
-                            <RecurringTimePicker name="recurringStartTime" time={this.state.recurringStartTime} onChange={this.onTimeChange} onBlur={this.onTimeChange} />
+                            <span className="label-wrapper" ref={this.startTimeRef}>
+                                <FormattedMessage id="repetition-start-time" />
+                            </span>
+                            <RecurringTimePicker
+                                name="recurringStartTime"
+                                time={this.state.recurringStartTime}
+                                onChange={this.onTimeChange}
+                                onBlur={this.onTimeChange} />
+                            <ValidationPopover
+                                inModal
+                                anchor={this.startTimeRef.current}
+                                validationErrors={(this.state.errors.isTime ? [VALIDATION_RULES.IS_TIME] : null)}
+                            />
                         </div>
 
                         <div className="col-xs-6 col-sm-6 multi-field recurring-times">
-                            <span className="label-wrapper"><FormattedMessage id="repetition-end-time" /><ValidationPopover small={true} validationErrors={(this.state.errors.isTime ? [VALIDATION_RULES.IS_TIME] : null)} /></span>
-                            <RecurringTimePicker name="recurringEndTime" time={this.state.recurringEndTime} onChange={this.onTimeChange} onBlur={this.onTimeChange} />
+                            <span className="label-wrapper" ref={this.endTimeRef}>
+                                <FormattedMessage id="repetition-end-time" />
+                            </span>
+                            <RecurringTimePicker
+                                name="recurringEndTime"
+                                time={this.state.recurringEndTime}
+                                onChange={this.onTimeChange}
+                                onBlur={this.onTimeChange}
+                            />
+                            <ValidationPopover
+                                inModal
+                                anchor={this.endTimeRef.current}
+                                validationErrors={(this.state.errors.isTime ? [VALIDATION_RULES.IS_TIME] : null)}
+                            />
                         </div>
                     </div>
 

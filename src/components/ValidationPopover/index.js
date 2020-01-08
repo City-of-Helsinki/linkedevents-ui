@@ -1,18 +1,17 @@
-import React from 'react'
-import {Popover} from 'react-bootstrap'
 import './index.scss';
+import React from 'react'
+import {Popper} from '@material-ui/core'
 import PropTypes from 'prop-types'
-
 import {FormattedMessage} from 'react-intl'
-
 import {getCharacterLimitByRule} from '../../utils/helpers'
+import {HelTheme} from '../../themes/hel/material-ui'
 
-const ValidationPopover =  ({validationErrors, index, small, ...rest}) => {
+const ValidationPopover =  ({validationErrors, anchor, index, inModal = false}) => {
     let errorMsg = null
 
     if(validationErrors && validationErrors[0]) {
         let errorText = null
-        let textLimit = null 
+        let textLimit = null
         if (typeof validationErrors[0] === 'object') {
             for (const object in validationErrors[0]) {
                 if (validationErrors[0][object].key === index) {
@@ -33,22 +32,35 @@ const ValidationPopover =  ({validationErrors, index, small, ...rest}) => {
             }
         }
         if (errorText === null) {
-            return (<span></span>)
+            return (<React.Fragment />)
         }
         errorMsg = (<FormattedMessage className="msg" id={errorText} values={{limit: textLimit}}/>)
     } else {
-        return (<span></span>)
-    }
-
-    let classNames = 'validation-error-popover'
-    if(small) {
-        classNames += ' small'
+        return (<React.Fragment />)
     }
 
     return (
-        <Popover className={classNames} id="validation" {...rest}>
-            { errorMsg }
-        </Popover>
+        <React.Fragment>
+            {anchor
+                ? <Popper
+                    open
+                    className={`validation-popper ${inModal ? 'modal-popper' : ''}`}
+                    anchorEl={anchor}
+                    placement={'right-end'}
+                    modifiers={{
+                        flip: {
+                            behavior: ['right', 'bottom'],
+                        },
+                        offset: {
+                            offset: `0 ${HelTheme.spacing(3)} 0 0`,
+                        },
+                    }}
+                >
+                    { errorMsg }
+                </Popper>
+                : <React.Fragment />
+            }
+        </React.Fragment>
     )
 }
 
@@ -57,8 +69,9 @@ ValidationPopover.propTypes = {
         PropTypes.array,
         PropTypes.object,
     ]),
+    anchor: PropTypes.object,
     index: PropTypes.string,
-    small: PropTypes.bool,
+    inModal: PropTypes.bool,
 }
 
 export default ValidationPopover

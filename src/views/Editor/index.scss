@@ -87,15 +87,11 @@ $actionBtnHeight: 60px;
     .hel-select {
         display: block;
         clear: both;
+
         legend,
         .legend {
             font-size: 24px;
-        }
-
-        label {
-            margin-top: auto;
-            margin-bottom: auto;
-            text-transform: capitalize;
+            width: max-content;
         }
     }
 

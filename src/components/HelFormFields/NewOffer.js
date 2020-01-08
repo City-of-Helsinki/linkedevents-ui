@@ -90,8 +90,7 @@ class NewOffer extends React.Component {
         }
         return (
             <div key={offerKey} className="offer-fields" style={{'position': 'relative'}}>
-                <label style={{position: 'relative'}}><ValidationPopover validationErrors={this.props.validationErrors} /></label>
-                <MultiLanguageField 
+                <MultiLanguageField
                     defaultValue={defaultValue.price} 
                     disabled={isFree} 
                     ref="price" 

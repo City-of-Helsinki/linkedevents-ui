@@ -14,6 +14,7 @@ class RecurringDateRangePicker extends React.Component {
     constructor(props) {
         super(props);
         this.onChange = this.onChange.bind(this)
+        this.labelRef = React.createRef()
         this.state = {
             date: this.props.defaultValue,
             name: this.props.name,
@@ -55,8 +56,14 @@ class RecurringDateRangePicker extends React.Component {
     render () {
         return (
             <div className="col-xs-12 col-sm-6">
-                <label><FormattedMessage id={`${this.props.label}`} /> <ValidationPopover validationErrors={this.props.validationErrors} /></label>
+                <label ref={this.labelRef}>
+                    <FormattedMessage id={`${this.props.label}`} />
+                </label>
                 <HelDatePicker ref="date" name={this.props.name} defaultValue={this.state.date} validations={[CONSTANTS.VALIDATION_RULES.IS_DATE]} placeholder="pp.kk.vvvv" onChange={this.onChange} onBlur={this.onBlur} label={<FormattedMessage id="date" />} />
+                <ValidationPopover
+                    inModal
+                    anchor={this.labelRef.current}
+                    validationErrors={this.props.validationErrors} />
             </div>
         )
     }

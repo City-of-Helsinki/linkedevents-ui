@@ -49,14 +49,13 @@
 
 .play-date-label {
     @extend .dates-label;
+    display: inline-block;
 }
 
 .repetition-count {
-    max-width: 27px;
-    display: inline-block;
-    input {
-        text-align: center;
-    }
+    align-items: center;
+    display: inline-flex;
+
     span {
         .form-group {
             .control-label {

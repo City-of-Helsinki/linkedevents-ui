@@ -186,30 +186,28 @@ class HelTextField extends React.Component {
             multiLine,
         } = this.props
 
-        const fieldLabel = (
-            <span>
-                {label}
-                <ValidationPopover
-                    small={true}
-                    validationErrors={validationErrors}
-                    index={index} />
-            </span>)
-
         return (
-            <TextField
-                fullWidth
-                name={name}
-                label={fieldLabel}
-                value={value}
-                required={required}
-                placeholder={placeholder}
-                disabled={disabled}
-                onChange={this.handleChange}
-                onBlur={this.handleBlur}
-                multiline={multiLine}
-                inputRef={ref => this.inputRef = ref}
-                helperText={this.helpText()}
-            />
+            <React.Fragment>
+                <TextField
+                    fullWidth
+                    name={name}
+                    label={label}
+                    value={value}
+                    required={required}
+                    placeholder={placeholder}
+                    disabled={disabled}
+                    onChange={this.handleChange}
+                    onBlur={this.handleBlur}
+                    multiline={multiLine}
+                    inputRef={ref => this.inputRef = ref}
+                    helperText={this.helpText()}
+                />
+                <ValidationPopover
+                    index={index}
+                    anchor={this.inputRef}
+                    validationErrors={validationErrors}
+                />
+            </React.Fragment>
         )
     }
 }

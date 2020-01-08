@@ -14,9 +14,10 @@ class MultiLanguageField extends React.Component {
 
     constructor(props) {
         super(props)
-        let defaultValue = props.defaultValue || {}
+
         this.state = {
-            value: defaultValue,
+            value: props.defaultValue || {},
+            labelRef: null,
         }
     }
 
@@ -101,6 +102,10 @@ class MultiLanguageField extends React.Component {
                 !(_.isEqual(nextProps.disabled, this.props.disabled))
     }
 
+    setLabelRef = (element) => {
+        this.setState({labelRef: element})
+    }
+
     render() {
         let props = this.props
         // Set default language to fi if no languages are selected
@@ -152,7 +157,14 @@ class MultiLanguageField extends React.Component {
         return (
             <div className="multi-field">
                 <div className="indented">
-                    <label><FormattedMessage id={`${props.label}`} /><ValidationPopover validationErrors={this.props.validationErrors} index={this.props.index} /></label>
+                    <label ref={this.setLabelRef}>
+                        <FormattedMessage id={`${props.label}`} />
+                        <ValidationPopover
+                            index={this.props.index}
+                            anchor={this.state.labelRef}
+                            validationErrors={this.props.validationErrors}
+                        />
+                    </label>
                     {textInputs}
                 </div>
             </div>

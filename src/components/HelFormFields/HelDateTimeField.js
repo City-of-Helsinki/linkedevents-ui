@@ -19,6 +19,8 @@ class HelDateTimeField extends React.Component {
         super(props)
         
         let defaultValue = this.props.defaultValue || null;
+
+        this.labelRef = React.createRef()
         
         if(moment(defaultValue).isValid()) {
             defaultValue = moment(defaultValue).tz('Europe/Helsinki');
@@ -162,8 +164,13 @@ class HelDateTimeField extends React.Component {
         return (
             <div className="multi-field">
                 <div className="indented">
-                    <label style={{position: 'relative'}}><FormattedMessage id={`${this.props.label}`} /> <ValidationPopover validationErrors={this.props.validationErrors} />
+                    <label style={{position: 'relative'}} ref={this.labelRef}>
+                        <FormattedMessage id={`${this.props.label}`} />
                     </label>
+                    <ValidationPopover
+                        anchor={this.labelRef.current}
+                        validationErrors={this.props.validationErrors}
+                    />
                     <HelDatePicker {...this.props.datePickerProps}
                         ref="date"
                         name={this.props.name}
