@@ -10,15 +10,12 @@ import {some, values, forEach, isEmpty} from 'lodash'
 import DayCheckbox from './DayCheckbox'
 import {Button, IconButton} from '@material-ui/core'
 import {Add, Close} from '@material-ui/icons'
-import {Grid, Row, Col, ControlLabel} from 'react-bootstrap'
 
-import {connect} from 'react-redux'
-import {setEventData, sortSubEvents, setData} from 'src/actions/editor'
+import {setEventData, sortSubEvents} from 'src/actions/editor'
 
 import validationRules from 'src/validation/validationRules'
 import ValidationPopover from 'src/components/ValidationPopover'
 
-import update from 'immutability-helper'
 import CONSTANTS from '../../constants'
 
 import './RecurringEvent.scss'
@@ -277,15 +274,15 @@ class RecurringEvent extends React.Component {
 
         return (
             <div className="recurring-events-modal" onClick={this.props.toggle}>
-                <Grid className="recurring-events" onClick={(e) => this.stop(e)}>
+                <div className="container recurring-events" onClick={(e) => this.stop(e)}>
                     <div className="recurring-events-modal__header">
                         <h2><FormattedMessage id="event-add-recurring"/></h2>
                         <IconButton onClick={this.props.toggle}>
                             <Close />
                         </IconButton>
                     </div>
-                    <Row>
-                        <Col xs={12} sm={12} className="multi-field repeat-frequency">
+                    <div className="row">
+                        <div className="col-xs-12 col-sm-12 multi-field repeat-frequency">
                             <div className="dates-label">
                                 <FormattedMessage id="repetition-interval-label"/>
                             </div>
@@ -302,11 +299,11 @@ class RecurringEvent extends React.Component {
                                 </div>
                                 <FormattedMessage id="repetition-interval" />
                             </div>
-                        </Col>
-                    </Row>
+                        </div>
+                    </div>
 
-                    <Row>
-                        <Col xs={12} sm={12}>
+                    <div className="row">
+                        <div className="col-xs-12 col-sm-12">
                             <span className="play-date">
                                 <div className="play-date-label">
                                     <FormattedMessage id="play-date-label" />
@@ -314,13 +311,13 @@ class RecurringEvent extends React.Component {
                                 <ValidationPopover small={true} validationErrors={(this.state.errors.atLeastOneIsTrue ? [VALIDATION_RULES.AT_LEAST_ONE_IS_TRUE] : null)} />
                                 <ValidationPopover small={true} validationErrors={(this.state.errors.daysWithinInterval ? [VALIDATION_RULES.DAY_WITHIN_INTERVAL] : null)} />
                             </span>
-                        </Col>
-                    </Row>
-                    <Row>
+                        </div>
+                    </div>
+                    <div className="row">
                         { days }
-                    </Row>
+                    </div>
 
-                    <Row className="recurring-date-range-wrapper multi-field">
+                    <div className="row recurring-date-range-wrapper multi-field">
                         <RecurringDateRangePicker
                             name="recurringStartDate"
                             validationErrors={(this.state.errors.isDate ? [VALIDATION_RULES.IS_DATE] : null)}
@@ -339,22 +336,22 @@ class RecurringEvent extends React.Component {
                             label="repetition-end"
                             onChange={this.onChange}
                         />
-                    </Row>
+                    </div>
 
-                    <Row>
-                        <Col xs={12} sm={6} className="multi-field recurring-times">
+                    <div className="row">
+                        <div className="col-xs-12 col-sm-6 multi-field recurring-times">
                             <span className="label-wrapper"><FormattedMessage id="repetition-start-time" /><ValidationPopover small={true} validationErrors={(this.state.errors.isTime ? [VALIDATION_RULES.IS_TIME] : null)} /></span>
                             <RecurringTimePicker name="recurringStartTime" time={this.state.recurringStartTime} onChange={this.onTimeChange} onBlur={this.onTimeChange} />
-                        </Col>
+                        </div>
 
-                        <Col xs={6} sm={6} className="multi-field recurring-times">
+                        <div className="col-xs-6 col-sm-6 multi-field recurring-times">
                             <span className="label-wrapper"><FormattedMessage id="repetition-end-time" /><ValidationPopover small={true} validationErrors={(this.state.errors.isTime ? [VALIDATION_RULES.IS_TIME] : null)} /></span>
                             <RecurringTimePicker name="recurringEndTime" time={this.state.recurringEndTime} onChange={this.onTimeChange} onBlur={this.onTimeChange} />
-                        </Col>
-                    </Row>
+                        </div>
+                    </div>
 
-                    <Row>
-                        <Col xs={12} sm={12}>
+                    <div className="row">
+                        <div className="col-xs-12 col-sm-12">
                             <Button
                                 fullWidth
                                 variant="contained"
@@ -365,9 +362,9 @@ class RecurringEvent extends React.Component {
                             >
                                 <FormattedMessage id="add-more"/>
                             </Button>
-                        </Col>
-                    </Row>
-                </Grid>
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }

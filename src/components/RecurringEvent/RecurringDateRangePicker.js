@@ -7,7 +7,6 @@ import validationRules from 'src/validation/validationRules';
 import ValidationPopover from 'src/components/ValidationPopover'
 
 import moment from 'moment'
-import {Col} from 'react-bootstrap'
 
 import CONSTANTS from '../../constants'
 
@@ -55,10 +54,10 @@ class RecurringDateRangePicker extends React.Component {
 
     render () {
         return (
-            <Col xs={12} sm={6}>
+            <div className="col-xs-12 col-sm-6">
                 <label><FormattedMessage id={`${this.props.label}`} /> <ValidationPopover validationErrors={this.props.validationErrors} /></label>
                 <HelDatePicker ref="date" name={this.props.name} defaultValue={this.state.date} validations={[CONSTANTS.VALIDATION_RULES.IS_DATE]} placeholder="pp.kk.vvvv" onChange={this.onChange} onBlur={this.onBlur} label={<FormattedMessage id="date" />} />
-            </Col>
+            </div>
         )
     }
 }
