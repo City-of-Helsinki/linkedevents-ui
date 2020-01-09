@@ -3,7 +3,8 @@ import constants from '../constants'
 import {FormattedMessage} from 'react-intl'
 import React from 'react'
 import moment from 'moment'
-import Chip from '@material-ui/core/Chip'
+import hel from '../themes/hel/hel-brand-colors'
+import {Chip, withStyles} from '@material-ui/core'
 
 const {VALIDATION_RULES, CHARACTER_LIMIT} = constants
 
@@ -129,6 +130,38 @@ export const getFirstMultiLanguageFieldValue = (field, contentLanguages = null) 
 export const getBadge = (type, size = 'small') => {
     let badgeType = 'primary'
 
+    const BadgeChip = withStyles({
+        root: {
+            '&.badge-chip': {
+                fontSize: '0.6em',
+                fontWeight: 'bold',
+                textTransform: 'uppercase',
+            },
+            '&.umbrella': {
+                backgroundColor: hel.info.main,
+                color: hel.gray.white,
+            },
+            '&.series': {
+                backgroundColor: hel.success.main,
+                color: hel.gray.white,
+            },
+            '&.cancelled': {
+                backgroundColor: hel.error.main,
+                color: hel.gray.white,
+            },
+            '&.draft': {
+                backgroundColor: hel.alert.main,
+                color: hel.gray.black,
+            },
+        },
+        sizeSmall: {
+            '&.badge-chip': {
+                fontSize: '90%',
+                textTransform: 'none',
+            },
+        },
+    })(Chip)
+
     switch (type) {
         case 'series':
             badgeType = 'success'
@@ -145,7 +178,7 @@ export const getBadge = (type, size = 'small') => {
     }
 
     return (
-        <Chip
+        <BadgeChip
             className={`${type} badge-chip`}
             size={size}
             label={<FormattedMessage id={type}/>}
