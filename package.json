@@ -58,7 +58,6 @@
     "raven-js": "^2.3.0",
     "react": "16.12.0",
     "react-addons-pure-render-mixin": "^15.6.2",
-    "react-bootstrap": "0.32.4",
     "react-copy-to-clipboard": "^5.0.1",
     "react-datepicker": "1.8.0",
     "react-dom": "16.12.0",
