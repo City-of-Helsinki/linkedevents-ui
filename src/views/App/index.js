@@ -9,9 +9,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 
 import Headerbar from 'src/components/Header'
-import {ThemeProvider, Button, IconButton} from '@material-ui/core';
+import {ThemeProvider, Button, IconButton, Paper, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
 import {Close} from '@material-ui/icons';
-import {Modal, Well} from 'react-bootstrap';
 
 import {injectIntl, FormattedMessage} from 'react-intl'
 
@@ -22,6 +21,7 @@ import {cancelAction, doAction} from 'src/actions/app'
 
 import {HelTheme} from 'src/themes/hel/material-ui'
 import Notifications from '../Notification'
+
 
 class App extends React.Component {
 
@@ -85,20 +85,34 @@ class App extends React.Component {
         if (this.props.user && !this.props.user.organization) {
             if (appSettings.ui_mode === 'courses') {
                 organization_missing_msg =
-                    <Well><h4>Tervetuloa käyttämään Linked Coursesia, {this.props.user.displayName}!</h4>
+                    <Paper
+                        elevation={3}
+                        style={{
+                            margin: HelTheme.spacing(3),
+                            padding: 16,
+                        }}
+                    >
+                        <h4>Tervetuloa käyttämään Linked Coursesia, {this.props.user.displayName}!</h4>
                         <p>Sinulla ei ole vielä oikeutta hallinnoida yhdenkään yksikön kursseja.</p>
                         <p>Jos olet jo saanut käyttöoikeudet, kirjautumisesi saattaa olla vanhentunut. Kokeile sivun
                             päivittämistä (F5) ja kirjautumista uudestaan.</p>
-                    </Well>
+                    </Paper>
             } else {
                 organization_missing_msg =
-                    <Well><h4>Tervetuloa käyttämään Linked Eventsiä, {this.props.user.displayName}!</h4>
+                    <Paper
+                        elevation={3}
+                        style={{
+                            margin: HelTheme.spacing(3),
+                            padding: 16,
+                        }}
+                    >
+                        <h4>Tervetuloa käyttämään Linked Eventsiä, {this.props.user.displayName}!</h4>
                         <p>Sinulla ei ole vielä oikeutta hallinnoida yhdenkään yksikön tapahtumia.
                             Ota yhteyttä <a href="mailto:aleksi.salonen@hel.fi">Aleksi Saloseen</a> saadaksesi oikeudet
                             muokata yksikkösi tapahtumia.</p>
                         <p>Jos olet jo saanut käyttöoikeudet, kirjautumisesi saattaa olla vanhentunut. Kokeile sivun
                             päivittämistä (F5) ja kirjautumista uudestaan.</p>
-                    </Well>
+                    </Paper>
             }
         }
         return (
@@ -110,21 +124,22 @@ class App extends React.Component {
                         {this.props.children}
                     </div>
                     <Notifications flashMsg={this.props.app.flashMsg} />
-                    <Modal show={(!!this.props.app.confirmAction)} dialogClassName="custom-modal" onHide={e => this.props.dispatch(cancelAction())}>
-                        <Modal.Header>
-                            <IconButton
-                                onClick={() => this.props.dispatch(cancelAction())}
-                                style={{margin: '-4px 0 8px auto'}}
-                            >
+                    <Dialog
+                        open={!!this.props.app.confirmAction}
+                        onClose={() => this.props.dispatch(cancelAction())}
+                        transitionDuration={0}
+                    >
+                        <DialogTitle>
+                            {confirmMsg}
+                            <IconButton onClick={() => this.props.dispatch(cancelAction())}>
                                 <Close />
                             </IconButton>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <p><strong>{confirmMsg}</strong></p>
+                        </DialogTitle>
+                        <DialogContent>
                             <p><strong>{additionalMsg}</strong></p>
                             <div dangerouslySetInnerHTML={getMarkup()}/>
-                        </Modal.Body>
-                        <Modal.Footer>
+                        </DialogContent>
+                        <DialogActions>
                             <Button
                                 variant="contained"
                                 onClick={() => this.props.cancel()}
@@ -138,8 +153,8 @@ class App extends React.Component {
                             >
                                 <FormattedMessage id={actionButtonLabel} />
                             </Button>
-                        </Modal.Footer>
-                    </Modal>
+                        </DialogActions>
+                    </Dialog>
                 </div>
             </ThemeProvider>
         )

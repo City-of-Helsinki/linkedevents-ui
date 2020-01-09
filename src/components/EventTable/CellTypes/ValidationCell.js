@@ -13,7 +13,7 @@ import {push} from 'react-router-redux'
 const {PUBLICATION_STATUS} = constants
 
 const ValidationCell = ({event, intl, editor, handleInvalidRow, routerPush}) => {
-    const [hover, setHover] = useState(false);
+    const [hover, setHover] = useState(false)
     const formattedEvent = mapAPIDataToUIFormat(event)
     // don't validate sub_events as they will be validated separately
     formattedEvent.sub_events = []

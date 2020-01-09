@@ -96,6 +96,7 @@
     "events-management-no-results": "No editable events found.",
 
     "event-image": "Event image (click to change)",
+    "event-image-title": "Event image",
     "new-image": "Add a new image",
     "upload-image": "Upload image from your hard disk",
     "choose-image": "Upload or choose a image for this event",

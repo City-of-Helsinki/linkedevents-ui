@@ -96,6 +96,7 @@
     "events-management-no-results": "Yhtäkään muokattavaa tapahtumaa ei löytynyt.",
 
     "event-image": "Tapahtuman kuva (klikkaa vaihtaaksesi)",
+    "event-image-title": "Tapahtuman kuva",
     "new-image": "Lisää uusi kuva",
     "upload-image": "Lataa kuva kovalevyltäsi",
     "choose-image": "Lisää tapahtumalle kuva tai valitse kuvapankista",

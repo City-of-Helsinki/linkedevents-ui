@@ -1,32 +1,6 @@
 $bg-color: #f6f6f6;
 $modal-backdrop-opacity: 0.7;
 
-#image-modal {
-    .modal-header {
-        align-items: baseline;
-        flex-direction: column;
-
-        .modal-title-container {
-            align-items: baseline;
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-        }
-    }
-
-    .modal-dialog {
-        height: 100%;
-        width: 95%;
-        min-width: 80%;
-
-        .modal-content {
-            max-height: 90%;
-            overflow-y: scroll;
-            overflow-x: hidden;
-        }
-    }
-}
-
 .image-picker {
     align-items: center;
     background-color: $bg-color;
@@ -47,72 +21,51 @@ $modal-backdrop-opacity: 0.7;
         background-color: darken($bg-color, 4%);
     }
 
-    label {
-        padding-top: 20px;
-        font-size: 18px;
-        max-width: 200px;
-    }
-
-    .img-preview {
-        position: absolute;
-        top: 0;
-        left: 0;
-
-        width: 100%;
-        height: 100%;
-
-        background-size: cover;
+    &--preview {
+        align-items: center;
+        background-position: 50%;
         background-repeat: no-repeat;
-        background-position: 50% 50%;
-        z-index: 666;
-    }
-}
+        background-size: cover;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: center;
+        width: 100%;
 
-.modal {
-  // When fading in the modal, animate it to slide down
-  &.fade .modal-dialog {
-    opacity: 0;
-    transition: none;
-    transform: translate(0, 0);
-  }
-  &.in .modal-dialog { transform: translate(0, 0); opacity: 1; }
-}
+        svg {
+            font-size: 400%;
+        }
 
-.modal-backdrop {
-    transition: opacity .3s ease-out;
-  // Fade for backdrop
-  &.fade { opacity: 0; }
-  &.in { opacity: $modal-backdrop-opacity; }
-}
-
-.modal-content {
-    box-shadow: 0px 0px 30px rgba(0,0,0,0.3);
-
-    padding: 12px 6px;
-    padding-bottom: 6px;
-
-    border-radius: 0;
-    border: 0;
-    min-width: 80%;
-
-    .modal-body {
-        padding: 12px 24px;
-
-        ul {
-            margin: 0.3rem 0 0;
+        label {
+            font-size: 18px;
+            max-width: 200px;
+            padding-top: 20px;
         }
     }
 
-    .close {
-        position: absolute;
-        top: 0;
-        right: 10px;
-        border: 0;
-        background: transparent;
+    &--dialog {
+        &-title {
+            padding: 0 15px;
+        }
 
-        svg {
-            height: auto;
-            width: 1.5em;
+        hr {
+            margin: 2rem 15px;
+        }
+    }
+}
+
+.file-upload {
+    &--new {
+        margin: 16px 15px 0;
+    }
+
+    &--external {
+        align-items: center;
+        display: flex;
+        margin: 16px 15px;
+
+        &-input {
+            flex: 1;
         }
     }
 }

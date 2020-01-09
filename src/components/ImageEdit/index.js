@@ -3,17 +3,30 @@ import './index.scss'
 import React from 'react';
 import PropTypes from 'prop-types'
 import {injectIntl, FormattedMessage} from 'react-intl'
-import {Modal} from 'react-bootstrap';
-import {Button, IconButton} from '@material-ui/core'
+import {
+    Button,
+    IconButton,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    TextField,
+    Radio,
+    RadioGroup,
+    FormControlLabel,
+    Typography, withStyles,
+} from '@material-ui/core'
 import {Close} from '@material-ui/icons'
 import {connect} from 'react-redux'
-
-import FormFields from '../FormFields'
 import HelTextField from '../HelFormFields/HelTextField'
-
 import CONSTANTS from '../../constants'
 import {postImage as postImageAction} from 'src/actions/userImages'
 import {HelTheme} from '../../themes/hel/material-ui'
+
+const InlineRadioGroup = withStyles({
+    root: {
+        flexDirection: 'row',
+    },
+})(RadioGroup)
 
 class ImageEdit extends React.Component {
 
@@ -52,81 +65,85 @@ class ImageEdit extends React.Component {
     handleTextChange(e, key) {
         this.setState({[key]: e.target.value})
     }
+    handleLicenseChange = (e) => {
+        this.setState({license: e.target.value})
+    }
     render() {
         const {name, nameMinLength, nameMaxLength, license, photographerName} = this.state
+        const {close} = this.props
         return (
-            <Modal
-                id="image-modal"
-                show={true}
-                onHide={() => this.props.close()}
-                aria-labelledby="ModalHeader"
-                width="600px"
+            <Dialog
+                className="image-edit-dialog"
+                disableBackdropClick
+                fullWidth
+                maxWidth="lg"
+                open={true}
+                transitionDuration={0}
             >
-                <Modal.Header>
-                    <div className="modal-title-container">
-                        <h4>Kuvan tiedot</h4>
-                        <IconButton
-                            onClick={() => this.props.close()}
-                        >
-                            <Close />
-                        </IconButton>
-                    </div>
-                </Modal.Header>
-                <Modal.Body>
+                <DialogTitle>
+                    Kuvan tiedot
+                    <IconButton onClick={() => close()}>
+                        <Close />
+                    </IconButton>
+                </DialogTitle>
+                <DialogContent>
                     <form onSubmit={() => this.handleImagePost()} className="row">
-                        <div className="col-sm-8 edit-form">
-                            <div className="hel-text-field">
-                                <label className="hel-label">
-                                    <FormattedMessage id={'image-caption-limit-for-min-and-max'} values={{
-                                        minLength: nameMinLength,
-                                        maxLength: nameMaxLength}}/>
-                                    
-                                </label>
-                                <HelTextField
-                                    onChange={(e) => this.handleTextChange(e, 'name')}
-                                    defaultValue={name}
-                                    validations={[CONSTANTS.VALIDATION_RULES.SHORT_STRING]}
-                                    maxLength={nameMaxLength}
+                        <div className="col-sm-8 image-edit-dialog--form">
+                            <HelTextField
+                                onChange={(e) => this.handleTextChange(e, 'name')}
+                                defaultValue={name}
+                                validations={[CONSTANTS.VALIDATION_RULES.SHORT_STRING]}
+                                maxLength={nameMaxLength}
+                                label={
+                                    <FormattedMessage
+                                        id={'image-caption-limit-for-min-and-max'}
+                                        values={{
+                                            minLength: nameMinLength,
+                                            maxLength: nameMaxLength}}
+                                    />
+                                }
+                            />
+                            <TextField
+                                fullWidth
+                                label={'Kuvaaja'}
+                                value={photographerName}
+                                onChange={(e) => this.handleTextChange(e, 'photographerName')}
+                            />
+                            <Typography
+                                style={{marginTop: HelTheme.spacing(2)}}
+                                variant="h6"
+                            >
+                                Kuvan lisenssi
+                            </Typography>
+                            <InlineRadioGroup aria-label="License" name="license" value={license} onChange={this.handleLicenseChange}>
+                                <FormControlLabel
+                                    value="cc_by"
+                                    control={<Radio color="primary" />}
+                                    label="Creative Commons BY 4.0"
                                 />
-                            </div>
-                            <div className="hel-text-field">
-                                <label className="hel-label">Kuvaaja</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    onChange={(e) => this.handleTextChange(e, 'photographerName')}
-                                    defaultValue={photographerName}
+                                <FormControlLabel
+                                    value="event_only"
+                                    control={<Radio color="primary" />}
+                                    label="Käyttö rajattu tapahtuman yhteyteen"
                                 />
-                            </div>
-                            <h4>Kuvan lisenssi</h4>
-                            <div className="form-check">
-                                <label className="edit-label">
-                                    <input value="cc_by" checked={license === 'cc_by'}  onChange={() => this.setState({license: 'cc_by'})} type="radio" className="form-check-input" />
-                                    Creative Commons BY 4.0
-                                </label>
-                                <label className="edit-label">
-                                    <input value="event_only" checked={license === 'event_only'} onChange={() => this.setState({license: 'event_only'})} type="radio" className="form-check-input" />
-                                    Käyttö rajattu tapahtuman yhteyteen
-                                </label>
-                            </div>
+                            </InlineRadioGroup>
                         </div>
-                        <img className="col-sm-4 edit-form form-image" src={this.props.thumbnailUrl} />
-                        <Button
-                            fullWidth
-                            type="submit"
-                            color="primary"
-                            variant="contained"
-                            disabled={name.length < nameMinLength}
-                            style={{margin: HelTheme.spacing(3, 0, 0)}}
-                        >
-                            Tallenna tiedot
-                        </Button>
-
+                        <img className="col-sm-4 image-edit-dialog--image" src={this.props.thumbnailUrl} />
+                        <div className="col-sm-12">
+                            <Button
+                                fullWidth
+                                type="submit"
+                                color="primary"
+                                variant="contained"
+                                disabled={name.length < nameMinLength}
+                                style={{margin: HelTheme.spacing(3, 0, 0)}}
+                            >
+                                Tallenna tiedot
+                            </Button>
+                        </div>
                     </form>
-                </Modal.Body>
-                <Modal.Footer>
-                </Modal.Footer>
-            </Modal>
+                </DialogContent>
+            </Dialog>
         )
     }
 }

@@ -28,9 +28,9 @@ const handleKeyPress = (
 }
 
 const SearchBar = ({intl, onFormSubmit}) => {
-    const [startDate, setStartDate] = useState(moment());
-    const [endDate, setEndDate] = useState(null);
-    const [searchQuery, setSearchQuery] = useState('');
+    const [startDate, setStartDate] = useState(moment())
+    const [endDate, setEndDate] = useState(null)
+    const [searchQuery, setSearchQuery] = useState('')
     
     return (
         <form className="row search-bar">
