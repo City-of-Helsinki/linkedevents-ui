@@ -312,4 +312,11 @@
     "format-select-count": " ({count} events)",
     "upload-image-from-url": "Upload image from url",
     "uploaded-image-size-error": "The allowed maximum size for uploaded images is 2 megabytes (MB)."
+    "image-modal-image-info": "Image information",
+    "photographer": "Photographer",
+    "image-modal-license-restricted-to-event": "Image may be used only for this event",
+    "image-modal-image-license": "Image license",
+    "image-modal-view-terms-paragraph-text": "Prior to uploading a new image, get to know the",
+    "image-modal-view-terms-link-text": "image terms and recommendations",
+    "image-modal-save-button-text": "Save image"
 }
