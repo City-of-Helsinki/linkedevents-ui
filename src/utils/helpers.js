@@ -3,7 +3,7 @@ import constants from '../constants'
 import {FormattedMessage} from 'react-intl'
 import React from 'react'
 import moment from 'moment'
-import hel from '../themes/hel/hel-brand-colors'
+import helBrandColors from '../themes/hel/hel-brand-colors'
 import {Chip, withStyles} from '@material-ui/core'
 
 const {VALIDATION_RULES, CHARACTER_LIMIT} = constants
@@ -138,20 +138,20 @@ export const getBadge = (type, size = 'small') => {
                 textTransform: 'uppercase',
             },
             '&.umbrella': {
-                backgroundColor: hel.info.main,
-                color: hel.gray.white,
+                backgroundColor: helBrandColors.info.main,
+                color: helBrandColors.gray.white,
             },
             '&.series': {
-                backgroundColor: hel.success.main,
-                color: hel.gray.white,
+                backgroundColor: helBrandColors.success.main,
+                color: helBrandColors.gray.white,
             },
             '&.cancelled': {
-                backgroundColor: hel.error.main,
-                color: hel.gray.white,
+                backgroundColor: helBrandColors.error.main,
+                color: helBrandColors.gray.white,
             },
             '&.draft': {
-                backgroundColor: hel.alert.main,
-                color: hel.gray.black,
+                backgroundColor: helBrandColors.alert.main,
+                color: helBrandColors.gray.black,
             },
         },
         sizeSmall: {

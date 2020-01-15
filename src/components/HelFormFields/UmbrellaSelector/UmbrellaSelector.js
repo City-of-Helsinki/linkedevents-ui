@@ -12,7 +12,7 @@ import {Link} from 'react-router-dom'
 import {getFirstMultiLanguageFieldValue, scrollToTop} from '../../../utils/helpers'
 import constants from '../../../constants'
 import {getSuperEventId} from '../../../utils/events'
-import {HelSelectStyles, HelSelectTheme} from '../../../themes/hel/react-select'
+import {HelSelectStyles, HelSelectTheme} from '../../../themes/react-select'
 
 class UmbrellaSelector extends React.Component {
 

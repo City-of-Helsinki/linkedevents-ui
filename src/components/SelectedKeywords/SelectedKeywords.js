@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react'
 import {Chip} from '@material-ui/core'
-import {HelTheme} from '../../themes/hel/material-ui'
+import {HelMaterialTheme} from '../../themes/material-ui'
 
 const containerStyles = {
-    margin: HelTheme.spacing(1, 0, 2),
+    margin: HelMaterialTheme.spacing(1, 0, 2),
 }
 
 const chipStyles = {
-    margin: HelTheme.spacing(1, 1, 0, 0),
+    margin: HelMaterialTheme.spacing(1, 1, 0, 0),
 }
 
 const SelectedKeywords = ({selectedKeywords, onDelete}) => (

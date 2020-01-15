@@ -11,7 +11,7 @@ import {setEventData, sortSubEvents} from 'src/actions/editor'
 import validationRules from 'src/validation/validationRules'
 import ValidationPopover from 'src/components/ValidationPopover'
 import constants from '../../constants'
-import {HelTheme} from '../../themes/hel/material-ui'
+import {HelMaterialTheme} from '../../themes/material-ui'
 import HelDatePicker from '../HelFormFields/HelDatePicker'
 
 const {VALIDATION_RULES} = constants
@@ -21,7 +21,7 @@ const RepetitionTextField = withStyles({
         margin: 0,
         width: 40,
         '& input': {
-            padding: `${HelTheme.spacing(0.5)}px ${HelTheme.spacing(1)}px`,
+            padding: `${HelMaterialTheme.spacing(0.5)}px ${HelMaterialTheme.spacing(1)}px`,
             textAlign: 'center',
         },
     },
@@ -335,7 +335,7 @@ class RecurringEvent extends React.Component {
                                 ref={this.playDateRef}
                                 style={{
                                     display: 'inline-block',
-                                    marginTop: HelTheme.spacing(2),
+                                    marginTop: HelMaterialTheme.spacing(2),
                                 }}
                                 variant="h6"
                             >
@@ -430,7 +430,7 @@ class RecurringEvent extends React.Component {
                                 variant="contained"
                                 color="primary"
                                 onClick={() => this.generateEvents()}
-                                style={{margin: `${HelTheme.spacing(2)}px 0`}}
+                                style={{margin: `${HelMaterialTheme.spacing(2)}px 0`}}
                                 startIcon={<Add/>}
                             >
                                 <FormattedMessage id="add-more"/>

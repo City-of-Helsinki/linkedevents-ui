@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import Select from 'react-select';
 import {get} from 'lodash';
-import {HelSelectTheme, HelSelectStyles} from '../../themes/hel/react-select'
+import {HelSelectTheme, HelSelectStyles} from '../../themes/react-select'
 import {fade, TextField} from '@material-ui/core'
-import {HelTheme} from '../../themes/hel/material-ui'
-import hel from '../../themes/hel/hel-brand-colors'
+import {HelMaterialTheme} from '../../themes/material-ui'
+import helBrandColors from '../../themes/hel/hel-brand-colors'
 
 const OrganizationSelector = ({formType, selectedOption, options, onChange}) => {
     const label = selectedOption.label ? selectedOption.label : ''
     const labelStyles = {
-        color: fade(hel.gray.black, 0.54),
+        color: fade(helBrandColors.gray.black, 0.54),
         display: 'block',
-        margin: `${HelTheme.spacing(2)}px 0 ${HelTheme.spacing(1)}px`,
+        margin: `${HelMaterialTheme.spacing(2)}px 0 ${HelMaterialTheme.spacing(1)}px`,
     }
 
     return (

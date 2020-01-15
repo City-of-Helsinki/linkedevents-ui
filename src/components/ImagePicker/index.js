@@ -12,7 +12,7 @@ import {get as getIfExists, isEmpty} from 'lodash'
 import ImageEdit from '../ImageEdit'
 import ImageGalleryGrid from '../ImageGalleryGrid'
 import {confirmAction} from 'src/actions/app.js'
-import {HelTheme} from '../../themes/hel/material-ui'
+import {HelMaterialTheme} from '../../themes/material-ui'
 
 // Display either the image thumbnail or the "Add an image to the event" text.
 const PreviewImage = (props) => {
@@ -182,7 +182,7 @@ export class ImagePicker extends React.Component {
                                     className="file-upload--external-button"
                                     variant="contained"
                                     color="primary"
-                                    style={{marginLeft: HelTheme.spacing(2)}}
+                                    style={{marginLeft: HelMaterialTheme.spacing(2)}}
                                     disabled={!this.state.thumbnailUrl || this.state.thumbnailUrl.length === 0}
                                     onClick={() => this.handleExternalImageSave()}
                                 >

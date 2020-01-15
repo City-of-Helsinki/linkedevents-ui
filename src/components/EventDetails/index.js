@@ -14,7 +14,7 @@ import {getStringWithLocale} from '../../utils/locale'
 import {mapKeywordSetToForm} from '../../utils/apiDataMapping'
 import LinksToEvents from '../LinksToEvents/LinksToEvents'
 import {CheckBox, CheckBoxOutlineBlank} from '@material-ui/icons'
-import {HelTheme} from '../../themes/hel/material-ui'
+import {HelMaterialTheme} from '../../themes/material-ui'
 
 const NoValue = (props) => {
     let header = props.labelKey ? (<span><FormattedMessage id={`${props.labelKey}`}/>&nbsp;</span>) : null
@@ -33,7 +33,7 @@ NoValue.propTypes = {
 const CheckedValue = ({checked, labelKey, label}) => (
     <div className="checked-value">
         {checked
-            ? <CheckBox htmlColor={HelTheme.palette.tram.main} />
+            ? <CheckBox htmlColor={HelMaterialTheme.palette.tram.main} />
             : <CheckBoxOutlineBlank />
         }
         <label>

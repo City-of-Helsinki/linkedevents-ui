@@ -23,8 +23,10 @@ import constants from '../../constants'
 import cityOfHelsinkiLogo from '../../assets/images/helsinki-logo.svg'
 import {hasAffiliatedOrganizations} from '../../utils/user'
 import {get} from 'lodash'
-import {HelTheme} from '../../themes/hel/material-ui'
-import {HelSelectTheme, HelLanguageSelectStyles} from '../../themes/hel/react-select'
+import {HelMaterialTheme} from '../../themes/material-ui'
+import {HelSelectTheme, HelLanguageSelectStyles} from '../../themes/react-select'
+import moment from 'moment'
+import * as momentTimezone from 'moment-timezone'
 
 const {USER_TYPE, APPLICATION_SUPPORT_TRANSLATION} = constants
 
@@ -61,6 +63,8 @@ class HeaderBar extends React.Component {
 
     changeLanguage = (selectedOption) => {
         this.props.setLocale(selectedOption.value)
+        moment.locale(selectedOption.value)
+        momentTimezone.locale(selectedOption.value)
     }
 
     toggleNavbar = () => {
@@ -111,13 +115,13 @@ class HeaderBar extends React.Component {
                         </div>
                         {user
                             ? <Button
-                                style={{color: HelTheme.palette.primary.contrastText}}
+                                style={{color: HelMaterialTheme.palette.primary.contrastText}}
                                 onClick={() => logout()}
                             >
                                 {user.displayName}
                             </Button>
                             : <Button
-                                style={{color: HelTheme.palette.primary.contrastText}}
+                                style={{color: HelMaterialTheme.palette.primary.contrastText}}
                                 startIcon={<Person/>}
                                 onClick={() => login()}
                             >

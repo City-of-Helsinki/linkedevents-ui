@@ -4,7 +4,7 @@ import {Popper} from '@material-ui/core'
 import PropTypes from 'prop-types'
 import {FormattedMessage} from 'react-intl'
 import {getCharacterLimitByRule} from '../../utils/helpers'
-import {HelTheme} from '../../themes/hel/material-ui'
+import {HelMaterialTheme} from '../../themes/material-ui'
 
 const ValidationPopover =  ({
     validationErrors,
@@ -58,7 +58,7 @@ const ValidationPopover =  ({
                             behavior: ['right', 'bottom'],
                         },
                         offset: {
-                            offset: `0 ${HelTheme.spacing(3)} 0 0`,
+                            offset: `0 ${HelMaterialTheme.spacing(3)} 0 0`,
                         },
                     }}
                 >

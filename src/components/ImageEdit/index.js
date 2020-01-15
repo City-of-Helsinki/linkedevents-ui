@@ -20,7 +20,7 @@ import {connect} from 'react-redux'
 import HelTextField from '../HelFormFields/HelTextField'
 import CONSTANTS from '../../constants'
 import {postImage as postImageAction} from 'src/actions/userImages'
-import {HelTheme} from '../../themes/hel/material-ui'
+import {HelMaterialTheme} from '../../themes/material-ui'
 
 const InlineRadioGroup = withStyles({
     root: {
@@ -110,7 +110,7 @@ class ImageEdit extends React.Component {
                                 onChange={(e) => this.handleTextChange(e, 'photographerName')}
                             />
                             <Typography
-                                style={{marginTop: HelTheme.spacing(2)}}
+                                style={{marginTop: HelMaterialTheme.spacing(2)}}
                                 variant="h6"
                             >
                                 Kuvan lisenssi
@@ -136,7 +136,7 @@ class ImageEdit extends React.Component {
                                 color="primary"
                                 variant="contained"
                                 disabled={name.length < nameMinLength}
-                                style={{margin: HelTheme.spacing(3, 0, 0)}}
+                                style={{margin: HelMaterialTheme.spacing(3, 0, 0)}}
                             >
                                 Tallenna tiedot
                             </Button>

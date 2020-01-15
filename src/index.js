@@ -27,7 +27,7 @@ import {report} from './utils/raven_reporter';
 // translation 
 import IntlProviderWrapper from './components/IntlProviderWrapper'
 import store, {history} from './store'
-import {HelTheme} from './themes/hel/material-ui'
+import {HelMaterialTheme} from './themes/material-ui'
 import {Dialog, DialogTitle, DialogContent, IconButton, TextField, withStyles} from '@material-ui/core'
 import moment from 'moment'
 import * as momentTimezone from 'moment-timezone'
@@ -162,7 +162,7 @@ class DebugHelper extends React.Component {
                         className="btn btn-default"
                         onClick={this.showReportForm}
                     >
-                        <Feedback style={{marginLeft: HelTheme.spacing(1)}}/>
+                        <Feedback style={{marginLeft: HelMaterialTheme.spacing(1)}}/>
                     </button>
                 </div>
                 <div id="slide">Jos tapahtumien hallinnassa tai syöttölomakkeen toiminnassa on virhe, klikkaa {`"raportoi virhe"`}&#x2011;nappia,

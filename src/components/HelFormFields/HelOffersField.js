@@ -14,7 +14,7 @@ import {addOffer, setOfferData, setFreeOffers} from 'src/actions/editor.js'
 
 
 import ValidationPopover from '../ValidationPopover'
-import {HelTheme} from '../../themes/hel/material-ui'
+import {HelMaterialTheme} from '../../themes/material-ui'
 
 class HelOffersField extends React.Component {
 
@@ -101,7 +101,7 @@ class HelOffersField extends React.Component {
                     variant="contained"
                     color="primary"
                     disabled={this.state.isFree}
-                    style={{marginTop: HelTheme.spacing(2)}}
+                    style={{marginTop: HelMaterialTheme.spacing(2)}}
                     onClick={() => this.addNewOffer()}
                 >
                     <FormattedMessage id="event-add-price" />

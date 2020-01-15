@@ -6,14 +6,14 @@ import {connect} from 'react-redux'
 import {deleteSubEvent as deleteSubEventAction} from 'src/actions/editor'
 import {IconButton, withStyles} from '@material-ui/core'
 import {Delete} from '@material-ui/icons'
-import {HelTheme} from '../../themes/hel/material-ui'
+import {HelMaterialTheme} from '../../themes/material-ui'
 
 const DeleteButton = withStyles({
     root: {
         alignSelf: 'center',
         position: 'absolute',
         left: 0,
-        transform: `translateX(calc(-1.2em + -${HelTheme.spacing(1)}px))`,
+        transform: `translateX(calc(-1.2em + -${HelMaterialTheme.spacing(1)}px))`,
     },
 })(IconButton)
 

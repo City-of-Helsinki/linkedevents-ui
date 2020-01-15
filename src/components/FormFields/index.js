@@ -26,7 +26,7 @@ import API from '../../api'
 import CONSTANTS from '../../constants'
 import OrganizationSelector from '../HelFormFields/OrganizationSelector';
 import UmbrellaSelector from '../HelFormFields/UmbrellaSelector/UmbrellaSelector'
-import {HelTheme} from '../../themes/hel/material-ui'
+import {HelMaterialTheme} from '../../themes/material-ui'
 
 let FormHeader = (props) => (
     <div className="row">
@@ -297,7 +297,7 @@ class FormFields extends React.Component {
                             onClick={() => this.addNewEventDialog()}
                             startIcon={<Add/>}
                             fullWidth
-                            style={{marginTop: HelTheme.spacing(2)}}
+                            style={{marginTop: HelMaterialTheme.spacing(2)}}
                         >
                             <FormattedMessage id="event-add-new-occasion" />
                         </Button>
@@ -308,7 +308,7 @@ class FormFields extends React.Component {
                             onClick={() => this.showRecurringEventDialog()}
                             startIcon={<Autorenew/>}
                             fullWidth
-                            style={{marginTop: HelTheme.spacing(2)}}
+                            style={{marginTop: HelMaterialTheme.spacing(2)}}
                         >
                             <FormattedMessage id="event-add-recurring" />
                         </Button>

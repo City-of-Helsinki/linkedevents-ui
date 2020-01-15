@@ -17,7 +17,7 @@ import {retrieveUserFromSession as retrieveUserFromSessionAction} from '../../ac
 
 import {cancelAction, doAction} from 'src/actions/app'
 
-import {HelTheme} from 'src/themes/hel/material-ui'
+import {HelMaterialTheme} from 'src/themes/material-ui'
 import Notifications from '../Notification'
 import {MuiPickersUtilsProvider} from '@material-ui/pickers'
 import MomentUtils from '@date-io/moment';
@@ -50,7 +50,7 @@ class App extends React.Component {
 
     getChildContext() {
         return {
-            muiTheme: HelTheme,
+            muiTheme: HelMaterialTheme,
             dispatch: this.props.dispatch,
             intl: this.props.intl,
         }
@@ -98,7 +98,7 @@ class App extends React.Component {
                     <Paper
                         elevation={3}
                         style={{
-                            margin: HelTheme.spacing(3),
+                            margin: HelMaterialTheme.spacing(3),
                             padding: 16,
                         }}
                     >
@@ -112,7 +112,7 @@ class App extends React.Component {
                     <Paper
                         elevation={3}
                         style={{
-                            margin: HelTheme.spacing(3),
+                            margin: HelMaterialTheme.spacing(3),
                             padding: 16,
                         }}
                     >
@@ -126,7 +126,7 @@ class App extends React.Component {
             }
         }
         return (
-            <ThemeProvider theme={HelTheme}>
+            <ThemeProvider theme={HelMaterialTheme}>
                 <MuiPickersUtilsProvider utils={LocalizedUtils}>
                     <div>
                         <Headerbar />
