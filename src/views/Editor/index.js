@@ -35,8 +35,6 @@ let sentinel = true
 
 export class EditorPage extends React.Component {
 
-    form = React.createRef()
-
     state = {
         event: {},
         superEvent: {},
@@ -123,13 +121,6 @@ export class EditorPage extends React.Component {
     clearEventData = () => {
         const {clearData} = this.props
         clearData()
-
-        // Reset the state of the HelDatePicker and HelTimePicker components
-        this.form.current.refs.start_time.refs.date.resetDate();
-        this.form.current.refs.start_time.resetTime();
-        
-        this.form.current.refs.end_time.refs.date.resetDate();
-        this.form.current.refs.end_time.resetTime();
     }
 
     setDirtyState = () => {
@@ -292,7 +283,6 @@ export class EditorPage extends React.Component {
 
                 <div className="container">
                     <FormFields
-                        ref={this.form}
                         action={editMode}
                         editor={editor}
                         event={event}

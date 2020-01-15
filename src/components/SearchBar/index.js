@@ -5,12 +5,9 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import {FormattedMessage, injectIntl} from 'react-intl'
 import {Button, TextField} from '@material-ui/core'
+import {Remove} from '@material-ui/icons'
 import HelDatePicker from '../HelFormFields/HelDatePicker'
-
-import constants from '../../constants'
 import {HelTheme} from '../../themes/hel/material-ui'
-
-const {VALIDATION_RULES} = constants
 
 const handleKeyPress = (
     event,
@@ -33,32 +30,28 @@ const SearchBar = ({intl, onFormSubmit}) => {
     const [searchQuery, setSearchQuery] = useState('')
     
     return (
-        <form className="row search-bar">
-            <div className="col-sm-2 time-label">
-                <label>
+        <div className="search-bar">
+            <div className="search-bar--dates">
+                <label className="search-bar--label">
                     <FormattedMessage id="pick-time-range" />
                 </label>
-            </div>
-            <div className="col-xs-8 col-sm-5 col-md-3 start-date">
                 <HelDatePicker
                     name="startDate"
-                    defaultValue={startDate}
-                    validations={[VALIDATION_RULES.IS_DATE]}
                     placeholder={intl.formatMessage({id: 'search-date-placeholder'})}
-                    onChange={(date, value) => setStartDate(value)}
-                    onBlur={() => null}
+                    defaultValue={startDate}
+                    onClose={(value) => setStartDate(value)}
+                    maxDate={endDate ? endDate : undefined}
                 />
-            </div>
-            <div className="col-xs-8 col-sm-5 col-md-3">
+                <Remove className="search-bar--icon" />
                 <HelDatePicker
                     name="endDate"
-                    validations={[VALIDATION_RULES.IS_DATE]}
                     placeholder={intl.formatMessage({id: 'search-date-placeholder'})}
-                    onChange={(date, value) => setEndDate(value)}
-                    onBlur={() => null}
+                    defaultValue={endDate}
+                    onClose={(value) => setEndDate(value)}
+                    minDate={startDate ? startDate : undefined}
                 />
             </div>
-            <div className="col-sm-10 col-xs-12 input-row">
+            <div className="search-bar--input">
                 <TextField
                     autoFocus
                     fullWidth
@@ -69,6 +62,7 @@ const SearchBar = ({intl, onFormSubmit}) => {
                     style={{margin: 0}}
                 />
                 <Button
+                    disabled={searchQuery.length === 0}
                     style={{marginLeft: HelTheme.spacing(2)}}
                     variant="contained"
                     color="primary"
@@ -77,7 +71,7 @@ const SearchBar = ({intl, onFormSubmit}) => {
                     <FormattedMessage id="search-event-button"/>
                 </Button>
             </div>
-        </form>
+        </div>
     )
 }
 

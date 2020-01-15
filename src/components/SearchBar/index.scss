@@ -1,38 +1,23 @@
-$search-bar-height: 72px;
-$default-spacing: 8px;
-
 .search-bar {
-    .mui-raised-button {
-        width: 100%;
-        height: $search-bar-height;
-
-        button {
-            height: 100%;
-        }
+    &--dates {
+        align-items: baseline;
+        display: inline-flex;
     }
 
-    .time-input {
-        width: 100%;
-        height: $search-bar-height;
-    }
-    .time-label {
-        position: relative;
-        display: block;
-        margin-top: 22px;
-        margin-bottom: 6px;
-    }
-    .start-date:after {
-        content: '-';
-        position: absolute;
-        font-size: 30px;
-        top: 16px;
-        right: -5px;
+    &--label {
+        margin-right: 2rem;
     }
 
-    .input-row {
+    &--icon {
+        margin: 0 16px;
+        transform: translateY(8px);
+    }
+
+    &--input {
         align-items: center;
         display: flex;
-        margin: $default-spacing * 2 0 $default-spacing * 4;
+        margin: 16px 0 32px;
+        width: 100%;
 
         > div {
             flex: 1 1 auto;
@@ -41,5 +26,18 @@ $default-spacing: 8px;
         > button {
             flex: 1 0 auto;
         }
+    }
+}
+
+@media (max-width: 600px) {
+    .search-bar--dates {
+        flex-direction: column;
+    }
+}
+
+
+@media (min-width: 992px) {
+    .search-bar--input {
+        width: 70%;
     }
 }

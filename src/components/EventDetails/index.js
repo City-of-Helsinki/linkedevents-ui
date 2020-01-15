@@ -1,5 +1,5 @@
 import './index.scss'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import React from 'react'
 import PropTypes from 'prop-types'
 import get from 'lodash/get'

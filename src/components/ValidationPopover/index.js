@@ -6,7 +6,13 @@ import {FormattedMessage} from 'react-intl'
 import {getCharacterLimitByRule} from '../../utils/helpers'
 import {HelTheme} from '../../themes/hel/material-ui'
 
-const ValidationPopover =  ({validationErrors, anchor, index, inModal = false}) => {
+const ValidationPopover =  ({
+    validationErrors,
+    anchor,
+    placement = 'right-end',
+    index,
+    inModal = false,
+}) => {
     let errorMsg = null
 
     if(validationErrors && validationErrors[0]) {
@@ -46,7 +52,7 @@ const ValidationPopover =  ({validationErrors, anchor, index, inModal = false}) 
                     open
                     className={`validation-popper ${inModal ? 'modal-popper' : ''}`}
                     anchorEl={anchor}
-                    placement={'right-end'}
+                    placement={placement}
                     modifiers={{
                         flip: {
                             behavior: ['right', 'bottom'],
@@ -71,6 +77,7 @@ ValidationPopover.propTypes = {
     ]),
     anchor: PropTypes.object,
     index: PropTypes.string,
+    placement: PropTypes.string,
     inModal: PropTypes.bool,
 }
 

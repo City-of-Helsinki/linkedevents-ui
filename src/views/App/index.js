@@ -1,8 +1,6 @@
 import 'src/assets/additional_css/bootstrap.custom.min.css';
 import 'src/assets/main.scss';
 
-require('./index.scss');
-
 import PropTypes from 'prop-types';
 
 import React from 'react'
@@ -21,7 +19,19 @@ import {cancelAction, doAction} from 'src/actions/app'
 
 import {HelTheme} from 'src/themes/hel/material-ui'
 import Notifications from '../Notification'
+import {MuiPickersUtilsProvider} from '@material-ui/pickers'
+import MomentUtils from '@date-io/moment';
+import moment from 'moment'
 
+// localized moment utils
+class LocalizedUtils extends MomentUtils {
+    getDatePickerHeaderText(date) {
+        return moment(date).format('DD.MM');
+    }
+    getDateTimePickerHeaderText(date) {
+        return moment(date).format('DD.MM');
+    }
+}
 
 class App extends React.Component {
 
@@ -117,45 +127,47 @@ class App extends React.Component {
         }
         return (
             <ThemeProvider theme={HelTheme}>
-                <div>
-                    <Headerbar />
-                    {organization_missing_msg}
-                    <div className="content">
-                        {this.props.children}
+                <MuiPickersUtilsProvider utils={LocalizedUtils}>
+                    <div>
+                        <Headerbar />
+                        {organization_missing_msg}
+                        <div className="content">
+                            {this.props.children}
+                        </div>
+                        <Notifications flashMsg={this.props.app.flashMsg} />
+                        <Dialog
+                            open={!!this.props.app.confirmAction}
+                            onClose={() => this.props.dispatch(cancelAction())}
+                            transitionDuration={0}
+                        >
+                            <DialogTitle>
+                                {confirmMsg}
+                                <IconButton onClick={() => this.props.dispatch(cancelAction())}>
+                                    <Close />
+                                </IconButton>
+                            </DialogTitle>
+                            <DialogContent>
+                                <p><strong>{additionalMsg}</strong></p>
+                                <div dangerouslySetInnerHTML={getMarkup()}/>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button
+                                    variant="contained"
+                                    onClick={() => this.props.cancel()}
+                                >
+                                    <FormattedMessage id="cancel" />
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    color={useWarningButtonStyle ? 'secondary' : 'primary'}
+                                    onClick={() => this.props.do(this.props.app.confirmAction.data)}
+                                >
+                                    <FormattedMessage id={actionButtonLabel} />
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
                     </div>
-                    <Notifications flashMsg={this.props.app.flashMsg} />
-                    <Dialog
-                        open={!!this.props.app.confirmAction}
-                        onClose={() => this.props.dispatch(cancelAction())}
-                        transitionDuration={0}
-                    >
-                        <DialogTitle>
-                            {confirmMsg}
-                            <IconButton onClick={() => this.props.dispatch(cancelAction())}>
-                                <Close />
-                            </IconButton>
-                        </DialogTitle>
-                        <DialogContent>
-                            <p><strong>{additionalMsg}</strong></p>
-                            <div dangerouslySetInnerHTML={getMarkup()}/>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button
-                                variant="contained"
-                                onClick={() => this.props.cancel()}
-                            >
-                                <FormattedMessage id="cancel" />
-                            </Button>
-                            <Button
-                                variant="contained"
-                                color={useWarningButtonStyle ? 'secondary' : 'primary'}
-                                onClick={() => this.props.do(this.props.app.confirmAction.data)}
-                            >
-                                <FormattedMessage id={actionButtonLabel} />
-                            </Button>
-                        </DialogActions>
-                    </Dialog>
-                </div>
+                </MuiPickersUtilsProvider>
             </ThemeProvider>
         )
     }

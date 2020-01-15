@@ -29,6 +29,12 @@ import IntlProviderWrapper from './components/IntlProviderWrapper'
 import store, {history} from './store'
 import {HelTheme} from './themes/hel/material-ui'
 import {Dialog, DialogTitle, DialogContent, IconButton, TextField, withStyles} from '@material-ui/core'
+import moment from 'moment'
+import * as momentTimezone from 'moment-timezone'
+
+// Moment locale
+moment.locale('fi')
+momentTimezone.locale('fi')
 
 // Setup actor for validation. Actor is a viewless component which can listen to store changes
 // and send new actions accordingly. Bind the store as this for function

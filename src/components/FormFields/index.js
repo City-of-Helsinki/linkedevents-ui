@@ -139,14 +139,6 @@ class FormFields extends React.Component {
         const helTargetOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helsinki:audiences')
         const helEventLangOptions = mapLanguagesSetToForm(this.props.editor.languages)
 
-        const getAddRecurringEventButtonColor = (showRecurringEvent) => {
-            if (showRecurringEvent == true) {
-                return 'secondary'
-            } else {
-                return 'primary'
-            }
-
-        }
         const {event, superEvent, user, editor} = this.props
         const {values, validationErrors, contentLanguages} = editor
         const formType = this.props.action
@@ -264,37 +256,40 @@ class FormFields extends React.Component {
                 <div className="row date-row">
                     <div className="col-sm-6">
                         <div className="row">
-                            <div className="col-xs-12 col-md-6">
+                            <div className="col-xs-12 col-sm-12">
                                 <HelDateTimeField
-                                    datePickerProps={{disabled: formType === 'update' && isSuperEvent}}
-                                    timePickerProps={{disabled: formType === 'update' && isSuperEvent}}
+                                    disabled={formType === 'update' && isSuperEvent}
                                     validationErrors={validationErrors['start_time']}
                                     defaultValue={values['start_time']}
-                                    ref="start_time"
                                     name="start_time"
                                     label="event-starting-datetime"
                                     setDirtyState={this.props.setDirtyState}
+                                    maxDate={values['end_time']}
                                 />
                             </div>
-                            <div className="col-xs-12 col-md-6">
+                            <div className="col-xs-12 col-sm-12">
                                 <HelDateTimeField
-                                    datePickerProps={{disabled: formType === 'update' && isSuperEvent}}
-                                    timePickerProps={{disabled: formType === 'update' && isSuperEvent}}
+                                    disablePast
+                                    disabled={formType === 'update' && isSuperEvent}
                                     validationErrors={validationErrors['end_time']}
                                     defaultValue={values['end_time']}
-                                    ref="end_time"
                                     name="end_time"
                                     label="event-ending-datetime"
                                     setDirtyState={this.props.setDirtyState}
+                                    minDate={values['start_time']}
                                 />
                             </div>
                         </div>
                         <div className={'new-events ' + (this.state.showNewEvents ? 'show' : 'hidden')}>
                             { newEvents }
                         </div>
-                        { this.state.showRecurringEvent &&
-                            <RecurringEvent toggle={() => this.showRecurringEventDialog()} validationErrors={validationErrors} values={values}/>
-                        }
+                        <RecurringEvent
+                            open={this.state.showRecurringEvent}
+                            toggle={() => this.showRecurringEventDialog()}
+                            validationErrors={validationErrors}
+                            values={values}
+                            formType={formType}
+                        />
                         <Button
                             variant="contained"
                             disabled={formType === 'update'}
@@ -309,7 +304,7 @@ class FormFields extends React.Component {
                         <Button
                             variant="contained"
                             disabled={formType === 'update'}
-                            color={getAddRecurringEventButtonColor(this.state.showRecurringEvent)}
+                            color="primary"
                             onClick={() => this.showRecurringEventDialog()}
                             startIcon={<Autorenew/>}
                             fullWidth
@@ -476,7 +471,7 @@ class FormFields extends React.Component {
                             <FormattedMessage id="audience-age-restrictions"/>
                         </FormHeader>
                         <div className="row">
-                            <div className="col-sm-12">
+                            <div className="col-xs-12 col-sm-6">
                                 <HelTextField
                                     ref="audience_min_age"
                                     name="audience_min_age"
@@ -501,21 +496,17 @@ class FormFields extends React.Component {
                             <FormattedMessage id="enrolment-time"/>
                         </FormHeader>
                         <div className="row">
-                            <div className="col-sm-6 col-md-4">
+                            <div className="col-xs-12 col-sm-6">
                                 <HelDateTimeField
                                     validationErrors={validationErrors['enrolment_start_time']}
                                     defaultValue={values['enrolment_start_time']}
-                                    ref="enrolment_start_time"
                                     name="enrolment_start_time"
                                     label="enrolment-start-time"
                                     setDirtyState={this.props.setDirtyState}
                                 />
-                            </div>
-                            <div className="col-sm-6 col-md-4">
                                 <HelDateTimeField
                                     validationErrors={validationErrors['enrolment_end_time']}
                                     defaultValue={values['enrolment_end_time']}
-                                    ref="enrolment_end_time"
                                     name="enrolment_end_time"
                                     label="enrolment-end-time"
                                     setDirtyState={this.props.setDirtyState}
@@ -527,7 +518,7 @@ class FormFields extends React.Component {
                             <FormattedMessage id="attendee-capacity"/>
                         </FormHeader>
                         <div className="row">
-                            <div className="col-sm-12">
+                            <div className="col-xs-12 col-sm-6">
                                 <HelTextField
                                     ref="minimum_attendee_capacity"
                                     name="minimum_attendee_capacity"
@@ -549,6 +540,7 @@ class FormFields extends React.Component {
                         </div>
                     </div>
                 }
+
                 {!isRegularUser &&
                     <React.Fragment>
                         <FormHeader>
