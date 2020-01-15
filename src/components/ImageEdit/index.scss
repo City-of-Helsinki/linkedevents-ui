@@ -1,5 +1,14 @@
 #image-modal {
     z-index: 1040;
+
+    .help-notice {
+        margin: 2rem 0 0;
+    }
+
+    .edit-label span {
+        color: inherit;
+        font-size: inherit;
+    }
 }
 
 .form-check {

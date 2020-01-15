@@ -49,6 +49,7 @@ export class ImagePicker extends React.Component {
             edit: false,
             imageFile: null,
             thumbnailUrl: null,
+            fileSizeError: false,
         };
     }
 
@@ -61,13 +62,45 @@ export class ImagePicker extends React.Component {
     }
 
     handleUpload(event) {
-        let file = event.target.files[0]
-        let data = new FormData()
-        data.append('image', file)
+        const file = event.target.files[0];
+    
+        if ( ! this.validateFileSize(file)) {
+            return;
+        }
+        
+        const data = new FormData();
+        
+        data.append('image', file);
+        
         if(file && (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' )) {
-            this.setState({edit: true, imageFile: file, thumbnailUrl: window.URL.createObjectURL(file)})
+            this.setState({edit: true, imageFile: file, thumbnailUrl: window.URL.createObjectURL(file)});
         }
     }
+    
+    validateFileSize = (file) => {
+        const maxSizeInMB = 2;
+        
+        const binaryFactor = 1024 * 1024;
+        const decimalFactor = 1000 * 1000;
+        
+        const fileSizeInMB = parseInt(file.size) / decimalFactor;
+        
+        if (fileSizeInMB > maxSizeInMB) {
+            this.setState({
+                fileSizeError: true,
+            });
+            
+            return false;
+        } else {
+            if (this.state.fileSizeError) {
+                this.setState({
+                    fileSizeError: false,
+                });
+            }
+            
+            return true;
+        }
+    };
 
     handleDelete(event) {
         let selectedImage = this.props.editor.values.image
@@ -151,14 +184,19 @@ export class ImagePicker extends React.Component {
 
                         <Modal.Title id='ModalHeader'><FormattedMessage id="new-image" /></Modal.Title>
                         
-                        <input onChange={(e) => this.handleUpload(e)} style={{display: 'none'}} type="file" ref={(ref) => this.hiddenFileInput = ref} />
-                        <Button
-                            className={'upload-img'}
-                            raised
-                            onClick={() => this.clickHiddenUploadInput()}
-                            color="primary">
-                            <FormattedMessage id="upload-image" />
-                        </Button>
+                        <div className={'file-upload-wrapper'}>
+                            <input onChange={(e) => this.handleUpload(e)} style={{display: 'none'}} type="file" ref={(ref) => this.hiddenFileInput = ref}/>
+                            
+                            <Button
+                                className={'upload-img'}
+                                raised
+                                onClick={() => this.clickHiddenUploadInput()}
+                                color="primary">
+                                <FormattedMessage id="upload-image"/>
+                            </Button>
+    
+                            { this.state.fileSizeError ? <p><FormattedMessage id="uploaded-image-size-error"/></p> : null }
+                        </div>
                         
                         <div className={'external-file-upload'}>
                             <div className="hel-text-field">

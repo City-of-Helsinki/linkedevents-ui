@@ -99,26 +99,30 @@ exports[`Image add form ImagePicker component should render view by default 1`] 
           values={Object {}}
         />
       </ModalTitle>
-      <input
-        onChange={[Function]}
-        style={
-          Object {
-            "display": "none",
-          }
-        }
-        type="file"
-      />
-      <WithStyles(Button)
-        className="upload-img"
-        color="primary"
-        onClick={[Function]}
-        raised={true}
+      <div
+        className="file-upload-wrapper"
       >
-        <FormattedMessage
-          id="upload-image"
-          values={Object {}}
+        <input
+          onChange={[Function]}
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+          type="file"
         />
-      </WithStyles(Button)>
+        <WithStyles(Button)
+          className="upload-img"
+          color="primary"
+          onClick={[Function]}
+          raised={true}
+        >
+          <FormattedMessage
+            id="upload-image"
+            values={Object {}}
+          />
+        </WithStyles(Button)>
+      </div>
       <div
         className="external-file-upload"
       >
