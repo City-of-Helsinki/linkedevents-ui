@@ -81,7 +81,7 @@ class ImageEdit extends React.Component {
                 transitionDuration={0}
             >
                 <DialogTitle>
-                    Kuvan tiedot
+                    <FormattedMessage id={'image-modal-image-info'}/>
                     <IconButton onClick={() => close()}>
                         <Close />
                     </IconButton>
@@ -105,7 +105,7 @@ class ImageEdit extends React.Component {
                             />
                             <TextField
                                 fullWidth
-                                label={'Kuvaaja'}
+                                label={<FormattedMessage id={'photographer'}/>}
                                 value={photographerName}
                                 onChange={(e) => this.handleTextChange(e, 'photographerName')}
                             />
@@ -113,9 +113,14 @@ class ImageEdit extends React.Component {
                                 style={{marginTop: HelMaterialTheme.spacing(2)}}
                                 variant="h6"
                             >
-                                Kuvan lisenssi
+                                <FormattedMessage id={'image-modal-image-license'}/>
                             </Typography>
-                            <InlineRadioGroup aria-label="License" name="license" value={license} onChange={this.handleLicenseChange}>
+                            <InlineRadioGroup
+                                aria-label="License"
+                                name="license"
+                                value={license}
+                                onChange={this.handleLicenseChange}
+                            >
                                 <FormControlLabel
                                     value="cc_by"
                                     control={<Radio color="primary" />}
@@ -124,9 +129,19 @@ class ImageEdit extends React.Component {
                                 <FormControlLabel
                                     value="event_only"
                                     control={<Radio color="primary" />}
-                                    label="Käyttö rajattu tapahtuman yhteyteen"
+                                    label={<FormattedMessage id={'image-modal-license-restricted-to-event'}/>}
                                 />
                             </InlineRadioGroup>
+                            <div
+                                className="image-edit-dialog--help-notice"
+                                style={{marginTop: HelMaterialTheme.spacing(2)}}
+                            >
+                                <FormattedMessage id={'image-modal-view-terms-paragraph-text'}/>
+                                &nbsp;
+                                <a href={'/help#images'} target={'_blank'}>
+                                    <FormattedMessage id={'image-modal-view-terms-link-text'}/>
+                                </a>
+                            </div>
                         </div>
                         <img className="col-sm-4 image-edit-dialog--image" src={this.props.thumbnailUrl} />
                         <div className="col-sm-12">
@@ -136,7 +151,7 @@ class ImageEdit extends React.Component {
                                 color="primary"
                                 variant="contained"
                                 disabled={name.length < nameMinLength}
-                                style={{margin: HelMaterialTheme.spacing(3, 0, 0)}}
+                                style={{margin: HelMaterialTheme.spacing(3, 0, 2)}}
                             >
                                 Tallenna tiedot
                             </Button>

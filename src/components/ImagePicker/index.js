@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 
 import {FormattedMessage, injectIntl} from 'react-intl'
 import {Button, IconButton, CircularProgress, Dialog, DialogTitle, DialogContent, Typography, TextField} from '@material-ui/core'
-import {Close, Publish} from '@material-ui/icons'
+import {Close, ErrorOutline, Publish} from '@material-ui/icons'
 import {deleteImage} from 'src/actions/userImages.js'
 import {connect} from 'react-redux'
 import {get as getIfExists, isEmpty} from 'lodash'
@@ -49,6 +49,7 @@ export class ImagePicker extends React.Component {
             edit: false,
             imageFile: null,
             thumbnailUrl: null,
+            fileSizeError: false,
         };
     }
 
@@ -65,13 +66,45 @@ export class ImagePicker extends React.Component {
     }
 
     handleUpload(event) {
-        let file = event.target.files[0]
-        let data = new FormData()
-        data.append('image', file)
+        const file = event.target.files[0];
+    
+        if ( ! this.validateFileSize(file)) {
+            return;
+        }
+        
+        const data = new FormData();
+        
+        data.append('image', file);
+        
         if(file && (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' )) {
-            this.setState({edit: true, imageFile: file, thumbnailUrl: window.URL.createObjectURL(file)})
+            this.setState({edit: true, imageFile: file, thumbnailUrl: window.URL.createObjectURL(file)});
         }
     }
+    
+    validateFileSize = (file) => {
+        const maxSizeInMB = 2;
+        
+        const binaryFactor = 1024 * 1024;
+        const decimalFactor = 1000 * 1000;
+        
+        const fileSizeInMB = parseInt(file.size) / decimalFactor;
+        
+        if (fileSizeInMB > maxSizeInMB) {
+            this.setState({
+                fileSizeError: true,
+            });
+            
+            return false;
+        } else {
+            if (this.state.fileSizeError) {
+                this.setState({
+                    fileSizeError: false,
+                });
+            }
+            
+            return true;
+        }
+    };
 
     handleDelete(event) {
         let selectedImage = this.props.editor.values.image
@@ -171,6 +204,12 @@ export class ImagePicker extends React.Component {
                                 >
                                     <FormattedMessage id="upload-image" />
                                 </Button>
+                                {this.state.fileSizeError &&
+                                    <React.Fragment>
+                                        <ErrorOutline style={{margin: HelMaterialTheme.spacing(0, 1, 0, 2)}} />
+                                        <FormattedMessage id="uploaded-image-size-error" />
+                                    </React.Fragment>
+                                }
                             </div>
                             <div className="file-upload--external">
                                 <TextField
