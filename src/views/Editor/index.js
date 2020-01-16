@@ -21,7 +21,10 @@ import FormFields from '../../components/FormFields'
 import {EventQueryParams, fetchEvent} from '../../utils/events'
 import {push} from 'react-router-redux'
 import moment from 'moment'
-import {getOrganizationMembershipIds, hasAffiliatedOrganizations} from '../../utils/user'
+import {
+    getOrganizationMembershipIds,
+    hasOrganizationWithRegularUsers,
+} from '../../utils/user'
 import EventActionButton from '../../components/EventActionButton/EventActionButton'
 import {scrollToTop} from '../../utils/helpers'
 import {doValidations} from '../../validation/validator'
@@ -220,7 +223,7 @@ export class EditorPage extends React.Component {
 
         // navigate to moderation if an admin deleted a draft event, otherwise navigate to event listing
         if (action === 'delete') {
-            if (isDraft && hasAffiliatedOrganizations(user)) {
+            if (isDraft && hasOrganizationWithRegularUsers(user)) {
                 this.navigateToModeration();
             } else {
                 routerPush('/')
@@ -308,13 +311,13 @@ export class EditorPage extends React.Component {
                         : <div className='buttons-group container'>
                             {editMode === 'update' && this.getActionButton('cancel')}
                             {editMode === 'update' && this.getActionButton('delete')}
-                            {isDraft && hasAffiliatedOrganizations(user) &&
+                            {isDraft && hasOrganizationWithRegularUsers(user) &&
                                 this.getActionButton('return', this.navigateToModeration, false)
                             }
                             {
                                 // button that saves changes to a draft without publishing
                                 // only shown to moderators
-                                isDraft && hasAffiliatedOrganizations(user) &&
+                                isDraft && hasOrganizationWithRegularUsers(user) &&
                                 this.getActionButton(
                                     'update-draft',
                                     this.saveChangesToDraft,
