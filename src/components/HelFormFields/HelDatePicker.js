@@ -69,6 +69,7 @@ const HelDatePicker = ({
                     format="DD.MM.YYYY"
                     minDate={minDate}
                     maxDate={maxDate}
+                    minDateMessage=""
                     {...commonProps}
                 />
             }
@@ -90,6 +91,7 @@ const HelDatePicker = ({
                     format="DD.MM.YYYY HH.mm"
                     minDate={minDate}
                     maxDate={maxDate}
+                    minDateMessage=""
                     {...commonProps}
                 />
             }
