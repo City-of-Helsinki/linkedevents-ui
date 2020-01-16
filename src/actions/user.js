@@ -80,9 +80,9 @@ export const retrieveUserFromSession = () => async (dispatch) => {
             // store data of all the organizations where the user is a regular user
             mergedUser.regularOrganizationData = regularOrganizations
                 .reduce((acc, organization) => set(acc, `${organization.data.id}`, organization.data), {})
-            // get the affiliated organizations
-            mergedUser.affiliatedOrganizations = adminOrganizations
-                .filter(organization => get(organization, ['data', 'is_affiliated'], false))
+            // get organizations with regular users
+            mergedUser.organizationsWithRegularUsers = adminOrganizations
+                .filter(organization => get(organization, ['data', 'has_regular_users'], false))
                 .map(organization => organization.data.id)
 
             saveUserToLocalStorage(mergedUser)

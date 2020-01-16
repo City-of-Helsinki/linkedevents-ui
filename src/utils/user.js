@@ -33,11 +33,11 @@ export const getRegularOrganizations = user =>
         .map(getOrganization)
 
 /**
- * Returns whether the given user has any affiliated organizations
+ * Returns whether the given user is an admin in any organization that has regular users
  * @param user  User data
  */
-export const hasAffiliatedOrganizations = user =>
-    get(user, 'affiliatedOrganizations', []).length > 0
+export const hasOrganizationWithRegularUsers = user =>
+    get(user, 'organizationsWithRegularUsers', []).length > 0
 
 
 /**
