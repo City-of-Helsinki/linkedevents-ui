@@ -268,6 +268,7 @@ export const executeSendRequest = (
         return
     }
 
+    dispatch(setLoading(true))
     dispatch(validateFor(publicationStatus))
 
     // prepare the body of the request (event object/array)
@@ -367,6 +368,7 @@ export const sendDataComplete = (createdEventId, data, action) => (dispatch) => 
         dispatch({type: constants.EDITOR_SENDDATA_SUCCESS})
         scrollToTop()
     }
+    dispatch(setLoading(false))
 }
 
 export const sendRecurringData = (
@@ -459,4 +461,11 @@ export function setEditorAuthFlashMsg () {
                 : dispatch(clearFlashMsg())
         }
     }
+}
+
+export const setLoading = (loading) => (dispatch) => {
+    dispatch({
+        type: constants.EDITOR_SET_LOADING,
+        loading,
+    })
 }
