@@ -1,7 +1,6 @@
 import configureStore from 'redux-mock-store'
 import React from 'react'
 import {shallow} from 'enzyme'
-import renderer from 'react-test-renderer'
 import thunk from 'redux-thunk'
 
 import testReduxIntWrapper from '../../../__mocks__/testReduxIntWrapper'
@@ -33,9 +32,7 @@ describe('Image add form', () => {
         const componentProps = {
             dispatch: jest.fn(),
         };
-        const wrapper = renderer.create(
-            testReduxIntWrapper(store, <ConnectedImagePicker {...componentProps} />)
-        ).toJSON();
+        const wrapper = shallow(testReduxIntWrapper(store, <ConnectedImagePicker {...componentProps} />))
         expect(wrapper).toMatchSnapshot();
     })
 })

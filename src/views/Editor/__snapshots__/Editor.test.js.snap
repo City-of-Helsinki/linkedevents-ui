@@ -16,17 +16,17 @@ exports[`Editor Snapshot should render view correctly when creating new event fr
     <span
       className="controls"
     >
-      <WithStyles(Button)
+      <WithStyles(ForwardRef(Button))
         color="primary"
+        endIcon={<UNDEFINED />}
         onClick={[Function]}
-        raised={true}
+        variant="contained"
       >
         <FormattedMessage
           id="clear-form"
           values={Object {}}
         />
-        <pure(Close) />
-      </WithStyles(Button)>
+      </WithStyles(ForwardRef(Button))>
     </span>
   </div>
   <div
@@ -992,17 +992,17 @@ exports[`Editor Snapshot should render view correctly when editing existing even
     <span
       className="controls"
     >
-      <WithStyles(Button)
+      <WithStyles(ForwardRef(Button))
         color="primary"
+        endIcon={<UNDEFINED />}
         onClick={[Function]}
-        raised={true}
+        variant="contained"
       >
         <FormattedMessage
           id="clear-form"
           values={Object {}}
         />
-        <pure(Close) />
-      </WithStyles(Button)>
+      </WithStyles(ForwardRef(Button))>
     </span>
   </div>
   <div
@@ -1934,7 +1934,7 @@ exports[`Editor Snapshot should render view correctly when editing existing even
   <div
     className="editor-action-buttons"
   >
-    <WithStyles(CircularProgress)
+    <WithStyles(ForwardRef(CircularProgress))
       className="loading-spinner"
       size={50}
     />
@@ -1958,17 +1958,17 @@ exports[`Editor Snapshot should render view correctly when new event 1`] = `
     <span
       className="controls"
     >
-      <WithStyles(Button)
+      <WithStyles(ForwardRef(Button))
         color="primary"
+        endIcon={<UNDEFINED />}
         onClick={[Function]}
-        raised={true}
+        variant="contained"
       >
         <FormattedMessage
           id="clear-form"
           values={Object {}}
         />
-        <pure(Close) />
-      </WithStyles(Button)>
+      </WithStyles(ForwardRef(Button))>
     </span>
   </div>
   <div
