@@ -138,19 +138,19 @@ export const getBadge = (type, size = 'small') => {
                 textTransform: 'uppercase',
             },
             '&.umbrella': {
-                backgroundColor: helBrandColors.info.main,
+                backgroundColor: helBrandColors.bus.main,
                 color: helBrandColors.gray.white,
             },
             '&.series': {
-                backgroundColor: helBrandColors.success.main,
+                backgroundColor: helBrandColors.tram.main,
                 color: helBrandColors.gray.white,
             },
             '&.cancelled': {
-                backgroundColor: helBrandColors.error.main,
+                backgroundColor: helBrandColors.metro.main,
                 color: helBrandColors.gray.white,
             },
             '&.draft': {
-                backgroundColor: helBrandColors.alert.main,
+                backgroundColor: helBrandColors.summer.main,
                 color: helBrandColors.gray.black,
             },
         },
