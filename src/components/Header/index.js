@@ -21,7 +21,7 @@ import {Link} from 'react-router-dom'
 import constants from '../../constants'
 
 import cityOfHelsinkiLogo from '../../assets/images/helsinki-logo.svg'
-import {hasAffiliatedOrganizations} from '../../utils/user'
+import {hasOrganizationWithRegularUsers} from '../../utils/user'
 import {get} from 'lodash'
 import {HelMaterialTheme} from '../../themes/material-ui'
 import {HelSelectTheme, HelLanguageSelectStyles} from '../../themes/react-select'
@@ -40,7 +40,7 @@ class HeaderBar extends React.Component {
         const {user} = this.props
 
         if (user) {
-            const showModerationLink = get(user, 'userType') === USER_TYPE.ADMIN && hasAffiliatedOrganizations(user)
+            const showModerationLink = get(user, 'userType') === USER_TYPE.ADMIN && hasOrganizationWithRegularUsers(user)
             this.setState({showModerationLink})
         }
     }
@@ -50,7 +50,7 @@ class HeaderBar extends React.Component {
         const oldUser = prevProps.user
 
         if (oldUser !== user) {
-            const showModerationLink = get(user, 'userType') === USER_TYPE.ADMIN && hasAffiliatedOrganizations(user)
+            const showModerationLink = get(user, 'userType') === USER_TYPE.ADMIN && hasOrganizationWithRegularUsers(user)
             this.setState({showModerationLink})
         }
     }

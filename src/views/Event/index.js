@@ -18,7 +18,7 @@ import {getBadge, scrollToTop} from '../../utils/helpers'
 
 import './index.scss'
 import EventActionButton from '../../components/EventActionButton/EventActionButton'
-import {hasAffiliatedOrganizations} from '../../utils/user'
+import {hasOrganizationWithRegularUsers} from '../../utils/user'
 
 const {
     USER_TYPE,
@@ -200,7 +200,7 @@ class EventPage extends React.Component {
 
         // navigate to moderation if an admin deleted a draft event, otherwise navigate to event listing
         if (action === 'delete') {
-            if (isDraft && hasAffiliatedOrganizations(user)) {
+            if (isDraft && hasOrganizationWithRegularUsers(user)) {
                 routerPush('/moderation')
             } else {
                 routerPush('/')

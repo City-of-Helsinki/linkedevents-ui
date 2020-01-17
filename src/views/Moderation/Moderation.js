@@ -18,7 +18,7 @@ import {
 import {getSelectedRows, getSortColumnName, getSortDirection} from '../../utils/table'
 import showConfirmationModal from '../../utils/confirm'
 import {confirmAction, setFlashMsg as setFlashMsgAction} from '../../actions/app'
-import {hasAffiliatedOrganizations} from '../../utils/user'
+import {hasOrganizationWithRegularUsers} from '../../utils/user'
 import {push} from 'react-router-redux'
 
 const {TABLE_DATA_SHAPE, PUBLICATION_STATUS} = constants
@@ -53,7 +53,7 @@ export class Moderation extends React.Component {
     componentDidMount() {
         const {user} = this.props
 
-        if (!isNull(user) && hasAffiliatedOrganizations(user)) {
+        if (!isNull(user) && hasOrganizationWithRegularUsers(user)) {
             this.fetchTableData(['draft', 'published'])
         }
     }
@@ -67,7 +67,7 @@ export class Moderation extends React.Component {
             routerPush('/')
         }
         // fetch data if user logged in
-        if (isNull(oldUser) && user && hasAffiliatedOrganizations(user)) {
+        if (isNull(oldUser) && user && hasOrganizationWithRegularUsers(user)) {
             this.fetchTableData(['draft', 'published'])
         }
     }
@@ -297,10 +297,11 @@ export class Moderation extends React.Component {
 
     /**
      * Return the default query params to use when fetching event data
+     * @param table     The table to get the parameters for
      * @returns {EventQueryParams}
      */
     getDefaultEventQueryParams = (table) => {
-        const {user: {affiliatedOrganizations}} = this.props
+        const {user: {organizationsWithRegularUsers}} = this.props
         const {pageSize, sortBy, sortDirection} = this.state[`${table}Data`]
 
         const queryParams = new EventQueryParams()
@@ -308,7 +309,7 @@ export class Moderation extends React.Component {
         queryParams.admin_user = table === 'draft' ? true : null
         queryParams.super_event = 'none'
         queryParams.publication_status = this.getPublicationStatus(table)
-        queryParams.setPublisher(affiliatedOrganizations)
+        queryParams.setPublisher(organizationsWithRegularUsers)
         queryParams.page_size = pageSize
         queryParams.setSort(sortBy, sortDirection)
 
