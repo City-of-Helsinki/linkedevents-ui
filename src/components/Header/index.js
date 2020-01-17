@@ -13,15 +13,9 @@ import {setLocale as setLocaleAction} from 'src/actions/userLocale'
 import {FormattedMessage} from 'react-intl'
 
 // Material-ui Components
-import {Toolbar, Button, FontIcon, Select, MenuItem, Hidden, Drawer} from 'material-ui'
-// Material-ui Icons
-import List from 'material-ui-icons/List'
-import Search from 'material-ui-icons/Search'
-import Add from 'material-ui-icons/Add'
-import MenuIcon from 'material-ui-icons/Menu'
-import Language from 'material-ui-icons/Language'
-import HelpOutline from 'material-ui-icons/HelpOutline'
-import Person from 'material-ui-icons/Person'
+import Select from 'react-select'
+import {Button, Drawer, Hidden, Toolbar} from '@material-ui/core'
+import {Add, Menu, Language, Person} from '@material-ui/icons'
 
 import {Link} from 'react-router-dom'
 import constants from '../../constants'
@@ -29,6 +23,10 @@ import constants from '../../constants'
 import cityOfHelsinkiLogo from '../../assets/images/helsinki-logo.svg'
 import {hasOrganizationWithRegularUsers} from '../../utils/user'
 import {get} from 'lodash'
+import {HelMaterialTheme} from '../../themes/material-ui'
+import {HelSelectTheme, HelLanguageSelectStyles} from '../../themes/react-select'
+import moment from 'moment'
+import * as momentTimezone from 'moment-timezone'
 
 const {USER_TYPE, APPLICATION_SUPPORT_TRANSLATION} = constants
 
@@ -57,8 +55,16 @@ class HeaderBar extends React.Component {
         }
     }
 
-    changeLanguage = (e) => {
-        this.props.setLocale(e.target.value)
+    getLanguageOptions = () =>
+        APPLICATION_SUPPORT_TRANSLATION.map(item => ({
+            label: item.toUpperCase(),
+            value: item,
+        }))
+
+    changeLanguage = (selectedOption) => {
+        this.props.setLocale(selectedOption.value)
+        moment.locale(selectedOption.value)
+        momentTimezone.locale(selectedOption.value)
     }
 
     toggleNavbar = () => {
@@ -71,9 +77,8 @@ class HeaderBar extends React.Component {
     }
 
     render() {
-        const {user, routerPush, logout, login, location} = this.props 
+        const {user, userLocale, routerPush, logout, login, location} = this.props
         const {showModerationLink} = this.state
-        const languages = APPLICATION_SUPPORT_TRANSLATION
 
         const toMainPage = () => routerPush('/');
         const toSearchPage = () => routerPush('/search');
@@ -95,23 +100,33 @@ class HeaderBar extends React.Component {
                             <div className="language-selector">
                                 <Language className="language-icon"/>
                                 <Select
-                                    className="language-select-box"
-                                    value={this.props.userLocale.locale}
+                                    isClearable={false}
+                                    isSearchable={false}
+                                    value={{
+                                        label: userLocale.locale.toUpperCase(),
+                                        value: userLocale.locale,
+                                    }}
+                                    options={this.getLanguageOptions()}
                                     onChange={this.changeLanguage}
-                                >
-                                    {languages.map((lang, index) => (
-                                        <MenuItem 
-                                            value={lang} 
-                                            key={index}>
-                                            {lang}
-                                        </MenuItem>
-                                    ))}
-                                </Select> 
+                                    styles={HelLanguageSelectStyles}
+                                    theme={HelSelectTheme}
+                                />
                             </div>  
                         </div>
-                        {user ? 
-                            <Button onClick={() => logout()}>{user.displayName}</Button> :
-                            <Button onClick={() => login()}><Person/><FormattedMessage id="login"/></Button>}
+                        {user
+                            ? <Button
+                                style={{color: HelMaterialTheme.palette.primary.contrastText}}
+                                onClick={() => logout()}
+                            >
+                                {user.displayName}
+                            </Button>
+                            : <Button
+                                style={{color: HelMaterialTheme.palette.primary.contrastText}}
+                                startIcon={<Person/>}
+                                onClick={() => login()}
+                            >
+                                <FormattedMessage id="login"/>
+                            </Button>}
                     </div>
                 </Toolbar>
                 
@@ -132,13 +147,17 @@ class HeaderBar extends React.Component {
                         <div />
                         <div className="linked-events-bar__links__mobile">
                             {!isInsideForm && (
-                                <Button className="linked-events-bar__links__create-events" onClick={() => routerPush('/event/create/new')}>
-                                    <Add/>
+                                <Button
+                                    variant="outlined"
+                                    className="linked-events-bar__links__create-events"
+                                    onClick={() => routerPush('/event/create/new')}
+                                    startIcon={<Add/>}
+                                >
                                     <FormattedMessage id={`create-${appSettings.ui_mode}`}/>
                                 </Button>
                             )}
                             <Hidden mdUp>
-                                <MenuIcon className="linked-events-bar__icon" onClick={this.toggleNavbar} />
+                                <Menu className="linked-events-bar__icon" onClick={this.toggleNavbar} />
                                 <Drawer anchor='right' open={this.state.navBarOpen} ModalProps={{onBackdropClick: this.toggleNavbar}}>
                                     <div className="menu-drawer-mobile">
                                         <NavLinks

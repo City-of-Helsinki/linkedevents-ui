@@ -1,5 +1,5 @@
 import React from 'react'
-import {Checkbox, TableCell, TableSortLabel} from 'material-ui'
+import {Checkbox, TableCell, TableSortLabel} from '@material-ui/core'
 import PropTypes from 'prop-types'
 import constants from '../../../constants'
 
@@ -18,13 +18,17 @@ const TableHeaderCell = ({
     handleSortChange,
     fetchComplete,
 }) => {
-    const checked = fetchComplete && invalidRows.length + selectedRows.length === events.length
+    const checked = fetchComplete
+        && selectedRows.length > 0
+        && invalidRows.length + selectedRows.length === events.length
 
     return (
         <React.Fragment>
             {name === 'checkbox' &&
             <TableCell className="checkbox">
                 <Checkbox
+                    color="primary"
+                    size="small"
                     checked={checked}
                     onChange={(e, checked) => handleRowSelect(checked, undefined, tableName, true)}
                 />

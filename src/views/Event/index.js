@@ -4,7 +4,7 @@ import EventDetails from 'src/components/EventDetails'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
-import {Button, CircularProgress} from 'material-ui'
+import {Button, CircularProgress} from '@material-ui/core'
 import {push} from 'react-router-redux'
 import {replaceData as replaceDataAction} from 'src/actions/editor.js'
 import {confirmAction} from 'src/actions/app.js'
@@ -163,9 +163,8 @@ class EventPage extends React.Component {
                 {isAdmin && isDraft && publishEventButton}
                 {editEventButton}
                 <Button
-                    raised
+                    variant="contained"
                     disabled={loading}
-                    color="default"
                     onClick={() => this.openEventInEditor('copy')}
                 >
                     <FormattedMessage id="copy-event-to-draft"/>
@@ -233,12 +232,14 @@ class EventPage extends React.Component {
                             : getStringWithLocale(event, 'name')
                         }
                     </h1>
-                    <h4>
-                        {isCancelled && getBadge('cancelled')}
-                        {isDraft && getBadge('draft')}
-                        {isUmbrellaEvent && getBadge('umbrella')}
-                        {isRecurringEvent && getBadge('series')}
-                    </h4>
+                    {!loading &&
+                        <h4>
+                            {isCancelled && getBadge('cancelled', 'medium')}
+                            {isDraft && getBadge('draft', 'medium')}
+                            {isUmbrellaEvent && getBadge('umbrella', 'medium')}
+                            {isRecurringEvent && getBadge('series', 'medium')}
+                        </h4>
+                    }
                 </header>
                 {this.getEventActions()}
                 <div className="published-information">

@@ -1,7 +1,6 @@
 import {find, map, forOwn, isEmpty, values, set} from 'lodash'
 import constants from 'src/constants.js'
-import moment from 'moment'
-import 'moment-timezone'
+import moment from 'moment-timezone'
 import {getStringWithLocale} from './locale'
 
 export {

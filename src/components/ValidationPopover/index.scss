@@ -1,88 +1,28 @@
-.validation-error-popover.popover {
-    display: block;
-    z-index: 800;
-    border: 0;
-    padding: 0;
+@import '../../assets/colors';
+
+.validation-popper {
+    $arrow-size: 12px;
+    background-color: $hel-coat;
+    border-radius: 4px;
     color: #fff;
-    left: initial;
-    top:50%;
-    left:100%;
-    transform: translateX(26px) translateY(-50%);
-    min-height: 38px;
-    min-width: 190px;
-    width: auto;
-    margin-left: 12px;
+    font-size: 90%;
+    padding: 8px 16px;
+    user-select: none;
 
-    text-align: left;
-
-    background: transparent;
-
-    .popover-content {
-        min-width: 190px;
-        background: transparent;
-
-        span {
-            padding: 1px 20px;
-            margin-left: -14px;
-            display: inline-block;
-            border-radius: 6px;
-            line-height: 38px;
-            background: #48a3e9;
-            white-space: nowrap;
-        }
+    &:before {
+        border-color: transparent $hel-coat transparent transparent;
+        border-style: solid;
+        border-width: $arrow-size / 2 $arrow-size $arrow-size / 2 0;
+        content: '';
+        height: 0;
+        left: 0;
+        position: absolute;
+        top: 50%;
+        transform: translate(-$arrow-size, -50%);
+        width: 0;
     }
 
-    &.small {
-        height: 28px;
-        min-height: 28px;
-        top: -5px;
-
-        .popover-content {
-            span {
-                position: relative;
-                padding: 1px 12px;
-                margin-left: -14px;
-                line-height: 28px;
-            }
-        }
-    }
-
-    .arrow {
-        width: 1.5rem;
-        height: 1.5rem;
+    &.modal-popper {
+        z-index: 1300;
     }
 }
-
-.arrow {
-    position: absolute;
-    left: -32px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 12px;
-    height: 25px;
-
-    background-image: url('./arrowleft.png');
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-}
-
-@media (max-width: 520px) {
-    .validation-error-popover {
-        &.popover {
-            top:-70%;
-            left:0;
-        }
-        .popover-content {
-            min-width: 100px;
-            white-space: normal;
-        }
-
-        &.small {
-            .popover-content {
-                padding: 1px 12px;
-                white-space: nowrap;
-            }
-        }
-    }
-}
-

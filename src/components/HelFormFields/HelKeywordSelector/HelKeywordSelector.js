@@ -9,7 +9,7 @@ import {setData as setDataAction} from '../../../actions/editor'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {CopyToClipboard} from 'react-copy-to-clipboard'
-import {ContentCopy} from 'material-ui-icons'
+import {FileCopyOutlined} from '@material-ui/icons'
 
 const handleKeywordChange = (checkedOptions, keywords, mainCategoryOptions, setData) => {
     if (isNil(checkedOptions)) {
@@ -82,7 +82,7 @@ const HelKeywordSelector = ({intl, editor, setDirtyState, setData}) => {
                 />
                 <CopyToClipboard text={values['keywords'] ? getKeywordIds(keywords) : ''}>
                     <button className="clipboard-copy-button" title={intl.formatMessage({id: 'copy-to-clipboard'})}>
-                        <ContentCopy />
+                        <FileCopyOutlined />
                     </button>
                 </CopyToClipboard>
                 <SelectedKeywords

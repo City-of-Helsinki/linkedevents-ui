@@ -1,15 +1,11 @@
-import React from 'react'
+import React, {useState} from 'react'
 import ReactDOM from 'react-dom'
 import {Route} from 'react-router'
 import PropTypes from 'prop-types'
 import {withRouter} from 'react-router-dom'
-import createHistory from 'history/createBrowserHistory'
-import {createStore, combineReducers, applyMiddleware, compose} from 'redux'
 import {Provider, connect} from 'react-redux'
-import {ConnectedRouter, routerReducer, routerMiddleware} from 'react-router-redux'
-import thunk from 'redux-thunk'
-
-import reducers from './reducers'
+import {ConnectedRouter} from 'react-router-redux'
+import {Close, Feedback} from '@material-ui/icons'
 
 // Views
 import App from './views/App'
@@ -27,11 +23,18 @@ import Validator from './actors/validator'
 // JA addition
 import Serializer from './actors/serializer';
 import {report} from './utils/raven_reporter';
-import {Modal, Button, Glyphicon} from 'react-bootstrap';
 
 // translation
 import IntlProviderWrapper from './components/IntlProviderWrapper'
 import store, {history} from './store'
+import {HelMaterialTheme} from './themes/material-ui'
+import {Dialog, DialogTitle, DialogContent, IconButton, TextField, withStyles} from '@material-ui/core'
+import moment from 'moment'
+import * as momentTimezone from 'moment-timezone'
+
+// Moment locale
+moment.locale('fi')
+momentTimezone.locale('fi')
 
 // Setup actor for validation. Actor is a viewless component which can listen to store changes
 // and send new actions accordingly. Bind the store as this for function
@@ -61,45 +64,57 @@ ReactDOM.render(
     document.getElementById('content')
 )
 
-class DebugReporterModal extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {value: ''}
+const DebugDialogTitle = withStyles({
+    root: {
+        '& .MuiTypography-root': {
+            alignItems: 'center',
+            display: 'flex',
+            justifyContent: 'space-between',
+        },
+    },
+})(DialogTitle)
 
-        this.handleChange = this.handleChange.bind(this)
-        this.report = this.report.bind(this)
-    }
+const DebugReporterModal = ({showModal, close, sendReport}) => {
+    const [value, setValue] = useState()
 
-    handleChange(event) {
-        this.setState({value: event.target.value});
-    }
-
-    report() {
-        this.props.sendReport(this.state.value);
-    }
-
-    render() {
-        return <div id="debugreporterform">
-            <Modal show={this.props.showModal} onHide={this.props.close}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Raportoi virhetilanne</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <div>
-                        <p>Kuvaile ongelmaa halutessasi</p>
-                        <p><textarea cols="40" rows="10" onChange={this.handleChange} value={this.state.value} /></p>
-                        <p><button onClick={this.report}>Lähetä raportti</button></p>
-                    </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button onClick={this.props.close}>Sulje</Button>
-                    <div style={{fontSize: '80%', margin: '0.5em'}}>
-                        Sovelluksen versiotunniste: {appSettings.commit_hash}
-                    </div>
-                </Modal.Footer>
-            </Modal>
-        </div>
-    }
+    return <div id="debugreporterform">
+        <Dialog
+            open={showModal}
+            onClose={close}
+            transitionDuration={0}
+        >
+            <DebugDialogTitle>
+                Raportoi virhetilanne
+                <IconButton onClick={() => close()}>
+                    <Close />
+                </IconButton>
+            </DebugDialogTitle>
+            <DialogContent>
+                <TextField
+                    multiline
+                    fullWidth
+                    value={value}
+                    variant="outlined"
+                    label={'Kuvaile ongelmaa halutessasi'}
+                    style={{margin: 0}}
+                    onChange={(event) => setValue(event.target.value)}
+                />
+                <button
+                    onClick={() => sendReport(value)}
+                    style={{margin: '1rem 0 0'}}
+                >
+                    Lähetä raportti
+                </button>
+                <hr/>
+                <small style={{
+                    display: 'block',
+                    margin: '0 0 10px',
+                }}>
+                    Sovelluksen versiotunniste:<br />{appSettings.commit_hash}
+                </small>
+            </DialogContent>
+        </Dialog>
+    </div>
 }
 
 DebugReporterModal.propTypes = {
@@ -140,9 +155,12 @@ class DebugHelper extends React.Component {
             <DebugReporterModal showModal={this.state.reporting} close={this.closeReportForm} sendReport={this.serializeState} />
             <div id="debughelper">
                 <div id="debughelper_container">
-                    <Button bsSize="large" onClick={this.showReportForm}>
-                        <i className="material-icons">feedback</i>
-                    </Button>
+                    <button
+                        className="btn btn-default"
+                        onClick={this.showReportForm}
+                    >
+                        <Feedback style={{marginLeft: HelMaterialTheme.spacing(1)}}/>
+                    </button>
                 </div>
                 <div id="slide">Jos tapahtumien hallinnassa tai syöttölomakkeen toiminnassa on virhe, klikkaa {`"raportoi virhe"`}&#x2011;nappia,
                     niin saamme virhetilanteesta tiedon ja voimme tutkia asiaa.</div>

@@ -2,10 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 
-import Snackbar from 'material-ui/Snackbar'
-
 import {FormattedMessage} from 'react-intl'
-import {Button} from 'react-bootstrap';
+import {Button, Snackbar} from '@material-ui/core';
 
 import {clearFlashMsg as clearFlashMsgAction} from 'src/actions/app.js'
 
@@ -49,7 +47,6 @@ class Notifications extends React.Component {
 
         return (
             <Snackbar
-                className="notification-bar"
                 open={(!!flashMsg)}
                 message={flashMsgSpan}
                 autoHideDuration={duration}

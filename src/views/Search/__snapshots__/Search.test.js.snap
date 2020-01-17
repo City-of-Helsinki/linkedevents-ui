@@ -1,152 +1,306 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Search Snapshot should render view correctly 1`] = `
-<div
-  className="container"
+<IntlProvider
+  locale="fi"
+  messages={
+    Object {
+      "The name must be defined.": "Tiedostolla tulee olla nimi",
+      "add-more": "Lisää kerrat",
+      "additional-keywords": "Muut avainsanat",
+      "attach-image-to-event": "Lisää kuva tapahtumaan",
+      "attendee-capacity": "Osallistujamäärä",
+      "audience-age-restrictions": "Ikärajoitukset",
+      "audience-max-age": "Yläikäraja",
+      "audience-min-age": "Alaikäraja",
+      "authorization-required": "Kirjaudu sisään tapahtuman lähettämiseksi.",
+      "cancel": "Kumoa",
+      "cancel-events": "Peruuta tapahtuma",
+      "cancelled": "Peruutettu",
+      "choose-image": "Lisää tapahtumalle kuva tai valitse kuvapankista",
+      "clear": "Tyhjennä",
+      "clear-form": "Tyhjennä kentät",
+      "close": "Sulje",
+      "confirm": "Suorita",
+      "confirm-action-header": "Varmista toiminto",
+      "confirm-cancel": "Varmista tapahtuman peruminen",
+      "confirm-delete": "Varmista tapahtuman poistaminen",
+      "confirm-delete-draft": "Varmista luonnoksen poistaminen",
+      "confirm-image-delete": "Varmista kuvan poistaminen",
+      "confirm-publish": "Varmista tapahtuman julkaiseminen",
+      "confirm-publish-draft": "Varmista luonnoksen julkaiseminen",
+      "confirm-update": "Varmista tapahtuman tallentaminen",
+      "confirm-update-draft": "Varmista luonnoksen tallentaminen",
+      "copy-event-to-draft": "Kopioi uuden tapahtuman pohjaksi",
+      "copy-to-clipboard": "Kopioi leikepöydälle",
+      "courses-management": "Kurssien hallinta",
+      "create-courses": "Lisää uusi kurssi",
+      "create-events": "Lisää uusi tapahtuma",
+      "date": "Päivämäärä",
+      "delete": "Poista",
+      "delete-events": "Poista tapahtuma",
+      "delete-events-multi": "Poista tapahtumat",
+      "delete-from-filesystem": "Poista kuva järjestelmästä",
+      "draft": "Luonnos",
+      "draft-cancel": "Tapahtumaluonnoksia ei voi perua.",
+      "draft-publish-subevent": "Sarjan alatapahtumia ei voi julkaista.",
+      "edit-courses": "Muokkaa kurssia",
+      "edit-events": "Muokkaa tapahtumaa",
+      "edit-image": "Muokkaa kuvaa",
+      "edit-selected-image": "Muokkaa valittua kuvaa",
+      "editor-authorization-required": "Jos haluat julkaista tapahtuman, kirjaudu ensin sisään.",
+      "editor-cancel-extra-warning": "Seuraavat tapahtumat peruutetaan:",
+      "editor-cancel-warning": "VAROITUS: Tämä toiminto peruuttaa tapahtuman. Voit myös poistaa sellaisen tapahtuman, jonka syötit vahingossa.",
+      "editor-delete-draft-extra-warning": "Seuraavat tapahtumat poistetaan:",
+      "editor-delete-draft-warning": "VAROITUS: Tämä toiminto poistaa tapahtuman lopullisesti. Voit tarvittaessa myös pyytää, että tapahtumaehdotuksen tekijä muokkaa ilmoitustaan.",
+      "editor-delete-extra-warning": "Seuraavat tapahtumat poistetaan:",
+      "editor-delete-warning": "VAROITUS: Tämä toiminto poistaa tapahtuman lopullisesti. Voit tarvittaessa myös perua tapahtuman tai lykätä sitä.",
+      "editor-publish-draft-extra-warning": "Seuraavat tapahtumat julkaistaan:",
+      "editor-publish-draft-warning": "HUOM. Tämä toiminto julkaisee tapahtuman Internetiin. Tapahtumaehdotuksen alkuperäinen tekijä ei voi enää muokata tapahtumaa.",
+      "editor-sentinel-alert": "Voit katsella lomaketta, mutta sinulla ei ole oikeuksia julkaista tai muokata tapahtumia. Et ole kirjautunut sisään tai kirjautumisesi on vanhentunut.",
+      "editor-tip-event-languages": "Kielet, joita tapahtumassa käytetään.",
+      "editor-tip-hel-main-category": "Valitse vähintään yksi pääkategoria.",
+      "editor-tip-hel-target-group": "Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään.",
+      "editor-tip-keywords": "Liitä tapahtumaan vähintään yksi asiasana, joka kuvaa tapahtuman teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta.",
+      "editor-tip-location": "Kirjoita kenttään tapahtumapaikan nimi tai katuosoite ja valitse oikea paikka listasta.",
+      "editor-tip-location-extra": "Jos tapahtumapaikka löytyy listasta, sen sijaintia ei tarvitse kuvailla erikseen. Voit kuitenkin antaa lisätietoja tapahtumapaikan löytämiseksi, esimerkiksi kerrosnumeron tai luokkahuoneen nimen.",
+      "editor-tip-location-not-found": "Jos tarkkaa tapahtumapaikkaa ei löydy listasta, valitse tapahtumapaikaksi lähin katuosoite ja kirjoita paikan nimi tai muut tarkemmat saapumisohjeet tiiviisti lisätietokenttään.",
+      "editor-tip-price": "Merkitse onko tapahtuma maksuton. Syötä maksulliselle tapahtumalle hinta muodossa \\"5€\\".",
+      "editor-tip-price-multi": "Jos tapahtumalla on useita hintoja, klikkaa Lisää uusi hintatieto ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.",
+      "editor-tip-social-media": "Lisää linkki tapahtuman tai sen järjestäjän some-sivulle.",
+      "editor-tip-time-delete": "Ylimääräisen ajankohdan voit poistaa valitsemalla ajankohdan vieressä olevan roskakorisymbolin.",
+      "editor-tip-time-end": "Kirjoita myös päättymispäivä sekä päättymisaika, jos tapahtuma päättyy tiettyyn kellonaikaan.",
+      "editor-tip-time-multi": "Jos tapahtuma järjestetään useamman kerran, voit lisätä tapahtumalle uusia ajankohtia. Jos tapahtuma toistuu säännöllisesti, voit lisätä kaikki ajankohdat kerralla valitsemalla Toistuva tapahtuma.",
+      "editor-tip-time-start": "Kirjoita tapahtuman alkamispäivä ja myös alkamisaika, jos tapahtuma alkaa tiettyyn kellonaikaan.",
+      "editor-tip-umbrella-sub-event": "Jos haluat lisätä tämän tapahtuman osaksi kattotapahtumaa, tee se ",
+      "editor-tip-umbrella-sub-event-link": "sarjan ylätapahtumasta",
+      "editor-update-draft-draft-extra-warning": "Tiedot tallennetaan seuraaviin tapahtumiin:",
+      "editor-update-draft-draft-warning": "Tiedot tallennetaan kaikkiin tapahtumiin tässä sarjassa. Näihin tapahtumiin tehdyt muutokset menetetään. Oletko varma että haluat jatkaa?",
+      "editor-update-draft-extra-warning": "Tiedot tallennetaan seuraaviin tapahtumiin:",
+      "editor-update-draft-warning": "Tiedot tallennetaan kaikkiin tapahtumiin tässä sarjassa. Näihin tapahtumiin tehdyt muutokset menetetään. Oletko varma että haluat jatkaa?",
+      "editor-update-extra-warning": "Tiedot tallennetaan seuraaviin tapahtumiin:",
+      "editor-update-warning": "Tiedot tallennetaan kaikkiin tapahtumiin tässä sarjassa. Näihin tapahtumiin tehdyt muutokset menetetään. Oletko varma että haluat jatkaa?",
+      "enrolment-end-time": "Ilmoittautuminen päättyy",
+      "enrolment-start-time": "Ilmoittautuminen alkaa",
+      "enrolment-time": "Ilmoittautumisaika",
+      "event-action-save-draft-existing": "Päivitä ehdotusta",
+      "event-action-save-draft-new": "Lähetä tarkastettavaksi",
+      "event-action-save-existing": "Tallenna muutokset julkaistuun tapahtumaan",
+      "event-action-save-existing-active": "Tallennetaan muutoksia",
+      "event-action-save-multiple": "Julkaise tapahtumat",
+      "event-action-save-multiple-active": "Julkaistaan tapahtumia",
+      "event-action-save-new": "Julkaise tapahtuma",
+      "event-action-save-new-active": "Julkaistaan tapahtumaa",
+      "event-add-new-occasion": "Lisää uusi ajankohta",
+      "event-add-price": "Lisää uusi hintatieto",
+      "event-add-recurring": "Toistuva tapahtuma",
+      "event-canceled": "Peruttuja tapahtumia ei voi muokata.",
+      "event-categorization": "Tapahtuman luokittelu",
+      "event-creation-cancel-success": "Tapahtuma peruttiin!",
+      "event-creation-create-success": "Tapahtuma tallennettiin!",
+      "event-creation-default-success": "Tapahtuma luotiin onnistuneesti!",
+      "event-creation-delete-success": "Tapahtuma poistettiin!",
+      "event-creation-multipleevents-success": "Tapahtumat tallennettiin!",
+      "event-creation-publish-success": "Tapahtuma julkaistiin onnistuneesti!",
+      "event-creation-savedraft-success": "Luonnoksen tallennus onnistui!",
+      "event-creation-savepublic-success": "Julkaistun tapahtuman tallennus onnistui!",
+      "event-creation-update-success": "Tapahtuma päivitettiin onnistuneesti!",
+      "event-datetime-fields-header": "Tapahtuman ajankohdat",
+      "event-description": "Kuvaus",
+      "event-description-fields-header": "Tapahtuman kuvaus",
+      "event-ending-datetime": "Tapahtuma päättyy",
+      "event-has-umbrella": "Tällä tapahtumalla on kattotapahtuma.",
+      "event-has-umbrella-select-tip": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
+      "event-has-umbrella-tooltip": "Kattotapahtumalla ei voi olla kattotapahtumaa.",
+      "event-headline": "Otsikko",
+      "event-image": "Tapahtuman kuva (klikkaa vaihtaaksesi)",
+      "event-image-title": "Tapahtuman kuva",
+      "event-in-the-past": "Menneisyydessä olevia tapahtumia ei voi muokata.",
+      "event-info-url": "Kotisivu",
+      "event-is-free": "Tapahtuma on maksuton",
+      "event-is-umbrella": "Tämä tapahtuma on kattotapahtuma.",
+      "event-is-umbrella-tooltip": "Alatapahtuma ei voi olla kattotapahtuma.",
+      "event-keywords": "Lisää muita asiasanoja",
+      "event-location": "Paikka",
+      "event-location-additional-info": "Paikan lisätiedot",
+      "event-location-fields-header": "Tapahtumapaikka",
+      "event-location-id": "Paikan ID",
+      "event-name-or-place": "Tapahtuman nimi tai paikka",
+      "event-page-error": "Tapahtumaa ei löytynyt tai sinulla ei ole oikeuksia katsella sitä.",
+      "event-page-loading": "Ladataan tapahtumaa...",
+      "event-posted": "Tapahtuma lähetettiin onnistuneesti!",
+      "event-presented-in-languages": "Tapahtumatiedot syötetään",
+      "event-price": "Hinta",
+      "event-price-fields-header": "Hintatiedot",
+      "event-price-info": "Hintatietojen kuvaus",
+      "event-provider": "Tapahtuman järjestäjä",
+      "event-provider-input": "Tapahtuman järjestäjä (jos eri kuin julkaisija)",
+      "event-publisher": "Tapahtuman julkaisija",
+      "event-publisher-info": "Julkaisija: {publisher}",
+      "event-purchase-link": "Linkki lipunmyyntiin/ilmoittautumiseen",
+      "event-short-description": "Lyhyt kuvaus (korkeintaan 160 merkkiä)",
+      "event-social-media-fields-header": "Tapahtuma sosiaalisessa mediassa",
+      "event-sort-date_published": "Hyväksytty",
+      "event-sort-end_time": "Tapahtuma päättyy",
+      "event-sort-event_time": "Tapahtuma-aika",
+      "event-sort-last_modified_time": "Muokattu viimeksi",
+      "event-sort-name": "Otsikko",
+      "event-sort-publisher": "Julkaisija",
+      "event-sort-start_time": "Tapahtuma alkaa",
+      "event-sort-validation": " ",
+      "event-starting-datetime": "Tapahtuma alkaa",
+      "event-umbrella": "Kattotapahtumat",
+      "event-validation-errors": "Tapahtumatiedoissa on puutteita. Muokkaa tapahtumaa ennen julkaisua.",
+      "events-management": "Tapahtumien hallinta",
+      "events-management-description": "Selaa ja muokkaa oman organisaatiosi julkisia tapahtumia sekä luonnoksia. Voit lisätä uuden tapahtuman yläpalkista.",
+      "events-management-description-regular-user": "Selaa ja muokkaa oman organisaatiosi luonnoksia ja selaa julkisia tapahtumia. Voit lisätä uuden tapahtuman yläpalkista. Julkaistuja tapahtumia ei voi muokata.",
+      "events-management-no-results": "Yhtäkään muokattavaa tapahtumaa ei löytynyt.",
+      "events-management-prompt": "muokataksesi tapahtumia.",
+      "external-url-here": "Kuvan URL",
+      "facebook-url": "Facebook (url)",
+      "format-select-count": " ({count} tapahtumaa)",
+      "friday": "perjantai",
+      "hel-event-languages": "Tapahtuman kielet",
+      "hel-target-groups": "Kohderyhmät",
+      "image-caption-limit": "Kuvaus eli kuvan alt-teksti (korkeintaan {limit} merkkiä)",
+      "image-caption-limit-for-min-and-max": "Kuvaus eli kuvan alt-teksti (pituus vähintään {minLength} ja korkeintaan {maxLength} merkkiä)",
+      "image-creation-error": "Virhe kuvaa luodessa.",
+      "image-creation-success": "Kuva luotiin onnistuneesti!",
+      "image-deletion-error": "Virhe kuvaa poistettaessa.",
+      "image-deletion-success": "Kuva poistettiin onnistuneesti!",
+      "image-modal-image-info": "Kuvan tiedot",
+      "image-modal-image-license": "Image license",
+      "image-modal-license-restricted-to-event": "Käyttö rajattu tapahtuman yhteyteen",
+      "image-modal-save-button-text": "Tallenna tiedot",
+      "image-modal-view-terms-link-text": "kuvien lisäämisen ehtoihin ja suosituksiin.",
+      "image-modal-view-terms-paragraph-text": "Ennen kuin lisäät uuden kuvan, tutustu",
+      "image-update-error": "Virhe kuvaa päivittäessä.",
+      "image-update-success": "Kuvan tiedot päivitettiin onnistuneesti!",
+      "in-ar": "Arabiaksi",
+      "in-en": "Englanniksi",
+      "in-fi": "Suomeksi",
+      "in-ru": "Venäjäksi",
+      "in-sv": "Ruotsiksi",
+      "in-zh_hans": "Kiinaksi",
+      "instagram-url": "Instagram (url)",
+      "is-free": "Maksuton",
+      "lang-en": "Englanti",
+      "lang-fi": "Suomi",
+      "lang-sv": "Ruotsi",
+      "linked-courses": "Linked Courses",
+      "linked-events": "Linked Events",
+      "links-to-events": "Kytkökset muihin tapahtumiin",
+      "loading": "Ladataan...",
+      "login": "Kirjaudu sisään",
+      "logout": "Kirjaudu ulos",
+      "main-categories": "Pääkategoriat",
+      "maximum-attendee-capacity": "Enimmäisosallistujamäärä",
+      "minimum-attendee-capacity": "Vähimmäisosallistujamäärä",
+      "moderation-page": "Moderoi tapahtumia",
+      "moderation-page-draft-heading": "Odottaa hyväksyntää",
+      "moderation-page-published-description": "Jos julkaisit tapahtumaehdotuksen valmiin kattotapahtuman alle, sitä ei näytetä tässä näkymässä.",
+      "moderation-page-published-heading": "Julkaistut tapahtumat",
+      "monday": "maanantai",
+      "more-info": "Lisätietoja",
+      "new-image": "Lisää uusi kuva",
+      "no-connection": "Ei yhteyttä palvelimelle!",
+      "no-events": "Ei tapahtumia mitä näyttää.",
+      "no-image": "Tapahtumalla ei ole kuvaa",
+      "no-links-to-events": "Ei kytköksiä.",
+      "no-validation-errors": "Lomake täytetty oikein!",
+      "no-value": "-kenttää ei ole täytetty.",
+      "or": "tai",
+      "organization-images": "Organisaation kuvat",
+      "photographer": "Kuvaaja",
+      "pick-time-range": "Etsi vain ajalta",
+      "play-date-label": "Toistopäivät",
+      "publish-events": "Julkaise tapahtuma",
+      "publish-events-multi": "Julkaise tapahtumat",
+      "ready": "Valmis",
+      "repeated": "Toistetaan ",
+      "repetition-begin": "Toistuminen alkaa",
+      "repetition-end": "Toistuminen päättyy",
+      "repetition-end-time": "Tapahtumien loppuaika",
+      "repetition-interval": " viikon välein.",
+      "repetition-interval-label": "Toistoväli",
+      "repetition-start-time": "Tapahtumien alkuaika",
+      "return-to-events": "Palaa takaisin tapahtumiin",
+      "return-without-saving": "Palaa tekemättä muutoksia",
+      "saturday": "lauantai",
+      "save": "Tallenna",
+      "search-courses": "Etsi kursseja",
+      "search-date-placeholder": "pp.kk.vvvv",
+      "search-event-button": "Hae tapahtumia",
+      "search-events": "Etsi tapahtumia",
+      "search-events-description": "Katsele kaikkia Linked Eventsin tapahtumia.",
+      "search-no-results": "Ei tuloksia",
+      "select": "Valitse...",
+      "series": "Sarja",
+      "server-error": "Virhe palvelimella.",
+      "sub-event-of-series": "Tämä tapahtuma kuuluu sarjaan: ",
+      "sub-event-of-umbrella": "Tällä tapahtumalla on kattotapahtuma: ",
+      "sub-events-for-series": "Sarjan alatapahtumat:",
+      "sub-events-for-umbrella": "Kattotapahtuman alatapahtumat:",
+      "submit": "Lähetä",
+      "sunday": "sunnuntai",
+      "super-event-of-series": "Tämä on tapahtumasarjan ylätapahtuma.",
+      "super-event-of-umbrella": "Tämä tapahtuma on kattotapahtuma.",
+      "table-events-per-page": "Tapahtumia per sivu",
+      "thursday": "torstai",
+      "time": "Aika",
+      "tuesday": "tiistai",
+      "twitter-url": "Twitter (url)",
+      "umbrella": "Kattotapahtuma",
+      "update-events": "Tallenna",
+      "upload-image": "Lataa kuva kovalevyltäsi",
+      "upload-image-from-url": "Tai syötä ulkoisen kuvan osoite (url)",
+      "uploaded-image-size-error": "Kuva on liian suuri. Kuvan koon on oltava alle 2 Mt.",
+      "use-existing-image": "Käytä järjestelmässä olemassaolevaa kuvaa",
+      "use-external-image-url": "tai syötä ulkoisen kuvan osoite:",
+      "user-no-rights-create": "Sinulla ei ole oikeuksia julkaista tapahtumia.",
+      "user-no-rights-edit": "Sinulla ei ole oikeuksia muokata tätä tapahtumaa.",
+      "validate-form": "Tarkista puuttuvat tiedot",
+      "validation-afterEnrolmentStartTime": "Päättymisajan pitää olla alkamisaikaa myöhemmin",
+      "validation-afterStartTime": "Päättymisajan pitää olla alkamisaikaa myöhemmin",
+      "validation-atLeastOne": "Valitse vähintään yksi",
+      "validation-atLeastOneIsTrue": "Valitse vähintään yksi toistopäivä",
+      "validation-atLeastOneMainCategory": "Valitse vähintään yksi pääkategoria",
+      "validation-daysWithinInterval": "Yksi tai useampi valituista päivistä ei esiinny toistovälillä",
+      "validation-error": "Lomakkeessa on virheitä. Tarkasta lomake.",
+      "validation-error-goto-error": "Siirry virheeseen",
+      "validation-hasPrice": "Hintatietoja puuttuu",
+      "validation-inTheFuture": "Tapahtuman pitää olla tulevaisuudessa",
+      "validation-isDate": "Kirjoita päivämäärä muodossa pp.kk.vvvv tai p.k.vvvv",
+      "validation-isInt": "Tulon on oltava numero",
+      "validation-isMoreThanOne": "Toistovälin tulee olla vähintään 1 viikko",
+      "validation-isTime": "Kirjoita aika oikeassa muodossa HH.mm tai HH",
+      "validation-isUrl": "Kirjoita URL osoite kokonaisena ja oikeassa muodossa (http://...)",
+      "validation-longStringLengthCounter": " merkkiä käytetty",
+      "validation-offerIsFreeOrHasPrice": "Maksullinen tapahtuma vaatii hinnan kaikilla valituilla kielillä",
+      "validation-required": "Tämä kenttä vaaditaan",
+      "validation-requiredAtId": "Tämä kenttä vaaditaan",
+      "validation-requiredForCourses": "Tämä kenttä vaaditaan",
+      "validation-requiredInContentLanguages": "Tämä kenttä vaaditaan kaikilla valituilla kielillä",
+      "validation-requiredMulti": "Tämä kenttä vaaditaan",
+      "validation-requiredString": "Tämä kenttä vaaditaan",
+      "validation-requiredStringForCourses": "Tämä kenttä vaaditaan",
+      "validation-stringLengthCounter": "{counter} merkkiä jäljellä",
+      "validation-stringLimitReached": "Tämä kenttä voi olla korkeintaan {limit} merkkiä pitkä",
+      "wednesday": "keskiviikko",
+      "welcome": "Tervetuloa",
+    }
+  }
 >
-  <h1>
-    <span>
-      Etsi tapahtumia
-    </span>
-  </h1>
-  <p>
-    <span>
-      Katsele kaikkia Linked Eventsin tapahtumia.
-    </span>
-  </p>
-  <form
-    className="row search-bar"
-    onSubmit={[Function]}
-  >
-    <div
-      className="col-sm-2 time-label"
-    >
-      <label>
-        <span>
-          Etsi vain ajalta
-        </span>
-      </label>
-    </div>
-    <div
-      className="col-xs-8 col-sm-5 col-md-3 start-date"
-    >
-      <div
-        className="hel-text-field"
-      >
-        <div
-          className="react-datepicker-wrapper"
-        >
-          <div
-            className="react-datepicker__input-container"
-          >
-            <input
-              autoComplete={undefined}
-              autoFocus={undefined}
-              className=""
-              disabled={false}
-              id={undefined}
-              name="startDate"
-              onBlur={[Function]}
-              onChange={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              placeholder="pp.kk.vvvv"
-              readOnly={false}
-              required={undefined}
-              tabIndex={undefined}
-              title={undefined}
-              type="text"
-              value=""
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="col-xs-8 col-sm-5 col-md-3"
-    >
-      <div
-        className="hel-text-field"
-      >
-        <div
-          className="react-datepicker-wrapper"
-        >
-          <div
-            className="react-datepicker__input-container"
-          >
-            <input
-              autoComplete={undefined}
-              autoFocus={undefined}
-              className=""
-              disabled={false}
-              id={undefined}
-              name="endDate"
-              onBlur={[Function]}
-              onChange={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              placeholder="pp.kk.vvvv"
-              readOnly={false}
-              required={undefined}
-              tabIndex={undefined}
-              title={undefined}
-              type="text"
-              value=""
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="col-sm-8 col-xs-12"
-    >
-      <div
-        className="text-field"
-      >
-        <label
-          className="control-label"
-          htmlFor={undefined}
-        >
-          <span>
-            Tapahtuman nimi tai paikka
-          </span>
-        </label>
-        <input
-          autoFocus={true}
-          className="form-control"
-          id={undefined}
-          onChange={[Function]}
-          placeholder="Tapahtuman nimi tai paikka"
-          type={undefined}
-        />
-      </div>
-    </div>
-    <div
-      className="col-sm-4 col-xs-12"
-    >
-      <button
-        className="mui-raised-button btn btn-default"
-        color="primary"
-        disabled={false}
-        onClick={[Function]}
-        style={
-          Object {
-            "height": "72px",
-          }
+  <MemoryRouter>
+    <SearchPage
+      match={
+        Object {
+          "params": Object {
+            "action": "search",
+          },
         }
-        type="submit"
-      >
-        <span>
-          Hae tapahtumia
-        </span>
-      </button>
-    </div>
-    <p />
-  </form>
-  <div
-    className="row event-grid"
-  />
-</div>
+      }
+    />
+  </MemoryRouter>
+</IntlProvider>
 `;

@@ -7,6 +7,7 @@ import {FormattedMessage, injectIntl} from 'react-intl'
 import {connect} from 'react-redux'
 import {selectImage as selectImageAction} from 'src/actions/userImages'
 import ImageEdit from '../ImageEdit'
+import {Build} from '@material-ui/icons'
 
 class ImageThumbnail extends React.PureComponent {
 
@@ -58,8 +59,14 @@ class ImageThumbnail extends React.PureComponent {
             <div className="col-md-3 col-xs-12" onClick={this.selectThis} id={this.props.data.id}>
                 <div className={classname}>
                     <div className="thumbnail" style={bgStyle} />
-                    <div className="name edit-image" onClick={() => this.setState({edit: true})}>
-                        <span className={'image-title'}>{this.props.data.name || <FormattedMessage id="edit-image"/>}</span><i className="material-icons edit-icon">&#xE869;</i></div>
+                    <div className="name edit-image"
+                        onClick={() => this.setState({edit: true})}
+                    >
+                        <span className={'image-title'}>
+                            {this.props.data.name || <FormattedMessage id="edit-image"/>}
+                        </span>
+                        <Build />
+                    </div>
                 </div>
                 { editModal }
             </div>

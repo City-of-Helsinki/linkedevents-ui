@@ -12,6 +12,7 @@ import {Link} from 'react-router-dom'
 import {getFirstMultiLanguageFieldValue, scrollToTop} from '../../../utils/helpers'
 import constants from '../../../constants'
 import {getSuperEventId} from '../../../utils/events'
+import {HelSelectStyles, HelSelectTheme} from '../../../themes/react-select'
 
 class UmbrellaSelector extends React.Component {
 
@@ -271,6 +272,8 @@ class UmbrellaSelector extends React.Component {
                             loadingMessage={() => this.context.intl.formatMessage({id: 'loading'})}
                             noOptionsMessage={() => this.context.intl.formatMessage({id: 'search-no-results'})}
                             filterOption={createFilter({ignoreAccents: false})}
+                            styles={HelSelectStyles}
+                            theme={HelSelectTheme}
                         />
                         {showSelectTip &&
                             <span><small><FormattedMessage id="event-has-umbrella-select-tip"/></small></span>

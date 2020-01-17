@@ -17,10 +17,8 @@ import {
     HelKeywordSelector,
 } from 'src/components/HelFormFields'
 import RecurringEvent from 'src/components/RecurringEvent'
-import {Button} from 'material-ui'
-// Material-ui Icons
-import Add from 'material-ui-icons/Add'
-import Autorenew from 'material-ui-icons/Autorenew'
+import {Button, TextField} from '@material-ui/core'
+import {Add, Autorenew, FileCopyOutlined} from '@material-ui/icons'
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from '../../utils/apiDataMapping'
 import {setEventData, setData} from '../../actions/editor'
 import {get, isNull, pickBy} from 'lodash'
@@ -28,7 +26,7 @@ import API from '../../api'
 import CONSTANTS from '../../constants'
 import OrganizationSelector from '../HelFormFields/OrganizationSelector';
 import UmbrellaSelector from '../HelFormFields/UmbrellaSelector/UmbrellaSelector'
-import {ControlLabel, FormControl} from 'react-bootstrap'
+import {HelMaterialTheme} from '../../themes/material-ui'
 
 let FormHeader = (props) => (
     <div className="row">
@@ -141,14 +139,6 @@ class FormFields extends React.Component {
         const helTargetOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'helsinki:audiences')
         const helEventLangOptions = mapLanguagesSetToForm(this.props.editor.languages)
 
-        const getAddRecurringEventButtonColor = (showRecurringEvent) => {
-            if (showRecurringEvent == true) {
-                return 'secondary'
-            } else {
-                return 'primary'
-            }
-
-        }
         const {event, superEvent, user, editor} = this.props
         const {values, validationErrors, contentLanguages} = editor
         const formType = this.props.action
@@ -263,54 +253,65 @@ class FormFields extends React.Component {
                 <FormHeader>
                     <FormattedMessage id="event-datetime-fields-header" />
                 </FormHeader>
-                <div className="row">
+                <div className="row date-row">
                     <div className="col-sm-6">
                         <div className="row">
-                            <div className="col-xs-12 col-md-6">
+                            <div className="col-xs-12 col-sm-12">
                                 <HelDateTimeField
-                                    datePickerProps={{disabled: formType === 'update' && isSuperEvent}}
-                                    timePickerProps={{disabled: formType === 'update' && isSuperEvent}}
+                                    disabled={formType === 'update' && isSuperEvent}
                                     validationErrors={validationErrors['start_time']}
                                     defaultValue={values['start_time']}
-                                    ref="start_time"
                                     name="start_time"
                                     label="event-starting-datetime"
                                     setDirtyState={this.props.setDirtyState}
+                                    maxDate={values['end_time']}
                                 />
                             </div>
-                            <div className="col-xs-12 col-md-6">
+                            <div className="col-xs-12 col-sm-12">
                                 <HelDateTimeField
-                                    datePickerProps={{disabled: formType === 'update' && isSuperEvent}}
-                                    timePickerProps={{disabled: formType === 'update' && isSuperEvent}}
+                                    disablePast
+                                    disabled={formType === 'update' && isSuperEvent}
                                     validationErrors={validationErrors['end_time']}
                                     defaultValue={values['end_time']}
-                                    ref="end_time"
                                     name="end_time"
                                     label="event-ending-datetime"
                                     setDirtyState={this.props.setDirtyState}
+                                    minDate={values['start_time']}
                                 />
                             </div>
                         </div>
                         <div className={'new-events ' + (this.state.showNewEvents ? 'show' : 'hidden')}>
                             { newEvents }
                         </div>
-                        { this.state.showRecurringEvent &&
-                            <RecurringEvent toggle={() => this.showRecurringEventDialog()} validationErrors={validationErrors} values={values}/>
-                        }
+                        <RecurringEvent
+                            open={this.state.showRecurringEvent}
+                            toggle={() => this.showRecurringEventDialog()}
+                            validationErrors={validationErrors}
+                            values={values}
+                            formType={formType}
+                        />
                         <Button
-                            raised
+                            variant="contained"
                             disabled={formType === 'update'}
-                            className="base-material-btn"
                             color="primary"
-                            onClick={ () => this.addNewEventDialog() }
-                        ><Add/> <FormattedMessage id="event-add-new-occasion" /></Button>
+                            onClick={() => this.addNewEventDialog()}
+                            startIcon={<Add/>}
+                            fullWidth
+                            style={{marginTop: HelMaterialTheme.spacing(2)}}
+                        >
+                            <FormattedMessage id="event-add-new-occasion" />
+                        </Button>
                         <Button
-                            raised
-                            disabled={formType == 'update'}
-                            className="base-material-btn"
-                            color={getAddRecurringEventButtonColor(this.state.showRecurringEvent)}
-                            onClick={ () => this.showRecurringEventDialog() }
-                        ><Autorenew/> <FormattedMessage id="event-add-recurring" /></Button>
+                            variant="contained"
+                            disabled={formType === 'update'}
+                            color="primary"
+                            onClick={() => this.showRecurringEventDialog()}
+                            startIcon={<Autorenew/>}
+                            fullWidth
+                            style={{marginTop: HelMaterialTheme.spacing(2)}}
+                        >
+                            <FormattedMessage id="event-add-recurring" />
+                        </Button>
                     </div>
                     <SideField>
                         <div className="tip">
@@ -336,20 +337,15 @@ class FormFields extends React.Component {
                             validationErrors={validationErrors['location']}
                             setDirtyState={this.props.setDirtyState}
                         />
-                        <div className="hel-text-field">
-                            <ControlLabel className="hel-label">
-                                {this.context.intl.formatMessage({id: 'event-location-id'})}
-                            </ControlLabel>
-
-                            <FormControl
-                                value={values['location'] && values['location'].id ? values['location'].id : ''}
-                                ref="text"
-                                disabled
-                            />
-                        </div>
+                        <TextField
+                            fullWidth
+                            disabled
+                            label={this.context.intl.formatMessage({id: 'event-location-id'})}
+                            value={values['location'] && values['location'].id ? values['location'].id : ''}
+                        />
                         <CopyToClipboard text={values['location'] ? values['location'].id : ''}>
                             <button className="clipboard-copy-button" title={this.context.intl.formatMessage({id: 'copy-to-clipboard'})}>
-                                <i className="material-icons">&#xE14D;</i>
+                                <FileCopyOutlined />
                             </button>
                         </CopyToClipboard>
                         <MultiLanguageField
@@ -475,7 +471,7 @@ class FormFields extends React.Component {
                             <FormattedMessage id="audience-age-restrictions"/>
                         </FormHeader>
                         <div className="row">
-                            <div className="col-sm-12">
+                            <div className="col-xs-12 col-sm-6">
                                 <HelTextField
                                     ref="audience_min_age"
                                     name="audience_min_age"
@@ -500,21 +496,17 @@ class FormFields extends React.Component {
                             <FormattedMessage id="enrolment-time"/>
                         </FormHeader>
                         <div className="row">
-                            <div className="col-sm-6 col-md-4">
+                            <div className="col-xs-12 col-sm-6">
                                 <HelDateTimeField
                                     validationErrors={validationErrors['enrolment_start_time']}
                                     defaultValue={values['enrolment_start_time']}
-                                    ref="enrolment_start_time"
                                     name="enrolment_start_time"
                                     label="enrolment-start-time"
                                     setDirtyState={this.props.setDirtyState}
                                 />
-                            </div>
-                            <div className="col-sm-6 col-md-4">
                                 <HelDateTimeField
                                     validationErrors={validationErrors['enrolment_end_time']}
                                     defaultValue={values['enrolment_end_time']}
-                                    ref="enrolment_end_time"
                                     name="enrolment_end_time"
                                     label="enrolment-end-time"
                                     setDirtyState={this.props.setDirtyState}
@@ -526,7 +518,7 @@ class FormFields extends React.Component {
                             <FormattedMessage id="attendee-capacity"/>
                         </FormHeader>
                         <div className="row">
-                            <div className="col-sm-12">
+                            <div className="col-xs-12 col-sm-6">
                                 <HelTextField
                                     ref="minimum_attendee_capacity"
                                     name="minimum_attendee_capacity"
@@ -548,6 +540,7 @@ class FormFields extends React.Component {
                         </div>
                     </div>
                 }
+
                 {!isRegularUser &&
                     <React.Fragment>
                         <FormHeader>

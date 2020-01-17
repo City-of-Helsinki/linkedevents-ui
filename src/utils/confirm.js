@@ -44,8 +44,9 @@ const getEventListing = (subEventsMappedToEvents, events, intl) =>
             // returns the event label and super event type badge where appropriate
             const getEventLabel = (_event) => {
                 return `
-                    ${_event.super_event_type === SUPER_EVENT_TYPE_RECURRING ? `<span class="badge badge-success text-uppercase tag-space">${intl.formatMessage({id: 'series'})}</span>` : ''}
-                    ${_event.super_event_type === SUPER_EVENT_TYPE_UMBRELLA ? `<span class="badge badge-info text-uppercase tag-space">${intl.formatMessage({id: 'umbrella'})}</span>` : ''}
+                    ${_event.super_event_type === SUPER_EVENT_TYPE_RECURRING ? `<span class="badge badge-success">${intl.formatMessage({id: 'series'})}</span>` : ''}
+                    ${_event.super_event_type === SUPER_EVENT_TYPE_UMBRELLA ? `<span class="badge badge-info">${intl.formatMessage({id: 'umbrella'})}</span>` : ''}
+                    ${_event.publication_status === PUBLICATION_STATUS.DRAFT ? `<span class="badge badge-warning">${intl.formatMessage({id: 'draft'})}</span>` : ''}
                     <strong>${getFirstMultiLanguageFieldValue(_event.name)}</strong> ${!isNil(_event.start_time) ? `(${moment(_event.start_time).format('DD.MM.YYYY')})` : ''}`
             }
 

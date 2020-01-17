@@ -3,6 +3,8 @@ import constants from '../constants'
 import {FormattedMessage} from 'react-intl'
 import React from 'react'
 import moment from 'moment'
+import helBrandColors from '../themes/hel/hel-brand-colors'
+import {Chip, withStyles} from '@material-ui/core'
 
 const {VALIDATION_RULES, CHARACTER_LIMIT} = constants
 
@@ -121,11 +123,44 @@ export const getFirstMultiLanguageFieldValue = (field, contentLanguages = null) 
 
 /**
  * Returns a badge for the given type
- * @param type
+ * @param type Type of the badge
+ * @param size  Size of the badge
  * @returns {*}
  */
-export const getBadge = type => {
+export const getBadge = (type, size = 'small') => {
     let badgeType = 'primary'
+
+    const BadgeChip = withStyles({
+        root: {
+            '&.badge-chip': {
+                fontSize: '0.6em',
+                fontWeight: 'bold',
+                textTransform: 'uppercase',
+            },
+            '&.umbrella': {
+                backgroundColor: helBrandColors.info.main,
+                color: helBrandColors.gray.white,
+            },
+            '&.series': {
+                backgroundColor: helBrandColors.success.main,
+                color: helBrandColors.gray.white,
+            },
+            '&.cancelled': {
+                backgroundColor: helBrandColors.error.main,
+                color: helBrandColors.gray.white,
+            },
+            '&.draft': {
+                backgroundColor: helBrandColors.alert.main,
+                color: helBrandColors.gray.black,
+            },
+        },
+        sizeSmall: {
+            '&.badge-chip': {
+                fontSize: '90%',
+                textTransform: 'none',
+            },
+        },
+    })(Chip)
 
     switch (type) {
         case 'series':
@@ -143,9 +178,11 @@ export const getBadge = type => {
     }
 
     return (
-        <span className={`badge badge-${badgeType} text-uppercase tag-space`}>
-            <FormattedMessage id={type} />
-        </span>
+        <BadgeChip
+            className={`${type} badge-chip`}
+            size={size}
+            label={<FormattedMessage id={type}/>}
+        />
     )
 }
 
@@ -164,7 +201,7 @@ export const getDate = date => moment(date).format('D.M.YYYY')
 export const getDateTime = date => moment(date).format('D.M.YYYY HH:mm')
 
 /**
- * todo
+ * Returns the button label
  * @param action
  * @param isRegularUser
  * @param isDraft

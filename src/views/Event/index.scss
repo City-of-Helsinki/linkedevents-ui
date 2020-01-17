@@ -1,6 +1,3 @@
-$buttonActionHeight: 64px;
-$buttonActionMargin: 10px;
-
 .event-page {
 
     &.container {
@@ -42,12 +39,8 @@ $buttonActionMargin: 10px;
         .cancel-delete-btn,
         .edit-copy-btn {
 
-            button {
-                height: $buttonActionHeight;
-            }
-
             > *:not(:last-child) {
-                margin-right: $buttonActionMargin;
+                margin-right: 8px;
             }
         }
     }

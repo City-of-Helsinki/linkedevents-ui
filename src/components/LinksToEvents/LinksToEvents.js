@@ -32,7 +32,7 @@ const getSuperEventLinks = (event, type) => (
                     const isDraft = subEvent.publication_status === PUBLICATION_STATUS.DRAFT
 
                     return (
-                        <p key={subEvent.id}
+                        <div key={subEvent.id}
                             className="links-to-events--link"
                         >
                             <Link
@@ -44,7 +44,7 @@ const getSuperEventLinks = (event, type) => (
                                 {isDraft && getBadge('draft')}
                                 <span>{getFirstMultiLanguageFieldValue(subEvent.name)} ({moment(subEvent.start_time).format('DD.MM.YYYY')})</span>
                             </Link>
-                        </p>
+                        </div>
                     )
                 })}
             </React.Fragment>
