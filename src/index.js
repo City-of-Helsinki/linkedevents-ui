@@ -24,7 +24,7 @@ import Validator from './actors/validator'
 import Serializer from './actors/serializer';
 import {report} from './utils/raven_reporter';
 
-// translation 
+// translation
 import IntlProviderWrapper from './components/IntlProviderWrapper'
 import store, {history} from './store'
 import {HelMaterialTheme} from './themes/material-ui'
@@ -142,15 +142,12 @@ class DebugHelper extends React.Component {
     }
 
     serializeState(reportmsg) {
-        window.ARG.debug_message = reportmsg;
-        window.ARG.commit_hash = appSettings.commit_hash;
         this.closeReportForm();
-        report(JSON.stringify(window.ARG));
+        report(window.ARG, reportmsg, appSettings.commit_hash);
 
         window.setTimeout(
             () => alert('Raportti lähetetty, kiitoksia'),
             100);
-
     }
 
     render() {

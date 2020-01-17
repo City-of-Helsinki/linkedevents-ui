@@ -322,5 +322,6 @@
     "image-modal-image-license": "Image license",
     "image-modal-view-terms-paragraph-text": "Ennen kuin lisäät uuden kuvan, tutustu",
     "image-modal-view-terms-link-text": "kuvien lisäämisen ehtoihin ja suosituksiin.",
-    "image-modal-save-button-text": "Tallenna tiedot"
+    "image-modal-save-button-text": "Tallenna tiedot",
+    "error-message-has-been-sent": "Raportti lähetetty onnistuneesti, kiitoksia!"
 }

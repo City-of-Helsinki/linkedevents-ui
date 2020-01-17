@@ -83,6 +83,7 @@ exports[`Search Snapshot should render view correctly 1`] = `
       "enrolment-end-time": "Ilmoittautuminen päättyy",
       "enrolment-start-time": "Ilmoittautuminen alkaa",
       "enrolment-time": "Ilmoittautumisaika",
+      "error-message-has-been-sent": "Raportti lähetetty onnistuneesti, kiitoksia!",
       "event-action-save-draft-existing": "Päivitä ehdotusta",
       "event-action-save-draft-new": "Lähetä tarkastettavaksi",
       "event-action-save-existing": "Tallenna muutokset julkaistuun tapahtumaan",

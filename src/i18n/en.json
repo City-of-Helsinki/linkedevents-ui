@@ -322,5 +322,6 @@
     "image-modal-image-license": "Image license",
     "image-modal-view-terms-paragraph-text": "Prior to uploading a new image, get to know the",
     "image-modal-view-terms-link-text": "image terms and recommendations.",
-    "image-modal-save-button-text": "Save image"
+    "image-modal-save-button-text": "Save image",
+    "error-message-has-been-sent": "The error message has been sent. Thank you for reporting!"
 }
