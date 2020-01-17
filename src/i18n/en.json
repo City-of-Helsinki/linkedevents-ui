@@ -15,6 +15,7 @@
     "welcome": "Welcome",
     "submit": "Submit",
     "cancel": "Cancel",
+    "clear": "Clear",
     "create-events": "Create a new event",
     "edit-events": "Edit the event",
     "update-events": "Save",
@@ -40,6 +41,7 @@
     "umbrella": "Umbrella",
     "loading": "Loading...",
     "select": "Select...",
+    "close": "Close",
 
     "links-to-events": "Links to other events",
     "no-links-to-events": "No links.",
@@ -56,7 +58,7 @@
     "event-sort-end_time": "Event ends",
     "event-sort-last_modified_time": "Last modified",
     "event-sort-publisher": "Publisher",
-    "event-sort-event_time": "",
+    "event-sort-event_time": "Event time",
     "event-sort-date_published": "Published",
     "event-sort-validation": " ",
 
@@ -95,6 +97,7 @@
     "events-management-no-results": "No editable events found.",
 
     "event-image": "Event image (click to change)",
+    "event-image-title": "Event image",
     "new-image": "Add a new image",
     "upload-image": "Upload image from your hard disk",
     "choose-image": "Upload or choose a image for this event",
@@ -308,6 +311,7 @@
     "user-no-rights-edit": "You have insufficient rights to edit this event.",
     "user-no-rights-create": "You have insufficient rights to create events.",
     "return-without-saving": "Return without changes",
+    "return-to-events": "Return back to events",
 
     "format-select-count": " ({count} events)",
     "upload-image-from-url": "Upload image from url",
@@ -317,6 +321,6 @@
     "image-modal-license-restricted-to-event": "Image may be used only for this event",
     "image-modal-image-license": "Image license",
     "image-modal-view-terms-paragraph-text": "Prior to uploading a new image, get to know the",
-    "image-modal-view-terms-link-text": "image terms and recommendations",
+    "image-modal-view-terms-link-text": "image terms and recommendations.",
     "image-modal-save-button-text": "Save image"
 }

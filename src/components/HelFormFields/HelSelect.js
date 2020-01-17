@@ -1,7 +1,7 @@
 import './HelSelect.scss'
 
 import PropTypes from 'prop-types';
-import React from 'react'
+import React, {useRef} from 'react'
 import AsyncSelect from 'react-select/async'
 import {createFilter} from 'react-select'
 import {setData as setDataAction} from '../../actions/editor'
@@ -10,22 +10,23 @@ import {get, isNil} from 'lodash'
 import ValidationPopover from '../ValidationPopover'
 import client from '../../api/client'
 import {injectIntl} from 'react-intl'
+import {HelSelectTheme, HelSelectStyles} from '../../themes/react-select'
 
-const HelSelect = (props) => {
-    const {
-        intl,
-        setData,
-        isClearable,
-        isMultiselect,
-        name,
-        setDirtyState,
-        resource,
-        legend,
-        selectedValue,
-        validationErrors,
-        placeholderId,
-        customOnChangeHandler,
-    } = props
+const HelSelect = ({
+    intl,
+    setData,
+    isClearable,
+    isMultiselect,
+    name,
+    setDirtyState,
+    resource,
+    legend,
+    selectedValue,
+    validationErrors,
+    placeholderId,
+    customOnChangeHandler,
+})  => {
+    const labelRef = useRef(null)
 
     const onChange = (value) => {
         // let the custom handler handle the change if given
@@ -147,11 +148,8 @@ const HelSelect = (props) => {
 
     return (
         <React.Fragment>
-            <legend>{legend}
-                <ValidationPopover
-                    small={true}
-                    validationErrors={validationErrors}
-                />
+            <legend ref={labelRef}>
+                {legend}
             </legend>
             <AsyncSelect
                 isClearable={isClearable}
@@ -164,6 +162,12 @@ const HelSelect = (props) => {
                 noOptionsMessage={() => intl.formatMessage({id: 'search-no-results'})}
                 filterOption={createFilter({ignoreAccents: false})}
                 formatOptionLabel={formatOption}
+                styles={HelSelectStyles}
+                theme={HelSelectTheme}
+            />
+            <ValidationPopover
+                anchor={labelRef.current}
+                validationErrors={validationErrors}
             />
         </React.Fragment>
     )

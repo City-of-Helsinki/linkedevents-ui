@@ -1,7 +1,8 @@
-.checkbox-group {
-    margin-bottom: 15px;
-
-    .hel-checkbox {
-        margin-top: 10px;
+.hel-checkbox-group {
+    legend {
+        font-size: 24px;
+        font-weight: 300;
+        padding-top: 2rem;
+        width: unset;
     }
 }

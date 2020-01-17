@@ -1,8 +1,8 @@
 import constants from '../../../constants'
-import {ErrorOutline, Edit} from 'material-ui-icons'
 import PropTypes from 'prop-types'
 import React, {useState} from 'react'
-import {TableCell, Tooltip} from 'material-ui'
+import {TableCell, Tooltip} from '@material-ui/core'
+import {ErrorOutline, Edit} from '@material-ui/icons'
 import {injectIntl} from 'react-intl'
 import {doValidations} from '../../../validation/validator'
 import getContentLanguages from '../../../utils/language'
@@ -13,7 +13,7 @@ import {push} from 'react-router-redux'
 const {PUBLICATION_STATUS} = constants
 
 const ValidationCell = ({event, intl, editor, handleInvalidRow, routerPush}) => {
-    const [hover, setHover] = useState(false);
+    const [hover, setHover] = useState(false)
     const formattedEvent = mapAPIDataToUIFormat(event)
     // don't validate sub_events as they will be validated separately
     formattedEvent.sub_events = []
@@ -28,8 +28,8 @@ const ValidationCell = ({event, intl, editor, handleInvalidRow, routerPush}) => 
         <TableCell className="validation-cell">
             {hasValidationErrors &&
                 <Tooltip
-                    onMouseEnter={() => setHover(true)}
-                    onMouseLeave={() => setHover(false)}
+                    onOpen={() => setHover(true)}
+                    onClose={() => setHover(false)}
                     title={intl.formatMessage({id: 'event-validation-errors'})}
                 >
                     <span>

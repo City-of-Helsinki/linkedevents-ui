@@ -4,7 +4,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {FormattedMessage} from 'react-intl'
 
-import {Checkbox} from 'react-bootstrap'
+import {FormControlLabel, Checkbox} from '@material-ui/core'
 
 import {connect} from 'react-redux'
 import {setLanguages as setLanguageAction} from 'src/actions/editor.js'
@@ -31,18 +31,27 @@ class HelLanguageSelect extends React.Component {
             const isChecked = checkedOptions && checkedOptions.includes(item.value)
             const disabled = isChecked && checkedOptions && checkedOptions.length === 1
 
-            return (<Checkbox
-                style={{width: 'auto'}}
-                className="hel-checkbox inline"
-                inputRef={ref => this[`checkRef${index}`] = ref}
-                key={index}
-                name={item.value}
-                checked={isChecked}
-                disabled={disabled}
-                onChange={this.onChange}
-            >
-                <FormattedMessage id={item.label} />
-            </Checkbox>)
+            return (
+                <FormControlLabel
+                    key={index}
+                    control={
+                        <Checkbox
+                            color="primary"
+                            size="small"
+                            // style={{width: 'auto'}}
+                            // className="hel-checkbox inline"
+                            inputRef={ref => this[`checkRef${index}`] = ref}
+                            key={index}
+                            name={item.value}
+                            checked={isChecked}
+                            disabled={disabled}
+                            onChange={this.onChange}
+                        />
+                    }
+                    // label={item.label}
+                    label={<FormattedMessage id={item.label} />}
+                />
+            )
         })
 
         return (

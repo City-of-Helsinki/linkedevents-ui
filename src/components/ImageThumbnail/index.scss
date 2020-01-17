@@ -1,39 +1,5 @@
 @import "../../assets/_colors.scss";
 
-.modal-header {
-    padding: 0 24px;
-
-    button {
-        &.close {
-            position: relative;
-        }
-
-        &.attach-external {
-            display: inline-block;
-        }
-    }
-
-    .external-file-upload {
-        margin-bottom: 1.5rem;
-        padding: 0 15px;
-
-        .hel-text-field {
-            display: inline-block;
-            margin: 0 1rem 0 0;
-            min-width: 450px;
-            vertical-align: bottom;
-            width: initial;
-
-            #externalImageURL {
-                width: 100%;
-            }
-        }
-    }
-}
-.modal-title {
-    padding: 0 15px;
-}
-
 .image-thumb {
     position: relative;
     height: 228px;
@@ -72,6 +38,21 @@
         width: 100%;
         padding: 0 22px;
         background: rgba(0,0,0,0.5);
+
+        &.edit-image {
+            cursor: pointer;
+
+            &:hover {
+                opacity: 0.9;
+            }
+
+            .image-title {
+                flex-grow: 1;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
     }
 
     .no-image-text {

@@ -15,6 +15,7 @@
     "welcome": "Tervetuloa",
     "submit": "Lähetä",
     "cancel": "Kumoa",
+    "clear": "Tyhjennä",
     "create-events": "Lisää uusi tapahtuma",
     "edit-events": "Muokkaa tapahtumaa",
     "update-events": "Tallenna",
@@ -40,6 +41,7 @@
     "umbrella": "Kattotapahtuma",
     "loading": "Ladataan...",
     "select": "Valitse...",
+    "close": "Sulje",
 
     "links-to-events": "Kytkökset muihin tapahtumiin",
     "no-links-to-events": "Ei kytköksiä.",
@@ -69,12 +71,12 @@
 
     "event-presented-in-languages": "Tapahtumatiedot syötetään",
 
-    "in-fi": "suomeksi",
-    "in-en": "englanniksi",
-    "in-sv": "ruotsiksi",
-    "in-ru": "venäjäksi",
-    "in-zh_hans": "kiinaksi",
-    "in-ar": "arabiaksi",
+    "in-fi": "Suomeksi",
+    "in-en": "Englanniksi",
+    "in-sv": "Ruotsiksi",
+    "in-ru": "Venäjäksi",
+    "in-zh_hans": "Kiinaksi",
+    "in-ar": "Arabiaksi",
 
     "no-value": "-kenttää ei ole täytetty.",
 
@@ -95,6 +97,7 @@
     "events-management-no-results": "Yhtäkään muokattavaa tapahtumaa ei löytynyt.",
 
     "event-image": "Tapahtuman kuva (klikkaa vaihtaaksesi)",
+    "event-image-title": "Tapahtuman kuva",
     "new-image": "Lisää uusi kuva",
     "upload-image": "Lataa kuva kovalevyltäsi",
     "choose-image": "Lisää tapahtumalle kuva tai valitse kuvapankista",
@@ -308,6 +311,7 @@
     "user-no-rights-edit": "Sinulla ei ole oikeuksia muokata tätä tapahtumaa.",
     "user-no-rights-create": "Sinulla ei ole oikeuksia julkaista tapahtumia.",
     "return-without-saving": "Palaa tekemättä muutoksia",
+    "return-to-events": "Palaa takaisin tapahtumiin",
 
     "format-select-count": " ({count} tapahtumaa)",
     "upload-image-from-url": "Tai syötä ulkoisen kuvan osoite (url)",
@@ -317,6 +321,6 @@
     "image-modal-license-restricted-to-event": "Käyttö rajattu tapahtuman yhteyteen",
     "image-modal-image-license": "Image license",
     "image-modal-view-terms-paragraph-text": "Ennen kuin lisäät uuden kuvan, tutustu",
-    "image-modal-view-terms-link-text": "kuvien lisäämisen ehtoihin ja suosituksiin",
+    "image-modal-view-terms-link-text": "kuvien lisäämisen ehtoihin ja suosituksiin.",
     "image-modal-save-button-text": "Tallenna tiedot"
 }

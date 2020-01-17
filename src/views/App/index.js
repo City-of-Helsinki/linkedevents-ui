@@ -1,16 +1,14 @@
 import 'src/assets/additional_css/bootstrap.custom.min.css';
 import 'src/assets/main.scss';
 
-require('./index.scss');
-
 import PropTypes from 'prop-types';
 
 import React from 'react'
 import {connect} from 'react-redux'
 
 import Headerbar from 'src/components/Header'
-import MaterialButton from 'material-ui/Button';
-import {Modal, Well} from 'react-bootstrap';
+import {ThemeProvider, Button, IconButton, Paper, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
+import {Close} from '@material-ui/icons';
 
 import {injectIntl, FormattedMessage} from 'react-intl'
 
@@ -19,9 +17,21 @@ import {retrieveUserFromSession as retrieveUserFromSessionAction} from '../../ac
 
 import {cancelAction, doAction} from 'src/actions/app'
 
-import {MuiThemeProvider} from 'material-ui/styles'
-import {HelTheme} from 'src/themes/hel'
+import {HelMaterialTheme} from 'src/themes/material-ui'
 import Notifications from '../Notification'
+import {MuiPickersUtilsProvider} from '@material-ui/pickers'
+import MomentUtils from '@date-io/moment';
+import moment from 'moment'
+
+// localized moment utils
+class LocalizedUtils extends MomentUtils {
+    getDatePickerHeaderText(date) {
+        return moment(date).format('DD.MM');
+    }
+    getDateTimePickerHeaderText(date) {
+        return moment(date).format('DD.MM');
+    }
+}
 
 class App extends React.Component {
 
@@ -40,7 +50,7 @@ class App extends React.Component {
 
     getChildContext() {
         return {
-            muiTheme: HelTheme,
+            muiTheme: HelMaterialTheme,
             dispatch: this.props.dispatch,
             intl: this.props.intl,
         }
@@ -75,26 +85,7 @@ class App extends React.Component {
         }
         const getMarkup = () => ({__html: additionalMarkup})
 
-        let buttonStyle = {
-            marginLeft: '10px',
-            color: 'white',
-            backgroundColor: HelTheme.palette.primary.main,
-        }
-
-        let warningButtonStyle = {
-            marginLeft: '10px',
-            color: 'white',
-            backgroundColor: HelTheme.palette.secondary.main,
-        }
-        let useWarningButtonStyle = false
-        if (this.props.app.confirmAction && this.props.app.confirmAction.style === 'warning') {
-            useWarningButtonStyle = true
-        }
-
-        let isWarningModal = false;
-        if(this.props.app.confirmAction && this.props.app.confirmAction.style === 'warning') {
-            isWarningModal = true;
-        }
+        const useWarningButtonStyle = this.props.app.confirmAction && this.props.app.confirmAction.style === 'warning'
 
         let actionButtonLabel = 'confirm'
         if(this.props.app.confirmAction && this.props.app.confirmAction.actionButtonLabel && this.props.app.confirmAction.actionButtonLabel.length > 0) {
@@ -104,55 +95,80 @@ class App extends React.Component {
         if (this.props.user && !this.props.user.organization) {
             if (appSettings.ui_mode === 'courses') {
                 organization_missing_msg =
-                    <Well><h4>Tervetuloa käyttämään Linked Coursesia, {this.props.user.displayName}!</h4>
+                    <Paper
+                        elevation={3}
+                        style={{
+                            margin: HelMaterialTheme.spacing(3),
+                            padding: 16,
+                        }}
+                    >
+                        <h4>Tervetuloa käyttämään Linked Coursesia, {this.props.user.displayName}!</h4>
                         <p>Sinulla ei ole vielä oikeutta hallinnoida yhdenkään yksikön kursseja.</p>
                         <p>Jos olet jo saanut käyttöoikeudet, kirjautumisesi saattaa olla vanhentunut. Kokeile sivun
                             päivittämistä (F5) ja kirjautumista uudestaan.</p>
-                    </Well>
+                    </Paper>
             } else {
                 organization_missing_msg =
-                    <Well><h4>Tervetuloa käyttämään Linked Eventsiä, {this.props.user.displayName}!</h4>
+                    <Paper
+                        elevation={3}
+                        style={{
+                            margin: HelMaterialTheme.spacing(3),
+                            padding: 16,
+                        }}
+                    >
+                        <h4>Tervetuloa käyttämään Linked Eventsiä, {this.props.user.displayName}!</h4>
                         <p>Sinulla ei ole vielä oikeutta hallinnoida yhdenkään yksikön tapahtumia.
                             Ota yhteyttä <a href="mailto:aleksi.salonen@hel.fi">Aleksi Saloseen</a> saadaksesi oikeudet
                             muokata yksikkösi tapahtumia.</p>
                         <p>Jos olet jo saanut käyttöoikeudet, kirjautumisesi saattaa olla vanhentunut. Kokeile sivun
                             päivittämistä (F5) ja kirjautumista uudestaan.</p>
-                    </Well>
+                    </Paper>
             }
         }
         return (
-            <MuiThemeProvider theme={HelTheme}>
-                <div>
-                    <Headerbar />
-                    {organization_missing_msg}
-                    <div className="content">
-                        {this.props.children}
+            <ThemeProvider theme={HelMaterialTheme}>
+                <MuiPickersUtilsProvider utils={LocalizedUtils}>
+                    <div>
+                        <Headerbar />
+                        {organization_missing_msg}
+                        <div className="content">
+                            {this.props.children}
+                        </div>
+                        <Notifications flashMsg={this.props.app.flashMsg} />
+                        <Dialog
+                            open={!!this.props.app.confirmAction}
+                            onClose={() => this.props.dispatch(cancelAction())}
+                            transitionDuration={0}
+                        >
+                            <DialogTitle>
+                                {confirmMsg}
+                                <IconButton onClick={() => this.props.dispatch(cancelAction())}>
+                                    <Close />
+                                </IconButton>
+                            </DialogTitle>
+                            <DialogContent>
+                                <p><strong>{additionalMsg}</strong></p>
+                                <div dangerouslySetInnerHTML={getMarkup()}/>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button
+                                    variant="contained"
+                                    onClick={() => this.props.cancel()}
+                                >
+                                    <FormattedMessage id="cancel" />
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    color={useWarningButtonStyle ? 'secondary' : 'primary'}
+                                    onClick={() => this.props.do(this.props.app.confirmAction.data)}
+                                >
+                                    <FormattedMessage id={actionButtonLabel} />
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
                     </div>
-                    <Notifications flashMsg={this.props.app.flashMsg} />
-                    <Modal show={(!!this.props.app.confirmAction)} dialogClassName="custom-modal" onHide={e => this.props.dispatch(cancelAction())}>
-                        <Modal.Header closeButton>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <p><strong>{confirmMsg}</strong></p>
-                            <p><strong>{additionalMsg}</strong></p>
-                            <div dangerouslySetInnerHTML={getMarkup()}/>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <MaterialButton 
-                                style={buttonStyle} 
-                                onClick={e => this.props.cancel()}>
-                                <FormattedMessage id="cancel" />
-                            </MaterialButton>
-
-                            <MaterialButton 
-                                style={useWarningButtonStyle ? warningButtonStyle : buttonStyle} 
-                                onClick={e => this.props.do(this.props.app.confirmAction.data)}>
-                                <FormattedMessage id={actionButtonLabel} />
-                            </MaterialButton>
-                        </Modal.Footer>
-                    </Modal>
-                </div>
-            </MuiThemeProvider>
+                </MuiPickersUtilsProvider>
+            </ThemeProvider>
         )
     }
 }

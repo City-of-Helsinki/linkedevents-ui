@@ -1,86 +1,132 @@
-import PropTypes from 'prop-types';
-import React from 'react'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
 import './HelDatePicker.scss'
+import PropTypes from 'prop-types';
+import React, {useState, useEffect} from 'react'
+import {DatePicker, TimePicker, DateTimePicker} from '@material-ui/pickers'
+import {IconButton, withStyles} from '@material-ui/core'
+import {Close} from '@material-ui/icons'
+import moment from 'moment-timezone'
+import {FormattedMessage} from 'react-intl'
+import {isNil} from 'lodash'
 
-class HelDatePicker extends React.Component {
-    constructor(props) {
-        super(props);
-        
-        this.state = {
-            date: this.props.defaultValue,
-        };
-        
-        this.handleChange = this.handleChange.bind(this);
-        this.handleBlur = this.handleBlur.bind(this);
-    }
-	
-    componentDidMount() {
-        if (this.state.date === null) {
-            this.setState({
-                date: null,
-            });
-        }
-        
-        this.props.onChange('date', this.state.date);
+const ClearButton = withStyles({
+    root: {
+        position: 'absolute',
+        transform: 'translateY(-10px)',
+        right: 0,
+        '& .MuiSvgIcon-root': {
+            fontSize: '60%',
+        },
+    },
+})(IconButton)
+
+const clearDate = (setDate, onClose) => {
+    setDate(null)
+    onClose(null)
+}
+
+const HelDatePicker = ({
+    type = 'date',
+    name,
+    label,
+    disabled,
+    disablePast = false,
+    defaultValue,
+    placeholder,
+    minDate,
+    maxDate,
+    onClose,
+}) => {
+    const [date, setDate] = useState(null)
+
+    useEffect(() => {
+        !isNil(defaultValue)
+            ? setDate(moment(defaultValue).tz('Europe/Helsinki'))
+            : setDate(null)
+    }, [defaultValue])
+
+    const commonProps = {
+        fullWidth: true,
+        disabled: disabled,
+        label: label
+            ? typeof label === 'object' ? label : <FormattedMessage id={label} />
+            : null,
+        placeholder: placeholder,
+        name: name,
+        value: date,
+        DialogProps: {transitionDuration: {enter: 125, exit: 75}},
+        clearable: true,
+        clearLabel: <FormattedMessage id="clear" />,
+        cancelLabel: <FormattedMessage id="cancel" />,
     }
 
-    handleChange = (date) => {
-        // the component should empty when desired
-        this.setState({
-            date: date,
-        });
-        
-        this.props.onChange('date', date);
-    };
-    
-    handleBlur = () => {
-        if (typeof this.props.onBlur === 'function') {
-            this.props.onBlur();
-        }
-    };
-    
-    UNSAFE_componentWillReceiveProps(nextProps) {
-        if(! _.isEqual(nextProps.defaultValue, this.props.defaultValue)) {
-            // Bootstrap or React textarea has a bug where null value gets interpreted
-            // as uncontrolled, so no updates are done
-            this.setState({date: nextProps.defaultValue ? nextProps.defaultValue : null})
-            //}
-        }
-    }
-    
-    resetDate = () => {
-        this.setState({
-            date: null,
-        })
-    };
-
-    render() {
-        return (
-            <div className='hel-text-field'>
+    return (
+        <div className="hel-date-picker--container">
+            {type === 'date' &&
                 <DatePicker
-                    {...this.props}
-                    placeholderText={this.props.placeholder}
-                    selected={this.state.date}
-                    autoOk={true}
-                    name={this.props.name}
-                    onChange={this.handleChange}
-                    onBlur={this.handleBlur}
-                    locale="fi"
-                    isClearable
+                    disablePast={disablePast}
+                    onChange={value => setDate(value)}
+                    onAccept={value => onClose(value)}
+                    format="DD.MM.YYYY"
+                    minDate={minDate}
+                    maxDate={maxDate}
+                    minDateMessage=""
+                    {...commonProps}
                 />
-            </div>
-        )
-    }
+            }
+            {type === 'time' &&
+                <TimePicker
+                    ampm={false}
+                    onChange={value => setDate(value)}
+                    onAccept={value => onClose(value)}
+                    format="HH.mm"
+                    {...commonProps}
+                />
+            }
+            {type === 'date-time' &&
+                <DateTimePicker
+                    disablePast={disablePast}
+                    ampm={false}
+                    onChange={value => setDate(value)}
+                    onAccept={value => onClose(value)}
+                    format="DD.MM.YYYY HH.mm"
+                    minDate={minDate}
+                    maxDate={maxDate}
+                    minDateMessage=""
+                    {...commonProps}
+                />
+            }
+            {!disabled &&
+                <ClearButton onClick={() => clearDate(setDate, onClose)}>
+                    <Close/>
+                </ClearButton>
+            }
+        </div>
+    )
 }
 
 HelDatePicker.propTypes = {
-    defaultValue: PropTypes.object,
+    defaultValue: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object,
+    ]),
+    type: PropTypes.oneOf(['date', 'time', 'date-time']),
     name: PropTypes.string.isRequired,
-    onBlur: PropTypes.func,
-    onChange: PropTypes.func,
+    label: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object,
+    ]),
+    minDate: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object,
+    ]),
+    maxDate: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object,
+    ]),
+    onClose: PropTypes.func,
     placeholder: PropTypes.string,
-};
+    disabled: PropTypes.bool,
+    disablePast: PropTypes.bool,
+}
 
 export default HelDatePicker

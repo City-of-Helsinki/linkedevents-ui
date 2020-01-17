@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import EventGrid from '../../components/EventGrid'
 import SearchBar from '../../components/SearchBar'
 import {EventQueryParams, fetchEvents} from '../../utils/events'
-import {CircularProgress} from 'material-ui'
+import {CircularProgress} from '@material-ui/core'
 
 class SearchPage extends React.Component {
 

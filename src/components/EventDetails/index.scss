@@ -114,15 +114,13 @@ legend {
 }
 
 .checked-value {
+    align-items: center;
+    display: flex;
     font-size: 22px;
     font-weight: 300;
 
-    .material-icons {
-        padding-left: 0;
-    }
-
     label {
-        margin-left: 1rem;
+        margin: 0 0 0 1rem;
 
         &:first-letter {
             text-transform: capitalize;
@@ -135,7 +133,7 @@ legend {
 }
 
 .option-group {
-    padding: $default-margin-top $default-margin-top;
+    padding: $default-margin-top 0;
 
     label {
         font-size: 24px;
@@ -143,9 +141,10 @@ legend {
     }
 
     .checked-value {
+        margin-top: 8px;
+
         label {
             font-size: 20px;
-            margin-left: 1rem;
         }
     }
 }

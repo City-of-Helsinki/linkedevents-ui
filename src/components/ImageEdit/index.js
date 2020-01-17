@@ -3,15 +3,30 @@ import './index.scss'
 import React from 'react';
 import PropTypes from 'prop-types'
 import {injectIntl, FormattedMessage} from 'react-intl'
-import {Modal} from 'react-bootstrap';
-import {Button} from 'material-ui'
+import {
+    Button,
+    IconButton,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    TextField,
+    Radio,
+    RadioGroup,
+    FormControlLabel,
+    Typography, withStyles,
+} from '@material-ui/core'
+import {Close} from '@material-ui/icons'
 import {connect} from 'react-redux'
-
-import FormFields from '../FormFields'
 import HelTextField from '../HelFormFields/HelTextField'
-
 import CONSTANTS from '../../constants'
 import {postImage as postImageAction} from 'src/actions/userImages'
+import {HelMaterialTheme} from '../../themes/material-ui'
+
+const InlineRadioGroup = withStyles({
+    root: {
+        flexDirection: 'row',
+    },
+})(RadioGroup)
 
 class ImageEdit extends React.Component {
 
@@ -50,77 +65,100 @@ class ImageEdit extends React.Component {
     handleTextChange(e, key) {
         this.setState({[key]: e.target.value})
     }
+    handleLicenseChange = (e) => {
+        this.setState({license: e.target.value})
+    }
     render() {
+        const {name, nameMinLength, nameMaxLength, license, photographerName} = this.state
+        const {close} = this.props
         return (
-            <Modal
-                id="image-modal"
-                show={true}
-                onHide={() => this.props.close()}
-                aria-labelledby="ModalHeader"
-                width="600px"
+            <Dialog
+                className="image-edit-dialog"
+                disableBackdropClick
+                fullWidth
+                maxWidth="lg"
+                open={true}
+                transitionDuration={0}
             >
-                <Modal.Header>
-                    <Button
-                        raised
-                        onClick={() => this.props.close()}
-                        style={{float:'right'}}
-                        color="primary">Sulje</Button>
-                    <h3><FormattedMessage id={'image-modal-image-info'}/></h3>
-                </Modal.Header>
-                <Modal.Body>
+                <DialogTitle>
+                    <FormattedMessage id={'image-modal-image-info'}/>
+                    <IconButton onClick={() => close()}>
+                        <Close />
+                    </IconButton>
+                </DialogTitle>
+                <DialogContent>
                     <form onSubmit={() => this.handleImagePost()} className="row">
-                        <div className="col-sm-8 edit-form">
-                            <div className="hel-text-field">
-                                <label className="hel-label">
-                                    <FormattedMessage id={'image-caption-limit-for-min-and-max'} values={{
-                                        minLength: this.state.nameMinLength,
-                                        maxLength: this.state.nameMaxLength}}/>
-                                    
-                                </label>
-                                <HelTextField
-                                    onChange={(e) => this.handleTextChange(e, 'name')}
-                                    defaultValue={this.state.name}
-                                    validations={[CONSTANTS.VALIDATION_RULES.SHORT_STRING]}
-                                    maxLength={this.state.nameMaxLength}
+                        <div className="col-sm-8 image-edit-dialog--form">
+                            <HelTextField
+                                onChange={(e) => this.handleTextChange(e, 'name')}
+                                defaultValue={name}
+                                validations={[CONSTANTS.VALIDATION_RULES.SHORT_STRING]}
+                                maxLength={nameMaxLength}
+                                label={
+                                    <FormattedMessage
+                                        id={'image-caption-limit-for-min-and-max'}
+                                        values={{
+                                            minLength: nameMinLength,
+                                            maxLength: nameMaxLength}}
+                                    />
+                                }
+                            />
+                            <TextField
+                                fullWidth
+                                label={<FormattedMessage id={'photographer'}/>}
+                                value={photographerName}
+                                onChange={(e) => this.handleTextChange(e, 'photographerName')}
+                            />
+                            <Typography
+                                style={{marginTop: HelMaterialTheme.spacing(2)}}
+                                variant="h6"
+                            >
+                                <FormattedMessage id={'image-modal-image-license'}/>
+                            </Typography>
+                            <InlineRadioGroup
+                                aria-label="License"
+                                name="license"
+                                value={license}
+                                onChange={this.handleLicenseChange}
+                            >
+                                <FormControlLabel
+                                    value="cc_by"
+                                    control={<Radio color="primary" />}
+                                    label="Creative Commons BY 4.0"
                                 />
-                            </div>
-                            <div className="hel-text-field">
-                                <label className="hel-label">
-                                    <FormattedMessage id={'photographer'}/>
-                                </label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    onChange={(e) => this.handleTextChange(e, 'photographerName')}
-                                    defaultValue={this.state.photographerName}
+                                <FormControlLabel
+                                    value="event_only"
+                                    control={<Radio color="primary" />}
+                                    label={<FormattedMessage id={'image-modal-license-restricted-to-event'}/>}
                                 />
+                            </InlineRadioGroup>
+                            <div
+                                className="image-edit-dialog--help-notice"
+                                style={{marginTop: HelMaterialTheme.spacing(2)}}
+                            >
+                                <FormattedMessage id={'image-modal-view-terms-paragraph-text'}/>
+                                &nbsp;
+                                <a href={'/help#images'} target={'_blank'}>
+                                    <FormattedMessage id={'image-modal-view-terms-link-text'}/>
+                                </a>
                             </div>
-                            <h4><FormattedMessage id={'image-modal-image-license'}/></h4>
-                            <div className="form-check">
-                                <label className="edit-label">
-                                    <input value="cc_by" checked={this.state.license === 'cc_by'}  onChange={() => this.setState({license: 'cc_by'})} type="radio" className="form-check-input" />
-                                    Creative Commons BY 4.0
-                                </label>
-                                <label className="edit-label">
-                                    <input value="event_only" checked={this.state.license === 'event_only'} onChange={() => this.setState({license: 'event_only'})} type="radio" className="form-check-input" />
-                                    <FormattedMessage id={'image-modal-license-restricted-to-event'}/>
-                                </label>
-                            </div>
-                            
-                            <div className="help-notice">
-                                <p>
-                                    <FormattedMessage id={'image-modal-view-terms-paragraph-text'}/>&nbsp;<a href={'/help#images'} target={'_blank'}><FormattedMessage id={'image-modal-view-terms-link-text'}/></a>.
-                                </p>
-                            </div>
-                            
                         </div>
-                        <img className="col-sm-4 edit-form form-image" src={this.props.thumbnailUrl} />
-                        <button type="submit" className="col-sm-12 btn btn-save-image-data" disabled={(this.state.name.length >= 6) ? false : true}><FormattedMessage id={'image-modal-save-button-text'}/></button>
+                        <img className="col-sm-4 image-edit-dialog--image" src={this.props.thumbnailUrl} />
+                        <div className="col-sm-12">
+                            <Button
+                                fullWidth
+                                type="submit"
+                                color="primary"
+                                variant="contained"
+                                disabled={name.length < nameMinLength}
+                                style={{margin: HelMaterialTheme.spacing(3, 0, 2)}}
+                            >
+                                Tallenna tiedot
+                            </Button>
+                        </div>
                     </form>
-                </Modal.Body>
-                <Modal.Footer>
-                </Modal.Footer>
-            </Modal>
+                </DialogContent>
+            </Dialog>
         )
     }
 }

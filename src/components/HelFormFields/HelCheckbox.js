@@ -1,11 +1,6 @@
-import './HelCheckbox.scss'
-
-import PropTypes from 'prop-types';
-
 import React from 'react'
-import {Checkbox} from 'react-bootstrap'
-
-import {connect} from 'react-redux'
+import PropTypes from 'prop-types';
+import {FormControlLabel, Checkbox} from '@material-ui/core'
 import {setData} from '../../actions/editor'
 
 class HelCheckbox extends React.Component {
@@ -42,7 +37,7 @@ class HelCheckbox extends React.Component {
     }
 
     render() {
-        let {required, label} = this.props
+        let {required, label, name, defaultChecked} = this.props
 
         if(required) {
             if(typeof label === 'string') {
@@ -54,15 +49,19 @@ class HelCheckbox extends React.Component {
         }
 
         return (
-            <Checkbox
-                inputRef={ref => this.checkboxRef = ref}
-                name={this.props.name}
-                className="hel-checkbox"
-                onChange={this.handleCheck}
-                checked={this.props.defaultChecked}
-            >
-                {label}
-            </Checkbox>
+            <FormControlLabel
+                control={
+                    <Checkbox
+                        color="primary"
+                        size="small"
+                        inputRef={ref => this.checkboxRef = ref}
+                        name={name}
+                        onChange={this.handleCheck}
+                        checked={defaultChecked}
+                    />
+                }
+                label={label}
+            />
         )
     }
 }

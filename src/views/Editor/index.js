@@ -5,8 +5,8 @@ import {connect} from 'react-redux'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 import {get, isNull} from 'lodash'
 import PropTypes from 'prop-types'
-import {Button, CircularProgress} from 'material-ui'
-import Close from 'material-ui-icons/Close'
+import {Button, CircularProgress} from '@material-ui/core'
+import {Close} from '@material-ui/icons'
 import {
     executeSendRequest as executeSendRequestAction,
     clearData as clearDataAction,
@@ -37,8 +37,6 @@ const {PUBLICATION_STATUS, SUPER_EVENT_TYPE_UMBRELLA, USER_TYPE} = constants
 let sentinel = true
 
 export class EditorPage extends React.Component {
-
-    form = React.createRef()
 
     state = {
         event: {},
@@ -126,13 +124,6 @@ export class EditorPage extends React.Component {
     clearEventData = () => {
         const {clearData} = this.props
         clearData()
-
-        // Reset the state of the HelDatePicker and HelTimePicker components
-        this.form.current.refs.start_time.refs.date.resetDate();
-        this.form.current.refs.start_time.resetTime();
-        
-        this.form.current.refs.end_time.refs.date.resetDate();
-        this.form.current.refs.end_time.resetTime();
     }
 
     setDirtyState = () => {
@@ -275,7 +266,7 @@ export class EditorPage extends React.Component {
                     <span className="controls">
                         {isAdminUser && isDraft &&
                             <Button
-                                raised
+                                variant="contained"
                                 onClick={this.validateEvent}
                                 color="primary"
                             >
@@ -283,18 +274,18 @@ export class EditorPage extends React.Component {
                             </Button>
                         }
                         <Button
-                            raised
+                            variant="contained"
                             onClick={this.clearEventData}
                             color="primary"
+                            endIcon={<Close/>}
                         >
-                            <FormattedMessage id="clear-form"/><Close/>
+                            <FormattedMessage id="clear-form"/>
                         </Button>
                     </span>
                 </div>
 
                 <div className="container">
                     <FormFields
-                        ref={this.form}
                         action={editMode}
                         editor={editor}
                         event={event}

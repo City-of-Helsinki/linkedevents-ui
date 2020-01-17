@@ -133,16 +133,12 @@ var validations = {
         return validations.matchRegexp(values, value, /^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/i);
     },
     afterStartTime: function afterStartTime(values, value) {
-        if(!values.start_time || !value) { return true }
+        if (!values.start_time || !value) return true
 
-        let time = new Date(value)
-        let start_time = new Date(values.start_time)
+        const time = new Date(value)
+        const start_time = new Date(values.start_time)
 
-        if(time - start_time >= 0) {
-            return true;
-        }
-
-        return false;
+        return time - start_time >= 0;
     },
     afterEnrolmentStartTime: function afterEnrolmentStartTime(values, value) {
         if(!values.enrolment_start_time || !value) { return true }

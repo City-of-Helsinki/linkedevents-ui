@@ -3,7 +3,7 @@ import './index.scss'
 import React from 'react'
 import {connect} from 'react-redux'
 import {FormattedMessage} from 'react-intl'
-import {Button} from 'material-ui'
+import {Button} from '@material-ui/core'
 import {push} from 'react-router-redux'
 import PropTypes from 'prop-types'
 
@@ -25,19 +25,6 @@ class EventCreated extends React.Component {
 
     goToBrowsing() {
         this.props.routerPush(`/`)
-    }
-
-    getActionButtons() {
-        let buttonStyle = {
-            height: '72px',
-            margin: '0 10px',
-        }
-
-        return (
-            <div className="actions">
-                <Button raised onClick={e => this.goToBrowsing(e)} style={buttonStyle} color="accent">Palaa takaisin tapahtumiin</Button>
-            </div>
-        )
     }
 
     getEventHeaderTranslationId() {
@@ -83,7 +70,19 @@ class EventCreated extends React.Component {
                         <h1>
                             <FormattedMessage id={`${headerTranslationId}`} />
                         </h1>
-                        { this.getActionButtons() }
+                        <div className="actions">
+                            <Button
+                                variant="contained"
+                                onClick={() => this.goToBrowsing()}
+                                style={{
+                                    height: '72px',
+                                    margin: '0 10px',
+                                }}
+                                color="secondary"
+                            >
+                                <FormattedMessage id="return-to-events" />
+                            </Button>
+                        </div>
                     </div>
                 </div>
             )
@@ -91,7 +90,6 @@ class EventCreated extends React.Component {
         else {
             return (<div>Loading</div>)
         }
-
     }
 }
 

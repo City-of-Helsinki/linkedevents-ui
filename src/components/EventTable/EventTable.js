@@ -2,34 +2,21 @@ import './EventTable.scss'
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
-    TableCell, TableRow, Table, TableHead,
-    TableBody, TablePagination, CircularProgress, TableFooter,
-} from 'material-ui'
+    CircularProgress,
+    TableCell,
+    TableRow,
+    Table,
+    TableHead,
+    TableBody,
+    TablePagination,
+    TableFooter,
+} from '@material-ui/core'
 import {FormattedMessage, injectIntl} from 'react-intl'
-import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles'
 import EventRow from './EventRow'
 import TableHeaderCell from './CellTypes/TableHeaderCell'
 import constants from '../../constants'
 
 const {TABLE_COLUMNS} = constants
-
-const paginationTheme = createMuiTheme({
-    overrides: {
-        MuiTypography: {
-            caption: {
-                color: 'black', //color of footer 1-100 / 400 text
-            },
-        },
-        MuiIconButton: {
-            disabled: {
-                color: 'gray', //color of "< >"" disabled icon buttons
-            },
-            root: {
-                color: 'black', //color of "< >"" icon buttons
-            },
-        },
-    },
-})
 
 const EventTable = ({
     intl,
@@ -116,22 +103,20 @@ const EventTable = ({
                     </TableRow>
                 </TableBody>
             }
-            <MuiThemeProvider theme={paginationTheme}>
-                <TableFooter>
-                    <TableRow>
-                        <TablePagination
-                            count={count !== null ? count : 0}
-                            rowsPerPage={pageSize}
-                            rowsPerPageOptions = {showPageSizeOptions ? pageSizeOptions : []}
-                            page={paginationPage}
-                            onChangePage={(event, newPage) => handlePageChange(event, newPage, tableName)}
-                            onChangeRowsPerPage={(event) => handlePageSizeChange(event, tableName)}
-                            labelDisplayedRows={({from, to, count}) => `${from}-${to} / ${count}`}
-                            labelRowsPerPage={intl.formatMessage({id: 'table-events-per-page'})}
-                        />
-                    </TableRow>
-                </TableFooter>
-            </MuiThemeProvider>
+            <TableFooter>
+                <TableRow>
+                    <TablePagination
+                        count={count !== null ? count : 0}
+                        rowsPerPage={pageSize}
+                        rowsPerPageOptions = {showPageSizeOptions ? pageSizeOptions : []}
+                        page={paginationPage}
+                        onChangePage={(event, newPage) => handlePageChange(event, newPage, tableName)}
+                        onChangeRowsPerPage={(event) => handlePageSizeChange(event, tableName)}
+                        labelDisplayedRows={({from, to, count}) => `${from}-${to} / ${count}`}
+                        labelRowsPerPage={intl.formatMessage({id: 'table-events-per-page'})}
+                    />
+                </TableRow>
+            </TableFooter>
         </Table>
     )
 }

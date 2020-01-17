@@ -10,9 +10,12 @@ const DayCheckbox = ({day, onChange, defaultChecked}) => {
     return (
         <div className="col-xs-12 col-md-6">
             <div className="recurring-day">
-                <HelCheckbox onChange={changePasser} defaultChecked={defaultChecked}/>
+                <HelCheckbox
+                    onChange={changePasser}
+                    defaultChecked={defaultChecked}
+                    label={<FormattedMessage id={day} />}
+                />
             </div>
-            <FormattedMessage id={day} />
         </div>
     )
 }

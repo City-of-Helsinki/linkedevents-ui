@@ -102,7 +102,7 @@ export const checkEventEditability = (user, event, action, editor) => {
         if (!userCanDoAction && action === 'publish') {
             return 'event-validation-errors'
         }
-        if (eventIsInThePast) {
+        if (eventIsInThePast && !isDraft) {
             return 'event-in-the-past'
         }
         if (eventIsCancelled) {
@@ -114,7 +114,8 @@ export const checkEventEditability = (user, event, action, editor) => {
     }
 
     const explanationId = getExplanationId()
-    const editable = !eventIsInThePast
+    const editable =
+        (!eventIsInThePast || (eventIsInThePast && isDraft))
         && !eventIsCancelled
         && userMayEdit
         && userCanDoAction

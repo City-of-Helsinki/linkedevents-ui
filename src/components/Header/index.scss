@@ -15,7 +15,6 @@ $iconMarginLeft: 24px;
     height: $headerBarHeight !important;
 
     button {
-        color: $hel-white;
         font-weight: bold;
         font-size: $linkFontSize;
     }
@@ -62,6 +61,7 @@ $iconMarginLeft: 24px;
                 align-items: center;
     
                 .language-icon {
+                    color: white;
                     margin-right: $languageMarginRight;
                 }
                 .language-select-box {
@@ -106,14 +106,6 @@ $iconMarginLeft: 24px;
                 button {
                     color: black;
                 }
-            }
-
-            &__create-events {
-                color: $hel-theme;
-                border: 2px solid $hel-theme;
-                padding: $addEventPadding;
-                line-height: initial;
-                height: 100%;
             }
 
             &__mobile {

@@ -49,12 +49,10 @@ $actionBtnHeight: 60px;
             display: flex;
             justify-content: space-around;
             flex-wrap: wrap;
-            .hel-checkbox {
-                flex-basis: $languageCheckboxInitialWidth;
 
-                label {
-                    font-size: 20px;
-                }
+            & > * {
+                flex: 0 1 33%;
+                margin: 0;
             }
         }
     }
@@ -86,37 +84,14 @@ $actionBtnHeight: 60px;
         margin-top: 6rem;
     }
 
-    .checkbox-group,
     .hel-select {
         display: block;
         clear: both;
+
         legend,
         .legend {
             font-size: 24px;
-        }
-
-        label {
-            margin-top: auto;
-            margin-bottom: auto;
-            text-transform: capitalize;
-        }
-    }
-
-    .checkbox-group {
-        legend,
-        .legend {
-            margin-top: 4rem;
-        }
-
-        &:nth-of-type(1) {
-            legend,
-            .legend {
-                margin-top: 2rem;
-            }
-        }
-
-        div#left_column {
-            float: left;
+            width: max-content;
         }
     }
 
