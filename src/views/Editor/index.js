@@ -192,8 +192,9 @@ export class EditorPage extends React.Component {
      * @returns {*}
      */
     getActionButton = (action, customAction, confirm = true, customButtonLabel) => {
-        const {event, subEvents, loading} = this.state
+        const {event, subEvents} = this.state
         const eventIsPublished = this.eventIsPublished()
+        const loading = this.state.loading || this.props.editor.loading
 
         return <EventActionButton
             action={action}

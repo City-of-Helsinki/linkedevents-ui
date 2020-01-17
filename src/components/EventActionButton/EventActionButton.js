@@ -7,11 +7,22 @@ import {checkEventEditability} from '../../utils/checkEventEditability'
 import constants from '../../constants'
 import showConfirmationModal from '../../utils/confirm'
 import {appendEventDataWithSubEvents, getEventsWithSubEvents} from '../../utils/events'
-import {Button, Tooltip} from '@material-ui/core'
+import {Button, CircularProgress, Tooltip} from '@material-ui/core'
 import {confirmAction} from '../../actions/app'
 import {getButtonLabel} from '../../utils/helpers'
 
 const {PUBLICATION_STATUS, USER_TYPE} = constants
+
+/**
+ * Returns whether the button is a save button based on given action
+ * @param action
+ * @returns {boolean}
+ */
+const isSaveButton = (action) => [
+    'publish',
+    'update',
+    'update-draft',
+].includes(action)
 
 /**
  * Opens a confirmation modal and runs the given action
@@ -73,6 +84,7 @@ const EventActionButton = (props) => {
     const button = <Button
         variant="contained"
         disabled={disabled}
+        endIcon={loading && isSaveButton(action) && <CircularProgress color="inherit" size={25}/>}
         className={`editor-${action}-button`}
         onClick={() => confirmAction ? confirmEventAction(props) : customAction()}
         color={color}

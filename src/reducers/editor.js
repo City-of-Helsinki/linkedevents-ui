@@ -30,6 +30,7 @@ const initialState = {
     keywordSets: keywordSets,
     validationErrors: {},
     validateFor: null,
+    loading: false,
 }
 
 function clearEventDataFromLocalStorage() {
@@ -289,6 +290,13 @@ function update(state = initialState, action) {
             validationErrors: action.errors,
             validationStatus: constants.VALIDATION_STATUS.RESOLVE,
         })
+    }
+
+    if (action.type === constants.EDITOR_SET_LOADING) {
+        return {
+            ...state,
+            loading: action.loading,
+        }
     }
 
     return state
