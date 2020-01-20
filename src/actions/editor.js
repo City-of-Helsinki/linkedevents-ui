@@ -197,7 +197,9 @@ export const prepareFormValues = (
 
     // There are validation errors, don't continue sending
     if (keys(validationErrors).length > 0) {
-        return dispatch(setValidationErrors(validationErrors))
+        dispatch(setLoading(false))
+        dispatch(setValidationErrors(validationErrors))
+        return
     }
 
     // Format descriptions to HTML

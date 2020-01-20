@@ -55,7 +55,6 @@ const SearchBar = ({intl, onFormSubmit}) => {
                 <TextField
                     autoFocus
                     fullWidth
-                    variant="outlined"
                     label={intl.formatMessage({id: 'event-name-or-place'})}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyPress={(e) => handleKeyPress(e, startDate, endDate, onFormSubmit, setSearchQuery)}

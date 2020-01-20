@@ -32,7 +32,7 @@ export const HelMaterialTheme = createMuiTheme({
         accent1Color: primary.light,
         accent2Color: primary.main,
         accent3Color: helBrandColors.gray.black30,
-        textColor: helBrandColors.gray.black,
+        textColor: helBrandColors.gray.black90,
         alternateTextColor: helBrandColors.gray.white,
         canvasColor: helBrandColors.gray.white,
         outline: 'none',
@@ -48,7 +48,7 @@ export const HelMaterialTheme = createMuiTheme({
     overrides: {
         MuiButtonBase: {
             root: {
-                color: helBrandColors.gray.black,
+                color: helBrandColors.gray.black90,
             },
         },
         MuiButton: {
@@ -80,6 +80,11 @@ export const HelMaterialTheme = createMuiTheme({
                 },
             },
         },
+        MuiPaper: {
+            root: {
+                color: helBrandColors.gray.black90,
+            },
+        },
         MuiFormControlLabel: {
             root: {
                 marginBottom: 0,
@@ -103,6 +108,12 @@ export const HelMaterialTheme = createMuiTheme({
             deletableColorPrimary: {
                 '&:focus': {
                     backgroundColor: primary.main,
+                },
+            },
+            deleteIconColorPrimary: {
+                color: helBrandColors.gray.white,
+                '&:hover': {
+                    transform: 'scale(1.05)',
                 },
             },
         },
@@ -130,15 +141,15 @@ export const HelMaterialTheme = createMuiTheme({
         },
         MuiTableSortLabel: {
             root: {
-                color: helBrandColors.gray.black,
+                color: helBrandColors.gray.black90,
                 opacity: 0.6,
                 '&:hover': {
-                    color: helBrandColors.gray.black,
+                    color: helBrandColors.gray.black90,
                     opacity: 1,
                     transition: `opacity ${TRANSITION_DURATION} cubic-bezier(0.4, 0, 0.2, 1)`,
                 },
                 '&.MuiTableSortLabel-active': {
-                    color: helBrandColors.gray.black,
+                    color: helBrandColors.gray.black90,
                 },
             },
             active: {
@@ -171,7 +182,7 @@ export const HelMaterialTheme = createMuiTheme({
                 },
                 '&:hover': {
                     backgroundColor: primary.lighter,
-                    color: helBrandColors.gray.black,
+                    color: helBrandColors.gray.black90,
                 },
             },
         },
@@ -188,11 +199,17 @@ export const HelMaterialTheme = createMuiTheme({
         },
         MuiTextField: {
             root: {
-                color: helBrandColors.gray.black,
-                '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: primary.main,
+                color: helBrandColors.gray.black90,
+                margin: `${SPACING * 4}px 0 ${SPACING}px`,
+                '& .MuiInputLabel-root': {
+                    color: helBrandColors.gray.black70,
+                    fontSize: '90%',
+                    transform: 'translate(0, -5px)',
                 },
-                margin: `${SPACING * 2}px 0 ${SPACING}px`,
+                '& .MuiInput-underline.Mui-disabled:before': {
+                    borderBottomStyle: 'dashed',
+                    borderBottomWidth: 2,
+                },
             },
         },
         MuiOutlinedInput: {

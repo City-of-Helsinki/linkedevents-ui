@@ -16,16 +16,16 @@ import HelDatePicker from '../HelFormFields/HelDatePicker'
 
 const {VALIDATION_RULES} = constants
 
-const RepetitionTextField = withStyles({
+const RepetitionTextField = withStyles(theme => ({
     root: {
         margin: 0,
         width: 40,
         '& input': {
-            padding: `${HelMaterialTheme.spacing(0.5)}px ${HelMaterialTheme.spacing(1)}px`,
+            padding: `${theme.spacing(0.5)}px ${theme.spacing(1)}px`,
             textAlign: 'center',
         },
     },
-})(TextField)
+}))(TextField)
 
 class RecurringEvent extends React.Component {
 
@@ -322,6 +322,7 @@ class RecurringEvent extends React.Component {
                                 <FormattedMessage id="repetition-interval" />
                                 <ValidationPopover
                                     inModal
+                                    placement={'right-end'}
                                     anchor={this.repetitionRef.current}
                                     validationErrors={errors['weekInterval'] && [errors['weekInterval']]}
                                 />
@@ -343,6 +344,7 @@ class RecurringEvent extends React.Component {
                             </Typography>
                             <ValidationPopover
                                 inModal
+                                placement={'right-end'}
                                 anchor={this.playDateRef.current}
                                 validationErrors={errors['daysSelected'] && [errors['daysSelected']]}
                             />
@@ -367,6 +369,7 @@ class RecurringEvent extends React.Component {
                             />
                             <ValidationPopover
                                 inModal
+                                placement={'right'}
                                 anchor={this.startDateRef.current}
                                 validationErrors={errors['recurringStartDate'] && [errors['recurringStartDate']]}
                             />
@@ -386,6 +389,7 @@ class RecurringEvent extends React.Component {
                             />
                             <ValidationPopover
                                 inModal
+                                placement={'right'}
                                 anchor={this.endDateRef.current}
                                 validationErrors={errors['recurringEndDate'] && [errors['recurringEndDate']]}
                             />

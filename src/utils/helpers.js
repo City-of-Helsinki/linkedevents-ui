@@ -151,7 +151,7 @@ export const getBadge = (type, size = 'small') => {
             },
             '&.draft': {
                 backgroundColor: helBrandColors.summer.main,
-                color: helBrandColors.gray.black,
+                color: helBrandColors.gray.black90,
             },
         },
         sizeSmall: {
