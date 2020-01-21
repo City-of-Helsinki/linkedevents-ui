@@ -160,6 +160,23 @@ export const getBadge = (type, size = 'small') => {
                 textTransform: 'none',
             },
         },
+        // fixes for FF
+        label: {
+            paddingLeft: 0,
+            paddingRight: 0,
+            '& > span': {
+                display: 'block',
+                padding: '0 12px',
+            },
+        },
+        // fixes for FF
+        labelSmall: {
+            paddingLeft: 0,
+            paddingRight: 0,
+            '& > span': {
+                padding: '0 8px',
+            },
+        },
     })(Chip)
 
     switch (type) {
