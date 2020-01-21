@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react'
 import {FormattedMessage} from 'react-intl'
 import moment from 'moment-timezone'
-import {isNil} from 'lodash'
+import {isNil, isEmpty} from 'lodash'
 import DayCheckbox from './DayCheckbox'
 import {Button, IconButton, TextField, Typography, withStyles, Dialog, DialogTitle, DialogContent} from '@material-ui/core'
 import {Add, Close} from '@material-ui/icons'
@@ -37,7 +37,6 @@ class RecurringEvent extends React.Component {
     static propTypes = {
         values: PropTypes.object,
         toggle: PropTypes.func,
-        open: PropTypes.bool,
         validationErrors: PropTypes.oneOfType([
             PropTypes.array,
             PropTypes.object,
@@ -58,6 +57,9 @@ class RecurringEvent extends React.Component {
         this.startTimeRef = React.createRef()
         this.endDateRef = React.createRef()
 
+        const {start_time, end_time} = props.values
+        const dateInvalid = (date) => isEmpty(date) || !moment(date).isValid()
+
         this.state = {
             weekInterval: 1,
             daysSelected: {
@@ -69,10 +71,10 @@ class RecurringEvent extends React.Component {
                 saturday: false,
                 sunday: false,
             },
-            recurringStartDate: null,
-            recurringStartTime: null,
-            recurringEndDate: null,
-            recurringEndTime: null,
+            recurringStartDate: dateInvalid(start_time) ? null : moment(start_time).add(1, 'weeks'),
+            recurringStartTime: dateInvalid(start_time) ? null : moment(start_time),
+            recurringEndDate: dateInvalid(end_time) ? null : moment(end_time).add(2, 'weeks'),
+            recurringEndTime: dateInvalid(end_time) ? null : moment(end_time),
             errors: {
                 weekInterval: null,
                 daysSelected: null,
@@ -293,9 +295,9 @@ class RecurringEvent extends React.Component {
 
         return (
             <Dialog
+                open
                 fullWidth
                 maxWidth="lg"
-                open={this.props.open}
                 onClose={this.props.toggle}
             >
                 <DialogTitle>

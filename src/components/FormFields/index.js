@@ -286,13 +286,14 @@ class FormFields extends React.Component {
                         <div className={'new-events ' + (this.state.showNewEvents ? 'show' : 'hidden')}>
                             { newEvents }
                         </div>
-                        <RecurringEvent
-                            open={this.state.showRecurringEvent}
-                            toggle={() => this.showRecurringEventDialog()}
-                            validationErrors={validationErrors}
-                            values={values}
-                            formType={formType}
-                        />
+                        {this.state.showRecurringEvent &&
+                            <RecurringEvent
+                                toggle={() => this.showRecurringEventDialog()}
+                                validationErrors={validationErrors}
+                                values={values}
+                                formType={formType}
+                            />
+                        }
                         <Button
                             variant="contained"
                             disabled={formType === 'update'}
