@@ -58,7 +58,7 @@ class RecurringEvent extends React.Component {
         this.endDateRef = React.createRef()
 
         const {start_time, end_time} = props.values
-        const dateValid = (date) => isEmpty(date) || !moment(date).isValid()
+        const dateInvalid = (date) => isEmpty(date) || !moment(date).isValid()
 
         this.state = {
             weekInterval: 1,
@@ -71,10 +71,10 @@ class RecurringEvent extends React.Component {
                 saturday: false,
                 sunday: false,
             },
-            recurringStartDate: dateValid(start_time) ? null : moment(start_time).add(1, 'weeks'),
-            recurringStartTime: dateValid(start_time) ? null : moment(start_time),
-            recurringEndDate: dateValid(end_time) ? null : moment(end_time).add(2, 'weeks'),
-            recurringEndTime: dateValid(end_time) ? null : moment(end_time),
+            recurringStartDate: dateInvalid(start_time) ? null : moment(start_time).add(1, 'weeks'),
+            recurringStartTime: dateInvalid(start_time) ? null : moment(start_time),
+            recurringEndDate: dateInvalid(end_time) ? null : moment(end_time).add(2, 'weeks'),
+            recurringEndTime: dateInvalid(end_time) ? null : moment(end_time),
             errors: {
                 weekInterval: null,
                 daysSelected: null,
