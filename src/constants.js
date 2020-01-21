@@ -144,7 +144,7 @@ const constants = {
 
     CHARACTER_LIMIT: {
         SHORT_STRING: 160,
-        MEDIUM_STRING: 400,
+        MEDIUM_STRING: 320,
         LONG_STRING: 5000,
     },
 

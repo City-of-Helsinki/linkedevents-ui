@@ -155,6 +155,7 @@ export class ImagePicker extends React.Component {
             editModal = <ImageEdit
                 id={this.props.editor.values.image.id}
                 defaultName={this.props.editor.values.image.name}
+                altText={this.props.editor.values.image.alt_text}
                 defaultPhotographerName={this.props.editor.values.image.photographer_name}
                 thumbnailUrl={this.props.editor.values.image.url}
                 license={this.props.editor.values.image.license}
