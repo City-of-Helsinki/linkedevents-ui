@@ -12,7 +12,11 @@ const DeleteButton = withStyles(theme => ({
         alignSelf: 'center',
         position: 'absolute',
         left: 0,
-        transform: `translateX(calc(-1.2em + -${theme.spacing(1)}px))`,
+        transform: `translateX(calc(-1.2em - ${theme.spacing(1)}px))`,
+        '& svg': {
+            height: '1.2em',
+            width: '1.2em',
+        },
     },
 }))(IconButton)
 

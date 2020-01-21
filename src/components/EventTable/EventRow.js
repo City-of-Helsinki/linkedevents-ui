@@ -133,7 +133,6 @@ class EventRow extends React.Component {
                             >
                                 <Checkbox
                                     color="primary"
-                                    size="small"
                                     checked={checked}
                                     disabled={disabled}
                                     onChange={(e, checked) => handleRowSelect(checked, event.id, tableName)}

@@ -364,8 +364,8 @@ class RecurringEvent extends React.Component {
                                     </span>
                                 }
                                 defaultValue={recurringStartDate}
-                                maxDate={recurringEndDate ? recurringEndDate : undefined}
-                                onClose={(value) => this.onChange('recurringStartDate', value)}
+                                maxDate={recurringEndDate ? moment(recurringEndDate) : undefined}
+                                onChange={(value) => this.onChange('recurringStartDate', value)}
                             />
                             <ValidationPopover
                                 inModal
@@ -384,8 +384,8 @@ class RecurringEvent extends React.Component {
                                 }
                                 defaultValue={recurringEndDate}
                                 disablePast
-                                minDate={recurringStartDate ? recurringStartDate : undefined}
-                                onClose={(value) => this.onChange('recurringEndDate', value)}
+                                minDate={recurringStartDate ? moment(recurringStartDate) : undefined}
+                                onChange={(value) => this.onChange('recurringEndDate', value)}
                             />
                             <ValidationPopover
                                 inModal
@@ -407,7 +407,7 @@ class RecurringEvent extends React.Component {
                                     </span>
                                 }
                                 defaultValue={this.state.recurringStartTime}
-                                onClose={(value) => this.onTimeChange('recurringStartTime', value)}
+                                onChange={(value) => this.onTimeChange('recurringStartTime', value)}
                             />
                             <ValidationPopover
                                 inModal
@@ -422,7 +422,7 @@ class RecurringEvent extends React.Component {
                                 name="recurringEndTime"
                                 label={<FormattedMessage  id="repetition-end-time" />}
                                 defaultValue={this.state.recurringEndTime}
-                                onClose={(value) => this.onTimeChange('recurringEndTime', value)}
+                                onChange={(value) => this.onTimeChange('recurringEndTime', value)}
                             />
                         </div>
                     </div>

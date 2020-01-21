@@ -74,10 +74,6 @@ export const HelMaterialTheme = createMuiTheme({
         MuiIconButton: {
             root: {
                 padding: `${SPACING}px`,
-                '& svg': {
-                    height: '1.2em',
-                    width: '1.2em',
-                },
             },
         },
         MuiPaper: {
@@ -224,6 +220,13 @@ export const HelMaterialTheme = createMuiTheme({
                     alignItems: 'center',
                     display: 'flex',
                     justifyContent: 'space-between',
+                },
+            },
+        },
+        MuiPickersToolbar: {
+            toolbar: {
+                '& .MuiPickersToolbarText-toolbarTxt.MuiTypography-h3': {
+                    fontSize: '2.8rem',
                 },
             },
         },
