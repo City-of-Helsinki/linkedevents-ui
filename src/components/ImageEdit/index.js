@@ -101,7 +101,7 @@ const ImageEdit = (props) => {
     const [state, setState] = useState({
         name: props.defaultName || '',
         photographerName: props.defaultPhotographerName || '',
-        license: props.license || '',
+        license: props.license || 'cc_by',
         altText: props.altText || '',
         nameMinLength: 6,
         nameMaxLength: CHARACTER_LIMIT.SHORT_STRING,
