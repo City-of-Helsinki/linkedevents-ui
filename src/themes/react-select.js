@@ -2,7 +2,7 @@ import helBrandColors from './hel/hel-brand-colors'
 
 const singleValueStyles = (provided) => ({
     ...provided,
-    color: helBrandColors.gray.black,
+    color: helBrandColors.gray.black90,
 })
 const menuListStyles = (provided) => ({
     ...provided,
@@ -21,7 +21,7 @@ const optionStyles = (provided, {isSelected, isFocused}) => ({
             : helBrandColors.coatBlue.contrastText,
     color: isSelected
         ? helBrandColors.coatBlue.contrastText
-        : helBrandColors.gray.black,
+        : helBrandColors.gray.black90,
     ':hover': {
         ...provided[':hover'],
         backgroundColor: isSelected

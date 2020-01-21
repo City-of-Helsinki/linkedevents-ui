@@ -28,7 +28,6 @@ const TableHeaderCell = ({
             <TableCell className="checkbox">
                 <Checkbox
                     color="primary"
-                    size="small"
                     checked={checked}
                     onChange={(e, checked) => handleRowSelect(checked, undefined, tableName, true)}
                 />

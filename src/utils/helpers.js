@@ -138,26 +138,43 @@ export const getBadge = (type, size = 'small') => {
                 textTransform: 'uppercase',
             },
             '&.umbrella': {
-                backgroundColor: helBrandColors.info.main,
+                backgroundColor: helBrandColors.bus.main,
                 color: helBrandColors.gray.white,
             },
             '&.series': {
-                backgroundColor: helBrandColors.success.main,
+                backgroundColor: helBrandColors.tram.main,
                 color: helBrandColors.gray.white,
             },
             '&.cancelled': {
-                backgroundColor: helBrandColors.error.main,
+                backgroundColor: helBrandColors.metro.main,
                 color: helBrandColors.gray.white,
             },
             '&.draft': {
-                backgroundColor: helBrandColors.alert.main,
-                color: helBrandColors.gray.black,
+                backgroundColor: helBrandColors.summer.main,
+                color: helBrandColors.gray.black90,
             },
         },
         sizeSmall: {
             '&.badge-chip': {
                 fontSize: '90%',
                 textTransform: 'none',
+            },
+        },
+        // fixes for FF
+        label: {
+            paddingLeft: 0,
+            paddingRight: 0,
+            '& > span': {
+                display: 'block',
+                padding: '0 12px',
+            },
+        },
+        // fixes for FF
+        labelSmall: {
+            paddingLeft: 0,
+            paddingRight: 0,
+            '& > span': {
+                padding: '0 8px',
             },
         },
     })(Chip)

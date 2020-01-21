@@ -11,7 +11,6 @@ const UmbrellaCheckbox = props => {
             control={
                 <Checkbox
                     color="primary"
-                    size="small"
                     name={name}
                     onChange={handleCheck}
                     checked={checked}

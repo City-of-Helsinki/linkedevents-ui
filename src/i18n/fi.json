@@ -71,12 +71,12 @@
 
     "event-presented-in-languages": "Tapahtumatiedot syötetään",
 
-    "in-fi": "Suomeksi",
-    "in-en": "Englanniksi",
-    "in-sv": "Ruotsiksi",
-    "in-ru": "Venäjäksi",
-    "in-zh_hans": "Kiinaksi",
-    "in-ar": "Arabiaksi",
+    "in-fi": "suomeksi",
+    "in-en": "englanniksi",
+    "in-sv": "ruotsiksi",
+    "in-ru": "venäjäksi",
+    "in-zh_hans": "kiinaksi",
+    "in-ar": "arabiaksi",
 
     "no-value": "-kenttää ei ole täytetty.",
 
@@ -175,7 +175,7 @@
 
     "validation-isUrl": "Kirjoita URL osoite kokonaisena ja oikeassa muodossa (http://...)",
     "validation-isTime": "Kirjoita aika oikeassa muodossa HH.mm tai HH",
-    "validation-isDate": "Kirjoita päivämäärä muodossa pp.kk.vvvv tai p.k.vvvv",
+    "validation-isDate": "Kirjoita päivämäärä muodossa pp.kk.vvvv hh.mm",
     "validation-isInt": "Tulon on oltava numero",
     "validation-atLeastOne": "Valitse vähintään yksi",
     "validation-atLeastOneMainCategory": "Valitse vähintään yksi pääkategoria",
@@ -186,6 +186,7 @@
     "validation-requiredString": "Tämä kenttä vaaditaan",
     "validation-requiredStringForCourses": "Tämä kenttä vaaditaan",
     "validation-afterStartTime": "Päättymisajan pitää olla alkamisaikaa myöhemmin",
+    "validation-afterStartTimeAndInFuture": "Päättymisajan pitää olla tulevaisuudessa ja alkamisaikaa myöhemmin",
     "validation-afterEnrolmentStartTime": "Päättymisajan pitää olla alkamisaikaa myöhemmin",
     "validation-inTheFuture": "Tapahtuman pitää olla tulevaisuudessa",
     "validation-stringLimitReached": "Tämä kenttä voi olla korkeintaan {limit} merkkiä pitkä",
@@ -236,6 +237,7 @@
     "search-no-results": "Ei tuloksia",
     "search-date-placeholder": "pp.kk.vvvv",
     "copy-to-clipboard": "Kopioi leikepöydälle",
+    "date-time-field-placeholder": "pp.kk.vvvv hh.mm",
 
     "hel-target-groups": "Kohderyhmät",
     "additional-keywords": "Muut avainsanat",
@@ -319,9 +321,11 @@
     "image-modal-image-info": "Kuvan tiedot",
     "photographer": "Kuvaaja",
     "image-modal-license-restricted-to-event": "Käyttö rajattu tapahtuman yhteyteen",
-    "image-modal-image-license": "Image license",
+    "image-modal-image-license": "Lisenssi",
     "image-modal-view-terms-paragraph-text": "Ennen kuin lisäät uuden kuvan, tutustu",
     "image-modal-view-terms-link-text": "kuvien lisäämisen ehtoihin ja suosituksiin.",
     "image-modal-save-button-text": "Tallenna tiedot",
-    "error-message-has-been-sent": "Raportti lähetetty onnistuneesti, kiitoksia!"
+    "error-message-has-been-sent": "Raportti lähetetty onnistuneesti, kiitoksia!",
+    "invalid-date-format": "Päiväyksen muoto on väärä.",
+    "invalid-time-format": "Ajan muoto on väärä."
 }

@@ -27,6 +27,7 @@ import CONSTANTS from '../../constants'
 import OrganizationSelector from '../HelFormFields/OrganizationSelector';
 import UmbrellaSelector from '../HelFormFields/UmbrellaSelector/UmbrellaSelector'
 import {HelMaterialTheme} from '../../themes/material-ui'
+import moment from 'moment'
 
 let FormHeader = (props) => (
     <div className="row">
@@ -263,8 +264,9 @@ class FormFields extends React.Component {
                                     defaultValue={values['start_time']}
                                     name="start_time"
                                     label="event-starting-datetime"
+                                    placeholder={this.context.intl.formatMessage({id: 'date-time-field-placeholder'})}
                                     setDirtyState={this.props.setDirtyState}
-                                    maxDate={values['end_time']}
+                                    maxDate={values['end_time'] ? moment(values['end_time']) : undefined}
                                 />
                             </div>
                             <div className="col-xs-12 col-sm-12">
@@ -275,8 +277,9 @@ class FormFields extends React.Component {
                                     defaultValue={values['end_time']}
                                     name="end_time"
                                     label="event-ending-datetime"
+                                    placeholder={this.context.intl.formatMessage({id: 'date-time-field-placeholder'})}
                                     setDirtyState={this.props.setDirtyState}
-                                    minDate={values['start_time']}
+                                    minDate={values['start_time'] ? moment(values['start_time']) : undefined}
                                 />
                             </div>
                         </div>

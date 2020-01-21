@@ -1,28 +1,10 @@
 import './HelDatePicker.scss'
 import PropTypes from 'prop-types';
 import React, {useState, useEffect} from 'react'
-import {DatePicker, TimePicker, DateTimePicker} from '@material-ui/pickers'
-import {IconButton, withStyles} from '@material-ui/core'
-import {Close} from '@material-ui/icons'
+import {KeyboardDatePicker, KeyboardTimePicker, KeyboardDateTimePicker} from '@material-ui/pickers'
 import moment from 'moment-timezone'
 import {FormattedMessage} from 'react-intl'
 import {isNil} from 'lodash'
-
-const ClearButton = withStyles({
-    root: {
-        position: 'absolute',
-        transform: 'translateY(-10px)',
-        right: 0,
-        '& .MuiSvgIcon-root': {
-            fontSize: '60%',
-        },
-    },
-})(IconButton)
-
-const clearDate = (setDate, onClose) => {
-    setDate(null)
-    onClose(null)
-}
 
 const HelDatePicker = ({
     type = 'date',
@@ -34,12 +16,12 @@ const HelDatePicker = ({
     placeholder,
     minDate,
     maxDate,
-    onClose,
+    onChange = () => {},
 }) => {
     const [date, setDate] = useState(null)
 
     useEffect(() => {
-        !isNil(defaultValue)
+        !isNil(defaultValue) && defaultValue !== ''
             ? setDate(moment(defaultValue).tz('Europe/Helsinki'))
             : setDate(null)
     }, [defaultValue])
@@ -53,52 +35,46 @@ const HelDatePicker = ({
         placeholder: placeholder,
         name: name,
         value: date,
-        DialogProps: {transitionDuration: {enter: 125, exit: 75}},
-        clearable: true,
-        clearLabel: <FormattedMessage id="clear" />,
-        cancelLabel: <FormattedMessage id="cancel" />,
+        variant: 'inline',
+        onChange,
     }
 
     return (
         <div className="hel-date-picker--container">
             {type === 'date' &&
-                <DatePicker
+                <KeyboardDatePicker
+                    strictCompareDates
                     disablePast={disablePast}
-                    onChange={value => setDate(value)}
-                    onAccept={value => onClose(value)}
                     format="DD.MM.YYYY"
+                    invalidDateMessage={<FormattedMessage id="invalid-date-format" />}
                     minDate={minDate}
                     maxDate={maxDate}
-                    minDateMessage=""
+                    minDateMessage={<FormattedMessage id="validation-afterStartTimeAndInFuture" />}
+                    maxDateMessage=""
                     {...commonProps}
                 />
             }
             {type === 'time' &&
-                <TimePicker
+                <KeyboardTimePicker
                     ampm={false}
-                    onChange={value => setDate(value)}
-                    onAccept={value => onClose(value)}
                     format="HH.mm"
+                    invalidDateMessage={<FormattedMessage id="invalid-time-format" />}
                     {...commonProps}
                 />
             }
             {type === 'date-time' &&
-                <DateTimePicker
+                <KeyboardDateTimePicker
+                    strictCompareDates
                     disablePast={disablePast}
                     ampm={false}
-                    onChange={value => setDate(value)}
-                    onAccept={value => onClose(value)}
                     format="DD.MM.YYYY HH.mm"
+                    invalidDateMessage={<FormattedMessage id="invalid-date-format" />}
                     minDate={minDate}
                     maxDate={maxDate}
-                    minDateMessage=""
+                    minDateMessage={<FormattedMessage id="validation-afterStartTimeAndInFuture" />}
+                    maxDateMessage=""
                     {...commonProps}
                 />
-            }
-            {!disabled &&
-                <ClearButton onClick={() => clearDate(setDate, onClose)}>
-                    <Close/>
-                </ClearButton>
             }
         </div>
     )
@@ -123,7 +99,7 @@ HelDatePicker.propTypes = {
         PropTypes.string,
         PropTypes.object,
     ]),
-    onClose: PropTypes.func,
+    onChange: PropTypes.func,
     placeholder: PropTypes.string,
     disabled: PropTypes.bool,
     disablePast: PropTypes.bool,

@@ -1,14 +1,25 @@
+import './NewOffer.scss'
 import PropTypes from 'prop-types';
 import React from 'react'
 
 import MultiLanguageField from 'src/components/HelFormFields/MultiLanguageField'
-import ValidationPopover from 'src/components/ValidationPopover'
 import {setOfferData, deleteOffer} from 'src/actions/editor'
-
-import {Button} from '@material-ui/core'
+import {IconButton, withStyles} from '@material-ui/core'
 import {Delete} from '@material-ui/icons'
-
 import CONSTANTS from '../../constants'
+
+const DeleteButton = withStyles(theme => ({
+    root: {
+        left: 0,
+        position: 'absolute',
+        top: 0,
+        transform: `translate(calc(-1.2em - ${theme.spacing(3)}px), ${theme.spacing(4)}px)`,
+        '& svg': {
+            height: '1.2em',
+            width: '1.2em',
+        },
+    },
+}))(IconButton)
 
 class NewOffer extends React.Component {
     static contextTypes = {
@@ -89,7 +100,7 @@ class NewOffer extends React.Component {
             top: '2rem',
         }
         return (
-            <div key={offerKey} className="offer-fields" style={{'position': 'relative'}}>
+            <div key={offerKey} className="new-offer">
                 <MultiLanguageField
                     defaultValue={defaultValue.price} 
                     disabled={isFree} 
@@ -125,14 +136,12 @@ class NewOffer extends React.Component {
                     index={this.props.offerKey} 
                 />
 
-                <Button
+                <DeleteButton
                     color="secondary"
-                    variant="contained"
-                    style={buttonStyles}
                     onClick={() => this.deleteOffer()}
                 >
                     <Delete/>
-                </Button>
+                </DeleteButton>
             </div>
         )
     }

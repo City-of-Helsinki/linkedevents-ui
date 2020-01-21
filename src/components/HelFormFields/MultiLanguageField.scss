@@ -1,3 +1,5 @@
+@import "../../assets/colors";
+
 .multi-field {
     position: relative;
     margin-top: 2rem;
@@ -6,12 +8,8 @@
         padding: 3px 23px 11.5px 23px;
         border-left: 5px solid #f7f7f7;
 
-        > label {
-            display: inline-block;
-            position: relative;
-            margin-top: -1.5rem;
-            color: rgba(black, 0.55);
+        & > label {
+            color: $hel-coat;
         }
     }
-
 }
