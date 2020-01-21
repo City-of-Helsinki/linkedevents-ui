@@ -47,6 +47,7 @@ class ImageThumbnail extends React.PureComponent {
             editModal = <ImageEdit
                 id={this.props.data.id}
                 defaultName={this.props.data.name}
+                altText={this.props.data.alt_text}
                 defaultPhotographerName={this.props.data.photographer_name}
                 thumbnailUrl={this.props.url}
                 license={this.props.data.license}

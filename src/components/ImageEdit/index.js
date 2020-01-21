@@ -1,6 +1,6 @@
 import './index.scss'
 
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types'
 import {injectIntl, FormattedMessage} from 'react-intl'
 import {
@@ -13,14 +13,17 @@ import {
     Radio,
     RadioGroup,
     FormControlLabel,
-    Typography, withStyles,
+    Typography,
+    withStyles,
 } from '@material-ui/core'
 import {Close} from '@material-ui/icons'
 import {connect} from 'react-redux'
 import HelTextField from '../HelFormFields/HelTextField'
-import CONSTANTS from '../../constants'
 import {postImage as postImageAction} from 'src/actions/userImages'
 import {HelMaterialTheme} from '../../themes/material-ui'
+import constants from '../../constants'
+
+const {CHARACTER_LIMIT, VALIDATION_RULES} = constants
 
 const InlineRadioGroup = withStyles({
     root: {
@@ -28,144 +31,215 @@ const InlineRadioGroup = withStyles({
     },
 })(RadioGroup)
 
-class ImageEdit extends React.Component {
+/**
+ * Handles saving of the form
+ * @param name
+ * @param photographerName
+ * @param license
+ * @param altText
+ * @param updateExisting
+ * @param imageFile
+ * @param thumbnailUrl
+ * @param postImage
+ * @param user
+ * @param id
+ * @param close
+ */
+const handleImagePost = ({
+    name,
+    photographerName,
+    license,
+    altText,
+},
+{
+    updateExisting = false,
+    imageFile,
+    thumbnailUrl,
+    postImage,
+    user,
+    id,
+    close,
+}) => {
+    const data = new FormData()
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            updateExisting: this.props.updateExisting || false,
-            name: this.props.defaultName || '',
-            photographerName: this.props.defaultPhotographerName || '',
-            license: this.props.license || 'cc_by',
-            nameMinLength: 6,
-            nameMaxLength: CONSTANTS.CHARACTER_LIMIT.SHORT_STRING,
-        }
+    if (!updateExisting) {
+        imageFile
+            ? data.append('image', imageFile)
+            : data.append('url', thumbnailUrl)
     }
 
-    handleImagePost() {
-        let data = new FormData()
-        if(!this.state.updateExisting) {
-            if(this.props.imageFile) {
-                data.append('image', this.props.imageFile)
-            } else {
-                data.append('url', this.props.thumbnailUrl)
-            }
-        }
-        data.append('name', this.state.name)
-        data.append('photographer_name', this.state.photographerName)
-        data.append('license', this.state.license)
-        this.props.postImage(
-            data,
-            this.props.user,
-            this.state.updateExisting ? this.props.id : null
-        )
-        this.props.close()
-    }
+    data.append('name', name)
+    data.append('alt_text', altText)
+    data.append('photographer_name', photographerName)
+    data.append('license', license)
 
-    handleTextChange(e, key) {
-        this.setState({[key]: e.target.value})
-    }
-    handleLicenseChange = (e) => {
-        this.setState({license: e.target.value})
-    }
-    render() {
-        const {name, nameMinLength, nameMaxLength, license, photographerName} = this.state
-        const {close} = this.props
-        return (
-            <Dialog
-                className="image-edit-dialog"
-                disableBackdropClick
-                fullWidth
-                maxWidth="lg"
-                open={true}
-                transitionDuration={0}
-            >
-                <DialogTitle>
-                    <FormattedMessage id={'image-modal-image-info'}/>
-                    <IconButton onClick={() => close()}>
-                        <Close />
-                    </IconButton>
-                </DialogTitle>
-                <DialogContent>
-                    <form onSubmit={() => this.handleImagePost()} className="row">
-                        <div className="col-sm-8 image-edit-dialog--form">
-                            <HelTextField
-                                onChange={(e) => this.handleTextChange(e, 'name')}
-                                defaultValue={name}
-                                validations={[CONSTANTS.VALIDATION_RULES.SHORT_STRING]}
-                                maxLength={nameMaxLength}
-                                label={
-                                    <FormattedMessage
-                                        id={'image-caption-limit-for-min-and-max'}
-                                        values={{
-                                            minLength: nameMinLength,
-                                            maxLength: nameMaxLength}}
-                                    />
-                                }
-                            />
-                            <TextField
-                                fullWidth
-                                label={<FormattedMessage id={'photographer'}/>}
-                                value={photographerName}
-                                onChange={(e) => this.handleTextChange(e, 'photographerName')}
-                            />
-                            <Typography
-                                style={{marginTop: HelMaterialTheme.spacing(2)}}
-                                variant="h6"
-                            >
-                                <FormattedMessage id={'image-modal-image-license'}/>
-                            </Typography>
-                            <InlineRadioGroup
-                                aria-label="License"
-                                name="license"
-                                value={license}
-                                onChange={this.handleLicenseChange}
-                            >
-                                <FormControlLabel
-                                    value="cc_by"
-                                    control={<Radio color="primary" />}
-                                    label="Creative Commons BY 4.0"
-                                />
-                                <FormControlLabel
-                                    value="event_only"
-                                    control={<Radio color="primary" />}
-                                    label={<FormattedMessage id={'image-modal-license-restricted-to-event'}/>}
-                                />
-                            </InlineRadioGroup>
-                            <div
-                                className="image-edit-dialog--help-notice"
-                                style={{marginTop: HelMaterialTheme.spacing(2)}}
-                            >
-                                <FormattedMessage id={'image-modal-view-terms-paragraph-text'}/>
-                                &nbsp;
-                                <a href={'/help#images'} target={'_blank'}>
-                                    <FormattedMessage id={'image-modal-view-terms-link-text'}/>
-                                </a>
-                            </div>
-                        </div>
-                        <img className="col-sm-4 image-edit-dialog--image" src={this.props.thumbnailUrl} />
-                        <div className="col-sm-12">
-                            <Button
-                                fullWidth
-                                type="submit"
-                                color="primary"
-                                variant="contained"
-                                disabled={name.length < nameMinLength}
-                                style={{margin: HelMaterialTheme.spacing(3, 0, 2)}}
-                            >
-                                Tallenna tiedot
-                            </Button>
-                        </div>
-                    </form>
-                </DialogContent>
-            </Dialog>
-        )
-    }
+    postImage(data, user, updateExisting ? id : null)
+    close()
 }
+
+/**
+ * Checks whether the submit button should be disabled
+ * @param name
+ * @param nameMinLength
+ * @param nameMaxLength
+ * @param altText
+ * @param altTextMaxLength
+ * @returns {boolean}
+ */
+const getIsDisabled = ({
+    name,
+    nameMinLength,
+    nameMaxLength,
+    altText,
+    altTextMaxLength,
+}) =>
+    name.length < nameMinLength
+    || name.length > nameMaxLength
+    || altText.length > altTextMaxLength
+
+const ImageEdit = (props) => {
+    const [state, setState] = useState({
+        name: props.defaultName || '',
+        photographerName: props.defaultPhotographerName || '',
+        license: props.license || '',
+        altText: props.altText || '',
+        nameMinLength: 6,
+        nameMaxLength: CHARACTER_LIMIT.SHORT_STRING,
+        altTextMaxLength: CHARACTER_LIMIT.MEDIUM_STRING,
+    })
+
+    const handleStateChange = (event) => {
+        const {name: key, value} = event.target
+        setState(state => ({
+            ...state,
+            [key]: value,
+        }))
+    }
+
+    const {close, thumbnailUrl} = props
+    const {
+        name,
+        photographerName,
+        license,
+        altText,
+        nameMinLength,
+        nameMaxLength,
+        altTextMaxLength,
+    } = state
+
+    return (
+        <Dialog
+            className="image-edit-dialog"
+            disableBackdropClick
+            fullWidth
+            maxWidth="lg"
+            open={true}
+            transitionDuration={0}
+        >
+            <DialogTitle>
+                <FormattedMessage id={'image-modal-image-info'}/>
+                <IconButton onClick={() => close()}>
+                    <Close />
+                </IconButton>
+            </DialogTitle>
+            <DialogContent>
+                <form onSubmit={() => handleImagePost(state, props)} className="row">
+                    <div className="col-sm-8 image-edit-dialog--form">
+                        <HelTextField
+                            multiLine
+                            onChange={handleStateChange}
+                            name="name"
+                            defaultValue={name}
+                            validations={[VALIDATION_RULES.SHORT_STRING]}
+                            maxLength={nameMaxLength}
+                            label={
+                                <FormattedMessage
+                                    id={'image-caption-limit-for-min-and-max'}
+                                    values={{
+                                        minLength: nameMinLength,
+                                        maxLength: nameMaxLength}}
+                                />
+                            }
+                        />
+                        <HelTextField
+                            multiLine
+                            onChange={handleStateChange}
+                            name="altText"
+                            defaultValue={altText}
+                            validations={[VALIDATION_RULES.MEDIUM_STRING]}
+                            maxLength={altTextMaxLength}
+                            label={
+                                <FormattedMessage
+                                    id={'alt-text'}
+                                    values={{maxLength: altTextMaxLength}}
+                                />
+                            }
+                        />
+                        <TextField
+                            fullWidth
+                            name="photographerName"
+                            label={<FormattedMessage id={'photographer'}/>}
+                            value={photographerName}
+                            onChange={handleStateChange}
+                        />
+                        <Typography
+                            style={{marginTop: HelMaterialTheme.spacing(2)}}
+                            variant="h6"
+                        >
+                            <FormattedMessage id={'image-modal-image-license'}/>
+                        </Typography>
+                        <InlineRadioGroup
+                            aria-label="License"
+                            name="license"
+                            value={license}
+                            onChange={handleStateChange}
+                        >
+                            <FormControlLabel
+                                value="cc_by"
+                                control={<Radio color="primary" />}
+                                label="Creative Commons BY 4.0"
+                            />
+                            <FormControlLabel
+                                value="event_only"
+                                control={<Radio color="primary" />}
+                                label={<FormattedMessage id={'image-modal-license-restricted-to-event'}/>}
+                            />
+                        </InlineRadioGroup>
+                        <div
+                            className="image-edit-dialog--help-notice"
+                            style={{marginTop: HelMaterialTheme.spacing(2)}}
+                        >
+                            <FormattedMessage id={'image-modal-view-terms-paragraph-text'}/>
+                            &nbsp;
+                            <a href={'/help#images'} target={'_blank'}>
+                                <FormattedMessage id={'image-modal-view-terms-link-text'}/>
+                            </a>
+                        </div>
+                    </div>
+                    <img className="col-sm-4 image-edit-dialog--image" src={thumbnailUrl} alt={altText} />
+                    <div className="col-sm-12">
+                        <Button
+                            fullWidth
+                            type="submit"
+                            color="primary"
+                            variant="contained"
+                            disabled={getIsDisabled(state)}
+                            style={{margin: HelMaterialTheme.spacing(3, 0, 2)}}
+                        >
+                            Tallenna tiedot
+                        </Button>
+                    </div>
+                </form>
+            </DialogContent>
+        </Dialog>
+    )
+}
+
 ImageEdit.propTypes = {
     updateExisting: PropTypes.bool,
     defaultName: PropTypes.string,
     defaultPhotographerName: PropTypes.string,
+    altText: PropTypes.string,
     license: PropTypes.string,
     imageFile: PropTypes.object,
     thumbnailUrl: PropTypes.string,
@@ -180,6 +254,7 @@ const mapStateToProps = (state) => ({
     editor: state.editor,
     images: state.images,
 })
+
 const mapDispatchToProps = (dispatch) => ({
     postImage: (data, user, id) => dispatch(postImageAction(data, user, id)),
 })

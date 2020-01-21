@@ -27,7 +27,10 @@ class MultiLanguageField extends React.Component {
     };
 
     static propTypes = {
-        defaultValue: PropTypes.object,
+        defaultValue: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.object,
+        ]),
         onChange: PropTypes.func,
         name: PropTypes.string,
         forceApplyToStore: PropTypes.bool,
