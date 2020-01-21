@@ -53,7 +53,6 @@ class HelCheckbox extends React.Component {
                 control={
                     <Checkbox
                         color="primary"
-                        size="small"
                         inputRef={ref => this.checkboxRef = ref}
                         name={name}
                         onChange={this.handleCheck}

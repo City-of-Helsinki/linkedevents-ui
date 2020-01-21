@@ -7,7 +7,7 @@ import ValidationPopover from 'src/components/ValidationPopover'
 import HelDatePicker from './HelDatePicker'
 import {isNil} from 'lodash'
 
-const onClose = (
+const onChange = (
     value,
     name,
     eventKey,
@@ -16,14 +16,16 @@ const onClose = (
     setDirtyState = () => {}
 ) => {
     const formattedValue = !isNil(value)
-        ? moment(value).tz('Europe/Helsinki').utc().toISOString()
+        ? value.isValid()
+            // if valid, convert to utc time and format to ISO string
+            ? moment(value).tz('Europe/Helsinki').utc().toISOString()
+            // use moment input value if the date is invalid
+            : value.creationData().input
         : undefined
 
-    if (eventKey) {
-        updateSubEvent(formattedValue, name, eventKey)
-    } else {
-        setData({[name]: formattedValue})
-    }
+    eventKey
+        ? updateSubEvent(formattedValue, name, eventKey)
+        : setData({[name]: formattedValue})
 
     setDirtyState()
 }
@@ -35,6 +37,7 @@ const HelDateTimeField = ({
     disabled,
     disablePast,
     label,
+    placeholder,
     validationErrors,
     setData,
     updateSubEvent,
@@ -50,10 +53,11 @@ const HelDateTimeField = ({
                 type={'date-time'}
                 name={name}
                 label={label}
+                placeholder={placeholder}
                 disabled={disabled}
                 disablePast={disablePast}
                 defaultValue={defaultValue}
-                onClose={value => onClose(value, name, eventKey, updateSubEvent, setData, setDirtyState)}
+                onChange={value => onChange(value, name, eventKey, updateSubEvent, setData, setDirtyState)}
                 minDate={minDate}
                 maxDate={maxDate}
             />
@@ -74,6 +78,7 @@ HelDateTimeField.propTypes = {
     defaultValue: PropTypes.string,
     setDirtyState: PropTypes.func,
     label: PropTypes.string,
+    placeholder: PropTypes.string,
     validationErrors: PropTypes.oneOfType([
         PropTypes.array,
         PropTypes.object,

@@ -197,7 +197,9 @@ export const prepareFormValues = (
 
     // There are validation errors, don't continue sending
     if (keys(validationErrors).length > 0) {
-        return dispatch(setValidationErrors(validationErrors))
+        dispatch(setLoading(false))
+        dispatch(setValidationErrors(validationErrors))
+        return
     }
 
     // Format descriptions to HTML
@@ -268,6 +270,7 @@ export const executeSendRequest = (
         return
     }
 
+    dispatch(setLoading(true))
     dispatch(validateFor(publicationStatus))
 
     // prepare the body of the request (event object/array)
@@ -367,6 +370,7 @@ export const sendDataComplete = (createdEventId, data, action) => (dispatch) => 
         dispatch({type: constants.EDITOR_SENDDATA_SUCCESS})
         scrollToTop()
     }
+    dispatch(setLoading(false))
 }
 
 export const sendRecurringData = (
@@ -459,4 +463,11 @@ export function setEditorAuthFlashMsg () {
                 : dispatch(clearFlashMsg())
         }
     }
+}
+
+export const setLoading = (loading) => (dispatch) => {
+    dispatch({
+        type: constants.EDITOR_SET_LOADING,
+        loading,
+    })
 }

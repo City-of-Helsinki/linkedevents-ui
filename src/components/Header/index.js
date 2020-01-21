@@ -14,7 +14,7 @@ import {FormattedMessage} from 'react-intl'
 
 // Material-ui Components
 import Select from 'react-select'
-import {Button, Drawer, Hidden, Toolbar} from '@material-ui/core'
+import {Button, Drawer, Hidden, makeStyles, Toolbar} from '@material-ui/core'
 import {Add, Menu, Language, Person} from '@material-ui/icons'
 
 import {Link} from 'react-router-dom'
@@ -27,6 +27,7 @@ import {HelMaterialTheme} from '../../themes/material-ui'
 import {HelSelectTheme, HelLanguageSelectStyles} from '../../themes/react-select'
 import moment from 'moment'
 import * as momentTimezone from 'moment-timezone'
+import helBrandColors from '../../themes/hel/hel-brand-colors'
 
 const {USER_TYPE, APPLICATION_SUPPORT_TRANSLATION} = constants
 
@@ -180,13 +181,22 @@ class HeaderBar extends React.Component {
 
 const NavLinks = (props) => {
     const {showModerationLink, toMainPage, toSearchPage, toHelpPage, toModerationPage} = props;
+    const moderationStyles = showModerationLink && makeStyles(theme => ({
+        root: {color: theme.palette.primary.main},
+    }))()
+
     return (
         <React.Fragment>
             <Button onClick={toMainPage}><FormattedMessage id={`${appSettings.ui_mode}-management`}/></Button>
             <Button onClick={toSearchPage}><FormattedMessage id={`search-${appSettings.ui_mode}`}/></Button>
             <Button onClick={toHelpPage}> <FormattedMessage id="more-info"/></Button>
             {showModerationLink &&
-                <Button onClick={toModerationPage}> <FormattedMessage id="moderation-page"/></Button>
+                <Button
+                    onClick={toModerationPage}
+                    classes={moderationStyles}
+                >
+                    <FormattedMessage id="moderation-page"/>
+                </Button>
             }
         </React.Fragment>
     );

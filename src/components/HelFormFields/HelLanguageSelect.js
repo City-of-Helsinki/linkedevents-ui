@@ -37,9 +37,6 @@ class HelLanguageSelect extends React.Component {
                     control={
                         <Checkbox
                             color="primary"
-                            size="small"
-                            // style={{width: 'auto'}}
-                            // className="hel-checkbox inline"
                             inputRef={ref => this[`checkRef${index}`] = ref}
                             key={index}
                             name={item.value}

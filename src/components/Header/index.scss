@@ -101,12 +101,6 @@ $iconMarginLeft: 24px;
             display: flex;
             flex-grow: 1;
             justify-content: space-between;
-            
-            &__list {
-                button {
-                    color: black;
-                }
-            }
 
             &__mobile {
                 display: flex;

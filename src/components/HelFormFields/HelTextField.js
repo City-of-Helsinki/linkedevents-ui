@@ -201,6 +201,7 @@ class HelTextField extends React.Component {
                     multiline={multiLine}
                     inputRef={ref => this.inputRef = ref}
                     helperText={this.helpText()}
+                    InputLabelProps={{focused: false, shrink: false, disableAnimation: true}}
                 />
                 <ValidationPopover
                     index={index}

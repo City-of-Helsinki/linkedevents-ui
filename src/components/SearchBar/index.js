@@ -39,7 +39,7 @@ const SearchBar = ({intl, onFormSubmit}) => {
                     name="startDate"
                     placeholder={intl.formatMessage({id: 'search-date-placeholder'})}
                     defaultValue={startDate}
-                    onClose={(value) => setStartDate(value)}
+                    onChange={setStartDate}
                     maxDate={endDate ? endDate : undefined}
                 />
                 <Remove className="search-bar--icon" />
@@ -47,7 +47,7 @@ const SearchBar = ({intl, onFormSubmit}) => {
                     name="endDate"
                     placeholder={intl.formatMessage({id: 'search-date-placeholder'})}
                     defaultValue={endDate}
-                    onClose={(value) => setEndDate(value)}
+                    onChange={setEndDate}
                     minDate={startDate ? startDate : undefined}
                 />
             </div>
@@ -55,7 +55,6 @@ const SearchBar = ({intl, onFormSubmit}) => {
                 <TextField
                     autoFocus
                     fullWidth
-                    variant="outlined"
                     label={intl.formatMessage({id: 'event-name-or-place'})}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyPress={(e) => handleKeyPress(e, startDate, endDate, onFormSubmit, setSearchQuery)}

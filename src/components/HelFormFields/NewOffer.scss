@@ -1,0 +1,13 @@
+.new-offer {
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+
+    &:not(:first-of-type) {
+        margin-top: 36px;
+    }
+
+    > div {
+        width: 100%;
+    }
+}
