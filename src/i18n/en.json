@@ -327,5 +327,9 @@
     "image-modal-save-button-text": "Save image",
     "error-message-has-been-sent": "The error message has been sent. Thank you for reporting!",
     "invalid-date-format": "Invalid date format",
-    "invalid-time-format": "Invalid time format"
+    "invalid-time-format": "Invalid time format",
+
+    "terms-agree-text": "I agree to the",
+    "terms-agree-link": "terms of service",
+    "terms-heading": "Terms of Service"
 }
