@@ -66,7 +66,7 @@ $default-margin-top: 1.5rem;
     }
 
     > label {
-        font-size: 24px;
+        font-size: 22px;
         font-weight: 300;
     }
 
@@ -89,16 +89,13 @@ legend {
     margin-bottom: 16px;
 
     label {
-        font-size: 24px;
+        font-size: 22px;
         font-weight: 300;
     }
 
     .value {
-        display: inline-block;
-        background: #ffffff;
-        border-bottom: 1px solid #999;
-        padding: 0 1rem;
-        width: 100%;
+        display: block;
+
         span {
             &:first-child {
                 padding-right: 5px;
@@ -136,7 +133,7 @@ legend {
     padding: $default-margin-top 0;
 
     label {
-        font-size: 24px;
+        font-size: 22px;
         font-weight: 300;
     }
 
@@ -160,4 +157,12 @@ legend {
 .event-image {
     max-height: 16em;
     max-width: 70%;
+}
+
+.video-item {
+    &--container {
+        &:not(:first-of-type) {
+            margin-top: 3rem;
+        }
+    }
 }

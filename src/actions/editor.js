@@ -351,6 +351,7 @@ export const executeSendRequest = (
         dispatch(sendDataComplete(createdEventId, data, actionName))
     } catch (error) {
         dispatch(setFlashMsg('server-error', 'error', error))
+        dispatch(setLoading(false))
         new Error(error)
     }
 }

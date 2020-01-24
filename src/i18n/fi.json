@@ -144,6 +144,12 @@
     "event-price-info": "Hintatietojen kuvaus",
     "event-purchase-link": "Linkki lipunmyyntiin/ilmoittautumiseen",
 
+    "event-video": "Tapahtumaan liittyvä video",
+    "event-video-url": "Video (url)",
+    "event-video-name": "Videon nimi",
+    "event-video-alt_text": "Alt-teksti",
+    "event-video-add": "Lisää uusi video",
+
     "event-social-media-fields-header": "Tapahtuma sosiaalisessa mediassa",
     "facebook-url": "Facebook (url)",
     "twitter-url": "Twitter (url)",
@@ -198,6 +204,7 @@
     "validation-isMoreThanOne": "Toistovälin tulee olla vähintään 1 viikko",
     "validation-daysWithinInterval": "Yksi tai useampi valituista päivistä ei esiinny toistovälillä",
     "validation-hasPrice": "Hintatietoja puuttuu",
+    "validation-requiredVideoField": "Tämä kenttä vaaditaan",
 
     "server-error": "Virhe palvelimella.",
     "validation-error": "Lomakkeessa on virheitä. Tarkasta lomake.",

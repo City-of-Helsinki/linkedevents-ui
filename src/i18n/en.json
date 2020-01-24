@@ -144,6 +144,12 @@
     "event-price-info": "Price information",
     "event-purchase-link": "Link to ticket purchase/signup",
 
+    "event-video": "Event video",
+    "event-video-url": "Video (url)",
+    "event-video-name": "Video name",
+    "event-video-alt_text": "Alt text",
+    "event-video-add": "Add new video",
+
     "event-social-media-fields-header": "Event in social media",
     "facebook-url": "Facebook (url)",
     "twitter-url": "Twitter (url)",
@@ -198,6 +204,7 @@
     "validation-isMoreThanOne": "1 week is minimum repetition interval",
     "validation-daysWithinInterval": "One or more of the weekdays does not occur in the selected date range",
     "validation-hasPrice": "Price missing",
+    "validation-requiredVideoField": "This field is required",
 
     "server-error": "Server error.",
     "validation-error": "There are errors on the form. Please check the form.",

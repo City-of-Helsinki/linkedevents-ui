@@ -318,6 +318,19 @@ var validations = {
             return true
         }
     },
+    requiredVideoField(values, value, key) {
+        // check whether all values are empty
+        const allEmpty = Object.values(values).every(isEmpty)
+
+        if (allEmpty) {
+            return true
+        }
+
+        // check whether given field value is empty
+        return !Object.keys(values)
+            .filter(valueKey => isEmpty(values[valueKey]))
+            .includes(key)
+    },
 };
 
 export default validations;
