@@ -45,6 +45,7 @@ function mapUIDataToAPIFormat(values) {
     obj.super_event_type = values.super_event_type
     obj.super_event = values.super_event
     obj.publisher = values.organization
+    obj.videos = values.videos
 
     // Location data
     if (values.location) {
@@ -58,6 +59,13 @@ function mapUIDataToAPIFormat(values) {
     obj.images = []
     if(values.image && !isEmpty(values.image)) {
         obj.images[0] = values.image
+    }
+
+    // Video data
+    obj.videos = []
+    if (values.videos && !isEmpty(values.videos)) {
+        // filter out items where every field is empty
+        obj.videos = values.videos.filter(item => !Object.values(item).every(isEmpty))
     }
 
     // Price data
@@ -150,6 +158,7 @@ function mapAPIDataToUIFormat(values) {
     obj.info_url = values.info_url
     obj.provider = values.provider
     obj.super_event_type = values.super_event_type
+    obj.videos = values.videos
 
     // Statuses
     obj.event_status = values.event_status

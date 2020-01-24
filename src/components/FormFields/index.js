@@ -28,6 +28,7 @@ import OrganizationSelector from '../HelFormFields/OrganizationSelector';
 import UmbrellaSelector from '../HelFormFields/UmbrellaSelector/UmbrellaSelector'
 import {HelMaterialTheme} from '../../themes/material-ui'
 import moment from 'moment'
+import HelVideoFields from '../HelFormFields/HelVideoFields/HelVideoFields'
 
 let FormHeader = (props) => (
     <div className="row">
@@ -433,6 +434,15 @@ class FormFields extends React.Component {
                     </div>
                     <SideField><p className="tip"><FormattedMessage id="editor-tip-social-media"/></p></SideField>
                 </div>
+
+                <FormHeader>
+                    <FormattedMessage id="event-video"/>
+                </FormHeader>
+                <HelVideoFields
+                    defaultValues={values['videos']}
+                    validationErrors={validationErrors}
+                    setDirtyState={this.props.setDirtyState}
+                />
 
                 <FormHeader>
                     <FormattedMessage id="event-categorization" />

@@ -28,6 +28,11 @@ const draftValidations = {
     enrolment_end_time: [VALIDATION_RULES.AFTER_ENROLMENT_START_TIME, VALIDATION_RULES.IN_THE_FUTURE],
     minimum_attendee_capacity: [VALIDATION_RULES.IS_INT],
     maximum_attendee_capacity: [VALIDATION_RULES.IS_INT],
+    videos: {
+        url: [VALIDATION_RULES.IS_URL, VALIDATION_RULES.REQUIRED_VIDEO_FIELD],
+        name: [VALIDATION_RULES.SHORT_STRING, VALIDATION_RULES.REQUIRED_VIDEO_FIELD],
+        alt_text: [VALIDATION_RULES.MEDIUM_STRING, VALIDATION_RULES.REQUIRED_VIDEO_FIELD],
+    },
 }
 
 // Validations for published event
@@ -53,6 +58,11 @@ const publicValidations = {
     enrolment_end_time: [VALIDATION_RULES.AFTER_ENROLMENT_START_TIME, VALIDATION_RULES.IN_THE_FUTURE],
     minimum_attendee_capacity: [VALIDATION_RULES.IS_INT],
     maximum_attendee_capacity: [VALIDATION_RULES.IS_INT],
+    videos: {
+        url: [VALIDATION_RULES.IS_URL, VALIDATION_RULES.REQUIRED_VIDEO_FIELD],
+        name: [VALIDATION_RULES.SHORT_STRING, VALIDATION_RULES.REQUIRED_VIDEO_FIELD],
+        alt_text: [VALIDATION_RULES.MEDIUM_STRING, VALIDATION_RULES.REQUIRED_VIDEO_FIELD],
+    },
 }
 
 /**
@@ -102,6 +112,11 @@ function runValidationWithSettings(values, languages, settings, keywordSets) {
         // validate keywords
         } else if (key === 'keywords') {
             errors = validations.map(validation => validationFn[validation](valuesWithLanguages, valuesWithLanguages[key], keywordSets) ? null : validation)
+        // validate videos
+        } else if (key === 'videos') {
+            errors = values && values.videos && values.videos.length
+                ? validateVideos(values.videos, validations)
+                : {}
         } else {
             errors = validations.map(validation => validationFn[validation](valuesWithLanguages, valuesWithLanguages[key]) ? null : validation)
         }
@@ -121,7 +136,7 @@ function runValidationWithSettings(values, languages, settings, keywordSets) {
         }
     })
     obj = pickBy(obj, (validationErrors, key) => {
-        if (key === 'sub_events') {
+        if (key === 'sub_events' || key === 'videos') {
             return !isEmpty(validationErrors)
         }
         return validationErrors.length > 0
@@ -178,5 +193,46 @@ const validateOffers = values => {
                 : errors[key] = [value]
         })
     })
+    return errors
+}
+
+const validateVideos = (values, validations) => {
+    const errors = {}
+
+    if (!values) {
+        return errors
+    }
+
+    // loop through all video items to get the validation errors
+    for (const [index, videoItem] of values.entries()) {
+        // validate each field of the item
+        const validationResult = Object.entries(videoItem)
+            .reduce((acc, [key, itemValue]) => {
+                acc[key] = validations[key]
+                    // get the result for each validation rule
+                    .map(validation =>
+                        validation === VALIDATION_RULES.REQUIRED_VIDEO_FIELD
+                            ? validationFn[validation](videoItem, itemValue, key) ? null : validation
+                            : validationFn[validation](values, itemValue) ? null : validation
+                    )
+                    // filter out null values
+                    .filter(Boolean)
+
+                return acc
+            }, {})
+
+        // remove empty arrays
+        Object.entries(validationResult)
+            .forEach(([key, item]) => {
+                if (isEmpty(item)) delete validationResult[key]
+            })
+
+        // continue if there are no errors
+        if (Object.entries(validationResult).length === 0) continue
+
+        // set the errors for the item
+        errors[index] = validationResult
+    }
+
     return errors
 }

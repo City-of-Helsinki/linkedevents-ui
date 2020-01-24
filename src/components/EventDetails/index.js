@@ -112,18 +112,14 @@ const TextValue = (props) => {
         return (
             <div className="single-value-field">
                 <div><label><FormattedMessage id={`${props.labelKey}`}/></label></div>
-                <div>
-                    <span className="value">{props.value}</span>
-                </div>
+                <span className="value">{props.value}</span>
             </div>
         )
     } else {
         return (
             <div className="single-value-field">
                 <div><label><FormattedMessage id={`${props.labelKey}`}/></label></div>
-                <div>
-                    <NoValue labelKey={props.labelKey}/>
-                </div>
+                <NoValue labelKey={props.labelKey}/>
             </div>
         )
     }
@@ -257,6 +253,39 @@ OffersValue.propTypes = {
     labelKey: PropTypes.string,
 }
 
+const VideoValue = ({values}) => {
+
+    if (!values || values.length === 0) {
+        return (<NoValue labelKey={'event-video'}/>)
+    }
+
+    return (
+        <div className={'video-item'}>
+            {values.map((item, index) => (
+                <div
+                    key={`video-item-${index}`}
+                    className={'video-item--container'}
+                >
+                    {Object.entries(item)
+                        .map(([key, value]) => (
+                            <TextValue
+                                key={`video-value-${key}`}
+                                labelKey={`event-video-${key}`}
+                                value={value}
+                            />
+                        ))
+                    }
+                </div>
+            ))}
+        </div>
+    )
+
+}
+
+VideoValue.propTypes = {
+    values: PropTypes.array,
+}
+
 const EventDetails = (props) => {
     const {editor, values, intl, rawData, publisher, superEvent} = props
 
@@ -307,6 +336,11 @@ const EventDetails = (props) => {
             <TextValue labelKey="facebook-url" value={values['extlink_facebook']}/>
             <TextValue labelKey="twitter-url" value={values['extlink_twitter']}/>
             <TextValue labelKey="instagram-url" value={values['extlink_instagram']}/>
+
+            <FormHeader>
+                {intl.formatMessage({id: 'event-video'})}
+            </FormHeader>
+            <VideoValue values={values['videos']} />
 
             <FormHeader>
                 {intl.formatMessage({id: 'event-categorization'})}

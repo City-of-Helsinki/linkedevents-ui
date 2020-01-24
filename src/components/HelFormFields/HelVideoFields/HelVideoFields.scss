@@ -1,0 +1,19 @@
+.event-videos {
+    &--item-container {
+        display: flex;
+        position: relative;
+
+        &:not(:first-of-type) {
+            margin-top: 36px;
+        }
+
+        &.indented {
+            border-left: 5px solid #f7f7f7;
+            padding: 0 0 16px 16px;
+        }
+    }
+
+    &--item-inputs {
+        flex: 1;
+    }
+}

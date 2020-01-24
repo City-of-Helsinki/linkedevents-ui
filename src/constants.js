@@ -140,6 +140,7 @@ const constants = {
         IS_MORE_THAN_ONE: 'isMoreThanOne',
         AT_LEAST_ONE_IS_TRUE: 'atLeastOneIsTrue',
         DEFAULT_END_IN_FUTURE: 'defaultEndInTheFuture',
+        REQUIRED_VIDEO_FIELD: 'requiredVideoField',
     },
 
     CHARACTER_LIMIT: {
