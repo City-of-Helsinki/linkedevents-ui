@@ -158,6 +158,58 @@ export function validateFor(publicationStatus) {
 }
 
 /**
+ * Format descriptions to HTML
+ * @param formValues
+ */
+const formatDescription = (formValues) => {
+    let formattedDescriptions = {...formValues.description} || {}
+    const audience = formValues.audience
+    // look for the Service Centre Card keyword
+    const shouldAppendDescription = audience && audience.find(item => item.includes('/keyword/helsinki:aflfbat76e/'))
+    const descriptionDataMapping = {
+        fi: {
+            text: ['Tapahtuma on tarkoitettu vain eläkeläisille ja työttömille, joilla on', 'palvelukeskuskortti'],
+            link: 'https://www.hel.fi/sote/fi/palvelut/palvelukuvaus?id=3252',
+        },
+        sv: {
+            text: ['Evenemanget är avsett endast för pensionärer eller arbetslösa med', 'servicecentralkort'],
+            link: 'https://www.hel.fi/sote/sv/tjanster/tjanstebeskrivning?id=3252',
+        },
+        en: {
+            text: ['The event is intended only for retired or unemployed persons with a', 'Service Centre Card'],
+            link: 'https://www.hel.fi/sote/en/services/service-desription?id=3252',
+        },
+    }
+
+    for (const [key, value] of Object.entries(formattedDescriptions)) {
+        if (value) {
+            const description = value.replace(/\n\n/g, '</p><p>')
+                .replace(/\n/g, '<br/>')
+                .replace(/&/g, '&amp;')
+            // check if the value is already wrapped in a <p> tag
+            const formattedDescription = description.indexOf('<p>') === 0 && description.substring(description.length - 4) === '</p>'
+                ? description
+                : `<p>${description}</p>`
+
+            // append description if Service Centre Card is selected in audience
+            // only append languages that are defined in the data mapping
+            if (
+                shouldAppendDescription
+                && descriptionDataMapping.hasOwnProperty(key)
+                && !formattedDescription.includes(descriptionDataMapping[key].link)
+            ) {
+                const specialDescription = `<p>${descriptionDataMapping[key].text[0]} <a href="${descriptionDataMapping[key].link}">${descriptionDataMapping[key].text[1]}</a>.</p>`
+                formattedDescriptions[key] = specialDescription + formattedDescription
+            } else {
+                formattedDescriptions[key] = formattedDescription
+            }
+        }
+    }
+
+    return formattedDescriptions
+}
+
+/**
  * Prepares and validates the form values
  * @param formValues        Form data
  * @param contentLanguages  Form languages
@@ -168,7 +220,7 @@ export function validateFor(publicationStatus) {
  * @param keywordSets       Keyword sets that are passed to the validator, so that we can validate against them
  * @returns {{}|*}
  */
-export const prepareFormValues = (
+const prepareFormValues = (
     formValues,
     contentLanguages,
     user,
@@ -202,31 +254,7 @@ export const prepareFormValues = (
         return
     }
 
-    // Format descriptions to HTML
-    const descriptionTexts = cleanedFormValues.description
-    for (const lang in descriptionTexts) {
-        if (descriptionTexts[lang]) {
-            const desc = descriptionTexts[lang].replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br/>').replace(/&/g, '&amp;')
-            if (desc.indexOf('<p>') === 0 && desc.substring(desc.length - 4) === '</p>') {
-                descriptionTexts[lang] = desc
-            } else {
-                descriptionTexts[lang] = `<p>${desc}</p>`
-            }
-        }
-    }
-    // Check for 'palvelukeskuskortti' in audience
-    if (formValues.audience && includes(formValues.audience, `${appSettings.api_base}/keyword/helsinki:aflfbat76e/`)) {
-        const specialDescription = '<p>Tapahtuma on tarkoitettu vain eläkeläisille ja työttömille, joilla on <a href="https://www.hel.fi/sote/fi/palvelut/palvelukuvaus?id=3252" target="_blank">palvelukeskuskortti</a>.</p>'
-        if (formValues.description && formValues.description.fi && descriptionTexts.fi) {
-            if (!includes(formValues.description.fi, 'https://www.hel.fi/sote/fi/palvelut/palvelukuvaus?id=3252')) { // Don't repeat insertion
-                descriptionTexts.fi = specialDescription + formValues.description.fi
-            }
-        } else {
-            descriptionTexts.fi = specialDescription
-        }
-    }
-
-    let data = {...cleanedFormValues, publication_status: publicationStatus, description: descriptionTexts}
+    let data = {...cleanedFormValues, publication_status: publicationStatus, description: formatDescription(cleanedFormValues)}
 
     // specific processing for event with multiple dates
     if (recurring) {
