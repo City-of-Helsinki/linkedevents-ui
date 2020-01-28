@@ -334,5 +334,7 @@
     "image-modal-save-button-text": "Save image",
     "error-message-has-been-sent": "The error message has been sent. Thank you for reporting!",
     "invalid-date-format": "Invalid date format",
-    "invalid-time-format": "Invalid time format"
+    "invalid-time-format": "Invalid time format",
+
+    "user-events-toggle": "Only display events created by me"
 }
