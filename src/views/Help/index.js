@@ -96,7 +96,7 @@ const EventsHelp = () => {
 
                 <p>Myös oikean lisenssin valinta on käyttäjän vastuulla.</p>
 
-                <p>Jos kuvaajan tai kuvan oikeudenomistajan kanssa ei ole erikseen muuta sovittu, valitse kuvalle lisenssi {`"Käyttö rajattu tapahtuman yhteyteen"`}. Kuvaajan nimi ja/tai muu kuvan oikeudenomistaja pitää aina määritellä kohdassa Kuvaaja. <a href="https://api.hel.fi/linkedevents/v1/" target="_blank" title="Linkki avautuu uuteen välilehteen">Event only -lisenssin määritelmä »</a></p>
+                <p>Jos kuvaajan tai kuvan oikeudenomistajan kanssa ei ole erikseen muuta sovittu, valitse kuvalle lisenssi {`"Käyttö rajattu tapahtuman yhteyteen"`}. Kuvaajan nimi ja/tai muu kuvan oikeudenomistaja pitää aina määritellä kohdassa Kuvaaja. <a href="https://api.hel.fi/linkedevents/v1/" rel='noopener noreferrer' target="_blank" title="Linkki avautuu uuteen välilehteen">Event only -lisenssin määritelmä »</a></p>
 
                 <p>Jos käyttämälläsi kuvalla on laajempi <a href="http://creativecommons.org/licenses/by/4.0/deed.fi">CC BY 4.0 -lisenssi</a> tai vastaava lisenssi, pitää kuvaajan nimi silti aina määritellä kohdassa Kuvaaja.</p>
 
