@@ -50,15 +50,15 @@ class ImageGalleryGrid extends React.Component {
         this.fetchImages();
     }
 
-    fetchImages = (organization = this.props.user, pageSize = 100, pageNumber = null) => {
-        if (this.props.user) {
-            this.props.fetchUserImages(organization, pageSize, pageNumber);
+    fetchImages = (user = this.props.user, pageSize = 100, pageNumber = null) => {
+        if (user) {
+            this.props.fetchUserImages(pageSize, pageNumber);
         }
     };
 
     // Get the desired page number as a parameter and fetch images for that page
     changeImagePage = (pageNumber) => {
-        this.fetchImages(this.props.user.organization, 100, pageNumber);
+        this.fetchImages(this.props.user, 100, pageNumber);
     };
     
     render() {

@@ -334,5 +334,7 @@
     "image-modal-save-button-text": "Tallenna tiedot",
     "error-message-has-been-sent": "Raportti lähetetty onnistuneesti, kiitoksia!",
     "invalid-date-format": "Päiväyksen muoto on väärä.",
-    "invalid-time-format": "Ajan muoto on väärä."
+    "invalid-time-format": "Ajan muoto on väärä.",
+
+    "user-events-toggle": "Näytä vain itse luomani tapahtumat"
 }

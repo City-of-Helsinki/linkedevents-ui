@@ -9,12 +9,27 @@ import constants from '../../constants'
 import {getSortDirection} from '../../utils/table'
 import EventTable from '../../components/EventTable/EventTable'
 import {getOrganizationMembershipIds} from '../../utils/user'
+import {Checkbox, FormControlLabel, withStyles} from '@material-ui/core'
 
 const {USER_TYPE, TABLE_DATA_SHAPE, PUBLICATION_STATUS} = constants
+
+const CustomFormControlLabel = withStyles(theme => ({
+    root: {
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+        '& svg': {
+            fontSize: '110%',
+        },
+    },
+    label: {
+        fontSize: '110%',
+    },
+}))(FormControlLabel)
 
 export class EventListing extends React.Component {
 
     state = {
+        showCreatedByUser: false,
         tableData: {
             events: [],
             count: null,
@@ -153,6 +168,15 @@ export class EventListing extends React.Component {
     }
 
     /**
+     * Toggles whether only events created by the user should be show
+     * @param   event   onChange event
+     */
+    toggleUserEvents = (event) => {
+        const showCreatedByUser = event.target.checked
+        this.setState({showCreatedByUser}, this.fetchTableData)
+    }
+
+    /**
      * Sets the loading state
      * @param fetchComplete Whether the fetch has completed
      */
@@ -185,24 +209,40 @@ export class EventListing extends React.Component {
      */
     getDefaultEventQueryParams = () => {
         const {user} = this.props
-        const {sortBy, sortDirection, pageSize} = this.state.tableData
+        const {showCreatedByUser, tableData: {sortBy, sortDirection, pageSize}} = this.state
         const userType = get(user, 'userType')
+        const publisher = userType === USER_TYPE.ADMIN && !showCreatedByUser
+            ? getOrganizationMembershipIds(user)
+            : null
+        const useCreatedBy = userType === USER_TYPE.REGULAR || showCreatedByUser
 
         const queryParams = new EventQueryParams()
         queryParams.super_event = 'none'
         queryParams.publication_status = this.getPublicationStatus()
-        queryParams.setPublisher(getOrganizationMembershipIds(user))
+        queryParams.setPublisher(publisher)
         queryParams.page_size = pageSize
         queryParams.setSort(sortBy, sortDirection)
         queryParams.show_all = userType === USER_TYPE.REGULAR ? true : null
         queryParams.admin_user = userType === USER_TYPE.ADMIN ? true : null
+        queryParams.created_by = useCreatedBy ? 'me' : null
 
         return queryParams
     }
 
     render() {
         const {user} = this.props;
-        const {events, fetchComplete, count, pageSize, paginationPage, sortBy, sortDirection} = this.state.tableData;
+        const {
+            showCreatedByUser,
+            tableData: {
+                events,
+                fetchComplete,
+                count,
+                pageSize,
+                paginationPage,
+                sortBy,
+                sortDirection,
+            },
+        } = this.state;
         const header = <h1><FormattedMessage id={`${appSettings.ui_mode}-management`}/></h1>
         const isRegularUser = get(user, 'userType') === USER_TYPE.REGULAR
 
@@ -227,6 +267,18 @@ export class EventListing extends React.Component {
                         : <FormattedMessage id="events-management-description"/>
                     }
                 </p>
+                {!isRegularUser &&
+                    <CustomFormControlLabel
+                        control={
+                            <Checkbox
+                                color="primary"
+                                onChange={this.toggleUserEvents}
+                                checked={showCreatedByUser}
+                            />
+                        }
+                        label={<FormattedMessage id={'user-events-toggle'} />}
+                    />
+                }
                 <EventTable
                     events={events}
                     user={user}
@@ -248,6 +300,7 @@ export class EventListing extends React.Component {
 EventListing.propTypes = {
     user: PropTypes.object,
     login: PropTypes.func,
+    showCreatedByUser: PropTypes.bool,
     tableData: TABLE_DATA_SHAPE,
 }
 
