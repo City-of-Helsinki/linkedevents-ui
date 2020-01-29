@@ -171,7 +171,6 @@ const ImageEdit = (props) => {
                             multiLine
                             onChange={handleStateChange}
                             name="name"
-                            required={true}
                             defaultValue={name}
                             validations={[VALIDATION_RULES.SHORT_STRING]}
                             maxLength={nameMaxLength}
