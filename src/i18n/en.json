@@ -336,5 +336,9 @@
     "invalid-date-format": "Invalid date format",
     "invalid-time-format": "Invalid time format",
 
+    "terms-agree-text": "I agree to the",
+    "terms-agree-link": "terms of service",
+    "terms-heading": "Terms of Service",
+
     "user-events-toggle": "Only display events created by me"
 }

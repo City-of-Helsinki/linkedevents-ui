@@ -336,5 +336,9 @@
     "invalid-date-format": "Päiväyksen muoto on väärä.",
     "invalid-time-format": "Ajan muoto on väärä.",
 
+    "terms-agree-text": "Hyväksyn",
+    "terms-agree-link": "palvelun käyttöehdot",
+    "terms-heading": "Linked Eventsin käyttöehdot",
+
     "user-events-toggle": "Näytä vain itse luomani tapahtumat"
 }

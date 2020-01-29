@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
@@ -7,9 +7,10 @@ import {checkEventEditability} from '../../utils/checkEventEditability'
 import constants from '../../constants'
 import showConfirmationModal from '../../utils/confirm'
 import {appendEventDataWithSubEvents, getEventsWithSubEvents} from '../../utils/events'
-import {Button, CircularProgress, Tooltip} from '@material-ui/core'
+import {Button, Checkbox, CircularProgress, FormControlLabel, Tooltip} from '@material-ui/core'
 import {confirmAction} from '../../actions/app'
 import {getButtonLabel} from '../../utils/helpers'
+import {Link} from 'react-router-dom'
 
 const {PUBLICATION_STATUS, USER_TYPE} = constants
 
@@ -65,11 +66,14 @@ const EventActionButton = (props) => {
         loading,
     } = props
 
+    const [agreedToTerms, setAgreedToTerms] = useState(false)
+
     const isRegularUser = get(user, 'userType') === USER_TYPE.REGULAR
     const formHasSubEvents = get(editor, ['values', 'sub_events'], []).length > 0
     const isDraft = get(event, 'publication_status') === PUBLICATION_STATUS.DRAFT
     const {editable, explanationId} = checkEventEditability(user, event, action, editor)
-    const disabled = !editable || loading
+    const showTermsCheckbox = isRegularUser && isSaveButton(action) && !isDraft
+    const disabled = !editable || loading || (showTermsCheckbox && !agreedToTerms)
 
     let color = 'default'
     const buttonLabel = customButtonLabel || getButtonLabel(action, isRegularUser, isDraft, eventIsPublished, formHasSubEvents)
@@ -81,16 +85,39 @@ const EventActionButton = (props) => {
         color = 'secondary'
     }
 
-    const button = <Button
-        variant="contained"
-        disabled={disabled}
-        endIcon={loading && isSaveButton(action) && <CircularProgress color="inherit" size={25}/>}
-        className={`editor-${action}-button`}
-        onClick={() => confirmAction ? confirmEventAction(props) : customAction()}
-        color={color}
-    >
-        <FormattedMessage id={buttonLabel}/>
-    </Button>
+    const button =
+        <React.Fragment>
+            {showTermsCheckbox &&
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            color="primary"
+                            checked={agreedToTerms}
+                            onChange={(e) => setAgreedToTerms(e.target.checked)}
+                        />
+                    }
+                    label={
+                        <React.Fragment>
+                            <FormattedMessage id={'terms-agree-text'} />
+                            &nbsp;
+                            <Link to={'/terms'}>
+                                <FormattedMessage id={'terms-agree-link'} />
+                            </Link>
+                        </React.Fragment>
+                    }
+                />
+            }
+            <Button
+                variant="contained"
+                disabled={disabled}
+                endIcon={loading && isSaveButton(action) && <CircularProgress color="inherit" size={25}/>}
+                className={`editor-${action}-button`}
+                onClick={() => confirmAction ? confirmEventAction(props) : customAction()}
+                color={color}
+            >
+                <FormattedMessage id={buttonLabel}/>
+            </Button>
+        </React.Fragment>
 
     return disabled && explanationId
         ? <Tooltip title={intl.formatMessage({id: explanationId})}>

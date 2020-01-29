@@ -12,6 +12,7 @@ import App from './views/App'
 import Editor from './views/Editor'
 import Search from './views/Search'
 import Help from './views/Help'
+import Terms from './views/Terms/Terms'
 import Event from './views/Event'
 import EventCreated from './views/EventCreated'
 import EventListingPage from './views/EventListing'
@@ -56,6 +57,7 @@ ReactDOM.render(
                     <Route exact path="/event/done/:action/:eventId" component={EventCreated}/>
                     <Route exact path="/search" component={Search}/>
                     <Route exact path="/help" component={Help}/>
+                    <Route exact path="/terms" component={Terms}/>
                     <Route exact path="/moderation" component={ModerationPage}/>
                 </LayoutContainer>
             </ConnectedRouter>
