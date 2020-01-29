@@ -8,7 +8,7 @@ exports[`Search Snapshot should render view correctly 1`] = `
       "The name must be defined.": "Tiedostolla tulee olla nimi",
       "add-more": "Lisää kerrat",
       "additional-keywords": "Muut avainsanat",
-      "alt-text": "Alt-teksti eli kuvan sisällön sanallinen kuvaus (pituus korkeintaan {maxLength} merkkiä)",
+      "alt-text": "Alt-teksti eli kuvan sisällön sanallinen kuvaus (pituus vähintään {minLength} ja korkeintaan {maxLength} merkkiä)",
       "attach-image-to-event": "Lisää kuva tapahtumaan",
       "attendee-capacity": "Osallistujamäärä",
       "audience-age-restrictions": "Ikärajoitukset",

@@ -8,7 +8,7 @@ exports[`Image add form ImagePicker component should render correctly with data 
       "The name must be defined.": "Tiedostolla tulee olla nimi",
       "add-more": "Lisää kerrat",
       "additional-keywords": "Muut avainsanat",
-      "alt-text": "Alt-teksti eli kuvan sisällön sanallinen kuvaus (pituus korkeintaan {maxLength} merkkiä)",
+      "alt-text": "Alt-teksti eli kuvan sisällön sanallinen kuvaus (pituus vähintään {minLength} ja korkeintaan {maxLength} merkkiä)",
       "attach-image-to-event": "Lisää kuva tapahtumaan",
       "attendee-capacity": "Osallistujamäärä",
       "audience-age-restrictions": "Ikärajoitukset",

@@ -83,6 +83,7 @@ const handleImagePost = ({
  * @param nameMinLength
  * @param nameMaxLength
  * @param altText
+ * @param altTextMinLength
  * @param altTextMaxLength
  * @returns {boolean}
  */
@@ -91,9 +92,11 @@ const getIsDisabled = ({
     nameMinLength,
     nameMaxLength,
     altText,
+    altTextMinLength,
     altTextMaxLength,
 }) =>
     name.length < nameMinLength
+    || altText.length < altTextMinLength
     || name.length > nameMaxLength
     || altText.length > altTextMaxLength
 
@@ -104,6 +107,7 @@ const ImageEdit = (props) => {
         license: props.license || 'cc_by',
         altText: props.altText || '',
         nameMinLength: 6,
+        altTextMinLength: 6,
         nameMaxLength: CHARACTER_LIMIT.SHORT_STRING,
         altTextMaxLength: CHARACTER_LIMIT.MEDIUM_STRING,
     })
@@ -122,6 +126,7 @@ const ImageEdit = (props) => {
         photographerName,
         license,
         altText,
+        altTextMinLength,
         nameMinLength,
         nameMaxLength,
         altTextMaxLength,
@@ -148,7 +153,25 @@ const ImageEdit = (props) => {
                         <HelTextField
                             multiLine
                             onChange={handleStateChange}
+                            name="altText"
+                            required={true}
+                            defaultValue={altText}
+                            validations={[VALIDATION_RULES.MEDIUM_STRING]}
+                            maxLength={altTextMaxLength}
+                            label={
+                                <FormattedMessage
+                                    id={'alt-text'}
+                                    values={{
+                                        minLength: altTextMinLength,
+                                        maxLength: altTextMaxLength}}
+                                />
+                            }
+                        />
+                        <HelTextField
+                            multiLine
+                            onChange={handleStateChange}
                             name="name"
+                            required={true}
                             defaultValue={name}
                             validations={[VALIDATION_RULES.SHORT_STRING]}
                             maxLength={nameMaxLength}
@@ -158,20 +181,6 @@ const ImageEdit = (props) => {
                                     values={{
                                         minLength: nameMinLength,
                                         maxLength: nameMaxLength}}
-                                />
-                            }
-                        />
-                        <HelTextField
-                            multiLine
-                            onChange={handleStateChange}
-                            name="altText"
-                            defaultValue={altText}
-                            validations={[VALIDATION_RULES.MEDIUM_STRING]}
-                            maxLength={altTextMaxLength}
-                            label={
-                                <FormattedMessage
-                                    id={'alt-text'}
-                                    values={{maxLength: altTextMaxLength}}
                                 />
                             }
                         />
