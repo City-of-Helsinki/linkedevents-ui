@@ -96,7 +96,6 @@ const DebugReporterModal = ({showModal, close, sendReport}) => {
                     multiline
                     fullWidth
                     value={value}
-                    variant="outlined"
                     label={'Kuvaile ongelmaa halutessasi'}
                     style={{margin: 0}}
                     onChange={(event) => setValue(event.target.value)}

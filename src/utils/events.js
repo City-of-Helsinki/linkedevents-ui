@@ -8,6 +8,7 @@ const {PUBLICATION_STATUS, EVENT_STATUS} = constants
 
 export class EventQueryParams {
     admin_user = null
+    created_by = null
     end = null
     include = null
     nocache = null

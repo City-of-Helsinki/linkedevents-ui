@@ -46,9 +46,7 @@ describe('EventListing Snapshot', () => {
         const componentProps = {
             login: jest.fn(),
         } // Props which are added to component
-        const componentToTest = <ConnectedEventListing {...componentProps} />
-        const wrapper = renderer.create(testReduxIntWrapper(store, componentToTest))
-
+        const wrapper = shallow(testReduxIntWrapper(store, <ConnectedEventListing {...componentProps} />))
         expect(wrapper).toMatchSnapshot()
     })
 })

@@ -338,5 +338,7 @@
 
     "terms-agree-text": "Hyväksyn",
     "terms-agree-link": "palvelun käyttöehdot",
-    "terms-heading": "Linked Eventsin käyttöehdot"
+    "terms-heading": "Linked Eventsin käyttöehdot",
+
+    "user-events-toggle": "Näytä vain itse luomani tapahtumat"
 }

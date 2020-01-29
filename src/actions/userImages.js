@@ -8,37 +8,40 @@ import client from '../api/client'
 /**
  * Fetch images from the API.
  *
- * @param organization
- * @param pg_size = page size, how many images do you want to display on a single page.
+ * @param user
+ * @param pageSize = page size, how many images do you want to display on a single page.
+ * @param pageNumber
  * @returns Object
  */
-async function makeImageRequest(organization, pageSize, pageNumber = null) {
-    let result;
-    
-    if (!pageNumber) {
-        // Default request when the modal is loaded
-        result = await client.get('image', {page_size: pageSize, $publisher: organization});
-    } else {
-        // When the user wants to load another page of images
-        result = await client.get('image', {page_size: pageSize, $publisher: organization, page: pageNumber});
-        
-        // Append the page number to the JSON array so that it can be easily used in the pagination
+async function makeImageRequest(user = {}, pageSize, pageNumber = null) {
+    const params = {
+        page_size: pageSize,
+        page: pageNumber,
+        publisher: user.organization && user.userType === constants.USER_TYPE.ADMIN ? user.organization : null,
+        created_by: user.userType === constants.USER_TYPE.REGULAR ? 'me' : null,
+    }
+
+    const result = await client.get('image', params);
+
+    // Append the page number to the JSON array so that it can be easily used in the pagination
+    if (pageNumber !== null) {
         result.data.meta.currentPage = pageNumber;
     }
     
     return result;
 }
 
-export function fetchUserImages(organization, pageSize = 100, pageNumber = null) {
+export function fetchUserImages(pageSize = 100, pageNumber = null) {
     const startFetching = createAction(constants.REQUEST_IMAGES_AND_META);
     
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
+        const {user} = getState()
         let response;
         
         try {
             dispatch(startFetching);
     
-            response = await makeImageRequest(getIfExists(organization, 'organization', null), pageSize, pageNumber);
+            response = await makeImageRequest(user, pageSize, pageNumber);
             
             dispatch(receiveUserImagesAndMeta(response));
         } catch (error) {
@@ -130,7 +133,7 @@ export function deleteImage(selectedImage, user) {
             dispatch(setFlashMsg('image-deletion-success', 'success', ''));
     
             // Update image listing
-            dispatch(fetchUserImages(user));
+            dispatch(fetchUserImages());
         } catch (error) {
             dispatch(setFlashMsg('image-deletion-error', 'error', error));
             
