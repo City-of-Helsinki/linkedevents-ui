@@ -92,8 +92,8 @@
 
     "events-management": "Tapahtumien hallinta",
     "events-management-prompt": "muokataksesi tapahtumia.",
-    "events-management-description": "Selaa ja muokkaa oman organisaatiosi julkisia tapahtumia sekä luonnoksia. Voit lisätä uuden tapahtuman yläpalkista.",
-    "events-management-description-regular-user": "Selaa ja muokkaa oman organisaatiosi luonnoksia ja selaa julkisia tapahtumia. Voit lisätä uuden tapahtuman yläpalkista. Julkaistuja tapahtumia ei voi muokata.",
+    "events-management-description": "Selaa ja muokkaa oman organisaatiosi julkaistuja tapahtumia.",
+    "events-management-description-regular-user": "Selaa ja muokkaa omia luonnoksiasi ja selaa julkaistuja tapahtumiasi. Julkaistuja tapahtumia ei voi muokata.",
     "events-management-no-results": "Yhtäkään muokattavaa tapahtumaa ei löytynyt.",
 
     "event-image": "Tapahtuman kuva (klikkaa vaihtaaksesi)",

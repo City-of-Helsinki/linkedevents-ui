@@ -92,8 +92,8 @@
 
     "events-management": "Manage events",
     "events-management-prompt": "to manage events.",
-    "events-management-description": "Browse and edit drafts and published events of your organization.",
-    "events-management-description-regular-user": "Browse and edit drafts of your organization. Published events can not be edited.",
+    "events-management-description": "Browse and edit events published by your organization.",
+    "events-management-description-regular-user": "Browse and edit your drafts and browse your published events. Published events can't be edited.",
     "events-management-no-results": "No editable events found.",
 
     "event-image": "Event image (click to change)",
