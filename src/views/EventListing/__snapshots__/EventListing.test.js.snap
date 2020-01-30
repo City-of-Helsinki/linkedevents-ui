@@ -123,6 +123,8 @@ exports[`EventListing Snapshot should render view correctly 1`] = `
       "editor-tip-time-start": "Kirjoita tapahtuman alkamispäivä ja myös alkamisaika, jos tapahtuma alkaa tiettyyn kellonaikaan.",
       "editor-tip-umbrella-sub-event": "Jos haluat lisätä tämän tapahtuman osaksi kattotapahtumaa, tee se ",
       "editor-tip-umbrella-sub-event-link": "sarjan ylätapahtumasta",
+      "editor-tip-video": "Jos tapahtumaan liittyy video, voit lisätä sen osoitteen tässä.",
+      "editor-tip-video-fields": "Anna videolle nimi ja kuvaa lyhyesti mitä siinä tapahtuu.",
       "editor-update-draft-draft-extra-warning": "Tiedot tallennetaan seuraaviin tapahtumiin:",
       "editor-update-draft-draft-warning": "Tiedot tallennetaan kaikkiin tapahtumiin tässä sarjassa. Näihin tapahtumiin tehdyt muutokset menetetään. Oletko varma että haluat jatkaa?",
       "editor-update-draft-extra-warning": "Tiedot tallennetaan seuraaviin tapahtumiin:",
