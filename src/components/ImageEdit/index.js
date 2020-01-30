@@ -80,7 +80,6 @@ const handleImagePost = ({
 /**
  * Checks whether the submit button should be disabled
  * @param name
- * @param nameMinLength
  * @param nameMaxLength
  * @param altText
  * @param altTextMinLength
@@ -89,14 +88,12 @@ const handleImagePost = ({
  */
 const getIsDisabled = ({
     name,
-    nameMinLength,
     nameMaxLength,
     altText,
     altTextMinLength,
     altTextMaxLength,
 }) =>
-    name.length < nameMinLength
-    || altText.length < altTextMinLength
+    altText.length < altTextMinLength
     || name.length > nameMaxLength
     || altText.length > altTextMaxLength
 
@@ -106,7 +103,6 @@ const ImageEdit = (props) => {
         photographerName: props.defaultPhotographerName || '',
         license: props.license || 'cc_by',
         altText: props.altText || '',
-        nameMinLength: 6,
         altTextMinLength: 6,
         nameMaxLength: CHARACTER_LIMIT.SHORT_STRING,
         altTextMaxLength: CHARACTER_LIMIT.MEDIUM_STRING,
@@ -127,7 +123,6 @@ const ImageEdit = (props) => {
         license,
         altText,
         altTextMinLength,
-        nameMinLength,
         nameMaxLength,
         altTextMaxLength,
     } = state
@@ -178,7 +173,6 @@ const ImageEdit = (props) => {
                                 <FormattedMessage
                                     id={'image-caption-limit-for-min-and-max'}
                                     values={{
-                                        minLength: nameMinLength,
                                         maxLength: nameMaxLength}}
                                 />
                             }

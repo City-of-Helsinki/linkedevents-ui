@@ -299,7 +299,7 @@
     "courses-management": "Course management",
     "edit-image": "Edit image",
     "The name must be defined.": "The filename must be defined",
-    "image-caption-limit-for-min-and-max": "Image caption (the min length is {minLength} and max length {maxLength} characters)",
+    "image-caption-limit-for-min-and-max": "Image caption (the max length {maxLength} characters)",
     "delete-from-filesystem": "Delete image from the file system",
     "edit-selected-image": "Edit the selected image",
     "attach-image-to-event": "Attach image to event",
