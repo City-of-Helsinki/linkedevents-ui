@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl'
 import {setData as setDataAction} from 'src/actions/editor'
 import {HelTextField} from '../index'
+import {SideField} from '../../FormFields'
 import {connect} from 'react-redux'
 import {Button, IconButton, withStyles} from '@material-ui/core'
 import constants from '../../../constants'
@@ -157,6 +158,12 @@ const HelVideoFields = ({
                 </AddButton>
                 */}
             </div>
+            <SideField>
+                <div className="tip">
+                    <p><FormattedMessage id="editor-tip-video"/></p>
+                    <p><FormattedMessage id="editor-tip-video-fields"/></p>
+                </div>
+            </SideField>
         </div>
     )
 }

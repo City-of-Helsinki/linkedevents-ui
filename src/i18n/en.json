@@ -282,6 +282,8 @@
     "editor-tip-price": "Check if the event is free of charge. If there is a fee enter it like \"5€\".",
     "editor-tip-price-multi": "If the event has many prices, click Add new price and enter the name of each price group (eg Children) in the Price information field.",
     "editor-tip-social-media": "Add link to the events or its organizers social media page.",
+    "editor-tip-video": "If a video is associated with the event, you can add the link here.",
+    "editor-tip-video-fields": "Give the video a name and describe its contents in short.",
     "editor-tip-keywords": "Add at least one keyword that describes the theme of the event. Start typing the word and then select a keyword from the list.",
     "editor-tip-hel-main-category": "Select at least one main category.",
     "editor-tip-hel-target-group": "If the event does not have a specific target group, don't select anything.",
