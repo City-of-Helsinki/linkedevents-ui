@@ -100,7 +100,7 @@ const EventActionButton = (props) => {
                         <React.Fragment>
                             <FormattedMessage id={'terms-agree-text'} />
                             &nbsp;
-                            <Link to={'/terms'}>
+                            <Link to={'/terms'} target="_blank">
                                 <FormattedMessage id={'terms-agree-link'} />
                             </Link>
                         </React.Fragment>
