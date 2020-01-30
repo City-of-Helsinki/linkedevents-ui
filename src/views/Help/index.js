@@ -70,6 +70,40 @@ const EventsHelp = () => {
 
                 <p>7. <strong>Uuden tapahtuman tietojen pohjana voi käyttää vanhaa</strong>, avaamalla tapahtuman ja valitsemalla {`"Kopioi uuden tapahtuman pohjaksi"`}. Omat tapahtumat löytyvät helposti Tapahtumien hallinnasta ja niihin on muokkausoikeus.</p>
             </div>
+    
+            <hr/>
+    
+            <div id="images">
+                <h2>Kuvien lisääminen rajapintaan</h2>
+
+                <h3>Alt-teksti eli kuvan sisällön sanallinen kuvaus</h3>
+
+                <p>Alt-teksti eli kuvan vaihtoehtoinen teksti on kuvan sanallinen kuvailu sellaisille henkilöille, jotka eivät syystä tai toisesta voi nähdä itse kuvaa. Alt-teksti on pakollinen kenttä.</p>
+
+                <p>Kuvaile alt-tekstissä lyhyesti kuvan sisältö, esimerkiksi {`"Lapsia leikkimässä päiväkodin pihalla"`}. huomioi, että alt-teksti ei ole kuvateksti. Alt-tekstissä ei siis saa kertoa sellaisista asioita, jotka eivät näy suoraan kuvassa.</p>
+
+                <p>Alt-tekstin käyttöä säätelee EU:n laajuinen saavutettavuusdirektiivi. Direktiivistä seuraa, että alt-tekstin syöttäminen on pakollista jokaiselle kuvalle.</p>
+
+                <h3>Kuvateksti ja kuvaaja</h3>
+
+                <p>Kuvateksti ja kuvaaja eivät ole pakollisia, mutta ne on hyvä täyttää. Kuvan lisenssissä (katso alta lisää) voidaan kuitenkin vaatia, että kuvaajan nimi mainitaan.</p>
+
+                <p>On hyvä käytänöt syöttää kuvaajan nimi aina jos se on tiedossa.</p>
+
+                <h3>Lisenssi</h3>
+
+                <p>Varmista aina, että sinulla tai edustamallasi taholla on oikeus käyttää kuvaa tapahtuman markkinoinnissa. Kuvan käyttöoikeuden varmistaminen on aina kuvan syöttäjän vastuulla. </p>
+
+                <p>Myös oikean lisenssin valinta on käyttäjän vastuulla.</p>
+
+                <p>Jos kuvaajan tai kuvan oikeudenomistajan kanssa ei ole erikseen muuta sovittu, valitse kuvalle lisenssi {`"Käyttö rajattu tapahtuman yhteyteen"`}. Kuvaajan nimi ja/tai muu kuvan oikeudenomistaja pitää aina määritellä kohdassa Kuvaaja. <a href="https://api.hel.fi/linkedevents/v1/" rel='noopener noreferrer' target="_blank" title="Linkki avautuu uuteen välilehteen">Event only -lisenssin määritelmä »</a></p>
+
+                <p>Jos käyttämälläsi kuvalla on laajempi <a href="http://creativecommons.org/licenses/by/4.0/deed.fi">CC BY 4.0 -lisenssi</a> tai vastaava lisenssi, pitää kuvaajan nimi silti aina määritellä kohdassa Kuvaaja.</p>
+
+                <h3>Kuvan tekniset vaatimukset</h3>
+
+                <p>Käytä vaakakuvia, jotka ovat kuvasuhteessa 3:2. Suositeltu mitta kuville on 1200px X 800px. Yli 2 megatavun kokoisia kuvia ei voi syöttää rajapintaan.</p>
+            </div>
         </div>
     )
 }
