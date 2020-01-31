@@ -150,7 +150,7 @@ export class ImagePicker extends React.Component {
                 thumbnailUrl={this.state.thumbnailUrl}
                 close={() => this.setState({edit: false})}
             />;
-        } else if (this.state.edit && ! this.state.thumbnailUrl) {
+        } else if (this.state.edit && !isEmpty(this.props.editor.values.image)) {
             /* When editing existing image by pressing the edit button on top of the grid */
             editModal = <ImageEdit
                 id={this.props.editor.values.image.id}
