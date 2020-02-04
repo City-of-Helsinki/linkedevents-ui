@@ -1,6 +1,7 @@
 import './index.scss'
 
 import React from 'react'
+import {Link} from 'react-router-dom'
 
 const EventsHelp = () => {
     return (
@@ -22,6 +23,7 @@ const EventsHelp = () => {
                     </ul>
                 </ul>
 
+                <p><Link to={'/terms'}>Linked Events -tapahtumarajapinnan käyttöehdot</Link></p>
                 <p>Kaupungin tapahtumakalenteri: <a href="http://www.hel.fi/tapahtumat" rel='noopener noreferrer' target="_blank">hel.fi/tapahtumat</a>.</p>
                 <p>Linked Events -rajapinta: <a href="http://api.hel.fi/linkedevents" rel='noopener noreferrer' target="_blank">api.hel.fi/linkedevents</a>.</p>
                 <p>Rajapinnan kehittäjäsivu: <a href="https://dev.hel.fi/projects/linked-events/" rel='noopener noreferrer' target="_blank">dev.hel.fi/projects/linked-events</a><br/></p>
