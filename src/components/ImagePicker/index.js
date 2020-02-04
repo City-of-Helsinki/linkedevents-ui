@@ -68,7 +68,7 @@ export class ImagePicker extends React.Component {
     handleUpload(event) {
         const file = event.target.files[0];
     
-        if ( ! this.validateFileSize(file)) {
+        if (file && ! this.validateFileSize(file)) {
             return;
         }
         
