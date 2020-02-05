@@ -28,9 +28,6 @@ export class EventQueryParams {
     setSort(sortBy, sortDirection) {
         this.sort = sortDirection === 'desc' ? `-${sortBy}` : sortBy
     }
-    setText(query) {
-        this.text = encodeURI(query)
-    }
     get values() {
         return Object.keys(this)
             .filter(key => typeof this[key] !== 'function')
