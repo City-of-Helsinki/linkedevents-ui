@@ -1,0 +1,116 @@
+@import '../../assets/colors-turku';
+
+$turkuBarHeight: 80px;
+$headerBarHeight: 128px;
+$turkuLogoPaddingLeft: 30px;
+$turkuLogoHeight: 100px;
+$linkFontSize: 18px;
+$linkedEventsTextSize: 20px;
+$logoPaddingRight: 32px;
+$addEventPadding: 6px 12px;
+$languageMarginRight: 10px;
+$iconMarginLeft: 24px;
+
+.main-navbar {
+  height: $headerBarHeight !important;
+
+  button {
+    font-weight: bold;
+    font-size: $linkFontSize;
+  }
+
+  a {
+    color: inherit;
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: inherit;
+    }
+  }
+
+  .turku-bar {
+    height: $turkuBarHeight;
+    width: 100%;
+    display: flex;
+    background: $tku-theme;
+    justify-content: space-between;
+    align-items: center;
+
+    &__logo {
+      height: $turkuLogoHeight;
+      white-space: nowrap;
+
+      img {
+        height: $turkuLogoHeight;
+      }
+    }
+
+    &__login-button {
+      display: flex;
+      flex-direction: row;
+    }
+
+    &__language-button {
+      margin-right: $languageMarginRight;
+      display: flex;
+      align-items: center;
+
+      .language-selector {
+        display: flex;
+        align-items: center;
+
+        .language-icon {
+          color: white;
+          margin-right: $languageMarginRight;
+        }
+        .language-select-box {
+          background-color: transparent;
+          color: white;
+          text-transform: uppercase;
+          &::before {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
+  .linked-events-bar {
+    height: $turkuBarHeight;
+    width: 100%;
+    display: flex;
+    background: $tku-white;
+    align-items: center;
+
+    &__logo {
+      padding-right: $logoPaddingRight;
+      span {
+        font-size: $linkedEventsTextSize;
+        font-weight: bold;
+        color: $tku-theme;
+      }
+    }
+
+    &__icon {
+      margin-left: $iconMarginLeft;
+      height: 100%;
+    }
+
+    &__links {
+      display: flex;
+      flex-grow: 1;
+      justify-content: space-between;
+
+      &__mobile {
+        display: flex;
+      }
+    }
+  }
+}
+
+.menu-drawer-mobile {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+}

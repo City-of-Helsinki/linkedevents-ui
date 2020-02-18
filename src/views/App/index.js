@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react'
 import {connect} from 'react-redux'
 
-import Headerbar from 'src/components/Header'
+import Headerbar from 'src/components/Header/index-turku.js'
 import {ThemeProvider, Button, IconButton, Paper, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
 import {Close} from '@material-ui/icons';
 
