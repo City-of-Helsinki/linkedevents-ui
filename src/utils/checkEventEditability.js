@@ -11,7 +11,7 @@ const {PUBLICATION_STATUS, EVENT_STATUS, USER_TYPE, SUPER_EVENT_TYPE_UMBRELLA} =
 export const userMayEdit = (user, event) => {
     const adminOrganizations = get(user, 'adminOrganizations')
     const userOrganization = get(user, 'organization')
-    const eventOrganization = get(event, 'organization')
+    const eventOrganization = get(event, 'publisher')
     const organizationMemberships = get(user, 'organizationMemberships')
     const publicationStatus = get(event, 'publication_status')
     const userHasOrganizations = !isNull(getOrganizationMembershipIds(user))
