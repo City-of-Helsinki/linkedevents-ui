@@ -299,8 +299,10 @@ export const updateSubEventsFromFormValues = (formValues, subEventsToUpdate) => 
     const keysToUpdate = ['start_time', 'end_time', 'id', 'super_event', 'super_event_type']
     // update form data with sub event data where applicable
     return subEventsToUpdate
-        // don't update canceled or deleted events
+        // don't update canceled, deleted or past subevents (when editing an ongoing series =)
         .filter(subEvent => (
-            subEvent.event_status !== EVENT_STATUS.CANCELLED && !subEvent.deleted))
+            subEvent.event_status !== EVENT_STATUS.CANCELLED &&
+            !subEvent.deleted &&
+            moment().isBefore(moment.utc(subEvent.end_time))))
         .map(subEvent => keysToUpdate.reduce((acc, key) => set(acc, key, subEvent[key]), {...formValues}))
 }
