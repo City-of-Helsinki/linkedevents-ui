@@ -132,7 +132,6 @@ const showConfirmationModal = (
     publicationStatus = PUBLICATION_STATUS.PUBLIC,
     customAction,
 ) => new Promise((resolve) => {
-    const eventIds = eventData.map(item => item.id)
     const isDraft = publicationStatus === PUBLICATION_STATUS.DRAFT
 
     // set the modal texts based on the action to run
@@ -161,7 +160,7 @@ const showConfirmationModal = (
             resolve(cancelEvents(eventData))
         },
         delete() {
-            resolve(deleteEvents(eventIds))
+            resolve(deleteEvents(eventData))
         },
     }
 

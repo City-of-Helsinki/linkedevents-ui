@@ -2,6 +2,7 @@ import {find, map, forOwn, isEmpty, values, set} from 'lodash'
 import constants from 'src/constants.js'
 import moment from 'moment-timezone'
 import {getStringWithLocale} from './locale'
+import {eventIsEditable} from './checkEventEditability'
 
 export {
     mapUIDataToAPIFormat,
@@ -300,9 +301,6 @@ export const updateSubEventsFromFormValues = (formValues, subEventsToUpdate) => 
     // update form data with sub event data where applicable
     return subEventsToUpdate
         // don't update canceled, deleted or past subevents (when editing an ongoing series =)
-        .filter(subEvent => (
-            subEvent.event_status !== EVENT_STATUS.CANCELLED &&
-            !subEvent.deleted &&
-            moment().isBefore(moment.utc(subEvent.end_time))))
+        .filter(subEvent => eventIsEditable(subEvent)['editable'])
         .map(subEvent => keysToUpdate.reduce((acc, key) => set(acc, key, subEvent[key]), {...formValues}))
 }

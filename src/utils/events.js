@@ -3,6 +3,7 @@ import moment from 'moment'
 import constants from '../constants'
 import {get, isUndefined, set} from 'lodash'
 import {getFirstMultiLanguageFieldValue} from './helpers'
+import {eventIsEditable} from './checkEventEditability'
 
 const {PUBLICATION_STATUS, EVENT_STATUS} = constants
 
@@ -101,9 +102,9 @@ export const publishEvents = async (eventData) => {
  * @param eventId  ID of event that should be deleted
  * @returns {Promise}
  */
-export const deleteEvent = async (eventId) => {
+export const deleteEvent = async (eventData) => {
     try {
-        return await client.delete(`event/${eventId}`)
+        return await client.delete(`event/${eventData.id}`)
     } catch (e) {
         throw Error(e)
     }
@@ -114,7 +115,10 @@ export const deleteEvent = async (eventId) => {
  * @param eventIds  List of ID's that should be deleted
  * @returns {Promise}
  */
-export const deleteEvents = async (eventIds) => Promise.all(eventIds.map(deleteEvent))
+export const deleteEvents = async (eventData) => Promise.all(eventData
+    .filter(event => eventIsEditable(event)['editable'])
+    .map(deleteEvent)
+)
 
 /**
  * Cancels given events
@@ -123,6 +127,7 @@ export const deleteEvents = async (eventIds) => Promise.all(eventIds.map(deleteE
  */
 export const cancelEvents = async (eventData) => {
     const updatedEventData = eventData
+        .filter(event => eventIsEditable(event)['editable'])
         .map(event => ({
             ...event,
             event_status: EVENT_STATUS.CANCELLED,
