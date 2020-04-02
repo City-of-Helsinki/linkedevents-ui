@@ -95,12 +95,14 @@ const getEventListing = (subEventsMappedToEvents, events, intl) =>
 
 /**
  * Returns the additional markup for the confirmation dialog based on given action type
+ * @param extraMessage  Any extra message that needs to be displayed before other warnings
  * @param action        Either 'update', 'publish', 'delete' or 'cancel'
  * @param intl          React Intl
  * @param events        Possible sub events for the event
  * @returns {string}    Markup for the confirmation dialog
  */
-const getConfirmationMarkup = (action, intl, events = [])  => {
+const getConfirmationMarkup = (extraMessage = null, action, intl, events = [])  => {
+    const extraMessageText = extraMessage ? `<p><strong>${intl.formatMessage({id: extraMessage})}</strong></p>` : ''
     const warningText = `<p>${intl.formatMessage({id: `editor-${action}-warning`})}</p>`
     let extraWarningText = intl.formatMessage({id: `editor-${action}-extra-warning`})
     extraWarningText = extraWarningText === `editor-${action}-extra-warning` ? '' : `<p>${extraWarningText}</p>`
@@ -109,8 +111,8 @@ const getConfirmationMarkup = (action, intl, events = [])  => {
     const eventListing = getEventListing(subEventsMappedToEvents, events, intl)
 
     return eventListing.length > 0
-        ? `${warningText}${extraWarningText}${eventListing}`
-        : warningText
+        ? `${extraMessageText}${warningText}${extraWarningText}${eventListing}`
+        : `${extraMessageText}${warningText}`
 }
 
 /**
@@ -139,6 +141,9 @@ const showConfirmationModal = (
     const message = isDraft
         ? `confirm-${action}-draft`
         : `confirm-${action}`
+    const extraMessage = (action === 'cancel')
+        ? `confirm-cancel-extra`
+        : null
     const warningMessage = isDraft
         ? `${action}-draft`
         : action
@@ -170,7 +175,7 @@ const showConfirmationModal = (
         actionButtonLabel,
         {
             action: customAction || confirmActionMapping[action],
-            additionalMarkup: getConfirmationMarkup(warningMessage, intl, eventData),
+            additionalMarkup: getConfirmationMarkup(extraMessage, warningMessage, intl, eventData),
         }
     )
 })

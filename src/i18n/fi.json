@@ -31,6 +31,7 @@
     "confirm-delete": "Varmista tapahtuman poistaminen",
     "confirm-delete-draft": "Varmista luonnoksen poistaminen",
     "confirm-cancel": "Varmista tapahtuman peruminen",
+    "confirm-cancel-extra": "Muistathan, että perumisen sijaan voit myös järjestää tapahtuman etänä internetissä. Valitse tällöin muokkauslomakkeella tapahtumapaikaksi Internet.",
     "confirm-publish": "Varmista tapahtuman julkaiseminen",
     "confirm-publish-draft": "Varmista luonnoksen julkaiseminen",
     "delete": "Poista",

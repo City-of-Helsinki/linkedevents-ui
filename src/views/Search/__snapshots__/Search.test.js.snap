@@ -25,6 +25,7 @@ exports[`Search Snapshot should render view correctly 1`] = `
       "confirm": "Suorita",
       "confirm-action-header": "Varmista toiminto",
       "confirm-cancel": "Varmista tapahtuman peruminen",
+      "confirm-cancel-extra": "Muistathan, että perumisen sijaan voit myös järjestää tapahtuman etänä internetissä. Valitse tällöin muokkauslomakkeella tapahtumapaikaksi Internet.",
       "confirm-delete": "Varmista tapahtuman poistaminen",
       "confirm-delete-draft": "Varmista luonnoksen poistaminen",
       "confirm-image-delete": "Varmista kuvan poistaminen",
