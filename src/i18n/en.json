@@ -31,7 +31,7 @@
     "confirm-delete": "Delete event",
     "confirm-delete-draft": "Delete draft",
     "confirm-cancel": "Cancel event",
-    "confirm-cancel-extra": "Instead of canceling, you may also organize the event online on the internet. In such a case, edit the event and pick the location Internet in the location menu.",
+    "confirm-cancel-extra": "Instead of canceling, you may also organize the event online on the internet. In such a case, edit the event and pick the location Internet in the location menu. You may also postpone the event.",
     "confirm-publish": "Publish event",
     "confirm-publish-draft": "Publish draft",
     "confirm-postpone": "Postpone event",
