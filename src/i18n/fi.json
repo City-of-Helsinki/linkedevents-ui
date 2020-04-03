@@ -21,6 +21,7 @@
     "update-events": "Tallenna",
     "delete-events": "Poista tapahtuma",
     "cancel-events": "Peruuta tapahtuma",
+    "postpone-events": "Lykkää tapahtumaa",
     "publish-events": "Julkaise tapahtuma",
     "delete-events-multi": "Poista tapahtumat",
     "publish-events-multi": "Julkaise tapahtumat",
@@ -34,9 +35,12 @@
     "confirm-cancel-extra": "Muistathan, että perumisen sijaan voit myös järjestää tapahtuman etänä internetissä. Valitse tällöin muokkauslomakkeella tapahtumapaikaksi Internet.",
     "confirm-publish": "Varmista tapahtuman julkaiseminen",
     "confirm-publish-draft": "Varmista luonnoksen julkaiseminen",
+    "confirm-postpone": "Varmista tapahtuman lykkääminen",
+    "confirm-postpone-draft": "Varmista luonnostapahtuman lykkääminen",
     "delete": "Poista",
     "confirm": "Suorita",
     "draft": "Luonnos",
+    "postponed": "Lykätty",
     "cancelled": "Peruutettu",
     "series": "Sarja",
     "umbrella": "Kattotapahtuma",
@@ -262,8 +266,11 @@
     "editor-update-draft-extra-warning": "Tiedot tallennetaan seuraaviin tapahtumiin:",
     "editor-update-draft-draft-extra-warning": "Tiedot tallennetaan seuraaviin tapahtumiin:",
 
-    "editor-cancel-warning": "VAROITUS: Tämä toiminto peruuttaa tapahtuman. Voit myös poistaa sellaisen tapahtuman, jonka syötit vahingossa.",
+    "editor-cancel-warning": "VAROITUS: Tämä toiminto peruuttaa tapahtuman. Voit myös lykätä tapahtuman tulevaisuuteen, tai poistaa sellaisen tapahtuman, jonka syötit vahingossa.",
     "editor-cancel-extra-warning": "Seuraavat tapahtumat peruutetaan:",
+
+    "editor-postpone-warning": "VAROITUS: Tämä toiminto lykkää tapahtuman tulevaisuuteen. Lykättyäsi voit myöhemmin syöttää tapahtumalle uuden ajankohdan.",
+    "editor-postpone-extra-warning": "Seuraavat tapahtumat lykätään:",
 
     "editor-delete-warning": "VAROITUS: Tämä toiminto poistaa tapahtuman lopullisesti. Voit tarvittaessa myös perua tapahtuman tai lykätä sitä.",
     "editor-delete-extra-warning": "Seuraavat tapahtumat poistetaan:",

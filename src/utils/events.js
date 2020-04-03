@@ -142,6 +142,27 @@ export const cancelEvents = async (eventData) => {
 }
 
 /**
+ * Postpones given events
+ * @param eventData  Data for the events that should be postponed
+ * @returns {Promise}
+ */
+export const postponeEvents = async (eventData) => {
+    const updatedEventData = eventData
+        .filter(event => eventIsEditable(event)['editable'])
+        .map(event => ({
+            ...event,
+            start_time: null,
+            end_time: null,
+        }))
+
+    try {
+        return await client.put('event', updatedEventData)
+    } catch (e) {
+        throw Error(e)
+    }
+}
+
+/**
  * Returns the data for the given ID's
  * @param ids   ID's that the data is filtered based on
  * @param data  Data to be filtered

@@ -1,5 +1,5 @@
 import {getFirstMultiLanguageFieldValue} from './helpers'
-import {cancelEvents, deleteEvents, mapSubEventDataToSuperEvents, publishEvents} from './events'
+import {postponeEvents, cancelEvents, deleteEvents, mapSubEventDataToSuperEvents, publishEvents} from './events'
 import constants from '../constants'
 import moment from 'moment'
 import {get, isUndefined, isNull, isNil} from 'lodash'
@@ -160,6 +160,9 @@ const showConfirmationModal = (
         },
         update() {
             console.warn(`action '${action}' is not implemented!`)
+        },
+        postpone() {
+            resolve(postponeEvents(eventData))
         },
         cancel() {
             resolve(cancelEvents(eventData))
