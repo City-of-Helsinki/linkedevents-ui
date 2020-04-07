@@ -36,6 +36,8 @@ const config = {
         extensions: ['.', '.webpack.js', '.web.js', '.jsx', '.js'],
         alias: {
             '@city-assets': assetPath.cityAssets,
+            '@city-images': assetPath.cityImages,
+            '@city-i18n': assetPath.cityi18n,
         },
     },
     module: {
