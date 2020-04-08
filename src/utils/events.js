@@ -131,7 +131,6 @@ export const cancelEvents = async (eventData) => {
         .map(event => ({
             ...event,
             event_status: EVENT_STATUS.CANCELLED,
-            sub_events: [],
         }))
 
     try {
