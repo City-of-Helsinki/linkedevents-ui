@@ -122,7 +122,7 @@ class App extends React.Component {
                         muokata yksikkösi tapahtumia.</p>
                         <p>Jos olet jo saanut käyttöoikeudet, kirjautumisesi saattaa olla vanhentunut. Kokeile sivun
                         päivittämistä (F5) ja kirjautumista uudestaan.</p>
-                        <p>Helsinki Marketingin yhteistyökumppanit: <a href="mailto:toni.uuttu@hel.fi">Toni Uuttu</a>
+                        <p>Helsinki Marketingin yhteistyökumppanit: <a href="mailto:toni.uuttu@hel.fi">Toni Uuttu</a></p>
                     </Paper>
             }
         }
