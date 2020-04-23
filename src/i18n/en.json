@@ -195,6 +195,7 @@
     "validation-requiredAtId": "This field is required",
     "validation-requiredString": "This field is required",
     "validation-requiredStringForCourses": "This field is required",
+    "validation-defaultEndInTheFuture": "The start time must be in the future if end time is not specified",
     "validation-afterStartTime": "The end time must be later than start time",
     "validation-afterStartTimeAndInFuture": "The end time must be in the future and later than the start time",
     "validation-afterEnrolmentStartTime": "The end time must be later than start time",
