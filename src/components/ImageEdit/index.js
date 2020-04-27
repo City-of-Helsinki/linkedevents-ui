@@ -176,10 +176,10 @@ const ImageEdit = (props) => {
                         />
                         <TextField
                             fullWidth
-                            name="photographerName"
-                            label={<FormattedMessage id={'photographer'}/>}
-                            value={photographerName}
                             onChange={handleStateChange}
+                            name="photographerName"
+                            value={photographerName}
+                            label={<FormattedMessage id={'photographer'}/>}
                         />
                         <Typography
                             style={{marginTop: HelMaterialTheme.spacing(2)}}
