@@ -238,7 +238,6 @@ HelTextField.propTypes = {
     index: PropTypes.string,
     disabled: PropTypes.bool,
     type: PropTypes.string,
-    maxLength: PropTypes.number,
 }
 
 export default HelTextField

@@ -152,7 +152,6 @@ const ImageEdit = (props) => {
                             required={true}
                             defaultValue={altText}
                             validations={[VALIDATION_RULES.MEDIUM_STRING]}
-                            maxLength={altTextMaxLength}
                             label={
                                 <FormattedMessage
                                     id={'alt-text'}
@@ -168,7 +167,6 @@ const ImageEdit = (props) => {
                             name="name"
                             defaultValue={name}
                             validations={[VALIDATION_RULES.SHORT_STRING]}
-                            maxLength={nameMaxLength}
                             label={
                                 <FormattedMessage
                                     id={'image-caption-limit-for-min-and-max'}
