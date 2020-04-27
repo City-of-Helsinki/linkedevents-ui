@@ -18,12 +18,11 @@ import {
 } from '@material-ui/core'
 import {Close} from '@material-ui/icons'
 import {connect} from 'react-redux'
-import HelTextField from '../HelFormFields/HelTextField'
 import {postImage as postImageAction} from 'src/actions/userImages'
 import {HelMaterialTheme} from '../../themes/material-ui'
 import constants from '../../constants'
 
-const {CHARACTER_LIMIT, VALIDATION_RULES} = constants
+const {CHARACTER_LIMIT} = constants
 
 const InlineRadioGroup = withStyles({
     root: {
@@ -145,13 +144,13 @@ const ImageEdit = (props) => {
             <DialogContent>
                 <form onSubmit={() => handleImagePost(state, props)} className="row">
                     <div className="col-sm-8 image-edit-dialog--form">
-                        <HelTextField
+                        <TextField
+                            fullWidth
                             multiLine
                             onChange={handleStateChange}
                             name="altText"
                             required={true}
-                            defaultValue={altText}
-                            validations={[VALIDATION_RULES.MEDIUM_STRING]}
+                            value={altText}
                             label={
                                 <FormattedMessage
                                     id={'alt-text'}
@@ -161,12 +160,12 @@ const ImageEdit = (props) => {
                                 />
                             }
                         />
-                        <HelTextField
+                        <TextField
+                            fullWidth
                             multiLine
                             onChange={handleStateChange}
                             name="name"
-                            defaultValue={name}
-                            validations={[VALIDATION_RULES.SHORT_STRING]}
+                            value={name}
                             label={
                                 <FormattedMessage
                                     id={'image-caption-limit-for-min-and-max'}
