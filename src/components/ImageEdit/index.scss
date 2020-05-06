@@ -3,3 +3,12 @@
         object-fit: contain;
     }
 }
+.btn-primary{
+    margin-top: 30px;
+    border-radius: 2px;
+    font-size: 15.75px;
+    background-color: #0072c6;
+    button:disabled {
+        background-color: gray;
+    }
+}
