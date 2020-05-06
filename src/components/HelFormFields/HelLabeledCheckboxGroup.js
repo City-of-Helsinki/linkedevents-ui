@@ -40,9 +40,9 @@ const HelLabeledCheckboxGroup = (props) => {
     return (
         <React.Fragment>
             <fieldset className="col-sm-6 hel-checkbox-group">
-                <legend ref={labelRef}>
+                <h2 ref={labelRef}>
                     {groupLabel}
-                </legend>
+                </h2>
                 <div className='row'>
                     {options.map((item, index) => {
                         const checked = checkedOptions.includes(item.value)
@@ -52,7 +52,7 @@ const HelLabeledCheckboxGroup = (props) => {
                                 <FormControlLabel
                                     control={
                                         <Checkbox
-                                            color="primary"
+                                           
                                             value={item.value}
                                             name={`${name}.${item.value}`}
                                             inputRef={ref => refs[`checkRef${index}`] = ref}

@@ -17,7 +17,8 @@ import {
     HelKeywordSelector,
 } from 'src/components/HelFormFields'
 import RecurringEvent from 'src/components/RecurringEvent'
-import {Button, TextField} from '@material-ui/core'
+import {TextField} from '@material-ui/core'
+import {Button} from 'reactstrap';
 import {Add, Autorenew, FileCopyOutlined} from '@material-ui/icons'
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from '../../utils/apiDataMapping'
 import {setEventData, setData} from '../../actions/editor'
@@ -296,25 +297,20 @@ class FormFields extends React.Component {
                             />
                         }
                         <Button
+                            size='lg'block
                             variant="contained"
                             disabled={formType === 'update'}
-                            color="primary"
-                            onClick={() => this.addNewEventDialog()}
-                            startIcon={<Add/>}
-                            fullWidth
-                            style={{marginTop: HelMaterialTheme.spacing(2)}}
-                        >
+                            onClick={() => this.addNewEventDialog()}   
+                        ><span  className="glyphicon glyphicon-plus"></span>
                             <FormattedMessage id="event-add-new-occasion" />
                         </Button>
                         <Button
+                            size='lg' block
                             variant="contained"
                             disabled={formType === 'update'}
-                            color="primary"
                             onClick={() => this.showRecurringEventDialog()}
-                            startIcon={<Autorenew/>}
-                            fullWidth
-                            style={{marginTop: HelMaterialTheme.spacing(2)}}
-                        >
+                            
+                        ><span  className="glyphicon glyphicon-refresh"></span>
                             <FormattedMessage id="event-add-recurring" />
                         </Button>
                     </div>
