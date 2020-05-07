@@ -52,7 +52,7 @@ const HelLabeledCheckboxGroup = (props) => {
                                 <FormControlLabel
                                     control={
                                         <Checkbox
-                                           
+                                            color="primary"
                                             value={item.value}
                                             name={`${name}.${item.value}`}
                                             inputRef={ref => refs[`checkRef${index}`] = ref}
