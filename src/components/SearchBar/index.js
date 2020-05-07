@@ -4,10 +4,11 @@ import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import {FormattedMessage, injectIntl} from 'react-intl'
-import {Button, TextField} from '@material-ui/core'
+import {TextField} from '@material-ui/core'
 import {Remove} from '@material-ui/icons'
 import HelDatePicker from '../HelFormFields/HelDatePicker'
 import {HelMaterialTheme} from '../../themes/material-ui'
+import {Button} from 'reactstrap';
 
 const handleKeyPress = (
     event,
@@ -62,7 +63,6 @@ const SearchBar = ({intl, onFormSubmit}) => {
                 />
                 <Button
                     disabled={searchQuery.length === 0}
-                    style={{marginLeft: HelMaterialTheme.spacing(2)}}
                     variant="contained"
                     color="primary"
                     onClick={() => onFormSubmit(searchQuery, startDate, endDate)}
