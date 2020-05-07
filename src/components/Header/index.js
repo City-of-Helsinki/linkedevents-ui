@@ -14,7 +14,6 @@ import {FormattedMessage} from 'react-intl'
 import constants from '../../constants'
 //Updated Nav from Material UI to Reactstrap based on Open design
 import {Collapse, Navbar, NavbarToggler, Nav, NavbarBrand, Button} from 'reactstrap';
-import cityOfHelsinkiLogo from '../../assets/images/helsinki-logo.svg'
 import {hasOrganizationWithRegularUsers} from '../../utils/user'
 import {get} from 'lodash'
 import moment from 'moment'
@@ -83,9 +82,7 @@ class HeaderBar extends React.Component {
         return (
             <div className='main-navbar'>
                 <Navbar className='bar'>
-                    <NavbarBrand className="bar__logo" src={cityOfHelsinkiLogo}href="/">
-                        <img src={cityOfHelsinkiLogo} />
-                    </NavbarBrand>
+                    <NavbarBrand className="bar__logo" href="/" />
                     <Nav className='ml-auto'>
                         <div className='bar__login-and-language'>
                             <div className='language-selector'>
