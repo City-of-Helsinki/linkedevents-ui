@@ -17,9 +17,8 @@ import {
     HelKeywordSelector,
 } from 'src/components/HelFormFields'
 import RecurringEvent from 'src/components/RecurringEvent'
-import {TextField} from '@material-ui/core'
-import {Button} from 'reactstrap';
-import {Add, Autorenew, FileCopyOutlined} from '@material-ui/icons'
+import {Button,Form, FormGroup, Label, Input} from 'reactstrap';
+import {Add, Autorenew} from '@material-ui/icons'
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from '../../utils/apiDataMapping'
 import {setEventData, setData} from '../../actions/editor'
 import {get, isNull, pickBy} from 'lodash'
@@ -27,9 +26,9 @@ import API from '../../api'
 import CONSTANTS from '../../constants'
 import OrganizationSelector from '../HelFormFields/OrganizationSelector';
 import UmbrellaSelector from '../HelFormFields/UmbrellaSelector/UmbrellaSelector'
-import {HelMaterialTheme} from '../../themes/material-ui'
 import moment from 'moment'
 import HelVideoFields from '../HelFormFields/HelVideoFields/HelVideoFields'
+
 
 let FormHeader = (props) => (
     <div className="row">
@@ -329,24 +328,29 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row location-row">
                     <div className="col-sm-6 hel-select">
+                       
                         <HelSelect
-                            selectedValue={values['location']}
                             legend={this.context.intl.formatMessage({id: 'event-location'})}
+                            selectedValue={values['location']}
                             ref="location"
                             name="location"
                             resource="place"
                             validationErrors={validationErrors['location']}
                             setDirtyState={this.props.setDirtyState}
                         />
-                        <TextField
-                            fullWidth
-                            disabled
-                            label={this.context.intl.formatMessage({id: 'event-location-id'})}
-                            value={values['location'] && values['location'].id ? values['location'].id : ''}
-                        />
+
+                        <Form>
+                            <FormGroup className='place-id'>
+                                <label>{this.context.intl.formatMessage({id: 'event-location-id'})}</label>
+                                <input type="text" className="form-control"value={values['location'] && values['location'].id ? values['location'].id : ''} readOnly/>
+                            </FormGroup>
+                           
+                        </Form>
+                        
+      
                         <CopyToClipboard text={values['location'] ? values['location'].id : ''}>
-                            <button className="clipboard-copy-button" title={this.context.intl.formatMessage({id: 'copy-to-clipboard'})}>
-                                <FileCopyOutlined />
+                            <button type='button' className="clipboard-copy-button btn btn-default" title={this.context.intl.formatMessage({id: 'copy-to-clipboard'})}>
+                                <span className="glyphicon glyphicon-duplicate" aria-hidden="true"></span>
                             </button>
                         </CopyToClipboard>
                         <MultiLanguageField
