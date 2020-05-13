@@ -36,7 +36,7 @@ nconf.defaults({
 
 /**
  * Function to retrieve value from config
- * @param {undefined|string|string[]} keys
+ * @param {undefined|string|string[]} keys 
  */
 function getConfig(keys) {
     // Return all config if no keys provided
