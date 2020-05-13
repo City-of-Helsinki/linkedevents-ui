@@ -9,33 +9,35 @@ import {withRouter} from 'react-router'
 
 import {clearUserData as clearUserDataAction} from 'src/actions/user.js'
 import {setLocale as setLocaleAction} from 'src/actions/userLocale'
-
+import LanguageSelector from './LanguageSelector';
 import {FormattedMessage} from 'react-intl'
-
-// Material-ui Components
-import Select from 'react-select'
-import {Button, Drawer, Hidden, makeStyles, Toolbar} from '@material-ui/core'
-import {Add, Menu, Language, Person} from '@material-ui/icons'
-
-import {Link} from 'react-router-dom'
 import constants from '../../constants'
-
-import cityOfHelsinkiLogo from '../../assets/images/helsinki-logo.svg'
+//Updated Nav from Material UI to Reactstrap based on Open design
+import {Collapse, Navbar, NavbarToggler, Nav, NavbarBrand, Button} from 'reactstrap';
+//Citylogo can now be used from scss
+//import cityOfHelsinkiLogo from '../../assets/images/helsinki-logo.svg'
 import {hasOrganizationWithRegularUsers} from '../../utils/user'
 import {get} from 'lodash'
-import {HelMaterialTheme} from '../../themes/material-ui'
-import {HelSelectTheme, HelLanguageSelectStyles} from '../../themes/react-select'
 import moment from 'moment'
 import * as momentTimezone from 'moment-timezone'
-import helBrandColors from '../../themes/hel/hel-brand-colors'
+import classNames from 'classnames'
 import userManager from '../../utils/userManager'
 
 const {USER_TYPE, APPLICATION_SUPPORT_TRANSLATION} = constants
 
 class HeaderBar extends React.Component {
-    state = {
-        navBarOpen: false,
-        showModerationLink: false,
+    constructor(props) {
+        super(props);
+        this.toggle = this.toggle.bind(this);
+        this.state = {
+            isOpen: false,
+            showModerationLink: false,
+        };
+    }
+    toggle() {
+        this.setState ({
+            isOpen: !this.state.isOpen,
+        });
     }
 
     componentDidMount() {
@@ -67,15 +69,6 @@ class HeaderBar extends React.Component {
         this.props.setLocale(selectedOption.value)
         moment.locale(selectedOption.value)
         momentTimezone.locale(selectedOption.value)
-    }
-
-    toggleNavbar = () => {
-        this.setState({navBarOpen: !this.state.navBarOpen});
-    }
-
-    getNavigateMobile = (navigate) => () => {
-        navigate();
-        this.toggleNavbar();
     }
 
     handleLoginClick = () => {
@@ -110,52 +103,35 @@ class HeaderBar extends React.Component {
         const isInsideForm = location.pathname.startsWith('/event/create/new');
 
         return (
-            <div className="main-navbar">
-                <Toolbar className="helsinki-bar">
-                    <div className="helsinki-bar__logo">
-                        <Link to="/">
-                            <img src={cityOfHelsinkiLogo} alt="City Of Helsinki" />
-                        </Link>
-                    </div>
-                    <div className="helsinki-bar__login-button">
-                        <div className="helsinki-bar__language-button">
-                            <div className="language-selector">
-                                <Language className="language-icon"/>
-                                <Select
-                                    isClearable={false}
-                                    isSearchable={false}
-                                    value={{
-                                        label: userLocale.locale.toUpperCase(),
-                                        value: userLocale.locale,
-                                    }}
-                                    options={this.getLanguageOptions()}
-                                    onChange={this.changeLanguage}
-                                    styles={HelLanguageSelectStyles}
-                                    theme={HelSelectTheme}
-                                />
-                            </div>  
+            <div className='main-navbar'>
+                <Navbar className='bar'>
+                    <NavbarBrand className="bar__logo" href="/" />
+                    <Nav className='ml-auto'>
+                        <div className='bar__login-and-language'>
+                            <div className='language-selector'>
+                                <LanguageSelector languages={this.getLanguageOptions()} userLocale={userLocale} changeLanguage={this.changeLanguage} />
+                            </div>
+                            {user ? (
+                                <Button
+                                    onClick={this.handleLogoutClick}>
+                                    {user.displayName}
+                                </Button>
+                            ) : (
+                                <Button  
+                                    onClick={this.handleLoginClick}>
+                                    <span className="glyphicon glyphicon-user"></span>
+                                    <FormattedMessage id='login' />
+                                </Button>
+                            )}
                         </div>
-                        {user
-                            ? <Button
-                                style={{color: HelMaterialTheme.palette.primary.contrastText}}
-                                onClick={this.handleLogoutClick}
-                            >
-                                {user.displayName}
-                            </Button>
-                            : <Button
-                                style={{color: HelMaterialTheme.palette.primary.contrastText}}
-                                startIcon={<Person/>}
-                                onClick={this.handleLoginClick}
-                            >
-                                <FormattedMessage id="login"/>
-                            </Button>}
-                    </div>
-                </Toolbar>
-                
-                <Toolbar className="linked-events-bar">
-                    <div className="linked-events-bar__logo" onClick={() => routerPush('/')}><FormattedMessage id={`linked-${appSettings.ui_mode}`} /></div>
-                    <div className="linked-events-bar__links">
-                        <Hidden smDown>
+                    </Nav>
+                </Navbar>
+        
+                <Navbar className="linked-events-bar" expand='lg'>
+                    <NavbarBrand className="linked-events-bar__logo" onClick={() => routerPush('/')}><FormattedMessage id={`linked-${appSettings.ui_mode}`} /></NavbarBrand>
+                    <NavbarToggler onClick={this.toggle} />
+                    <Collapse isOpen={this.state.isOpen} navbar>
+                        <div className="linked-events-bar__links">
                             <div className="linked-events-bar__links__list">
                                 <NavLinks
                                     showModerationLink={showModerationLink}
@@ -165,46 +141,28 @@ class HeaderBar extends React.Component {
                                     toModerationPage={toModerationPage}
                                 />
                             </div>
-                        </Hidden>
-                        <div />
-                        <div className="linked-events-bar__links__mobile">
-                            {!isInsideForm && (
-                                <Button
-                                    variant="outlined"
-                                    className="linked-events-bar__links__create-events"
-                                    onClick={() => routerPush('/event/create/new')}
-                                    startIcon={<Add/>}
-                                >
-                                    <FormattedMessage id={`create-${appSettings.ui_mode}`}/>
-                                </Button>
-                            )}
-                            <Hidden mdUp>
-                                <Menu className="linked-events-bar__icon" onClick={this.toggleNavbar} />
-                                <Drawer anchor='right' open={this.state.navBarOpen} ModalProps={{onBackdropClick: this.toggleNavbar}}>
-                                    <div className="menu-drawer-mobile">
-                                        <NavLinks
-                                            showModerationLink={showModerationLink}
-                                            toMainPage={this.getNavigateMobile(toMainPage)}
-                                            toSearchPage={this.getNavigateMobile(toSearchPage)}
-                                            toHelpPage={this.getNavigateMobile(toHelpPage)}
-                                            toModerationPage={this.getNavigateMobile(toModerationPage)}
-                                        />
-                                    </div> 
-                                </Drawer>
-                            </Hidden>
+                            <Nav className="ml-auto" navbar>
+                                {!isInsideForm && (
+                                    <Button
+                                        className="linked-events-bar__links__create-events"
+                                        onClick={() => routerPush('/event/create/new')}
+                                    >
+                                        <span className="glyphicon glyphicon-plus"></span>
+                                        <FormattedMessage id={`create-${appSettings.ui_mode}`}/>
+                                    </Button> )}
+                            </Nav>
                         </div>
-                    </div>
-                </Toolbar>
+                    </Collapse>
+                </Navbar>
             </div>
         )
     }
 }
-
-const NavLinks = (props) => {
+/**
+ * Returns the page links, if showModeration is true then the link to the moderation page is rendered aswell.
+ */
+export const NavLinks = (props) => {
     const {showModerationLink, toMainPage, toSearchPage, toHelpPage, toModerationPage} = props;
-    const moderationStyles = showModerationLink && makeStyles(theme => ({
-        root: {color: theme.palette.primary.main},
-    }))()
 
     return (
         <React.Fragment>
@@ -213,8 +171,9 @@ const NavLinks = (props) => {
             <Button onClick={toHelpPage}> <FormattedMessage id="more-info"/></Button>
             {showModerationLink &&
                 <Button
+                    //Added classNames for moderation-link, now applies className "moderator true" when state true for scss-rule color.
+                    className={classNames('moderator',{true: showModerationLink})}
                     onClick={toModerationPage}
-                    classes={moderationStyles}
                 >
                     <FormattedMessage id="moderation-page"/>
                 </Button>
@@ -238,11 +197,13 @@ HeaderBar.propTypes = {
     userLocale: PropTypes.object,
     setLocale: PropTypes.func,
     location: PropTypes.object,
-    navBarOpen: PropTypes.bool,
     showModerationLink: PropTypes.bool,
+    type: PropTypes.string,
+    tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
     clearUserData: PropTypes.func,
     auth: PropTypes.object,
 }
+
 
 const mapStateToProps = (state) => ({
     user: state.user,

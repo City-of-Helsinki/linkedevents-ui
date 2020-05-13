@@ -3,7 +3,6 @@ import common from './common.js';
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import {readConfig} from '../appConfig';
-
 const publicUrl = readConfig('publicUrl')
 const ui_mode = readConfig('ui_mode')
 
@@ -27,8 +26,8 @@ export default {
     module: {
         rules: [
             {
-                test: /\.(js|jsx)?$/, 
-                exclude: /node_modules/, 
+                test: /\.(js|jsx)?$/,
+                exclude: /node_modules/,
                 enforce: 'pre',
                 use: ['babel-loader', 'eslint-loader'],
             },

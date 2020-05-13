@@ -37,8 +37,8 @@ const config = {
     module: {
         rules: [
             {
-                test: /\.(js|jsx)?$/, 
-                exclude: /node_modules/, 
+                test: /\.(js|jsx)?$/,
+                exclude: /node_modules/,
                 enforce: 'pre',
                 use: ['babel-loader', 'eslint-loader'],
             },
