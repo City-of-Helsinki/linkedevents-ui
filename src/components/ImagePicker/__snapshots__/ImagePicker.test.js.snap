@@ -401,6 +401,7 @@ exports[`Image add form ImagePicker component should render view by default 1`] 
               />
             }
             onChange={[Function]}
+            value={null}
           />
           <WithStyles(ForwardRef(Button))
             className="file-upload--external-button"

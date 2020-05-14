@@ -58,7 +58,7 @@ const handleImagePost = ({
     postImage,
     user,
     id,
-    close,
+    onSave,
 }) => {
     const data = new FormData()
 
@@ -74,7 +74,7 @@ const handleImagePost = ({
     data.append('license', license)
 
     postImage(data, user, updateExisting ? id : null)
-    close()
+    onSave()
 }
 
 /**
@@ -249,6 +249,7 @@ ImageEdit.propTypes = {
     user: PropTypes.object,
     id: PropTypes.number,
     close: PropTypes.func,
+    onSave: PropTypes.func,
 }
 
 const mapStateToProps = (state) => ({
