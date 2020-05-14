@@ -18,11 +18,12 @@ import {
 } from '@material-ui/core'
 import {Close} from '@material-ui/icons'
 import {connect} from 'react-redux'
+import HelTextField from '../HelFormFields/HelTextField'
 import {postImage as postImageAction} from 'src/actions/userImages'
 import {HelMaterialTheme} from '../../themes/material-ui'
 import constants from '../../constants'
 
-const {CHARACTER_LIMIT} = constants
+const {CHARACTER_LIMIT, VALIDATION_RULES} = constants
 
 const InlineRadioGroup = withStyles({
     root: {
@@ -144,13 +145,14 @@ const ImageEdit = (props) => {
             <DialogContent>
                 <form onSubmit={() => handleImagePost(state, props)} className="row">
                     <div className="col-sm-8 image-edit-dialog--form">
-                        <TextField
-                            fullWidth
+                        <HelTextField
                             multiLine
                             onChange={handleStateChange}
                             name="altText"
                             required={true}
-                            value={altText}
+                            defaultValue={altText}
+                            validations={[VALIDATION_RULES.MEDIUM_STRING]}
+                            updateStore={false}
                             label={
                                 <FormattedMessage
                                     id={'alt-text'}
@@ -160,12 +162,13 @@ const ImageEdit = (props) => {
                                 />
                             }
                         />
-                        <TextField
-                            fullWidth
+                        <HelTextField
                             multiLine
                             onChange={handleStateChange}
                             name="name"
-                            value={name}
+                            defaultValue={name}
+                            validations={[VALIDATION_RULES.SHORT_STRING]}
+                            updateStore={false}
                             label={
                                 <FormattedMessage
                                     id={'image-caption-limit-for-min-and-max'}
