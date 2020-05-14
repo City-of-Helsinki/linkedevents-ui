@@ -104,10 +104,10 @@ export function postImage(formData, user, imageId = null) {
                 request = await client.put(`image/${imageId}`, formData);
             } else {
                 request = await client.post(`image/`, formData);
-                
-                // Append uploaded image data to the form
-                dispatch(setData({'image': request.data}));
             }
+
+            // Append uploaded image data to the form
+            dispatch(setData({'image': request.data}));
             
             dispatch(imageUploadComplete(request));
             

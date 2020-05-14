@@ -37,6 +37,17 @@ const PreviewImage = (props) => {
     }
 };
 
+
+// ImagePicker can at any point in time be in only one of the following states
+const State = Object.freeze({
+    CLOSED: 'closed', // ImagePicker is closed
+    OPEN: 'open', // ImagePicker is open in the gallery view
+    // The following two states have been separated since the close behavior differs depending on the type of upload
+    UPLOAD_LOCAL: 'uploadLocal', // Upload an image from the computer
+    UPLOAD_EXTERNAL: 'uploadExternal', // Upload an image from an external URL
+    EDIT: 'edit', // Edit an existing image
+})
+
 export class ImagePicker extends React.Component {
 
     constructor(props) {
@@ -45,12 +56,14 @@ export class ImagePicker extends React.Component {
         this.hiddenFileInput = React.createRef()
 
         this.state = {
-            open: false,
-            edit: false,
+            mode: State.CLOSED,
             imageFile: null,
             thumbnailUrl: null,
             fileSizeError: false,
         };
+
+        this.closeNestedDialog = this.closeNestedDialog.bind(this)
+        this.closeNestedDialogAndResetUrl = this.closeNestedDialogAndResetUrl.bind(this)
     }
 
     clickHiddenUploadInput() {
@@ -62,7 +75,7 @@ export class ImagePicker extends React.Component {
     }
 
     handleExternalImageSave() {
-        this.setState({edit: true, imageFile: null})
+        this.setState({mode: State.UPLOAD_EXTERNAL, imageFile: null})
     }
 
     handleUpload(event) {
@@ -77,7 +90,7 @@ export class ImagePicker extends React.Component {
         data.append('image', file);
         
         if(file && (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' )) {
-            this.setState({edit: true, imageFile: file, thumbnailUrl: window.URL.createObjectURL(file)});
+            this.setState({mode: State.UPLOAD_LOCAL, imageFile: file, thumbnailUrl: window.URL.createObjectURL(file)});
         }
     }
     
@@ -126,31 +139,48 @@ export class ImagePicker extends React.Component {
     
     handleEdit() {
         this.setState({
-            edit: true,
+            mode: State.EDIT,
         });
     }
 
     closeGalleryModal() {
-        this.setState({open: false})
+        this.setState({mode: State.CLOSED})
     }
     
     openGalleryModal = () => {
-        this.setState({open: true});
+        this.setState({mode: State.OPEN});
     };
+
+
+    closeNestedDialog = () => {
+        this.setState({mode: State.OPEN})
+    }
+
+    closeNestedDialogAndResetUrl = () => {
+        // Reset also the thumbnail URL field
+        this.setState({mode: State.OPEN, thumbnailUrl: ''})
+    }
 
     render() {
         const backgroundImage = getIfExists(this.props.editor.values, 'image.url', '');
     
         let editModal = null;
         
-        if (this.state.edit && this.state.thumbnailUrl) {
-            /* When adding a new image from hard drive */
+
+        if ((this.state.mode === State.UPLOAD_LOCAL || this.state.mode === State.UPLOAD_EXTERNAL)
+                && this.state.thumbnailUrl) {
+            /* When adding a new image */
             editModal = <ImageEdit
                 imageFile={this.state.imageFile}
                 thumbnailUrl={this.state.thumbnailUrl}
-                close={() => this.setState({edit: false})}
+                close={this.state.mode === State.UPLOAD_LOCAL
+                    ? this.closeNestedDialogAndResetUrl
+                    // When closing the external image upload dialog, we don't want to reset the external image URL field
+                    : this.closeNestedDialog
+                }
+                onSave={this.closeNestedDialogAndResetUrl}
             />;
-        } else if (this.state.edit && !isEmpty(this.props.editor.values.image)) {
+        } else if (this.state.mode === State.EDIT && !isEmpty(this.props.editor.values.image)) {
             /* When editing existing image by pressing the edit button on top of the grid */
             editModal = <ImageEdit
                 id={this.props.editor.values.image.id}
@@ -159,7 +189,8 @@ export class ImagePicker extends React.Component {
                 defaultPhotographerName={this.props.editor.values.image.photographer_name}
                 thumbnailUrl={this.props.editor.values.image.url}
                 license={this.props.editor.values.image.license}
-                close={() => this.setState({edit: false})}
+                close={this.closeNestedDialog}
+                onSave={this.closeNestedDialogAndResetUrl}
                 updateExisting
             />;
         }
@@ -173,7 +204,7 @@ export class ImagePicker extends React.Component {
 
                 <Dialog
                     className="image-picker--dialog"
-                    open={this.state.open}
+                    open={this.state.mode === State.OPEN}
                     fullWidth
                     maxWidth="lg"
                     onClose={() => this.closeGalleryModal()}
@@ -216,6 +247,7 @@ export class ImagePicker extends React.Component {
                                 <TextField
                                     className="file-upload--external-input"
                                     label={<FormattedMessage id="upload-image-from-url"/>}
+                                    value={this.state.thumbnailUrl}
                                     onChange={this.handleExternalImage}
                                 />
                                 <Button

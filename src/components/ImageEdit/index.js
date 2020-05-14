@@ -58,7 +58,7 @@ const handleImagePost = ({
     postImage,
     user,
     id,
-    close,
+    onSave,
 }) => {
     const data = new FormData()
 
@@ -74,7 +74,7 @@ const handleImagePost = ({
     data.append('license', license)
 
     postImage(data, user, updateExisting ? id : null)
-    close()
+    onSave()
 }
 
 /**
@@ -152,7 +152,7 @@ const ImageEdit = (props) => {
                             required={true}
                             defaultValue={altText}
                             validations={[VALIDATION_RULES.MEDIUM_STRING]}
-                            maxLength={altTextMaxLength}
+                            updateStore={false}
                             label={
                                 <FormattedMessage
                                     id={'alt-text'}
@@ -168,7 +168,7 @@ const ImageEdit = (props) => {
                             name="name"
                             defaultValue={name}
                             validations={[VALIDATION_RULES.SHORT_STRING]}
-                            maxLength={nameMaxLength}
+                            updateStore={false}
                             label={
                                 <FormattedMessage
                                     id={'image-caption-limit-for-min-and-max'}
@@ -179,10 +179,10 @@ const ImageEdit = (props) => {
                         />
                         <TextField
                             fullWidth
-                            name="photographerName"
-                            label={<FormattedMessage id={'photographer'}/>}
-                            value={photographerName}
                             onChange={handleStateChange}
+                            name="photographerName"
+                            value={photographerName}
+                            label={<FormattedMessage id={'photographer'}/>}
                         />
                         <Typography
                             style={{marginTop: HelMaterialTheme.spacing(2)}}
@@ -249,6 +249,7 @@ ImageEdit.propTypes = {
     user: PropTypes.object,
     id: PropTypes.number,
     close: PropTypes.func,
+    onSave: PropTypes.func,
 }
 
 const mapStateToProps = (state) => ({
