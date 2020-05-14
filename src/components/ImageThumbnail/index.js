@@ -52,6 +52,7 @@ class ImageThumbnail extends React.PureComponent {
                 thumbnailUrl={this.props.url}
                 license={this.props.data.license}
                 close={() => this.setState({edit: false})}
+                onSave={() => this.setState({edit: false})}
                 updateExisting
             />;
         }
