@@ -18,7 +18,7 @@ import {getBadge, scrollToTop} from '../../utils/helpers'
 
 import './index.scss'
 import EventActionButton from '../../components/EventActionButton/EventActionButton'
-import {hasOrganizationWithRegularUsers} from '../../utils/user'
+import {getOrganizationAncestors, hasOrganizationWithRegularUsers} from '../../utils/user'
 
 const {
     USER_TYPE,
@@ -58,6 +58,11 @@ class EventPage extends React.Component {
         if (publisherId && publisherId !== oldPublisherId) {
             client.get(`organization/${publisherId}`)
                 .then(response => this.setState({publisher: response.data}))
+            getOrganizationAncestors(publisherId)
+                .then(response => this.setState(state => ({
+                    ...state,
+                    event: {...state.event, publisherAncestors: response.data.data},
+                })))
         }
     }
 
