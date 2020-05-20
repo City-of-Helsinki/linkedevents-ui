@@ -52,6 +52,7 @@ class EventRow extends React.Component {
             const queryParams = new EventQueryParams()
             queryParams.super_event = event.id
             queryParams.include = 'keywords'
+            queryParams.page_size = 100
             queryParams.show_all = userType === USER_TYPE.REGULAR ? true : null
             queryParams.admin_user = userType === USER_TYPE.ADMIN ? true : null
 
