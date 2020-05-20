@@ -14,7 +14,6 @@ import {getStringWithLocale} from '../../utils/locale'
 import {mapKeywordSetToForm} from '../../utils/apiDataMapping'
 import LinksToEvents from '../LinksToEvents/LinksToEvents'
 import {CheckBox, CheckBoxOutlineBlank} from '@material-ui/icons'
-import {HelMaterialTheme} from '../../themes/material-ui'
 import helBrandColors from '../../themes/hel/hel-brand-colors'
 
 const NoValue = (props) => {
@@ -288,8 +287,8 @@ VideoValue.propTypes = {
 
 const EventDetails = (props) => {
     const {editor, values, intl, rawData, publisher, superEvent} = props
-
-    const mainCategoryValues = mapKeywordSetToForm(editor.keywordSets, 'helsinki:topics')
+    // Changed keywordSets to be compatible with Turku's backend.
+    const mainCategoryValues = mapKeywordSetToForm(editor.keywordSets, 'turku:topics')
         .map(item => item.value)
     const mainCategoryKeywords = values.keywords.filter(item => mainCategoryValues.includes(item.value))
     const nonMainCategoryKeywords = values.keywords.filter(item => !mainCategoryValues.includes(item.value))

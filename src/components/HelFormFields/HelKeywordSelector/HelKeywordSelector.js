@@ -9,7 +9,6 @@ import {setData as setDataAction} from '../../../actions/editor'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {CopyToClipboard} from 'react-copy-to-clipboard'
-import {FileCopyOutlined} from '@material-ui/icons'
 
 const handleKeywordChange = (checkedOptions, keywords, mainCategoryOptions, setData) => {
     if (isNil(checkedOptions)) {
@@ -53,12 +52,14 @@ const getKeywordIds = (keywords) => keywords
 const HelKeywordSelector = ({intl, editor, setDirtyState, setData}) => {
     const {values, keywordSets, validationErrors} = editor
     const keywords = get(values, 'keywords', [])
-    const mainCategoryOptions = mapKeywordSetToForm(keywordSets, 'helsinki:topics')
+    // Changed keywordSets to be compatible with Turku's backend.
+    const mainCategoryOptions = mapKeywordSetToForm(keywordSets, 'turku:topics')
     // Internet location automatically implies "remote participation"
     const remoteParticipationKeyword = mainCategoryOptions.find(keyword => keyword['value'].includes('yso:p26626'))
     if (remoteParticipationKeyword
         && values['location']
-        && values['location']['id'] == 'helsinki:internet'
+        // Changed keywordSets to be compatible with Turku's backend.
+        && values['location']['id'] == 'turku:internet'
         && !keywords.find(keyword => keyword['value'].includes('yso:p26626'))) {
         keywords.push(remoteParticipationKeyword)
     }
@@ -89,8 +90,8 @@ const HelKeywordSelector = ({intl, editor, setDirtyState, setData}) => {
                     customOnChangeHandler={(selectedOption) => handleKeywordChange(selectedOption, keywords, mainCategoryOptions, setData)}
                 />
                 <CopyToClipboard text={values['keywords'] ? getKeywordIds(keywords) : ''}>
-                    <button className="clipboard-copy-button" title={intl.formatMessage({id: 'copy-to-clipboard'})}>
-                        <FileCopyOutlined />
+                    <button type='button' className="clipboard-copy-button btn btn-default" title={intl.formatMessage({id: 'copy-to-clipboard'})}>
+                        <span className="glyphicon glyphicon-duplicate" aria-hidden="true"></span>
                     </button>
                 </CopyToClipboard>
                 <SelectedKeywords

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState,Fragment} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
@@ -7,7 +7,9 @@ import {checkEventEditability} from '../../utils/checkEventEditability'
 import constants from '../../constants'
 import showConfirmationModal from '../../utils/confirm'
 import {appendEventDataWithSubEvents, getEventsWithSubEvents} from '../../utils/events'
-import {Button, Checkbox, CircularProgress, FormControlLabel, Tooltip} from '@material-ui/core'
+import {Checkbox, FormControlLabel, Tooltip} from '@material-ui/core'
+//Replaced Material-ui Button for a Bootstrap implementation. - Turku
+import {Button} from 'reactstrap';
 import {confirmAction} from '../../actions/app'
 import {getButtonLabel} from '../../utils/helpers'
 import {Link} from 'react-router-dom'
@@ -91,7 +93,7 @@ const EventActionButton = (props) => {
     }
 
     const button =
-        <React.Fragment>
+        <Fragment>
             {showTermsCheckbox &&
                 <FormControlLabel
                     control={
@@ -102,27 +104,26 @@ const EventActionButton = (props) => {
                         />
                     }
                     label={
-                        <React.Fragment>
+                        <Fragment>
                             <FormattedMessage id={'terms-agree-text'} />
                             &nbsp;
                             <Link to={'/terms'} target="_blank">
                                 <FormattedMessage id={'terms-agree-link'} />
                             </Link>
-                        </React.Fragment>
+                        </Fragment>
                     }
                 />
             }
             <Button
-                variant="contained"
+                color="secondary"
+                variant="contained "
                 disabled={disabled}
-                endIcon={loading && isSaveButton(action) && <CircularProgress color="inherit" size={25}/>}
                 className={`editor-${action}-button`}
                 onClick={() => confirmAction ? confirmEventAction(props) : customAction()}
-                color={color}
             >
                 <FormattedMessage id={buttonLabel}/>
             </Button>
-        </React.Fragment>
+        </Fragment>
 
     return disabled && explanationId
         ? <Tooltip title={intl.formatMessage({id: explanationId})}>
