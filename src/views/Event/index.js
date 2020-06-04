@@ -231,7 +231,7 @@ class EventPage extends React.Component {
         return (
             <div className="event-page container">
                 <header>
-                    <h1>
+                    <h1 tabIndex='0'>
                         {loading
                             ? <Spinner animation="border" role="status">
                                 <span className="sr-only">Loading...</span>
@@ -240,13 +240,13 @@ class EventPage extends React.Component {
                         }
                     </h1>
                     {!loading &&
-                        <h4>
+                        <h2 tabIndex='0'>
                             {isPostponed && getBadge('postponed', 'medium')}
                             {isCancelled && getBadge('cancelled', 'medium')}
                             {isDraft && getBadge('draft', 'medium')}
                             {isUmbrellaEvent && getBadge('umbrella', 'medium')}
                             {isRecurringEvent && getBadge('series', 'medium')}
-                        </h4>
+                        </h2>
                     }
                 </header>
                 {this.getEventActions()}
