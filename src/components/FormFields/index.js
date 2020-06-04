@@ -18,7 +18,6 @@ import {
 } from 'src/components/HelFormFields'
 import RecurringEvent from 'src/components/RecurringEvent'
 import {Button,Form, FormGroup, Label, Input} from 'reactstrap';
-import {Add, Autorenew} from '@material-ui/icons'
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from '../../utils/apiDataMapping'
 import {setEventData, setData} from '../../actions/editor'
 import {get, isNull, pickBy} from 'lodash'
@@ -28,6 +27,7 @@ import OrganizationSelector from '../HelFormFields/OrganizationSelector';
 import UmbrellaSelector from '../HelFormFields/UmbrellaSelector/UmbrellaSelector'
 import moment from 'moment'
 import HelVideoFields from '../HelFormFields/HelVideoFields/HelVideoFields'
+// Removed material-ui/icons because it was no longer used.
 //Added isOpen for RecurringEvents modal
 
 let FormHeader = (props) => (
@@ -184,7 +184,8 @@ class FormFields extends React.Component {
                             required={true}
                             multiLine={false}
                             label="event-headline"
-                            ref="name" name="name"
+                            ref='name'
+                            name='name'
                             validationErrors={validationErrors['name', 'short_description']}
                             validations={[VALIDATION_RULES.SHORT_STRING]}
                             defaultValue={values['name']}
@@ -405,11 +406,12 @@ class FormFields extends React.Component {
                 </FormHeader>
                 <div className="row">
                     <div className="col-sm-6">
+                        {/* Removed formatted message from label since it was causing accessibility issues */}
                         <HelTextField
                             validations={[VALIDATION_RULES.IS_URL]}
                             ref="extlink_facebook"
                             name="extlink_facebook"
-                            label={<FormattedMessage id="facebook-url"/>}
+                            label='Facebook'
                             validationErrors={validationErrors['extlink_facebook']}
                             defaultValue={values['extlink_facebook']}
                             setDirtyState={this.props.setDirtyState}
@@ -419,7 +421,7 @@ class FormFields extends React.Component {
                             validations={[VALIDATION_RULES.IS_URL]}
                             ref="extlink_twitter"
                             name="extlink_twitter"
-                            label={<FormattedMessage id="twitter-url"/>}
+                            label='Twitter'
                             validationErrors={validationErrors['extlink_twitter']}
                             defaultValue={values['extlink_twitter']}
                             setDirtyState={this.props.setDirtyState}
@@ -429,7 +431,7 @@ class FormFields extends React.Component {
                             validations={[VALIDATION_RULES.IS_URL]}
                             ref="extlink_instagram"
                             name="extlink_instagram"
-                            label={<FormattedMessage id="instagram-url"/>}
+                            label='Instagram'
                             validationErrors={validationErrors['extlink_instagram']}
                             defaultValue={values['extlink_instagram']}
                             setDirtyState={this.props.setDirtyState}
