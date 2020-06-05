@@ -10,6 +10,7 @@ import {connect} from 'react-redux'
 
 import Headerbar from 'src/components/Header'
 import SkipLink from 'src/components/SkipLink'
+import Footer from 'src/components/Footer/Footer.js'
 import {ThemeProvider,IconButton, Paper, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
 import {Close} from '@material-ui/icons';
 import {Helmet} from 'react-helmet';
@@ -182,6 +183,7 @@ class App extends React.Component {
                                 </Button>
                             </DialogActions>
                         </Dialog>
+                        <Footer />
                     </div>
                 </MuiPickersUtilsProvider>
             </ThemeProvider>
