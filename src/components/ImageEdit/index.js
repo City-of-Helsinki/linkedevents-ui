@@ -3,12 +3,7 @@ import './index.scss'
 import React, {useState} from 'react';
 import PropTypes from 'prop-types'
 import {injectIntl, FormattedMessage} from 'react-intl'
-import {Button} from 'reactstrap';
 import {
-    IconButton,
-    Dialog,
-    DialogTitle,
-    DialogContent,
     TextField,
     Radio,
     RadioGroup,
@@ -16,12 +11,13 @@ import {
     Typography,
     withStyles,
 } from '@material-ui/core'
-import {Close} from '@material-ui/icons'
 import {connect} from 'react-redux'
 import HelTextField from '../HelFormFields/HelTextField'
 import {postImage as postImageAction} from 'src/actions/userImages'
 import {HelMaterialTheme} from '../../themes/material-ui'
 import constants from '../../constants'
+import {Button, Modal, ModalHeader, ModalBody, Form, FormGroup} from 'reactstrap';
+
 
 const {CHARACTER_LIMIT, VALIDATION_RULES} = constants
 
@@ -127,23 +123,30 @@ const ImageEdit = (props) => {
         altTextMaxLength,
     } = state
 
+    const getCloseButton = () => {
+        return (
+            <Button
+                className='icon-button'
+                type='button'
+                aria-label='Close'
+                onClick={() => close()}>
+                <span className='glyphicon glyphicon-remove'></span>
+            </Button>
+        )
+    }
+
     return (
-        <Dialog
+        <Modal
             className="image-edit-dialog"
-            disableBackdropClick
-            fullWidth
-            maxWidth="lg"
-            open={true}
-            transitionDuration={0}
+            size='xl'
+            isOpen={true}
+            toggle={close}
         >
-            <DialogTitle>
+            <ModalHeader tag='h1' close={getCloseButton()}>
                 <FormattedMessage id={'image-modal-image-info'}/>
-                <IconButton onClick={() => close()}>
-                    <Close />
-                </IconButton>
-            </DialogTitle>
-            <DialogContent>
-                <form onSubmit={() => handleImagePost(state, props)} className="row">
+            </ModalHeader>
+            <ModalBody>
+                <Form onSubmit={() => handleImagePost(state, props)} className="row">
                     <div className="col-sm-8 image-edit-dialog--form">
                         <HelTextField
                             multiLine
@@ -184,12 +187,11 @@ const ImageEdit = (props) => {
                             value={photographerName}
                             onChange={handleStateChange}
                         />
-                        <Typography
-                            style={{marginTop: HelMaterialTheme.spacing(2)}}
-                            variant="h6"
+                        <div
+                            style={{marginTop: '16px'}}
                         >
-                            <FormattedMessage id={'image-modal-image-license'}/>
-                        </Typography>
+                            <FormattedMessage id='image-modal-image-license'>{txt => <h2>{txt}</h2>}</FormattedMessage>
+                        </div>
                         <InlineRadioGroup
                             aria-label="License"
                             name="license"
@@ -230,9 +232,9 @@ const ImageEdit = (props) => {
                             Tallenna tiedot
                         </Button>
                     </div>
-                </form>
-            </DialogContent>
-        </Dialog>
+                </Form>
+            </ModalBody>
+        </Modal>
     )
 }
 
