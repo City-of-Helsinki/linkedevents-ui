@@ -1,18 +1,24 @@
 @import '../../assets/colors';
 
 .validation-popper {
-    $arrow-size: 12px;
+    position: absolute;
+    z-index: 10;
+    $arrow-size: 13px;
     background-color: $hel-coat;
-    border-radius: 4px;
     color: #fff;
     font-size: 90%;
     padding: 8px 16px;
     user-select: none;
-
+    inline-size: max-content;
+    left: 103%;
+    top: 50%;
+    .arrow {
+        display: none;
+    }
     &:before {
         border-color: transparent $hel-coat transparent transparent;
         border-style: solid;
-        border-width: $arrow-size / 2 $arrow-size $arrow-size / 2 0;
+        border-width: 8px 14px 8px 0;
         content: '';
         height: 0;
         left: 0;
@@ -24,5 +30,17 @@
 
     &.modal-popper {
         z-index: 1300;
+    }
+}
+@media (max-width: 575px) {
+    .validation-popper {
+        left: 35%;
+        bottom: auto;
+        top: -15%;
+        &:before {
+            left: 46%;
+            top: 95%;
+            transform: rotate(-90deg);
+        }
     }
 }
