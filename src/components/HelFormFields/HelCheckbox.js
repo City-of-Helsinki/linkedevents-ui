@@ -1,14 +1,17 @@
+import './HelCheckbox.scss'
+
 import React from 'react'
 import PropTypes from 'prop-types';
-import {FormControlLabel, Checkbox} from '@material-ui/core'
 import {setData} from '../../actions/editor'
+//Replaced Material-ui CheckBox for a reactstrap implementation. - Turku
 
 class HelCheckbox extends React.Component {
     constructor(props) {
         super(props)
-
+       
         this.handleCheck = this.handleCheck.bind(this)
     }
+  
     
     handleCheck (event) {
         let newValue = event.target.checked
@@ -38,7 +41,7 @@ class HelCheckbox extends React.Component {
 
     render() {
         let {required, label, name, defaultChecked} = this.props
-
+       
         if(required) {
             if(typeof label === 'string') {
                 label += ' *'
@@ -46,24 +49,31 @@ class HelCheckbox extends React.Component {
             if(typeof label === 'object') {
                 label = (<span>{label} *</span>)
             }
+           
         }
+        const {fieldID} = this.props
+    
+       
 
         return (
-            <FormControlLabel
-                control={
-                    <Checkbox
-                        color="primary"
-                        inputRef={ref => this.checkboxRef = ref}
-                        name={name}
-                        onChange={this.handleCheck}
-                        checked={defaultChecked}
-                    />
-                }
-                label={label}
-            />
+            <div className='price-info-checkbox'>
+                <input
+                    className='checkbox'
+                    type='checkbox'
+                    innerRef={ref => this.checkboxRef = ref}
+                    name={name}
+                    onChange={this.handleCheck}
+                    checked={defaultChecked}
+                    id={fieldID}
+                />
+                <label className='price-label' htmlFor={fieldID}>{label}
+                </label>
+            </div>
+            
         )
     }
 }
+
 
 HelCheckbox.contextTypes = {
     intl: PropTypes.object,
@@ -76,6 +86,9 @@ HelCheckbox.propTypes = {
     required: PropTypes.bool,
     label: PropTypes.object,
     defaultChecked: PropTypes.bool,
+    id: PropTypes.string,
+    fieldID: PropTypes.string,
+
 }
 
 export default HelCheckbox
