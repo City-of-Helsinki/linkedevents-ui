@@ -1,9 +1,12 @@
+import './index.scss';
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 
 import {FormattedMessage} from 'react-intl'
-import {Button, Snackbar} from '@material-ui/core';
+
+
+import {Button} from 'reactstrap';
 
 import {clearFlashMsg as clearFlashMsgAction} from 'src/actions/app.js'
 
@@ -15,7 +18,7 @@ class Notifications extends React.Component {
 
     render() {
         const {flashMsg, clearFlashMsg} = this.props
-        let flashMsgSpan = (<span/>)
+        let flashMsgSpan = ('')
         let isSticky =  flashMsg && flashMsg.sticky
 
         if(flashMsg && flashMsg.data.response && flashMsg.data.response.status == 400) {
@@ -46,13 +49,17 @@ class Notifications extends React.Component {
         }
 
         return (
-            <Snackbar
+            <React.Fragment>
+                { flashMsgSpan &&
+            <div className='notification'
                 open={(!!flashMsg)}
-                message={flashMsgSpan}
-                autoHideDuration={duration}
+                autohideduration={duration}
                 onClose={closeFn}
-                action={[actionButton]}
-            />
+            >
+                <h6 className="text-center" >{flashMsgSpan}{[actionButton]}</h6>
+            </div>
+                }
+            </React.Fragment>
         )
     }
 }

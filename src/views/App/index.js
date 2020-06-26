@@ -152,11 +152,9 @@ class App extends React.Component {
                         <header>
                             <Headerbar />
                         </header>
-                        {organization_missing_msg}
                         <main id="main-content" className="content">
                             {this.props.children}
                         </main>
-                        <Notifications flashMsg={this.props.app.flashMsg} />
                         <Modal
                             size='lg'
                             isOpen={!!this.props.app.confirmAction}
