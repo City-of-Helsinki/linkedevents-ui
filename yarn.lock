@@ -2415,10 +2415,10 @@ cipher-base@^1.0.0, cipher-base@^1.0.1, cipher-base@^1.0.3:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
-city_theme@^0.5.5:
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/city_theme/-/city_theme-0.5.5.tgz#f206aee87428fe19a766b2da30baf2f7214d1755"
-  integrity sha512-VeC3jHc3uFfWm/ayQcsjB3oIvyNoiJzz4e26WI4Vq8a6Tr+dzASY4oYIUS3t07jaW1tMhXX3UHBt4R8KOXxfGg==
+city_theme@^0.5.6:
+  version "0.5.6"
+  resolved "https://registry.yarnpkg.com/city_theme/-/city_theme-0.5.6.tgz#46331f3237793e565fbdd558e41cf1fa1e343587"
+  integrity sha512-Jc04F23p+gMkWjvdINbXnwxQEe7EOa56Wbl7xhTcEuBqQrTynn6w9WacbiOFXkIztGZjAn3JgG4tHCYtKFmm6Q==
 
 class-utils@^0.3.5:
   version "0.3.6"
