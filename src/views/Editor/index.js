@@ -93,7 +93,7 @@ export class EditorPage extends React.Component {
                 })
             }
         }
-        
+
         if (publisherId && publisherId !== oldPublisherId) {
             getOrganizationAncestors(publisherId)
                 .then(response => this.setState(state => ({
@@ -213,6 +213,7 @@ export class EditorPage extends React.Component {
         const {event, subEvents} = this.state
         const eventIsPublished = this.eventIsPublished()
         const loading = this.state.loading || this.props.editor.loading
+        const {intl} = this.props;
 
         return <EventActionButton
             action={action}
@@ -224,6 +225,7 @@ export class EditorPage extends React.Component {
             loading={loading}
             runAfterAction={this.handleConfirmedAction}
             subEvents={subEvents}
+            intl={intl}
         />
     }
 
@@ -259,7 +261,7 @@ export class EditorPage extends React.Component {
                 <FormattedMessage id="preview-event-button" />
             </Button>
         )
-    } 
+    }
 
     validateEvent = () => {
         const {event} = this.state
@@ -353,8 +355,7 @@ export class EditorPage extends React.Component {
                             }
                             {
                                 //Button that opens a preview modal of the event
-                                this.getPreviewButton(
-                                )
+                                this.getPreviewButton()
                             }
                             {
                                 // button that saves changes to a draft without publishing
