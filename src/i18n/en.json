@@ -147,6 +147,9 @@
     "event-location": "Location",
     "event-location-id": "Location ID",
     "event-location-additional-info": "Additional information",
+    "event-location-button": "Show location on map",
+    "event-location-button-tooltip": "No location selected",
+    "event-location-map-error-missing-coordinates": "Selected location has no coordinates.",
 
     "event-price-fields-header": "Event price",
     "is-free": "Free",
@@ -363,6 +366,7 @@
     "navbar.en": "English",
     "navbar.sv": "Swedish",
     "navbar.active": "Current language is english",
+
 	
 	  "cookieBar.accept": "Accept",
 	  "cookieBar.decline.text": "Decline",
@@ -392,4 +396,5 @@
 	"table-pagination-shortcut-link": "Back to top of the table",
 	"table-pagination-next-page": "Next page",
 	"table-pagination-previous-page": "Previous page"
+
 }

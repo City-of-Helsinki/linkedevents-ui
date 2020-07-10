@@ -27,6 +27,8 @@ import UmbrellaSelector from '../HelFormFields/UmbrellaSelector/UmbrellaSelector
 import moment from 'moment'
 import HelVideoFields from '../HelFormFields/HelVideoFields/HelVideoFields'
 import CustomDateTimeField from '../CustomFormFields/CustomDateTimeField';
+import EventMap from '../Map/EventMap';
+import classNames from 'classnames';
 
 // Removed material-ui/icons because it was no longer used.
 //Added isOpen for RecurringEvents modal
@@ -56,10 +58,16 @@ SideField.propTypes = {
 }
 
 class FormFields extends React.Component {
+    constructor(props) {
+        super(props);
 
-    state = {
-        showNewEvents: true,
-        showRecurringEvent: false,
+        this.state = {
+            showNewEvents: true,
+            showRecurringEvent: false,
+            mapContainer: null,
+            openMapContainer: false,
+
+        }
     }
 
     componentDidMount() {
@@ -69,6 +77,20 @@ class FormFields extends React.Component {
         if (action === 'create') {
             this.setDefaultOrganization()
         }
+    }
+
+    /**
+     * If event location was previously selected and then cleared/removed,
+     * this toggles openMapContainer to false -> closes the Map component.
+     */
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.editor.values.location !== null && this.props.editor.values.location === null) {
+            this.setState({openMapContainer: false});
+        }
+    }
+
+    handleSetMapContainer = (mapContainer) => {
+        this.setState({mapContainer});
     }
 
     UNSAFE_componentWillReceiveProps() {
@@ -138,6 +160,15 @@ class FormFields extends React.Component {
         return descriptions
     }
 
+    /**
+     * If event location has been selected then openMapContainer state is toggled true/false
+     */
+    toggleMapContainer() {
+        if(this.props.editor.values.location) {
+            this.setState({openMapContainer: !this.state.openMapContainer})
+        }
+    }
+
     render() {
         // Changed keywordSets to be compatible with Turku's backend.
         const helTargetOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'turku:audiences')
@@ -158,6 +189,8 @@ class FormFields extends React.Component {
             .map(id => ({label: organizationData[id].name, value: id}))
 
         const selectedPublisher = publisherOptions.find(option => option.value === values['organization']) || {};
+
+        const position = this.props.editor.values.location ? this.props.editor.values.location.position : null;
 
         return (
             <div>
@@ -355,12 +388,34 @@ class FormFields extends React.Component {
                             resource="place"
                             validationErrors={validationErrors['location']}
                             setDirtyState={this.props.setDirtyState}
+                            optionalWrapperAttributes={{className: 'location-select'}}
                         />
+                        <div className='map-button-container'>
+                            <Button
+                                aria-label={position ? null : this.context.intl.formatMessage({id: 'event-location-button-tooltip'})}
+                                aria-pressed={this.state.openMapContainer}
+                                id='map-button'
+                                className={classNames('btn btn-link', {disabled: !position})}
+                                onClick={() => this.toggleMapContainer()}
+                            >
+                                <FormattedMessage id={'event-location-button'}>{txt => txt}</FormattedMessage>
+                                <span className={classNames(
+                                    'glyphicon',
+                                    {'glyphicon-triangle-bottom': this.state.openMapContainer},
+                                    {'glyphicon-triangle-top': !this.state.openMapContainer})}
+                                />
+                            </Button>
+                        </div>
+                        <div aria-expanded={this.state.openMapContainer} className={classNames('map-container', {open: this.state.openMapContainer})} ref={this.handleSetMapContainer}>
+                            {this.state.openMapContainer &&
+                                <EventMap position={position} mapContainer={this.state.mapContainer}/>
+                            }
+                        </div>
 
                         <Form>
                             <FormGroup className='place-id'>
                                 <label>{this.context.intl.formatMessage({id: 'event-location-id'})}
-                                    <input type="text" className="form-control"value={values['location'] && values['location'].id ? values['location'].id : ''} readOnly/>
+                                    <input type="text" className="form-control" value={values['location'] && values['location'].id ? values['location'].id : ''} readOnly/>
                                 </label>
                             </FormGroup>
 
@@ -559,7 +614,7 @@ class FormFields extends React.Component {
                                     id="enrolment_end_time"
                                     label="enrolment-end-time"
                                     setDirtyState={this.props.setDirtyState}
-                                />                                
+                                />
                             </div>
                         </div>
 

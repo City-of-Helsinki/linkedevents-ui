@@ -24,6 +24,7 @@ const HelSelect = ({
     validationErrors,
     placeholderId,
     customOnChangeHandler,
+    optionalWrapperAttributes,
 })  => {
     const labelRef = useRef(null)
 
@@ -41,9 +42,10 @@ const HelSelect = ({
                 }
                 if (name === 'location') {
                     setData({[name]: {
-                        name: {fi: value.label},
+                        name: value.names,
                         id: value.value,
                         '@id': value['@id'],
+                        position: value.position,
                     }})
                 }
             }
@@ -86,18 +88,31 @@ const HelSelect = ({
             const options = response.data.data
 
             return options.map(item => {
-                let label = get(item, ['name', 'fi'], '')
+                let previewLabel = get(item, ['name', 'fi'], '')
+                let itemNames = get(item, 'name', '')
+                let names = {}
+                const keys = Object.keys(itemNames)
+
+                keys.forEach(lang => {
+                    names[`${lang}`] = `${itemNames[`${lang}`]}`;
+                });
 
                 if (item.data_source !== 'osoite' && item.street_address) {
-                    label = `${label} (${item.street_address.fi})`
+                    previewLabel = `${itemNames[`${intl.locale}`] || itemNames.fi} (${item.street_address[`${intl.locale}`] || item.street_address.fi})`;
+                    keys.forEach(lang => {
+                        names[`${lang}`] = `${itemNames[`${lang}`]} (${item.street_address[`${lang}`] || item.street_address.fi})`;
+                    });
+
                 }
 
                 return {
-                    label,
+                    label: previewLabel,
                     value: item.id,
                     '@id': `/v1/${resource}/${item.id}/`,
                     id: item.id,
                     n_events: item.n_events,
+                    position: item.position,
+                    names: names,
                 }
             })
         } catch (e) {
@@ -123,8 +138,9 @@ const HelSelect = ({
             return selectedValue.map(item => ({label: item.label, value: item.value}))
         }
         if (name === 'location') {
+            const name = selectedValue.name[`${intl.locale}`] || selectedValue.name.fi;
             return ({
-                label: selectedValue.name.fi,
+                label: name,
                 value: selectedValue.id,
             })
         }
@@ -151,11 +167,12 @@ const HelSelect = ({
     }
 
     return (
-        <Fragment>
-            <legend ref={labelRef} tabIndex='0'>
+        <div {...optionalWrapperAttributes}>
+            <legend id={legend} ref={labelRef}>
                 {legend}
             </legend>
             <AsyncSelect
+                aria-labelledby={legend}
                 isClearable={isClearable}
                 isMulti={isMultiselect}
                 value={getDefaultValue()}
@@ -171,11 +188,11 @@ const HelSelect = ({
             />
             <div className='select-popover'>
                 <ValidationPopover
-                    anchor={labelRef.current} 
+                    anchor={labelRef.current}
                     validationErrors={validationErrors}
                 />
             </div>
-        </Fragment>
+        </div>
     )
 }
 
@@ -204,6 +221,7 @@ HelSelect.propTypes = {
     ]),
     placeholderId: PropTypes.string,
     customOnChangeHandler: PropTypes.func,
+    optionalWrapperAttributes: PropTypes.object,
 }
 
 const mapDispatchToProps = (dispatch) => ({
