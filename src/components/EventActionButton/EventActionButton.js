@@ -7,12 +7,11 @@ import {checkEventEditability} from '../../utils/checkEventEditability';
 import constants from '../../constants';
 import showConfirmationModal from '../../utils/confirm';
 import {appendEventDataWithSubEvents, getEventsWithSubEvents} from '../../utils/events';
-import {Tooltip} from '@material-ui/core';
-//Replaced Material-ui Button for a Bootstrap implementation. - Turku
-import {Button, Input} from 'reactstrap';
+import {Button, Input, UncontrolledTooltip} from 'reactstrap';
 import {confirmAction} from '../../actions/app';
 import {getButtonLabel} from '../../utils/helpers';
 import {Link} from 'react-router-dom';
+import classNames from 'classnames';
 
 const {PUBLICATION_STATUS, EVENT_STATUS, USER_TYPE} = constants;
 
@@ -73,14 +72,16 @@ class EventActionButton extends React.Component {
     }
 
     /**
-     * Returns a Button element and depending on showTermsCheckbox an input element with a label
+     * Returns a Button element with additional input & label element if showTermsCheckbox is true.
+     * If explanationId parameter is given then that string is used to fetch correct error message for the tooltip.
      * @param {boolean} showTermsCheckbox
      * @param {string} buttonLabel
      * @param {boolean} disabled
+     * @param {string} [explanationId=''] - errorMessage
      * @returns {*}
      */
-    getButton(showTermsCheckbox, buttonLabel, disabled) {
-        const {action, confirmAction, customAction} = this.props;
+    getButton(showTermsCheckbox, buttonLabel, disabled, explanationId = '') {
+        const {action, confirmAction, customAction, intl} = this.props;
         const color = 'secondary';
         /*
         color = this.getButtonColor(action), to get color based on action.
@@ -107,34 +108,23 @@ class EventActionButton extends React.Component {
                 </div>
                 }
                 <Button
-                    disabled={disabled}
+                    aria-disabled={disabled}
+                    aria-label={disabled && explanationId && `${intl.formatMessage({id: buttonLabel})}. ${intl.formatMessage({id: explanationId})}`}
+                    id={action}
                     color={color}
-                    className={`editor-${action}-button`}
-                    onClick={() => confirmAction ? this.confirmEventAction : customAction()}
+                    className={classNames(`editor-${action}-button`,{'disabled': disabled})}
+                    onClick={() => disabled ? null : confirmAction ? this.confirmEventAction : customAction()}
+                    style={disabled ? {cursor: 'not-allowed'} : null}
                 >
                     <FormattedMessage id={buttonLabel}>{txt => txt}</FormattedMessage>
                 </Button>
-            </Fragment>
-        )
-    }
+                {(disabled && explanationId) &&
+                    <UncontrolledTooltip placement="bottom" target={action} innerClassName='tooltip-disabled' hideArrow>
+                        <FormattedMessage id={explanationId}>{txt => txt}</FormattedMessage>
+                    </UncontrolledTooltip>
+                }
 
-    /**
-     * Return Button that has a tooltip
-     * @see getButton
-     * @param {string} explanationId
-     * @param {boolean} showTermsCheckbox
-     * @param {string} buttonLabel
-     * @param {boolean} disabled
-     * @returns {*}
-     */
-    getToolTip(explanationId,showTermsCheckbox, buttonLabel, disabled) {
-        const {intl} = this.props;
-        return (
-            <Tooltip title={intl.formatMessage({id: explanationId})}>
-                <span>
-                    {this.getButton(showTermsCheckbox, buttonLabel, disabled)}
-                </span>
-            </Tooltip>
+            </Fragment>
         )
     }
 
@@ -182,9 +172,8 @@ class EventActionButton extends React.Component {
 
         return (
             <Fragment>
-                {disabled && explanationId
-                    ? this.getToolTip(explanationId, showTermsCheckbox,buttonLabel,disabled)
-                    : this.getButton(showTermsCheckbox, buttonLabel,disabled)
+                {
+                    this.getButton(showTermsCheckbox, buttonLabel,disabled, explanationId)
                 }
             </Fragment>
         )
