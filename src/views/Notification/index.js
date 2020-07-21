@@ -67,11 +67,15 @@ class Notifications extends React.Component {
 Notifications.propTypes = {
     flashMsg: PropTypes.object,
     clearFlashMsg: PropTypes.func,
+    locale: PropTypes.string,
 }
 
 const mapDisPatchToProps = (dispatch) => ({
     clearFlashMsg: () => dispatch(clearFlashMsgAction()),
 }) 
-const mapStateToProps = () => ({})
-// TODO: if leave null, react-intl not refresh. Replace this with better React context
+const mapStateToProps = (state) => ({
+    locale: state.userLocale.locale,
+})
+
+export {Notifications as UnconnectedNotifications}
 export default connect(mapStateToProps, mapDisPatchToProps)(Notifications)
