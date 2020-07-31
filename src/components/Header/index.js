@@ -13,15 +13,14 @@ import LanguageSelector from './LanguageSelector';
 import LogoutDropdown from './LogoutDropdown';
 import {FormattedMessage} from 'react-intl';
 import constants from '../../constants';
-//Updated Nav from Material UI to Reactstrap based on Open design
-import {Collapse, Navbar, NavbarToggler, Nav, NavbarBrand, Button} from 'reactstrap';
+
+import {Collapse, Navbar, NavbarToggler, Nav, NavItem, NavLink, NavbarBrand, Button} from 'reactstrap';
 //Citylogo can now be used from scss
 //import cityOfHelsinkiLogo from '../../assets/images/helsinki-logo.svg'
 import {hasOrganizationWithRegularUsers} from '../../utils/user';
 import {get} from 'lodash';
 import moment from 'moment';
 import * as momentTimezone from 'moment-timezone';
-import classNames from 'classnames';
 import userManager from '../../utils/userManager';
 
 const {USER_TYPE, APPLICATION_SUPPORT_TRANSLATION} = constants;
@@ -101,20 +100,29 @@ class HeaderBar extends React.Component {
         routerPush('/');
     };
 
+    isActivePath(pathname){
+        return pathname === this.props.location.pathname
+    }
+
+    handleOnClick = (url) => {
+        const {routerPush} = this.props;
+        if (this.state.isOpen) {
+            this.setState({isOpen: false});
+            routerPush(url);
+        }
+        else {
+            routerPush(url);
+        }
+    }
+
     render() {
         const {user, userLocale, routerPush, location} = this.props;
         const {showModerationLink} = this.state;
-
-        const toMainPage = () => routerPush('/');
-        const toSearchPage = () => routerPush('/search');
-        const toHelpPage = () => routerPush('/help');
-        const toModerationPage = () => routerPush('/moderation');
-
         const isInsideForm = location.pathname.startsWith('/event/create/new');
 
         return (
             <div className='main-navbar'>
-                <Navbar className='bar'>
+                <Navbar role='navigation' className='bar'>
                     <NavbarBrand className='bar__logo' href='#' onClick={this.onLinkToMainPage} aria-label={this.context.intl.formatMessage({id: `navbar.brand`})} />
                     <div className='bar__login-and-language'>
                         <div className='language-selector'>
@@ -129,7 +137,7 @@ class HeaderBar extends React.Component {
                                 <LogoutDropdown user={user} logout={this.handleLogoutClick} />
                             </div>
                         ) : (
-                            <Button onClick={this.handleLoginClick}>
+                            <Button role='link' onClick={this.handleLoginClick}>
                                 <span className='glyphicon glyphicon-user'></span>
                                 <FormattedMessage id='login' />
                             </Button>
@@ -137,7 +145,7 @@ class HeaderBar extends React.Component {
                     </div>
                 </Navbar>
 
-                <Navbar className='linked-events-bar' expand='lg'>
+                <Navbar role='navigation' className='linked-events-bar' expand='lg'>
                     <NavbarBrand
                         href='#'
                         className='linked-events-bar__logo'
@@ -147,72 +155,63 @@ class HeaderBar extends React.Component {
                     </NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>
-                        <div className='linked-events-bar__links'>
-                            <div className='linked-events-bar__links__list'>
-                                <NavLinks
-                                    showModerationLink={showModerationLink}
-                                    toMainPage={toMainPage}
-                                    toSearchPage={toSearchPage}
-                                    toHelpPage={toHelpPage}
-                                    toModerationPage={toModerationPage}
-                                />
-                            </div>
-                            <Nav className='ml-auto' navbar>
-                                {!isInsideForm && (
-                                    <Button
+                        <ul className='linked-events-bar__links'>
+                            <NavItem>
+                                <NavLink
+                                    active={this.isActivePath('/')}
+                                    href='#'
+                                    onClick={() => this.handleOnClick('/')}>
+                                    <FormattedMessage id={`${appSettings.ui_mode}-management`} />
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    active={this.isActivePath('/search')}
+                                    href='#'
+                                    onClick={() => this.handleOnClick('/search')}>
+                                    <FormattedMessage id={`search-${appSettings.ui_mode}`} />
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    active={this.isActivePath('/help')}
+                                    href='#'
+                                    onClick={() => this.handleOnClick('/help')}>
+                                    {' '}
+                                    <FormattedMessage id='more-info' />
+                                </NavLink>
+                            </NavItem>
+                            {showModerationLink && (
+                                <NavItem>
+                                    <NavLink
+                                        active={this.isActivePath('/moderation')}
+                                        href='#'
+                                        className='moderator'
+                                        onClick={() => this.handleOnClick('/moderation')}>
+                                        <FormattedMessage id='moderation-page' />
+                                    </NavLink>
+                                </NavItem>
+                            )}
+                            {!isInsideForm && (
+                                <NavItem className='linked-events-bar__links__create-event  ml-auto'>
+                                    <NavLink
+                                        active={this.isActivePath('/event/create/new')}
+                                        href='#'
                                         className='linked-events-bar__links__create-events'
-                                        onClick={() => routerPush('/event/create/new')}>
-                                        <span className='glyphicon glyphicon-plus'></span>
+                                        onClick={() => this.handleOnClick('/event/create/new')}>
+                                        <span aria-hidden className='glyphicon glyphicon-plus'></span>
                                         <FormattedMessage id={`create-${appSettings.ui_mode}`} />
-                                    </Button>
-                                )}
-                            </Nav>
-                        </div>
+                                    </NavLink>
+                                </NavItem>
+                            )}
+                        </ul>
                     </Collapse>
                 </Navbar>
             </div>
         );
     }
 }
-/**
- * Returns the page links, if showModeration is true then the link to the moderation page is rendered aswell.
- */
-export const NavLinks = (props) => {
-    const {showModerationLink, toMainPage, toSearchPage, toHelpPage, toModerationPage} = props;
 
-    return (
-        <React.Fragment>
-            <Button onClick={toMainPage}>
-                <FormattedMessage id={`${appSettings.ui_mode}-management`} />
-            </Button>
-            <Button onClick={toSearchPage}>
-                <FormattedMessage id={`search-${appSettings.ui_mode}`} />
-            </Button>
-            <Button onClick={toHelpPage}>
-                {' '}
-                <FormattedMessage id='more-info' />
-            </Button>
-            {showModerationLink && (
-                <Button
-                    //Added classNames for moderation-link, now applies className "moderator true" when state true for scss-rule color.
-                    className={classNames('moderator', {true: showModerationLink})}
-                    onClick={toModerationPage}>
-                    <FormattedMessage id='moderation-page' />
-                </Button>
-            )}
-        </React.Fragment>
-    );
-};
-
-NavLinks.propTypes = {
-    showModerationLink: PropTypes.bool,
-    toMainPage: PropTypes.func,
-    toSearchPage: PropTypes.func,
-    toHelpPage: PropTypes.func,
-    toModerationPage: PropTypes.func,
-};
-
-// Adds dispatch to this.props for calling actions, add user from store to props
 HeaderBar.propTypes = {
     user: PropTypes.object,
     routerPush: PropTypes.func,

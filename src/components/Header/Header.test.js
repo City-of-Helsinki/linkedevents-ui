@@ -1,9 +1,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
-import {Button} from 'reactstrap';
+import {NavLink, Button} from 'reactstrap';
 
 import {mockUser} from '__mocks__/mockData';
-import {UnconnectedHeaderBar, NavLinks} from './index';
+import {UnconnectedHeaderBar} from './index';
 import LanguageSelector from './LanguageSelector';
 import constants from '../../constants';
 import {IntlProvider} from 'react-intl';
@@ -14,73 +14,98 @@ const LanguageOptions = APPLICATION_SUPPORT_TRANSLATION.map(item => ({
     label: item.toUpperCase(),
     value: item,
 }));
-import userManager from '../../utils/userManager'
-userManager.settings.authority = 'test authority'
+import userManager from '../../utils/userManager';
+userManager.settings.authority = 'test authority';
 const testMessages = mapValues(fiMessages, (value, key) => value);
 const intlProvider = new IntlProvider({locale: 'fi', messages: testMessages}, {});
 const {intl} = intlProvider.getChildContext();
 
-describe('components/Header/index', () => {
+const defaultProps = {
+    user: mockUser,
+    routerPush: () => {},
+    setLocale: () => {},
+    isOpen: false,
+    showModerationLink: false,
+    userLocale: {locale: 'fi'},
+    location: window.location,
+    clearUserData: () => {},
+    auth: {user: {id_token: 'test-id-token'}},
+};
+const userAdmin = {
+    displayName: 'Matti Meikäläinen',
+    userType: 'admin',
+    organizationsWithRegularUsers: ['jokuOrganisaatio'],
+};
 
-    const defaultProps = {
-        user: mockUser,
-        routerPush: () => {},
-        setLocale: () => {},
-        isOpen: false,
-        showModerationLink: false,
-        userLocale: {locale: 'fi'},
-        location: window.location,
-        clearUserData: () => {},
-        auth: {user: {id_token: 'test-id-token'}},
-    }
-    const userAdmin = {
-        displayName: 'Matti Meikäläinen',
-        userType: 'admin',
-        organizationsWithRegularUsers: ['jokuOrganisaatio'],
-    }
+describe('components/Header/index', () => {
     describe('HeaderBar', () => {
         function getWrapper(props) {
             return shallow(<UnconnectedHeaderBar {...defaultProps} {...props}/>, {context: {intl}});
         }
 
-        describe('handleLoginClick', () => {
-            test('calls usermanager.signinRedirect with correct params', () => {
-                const instance = getWrapper().instance();
-                const spy = jest.spyOn(userManager, 'signinRedirect');
-                const expectedParams = {
-                    data: {
-                        redirectUrl: '/',
-                    },
-                    extraQueryParams: {
-                        ui_locales: instance.props.userLocale.locale,
-                    },
-                }
-                instance.handleLoginClick();
+        describe('methods', () => {
+            describe('componentDidMount', () => {
+                test('state.showModerationLink is true if user is admin and part of organization', () => {
+                    const element = getWrapper({user: userAdmin});
+                    expect(element.state('showModerationLink')).toBe(true);
+                });
+            });
 
-                expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(expectedParams);
+            describe('handleLoginClick', () => {
+                test('calls usermanager.signinRedirect with correct params', () => {
+                    const instance = getWrapper().instance();
+                    const spy = jest.spyOn(userManager, 'signinRedirect');
+                    const expectedParams = {
+                        data: {
+                            redirectUrl: '/',
+                        },
+                        extraQueryParams: {
+                            ui_locales: instance.props.userLocale.locale,
+                        },
+                    };
+                    instance.handleLoginClick();
+
+                    expect(spy).toHaveBeenCalled();
+                    expect(spy.mock.calls[0][0]).toEqual(expectedParams);
+                });
+            });
+
+            describe('handleLogoutClick', () => {
+                test('calls clearUserData, removeUser and signoutRedirect with correct params', () => {
+                    const clearUserData = jest.fn();
+                    const instance = getWrapper({clearUserData}).instance();
+                    const signoutRedirectSpy = jest.spyOn(userManager, 'signoutRedirect');
+                    const removeUserSpy = jest.spyOn(userManager, 'removeUser');
+                    const expectedParams = {
+                        id_token_hint: instance.props.auth.user.id_token,
+                    };
+                    instance.handleLogoutClick();
+
+                    expect(clearUserData).toHaveBeenCalled();
+                    expect(removeUserSpy).toHaveBeenCalled();
+                    expect(signoutRedirectSpy).toHaveBeenCalled();
+                    expect(signoutRedirectSpy.mock.calls[0][0]).toEqual(expectedParams);
+                });
+            });
+
+            describe('isActivePath', () => {
+                test('returns true/false based on if given parameter === location.pathname', () => {
+                    const wrapper = getWrapper({location:{pathname:'/'}});
+                    const instance = wrapper.instance();
+                    expect(instance.isActivePath('/')).toBe(true);
+                    expect(instance.isActivePath('/help')).toBe(false);
+                });
             });
         });
 
-        describe('handleLogoutClick', () => {
-            test('calls clearUserData, removeUser and signoutRedirect with correct params', () => {
-                const clearUserData = jest.fn();
-                const instance = getWrapper({clearUserData}).instance();
-                const signoutRedirectSpy = jest.spyOn(userManager, 'signoutRedirect');
-                const removeUserSpy = jest.spyOn(userManager, 'removeUser');
-                const expectedParams = {
-                    id_token_hint: instance.props.auth.user.id_token,
-                };
-                instance.handleLogoutClick();
-
-                expect(clearUserData).toHaveBeenCalled();
-                expect(removeUserSpy).toHaveBeenCalled();
-                expect(signoutRedirectSpy).toHaveBeenCalled();
-                expect(signoutRedirectSpy.mock.calls[0][0]).toEqual(expectedParams);
+        describe('render', () => {
+            test('contains LanguageSelector with correct props', () => {
+                const element = getWrapper().find(LanguageSelector);
+                expect(element.prop('languages')).toEqual(LanguageOptions);
+                expect(element.prop('userLocale')).toEqual(defaultProps.userLocale);
+                expect(element.prop('changeLanguage')).toBeDefined();
             });
-        });
 
-        describe('Button functions', () => {
             describe('Login button', () => {
                 test('calls handleLoginClick', () => {
                     const user = undefined;
@@ -94,52 +119,47 @@ describe('components/Header/index', () => {
                     expect(handleLoginClick).toHaveBeenCalled();
                 });
             });
-    
-            describe('componentDidMount', () => {
-                test('state.showModerationLink is true if user is admin and part of organization', () => {
+
+            describe('NavLink', () => {
+                test('render 4 NavLinks when user is not admin', () => {
+                    const element = getWrapper();
+                    const navLinks = element.find(NavLink);
+                    expect(navLinks).toHaveLength(4);
+                });
+
+                test('render 5 NavLinks when user is admin', () => {
                     const element = getWrapper({user: userAdmin});
-                    expect(element.state('showModerationLink')).toBe(true);
+                    const navLinks = element.find(NavLink);
+                    expect(navLinks).toHaveLength(5);
+                });
+
+                test('when user is admin, one of the NavLinks is to moderation', () => {
+                    const element = getWrapper({user: userAdmin}).find(NavLink).filter('.moderator');
+                    expect(element.prop('className')).toBe('moderator');
+                });
+
+                test('NavLink is active based on location.pathname prop',() => {
+                    const element = getWrapper({location:{pathname:'/'}});
+                    let navLinks = element.find(NavLink);
+                    expect(navLinks.at(0).prop('active')).toBe(true);
+                    expect(navLinks.at(1).prop('active')).toBe(false);
+                    expect(navLinks.at(2).prop('active')).toBe(false);
+                    expect(navLinks.at(3).prop('active')).toBe(false);
+                    element.setProps({location:{pathname:'/search'}});
+                    navLinks = element.find(NavLink);
+                    expect(navLinks.at(0).prop('active')).toBe(false);
+                    expect(navLinks.at(1).prop('active')).toBe(true);
+                    expect(navLinks.at(2).prop('active')).toBe(false);
+                    expect(navLinks.at(3).prop('active')).toBe(false);
+                    element.setProps({location:{pathname:'/help'}});
+                    navLinks = element.find(NavLink);
+                    expect(navLinks.at(0).prop('active')).toBe(false);
+                    expect(navLinks.at(1).prop('active')).toBe(false);
+                    expect(navLinks.at(2).prop('active')).toBe(true);
+                    expect(navLinks.at(3).prop('active')).toBe(false);
                 });
             });
-            describe('render', () => {
-                test('contains LanguageSelector with correct props', () => {
-                    const element = getWrapper().find(LanguageSelector);
-                    expect(element.prop('languages')).toEqual(LanguageOptions);
-                    expect(element.prop('userLocale')).toEqual(defaultProps.userLocale);
-                    expect(element.prop('changeLanguage')).toBeDefined();
-                })
-            });
-            describe('NavLinks props', () => {
-                test('NavLinks', () => {
-                    const element = getWrapper({user: userAdmin}).find(NavLinks);
-                    expect(element.prop('showModerationLink')).toBe(true)
-                })
-            })
         });
     });
-    const defaultNavProps = {
-        showModerationLink: false,
-        toMainPage: () => null,
-        toSearchPage: () => null,
-        toHelpPage: () => null,
-        toModerationPage: () => null,
-    }
-    describe('NavLinks', () => {
-        function getWrapper(props) {
-            return shallow(<NavLinks {...defaultNavProps} {...props}/>);
-        }
-        test('renders with default props', () => {
-            const element = getWrapper().find(Button);
-            expect(element).toHaveLength(3);
-            expect(element.at(0).prop('onClick')).toEqual(defaultNavProps.toMainPage);
-            expect(element.at(1).prop('onClick')).toEqual(defaultNavProps.toSearchPage);
-            expect(element.at(2).prop('onClick')).toEqual(defaultNavProps.toHelpPage);
-        });
-        // eslint-disable-next-line indent
-        test('renders additional Button when showModerationLink is true', () => {
-            const element = getWrapper({showModerationLink: true}).find(Button);
-            expect(element).toHaveLength(4);
-            expect(element.at(3).prop('onClick')).toEqual(defaultNavProps.toModerationPage);
-        })
-    })
-})
+});
+

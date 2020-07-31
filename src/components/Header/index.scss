@@ -64,7 +64,7 @@ $iconMarginLeft: 24px;
 			}
 			.glyphicon {
 				color: #fff;
-				margin-right: 10px;
+				margin-right: 5px;
 			}
 		}
 		.language-selector {
@@ -95,6 +95,7 @@ $iconMarginLeft: 24px;
 
 	.navbar-collapse {
 		min-inline-size: fit-content;
+        max-height: 100%;
 	}
 
 	.linked-events-bar {
@@ -118,11 +119,49 @@ $iconMarginLeft: 24px;
 			height: 100%;
 		}
 		&__links {
-			display: flex;
-			flex-grow: 1;
+			display: contents;
 			justify-content: space-between;
+            margin-bottom: 0;
+            list-style: none;
+            padding-left: 0;
+
+			.nav-item {
+                position: relative;
+				display: block;
+				.moderator {
+					&:active {
+					border-color:#0072C6;
+					}
+					span {
+					color: #0072C6;
+				}
+			}
+                .nav-link {
+					font-weight: bold;
+                    padding-top: 12px;
+                    padding-bottom: 12px;
+                    position: relative;
+                    color: black;
+                    cursor: pointer;
+					font-size: 1rem;
+                    &.active {
+                        border-radius: inherit;
+                    }
+
+                    &:hover {
+                        background-color: rgba(0, 0, 0, 0.08);
+                    }
+
+                    &.active,&:hover, &:focus {
+                        outline: solid 2px black;
+                    }
+
+                }
+			}
 			&__create-events {
+				span {
 				color: #0072c6;
+				}
 				border: 1px solid rgba(0, 0, 0, 0.23);
 				padding: 5px 15px;
 				border-color: #0072c6;
@@ -136,21 +175,29 @@ $iconMarginLeft: 24px;
 				}
 			}
 			&__list {
-				.btn {
+				display: flex;
+				align-items: center;
+				.nav-item {
+					display: inline-flex;
+				a.nav-link {
 					color: black;
-					border: none;
+					cursor: pointer;
+					&.active {
+						border-radius: inherit;
+						outline: 5px auto !important;
+					}
 					&:hover {
 						background-color: rgba(0, 0, 0, 0.08);
+						outline: 5px auto !important;
 					}
 					&:focus {
-						color: inherit;
-						outline: 5px auto -webkit-focus-ring-color;
-						box-shadow: none;
+						outline: 5px auto !important;
 					}
 					.text {
 						padding: 6px 8px;
 					}
 				}
+			}
 				//moderation button
 				.moderator {
 					color: #0072c6;
@@ -307,15 +354,41 @@ ul.user-dropdown {
 			&__links {
 				display: block;
 				text-align: center;
+				&__create-event {
+					display: block !important;
+					margin-bottom: 5px;
+					margin-top: 5px;
+					.nav-link{
+						display: inline-flex !important;
+					}
+				}
+				&__list {
+					display: inline-grid !important;
+					.nav-item {
+						a.nav-link {
+							width: 100%;
+							margin-bottom: 10px;
+							margin-top:5px;
+						}
+					}
+				}
 			}
 		}
 	}
 }
+
 @media only screen and (max-width: 472px) {
 	.linked-events-bar {
 		&__links {
 			&__list {
-				display: inline-grid;
+				display: inline-grid !important;
+				.nav-item {
+					a.nav-link {
+						width: 100%;
+						margin-bottom: 5px;
+						margin-top: 5px;
+					}
+				}
 			}
 		}
 	}
