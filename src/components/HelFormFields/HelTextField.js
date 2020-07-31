@@ -4,7 +4,7 @@ import {setData} from 'src/actions/editor.js'
 import validationRules from 'src/validation/validationRules';
 import ValidationPopover from 'src/components/ValidationPopover'
 import constants from '../../constants'
-import {Form, FormGroup, Input, FormText} from 'reactstrap';
+import {Input, FormText} from 'reactstrap';
 // Removed material-ui/core since it's no longer in use
 
 const {VALIDATION_RULES, CHARACTER_LIMIT} = constants
@@ -186,16 +186,15 @@ class HelTextField extends Component {
             index,
             name,
         } = this.props
-        const fieldID = this.props.id;
         const type = this.props.type;
         const alert = this.state.error ? {role: 'alert', className: 'red-alert'} : '';
         // Replaced TextField component with Form/FormGroup + Input, to make inputs actually accessible and customizable.
         return (
             <Fragment>
                 <div className='event-input'>
-                    <label htmlFor={fieldID}>{label}{required ? '*' : ''}</label>
+                    <label htmlFor={label + this.props.id}>{label}{required ? '*' : ''}</label>
                     <Input
-                        id={fieldID}
+                        id={label + this.props.id}
                         placeholder={placeholder}
                         type={type}
                         name={name}
@@ -245,11 +244,15 @@ HelTextField.propTypes = {
     disabled: PropTypes.bool,
     type: PropTypes.string,
     maxLength: PropTypes.number,
-    id: PropTypes.string,
+    id: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
 }
 
 HelTextField.defaultProps = {
     type: 'text',
 };
+
 
 export default HelTextField

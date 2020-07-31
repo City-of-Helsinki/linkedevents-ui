@@ -372,7 +372,7 @@ class FormFields extends React.Component {
                             variant="contained"
                             disabled={formType === 'update'}
                             onClick={() => this.addNewEventDialog()}
-                        ><span  className="glyphicon glyphicon-plus"></span>
+                        ><span aria-hidden='true' className="glyphicon glyphicon-plus"></span>
                             <FormattedMessage id="event-add-new-occasion" />
                         </Button>
                         <Button
@@ -381,7 +381,7 @@ class FormFields extends React.Component {
                             disabled={formType === 'update'}
                             onClick={() => this.showRecurringEventDialog()}
 
-                        ><span  className="glyphicon glyphicon-refresh"></span>
+                        ><span aria-hidden='true' className="glyphicon glyphicon-refresh"></span>
                             <FormattedMessage id="event-add-recurring" />
                         </Button>
                     </div>
@@ -438,7 +438,9 @@ class FormFields extends React.Component {
                         <Form>
                             <FormGroup className='place-id'>
                                 <label>{this.context.intl.formatMessage({id: 'event-location-id'})}
-                                    <input type="text" className="form-control" value={values['location'] && values['location'].id ? values['location'].id : ''} readOnly/>
+                                    <span className="form-control" value={values['location'] && values['location'].id ? values['location'].id : ''}>
+                                        {values['location'] && values['location'].id ? values['location'].id : ''}
+                                    </span>
                                 </label>
                             </FormGroup>
 
@@ -446,7 +448,7 @@ class FormFields extends React.Component {
 
 
                         <CopyToClipboard text={values['location'] ? values['location'].id : ''}>
-                            <button type='button' className="clipboard-copy-button btn btn-default" title={this.context.intl.formatMessage({id: 'copy-to-clipboard'})}>
+                            <button type='button' className="clipboard-copy-button btn btn-default" aria-label={this.context.intl.formatMessage({id: 'copy-location-to-clipboard'})}>
                                 <div hidden>.</div>
                                 <span className="glyphicon glyphicon-duplicate" aria-hidden="true">
                                 </span>

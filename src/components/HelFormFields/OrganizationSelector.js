@@ -19,7 +19,6 @@ const OrganizationSelector = ({formType, selectedOption, options, onChange}) => 
     return (
         <React.Fragment>
             <label className='event-publisher' htmlFor='event-publisher'>{<FormattedMessage id='event-publisher' />}</label>
-
             {formType === 'update' ? (
                 <Input
                     className='event-publisher-input'

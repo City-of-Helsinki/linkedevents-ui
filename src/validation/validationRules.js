@@ -14,7 +14,6 @@ let _isExisty = function _isExisty(value) {
 }
 
 let isEmpty = function isEmpty(value) {
-
     if (value === '') {return true}
     if (value === null) {return true}
     if (typeof value == 'object') {

@@ -4,7 +4,10 @@ import React from 'react'
 import MultiLanguageField from 'src/components/HelFormFields/MultiLanguageField'
 import {setOfferData, deleteOffer} from 'src/actions/editor'
 import CONSTANTS from '../../constants'
-
+import {
+    injectIntl,
+    intlShape,
+} from 'react-intl'
 
 
 class NewOffer extends React.Component {
@@ -73,14 +76,14 @@ class NewOffer extends React.Component {
     }
 
     render() {
-        const {offerKey, defaultValue, isFree, languages} = this.props
+        const {offerKey, defaultValue, isFree, languages, intl} = this.props
         const {VALIDATION_RULES} = CONSTANTS
       
         return (
             <div key={offerKey} className="new-offer">
 
                 <button
-                    title="Delete"
+                    aria-label={intl.formatMessage({id: 'delete'})}
                     className="offers-button"
                     onClick={() =>  this.deleteOffer()}
                 >
@@ -88,6 +91,7 @@ class NewOffer extends React.Component {
     
                 </button>
                 <MultiLanguageField
+                    id={'event-price' + this.props.offerKey}
                     defaultValue={defaultValue.price} 
                     disabled={isFree} 
                     ref="price" 
@@ -100,6 +104,7 @@ class NewOffer extends React.Component {
                 />
 
                 <MultiLanguageField 
+                    id={'event-purchase-link' + this.props.offerKey}
                     defaultValue={defaultValue.info_url} 
                     ref="info_url" 
                     label="event-purchase-link" 
@@ -111,6 +116,7 @@ class NewOffer extends React.Component {
                 />
 
                 <MultiLanguageField 
+                    id={'event-price-info' + this.props.offerKey}
                     defaultValue={defaultValue.description} 
                     disabled={isFree} 
                     ref="description" 
@@ -132,6 +138,9 @@ NewOffer.propTypes = {
     languages: PropTypes.array,
     offerKey: PropTypes.string.isRequired,
     defaultValue: PropTypes.object,
+    id: PropTypes.string,
+    label: PropTypes.string,
+    intl: intlShape,
 }
 
-export default NewOffer;
+export default injectIntl(NewOffer);
