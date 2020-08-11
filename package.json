@@ -27,7 +27,7 @@
     "axios": "^0.19.0",
     "body-parser": "^1.14.1",
     "bootstrap": "4.4.1",
-    "city_theme": "^0.x.x",
+    "city_theme": ">=0.6 <1.0",
     "classnames": "^2.2.6",
     "codecov": "^3.0.0",
     "cookie-parser": "^1.4.0",
@@ -137,7 +137,9 @@
     ],
     "moduleNameMapper": {
       "^.+\\.(css|styl|less|sass|scss|png|jpg|ttf|svg|woff|woff2)$": "identity-obj-proxy",
-      "src/(.*)": "<rootDir>/src/$1"
+      "src/(.*)": "<rootDir>/src/$1",
+        "@city-i18n/(.*)": "<rootDir>/src/assets/default/i18n/$1",
+        "@city-assets/(.*)": "<rootDir>/src/assets/default/assets/$1"
     },
     "snapshotSerializers": [
       "enzyme-to-json/serializer"

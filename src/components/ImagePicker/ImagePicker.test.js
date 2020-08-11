@@ -7,6 +7,7 @@ import fiMessages from 'src/i18n/fi.json';
 import mapValues from 'lodash/mapValues';
 import {Modal} from 'reactstrap';
 import testReduxIntWrapper from '../../../__mocks__/testReduxIntWrapper'
+
 import ConnectedImagePicker, {ImagePicker} from './index'
 import {mockUser, mockEditorExistingEvent, mockImages} from '__mocks__/mockData';
 
