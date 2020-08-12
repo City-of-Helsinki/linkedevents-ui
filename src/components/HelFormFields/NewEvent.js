@@ -5,7 +5,7 @@ import CustomDateTimeField from '../CustomFormFields/CustomDateTimeField';
 import {connect} from 'react-redux'
 import {deleteSubEvent as deleteSubEventAction} from 'src/actions/editor'
 import {FormattedMessage, injectIntl} from 'react-intl';
-const NewEvent = ({event, eventKey, errors, deleteSubEvent}) => (
+const NewEvent = ({event, eventKey, errors, deleteSubEvent, intl}) => (
     <div className="new-sub-event">
         <div className="new-sub-event--inputs">
             <CustomDateTimeField
@@ -30,8 +30,9 @@ const NewEvent = ({event, eventKey, errors, deleteSubEvent}) => (
         <button
             className="new-sub-event--delete"
             onClick={() => deleteSubEvent(eventKey)}
+            aria-label={intl.formatMessage({id: `event-delete-recurring`})}
         >
-            <span className="glyphicon glyphicon-trash" aria-hidden="true"><p hidden>trash</p></span>
+            <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
         </button>
     </div>
 )
@@ -41,10 +42,12 @@ NewEvent.propTypes = {
     eventKey: PropTypes.string.isRequired,
     errors: PropTypes.object,
     deleteSubEvent: PropTypes.func,
+    intl: PropTypes.object,
 }
+
 
 const mapDispatchToProps = (dispatch) => ({
     deleteSubEvent: (eventKey) => dispatch(deleteSubEventAction(eventKey)),
 })
 
-export default connect(null, mapDispatchToProps)(NewEvent);
+export default connect(null, mapDispatchToProps)(injectIntl(NewEvent));
