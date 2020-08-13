@@ -33,11 +33,11 @@ NoValue.propTypes = {
 
 const CheckedValue = ({checked, labelKey, label}) => (
     <div className="checked-value">
-        {checked
-            ? <input type='checkbox' checked='disabled' readOnly id={label}/>
-            : <input type='checkbox' disabled id={label} readOnly aria-hidden="true" />
-        }
         <label htmlFor={label}>
+            {checked
+                ? <input type='checkbox' checked='disabled' readOnly id={label}/>
+                : <input type='checkbox' disabled id={label} readOnly aria-hidden="true" />
+            }
             {labelKey
                 ? <FormattedMessage id={labelKey}/>
                 : label
@@ -137,7 +137,7 @@ const TextValue = (props) => {
 
 const ImageValue = (props) => {
     if (props.value !== undefined && props.value instanceof Object) {
-        return <legend tabIndex='true'><img src={props.value.url} alt={getStringWithLocale(props.value, 'alt_text', props.locale)} className="event-image"/></legend>
+        return <img src={props.value.url} alt={getStringWithLocale(props.value, 'alt_text', props.locale)} className="event-image"/>
     }
     return (
         <FormHeader>
@@ -223,7 +223,7 @@ const DateTime = (props) => {
     }
 }
 
-const FormHeader = props => <h1 tabIndex='0'>{props.children}</h1>
+const FormHeader = props => <h2 tabIndex='0'>{props.children}</h2>
 
 FormHeader.propTypes = {
     children: PropTypes.oneOfType([
