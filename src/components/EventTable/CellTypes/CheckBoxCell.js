@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Input} from 'reactstrap';
+import {getEventName} from 'src/utils/events';
 
 class CheckBoxCell extends React.Component {
     constructor(props) {
@@ -19,10 +20,15 @@ class CheckBoxCell extends React.Component {
     }
 
     render() {
-        const {checked, disabled} = this.props;
+        const {checked, disabled, event} = this.props;
+        const locale = this.context.intl.locale;
         return (
             <td className='checkbox'>
+                <label htmlFor={event.id} className='visually-hidden'>
+                    {this.context.intl.formatMessage({id: 'table-events-checkbox'}, {name: getEventName(event, locale)})}
+                </label>
                 <Input
+                    id={event.id}
                     checked={checked}
                     type='checkbox'
                     invalid={disabled}
@@ -32,6 +38,9 @@ class CheckBoxCell extends React.Component {
         );
     }
 }
+CheckBoxCell.contextTypes = {
+    intl: PropTypes.object,
+};
 
 CheckBoxCell.propTypes = {
     checked: PropTypes.bool,
