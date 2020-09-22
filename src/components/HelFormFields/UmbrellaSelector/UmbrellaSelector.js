@@ -5,7 +5,6 @@ import {createFilter} from 'react-select'
 import client from '../../../api/client'
 import {setData} from '../../../actions/editor'
 import {FormattedMessage, injectIntl} from 'react-intl'
-import {SideField} from '../../FormFields'
 import {get, isNull, isUndefined} from 'lodash'
 import UmbrellaCheckbox from './UmbrellaCheckbox'
 import {Link} from 'react-router-dom'
@@ -284,18 +283,16 @@ class UmbrellaSelector extends React.Component {
                     }
                 </div>
                 {editedEventIsSubEvent && superEventId && superEventSuperEventType === constants.SUPER_EVENT_TYPE_RECURRING &&
-                <SideField className="side-field-umbrella">
-                    <div className="tip">
-                        <React.Fragment>
-                            <FormattedMessage id="editor-tip-umbrella-sub-event"/>
-                            <Link
-                                to={`/event/update/${superEventId}`}
-                                onClick={scrollToTop}
-                            >
-                                <FormattedMessage id="editor-tip-umbrella-sub-event-link"/>.</Link>
-                        </React.Fragment>
-                    </div>
-                </SideField>
+                <div className="side-field-umbrella highlighted-block">
+                    <React.Fragment>
+                        <FormattedMessage id="editor-tip-umbrella-sub-event"/>
+                        <Link
+                            to={`/event/update/${superEventId}`}
+                            onClick={scrollToTop}
+                        >
+                            <FormattedMessage id="editor-tip-umbrella-sub-event-link"/>.</Link>
+                    </React.Fragment>
+                </div>
                 }
             </div>
         )

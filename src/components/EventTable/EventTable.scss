@@ -40,6 +40,11 @@ $checkbox-column-width: 50px;
     }
 }
 .event-table {
+    tbody {
+        td {
+            vertical-align: middle;
+        }
+    }
     thead {
         th:not(.checkbox) {
 
@@ -203,9 +208,6 @@ tbody {
         td, th {
             display: block;
             margin-left: 20px;
-        }
-        td:first-child, th:first-child {
-         //   margin-top: 20px;
         }
     }
 }

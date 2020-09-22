@@ -41,14 +41,25 @@ textarea {
     }
 }
 .date-row,
+.description-row,
 .offers-row,
 .social-media-row,
 .keyword-row,
 .audience-row,
-.location-row {
+.event-row,
+.location-row,
+.umbrella-row {
     flex-direction: row-reverse;
 }
-
+.umbrella-row {
+    align-items: center;
+    .side-field {
+        .tip {
+            margin-top: 0px;
+        }
+        padding-top: 0px;
+    }
+}
 .imagePicker-heading {
     font-size: 1.25rem;
 }

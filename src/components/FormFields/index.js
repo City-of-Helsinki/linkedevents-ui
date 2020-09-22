@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import React from 'react'
 import {FormattedMessage} from 'react-intl'
 import CopyToClipboard from 'react-copy-to-clipboard'
-import ImagePickerForm from '../ImagePicker'
 import {
     MultiLanguageField,
     HelTextField,
@@ -16,7 +15,7 @@ import {
     HelKeywordSelector,
 } from 'src/components/HelFormFields'
 import RecurringEvent from 'src/components/RecurringEvent'
-import {Button,Form, FormGroup, Label, Input} from 'reactstrap';
+import {Button,Form, FormGroup} from 'reactstrap';
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from '../../utils/apiDataMapping'
 import {setEventData, setData} from '../../actions/editor'
 import {get, isNull, pickBy} from 'lodash'
@@ -29,6 +28,7 @@ import HelVideoFields from '../HelFormFields/HelVideoFields/HelVideoFields'
 import CustomDateTimeField from '../CustomFormFields/CustomDateTimeField';
 import EventMap from '../Map/EventMap';
 import classNames from 'classnames';
+import ImageGallery from '../ImageGallery/ImageGallery';
 
 // Removed material-ui/icons because it was no longer used.
 //Added isOpen for RecurringEvents modal
@@ -44,7 +44,7 @@ FormHeader.propTypes = {
 }
 
 export const SideField = (props) => (
-    <div className={`side-field col-sm-5 col-sm-push-1 ${ props.className }`} aria-label='text'tabIndex='0'>
+    <div className={`side-field col-sm-5 col-sm-push-1 ${ props.className }`} aria-label='text' tabIndex='0'>
         { props.children }
     </div>
 )
@@ -192,7 +192,7 @@ class FormFields extends React.Component {
         const {values, validationErrors, contentLanguages} = editor
         const formType = this.props.action
         const isSuperEvent = values.super_event_type === CONSTANTS.SUPER_EVENT_TYPE_RECURRING
-
+        const isSuperEventDisable = values.super_event_type === CONSTANTS.SUPER_EVENT_TYPE_UMBRELLA
         const {VALIDATION_RULES, USER_TYPE} = CONSTANTS
         const addedEvents = pickBy(values.sub_events, event => !event['@id'])
         const newEvents = this.generateNewEventFields(addedEvents)
@@ -227,7 +227,14 @@ class FormFields extends React.Component {
                     <FormattedMessage id="event-description-fields-header"/>
                 </FormHeader>
 
-                <div className="row">
+
+                <div className="row event-row">
+                    <SideField>
+                        <div className="tip">
+                            <p><FormattedMessage id="editor-tip-event-description"/></p>
+                            <FormattedMessage id="editor-tip-event-description1"/>
+                        </div>
+                    </SideField>
                     <div className="col-sm-6">
                         <MultiLanguageField
                             id='event-headline'
@@ -272,21 +279,7 @@ class FormFields extends React.Component {
                             setDirtyState={this.props.setDirtyState}
                             type='textarea'
                         />
-                        <MultiLanguageField
-                            id='event-info-url'
-                            required={false}
-                            multiLine={false}
-                            label="event-info-url"
-                            ref="info_url"
-                            name="info_url"
-                            validationErrors={validationErrors['info_url']}
-                            defaultValue={values['info_url']}
-                            languages={this.props.editor.contentLanguages}
-                            validations={[VALIDATION_RULES.IS_URL]}
-                            setDirtyState={this.props.setDirtyState}
-                            forceApplyToStore
-                            type='text'
-                        />
+
                         <MultiLanguageField
                             id='event-provider-input'
                             required={false}
@@ -308,21 +301,36 @@ class FormFields extends React.Component {
                             onChange={this.handleOrganizationChange}
                         />
                     </div>
-                    <SideField className='ImagePickerField'>
-                        <label htmlFor='image'>
-                            <h3 className='imagePicker-heading'>
-                                <FormattedMessage id="event-image"/>
-                            </h3>
-                        </label>
-                        <input id='image' type='hidden'/>
-                        <ImagePickerForm label="image-preview" name="image" loading={this.props.loading} />
+                </div>
+                
+                <FormHeader>
+                    <FormattedMessage id="event-image-title"/>
+                </FormHeader>
+                <div className='row'>
+                    <ImageGallery locale={currentLocale}/>
+                </div>
+                <FormHeader>
+                    <FormattedMessage id="event-umbrella" className=''/>
+                </FormHeader>
+                <div className="row umbrella-row">
+                    <SideField>
+                        <div className="tip">
+                            <p><FormattedMessage id="editor-tip-umbrella-selection"/></p>
+                            <p><FormattedMessage id="editor-tip-umbrella-selection1"/></p>
+                            <FormattedMessage id="editor-tip-umbrella-selection2"/>
+                        </div>
                     </SideField>
+                    <div className="col-sm-6">
+                        {!isRegularUser &&
+                                                <UmbrellaSelector editor={this.props.editor} event={event} superEvent={superEvent}/>
+                        }
+                    </div>
                 </div>
 
                 <FormHeader>
                     <FormattedMessage id="event-datetime-fields-header" />
                 </FormHeader>
-                <div className="row date-row">
+                <div className='row date-row'>
                     <SideField>
                         <div className="tip">
                             <p><FormattedMessage id="editor-tip-time-start"/></p>
@@ -331,9 +339,9 @@ class FormFields extends React.Component {
                             <p><FormattedMessage id="editor-tip-time-delete"/></p>
                         </div>
                     </SideField>
-                    <div className="col-sm-6">
-                        <div className="row">
-                            <div className="col-xs-12 col-sm-12">
+                    <div className='col-sm-6'>
+                        <div className='row'>
+                            <div className='col-xs-12 col-sm-12'>
                                 <CustomDateTimeField
                                     id="start_time"
                                     disabled={formType === 'update' && isSuperEvent}
@@ -375,7 +383,7 @@ class FormFields extends React.Component {
                         <Button
                             size='lg'block
                             variant="contained"
-                            disabled={formType === 'update'}
+                            disabled={formType === 'update' || isSuperEventDisable}
                             onClick={() => this.addNewEventDialog()}
                         ><span aria-hidden='true' className="glyphicon glyphicon-plus"></span>
                             <FormattedMessage id="event-add-new-occasion" />
@@ -383,14 +391,13 @@ class FormFields extends React.Component {
                         <Button
                             size='lg' block
                             variant="contained"
-                            disabled={formType === 'update'}
+                            disabled={formType === 'update' || isSuperEventDisable}
                             onClick={() => this.showRecurringEventDialog()}
 
                         ><span aria-hidden='true' className="glyphicon glyphicon-refresh"></span>
                             <FormattedMessage id="event-add-recurring" />
                         </Button>
                     </div>
-
                 </div>
 
                 <FormHeader>
@@ -507,6 +514,21 @@ class FormFields extends React.Component {
                     <SideField><p className="tip"><FormattedMessage id="editor-tip-social-media"/></p></SideField>
                     <div className="col-sm-6">
                         {/* Removed formatted message from label since it was causing accessibility issues */}
+                        <MultiLanguageField
+                            id='event-info-url'
+                            required={false}
+                            multiLine={false}
+                            label="event-info-url"
+                            ref="info_url"
+                            name="info_url"
+                            validationErrors={validationErrors['info_url']}
+                            defaultValue={values['info_url']}
+                            languages={this.props.editor.contentLanguages}
+                            validations={[VALIDATION_RULES.IS_URL]}
+                            setDirtyState={this.props.setDirtyState}
+                            forceApplyToStore
+                            type='text'
+                        />
                         <HelTextField
                             validations={[VALIDATION_RULES.IS_URL]}
                             id='extlink_facebook'
@@ -544,19 +566,7 @@ class FormFields extends React.Component {
                             type='text'
                         />
                     </div>
-
                 </div>
-
-                <FormHeader>
-                    <FormattedMessage id="event-video"/>
-                </FormHeader>
-                <HelVideoFields
-                    defaultValues={values['videos']}
-                    validationErrors={validationErrors}
-                    setDirtyState={this.props.setDirtyState}
-                    intl={this.context.intl}
-                    action={this.props.action}
-                />
 
                 <FormHeader>
                     <FormattedMessage id="event-categorization" />
@@ -594,6 +604,17 @@ class FormFields extends React.Component {
                     />
 
                 </div>
+
+                <FormHeader>
+                    <FormattedMessage id="event-video"/>
+                </FormHeader>
+                <HelVideoFields
+                    defaultValues={values['videos']}
+                    validationErrors={validationErrors}
+                    setDirtyState={this.props.setDirtyState}
+                    intl={this.context.intl}
+                    action={this.props.action}
+                />
 
                 {appSettings.ui_mode === 'courses' &&
                     <div>
@@ -676,19 +697,11 @@ class FormFields extends React.Component {
                         </div>
                     </div>
                 }
-
-                {!isRegularUser &&
-                    <React.Fragment>
-                        <FormHeader>
-                            <FormattedMessage id="event-umbrella" />
-                        </FormHeader>
-                        <UmbrellaSelector editor={this.props.editor} event={event} superEvent={superEvent}/>
-                    </React.Fragment>
-                }
             </div>
         )
     }
 }
+
 
 FormFields.propTypes = {
     intl: PropTypes.object,
