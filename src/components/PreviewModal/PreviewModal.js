@@ -34,7 +34,7 @@ class PreviewModal extends React.Component {
     }
 
     render() {
-        const closebtn = <Button onClick={this.props.toggle} aria-label={this.context.intl.formatMessage({id: `close`})}><span className="glyphicon glyphicon-remove"></span></Button>
+        const closebtn = <Button onClick={this.props.toggle} aria-label={this.context.intl.formatMessage({id: `close-preview-modal`})}><span className="glyphicon glyphicon-remove"></span></Button>
         const {event,superEvent = null, publisher, editor, values} = this.props;
         const formattedEvent = mapAPIDataToUIFormat(mapUIDataToAPIFormat(values));
         const keywordExists = editor.values.keywords && editor.values.keywords.length > 0;

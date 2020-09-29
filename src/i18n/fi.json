@@ -435,5 +435,11 @@
     "editor-tip-umbrella-selection1": "Jos tapahtuma on toisen tapahtuman alitapahtuma, valitse 'Tällä tapahtumalla on kattotapahtuma'.",
     "editor-tip-umbrella-selection2": " ",
     "editor-tip-event-description": "Kirjoita eri yhteyksissä ymmärrettävä otsikko, lyhyt kuvaus ja kuvaus.",
-    "editor-tip-event-description1": "Lyhyt kuvaus näytetään vain listoissa, kuvaus vain tapahtuman omalla sivulla. Jos kohderyhmä on rajattu, kerro siitä kuvaustekstissä."
+    "editor-tip-event-description1": "Lyhyt kuvaus näytetään vain listoissa, kuvaus vain tapahtuman omalla sivulla. Jos kohderyhmä on rajattu, kerro siitä kuvaustekstissä.",
+
+    "close-report-modal": "Sulje raportoinnin dialogi",
+    "close-recurring-modal": "Sulje toistuvan tapahtuman dialogi",
+    "close-preview-modal": "Sulje esikatselun dialogi",
+    "close-image-gallery-modal": "Sulje kuvagallerian dialogi",
+    "close-image-edit-modal": "Sulje kuvan lisäämisen / muokkaamisen dialogi"
 }

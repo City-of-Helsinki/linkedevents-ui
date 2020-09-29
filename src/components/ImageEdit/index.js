@@ -243,7 +243,7 @@ class ImageEdit extends React.Component {
             <Button
                 className='icon-button'
                 type='button'
-                aria-label='Close'
+                aria-label={this.context.intl.formatMessage({id: `close-image-edit-modal`})}
                 onClick={() => this.props.close()}
             >
                 <span className='glyphicon glyphicon-remove' />
@@ -485,6 +485,9 @@ ImageEdit.propTypes = {
     license: PropTypes.string,
     open: PropTypes.bool,
 };
+ImageEdit.contextTypes = {
+    intl: PropTypes.object,
+}
 
 const mapStateToProps = (state) => ({
     user: state.user,

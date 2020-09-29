@@ -13,7 +13,7 @@ const DebugReporterModal = ({showModal, close, sendReport,intl}) => {
             <Button
                 className='icon-button'
                 type='button'
-                aria-label={intl.formatMessage({id: `close`})}
+                aria-label={intl.formatMessage({id: `close-report-modal`})}
                 onClick={() => close()}>
                 <span className='glyphicon glyphicon-remove'></span>
             </Button>

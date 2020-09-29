@@ -290,7 +290,7 @@ class RecurringEvent extends React.Component {
         const {recurringStartDate, recurringEndDate, errors} = this.state
         const {intl} = this.props
         const days = this.generateCheckboxes(this.state.daysSelected)
-        const closebtn = <Button onClick={this.props.toggle} aria-label={this.context.intl.formatMessage({id: `close`})}><span className="glyphicon glyphicon-remove"></span></Button>
+        const closebtn = <Button onClick={this.props.toggle} aria-label={this.context.intl.formatMessage({id: `close-recurring-modal`})}><span className="glyphicon glyphicon-remove"></span></Button>
 
         return (
             <Modal

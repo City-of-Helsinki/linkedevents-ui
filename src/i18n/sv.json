@@ -390,5 +390,11 @@
 	"table-pagination-results": "Händelserna mellan {from} och {to} / {count}",
 	"table-pagination-shortcut-link": "Gå till början av tabellen",
 	"table-pagination-next-page": "Nästa sida",
-	"table-pagination-previous-page": "Föregående sida"
+    "table-pagination-previous-page": "Föregående sida",
+    
+    "close-report-modal": "Stäng rapporteringsdialogen",
+    "close-recurring-modal": "Stäng dialogrutan för återkommande händelser",
+    "close-preview-modal": "Stäng förhandsvisning",
+    "close-image-gallery-modal": "Stäng bildgalleridialogen",
+    "close-image-edit-modal": "Stäng dialogrutan Lägg till / redigera bild"
 }

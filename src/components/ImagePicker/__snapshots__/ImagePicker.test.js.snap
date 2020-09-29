@@ -22,6 +22,11 @@ exports[`Image add form ImagePicker component should render correctly with data 
       "clear": "Tyhjennä",
       "clear-form": "Tyhjennä kentät",
       "close": "Sulje",
+      "close-image-edit-modal": "Sulje kuvan lisäämisen / muokkaamisen dialogi",
+      "close-image-gallery-modal": "Sulje kuvagallerian dialogi",
+      "close-preview-modal": "Sulje esikatselun dialogi",
+      "close-recurring-modal": "Sulje toistuvan tapahtuman dialogi",
+      "close-report-modal": "Sulje raportoinnin dialogi",
       "confirm": "Suorita",
       "confirm-action-header": "Varmista toiminto",
       "confirm-cancel": "Varmista tapahtuman peruminen",
@@ -435,7 +440,7 @@ exports[`Image add form ImagePicker component should render view by default 1`] 
       charCode={215}
       close={
         <Button
-          aria-label="Sulje"
+          aria-label="Sulje kuvagallerian dialogi"
           color="secondary"
           onClick={[Function]}
           tag="button"

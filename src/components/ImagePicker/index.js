@@ -40,7 +40,7 @@ export class ImagePicker extends Component {
 
     getModalCloseButton() {
         return (
-            <Button onClick={() => this.props.close()} aria-label={this.context.intl.formatMessage({id: `close`})}><span className="glyphicon glyphicon-remove"></span></Button>
+            <Button onClick={() => this.props.close()} aria-label={this.context.intl.formatMessage({id: `close-image-gallery-modal`})}><span className="glyphicon glyphicon-remove"></span></Button>
         );
     }
 

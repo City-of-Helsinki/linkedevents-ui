@@ -417,6 +417,12 @@
 	"table-pagination-results": "Events between {from} and {to} / {count}",
 	"table-pagination-shortcut-link": "Back to top of the table",
 	"table-pagination-next-page": "Next page",
-	"table-pagination-previous-page": "Previous page"
+    "table-pagination-previous-page": "Previous page",
+    
+    "close-report-modal": "Close the reporting dialog",
+    "close-recurring-modal": "Close the recurring event dialog",
+    "close-preview-modal": "Close the preview dialog",
+    "close-image-gallery-modal": "Close the image gallery dialog",
+    "close-image-edit-modal": "Close the Add / Edit Image dialog"
 
 }
