@@ -32,7 +32,7 @@ const handleChange = (refs, {options, name, customOnChangeHandler, setDirtyState
 
 const ToggleButton = withStyles({
     root: {
-        color: helBrandColors.bus.main,
+        color: helBrandColors.coatBlue.main,
     },
 })(Button)
 
