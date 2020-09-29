@@ -1,11 +1,14 @@
 import './HelLabeledCheckboxGroup.scss'
 
 import PropTypes from 'prop-types';
-import React, {useRef} from 'react'
-import {FormControlLabel, Checkbox} from '@material-ui/core'
+import React, {useRef, useState} from 'react'
+import {Button, FormControlLabel, Checkbox, withStyles} from '@material-ui/core'
+import {ExpandLess, ExpandMore} from '@material-ui/icons'
+import {FormattedMessage} from 'react-intl'
 import {connect} from 'react-redux'
 import {setData as setDataAction} from '../../actions/editor'
 import ValidationPopover from '../ValidationPopover'
+import helBrandColors from '../../themes/hel/hel-brand-colors'
 
 const handleChange = (refs, {options, name, customOnChangeHandler, setDirtyState, setData}) => {
     const checkedOptions = options
@@ -27,8 +30,16 @@ const handleChange = (refs, {options, name, customOnChangeHandler, setDirtyState
     }
 }
 
+const ToggleButton = withStyles({
+    root: {
+        color: helBrandColors.bus.main,
+    },
+})(Button)
+
 const HelLabeledCheckboxGroup = (props) => {
-    const {options, name, selectedValues, itemClassName, groupLabel, validationErrors} = props
+    const {options, name, defaultOptionAmount, selectedValues, itemClassName, groupLabel, validationErrors} = props
+    const [showAll, setShowAll] = useState(false);
+    const isToggleShowAllButtonVisible = options.length > defaultOptionAmount;
     const refs = useRef({}).current;
     const labelRef = useRef(null);
     const checkedOptions = selectedValues.map(item => {
@@ -36,6 +47,11 @@ const HelLabeledCheckboxGroup = (props) => {
             ? item.value
             : item
     })
+    const filteredOptions = [...options].slice(0, showAll ? -1 : defaultOptionAmount );
+
+    const toggleShowAll = () => {
+        setShowAll(!showAll);
+    }
 
     return (
         <React.Fragment>
@@ -44,7 +60,7 @@ const HelLabeledCheckboxGroup = (props) => {
                     {groupLabel}
                 </legend>
                 <div className='row'>
-                    {options.map((item, index) => {
+                    {filteredOptions.map((item, index) => {
                         const checked = checkedOptions.includes(item.value)
 
                         return (
@@ -66,6 +82,18 @@ const HelLabeledCheckboxGroup = (props) => {
                         )
                     })}
                 </div>
+                {isToggleShowAllButtonVisible &&
+                    <div className="row">
+                        <div className="col-sm-12">
+                            <ToggleButton 
+                                startIcon={showAll ? <ExpandLess /> : <ExpandMore />} 
+                                onClick={toggleShowAll}
+                            >
+                                {<FormattedMessage id={showAll ? 'show-less' : 'show-more'}/>}
+                            </ToggleButton>
+                        </div>
+                    </div>
+                }
             </fieldset>
             <ValidationPopover
                 anchor={labelRef.current}
@@ -80,6 +108,7 @@ HelLabeledCheckboxGroup.defaultProps = {
 }
 
 HelLabeledCheckboxGroup.propTypes = {
+    defaultOptionAmount: PropTypes.number,
     name: PropTypes.string,
     customOnChangeHandler: PropTypes.func,
     setData: PropTypes.func,

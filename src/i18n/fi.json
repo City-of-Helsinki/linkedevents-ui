@@ -47,6 +47,8 @@
     "loading": "Ladataan...",
     "select": "Valitse...",
     "close": "Sulje",
+    "show-less": "Näytä vähemmän",
+    "show-more": "Näytä lisää",
 
     "links-to-events": "Kytkökset muihin tapahtumiin",
     "no-links-to-events": "Ei kytköksiä.",

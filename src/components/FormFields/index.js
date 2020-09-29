@@ -457,6 +457,7 @@ class FormFields extends React.Component {
                 </div>
                 <div className="row">
                     <HelLabeledCheckboxGroup
+                        defaultOptionAmount={10}
                         groupLabel={<FormattedMessage id="hel-target-groups"/>}
                         selectedValues={values['audience']}
                         ref="audience"

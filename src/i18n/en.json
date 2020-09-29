@@ -46,6 +46,8 @@
     "loading": "Loading...",
     "select": "Select...",
     "close": "Close",
+    "show-less": "Show less",
+    "show-more": "Show more",
 
     "links-to-events": "Links to other events",
     "no-links-to-events": "No links.",

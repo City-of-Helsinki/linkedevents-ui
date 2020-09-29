@@ -256,6 +256,8 @@ exports[`Image add form ImagePicker component should render correctly with data 
       "select": "Valitse...",
       "series": "Sarja",
       "server-error": "Virhe palvelimella.",
+      "show-less": "Näytä vähemmän",
+      "show-more": "Näytä lisää",
       "sub-event-of-series": "Tämä tapahtuma kuuluu sarjaan: ",
       "sub-event-of-umbrella": "Tällä tapahtumalla on kattotapahtuma: ",
       "sub-events-for-series": "Sarjan alatapahtumat:",
