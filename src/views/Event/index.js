@@ -162,7 +162,7 @@ class EventPage extends React.Component {
         const cancelEventButton = this.getActionButton('cancel')
         const deleteEventButton = this.getActionButton('delete')
 
-        return  <div className="event-actions">
+        return <div className="event-actions">
             <div className="cancel-delete-btn">
                 {postponeEventButton}
                 {cancelEventButton}
@@ -176,7 +176,7 @@ class EventPage extends React.Component {
                     disabled={loading}
                     onClick={() => this.openEventInEditor('copy')}
                 >
-                    <FormattedMessage id="copy-event-to-draft"/>
+                    <FormattedMessage id="copy-event-to-draft">{txt =>txt}</FormattedMessage>
                 </Button>
             </div>
         </div>
