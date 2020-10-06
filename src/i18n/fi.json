@@ -441,5 +441,19 @@
     "close-recurring-modal": "Sulje toistuvan tapahtuman dialogi",
     "close-preview-modal": "Sulje esikatselun dialogi",
     "close-image-gallery-modal": "Sulje kuvagallerian dialogi",
-    "close-image-edit-modal": "Sulje kuvan lisäämisen / muokkaamisen dialogi"
+    "close-image-edit-modal": "Sulje kuvan lisäämisen / muokkaamisen dialogi",
+
+    "language-label.fi": "Tapahtuman syöttökieli on suomi",
+    "language-label.sv": "Tapahtuman syöttökieli on ruotsi",
+    "language-label.en": "Tapahtuman syöttökieli on englanti",
+
+    "filter-event-languages": "Selaa tapahtumia joilla on sisältöä kielillä:",
+    "filter-event-all": "Kaikki kielet",
+    "filter-event-fi": "Suomeksi",
+    "filter-event-sv": "Ruotsiksi",
+    "filter-event-en": "Englanniksi",
+
+    "filter-event-fi-mobile": "FI",
+    "filter-event-sv-mobile": "SV",
+    "filter-event-en-mobile": "EN"
 }

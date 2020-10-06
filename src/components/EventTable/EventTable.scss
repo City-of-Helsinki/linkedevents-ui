@@ -22,6 +22,14 @@ $checkbox-column-width: 50px;
     height: 1px;
     overflow: hidden;
 }
+.languageBadge {
+    margin-right: 2px;
+    margin-left: 2px;
+    font-size: 0.75rem;
+    margin-top: 5px;
+    color: black;
+    background-color: orange;
+}
 
 .event-table {
     font-size: 1em ;
@@ -31,6 +39,7 @@ $checkbox-column-width: 50px;
     margin-right: 4px;
     border: none;
     background-color: transparent;
+    width: 25px;
     &:active, &:focus {
         outline: 2px solid black;
     }

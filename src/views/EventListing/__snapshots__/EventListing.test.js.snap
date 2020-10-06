@@ -17,33 +17,203 @@ exports[`EventListing Snapshot should render view by default 1`] = `
     />
   </p>
   <div
-    className="user-events-toggle"
+    className="row event-settings"
   >
-    <Input
-      checked={false}
-      color="primary"
-      id="user-events-toggle"
-      onChange={[Function]}
-      type="checkbox"
-    />
-    <Label
-      htmlFor="user-events-toggle"
-      tag="label"
-      widths={
-        Array [
-          "xs",
-          "sm",
-          "md",
-          "lg",
-          "xl",
-        ]
-      }
+    <div
+      className="col-sm-6"
     >
-      <FormattedMessage
-        id="user-events-toggle"
-        values={Object {}}
-      />
-    </Label>
+      <div
+        className="user-events-toggle"
+      >
+        <Input
+          checked={false}
+          color="primary"
+          id="user-events-toggle"
+          onChange={[Function]}
+          type="checkbox"
+        />
+        <Label
+          htmlFor="user-events-toggle"
+          tag="label"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <FormattedMessage
+            id="user-events-toggle"
+            values={Object {}}
+          />
+        </Label>
+      </div>
+    </div>
+    <div
+      className="col-sm-6 radios"
+    >
+      <div
+        className="row"
+      >
+        <Label
+          tag="label"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <FormattedMessage
+            id="filter-event-languages"
+            values={Object {}}
+          />
+        </Label>
+      </div>
+      <div
+        className="row"
+      >
+        <div
+          className="col-sm-12"
+        >
+          <Label
+            tag="label"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+          >
+            <FormattedMessage
+              id="filter-event-all"
+              values={Object {}}
+            />
+            <Input
+              defaultChecked={true}
+              name="radiogroup"
+              onChange={[Function]}
+              type="radio"
+              value="all"
+            />
+          </Label>
+          <Label
+            tag="label"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+          >
+            <div
+              className="filter-desktop"
+            >
+              <FormattedMessage
+                id="filter-event-fi"
+                values={Object {}}
+              />
+            </div>
+            <div
+              className="filter-mobile"
+            >
+              <FormattedMessage
+                id="filter-event-fi-mobile"
+                values={Object {}}
+              />
+            </div>
+            <Input
+              name="radiogroup"
+              onChange={[Function]}
+              type="radio"
+              value="fi"
+            />
+          </Label>
+          <Label
+            tag="label"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+          >
+            <div
+              className="filter-desktop"
+            >
+              <FormattedMessage
+                id="filter-event-sv"
+                values={Object {}}
+              />
+            </div>
+            <div
+              className="filter-mobile"
+            >
+              <FormattedMessage
+                id="filter-event-sv-mobile"
+                values={Object {}}
+              />
+            </div>
+            <Input
+              name="radiogroup"
+              onChange={[Function]}
+              type="radio"
+              value="sv"
+            />
+          </Label>
+          <Label
+            tag="label"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+          >
+            <div
+              className="filter-desktop"
+            >
+              <FormattedMessage
+                id="filter-event-en"
+                values={Object {}}
+              />
+            </div>
+            <div
+              className="filter-mobile"
+            >
+              <FormattedMessage
+                id="filter-event-en-mobile"
+                values={Object {}}
+              />
+            </div>
+            <Input
+              name="radiogroup"
+              onChange={[Function]}
+              type="radio"
+              value="en"
+            />
+          </Label>
+        </div>
+      </div>
+    </div>
   </div>
   <InjectIntl(EventTable)
     count={null}
@@ -261,6 +431,14 @@ exports[`EventListing Snapshot should render view correctly 1`] = `
       "events-management-prompt": "muokataksesi tapahtumia.",
       "external-url-here": "Kuvan URL",
       "facebook-url": "Facebook (url)",
+      "filter-event-all": "Kaikki kielet",
+      "filter-event-en": "Englanniksi",
+      "filter-event-en-mobile": "EN",
+      "filter-event-fi": "Suomeksi",
+      "filter-event-fi-mobile": "FI",
+      "filter-event-languages": "Selaa tapahtumia joilla on sisältöä kielillä:",
+      "filter-event-sv": "Ruotsiksi",
+      "filter-event-sv-mobile": "SV",
       "footer-accessibility": "Saavutettavuusseloste",
       "footer-city": "© Helsingin kaupunki",
       "footer-city1": "PL 1  (Pohjoisesplanadi 11-13) 00099 ",
@@ -298,6 +476,9 @@ exports[`EventListing Snapshot should render view correctly 1`] = `
       "lang-en": "Englanti",
       "lang-fi": "Suomi",
       "lang-sv": "Ruotsi",
+      "language-label.en": "Tapahtuman syöttökieli on englanti",
+      "language-label.fi": "Tapahtuman syöttökieli on suomi",
+      "language-label.sv": "Tapahtuman syöttökieli on ruotsi",
       "linked-courses": "Linked Courses",
       "linked-events": "Linked Events",
       "links-to-events": "Kytkökset muihin tapahtumiin",

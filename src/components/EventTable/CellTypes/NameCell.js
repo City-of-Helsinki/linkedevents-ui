@@ -4,7 +4,8 @@ import {Link} from 'react-router-dom';
 import {getBadge} from 'src/utils/helpers';
 import {getEventName} from 'src/utils/events';
 import constants from '../../../constants';
-
+import getContentLanguages from 'src/utils/language'
+import {Badge} from 'reactstrap';
 class NameCell extends React.Component {
     constructor(props) {
         super(props);
@@ -38,6 +39,14 @@ class NameCell extends React.Component {
         const locale = this.context.intl.locale;
         const eventStatus = this.getEventStatus();
         const name = getEventName(event, locale);
+        
+        const inLanguages = getContentLanguages(event);
+        const eventLanguages = inLanguages.map((in_languages, index) => {
+            return(
+                <Badge className='languageBadge' role='img' aria-label={this.context.intl.formatMessage({id: `language-label.${in_languages}`})} key={index}>
+                    {in_languages}
+                </Badge>)});
+
         const indentationStyle = {
             paddingLeft: `${nestLevel * 24}px`,
             fontWeight: nestLevel === 1 && isSuperEvent ? 'bold' : 'normal',
@@ -64,6 +73,7 @@ class NameCell extends React.Component {
                     {eventStatus.draft && getBadge('draft')}
                     {eventStatus.umbrella && getBadge('umbrella')}
                     {eventStatus.series && getBadge('series')}
+                    {eventLanguages}
                     <Link to={`/event/${event.id}`}>{name}</Link>
                 </div>
             </td>
