@@ -168,8 +168,16 @@ export class EventListing extends React.Component {
      */
     toggleUserEvents = (event) => {
         const showCreatedByUser = event.target.checked
-        this.setState({showCreatedByUser}, this.fetchTableData)
-    }
+        this.setState(state => ({
+            showCreatedByUser: showCreatedByUser,
+            tableData: {
+                ...state.tableData,
+                paginationPage: 0,
+            }}),
+        this.fetchTableData
+        )};
+        
+
 
     /**
      * Toggles whether events based on language should be shown
