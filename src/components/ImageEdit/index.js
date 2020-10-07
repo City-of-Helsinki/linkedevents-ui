@@ -60,6 +60,9 @@ class ImageEdit extends React.Component {
         }
     }
 
+    postImage(data, user, updateExisting ? id : null)
+    onSave()
+}
 
     handleUpload(event) {
         const file = event.target.files[0];

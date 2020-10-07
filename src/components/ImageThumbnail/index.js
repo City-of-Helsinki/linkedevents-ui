@@ -86,6 +86,7 @@ class ImageThumbnail extends React.PureComponent {
                 license={this.props.data.license}
                 open={this.state.edit}
                 close={() => this.setState({edit: false})}
+                onSave={() => this.setState({edit: false})}
                 updateExisting
             />;
         }

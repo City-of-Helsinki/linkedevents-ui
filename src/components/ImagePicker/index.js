@@ -21,6 +21,9 @@ export class ImagePicker extends Component {
             imageFile: null,
             isOpen: false,
         };
+
+        this.closeNestedDialog = this.closeNestedDialog.bind(this)
+        this.closeNestedDialogAndResetUrl = this.closeNestedDialogAndResetUrl.bind(this)
     }
 
     handleDelete(event) {
@@ -42,6 +45,15 @@ export class ImagePicker extends Component {
         return (
             <Button onClick={() => this.props.close()} aria-label={this.context.intl.formatMessage({id: `close-image-gallery-modal`})}><span className="glyphicon glyphicon-remove"></span></Button>
         );
+    }
+
+    closeNestedDialog = () => {
+        this.setState({mode: State.OPEN})
+    }
+
+    closeNestedDialogAndResetUrl = () => {
+        // Reset also the thumbnail URL field
+        this.setState({mode: State.OPEN, thumbnailUrl: ''})
     }
 
     render() {

@@ -96,15 +96,18 @@ class HelTextField extends Component {
     }
 
     handleBlur = (event) => {
-        const {name, forceApplyToStore, setDirtyState, onBlur} = this.props
+        const {name, forceApplyToStore, setDirtyState, onBlur, updateStore} = this.props
         const value = event.target.value
 
-        // Apply changes to store if no validation errors, or the prop 'forceApplyToStore' is defined
-        if (
-            name
-            && this.getValidationErrors().length === 0
-            && !name.includes('time') || name
-            && forceApplyToStore
+        // Apply changes to store if updateStore is true and if no validation errors or the prop 'forceApplyToStore' is
+        // defined
+        // TODO: updating the store inside a low level component like this doesn't seem like a good idea. Refactor the
+        // store logic out to a higher level so the user of the component can choose whether to use the store or not.
+        if (updateStore
+            && (
+                (name && this.getValidationErrors().length === 0 && !name.includes('time'))
+                || (name && forceApplyToStore)
+            )
         ) {
             this.context.dispatch(setData({[name]: value}))
 
@@ -217,6 +220,10 @@ class HelTextField extends Component {
             </Fragment>
         )
     }
+}
+
+HelTextField.defaultProps = {
+    updateStore: true,
 }
 
 HelTextField.propTypes = {
