@@ -49,7 +49,7 @@
     "jwt-decode": "^2.0.1",
     "lodash": "^4.17.13",
     "loose-envify": "^1.4.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.1",
     "moment-timezone": "^0.5.27",
     "nconf": "^0.9.1",
     "object-assign": "^4.1.1",
