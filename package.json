@@ -51,7 +51,7 @@
     "loose-envify": "^1.4.0",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.27",
-    "nconf": "^0.9.1",
+    "nconf": "^0.12.0",
     "object-assign": "^4.1.1",
     "passport": "^0.3.2",
     "passport-helsinki": "https://github.com/City-of-Helsinki/passport-helsinki.git",
