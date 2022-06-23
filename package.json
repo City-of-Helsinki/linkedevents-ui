@@ -29,7 +29,7 @@
     "body-parser": "^1.14.1",
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
-    "codecov": "^3.0.0",
+    "codecov": "^3.8.3",
     "connect-history-api-fallback": "^1.1.0",
     "cookie-parser": "^1.4.0",
     "cookie-session": "^2.0.0-alpha.1",
