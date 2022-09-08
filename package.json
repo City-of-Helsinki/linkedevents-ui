@@ -45,7 +45,7 @@
     "isomorphic-fetch": "^2.2.0",
     "jquery": "^3.4.0",
     "jsonwebtoken": "^5.4.1",
-    "jszip": "^3.0.0",
+    "jszip": "^3.7.0",
     "jwt-decode": "^2.0.1",
     "lodash": "^4.17.13",
     "loose-envify": "^1.4.0",
