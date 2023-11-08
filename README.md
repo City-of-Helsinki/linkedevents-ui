@@ -1,3 +1,6 @@
+NOT LONGER IN USE! Replaced by https://github.com/City-of-Helsinki/linkedcomponents-ui
+======================================================================================
+
 Linkedevents-UI - form-style UI for Linked Events API
 =====================================================
 
